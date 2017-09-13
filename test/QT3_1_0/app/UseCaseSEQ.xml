@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-UseCaseSEQ">
+   <description>Tests for the UseCaseSEQ</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-UseCaseSEQ"/>
+   <link type="spec" document="UseCases" section-number="1.3.4.1"
+         idref="seq-queries-results-q1"/>
+
+   <environment name="report1">
+      <source role="." file="../docs/report1.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>      
+   </environment>
+
+   <test-case name="seq-queries-results-q1">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="report1"/>
+      <test>for $s in //section[section.title = "Procedure"] return ($s//incision)[2]/instrument</test>
+      <result>
+         <assert-xml><![CDATA[<instrument>electrocautery</instrument>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="seq-queries-results-q2">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="report1"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $s in //section[section.title = "Procedure"] return ($s//instrument)[position()<=2]]]></test>
+      <result>
+         <assert-xml><![CDATA[<instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="seq-queries-results-q3">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="report1"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $i2 := (//incision)[2] for $a in (//action)[. >> $i2][position()<=2] return $a//instrument]]></test>
+      <result>
+         <assert-xml><![CDATA[<instrument>Hasson trocar</instrument><instrument>trocar</instrument>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="seq-queries-results-q4">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="report1"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $p in //section[section.title = "Procedure"] where not(some $a in $p//anesthesia satisfies $a << ($p//incision)[1] ) return $p]]></test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="seq-queries-results-q5">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="report1"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<critical_sequence> { let $proc := //section[section.title="Procedure"][1], $i1 := ($proc//incision)[1], $i2 := ($proc//incision)[2] for $n in $proc//node() except $i1//node() where $n >> $i1 and $n << $i2 return $n } </critical_sequence>]]></test>
+      <result>
+         <assert-xml><![CDATA[<critical_sequence>
+      The fascia was identified and
+      <action>#2 0 Maxon stay sutures were placed on each side of the midline.
+      </action>#2 0 Maxon stay sutures were placed on each side of the midline.
+      
+      </critical_sequence>]]></assert-xml>
+      </result>
+   </test-case>
+</test-set>

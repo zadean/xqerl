@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-new"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the map:new function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-new"/>
+    <dependency type="spec" value="XP30+"/>
+
+    <test-case name="map-new-001">
+        <description>Evaluate the function map:new() with no argument</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new()</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:date, element()+)</assert-type>
+                <assert-type>function(xs:QName) as item()*</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-002">
+        <description>Evaluate the function map:new() with argument ()</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new(())</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:date, element()+)</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-003">
+        <description>Evaluate the function map:new() with a single singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new(map:entry("foo", 1 to 5))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+                <assert-type>function(xs:anyURI) as xs:integer*</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-004">
+        <description>Evaluate the function map:new() with two singleton maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new((map:entry("foo", 1 to 5), map:entry("bar", 6 to 10)))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+                <assert>map:size($result) eq 2</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-005">
+        <description>Evaluate the function map:new() with a larger set of singleton maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new(for $i in 1 to 20 return map:entry($i, $i*$i))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:size($result) eq 20</assert>
+                <assert>map:get($result, 9) eq 81</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-006">
+        <description>Evaluate the function map:new() with duplicates in the input maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new((map:entry("foo", 3), map:entry("foo", 4)))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:get($result, "foo") eq 4</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-007">
+        <description>map:new() doesn't modify its input maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>let $foo := map:entry("foo", 3), $bar := map:entry("foo", 4), $foobar := map:new(($foo, $bar))
+              return ($foobar, $bar, $foo)[3]</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:get($result, "foo") eq 3</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-008">
+        <description>map:new() doesn't modify its input maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>let $foo := map:new(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:new(($foo, $bar))
+              return ($foobar, $bar, $foo)[3]</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:size($result) eq 20</assert>
+                <assert>$result(8) eq 64</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-009">
+        <description>map:new() doesn't modify its input maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>let $foo := map:new(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:new(($foo, $bar))
+              return ($foobar, $bar, $foo)[2]</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>$result(8) eq 63</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-010">
+        <description>map:new() with an empty map in the input</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>let $foo := map:new(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:new(), $foobar := map:new(($foo, $bar))
+              return $foobar</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:size($result) eq 20</assert>
+                <assert>$result(8) eq 64</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-011">
+        <description>map:new() with assorted keys that compare equal</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new((map:entry(3, "three"), map:entry(3.0e0, "threeD"), map:entry(xs:float('3.0'), "threeF")))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:float, xs:string)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>$result(3.0) eq "threeF"</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-012">
+        <description>map:new() with nodes as values</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <environment ref="auction"/>
+        <test>map:new(for $n in distinct-values(//*/node-name()) 
+                      return map:entry($n, //*[node-name() eq $n]))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(xs:QName, element()+)</assert-type>
+                <assert>map:contains($result, QName("http://www.example.com/AuctionWatch", "Seller"))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-013">
+        <description>map:new() with maps as values</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new(for $n in 1 to 20 return map:entry($n, map{$n:=string($n), $n+1:=string($n+1), $n+2:=string($n+2)}))</test>
+        <result>
+            <all-of>
+                <assert-type>map(xs:integer, map(xs:integer, xs:string))</assert-type>
+                <assert>$result(1)(3) eq "3"</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-new-014">
+        <description>map:new() with absolute collation URI</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <test>map:new(map{"abc":=1,"xyz":=2}, "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+        <result>
+            <assert>map:collation($result) eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</assert>
+        </result>
+    </test-case>
+    <test-case name="map-new-015">
+        <description>map:new() with relative collation URI</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <environment>
+            <static-base-uri uri="http://www.w3.org/2005/xpath-functions/"/>
+        </environment>
+        <test>map:new(map{"abc":=1,"xyz":=2}, "collation/codepoint")</test>
+        <result>
+            <assert>map:collation($result) eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</assert>
+        </result>
+    </test-case>
+    <test-case name="map-new-016">
+        <description>Deep equal of empty maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map{}, map:new(()))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-new-017">
+        <description>Deep equal of singleton maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map{"a":=1}, map:entry("a", 1))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-new-018">
+        <description>Deep equal of larger maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map{"a":=1,"b":=2,"c":=(3,4,5)}, map{"c":=(3,4,5),"a":=1,"b":=2})</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-new-019">
+        <description>Deep equal of empty maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map{"a":=1}, map:new(()))</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-new-020">
+        <description>Deep equal of larger maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1)),
+                         map:new(for $i in 2 to 1001 return map:entry($i, $i+1)))</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-new-021">
+        <description>Deep equal of larger maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1)),
+                         map:new(((for $i in 1 to 1000 return map:entry($i, $i+1)), map:entry(400, 402))))</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-new-022">
+        <description>Deep equal: first operand is a submap</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1)),
+                         map:new(for $i in 0 to 1000 return map:entry($i, $i+1)))</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-new-023">
+        <description>Deep equal: second operand is a submap</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1)),
+                         map:new(for $i in 2 to 1000 return map:entry($i, $i+1)))</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-new-024">
+        <description>Deep equal: maps whose collations differ</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment>
+            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+        </environment>
+        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1)),
+                         map:new(for $i in 1 to 1000 return map:entry($i, $i+1),
+                         "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"))</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-new-025">
+        <description>Deep equal: maps whose collations are the same</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment>
+            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+        </environment>
+        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1),
+                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
+                         map:new(for $i in 1 to 1000 return map:entry($i, $i+1),
+                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-new-026">
+        <description>Deep equal: maps are the same when compared using the collation of the map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment>
+            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+        </environment>
+        <test>deep-equal(map:new(map{"abc":=1,"def":=2},
+                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
+                         map:new(map{"ABC":=1,"DEF":=2},
+                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
+                         "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-new-027">
+        <description>Deep equal: values are NOT compared using the collation of the map
+            (TODO: check the spec on this one)</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment>
+            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+        </environment>
+        <test>deep-equal(map:new(map{"abc":="x","def":="y"},
+                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
+                         map:new(map{"abc":="X","def":="Y"},
+                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
+                         "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-new-028">
+        <description>Duplicate elimination is collation-sensitive</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment>
+            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind" default="true"/>
+        </environment>
+        <test>map:size(map{"abc":=123, "ABC":=456}) = 1</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+
+
+    
+</test-set>

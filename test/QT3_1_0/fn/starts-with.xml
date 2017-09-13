@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-starts-with">
+   <description>Tests for the starts-with() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-starts-with"/>
+
+   <test-case name="fn-starts-with2args-1">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = xs:string(lower bound) $arg2 = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:starts-with(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with2args-2">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = xs:string(mid range) $arg2 = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:starts-with(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with2args-3">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = xs:string(upper bound) $arg2 = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:starts-with(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with2args-4">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = xs:string(lower bound) $arg2 = xs:string(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:starts-with(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with2args-5">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = xs:string(lower bound) $arg2 = xs:string(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:starts-with(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-1">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "" $arg2 = "" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("","")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-2">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "" $arg2 = "A Character String" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("","A Character String")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-3">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "" $arg2 = "A Character String" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("A Character String","")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-4">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = () $arg2 = "" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with((),"")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-5">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "" $arg2 = () </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("",())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-6">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "A Character String" $arg2 = () </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("A Character String",())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-7">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = () $arg2 = "A Character String" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with((),"A Character String")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-8">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "AAAAABBBBBCCCCC" $arg2 = "BBBBB" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("AAAAABBBBBCCCCC","BBBBB")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-9">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "AAAAABBBBB" $arg2 = " " </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("AAAAABBBBB"," ")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-10">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = " " $arg2 = " AAAAABBBBB" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with(" ","AAAAABBBBB")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-11">
+      <description> Evaluates The "starts-with" function using it as a argument of a fn:not - returns false </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:not(fn:starts-with("A","A"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-12">
+      <description> Evaluates The "starts-with" function using it as a argument of a fn:not - returns true </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:not(fn:starts-with("A","B"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-13">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = xs:string("A") $arg2 = "A" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with(xs:string("A"),"A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-14">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "A" $arg2 = xs:string("A") </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("A",xs:string("A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-15">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "A" $arg2 = "a" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("A","a")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-starts-with-16">
+      <description> Evaluates The "starts-with" function with the arguments set as follows: $arg1 = "a" $arg2 = "A" </description>
+      <created by="Carmelo Montanez" on="2005-05-27"/>
+      <test>fn:starts-with("a","A")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-1">
+      <description> A test whose essence is: `starts-with()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-2">
+      <description> A test whose essence is: `starts-with(())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with(())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-3">
+      <description> A test whose essence is: `starts-with((), (), "http://www.w3.org/2005/xpath-functions/collation/codepoint", "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with((), (), "http://www.w3.org/2005/xpath-functions/collation/codepoint", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-4">
+      <description> A test whose essence is: `starts-with("a string", "a string", "http://www.example.com/COLLATION/NOT/SUPPORTED")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with("a string", "a string", "http://www.example.com/COLLATION/NOT/SUPPORTED")</test>
+      <result>
+         <error code="FOCH0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-5">
+      <description> A test whose essence is: `starts-with("foo", "foo", "http://www.w3.org/2005/xpath-functions/collation/codepoint")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with("foo", "foo", "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-6">
+      <description> A test whose essence is: `starts-with("foo", "foo")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with("foo", "foo")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-7">
+      <description> A test whose essence is: `starts-with("tattoo", "tat")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with("tattoo", "tat")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-8">
+      <description> A test whose essence is: `not(starts-with("tattoo", "att"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(starts-with("tattoo", "att"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-9">
+      <description> A test whose essence is: `starts-with((), ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with((), ())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-10">
+      <description> A test whose essence is: `starts-with("a string", ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>starts-with("a string", ())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StartsWithFunc-11">
+      <description> A test whose essence is: `not(starts-with("", "a string"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(starts-with("", "a string"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-StartsWithFunc-1">
+      <description> Compare two values returned from fn:lower-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time(), string("content"))[1] treat as xs:string, 
+        $vB := ("b string", current-time(), string("content"))[1] treat as xs:string
+        return starts-with(lower-case($vA), lower-case($vB))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-StartsWithFunc-2">
+      <description> Compare two values returned from fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time(), string("content"))[1] treat as xs:string,
+         $vB := ("b string", current-time(), string("content"))[1] treat as xs:string
+         return starts-with(upper-case($vA), upper-case($vB))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-StartsWithFunc-3">
+      <description> Compare two non-matching values returned from fn:lower-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time(), string("content"))[1] treat as xs:string, 
+        $vB := ("no match", current-time(), string("content"))[1] treat as xs:string
+        return starts-with(lower-case($vA), lower-case($vB))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-StartsWithFunc-4">
+      <description> Compare two non-matching values returned from fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time(), string("content"))[1] treat as xs:string,
+         $vB := ("no match", current-time(), string("content"))[1] treat as xs:string
+         return starts-with(upper-case($vA), upper-case($vB))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-StartsWithFunc-5">
+      <description> Compare two non-matching values returned from fn:lower-case() and fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time(), string("content"))[1] treat as xs:string,
+         $vB := ("b string", current-time(), string("content"))[1] treat as xs:string
+         return starts-with(upper-case($vA), lower-case($vB))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-StartsWithFunc-6">
+      <description> Compare two non-matching values returned from fn:lower-case() and fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time(), string("content"))[1] treat as xs:string,
+         $vB := ("b string", current-time(), string("content"))[1] treat as xs:string
+         return starts-with(lower-case($vA), upper-case($vB))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+      <test-case name="cbcl-starts-with-001">
+      <description> test fn:starts-with with collation and empty string </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <test>
+        fn:boolean(fn:starts-with('input', '', 'http://www.w3.org/2005/xpath-functions/collation/codepoint'))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+</test-set>

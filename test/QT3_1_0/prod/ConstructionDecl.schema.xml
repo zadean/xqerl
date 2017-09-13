@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-ConstructionDecl.schema">
+   <description>Tests for the ConstructionDecl production in a schema-aware environment</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-Construct"/>
+   <link type="spec" document="XQuery" section-number="3.7.3.1"
+         idref="id-computedElements"/>
+         
+   <dependency type="spec" value="XQ10+"/>
+   <dependency type="feature" value="schemaImport"/>      
+
+   <test-case name="Constr-compelem-constrmod-1">
+      <description> strip IDREFS type </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic"/>
+      <test>
+        declare construction strip; 
+        import schema namespace atomic="http://www.w3.org/XQueryTest"; 
+        fn:count(fn:data((element elem {//*:idrefs})/*))
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-constrmod-2">
+      <description> preserve IDREFS type </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic"/>
+      <test>
+        declare construction preserve; 
+        import schema namespace atomic="http://www.w3.org/XQueryTest"; 
+        fn:count(fn:data((element elem {//*:idrefs})/*))
+      </test>
+      <result>
+         <any-of>
+            <assert-eq>2</assert-eq>
+            <assert-eq>1</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-constrmod-5">
+      <description> strip IDREFS type in attribute </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic"/>
+      <test>
+        declare construction strip; 
+        import schema namespace atomic="http://www.w3.org/XQueryTest"; 
+        fn:count(fn:data((element elem {//*:idrefs/@*:attr})/@*:attr))
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-constrmod-6">
+      <description> preserve IDREFS type in attribute </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic"/>
+      <test>
+        declare construction preserve; 
+        import schema namespace atomic="http://www.w3.org/XQueryTest"; 
+        fn:count(fn:data((element elem {//*:idrefs/@*:attr})/@*:attr))
+      </test>
+      <result>
+         <any-of>
+            <assert-eq>2</assert-eq>
+            <assert-eq>1</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+</test-set>

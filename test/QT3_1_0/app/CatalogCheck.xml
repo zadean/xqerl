@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-CatalogCheck">
+   <description>Tests for consistency of the catalog</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-Catalog"/>
+   <link type="spec" document="XQuery" section-number="1.0" idref="title"/>
+   
+   <environment name="catalog">
+     <source role="." file="../catalog.xml" validation="strict">
+        <description>Catalog for the FOTS test suite</description>
+        <created by="Michael Kay" on="2011-07-10"/>
+     </source>
+     <schema uri="http://www.w3.org/2010/09/qt-fots-catalog" file="../catalog-schema.xsd">
+        <description>Schema for the catalog of the FOTS test suite</description>
+        <created by="Michael Kay" on="2011-07-10"/>
+     </schema>
+   </environment>
+        
+   <test-case name="Catalog001">
+      <description> test that all named environments are present </description>
+      <created by="Michael Kay" on="2011-07-10"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..))),
+            $tests := $testsets//fots-test-case,
+            $environments := (//fots:environment | $testsets//fots:environment)[@name],
+            $refs := $testsets//fots:environment[@ref]
+            return $refs[not(@ref = $environments/@name)]
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="Catalog002">
+      <description> test all tests containing certain constructs require an XQuery processor </description>
+      <created by="Michael Kay" on="2011-07-10"/>
+      <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
+      <modified by="Michael Kay" on="2013-01-21" change="add schema import declaration, see bug 20706"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/(validate{doc(resolve-uri(., base-uri(..)))})
+        for $test in $testsets//fots:test-case[not(fots:result/fots:error)][
+                contains(test, "declare variable") or
+                contains(test, "declare function") or
+                matches(test, "&lt;.+&gt;") or
+                contains(test, "typeswitch")]
+        where empty($test/(fots:dependency | ../fots:dependency)) or
+              exists($test/(fots:dependency | ../fots:dependency)[contains(., "XP")])
+        return $test
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="Catalog003">
+      <description> test all tests containing an "import schema" constructs have an appropriate dependency </description>
+      <created by="Michael Kay" on="2011-07-10"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        for $test in $testsets//fots:test-case[contains(test, "import schema")]
+        where empty($test/(fots:dependency | ../fots:dependency)[@type='feature' and @value="schemaImport"]) 
+        return $test
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Catalog004">
+      <description> test that all schemas named in catalog files have the correct target namespace </description>
+      <created by="Michael Kay" on="2011-08-10"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        for $schema in (.|$testsets)//fots:environment/fots:schema
+        let $targetNamespace := doc(resolve-uri($schema/@file, base-uri($schema)))/*/@targetNamespace
+        where not($schema/@uri eq $targetNamespace or (empty($targetNamespace) and string(@uri)=''))
+        return ($schema, <file>{base-uri($schema)}</file>)
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Catalog005">
+      <description> Check that all tests using an environment with a namespace declaration are XPath tests </description>
+      <created by="Michael Kay" on="2011-08-11"/>
+      <modified by="Michael Kay" on="2013-01-06" change="refine the test to avoid false errors"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        (: ask whether a test is XQuery-only :)
+        declare function local:needs-xq($t as element(fots:test-case)) as xs:boolean {
+            let $spec := $t/fots:dependency[@type='spec'][1]
+            return exists($spec) and contains($spec/@value, 'XQ') and not(contains($spec/@value, 'XP'))
+        };
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        let $nsenvs :=
+            for $t in ($testsets|.)
+            for $e in $t//fots:environment[@name]
+            where exists($e/fots:namespace) 
+            return concat($t/*/@name, '~', $e/@name/string())
+        let $xq-testcases := $testsets//fots:test-case [local:needs-xq(.)]
+        for $tc in $xq-testcases [concat(/*/@name, '~', fots:environment/@ref) = $nsenvs or fots:environment[fots:namespace]]
+        return $tc/@name/string()
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Catalog006">
+      <description> Check that all tests using an environment with a decimal-format declaration are XPath tests </description>
+      <created by="Michael Kay" on="2011-08-11"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        (: ask whether a test is XQuery-only :)
+        declare function local:needs-xq($t as element(fots:test-case)) as xs:boolean {
+            let $spec := $t/fots:dependency[@type='spec'][1]
+            return exists($spec) and contains($spec/@value, 'XQ') and not(contains($spec/@value, 'XP'))
+        };
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        let $nsenvs :=
+            for $t in ($testsets|.)
+            for $e in $t//fots:environment
+            where exists($e/fots:decimal-format) 
+            return $e/@name/string()
+        let $xq-testcases := $testsets//fots:test-case [local:needs-xq(.)]
+        for $tc in $xq-testcases [fots:environment/@ref = $nsenvs or fots:environment[fots:decimal-format]]
+        return $tc/@name/string()
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Catalog007" covers="group-by">
+      <description> Check that all test names are unique </description>
+      <created by="Michael Kay" on="2011-08-23"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        xquery version "3.0";
+        (: output the non-unique test names. There should be none :)
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        for $xq-testcase in $testsets//fots:test-case
+        let $testname := $xq-testcase/@name
+        group by $testname
+        where count($xq-testcase) gt 1
+        return $testname
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="Catalog008">
+      <description> Check that, for each test-set, its name in catalog.xml matches its name in the test-set file. </description>
+      <created by="Michael Kay" on="2011-08-23"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+
+        for $xq-testcase in //fots:test-set
+        let $testname := $xq-testcase/@name
+        let $testfile := $xq-testcase/@file/doc(resolve-uri(., base-uri(..)))
+        let $file-testname := $testfile/fots:test-set/@name
+        where $testname != $file-testname
+        return <out catalog-name="{string($testname)}" test-name="{string($file-testname)}"/>
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+  <test-case name="Catalog009" covers="group-by">
+      <description>List the dependencies in the test suite</description>
+      <created by="O'Neil Delpratt" on="2011-08-23"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        xquery version "3.0";
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        for $dependencyTS in $testsets//fots:dependency
+        let $name := $dependencyTS/@type
+        let $value := $dependencyTS/@value
+        group by $name, $value
+        order by $name, $value
+
+        return <dependency type='{$name}' value='{$value}' />
+
+      ]]></test>
+      <result>
+        <assert-type>element()*</assert-type>
+      </result>
+  </test-case>
+  
+  <test-case name="Catalog010">
+    <description> Check that, for each test-set and each test-case, the names appearing in its "covers" attribute (if present)
+      are names of changes listed in the changes.xml file. </description>
+    <created by="Michael Kay" on="2011-08-23"/>
+    <environment ref="catalog"/>
+    <dependency type="spec" value="XQ10+"/>
+    <test><![CDATA[
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $changes := doc('../changes.xml')//change/@id/string()
+        for $xq-test in //fots:test-set
+        let $testfile := $xq-test/@file/doc(resolve-uri(., base-uri(..)))
+        let $testset := $testfile/fots:test-set
+        let $testcases := $testset/fots:test-case
+        for $token in distinct-values((tokenize($testset/@covers, ' '), $testcases/@covers/tokenize(., ' ')))
+        where not($token = $changes)
+        return <out test-set="{string($testset/@name)}" bad-covers-value="{$token}"/>
+      ]]></test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
+  
+  <test-case name="Catalog011">
+    <description> Check that for every change listed in the changes.xml file there are at least five tests. </description>
+    <created by="Michael Kay" on="2011-08-23"/>
+    <modified by="Michael Kay" on="2013-04-09" change="recognize absence of serialization tests"/>
+    <modified by="Michael Kay" on="2013-06-13" change="fix bug 22327"/>
+    <environment ref="catalog"/>
+    <dependency type="spec" value="XQ10+"/>
+    <test><![CDATA[
+    declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+    <r>{        
+        let $changes := doc('../changes.xml')//change/@id/string()
+        let $testfiles := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        let $testsets := $testfiles/fots:test-set
+        for $token in distinct-values($changes)
+        let $relevant-testsets := $testsets[tokenize(@covers, ' ') = $token]
+        let $relevant-testcases := $testsets/fots:test-case[tokenize(@covers, ' ') = $token]
+        let $count := count($relevant-testsets/fots:test-case) + count($relevant-testcases)
+        where $count lt 5
+        return <out change="{$token}" tests="{$count}"/>
+     }</r>   
+      ]]></test>
+    <result>
+      <!-- serialization tests are still awaited... -->
+      <assert-xml><![CDATA[<r><out change="fn-collection" tests="2"/><out change="xml-xhtml-output" tests="0"/></r>]]></assert-xml>
+    </result>
+  </test-case>
+  
+  <test-case name="Catalog012">
+    <description> Test that all assert-xml elements contain no XML declaration </description>
+    <created by="Michael Kay" on="2012-07-10"/>
+    <environment ref="catalog"/>
+    <dependency type="spec" value="XQ10+"/>
+    <test><![CDATA[
+      declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+      let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+      return $testsets//fots:test-case[.//fots:assert-xml[starts-with(., '<?xml')]]
+    ]]></test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
+
+
+
+   
+</test-set>

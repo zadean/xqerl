@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-tokenize">
+   <description>Tests the fn:tokenize() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-tokenize"/>
+
+   <test-case name="fn-tokenize-1">
+      <description> Evaluation of tokenize function where pattern matches the zero length string. Given on example 3 for this function in the Func and Ops specs. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abba", ".?")</test>
+      <result>
+         <error code="FORX0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-2">
+      <description> Evaluation of tokenize function whith an invalid value for the flags </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("The cat sat on the mat", "\s+", "t")</test>
+      <result>
+         <error code="FORX0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-3">
+      <description> Evaluation of tokenize function with pattern set to "\s+" as per example 1 for this functions from the Func and Ops specs. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("The cat sat on the mat", "\s+")</test>
+      <result>
+         <assert-string-value>The cat sat on the mat</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-4">
+      <description> Evaluation of tokenize function with pattern set to "\s*" as per example 2 for this functions from the Func and Ops specs. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("1, 15, 24, 50", ",\s*")</test>
+      <result>
+         <assert-string-value>1 15 24 50</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-5">
+      <description> Evaluation of tokenize function with pattern set to "\s*&lt;br&gt;\s*" and flag set to "i" as per example 4 for this functions from the Func and Ops specs. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test><![CDATA[fn:tokenize("Some unparsed <br> HTML <BR> text", "\s*<br>\s*", "i")]]></test>
+      <result>
+         <assert-deep-eq>"Some unparsed", "HTML", "text"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-6">
+      <description> Evaluation of tokenize function with pattern with flags arguments set to empty string. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test><![CDATA[fn:tokenize("Some unparsed <br> HTML <BR> text", "\s*<br>\s*", "")]]></test>
+      <result>
+         <assert-deep-eq>"Some unparsed", "HTML &lt;BR&gt; text"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-7">
+      <description> Evaluation of tokenize function with $input set to empty sequence Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:count(fn:tokenize((), "\s+"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-8">
+      <description> Evaluation of tokenize function with $input set to zero length string. Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:count(fn:tokenize("", "\s+"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-9">
+      <description> Evaluation of tokenize function with two patterms matching the input string. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>string-join(fn:tokenize("abracadabra", "(ab)|(a)"), '#')</test>
+      <result>
+         <assert-string-value>#r#c#d#r#</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-10">
+      <description> Evaluation of tokenize function with pattern that does not match the input string. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra", "ww")</test>
+      <result>
+         <assert-string-value>abracadabra</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-11">
+      <description> Evaluation of tokenize function with pattern set to "^a". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra", "^a")</test>
+      <result>
+         <assert-deep-eq>"", "bracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-12">
+      <description> Evaluation of tokenize function with pattern set to "\^". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra^abracadabra", "\^")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-13">
+      <description> Evaluation of tokenize function with pattern set to "\?" for an input string that contains "?". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra?abracadabra", "\?")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-14">
+      <description> Evaluation of tokenize function with pattern set to "\*" for an input string that contains "*". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra*abracadabra", "\*")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-15">
+      <description> Evaluation of tokenize function with pattern set to "\+" for an input string that contains "+". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra+abracadabra", "\+")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-16">
+      <description> Evaluation of tokenize function with pattern set to "\{" for an input string that contains "}". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra{abracadabra", "\{")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-17">
+      <description> Evaluation of tokenize function with pattern set to "\}" for an input string that contains "}". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra}abracadabra", "\}")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-18">
+      <description> Evaluation of tokenize function with pattern set to "\(" for an input string that contains "(". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra(abracadabra", "\(")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-19">
+      <description> Evaluation of tokenize function with pattern set to "\)" for an input string that contains ")". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra)abracadabra", "\)")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-20">
+      <description> Evaluation of tokenize function with pattern set to "\[" for an input string that contains "[". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra[abracadabra", "\[")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-21">
+      <description> Evaluation of tokenize function with pattern set to "\]" for an input string that contains "]". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra]abracadabra", "\]")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-22">
+      <description> Evaluation of tokenize function with pattern set to "\-" for an input string that contains "-". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra-abracadabra", "\-")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-23">
+      <description> Evaluation of tokenize function with pattern set to "\." for an input string that contains ".". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra.abracadabra", "\.")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-24">
+      <description> Evaluation of tokenize function with pattern set to "\|" for an input string that contains "|". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra|abracadabra", "\|")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-25">
+      <description> Evaluation of tokenize function with pattern set to "\\" for an input string that contains "\". </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra\abracadabra", "\\")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-26">
+      <description> Evaluation of tokenize function with pattern set to "\t" for an input string that contains the tab character. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra	abracadabra", "\t")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-27">
+      <description> Evaluation of tokenize function with pattern set to "\n" for an input string that contains the newline character. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabra
+abracadabra", "\n")</test>
+      <result>
+         <assert-deep-eq>"abracadabra", "abracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-28">
+      <description> Evaluation of tokenize function with pattern set to "aa{1}" (exact quantity) for an input string that contains the "aa" string. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabraabracadabra", "aa{1}")</test>
+      <result>
+         <assert-deep-eq>"abracadabr", "bracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-29">
+      <description> Evaluation of tokenize function with pattern set to "aa{1,}" (min quantity) for an input string that contains the "aa" string twice. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabraabracadabraabracadabra", "aa{1,}")</test>
+      <result>
+         <assert-deep-eq>"abracadabr", "bracadabr", "bracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-30">
+      <description> Evaluation of tokenize function with pattern set to "aa{1,2}" (range quantity) for an input string that contains the "aa" string twice. </description>
+      <created by="Carmelo Montanez" on="2005-10-13"/>
+      <test>fn:tokenize("abracadabraabracadabraabracadabra", "aa{1,2}")</test>
+      <result>
+         <assert-deep-eq>"abracadabr", "bracadabr", "bracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-31" covers="regex-q-flag">
+      <description> Evaluation of tokenize function with regex 'q' flag. </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:tokenize("abc.def.gh.ijk", ".", "q")</test>
+      <result>
+         <assert-deep-eq>"abc", "def", "gh", "ijk"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-32" covers="regex-q-flag">
+      <description> Evaluation of tokenize function with regex 'q' and "i" flags. </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:tokenize("A.BRA.CADA.BRA", "a.", "qi")</test>
+      <result>
+         <assert-deep-eq>"", "BR", "CAD", "BRA"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-33" covers="regex-non-capturing">
+      <description> Evaluation of tokenize function with non-capturing group in the regex. </description>
+      <created by="Michael Kay" on="2012-07-12"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:tokenize("ABRACADABRA", "A(?:B)")</test>
+      <result>
+         <assert-deep-eq>"", "RACAD", "RA"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-tokenize-34" covers="regex-dot-matching-cr">
+      <description> "." does NOT match CR in default mode</description>
+      <created by="Tim Mills" on="2012-09-25"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J')</test>
+      <result>
+	    <assert-eq>concat('Mary', codepoints-to-string(13), 'Jones')</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-35" covers="regex-dot-matching-cr">
+      <description> "." does match CR in dot-all mode</description>
+      <created by="Tim Mills" on="2012-09-25"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J', 's')</test>
+      <result>
+	    <assert-deep-eq>"Mar", "ones"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-36">
+      <description> Regex must be one that does not match a zero-length string </description>
+      <created by="Michael Kay" on="2013-05-03"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '^', 'm')</test>
+      <result>
+	    <error code="FORX0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-37">
+      <description> Regex must be one that does not match a zero-length string </description>
+      <created by="Michael Kay" on="2013-05-03"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '$', 'm')</test>
+      <result>
+	    <error code="FORX0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-38">
+      <description> Regex must be one that does not match a zero-length string </description>
+      <created by="Michael Kay" on="2013-05-03"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '^[\s]*$', 'm')</test>
+      <result>
+	    <error code="FORX0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TokenizeFunc-1">
+      <description> fn:tokenize takes at least two arguments. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>tokenize("input")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TokenizeFunc-2">
+      <description> The pattern can't be the empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>tokenize("input", ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TokenizeFunc-3">
+      <description> The flags argument cannot contain whitespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>tokenize("input", "pattern", " ")</test>
+      <result>
+         <error code="FORX0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TokenizeFunc-4">
+      <description> The flags argument cannot contain 'X'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>tokenize("input", "pattern", "X")</test>
+      <result>
+         <error code="FORX0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TokenizeFunc-5">
+      <description> Only three arguments are accepted. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>tokenize("input", "pattern", "", ())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-TokenizeFunc-1">
+      <description> fn:tokenize with a positional predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:tokenize(("abracadabra", current-time())[1] treat as xs:string, "(ab)|(a)")[last()] eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-TokenizeFunc-2">
+      <description> fn:tokenize with a positional predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(fn:tokenize(("abracadabra", current-time())[1] treat as xs:string, "(ab)|(a)")[last() + 1])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-TokenizeFunc-3">
+      <description> fn:tokenize with a positional predicate(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:tokenize(("abracadabra", current-time())[1] treat as xs:string, "(ab)|(a)")[last() - 1]</test>
+      <result>
+         <assert-string-value>r</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-TokenizeFunc-4">
+      <description> fn:tokenize with a positional predicate(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:tokenize(("abracadabra", current-time())[1] treat as xs:string, "(ab)|(a)")[last() - 3]</test>
+      <result>
+         <assert-string-value>c</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-TokenizeFunc-5">
+      <description> Tokenize a sequence of words. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal(fn:tokenize("The cat sat on the mat", "\s+"), ("The", "cat", "sat", "on", "the", "mat")), count(fn:tokenize("The cat sat on the mat", "\s+")), count(fn:tokenize(" The cat sat on the mat ", "\s+")), fn:tokenize("The cat sat on the mat", "\s+")</test>
+      <result>
+         <assert-string-value>true 6 8 The cat sat on the mat</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-TokenizeFunc-6">
+      <description> A regexp that some Java versions have trouble with. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>replace('APXterms6', '\w{3}\d*([^TKR0-9]+).*$', '$1')</test>
+      <result>
+         <assert-string-value>terms</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-TokenizeFunc-7">
+      <description> Tokenize on a single whitespace. </description>
+      <created by="Frans Englich" on="2008-05-08"/>
+      <test>count(tokenize("a b", " ")), count(tokenize("a b", "\s")), string-join(tokenize("a b", " "), '|'), string-join(tokenize("a b", "\s"), '|'), tokenize("a b", " "), tokenize("a b", "\s")</test>
+      <result>
+         <assert-string-value>2 2 a|b a|b a b a b</assert-string-value>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-fn-tokenize-001">
+      <description> Test boolean on tokenize </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <test>
+      for $x in xs:string(zero-or-one((1 to 10)[. mod 2 = -1])) return tokenize($x,',')
+      </test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-tokenize-002">
+      <description> Test invalid regex expression </description>
+      <created by="Nick Jones" on="2008-06-13"/>
+      <test>
+      tokenize(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),','),'[')
+      </test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-tokenize-003">
+      <description> Test tokenize on empty string </description>
+      <created by="Nick Jones" on="2008-06-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      tokenize(string-join(for $x in (1 to 10)[. mod 2 < 0] return string($x),','),',')
+      ]]></test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+</test-set>

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.w3.org/XQueryTest/money"
+           elementFormDefault="qualified"
+           xmlns:s="http://www.w3.org/XQueryTest/money">
+
+<xs:element name="a" type="s:money-amount"/>
+
+<xs:complexType name="money-amount">
+  <xs:simpleContent>
+    <xs:extension base="xs:integer">
+      <xs:attribute name="currency" type="xs:string"/>
+    </xs:extension>
+  </xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="positive-money-amount">
+    <xs:simpleContent>
+      <xs:restriction base="s:money-amount">
+        <xs:minInclusive value="0"/>
+        <xs:attribute name="currency" type="xs:string"/>
+      </xs:restriction>
+    </xs:simpleContent>
+</xs:complexType>  
+
+</xs:schema>

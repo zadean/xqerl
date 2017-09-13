@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-XMLEdition">
+   <description>Tests for the XMLEdition</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-XMLEdition"/>
+   <link type="spec" document="XQuery" section-number="E.1"
+         idref="id-normative-references"/>
+
+   <test-case name="XML10-3ed-Mixed-content">
+      <description>CDATA sections, comments and PIs may occur in ANY content. in XML 1.0 3th edition and older </description>
+      <created by="Tim Kraska" on="2010-01-20"/>
+      <modified by="O'Neil Delpratt" on="2011-10-13" change="Remove newlines in expected result"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;foo&gt; a &lt;![CDATA[cdata section]]&gt; in mixed content. a &lt;!-- comment --&gt; in mixed content. a &lt;?processing instruction?&gt; in mixed content. &lt;/foo&gt;</test>
+      <result>
+        <assert-xml><![CDATA[<foo> a cdata section in mixed content. a <!-- comment --> in mixed content. a <?processing instruction?> in mixed content. </foo>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="XML10-4ed-Excluded-char-1">
+      <description> The character #x037F is excluded from the start of a Name in XML 1.0 4th edition and older </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <dependency type="xml-version" value="1.0:4-"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>xquery version "1.0" encoding "utf-8"; &lt;&#x037F;node/&gt;</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="XML10-4ed-Excluded-char-1-new">
+      <description> The character #x037F is allowed at the start of a Name in XML 1.0 5th edition and later </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <modified by="Tim Mills" on="2013-03-14" change="Resolve Bug 20705"/>
+      <dependency type="xml-version" value="1.0:5+ 1.1"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>xquery version "1.0" encoding "utf-8"; &lt;&#x037F;node/&gt;</test>
+      <result>
+	<any-of>
+	  <assert-xml>&lt;&#x037F;node/&gt;</assert-xml>
+	  <serialization-matches>&lt;&#x037F;node/&gt;</serialization-matches>
+	</any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="XML10-4ed-Excluded-char-2">
+      <description>The characters x01 x00 cannot appear at the start of a Name in XML (all editions).
+        Note: the query is in a separate file because it cannot be represented in an XML document.
+        Note: see bug 13869. The name was intended to start with the single character 0x0100, but 
+        actually starts with the two characters 0x00 0x01.</description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2013-06-21" change="Changed description only. See bug 13869."/>
+      <dependency type="spec" value="XQ10+"/>
+      <test file="XMLEdition/XML10-4ed-Excluded-char-2.xq"/>
+      <result>
+            <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="XML10-5ed-Included-char-1">
+      <description>Written by: Tim Kraska  Contains a DEL, legal in XML 1.0, illegal in XML 1.1 </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <dependency type="xml-version" value="1.0"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;foo>&#x7f;&lt;/foo></test>
+      <result>
+         <assert-xml><![CDATA[<foo>&#x7f;</foo>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="XML10-5ed-Included-char-1-new">
+      <description>Written by: Tim Kraska  Contains a DEL, legal in XML 1.0, illegal in XML 1.1.
+        Note: this is questionable. DEL is a legal 'Char' in both XML versions, but in 1.1 it is
+        a RestrictedChar. However, XQuery makes no reference to the restrictions associated with 
+        RestrictedChar. See bug #14921 and #15966.</description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <modified by="Michael Kay" on="2013-01-05" change="allow success; see 'constraint: xml-version', which
+        states 'implementations MAY allow C1 control characters to be used directly' (spec change in response to bug 15966)"/>
+      <dependency type="xml-version" value="1.1"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;foo>&#x7f;&lt;/foo></test>
+      <result>
+         <any-of>
+           <error code="XPST0003"/>
+           <assert-xml><![CDATA[<foo>&#x7f;</foo>]]></assert-xml>
+         </any-of>  
+      </result>
+   </test-case>
+
+   <test-case name="XML11-1ed-Included-char-1">
+      <description>Written by: Tim Kraska  Has a "long s" in a name, legal in XML 1.1, illegal in XML 1.0 ed 4 and earlier</description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <dependency type="xml-version" value="1.0:4-"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;egg&#383;/></test>
+      <result>
+            <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="XML11-1ed-Included-char-1-new">
+      <description>Written by: Tim Kraska  Has a "long s" in a name, legal in XML 1.1, illegal in XML 1.0 ed 4 and earlier</description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <modified by="Tim Mills" on="2013-03-14" change="Resolve Bug 20705"/>
+      <dependency type="xml-version" value="1.0:5+ 1.1"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;egg&#383;/></test>
+      <result>
+	<any-of>
+            <assert-xml>&lt;egg&#383;/></assert-xml>
+            <serialization-matches>&lt;egg&#383;/></serialization-matches>
+	</any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q001">
+      <description>Normalization of line endings in XQuery</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>deep-equal(string-to-codepoints('&#xa;'), (10))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q002">
+      <description>Normalization of line endings in XQuery</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>deep-equal(string-to-codepoints('&#xd;&#xa;'), (10))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q003">
+      <description>Normalization of line endings in XQuery</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>deep-equal(string-to-codepoints('&#xd; &#xd;&#xa; &#xa;&#xd;'), (10, 32, 10, 32, 10, 10))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q004">
+      <description>Normalization of line endings in XQuery with XML 1.1</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>deep-equal(string-to-codepoints('&#xd;&#x85;'), (10))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q005">
+      <description>Normalization of line endings in XQuery with XML 1.1</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>deep-equal(string-to-codepoints(' &#x85; '), (32, 10, 32))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q006">
+      <description>Normalization of line endings in XQuery with XML 1.1</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>deep-equal(string-to-codepoints(' &#x2028; '), (32, 10, 32))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q007">
+      <description>Normalization of line endings in XQuery with XML 1.0</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>deep-equal(string-to-codepoints('&#xd;&#x85;'), (10, 133))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q008">
+      <description>Normalization of line endings in XQuery with XML 1.1</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>deep-equal(string-to-codepoints(' &#x85; '), (32, 133, 32))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-Q009">
+      <description>Normalization of line endings in XQuery with XML 1.1</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>deep-equal(string-to-codepoints(' &#x2028; '), (32, 8232, 32))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="line-ending-P002">
+      <description>Normalization of line endings in XPath. See bug 14917.
+        Supplied result assumes line endings are not normalized.</description>
+      <created by="Michael Kay" on="2011-11-24"/>
+      <modified by="Michael Kay" on="2013-06-13" change="reflect resolution of bug 14917"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>deep-equal(string-to-codepoints('&#xd;&#xa;'), (13, 10))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="XML11-c0-001">
+      <description>Use a C0 control character written in the query as a numeric char reference</description>
+      <created by="Michael Kay" on="2012-10-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test file="XMLEdition/XML11-c0-001.xq"/>
+      <result>
+         <assert-eq>7</assert-eq>
+      </result>
+   </test-case>
+</test-set>

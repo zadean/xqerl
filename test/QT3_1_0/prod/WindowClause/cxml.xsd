@@ -1,0 +1,44 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="sequence">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="time" type="TimeEvent"/>
+                    <xs:element name="OrderRequest" type="OrderRequest" maxOccurs="unbounded"/>
+                    <xs:element name="ConfirmationRequest" type="ConfirmationRequest"/>
+                    <xs:element name="ShipNotice" type="ShipNotice" maxOccurs="unbounded"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="TimeEvent">
+        <xs:attribute name="date" type="xs:dateTime" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="OrderRequest">
+        <xs:sequence>
+            <xs:element name="Item" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="unitPrice" type="xs:byte" use="required"/>
+                    <xs:attribute name="quantity" type="xs:byte" use="required"/>
+                    <xs:attribute name="partID" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string" use="required"/>
+        <xs:attribute name="total" type="xs:short" use="required"/>
+        <xs:attribute name="shipTo" type="xs:string"/>
+        <xs:attribute name="orderID" type="xs:string" use="required"/>
+        <xs:attribute name="date" type="xs:dateTime" use="required"/>
+        <xs:attribute name="billTo" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="ConfirmationRequest">
+        <xs:attribute name="status" type="xs:string" use="required"/>
+        <xs:attribute name="orderID" type="xs:string" use="required"/>
+        <xs:attribute name="date" type="xs:dateTime" use="required"/>
+        <xs:attribute name="confirmID" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="ShipNotice">
+        <xs:attribute name="orderID" type="xs:string" use="required"/>
+        <xs:attribute name="date" type="xs:dateTime" use="required"/>
+    </xs:complexType>
+</xs:schema>

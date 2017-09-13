@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set  xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="math-cos"  covers="math-cos">
+    <description>Tests for the math:cos function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-cos"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+    
+    <test-case name="math-cos-001">
+        <description>Evaluate the function math:cos() with the argument ()</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(())</test>
+        <result>
+            <assert-empty />
+        </result>
+    </test-case>
+    <test-case name="math-cos-002">
+        <description>Evaluate the function math:cos() with the argument 0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(0)</test>
+        <result>
+            <assert-eq>1.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-cos-003">
+        <description>Evaluate the function math:cos() with the argument -0.0e0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(-0.0e0)</test>
+        <result>
+            <assert-eq>1.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-cos-004">
+        <description>Evaluate the function math:cos() with the argument math:pi() div 2</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(math:pi() div 2)</test>
+        <result>
+            <assert>abs($result) lt 1e-15</assert>
+        </result>
+    </test-case>
+    <test-case name="math-cos-005">
+        <description>Evaluate the function math:cos() with the argument -math:pi() div 2</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(-math:pi() div 2)</test>
+        <result>
+            <assert>abs($result) lt 1e-15</assert>
+        </result>
+    </test-case>
+    <test-case name="math-cos-006">
+        <description>Evaluate the function math:cos() with the argument math:pi()</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(math:pi())</test>
+        <result>
+            <assert-eq>-1.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-cos-007">
+        <description>Evaluate the function math:cos() with the argument xs:double('NaN')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(xs:double('NaN'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-cos-008">
+        <description>Evaluate the function math:cos() with the argument xs:double('INF')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(xs:double('INF'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-cos-009">
+        <description>Evaluate the function math:cos() with the argument xs:double('-INF')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:cos(xs:double('-INF'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+</test-set>

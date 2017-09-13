@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-EQName" covers="eqnames">
+   <description>Tests for the EQName production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-EQName"/>
+   <link type="spec" document="XQuery" section-number="2" idref="doc-xquery30-EQName"/>
+
+   <test-case name="eqname-001">
+      <description> Use EQName in a path expression </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<my:a xmlns:my="http://www.example.com/ns/my"><my:b>42</my:b></my:a>) / Q{http://www.example.com/ns/my}b }</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><my:b xmlns:my="http://www.example.com/ns/my">42</my:b></out>]]></assert-xml>
+       </result>
+   </test-case>
+
+   <test-case name="eqname-002">
+      <description> Use EQName in a variable name </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+            declare variable $Q{http://www.example.com/ns/my}var := 12; 
+            <out>{$Q{http://www.example.com/ns/my}var}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>12</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-003">
+      <description> Use EQName in a function name </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function Q{http://www.example.com/ns/my}fn ($a as xs:integer) as xs:integer { $a + 2 }; 
+        <out>{Q{http://www.example.com/ns/my}fn(12)}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>14</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-004">
+      <description> Use EQName in a type name </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare function local:fn ($a as Q{http://www.w3.org/2001/XMLSchema}integer) as element(Q{http://www.example.com/ns/my}e) { <e xmlns="http://www.example.com/ns/my">{$a}</e> }; <out>{local:fn(12)}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><e xmlns="http://www.example.com/ns/my">12</e></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-005">
+      <description> Use EQName in declare option </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare option Q{http://www.example.com/ns}option "ignore me"; <a/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-006">
+      <description> Use EQName in a pragma </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(# Q{http://www.example.com/ns}pragma ignore me #) {<a/>}]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-007" covers="decimal-decl">
+      <description> Use EQName in a decimal format </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare decimal-format Q{http://www.example.com/ns}format grouping-separator="'"; 
+        <a xmlns:ex="http://www.example.com/ns">{format-number(1e9, "#'###'###'##0.00", 'ex:format')}</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns:ex="http://www.example.com/ns">1'000'000'000.00</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-008">
+      <description> Use character references in an EQName </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<a xmlns:ex="http://www.example.com/ns"><ex:b>93.7</ex:b></a>) /Q{http://www&#x2e;example&#x2E;com/ns}b }</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><ex:b xmlns:ex="http://www.example.com/ns">93.7</ex:b></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-009">
+      <description> Use whitespace in an EQName </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<a xmlns:ex="http://www.example.com/ ns"><ex:b>93.7</ex:b></a>) /Q{ http://www.example.com/ ns }b/namespace-uri() }</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>http://www.example.com/ ns</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-010">
+      <description> Use quotes in an EQName </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<a xmlns:ex="http://www.example.com/ns?p='23'"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}b }</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><ex:b xmlns:ex="http://www.example.com/ns?p='23'">93.7</ex:b></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-011">
+      <description> Use quotes in an EQName </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<a xmlns:ex="http://www.example.com/ns?p='23'"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}b }</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><ex:b xmlns:ex="http://www.example.com/ns?p='23'">93.7</ex:b></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-012" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<my:a xmlns:my="http://www.example.com/ns/my"><my:b>42</my:b></my:a>) / Q{http://www.example.com/ns/my}* + 5 }</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>47</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-013" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (no namespace) </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out xmlns="http://www.example.com/one">{ (<my:a xmlns:my="http://www.example.com/ns/my"><my:b>42</my:b><b xmlns="">93</b></my:a>) / Q{}* + 5 }</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out xmlns="http://www.example.com/one">98</out>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-014">
+      <description> EQName in XPath element name</description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>string((//Q{http://www.example.com/AuctionWatch}Start)[1])</test>
+      <result>
+         <assert-string-value>3.00</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-015">
+      <description> EQName in XPath variable name</description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>for $Q{http://example.com/ns}x in 1 to 10 return $Q{http://example.com/ns}x + 1</test>
+      <result>
+         <assert-string-value>2 3 4 5 6 7 8 9 10 11</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-016" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (no namespace) to select attribute nodes </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2013-01-15" change="Avoid unintended error as per bug 20661"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="preserve"/> / @Q{}*, '.')]]></test>
+      <result>
+         <any-of>
+           <assert-eq>"3.5"</assert-eq>
+           <assert-eq>"5.3"</assert-eq>
+         </any-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-017" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (XML namespace) to select attribute nodes </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2013-01-15" change="Avoid unintended error as per bug 20661"/>
+      <modified by="Michael Kay" on="2013-01-17" change="Correct the previous fix"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="preserve"/> / @Q{http://www.w3.org/XML/1998/namespace}*, '.')]]></test>
+      <result>
+         <assert-eq>"preserve"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-018" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (no namespace URI) to select namespace nodes </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>(//Q{http://www.example.com/AuctionWatch}Start)[1]/namespace::Q{}*/string()</test>
+      <result>
+         <assert-permutation>
+            "http://www.example.com/AuctionWatch",
+            "http://www.w3.org/1999/xlink",
+            "http://www.example.com/auctioneers#anyzone",
+            "http://www.example.com/auctioneers#eachbay",
+            "http://www.example.com/auctioneers#yabadoo",
+            "http://www.w3.org/XML/1998/namespace"
+         </assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-019" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (no namespace URI) to select PI nodes: not allowed </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test><![CDATA[(<?alpha?>, <?beta?>, <?gamma?>)/processing-instruction(Q{}alpha)]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-901">
+      <description> Invalid EQName - superfluous colon </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<a xmlns:ex="http://www.example.com/ns?p='23'"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}:b }</out>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-902">
+      <description> Invalid EQName - mismatched braces </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ (<a xmlns:ex="http://www.example.com/ns?p='23'"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}}b }</out>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="eqname-903">
+      <description> EQName - not allowed in element constructor </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<out>{ <Q{http://www.example.com/ns}/> }</out>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+</test-set>

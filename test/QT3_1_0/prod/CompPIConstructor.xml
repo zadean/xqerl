@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-CompPIConstructor">
+   <description>Tests for the CompPIConstructor (Computed Processing Instruction Constructor) production</description>
+   
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-CompPIConstructor"/>
+   <link type="spec" document="XQuery" section-number="3.7.3.5" idref="id-computed-pis"/>
+   
+   <environment name="DupNode">
+      <source role="." file="CompAttrConstructor/DupNode.xml">
+         <description>Simple document with all node kinds</description>
+         <created by="Andreas Behm" on="2005-04-26"/>
+      </source>
+   </environment>       
+         
+   <dependency type="spec" value="XQ10+"/>      
+
+   <test-case name="Constr-comppi-name-1">
+      <description> NCName for computed PI constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction pi {'text'}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-name-2">
+      <description> QName for computed PI constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com">{processing-instruction foo:pi {'text'}}</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-1">
+      <description> empty computed name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {()} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-2">
+      <description> two strings as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {'one', 'two'} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-3">
+      <description> two untypedAtomic values as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {xs:untypedAtomic('one'), xs:untypedAtomic('two')} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-4">
+      <description> content of two nodes as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="DupNode"/>
+      <test>processing-instruction {//a} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-5">
+      <description> two numeric values as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {1,2} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-6">
+      <description> numeric value as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {123} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-7">
+      <description> dataTime value as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {xs:dateTime("1999-05-31T13:20:00")} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-8">
+      <description> NCName as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="atomic"/>
+      <test>processing-instruction {//*:NCName[1]} {'text'}</test>
+      <result>
+         <assert-xml><![CDATA[<?aNCname text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-9">
+      <description> QName as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="atomic"/>
+      <test>processing-instruction {//*:QName} {'text'}</test>
+      <result>
+         <any-of>
+            <error code="XQDY0041"/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-10">
+      <description> string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {'pi'} {'text'}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-11">
+      <description> string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {'pi', ()} {'text'}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-12">
+      <description> string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {(), 'pi'} {'text'}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-13">
+      <description> string with prefix as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com/foo">{processing-instruction {'foo:attr'} {}}</elem>]]></test>
+      <result>
+         <error code="XQDY0041"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-15">
+      <description> untyped atomic as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {xs:untypedAtomic('pi')} {'text'}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-16">
+      <description> untyped atomic with prefix as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com/foo">{processing-instruction {xs:untypedAtomic('foo:pi')} {'text'}}</elem>]]></test>
+      <result>
+         <error code="XQDY0041"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-18">
+      <description> non-ncname string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {'p i'} {'text'}</test>
+      <result>
+         <error code="XQDY0041"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-compname-19">
+      <description> non-ncname untyped atomic as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>processing-instruction {xs:untypedAtomic('p i')} {'text'}</test>
+      <result>
+         <error code="XQDY0041"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-doc-1">
+      <description> strip document nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="DupNode"/>
+      <test>processing-instruction pi {., .}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi texttext texttext?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-parent-1">
+      <description> empty parent </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count((processing-instruction pi {()})/..)</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-string-1">
+      <description> string value of PI </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>fn:string(processing-instruction pi {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>a  b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-data-1">
+      <description> typed value of PI </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>fn:data(processing-instruction pi {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>a  b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-enclexpr-1">
+      <description> enclosed expression in computed processing-instruction node - atomic values </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi 1 string 3.14 0.012345 2002-04-02T12:00:00-01:00?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-enclexpr-2">
+      <description> enclosed expression in computed processing-instruction node - nodes </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[processing-instruction pi {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}]]></test>
+      <result>
+         <assert-xml><![CDATA[<?pi 123 456 789?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-enclexpr-3">
+      <description> enclosed expression in computed processing-instruction node - empty string </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {1,'',2}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi 1  2?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-enclexpr-4">
+      <description> enclosed expression in computed processing-instruction node - empty node </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[processing-instruction pi {1,<a/>,2}]]></test>
+      <result>
+         <assert-xml><![CDATA[<?pi 1  2?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-enclexpr-5">
+      <description> enclosed expression in computed processing-instruction node - nodes </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <environment ref="DupNode"/>
+      <test>processing-instruction pi {/root}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi texttext?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-namexml-1">
+      <description> invalid PI target xml </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction xml {'pi'}</test>
+      <result>
+         <error code="XQDY0064"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-namexml-2">
+      <description> invalid PI target xml </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction XmL {'pi'}</test>
+      <result>
+         <error code="XQDY0064"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-namexml-3">
+      <description> invalid PI target xml </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction {'xml'} {'pi'}</test>
+      <result>
+         <error code="XQDY0064"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-namexml-4">
+      <description> invalid PI target xml </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction {'XmL'} {'pi'}</test>
+      <result>
+         <error code="XQDY0064"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-invalid-1">
+      <description> invalid PI content </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {'?&gt;'}</test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-invalid-2">
+      <description> invalid PI content </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {'?&gt;text'}</test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-invalid-3">
+      <description> invalid PI content </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {'text?&gt;text'}</test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-space-1">
+      <description> leading whitespace in PI content </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {' text'}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-space-2">
+      <description> leading whitespace in PI content </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test><![CDATA[processing-instruction pi {'&#x20;&#x0A;&#x0D;&#x09;text'}]]></test>
+      <result>
+         <assert-xml><![CDATA[<?pi text?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-space-3">
+      <description> leading whitespace in PI content </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>string-to-codepoints(processing-instruction pi {' text'})</test>
+      <result>
+         <assert-string-value>116 101 120 116</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-space-4">
+      <description> leading whitespace in PI content </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test><![CDATA[string-to-codepoints(processing-instruction pi {'&#x20;&#x0A;&#x0D;&#x09;text'})]]></test>
+      <result>
+         <assert-string-value>116 101 120 116</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-empty-1">
+      <description> Empty PI node </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {()}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi ?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-comppi-empty-2">
+      <description> Empty PI node </description>
+      <created by="Andreas Behm" on="2005-08-17"/>
+      <test>processing-instruction pi {''}</test>
+      <result>
+         <assert-xml><![CDATA[<?pi ?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-1">
+      <description> The name can't be specified as a string literal. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction "name" {"content"}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-2">
+      <description> An invalid name for a processing-instruction. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction {"xml"} {"content"}</test>
+      <result>
+         <error code="XQDY0064"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-3">
+      <description> An invalid name for a processing-instruction. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction {" xmL "} {"content"}</test>
+      <result>
+         <error code="XQDY0064"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-4">
+      <description> Extract the name from a computed PI. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>local-name(processing-instruction {" name "} {"content"})</test>
+      <result>
+         <assert-string-value>name</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-5">
+      <description> Extract the name from a computed PI. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>local-name(processing-instruction {" XmLnaMe "} {"content"})</test>
+      <result>
+         <assert-string-value>XmLnaMe</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-6">
+      <description> Invalid target name. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction {"1.das "} {"content"}</test>
+      <result>
+         <error code="XQDY0041"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-7">
+      <description> PI data containing '?&gt;'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction {"thename"} {"asdas?&gt;"}</test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-8">
+      <description> Extract the data from a computed PI. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(processing-instruction {"thename"} {"asdas? &gt;"})</test>
+      <result>
+         <assert-string-value>asdas? &gt;</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-9">
+      <description> Extract (possible parser-confusing) PI data. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(processing-instruction {"thename"} {"content {1+ } {"})</test>
+      <result>
+         <assert-string-value>content {1+ } {</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-10">
+      <description> Data that only is whitespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction name {" "} eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConPI-11">
+      <description> Test the atomized type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>data(processing-instruction name {"content"}) instance of xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-constr-comppi-001">
+      <description> test detection of '?&gt;' in computed comment </description>
+      <created by="Tim Mills" on="2008-07-01"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<element> { processing-instruction { 'pi' } { <element>?&gt;</element> } } </element>
+      ]]></test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-comppi-002">
+      <description> test detection of '?&gt;' in computed comment </description>
+      <created by="Tim Mills" on="2008-07-01"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:tag($arg) as element() { element { 'tag' } { $arg } }; 
+      	<element> { processing-instruction { 'pi' } { "content", local:tag('?&gt;') } } </element>
+      ]]></test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
+</test-set>

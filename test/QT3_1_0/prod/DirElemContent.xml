@@ -1,0 +1,1413 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-DirElemContent">
+   <description>Tests for the DirElemContent production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-DirElemContent"/>
+   <link type="spec" document="XQuery" section-number="3.7.1.3" idref="id-content"/>
+   
+   <environment name="TopMany">
+      <source role="." file="AxisStep/TopMany.xml">
+         <description>Like TreeCompass, but with comments and PIs off the root. PI targets vary.
+            All text nodes must have non-whitespace characters.</description>
+         <created by="David Marston" on="2003-03-25"/>   
+      </source>
+   </environment>
+   
+   <environment name="DupNode">
+      <source role="." file="CompAttrConstructor/DupNode.xml">
+         <description>Simple document with all node kinds</description>
+         <created by="Andreas Behm" on="2005-04-26"/>
+      </source>
+   </environment> 
+   
+   <environment name="nsmode">
+      <source role="." file="DirElemContent/nsmode.xml">
+         <description>Source document for namespace copy modes</description>
+         <created by="Andreas Behm" on="2005-04-26"/>
+      </source>
+   </environment>
+   
+   <environment name="namespace-sensitive">
+        <source role="." file="DirElemContent/namespace-sensitive.xml" validation="strict">
+            <description>Document containing namespace-sensitive constructs.</description>
+            <created by="Oliver Hallam" on="2007-02-26"/>
+        </source>
+        <schema uri="http://www.example.com/test/namespace-sensitive" file="DirElemContent/namespace-sensitive.xsd">
+            <description>Schema defining namespace-sensitive constructs.</description>
+            <created by="Oliver Hallam" on="2007-02-26"/>
+        </schema>
+   </environment> 
+
+   <test-case name="Constr-cont-invalid-1">
+      <description> invalid character '{' in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-invalid-2">
+      <description> invalid character '}' in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>}</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-invalid-3">
+      <description> invalid character '&amp;lt;' in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-invalid-4">
+      <description> invalid character '&amp;amp;' in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>&</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-eol-1">
+      <description> end-of-line handling </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<codepoints>{string-to-codepoints(<elem>1
+2</elem>)}</codepoints>]]></test>
+      <result>
+         <assert-xml><![CDATA[<codepoints>49 10 50</codepoints>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-eol-2">
+      <description> end-of-line handling </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<codepoints>{string-to-codepoints(<elem>1&#xa;2</elem>) }</codepoints>]]></test>
+      <result>
+         <assert-xml><![CDATA[<codepoints>49 10 50</codepoints>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-eol-3">
+      <description> end-of-line handling with character reference </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<codepoints>{string-to-codepoints(<elem>&#xD;&#xA;</elem>)}</codepoints>]]></test>
+      <result>
+         <assert-xml><![CDATA[<codepoints>13 10</codepoints>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-eol-4">
+      <description> end-of-line handling with character reference </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<codepoints>{string-to-codepoints(<elem>&#xD;</elem>)}</codepoints>]]></test>
+      <result>
+         <assert-xml><![CDATA[<codepoints>13</codepoints>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-entref-1">
+      <description> Pre-defined entity reference in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string-to-codepoints(<elem>&lt;</elem>)]]></test>
+      <result>
+         <assert-eq>60</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-entref-2">
+      <description> Pre-defined entity reference in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string-to-codepoints(<elem>&gt;</elem>)]]></test>
+      <result>
+         <assert-eq>62</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-entref-3">
+      <description> Pre-defined entity reference in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string-to-codepoints(<elem>&amp;</elem>)]]></test>
+      <result>
+         <assert-eq>38</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-entref-4">
+      <description> Pre-defined entity reference in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string-to-codepoints(<elem>&quot;</elem>)]]></test>
+      <result>
+         <assert-eq>34</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-entref-5">
+      <description> Pre-defined entity reference in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string-to-codepoints(<elem>&apos;</elem>)]]></test>
+      <result>
+         <assert-eq>39</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-charref-1">
+      <description> character reference </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>&#x30;</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>0</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-charref-2">
+      <description> invalid character reference </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>&#x0;</elem>]]></test>
+      <result>
+         <error code="XQST0090"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-cdata-1">
+      <description> CDATA section in element constructor </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;elem&gt;&lt;![CDATA[cdata&amp;&lt;&gt;'"&amp;lt;&amp;#x20;]]&gt;&lt;/elem&gt;</test>
+      <result>
+         <assert-xml><![CDATA[<elem>cdata&amp;&lt;&gt;'"&amp;lt;&amp;#x20;</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-text-1">
+      <description> count text nodes for direct element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem>text</elem>)/text())]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-text-2">
+      <description> count text nodes for direct element content and CDATA section </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count((&lt;elem&gt;text&lt;![CDATA[cdata]]&gt;&lt;/elem&gt;)/text())</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nested-1">
+      <description> nested element nodes </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><a><b/></a><a/><c/></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem><a><b/></a><a/><c/></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nested-2">
+      <description> nested pi nodes </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><?pi?><?pi content?></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem><?pi ?><?pi content?></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nested-3">
+      <description> nested comment nodes </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><!----><!--content--></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem><!----><!--content--></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nested-4">
+      <description> nested mix of nodes </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>A<a>B<?pi?>C<b/>D<!---->E</a>F<!--content-->G<a/>H<?pi content?>I<c/>J</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>A<a>B<?pi ?>C<b/>D<!---->E</a>F<!--content-->G<a/>H<?pi content?>I<c/>J</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-enclexpr-1">
+      <description> 1 text node for enclosed expression with atomic values </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem>{1,'a',3.5,4e2}</elem>)/text())]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-enclexpr-2">
+      <description> 1 text node for enclosed expression with atomic values </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem>{1,'a',<a/>,3.5,4e2}</elem>)/text())]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-enclexpr-3">
+      <description> space between atomic values in enclosed expression </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1,'a',3.5,4e2}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>1 a 3.5 400</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-enclexpr-4">
+      <description> enclosed expression with mix of atomic values and nodes </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="DupNode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1,//a,2,3,//comment(),4,5,//processing-instruction(),6,7,//text(),8}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>1<a>text</a><a>text</a>2 3<!--comment--><!--comment-->4 5<?pi content?><?pi content?>6 7texttext8</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-enclexpr-5">
+      <description> space between atomic values and empty string </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="DupNode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1, '', 2}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>1  2</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nested-5">
+      <description> Copied node structure in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="DupNode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{/root}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nodeid-1">
+      <description> Copied element node has new node identity </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <a/>, $y in <elem>{$x}</elem> return exactly-one($y/a) is $x]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nodeid-2">
+      <description> Copied attribute node has new node identity </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <a b="b"/>, $y in <elem>{$x/@b}</elem> return $y/@b is $x/@b]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nodeid-3">
+      <description> Copied comment node has new node identity </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <!--comment-->, $y in <elem>{$x}</elem> return exactly-one($y/comment()) is $x]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nodeid-4">
+      <description> Copied pi node has new node identity </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <?pi content?>, $y in <elem>{$x}</elem> return exactly-one($y/processing-instruction()) is $x]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nodeid-5">
+      <description> Copied text node has new node identity </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <a>text</a>, $y in <elem>{$x/text()}</elem> return exactly-one($y/text()) is exactly-one($x/text())]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-1">
+      <description> strip IDREFS type </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction strip; fn:count(fn:data(<elem>{//*:idrefs}</elem>/*))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-2">
+      <description> preserve IDREFS type </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction preserve; fn:count(fn:data(<elem>{//*:idrefs}</elem>/*))]]></test>
+      <result>
+         <any-of>
+            <assert-eq>2</assert-eq>
+            <assert-eq>1</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-3">
+      <description> strip decimal type </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction strip; <elem>{//*:decimal}</elem>/* cast as xs:integer]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-4">
+      <description> preserve decimal type </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction preserve; <elem>{//*:decimal}</elem>/* cast as xs:integer]]></test>
+      <result>
+         <any-of>
+            <assert-eq>12678967</assert-eq>
+            <error code="FORG0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-5">
+      <description> strip IDREFS type in attribute </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction strip; fn:count(fn:data((<elem>{//*:idrefs/@*:attr}</elem>)/@*:attr))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-6">
+      <description> preserve IDREFS type in attribute </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction preserve; fn:count(fn:data((<elem>{//*:idrefs/@*:attr}</elem>)/@*:attr))]]></test>
+      <result>
+         <any-of>
+            <assert-eq>2</assert-eq>
+            <assert-eq>1</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-7">
+      <description> strip decimal type in attribute </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction strip; (<elem>{//*:decimal/@*:attr}</elem>)/@*:attr cast as xs:integer]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-constrmod-8">
+      <description> preserve decimal type in attribute </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction preserve; (<elem>{//*:decimal/@*:attr}</elem>)/@*:attr cast as xs:integer]]></test>
+      <result>
+         <any-of>
+            <assert-eq>12678967</assert-eq>
+            <error code="FORG0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-1">
+      <description> Copy-namespace mode preserve, inherit </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="nsmode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare copy-namespaces preserve, inherit; <y xmlns:inherit="http://www.example.com/inherit">{(/)}</y>/x/z]]></test>
+      <result>
+         <assert-xml><![CDATA[<z xmlns:preserve="http://www.example.com/preserve" xmlns:inherit="http://www.example.com/inherit"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-2">
+      <description> Copy-namespace mode no-preserve, inherit </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="nsmode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare copy-namespaces no-preserve, inherit; <y xmlns:inherit="http://www.example.com/inherit">{(/)}</y>/x/z]]></test>
+      <result>
+         <assert-xml><![CDATA[<z xmlns:inherit="http://www.example.com/inherit"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-3">
+      <description> Copy-namespace mode preserve, no-inherit </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="nsmode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare copy-namespaces preserve, no-inherit; <y xmlns:inherit="http://www.example.com/inherit">{(/)}</y>/x/z]]></test>
+      <result>
+         <assert-xml><![CDATA[<z xmlns:preserve="http://www.example.com/preserve"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-4">
+      <description> Copy-namespace mode no-preserve, no-inherit </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="nsmode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare copy-namespaces no-preserve, no-inherit; <y xmlns:inherit="http://www.example.com/inherit">{(/)}</y>/x/z]]></test>
+      <result>
+         <assert-xml><![CDATA[<z/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-5">
+      <description> Copy namespace sensitive content </description>
+      <created by="Andreas Behm" on="2005-11-15"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare copy-namespaces no-preserve, inherit; declare construction preserve; <new>{ //*:QName }</new>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<new><atomic:QName atomic:attr="foo:aQname" xmlns:atomic="http://www.w3.org/XQueryTest">foo:aQname</atomic:QName></new>]]></assert-xml>
+            <error code="XQTY0086"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-6">
+      <description> Copy namespace sensitive content </description>
+      <created by="Andreas Behm" on="2005-11-15"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare copy-namespaces no-preserve, no-inherit; declare construction preserve; <new>{ //*:QName }</new>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<new><atomic:QName atomic:attr="foo:aQname" xmlns:atomic="http://www.w3.org/XQueryTest">foo:aQname</atomic:QName></new>]]></assert-xml>
+            <error code="XQTY0086"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-7">
+      <description> Copy namespace sensitive content. See bug 4151 </description>
+      <created by="Michael Kay" on="2005-11-15"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace atomic = "http://www.w3.org/XQueryTest"; declare copy-namespaces no-preserve, inherit; declare construction preserve; <new>{ (//atomic:QName/@atomic:attr)[1] }</new>]]></test>
+      <result>
+         <error code="XQTY0086"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-8">
+      <description> Copy namespace sensitive content. See bug 4151 </description>
+      <created by="Michael Kay" on="2005-11-15"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace atomic = "http://www.w3.org/XQueryTest"; 
+        declare copy-namespaces preserve, inherit; 
+        declare construction preserve; 
+        <new>{ (//atomic:QName/@atomic:attr)[1] }</new>
+      ]]></test>
+      <result>
+         <error code="XQTY0086"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-9">
+      <description> Copy namespace sensitive content. See bug 4151. 
+        This test succeeds: a namespace-sensitive element can be copied if copy-namespaces=preserve, 
+        and its namespace-sensitive attribute can be copied if its parent element is copied 
+      </description>
+      <created by="Michael Kay" on="2005-11-15"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace atomic = "http://www.w3.org/XQueryTest"; 
+        declare copy-namespaces preserve, inherit; 
+        declare construction preserve; 
+        <new>{ //atomic:QName }</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new><atomic:QName xmlns:atomic="http://www.w3.org/XQueryTest" xmlns:foo="http://www.example.com/foo"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 atomic:attr="foo:aQname">foo:aQname</atomic:QName></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-10">
+      <description> Copy namespace sensitive content </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare construction preserve; element { "new" } { //*:QName/@* }</test>
+      <result>
+         <error code="XQTY0086"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-nsmode-11">
+      <description> Test copying of potentially namespace-sensitive nodes preserves their type correctly. </description>
+      <created by="Oliver Hallam" on="2010-02-24"/>
+      <environment ref="namespace-sensitive"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        declare copy-namespaces no-preserve,inherit; 
+        import schema namespace ns="http://www.example.com/test/namespace-sensitive"; 
+        let $node := <e xmlns:bar="http://www.example.org/bar">{//ns:insensitive}</e> 
+        return data($node//ns:insensitive) instance of ns:myString
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-uripres-1">
+      <description> Preserve base uri for copied element nodes </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        for $x in <a xml:base="http://www.example.com/base1"><b/></a>, 
+            $y in <a xml:base="http://www.example.com/base2">{$x/b}</a> 
+        return fn:base-uri(exactly-one($y/b))
+      ]]></test>
+      <result>
+         <assert-string-value>http://www.example.com/base2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-adjtext-1">
+      <description> single text node in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem>a{1,2,3}b</elem>)/text())]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-adjtext-2">
+      <description> two text nodes in element content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem>a{1,<a/>,3}b</elem>)/text())]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-adjtext-3">
+      <description> strip empty text node </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem>{''}</elem>)/text())]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-adjtext-4">
+      <description> no text node for empty sequence constructed </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem>{()}</elem>)/text())]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-doc-1">
+      <description> strip document nodes </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="DupNode"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{(/), (/)}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-1">
+      <description> attribute node following atomic value </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1, //west/@mark}</elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-2">
+      <description> attribute node following node </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><a/>{//west/@mark}</elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-3">
+      <description> attribute node following empty sequence </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{()}{//west/@mark}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem mark="w0"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-4">
+      <description> attribute node following direct content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{//west/@mark}x{//west/@west-attr-1}</elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-baseuri-1">
+      <description> base-uri through xml:base attribute </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:base-uri(<elem xml:base="http://www.example.com"/>)]]></test>
+      <result>
+         <assert-string-value>http://www.example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-baseuri-2">
+      <description> base-uri through parent </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:base-uri(exactly-one((<elem xml:base="http://www.example.com"><a/></elem>)/a))]]></test>
+      <result>
+         <assert-string-value>http://www.example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-baseuri-3">
+      <description> base-uri through declaration </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare base-uri "http://www.example.com"; fn:base-uri(<elem/>)]]></test>
+      <result>
+         <assert-string-value>http://www.example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-parent-1">
+      <description> empty parent </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<elem/>)/..)]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-5">
+      <description> attributes in content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{//west/@mark, //west/@west-attr-1}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem mark="w0" west-attr-1="w1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-6">
+      <description> attributes direct and in content </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem mark="w0">{//west/@west-attr-1, //west/@west-attr-2}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem mark="w0" west-attr-1="w1" west-attr-2="w2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-7">
+      <description> attribute in content with same name </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{//west/@mark, //center/@mark}</elem>]]></test>
+      <result>
+         <error code="XQDY0025"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-8">
+      <description> attributes direct and in content with same name </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem mark="w0">{//west/@west-attr-1, //west/@mark}</elem>]]></test>
+      <result>
+         <error code="XQDY0025"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-attr-9">
+      <description> Attributes in seperate content units </description>
+      <created by="Oliver Hallam" on="2010-03-16"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{//west/@west-attr-1}{//west/@west-attr-2}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem west-attr-1="w1" west-attr-2="w2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-string-1">
+      <description> string value of element </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:string(<elem>a<a/>b</elem>)]]></test>
+      <result>
+         <assert-string-value>ab</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-data-1">
+      <description> typed value of element </description>
+      <created by="Andreas Behm" on="2005-04-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:data(<elem>a<a/>b</elem>)]]></test>
+      <result>
+         <assert-string-value>ab</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-document-1">
+      <description> Check the merging of text nodes introduced by the contents of a document node This test case was motivated by the resolution of Bug Report 3637 </description>
+      <created by="Andrew Eisenberg" on="2006-09-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<wrapper> {'abc', document {'def', <anode/>, 'ghi'}, 'jkl'} </wrapper>/node())]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-document-2">
+      <description> Check the merging of text nodes introduced by the contents of a document node This test case was motivated by the resolution of Bug Report 3637 </description>
+      <created by="Andrew Eisenberg" on="2006-09-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<wrapper> abc {document {'def', <anode/>, 'ghi'}} jkl </wrapper>/node())]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-document-3">
+      <description>#x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF] </description>
+      <created by="Frans Englich" on="2006-09-25"/>
+      <modified by="Michael Kay" on="2011-07-11" change="redesigned to avoid the large output file (query is essentially unchanged)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $codepoints as xs:integer+ := (9, 10, 13, 32 to 55295, 57344 to 65532, 65536 to 1114111 ); 
+        declare variable $count as xs:integer := count($codepoints); 
+        declare variable $lineWidth as xs:integer := 70;
+        <allCodepoints><r>{codepoints-to-string($codepoints)}</r></allCodepoints> 
+        (:<allCodepoints>{ 
+            for $i in (1 to $count idiv $lineWidth) 
+            let $startOffset := (($i - 1) * $lineWidth) + 1 
+            return (<r s="{$codepoints[$startOffset]}" e="{$codepoints[$startOffset] + $lineWidth}"> { 
+                codepoints-to-string(subsequence($codepoints, $startOffset, $lineWidth)) } </r>, "&#xA;") 
+                } </allCodepoints>:)
+        ]]></test>
+      <result>
+         <all-of>
+            <assert>sum($result//r/text()/string-length()) = count((9, 10, 13, 32 to 55295, 57344 to 65532, 65536 to 1114111 ))</assert>
+            <assert>starts-with(($result//r/text())[1], '&#x9;')</assert>
+            <assert>ends-with(($result//r/text())[last()], '&#1114111;')</assert>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-document-4">
+      <description> Check the merging of text nodes introduced by the contents of a document node. This test case was motivated by the resolution of Bug Report #3637 </description>
+      <created by="Nicolae Brinza" on="2006-09-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count( document {'abc', 'def', document {'ghi', <anode/>, 'jkl'}, 'mno' } /node() )]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-cont-document-5">
+      <description> Check the merging of text nodes introduced by the contents of a document node. This test case was motivated by the resolution of Bug Report #3637 </description>
+      <created by="Nicolae Brinza" on="2006-09-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count( document {'abc', 'def', document {'ghi', 'jkl'}, 'mno' } /node() )</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-1">
+      <description> An astray '}'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-2">
+      <description> An astray '}'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>"a string" }</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-3">
+      <description> An astray '}'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-4">
+      <description> An astray '}'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-5">
+      <description> Test that the typed value of element nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[data(<name>some text</name>) instance of xs:untypedAtomic]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-6">
+      <description> Test that the typed value of element nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[not(data(<name>some text</name>) instance of xs:string)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-7">
+      <description> Test that the typed value of element nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<name>some, if(1) then else</name> instance of element()]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-8">
+      <description> Test that the typed of element nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[not(<name>some text</name> instance of xs:untypedAtomic)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-9">
+      <description> Test that the typed value of comment nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[data(<!-- a comment -->) instance of xs:string]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-10">
+      <description> Test that the typed value of comment nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[not(data(<!-- a comment -->) instance of xs:untypedAtomic)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-11">
+      <description> Test that the typed value of comment nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<!-- a comment --> instance of comment()]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-12">
+      <description> Test that the typed value of comment nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[not(<!-- a comment --> instance of xs:untypedAtomic)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-13">
+      <description> Test that the typed value of comment nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[not(<!-- a comment --> instance of xs:string)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-14">
+      <description> Test that the typed value of PI nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[data(<?target content?>) instance of xs:string]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-15">
+      <description> Test that the typed value of PI nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[not(data(<?target content?>) instance of xs:untypedAtomic)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-16">
+      <description> Test that the typed value of PI nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<?target content?> instance of processing-instruction()]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-17">
+      <description> Test that the typed value of PI nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[not(<?target content?> instance of xs:untypedAtomic)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-18">
+      <description> Syntactically invalid CDATA section. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;![CDATA[content]]&gt;</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-19">
+      <description> Syntactically invalid CDATA section. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;elem&gt;&lt;![THISISWRONG[content]]&gt;&lt;/elem&gt;</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-20">
+      <description> Syntactically invalid CDATA section. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><![CDA]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-21">
+      <description> Syntactically invalid CDATA section. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;elem&gt;&lt;![CDATA[CONTENT]]&gt;</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-22">
+      <description> Syntactically invalid CDATA section. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><![CDATA[CONTENT]]]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-23">
+      <description> Syntactically invalid CDATA section. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><![CDATA[CONTENT]]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-24">
+      <description> Syntactically invalid CDATA section. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;elem&gt;&lt;![cdata[CONTENT]]&gt;&lt;/elem&gt;</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-25">
+      <description> XQuery comments inside elements are not recognized.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(<eg> (: an (:example:) </eg>)]]></test>
+      <result>
+         <assert-string-value> (: an (:example:) </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-26">
+      <description> Enclosed expressions in element content must have expressions. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>content{}content</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-27">
+      <description> Many CDATA sections. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>string(&lt;elem&gt;&lt;![CDATA[str]]&gt;str&lt;![CDATA[str]]&gt;&lt;![CDATA[str]]&gt;&lt;![CDATA[str]]&gt;strstr{ "str", "str", "strstr", "str"}strstr&lt;![CDATA[str]]&gt;s&lt;?target str?&gt;tr&lt;/elem&gt;) eq "strstrstrstrstrstrstrstr str strstr strstrstrstrstr"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-28">
+      <description> Ensure CDATA doesn't receive special attention. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>string(&lt;elem&gt;&lt;![CDATA[con&lt;&lt;&lt; ]] &gt;""'*"*"&gt;&gt;tent]]&amp;#00;&amp;#x12;&amp;amp;&amp;quot;&amp;notrecognized;&amp;apos]]&gt;&lt;/elem&gt;) eq "con&amp;lt;&amp;lt;&amp;lt; ]] &amp;gt;""""'*""*""&amp;gt;&amp;gt;tent]]&amp;amp;#00;&amp;amp;#x12;&amp;amp;amp;&amp;amp;quot;&amp;amp;notrecognized;&amp;amp;apos"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-29">
+      <description> Test that the type annotation of text nodes is correct. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>data(text{"content"}) instance of xs:untypedAtomic</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-30">
+      <description> Two atomic values with a text node inbetween. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e>{1}A{1}</e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e>1A1</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-31">
+      <description> Two atomic values with a text node inbetween(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(<e>{1}A{1}</e>)]]></test>
+      <result>
+         <assert-string-value>1A1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-32">
+      <description> Tests the type of the typed value of a directly constructed element node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[data(<e>dsa</e>) instance of xs:untypedAtomic]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-33">
+      <description> Tests the typed value of a directly constructed element node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[data(<e>dsa</e>)]]></test>
+      <result>
+         <assert-string-value>dsa</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-34">
+      <description> Check that a directly constructed element gets the right type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of element(*, xs:anyType)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-35">
+      <description> 
+      	Check that a directly constructed element gets the right type(#2).
+      	Note: see bug 11585, especially comment 9. 
+      </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of element(*, xs:untyped)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-36">
+      <description> Check that a directly constructed element gets the right type(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction strip; <e/> instance of element(*, xs:untyped)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-37">
+      <description> Check that a directly constructed element gets the right type, and that the name test fails. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of element(a, xs:anyType)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-38">
+      <description> Check that a directly constructed element gets the right type, and that the name test fails(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare construction strip; <e/> instance of element(b, xs:untyped)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-39">
+      <description> Use many enclosed expressions. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1}{2}{3}{4}{5}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>12345</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-40">
+      <description> Use many enclosed expressions(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1}{2}{3}{4}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>1234</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-41">
+      <description> Use many enclosed expressions(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1}{2}{3}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>123</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-42">
+      <description> Use many enclosed expressions(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1}{2}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>12</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-43">
+      <description> Tricky whitespace case. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;a&gt; &lt;![CDATA[ ]]&gt; {"abc"}&lt;/a&gt;</test>
+      <result>
+         <assert-xml><![CDATA[<a>   abc</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-44">
+      <description> Inproperly balanced attribute quotes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e attr='content"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-45">
+      <description> Inproperly balanced attribute quotes(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e attr="content'/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-46">
+      <description> Have an empty text node constructor between two atomic values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e>{1}{text{()}}{2}</e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e>12</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-47">
+      <description> Have an text node constructor that constructs an empty string, between two atomic values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e>{1}{text{""}}{2}</e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e>12</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemContent-48">
+      <description> Serialize an undeclaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<e xmlns="http://www.example.com/"> <a xmlns=""/> </e>, 
+      	<e xmlns="http://www.example.com/"> <a xmlns=""/> </e>/count(in-scope-prefixes(a)), 
+      	<e xmlns="http://www.example.com/"> <a xmlns=""> <b xmlns=""/> </a> </e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><a xmlns=""/></e>1<e xmlns="http://www.example.com/"><a xmlns=""><b/></a></e>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-ns-fixup-1">
+      <description> Ensure that namespace fixup occurs when namespace prefix names clash </description>
+      <created by="Tim Mills" on="2007-02-27"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ 
+      	let $x := <ns:foo xmlns:ns="http://www.w3.org/foo" ns:attr="foo" /> 
+      	return let $y := <ns:foo xmlns:ns="http://www.w3.org/bar" ns:attr="bar" /> 
+      	return let $z := <root> { $x/@*, $y/@* } </root> 
+      	return count(distinct-values(in-scope-prefixes($z)))
+      ]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+</test-set>

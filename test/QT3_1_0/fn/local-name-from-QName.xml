@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="fn-local-name-from-QName">
+   <description>Tests for the local-name-from-qname() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-local-name-from-QName"/>
+         
+   <environment name="fsx">
+      <source role="." file="../prod/ForClause/fsx.xml">
+         <description>Data about a filesystem represented in XML.</description>
+         <created by="Mike Rorke" on="2003-03-25"/>
+      </source>
+   </environment>
+
+   <test-case name="LocalNameFromQNameFunc001">
+      <description> Test function fn:local-name-from-QName. Using QName element as input </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName(fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string((/root/elemQN)[1]))))</test>
+      <result>
+         <assert-string-value>bar</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc002">
+      <description> Test function fn:local-name-from-QName. Using QName attribute as input </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName(fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string(/root[1]/@attrQN))))</test>
+      <result>
+         <assert-string-value>bar</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc003">
+      <description> Test function fn:local-name-from-QName. Using element derived from QName as input </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName(fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string((/root/derivQN)[1]))))</test>
+      <result>
+         <assert-string-value>barDeriv</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc004">
+      <description> Test function fn:local-name-from-QName. Using attribute derived from QName as input </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName(fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string(/root[1]/@attrDerivQN))))</test>
+      <result>
+         <assert-string-value>barDeriv</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc005">
+      <description> Test function fn:local-name-from-QName. Check return type of function is xs:NCName </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName(fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string(/root[1]/@attrDerivQN)))) instance of xs:NCName ?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc006">
+      <description> Test function fn:local-name-from-QName. Empty sequence literal as input </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <test>fn:local-name-from-QName(())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc007">
+      <description> Test function fn:local-name-from-QName. Empty sequence literal as input </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <test>fn:local-name-from-QName(((),()))</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc009">
+      <description> Test function fn:local-name-from-QName. Error case - invalid parameter type (string) </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <test>fn:local-name-from-QName("")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc010">
+      <description> Test function fn:local-name-from-QName. Error case - multiple input values </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName(/root/elemQN)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc011">
+      <description> Test function fn:local-name-from-QName. Error case - no input parameter </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <test>fn:local-name-from-QName()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc012">
+      <description> Test function fn:local-name-from-QName. Error case - typo in function name </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-Qname((/root/elemQN)[1])</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc013">
+      <description> Test function fn:local-name-from-QName. Error case - typo in function name </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-qname((/root/elemQN)[1])</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc014">
+      <description> Test function fn:local-name-from-QName. Error case - typo in function name </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:localnamefromQName((/root/elemQN)[1])</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc015">
+      <description> Test function fn:local-name-from-QName. Error case - invalid parameter type (simple type) </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10 XP20"/>
+      <test>fn:local-name-from-QName((//Folder)[1])</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="LocalNameFromQNameFunc015a">
+      <description> Test function fn:local-name-from-QName. Error case - invalid parameter type (simple type) </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 16088"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>fn:local-name-from-QName((//Folder)[1])</test>
+      <result>
+         <error code="XPTY0117"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc016">
+      <description> Test function fn:local-name-from-QName. Error case - invalid parameter type (integer) </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <test>fn:local-name-from-QName(xs:integer("100"))</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc017">
+      <description> Test function fn:local-name-from-QName. Error case - invalid parameter type (time) </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <test>fn:local-name-from-QName(xs:time("12:00:00Z"))</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc018">
+      <description> Test function fn:local-name-from-QName. Explicit call to data to extract simple typed QName value </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName(fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string(data((/root/elemQN)[1])))))</test>
+      <result>
+         <assert-string-value>bar</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc019">
+      <description> Test function fn:local-name-from-QName. Conditional expression as parameter where both branches result in QName value </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName( if( true() ) then fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string((/root/elemQN)[1]))) else fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string((/root/@attrQN)[1]))) )</test>
+      <result>
+         <assert-string-value>bar</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc020">
+      <description> Test function fn:local-name-from-QName. Conditional expression as parameter where both branches result in QName value </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <environment ref="qname"/>
+      <test>fn:local-name-from-QName( if( false() ) then fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string((/root/elemQN)[1]))) else fn:QName("http://www.example.com/QNameXSD", exactly-one(xs:string((/root/@attrQN)[1]))) )</test>
+      <result>
+         <assert-string-value>bar</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="LocalNameFromQNameFunc021">
+      <description> 
+        Test function fn:local-name-from-QName. 
+        Conditional expression as parameter where one branch does NOT result in a QName value 
+      </description>
+      <created by="Mike Rorke" on="2005-09-28"/>
+      <modified by="O'Neil Delpratt" on="2013-06-05" change="Added schemeImport dependency. See bug issue #21238" />
+      <modified by="Michael Kay" on="2013-06-21" change="Recombined the 1.0 and 3.0 tests as the error code is the same
+        in both cases; see bug 22416. They were previously split as a result of bug 21723."/>
+      <environment ref="qname"/>
+      <dependency type="spec" value="XP20+ XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>fn:local-name-from-QName( if( true() ) then (/root/elemStr)[1] else (/root/elemQN)[1] )</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-LocalNameFromQNameFunc-1">
+      <description> A test whose essence is: `local-name-from-QName()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>local-name-from-QName()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-LocalNameFromQNameFunc-2">
+      <description> A test whose essence is: `local-name-from-QName(1, 2)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>local-name-from-QName(1, 2)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-LocalNameFromQNameFunc-3">
+      <description> A test whose essence is: `empty(local-name-from-QName( () ))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(local-name-from-QName( () ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-LocalNameFromQNameFunc-4">
+      <description> A test whose essence is: `local-name-from-QName( QName("example.com/", "pre:lname")) eq "lname"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>local-name-from-QName( QName("example.com/", "pre:lname")) eq "lname"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

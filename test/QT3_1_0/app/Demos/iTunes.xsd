@@ -1,0 +1,75 @@
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+ <xs:element name='plist'>
+  <xs:complexType>
+   <xs:choice>
+    <xs:element ref='array'/>
+    <xs:element ref='data'/>
+    <xs:element ref='date'/>
+    <xs:element ref='dict'/>
+    <xs:element ref='real'/>
+    <xs:element ref='integer'/>
+    <xs:element ref='string'/>
+    <xs:element ref='true'/>
+    <xs:element ref='false'/>
+   </xs:choice>
+   <xs:attribute name='version' type='xs:string' use='required'/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name='array'>
+  <xs:complexType>
+   <xs:sequence minOccurs='0' maxOccurs='unbounded'>
+    <xs:choice>
+     <xs:element ref='array'/>
+     <xs:element ref='data'/>
+     <xs:element ref='date'/>
+     <xs:element ref='dict'/>
+     <xs:element ref='real'/>
+     <xs:element ref='integer'/>
+     <xs:element ref='string'/>
+     <xs:element ref='true'/>
+     <xs:element ref='false'/>
+    </xs:choice>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name='dict'>
+  <xs:complexType>
+   <xs:sequence minOccurs='0' maxOccurs='unbounded'>
+    <xs:element ref='key'/>
+    <xs:choice>
+     <xs:element ref='array'/>
+     <xs:element ref='data'/>
+     <xs:element ref='date'/>
+     <xs:element ref='dict'/>
+     <xs:element ref='real'/>
+     <xs:element ref='integer'/>
+     <xs:element ref='string'/>
+     <xs:element ref='true'/>
+     <xs:element ref='false'/>
+    </xs:choice>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name='key' type='xs:string' />
+
+ <xs:element name='string' type='xs:string' />
+
+ <xs:element name='data' type='xs:base64Binary' />
+
+ <xs:element name='date' type='xs:dateTime' />
+
+ <xs:element name='true' />
+
+ <xs:element name='false' />
+
+ <xs:element name='real' type='xs:decimal' />
+
+ <xs:element name='integer' type='xs:integer' />
+
+</xs:schema>
+

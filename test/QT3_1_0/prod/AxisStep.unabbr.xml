@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-AxisStep.unabbr">
+   <description>Tests for the AxisStep production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-AxisStep"/>
+   <link type="spec" document="XQuery" section-number="3.2.3" idref="unabbrev"/>
+
+   <test-case name="unabbreviatedSyntax-1">
+      <description> Evaluate the child axis of the context node (child::empnum) </description>
+      <created by="Carmelo Montanez" on="2005-07-08"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee) return $h/child::empnum</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-2">
+      <description> Evaluate selecting all element children of the context node </description>
+      <created by="Carmelo Montanez" on="2005-07-08"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[1]) return $h/child::*</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E1</empnum><pnum>P1</pnum><hours>40</hours>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-3">
+      <description> Evaluate selecting all text node children of the context node </description>
+      <created by="Carmelo Montanez" on="2005-07-08"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works[1]/employee[2]) return $h/child::text()</test>
+      <result>
+         <assert-string-value normalize-space="true">Text data from Employee[2]</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-4">
+      <description> Evaluate selecting all children of the context node </description>
+      <created by="Carmelo Montanez" on="2005-07-08"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[1]) return $h/child::node()</test>
+      <result>
+         <assert-xml><![CDATA[
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  ]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-5">
+      <description> Evaluate selecting all the children the context node (child::node). </description>
+      <created by="Carmelo Montanez" on="2005-07-08"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[2]) return $h/child::node()</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E1</empnum><pnum>P2</pnum><hours>70</hours><hours>20</hours>Text data from Employee[2]]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-8">
+      <description> Evaluate selecting the parent (parent::node()) of the context node </description>
+      <created by="Carmelo Montanez" on="2005-07-08"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[1]/hours) return $h/parent::node()</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-9">
+      <description> Evaluate selecting a descendant (descendant::empnum)- Select the "empnum" descendants of the context node </description>
+      <created by="Carmelo Montanez" on="2005-07-08"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee) return $h/descendant::empnum</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-12">
+      <description> Evaluate selecting an descendant or self (descendant-or-self::employee)- Select the "employee" descendants of the context node and if the context is "employee" select it as well. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[1]) return $h/descendant-or-self::employee</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-13">
+      <description> Evaluate self (self::employee)- Select the context node, if it is an "employee", otherwise return empty sequence This test selects an "employee" element </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[1]) return $h/self::employee</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-14">
+      <description> Evaluate self (self::hours)- Select the context node, if it is an "employee", otherwise return empty sequence This test selects an empty sequence. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works[1]/employee[1]) return fn:count(($h/self::employee[1000]))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-15">
+      <description> Evaluate more on child/descendant (child::employee/descendant:empnum)- selects the empnum element descendants of the employee element children of the context node </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee/descendant::empnum</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-16">
+      <description> Evaluate child::*/child::pnum - Selects the "pnum" grandchildren of the context node </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::*/child::pnum</test>
+      <result>
+         <assert-xml><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-18">
+      <description> Evaluate /descendant::pnum selects all the pnum elements in the same document as the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/descendant::pnum</test>
+      <result>
+         <assert-xml><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-19">
+      <description> Evaluate "/descendant::employee/child::pnum" - Selects all the pnum elements that have an "employee" parent and that are in the same document as the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/descendant::employee/child::pnum</test>
+      <result>
+         <assert-xml><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-20">
+      <description> Evaluate "child::employee[fn:position() = 1]". Selects the first employee child of the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee[fn:position() = 1]</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-21">
+      <description> Evaluate "child::employee[fn:position() = fn:last()]" selects the previous to the one "employee" child of the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee[fn:position() = fn:last()]</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 13" gender="female" type="FT">
+   <empnum>E4</empnum>
+   <pnum>P5</pnum>
+   <hours>80</hours>
+   <status>active</status>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-22">
+      <description> Evaluate "child::employee[fn:position() = fn:last()-1]" Selects the last but one "employee" child of the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee[fn:position() = fn:last()-1]</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="John Doe 12" gender="male">
+   <empnum>E4</empnum>
+   <pnum>P4</pnum>
+   <hours>40</hours>
+   <overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-23">
+      <description> Evaluate "child::hours[fn:position() &gt; 1]". Selects all the hours children of the context node other than the first hours child of the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-11"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee) return $h/child::hours[fn:position() &gt; 1]</test>
+      <result>
+         <assert-xml><![CDATA[<hours>20</hours><hours>40</hours><hours>30</hours>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-26">
+      <description> Evaluate "/descendant::employee[fn:position() = 12]". Selects the twelfth employee element in the document containing the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/descendant::employee[fn:position() = 12]</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="John Doe 12" gender="male">
+   <empnum>E4</empnum>
+   <pnum>P4</pnum>
+   <hours>40</hours>
+   <overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-27">
+      <description> Evaluate "/child::works/child::employee[fn:position() = 5]/child::hours[fn:position() = 2]". Selects the second hour of the fifth employee of the works whose parent is the document node that contains the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>/child::works/child::employee[fn:position() = 5]/child::hours[fn:position() = 2]</test>
+      <result>
+         <assert-xml><![CDATA[<hours>30</hours>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-28">
+      <description> Evaluate "child::employee[attribute::name eq "Jane Doe 11"]". Selects all "employee" children of the context node that have a "name" attribute with value "Jane Doe 11". </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee[attribute::name eq "Jane Doe 11"]</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 11" gender="female">
+   <empnum>E4</empnum>
+   <pnum>P2</pnum>
+   <hours>20</hours>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-29">
+      <description> Evaluate "child::employee[attribute::gender eq 'female'][fn:position() = 5]". Selects the fifth employee child of the context node that has a gender attribute with value "female". </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee[attribute::gender eq 'female'][fn:position() = 5]</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 9" gender="female">
+   <empnum>E3</empnum>
+   <pnum>P2</pnum>
+   <hours>20</hours>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-30">
+      <description> Evaluate "child::employee[child::empnum = 'E3']". Selects the employee children of the context node that have one or more empnum children whose typed value is equal to the string "E3". </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee[child::empnum = 'E3']</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 9" gender="female">
+   <empnum>E3</empnum>
+   <pnum>P2</pnum>
+   <hours>20</hours>
+  </employee><employee name="John Doe 10" gender="male">
+   <empnum>E3</empnum>
+   <pnum>P2</pnum>
+   <hours>20</hours>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-31">
+      <description> Evaluate "child::employee[child::status]". Selects the employee children of the context node that have one or more status children. </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/child::employee[child::status]</test>
+      <result>
+         <assert-xml><![CDATA[<employee name="Jane Doe 13" gender="female" type="FT">
+   <empnum>E4</empnum>
+   <pnum>P5</pnum>
+   <hours>80</hours>
+   <status>active</status>
+  </employee>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-32">
+      <description> Evaluate "child::*[self::pnum or self::empnum]". Selects the pnum and empnum children of the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[7]) return $h/child::*[self::pnum or self::empnum]</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E2</empnum><pnum>P1</pnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="unabbreviatedSyntax-33">
+      <description> Evaluate "child::*[self::empnum or self::pnum][fn:position() = fn:last()]". Selects the last empnum or pnum child of the context node. </description>
+      <created by="Carmelo Montanez" on="2005-07-12"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[6]) return $h/child::*[self::empnum or self::pnum][fn:position() = fn:last()]</test>
+      <result>
+         <assert-xml><![CDATA[<pnum>P6</pnum>]]></assert-xml>
+      </result>
+   </test-case>
+</test-set>

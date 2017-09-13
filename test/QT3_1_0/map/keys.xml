@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-keys"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the map:keys function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-keys"/>
+    <dependency type="spec" value="XT30+"/>
+
+    <test-case name="map-keys-001">
+        <description>Keys in empty map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map{})</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-keys-002">
+        <description>Keys in empty map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:new(()))</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-keys-003">
+        <description>Keys in singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map{"a":1})</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>xs:string</assert-type>
+                <assert-eq>"a"</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-004">
+        <description>Keys in singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:entry("a", "1"))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>xs:string</assert-type>
+                <assert-eq>"a"</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-005">
+        <description>Keys in two-entry map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:new((map:entry("a", "1"), map:entry("b", 2))))</test>
+        <result>
+            <all-of>
+                <assert>$result = "a"</assert>
+                <assert>$result = "b"</assert>
+                <assert-count>2</assert-count>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-006">
+        <description>Size of two-entry map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map{"a":1, "b":2})</test>
+        <result>
+            <all-of>
+                <assert>$result = "a"</assert>
+                <assert>$result = "b"</assert>
+                <assert-count>2</assert-count>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-007">
+        <description>Elimination of duplicates</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map{"a":1, "a":2})</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>xs:string</assert-type>
+                <assert-eq>"a"</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-008">
+        <description>Elimination of duplicates</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:new((map:entry("a",1), map:entry("a",2))))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>xs:string</assert-type>
+                <assert-eq>"a"</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-009">
+        <description>Keys after removing an entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:remove(map{"a":1,"b":2}, "b"))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>xs:string</assert-type>
+                <assert-eq>"a"</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-010">
+        <description>Keys after removing the only entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:remove(map:entry(1,2),1))</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-keys-011">
+        <description>Keys after removing the only two entries</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:remove(map:remove(map{"a":1,"b":2},"b"),"a"))</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-keys-012">
+        <description>Keys after adding a NaN entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map{number('NaN'):1,"b":2})</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>xs:string</assert-type>
+                <assert-eq>"b"</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-013">
+        <description>Size after a null remove operation</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:remove(map{"a":1,"b":2}, "c"))</test>
+        <result>
+            <all-of>
+                <assert>$result = "a"</assert>
+                <assert>$result = "b"</assert>
+                <assert-count>2</assert-count>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-keys-014">
+        <description>Keys for a large map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:keys(map:new(for $n in 1 to 500000 return map:entry($n, $n+1)))</test>
+        <result>
+            <all-of>
+                <assert>$result = 1</assert>
+                <assert>$result = 500000</assert>
+                <assert-count>500000</assert-count>
+            </all-of>
+        </result>
+    </test-case>
+    
+ 
+
+</test-set>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  A simple mockup of the main structure of the FpML schema. Main characteristic is that the
+  outermost element has an abstract type, which is then extended by subtypes; instances always
+  use xsi:type to select a subtype.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns="http://www.fpml.org/2005/FpML-4-2" 
+            targetNamespace="http://www.fpml.org/2005/FpML-4-2" 
+            elementFormDefault="qualified" 
+            attributeFormDefault="unqualified">
+
+    <xsd:complexType name="Document" abstract="true"/>
+    
+	<xsd:complexType name="ValuationDocument">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type defining a content model that includes valuation (pricing and risk) data without expressing any processing intention.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Document">
+				<xsd:sequence>
+				    <xsd:element name="header" type="ValuationHeader"/>
+					<xsd:element name="market" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="value" type="xsd:decimal" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="fpml-version" type="xsd:decimal" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ExchangeDocument">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type defining a content model that includes valuation (pricing and risk) data without expressing any processing intention.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Document">
+				<xsd:sequence>
+				    <xsd:element name="header" type="ExchangeHeader"/>
+					<xsd:element name="currency" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="value" type="xsd:decimal" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="fpml-version" type="xsd:decimal" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ValuationHeader">
+	  <xsd:sequence>
+	    <xsd:element name="from" type="xsd:string"/>
+	    <xsd:element name="to" type="xsd:string"/>
+	    <xsd:element name="date" type="xsd:date"/>
+	  </xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ExchangeHeader">
+	  <xsd:sequence>
+	    <xsd:element name="from" type="xsd:string"/>
+	    <xsd:element name="to" type="xsd:string"/>
+	    <xsd:element name="date" type="xsd:date"/>
+	    <xsd:element name="country" type="xsd:NCName"/>
+	  </xsd:sequence>
+	</xsd:complexType>	
+	    
+	
+	<xsd:element name="FpML" type="Document">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The FpML element forms the root for any conforming FpML instance document. The actual structure of the document is determined by setting the 'type' attribute to an appropriate derived subtype of the complex type Document.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="xs-base64Binary">
+   <description>Tests for conversion to/from base64Binary</description>
+
+   <test-case name="base64-001">
+      <description> Convert empty string to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary(""))</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-002">
+      <description> Convert single byte to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("00"))</test>
+      <result>
+         <assert-string-value>AA==</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-003">
+      <description> Convert single byte to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("01"))</test>
+      <result>
+         <assert-string-value>AQ==</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-004">
+      <description> Convert single byte to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("ff"))</test>
+      <result>
+         <assert-string-value>/w==</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-005">
+      <description> Convert two bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("0000"))</test>
+      <result>
+         <assert-string-value>AAA=</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-006">
+      <description> Convert two bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("00ff"))</test>
+      <result>
+         <assert-string-value>AP8=</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-007">
+      <description> Convert two bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("80c0"))</test>
+      <result>
+         <assert-string-value>gMA=</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-008">
+      <description> Convert three bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("aabbcc"))</test>
+      <result>
+         <assert-string-value>qrvM</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-009">
+      <description> Convert three bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("010203"))</test>
+      <result>
+         <assert-string-value>AQID</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-010">
+      <description> Convert four bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("01020304"))</test>
+      <result>
+         <assert-string-value>AQIDBA==</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-011">
+      <description> Convert five bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("0102030405"))</test>
+      <result>
+         <assert-string-value>AQIDBAU=</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-012">
+      <description> Convert six bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("010203040506"))</test>
+      <result>
+         <assert-string-value>AQIDBAUG</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-013">
+      <description> Convert seven bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("01020304050607"))</test>
+      <result>
+         <assert-string-value>AQIDBAUGBw==</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-014">
+      <description> Convert a longer byte array to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary(xs:hexBinary("0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F"))</test>
+      <result>
+         <assert-string-value>AQIDBAUGBwgJCgsMDQ4PEBESExMUFRYXGBkaGxwdHyAhIiMkJSYnKCkqKywtLi8=</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-101">
+      <description> Convert empty string to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("")</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-102">
+      <description> Convert single byte to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AA=="))</test>
+      <result>
+         <assert-string-value>00</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-103">
+      <description> Convert single byte to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AQ=="))</test>
+      <result>
+         <assert-string-value>01</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-104">
+      <description> Convert single byte to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("/w=="))</test>
+      <result>
+         <assert-string-value>FF</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-105">
+      <description> Convert two bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AAA="))</test>
+      <result>
+         <assert-string-value>0000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-106">
+      <description> Convert two bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AP8="))</test>
+      <result>
+         <assert-string-value>00FF</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-107">
+      <description> Convert two bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("gMA="))</test>
+      <result>
+         <assert-string-value>80C0</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-108">
+      <description> Convert three bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("qrvM"))</test>
+      <result>
+         <assert-string-value>AABBCC</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-109">
+      <description> Convert three bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AQID"))</test>
+      <result>
+         <assert-string-value>010203</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-110">
+      <description> Convert four bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AQIDBA=="))</test>
+      <result>
+         <assert-string-value>01020304</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-111">
+      <description> Convert five bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AQIDBAU="))</test>
+      <result>
+         <assert-string-value>0102030405</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-112">
+      <description> Convert six bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AQIDBAUG"))</test>
+      <result>
+         <assert-string-value>010203040506</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-113">
+      <description> Convert seven bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AQIDBAUGBw=="))</test>
+      <result>
+         <assert-string-value>01020304050607</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-114">
+      <description> Convert a longer string of bytes to b64 </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary("AQIDBAUGBwgJCgsMDQ4PEBESExMUFRYXGBkaGxwdHyAhIiMkJSYnKCkqKywtLi8="))</test>
+      <result>
+         <assert-string-value>0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-115">
+      <description> Convert a longer string of bytes to b64; include whitespace </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:hexBinary(xs:base64Binary(" AQIDBAUG BwgJCgsM DQ4PEBES ExMUFRYX &#xa; GBkaGxwdH yAhIiMkJ SYnKCkqK y w t L i 8 = "))</test>
+      <result>
+         <assert-string-value>0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-901">
+      <description> Invalid input: not a multiple of 4 characters </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("AQI")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-902">
+      <description> Invalid input: '=' not at end </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("AQ=I")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-903">
+      <description> Invalid input: '=' not at end </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("=AQI")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-904">
+      <description> Invalid input: too many '=' signs </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("qrvM====")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-905">
+      <description> Invalid input: disallowed character </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("gMA-")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-906">
+      <description> Invalid input: wrong character before final = </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("AP9=")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-907">
+      <description> Invalid input: wrong character before final = </description>
+      <created by="Michael Kay" on="2012-07-18"/>
+      <test>xs:base64Binary("Ay==")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-base64binary-001">
+      <description>Tests for the xs:base64Binary constructor</description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      <test>count(xs:base64Binary(()))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   
+</test-set>   
+   

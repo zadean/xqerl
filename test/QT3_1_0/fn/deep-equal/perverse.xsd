@@ -1,0 +1,66 @@
+<xs:schema
+   xmlns:xs = "http://www.w3.org/2001/XMLSchema"
+   xmlns:p = "http://www.w3.org/XQueryTest/perversity" 
+   targetNamespace = "http://www.w3.org/XQueryTest/perversity" 
+   elementFormDefault = "qualified">
+
+<!-- a perverse schema in which elements of the same name can have different
+  types, some being empty, some mixed, and some element-only, but all allowing the
+  same content -->
+  
+  <xs:complexType name="elementOnly">
+    <xs:sequence>
+      <xs:element name="e" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="mixed" mixed="1">
+    <xs:sequence>
+      <xs:element name="e" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="empty">
+    <xs:sequence/>
+  </xs:complexType>
+  
+  <xs:complexType name="simple">
+    <xs:simpleContent>
+      <xs:extension base="xs:string"/>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:element name="elementOnly">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="e" type="p:elementOnly"/>
+      </xs:sequence>
+    </xs:complexType>  
+  </xs:element>
+  
+  <xs:element name="mixed">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="e" type="p:mixed"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="empty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="e" type="p:empty"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="simple">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="e" type="p:simple"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>
+

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" 
+targetNamespace="http://www.w3.org/XQueryTest/q083two" xmlns:one="http://www.w3.org/XQueryTest/q083one">
+
+ 
+	<element name="two">
+		<complexType>
+			<sequence maxOccurs="unbounded">
+				<element name="three"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

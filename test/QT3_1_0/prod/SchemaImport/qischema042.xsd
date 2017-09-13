@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="qischema0042.uri" xmlns:hats="qischema0042.uri">
+
+<xsd:simpleType name="tinyhatsize">
+  <xsd:restriction base="hats:hatsize">
+    <xsd:maxInclusive value="4"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

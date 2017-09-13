@@ -1,0 +1,11 @@
+<cd:complexData xmlns:cd = "http://www.cbcl.co.uk/XQueryTest/complexData"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.cbcl.co.uk/XQueryTest/complexData complexData.xsd">
+  <cd:complexTypeWithSimpleContent value="bar">foo</cd:complexTypeWithSimpleContent>
+  <cd:unionType>foo</cd:unionType>
+  <cd:listType>3 2 1</cd:listType>
+  <cd:unionWithList>1 2 3</cd:unionWithList>
+  <cd:extendedComplexTypeWithSimpleUnionContent>bar</cd:extendedComplexTypeWithSimpleUnionContent>
+  <cd:listOfUnion>one 1
+  2 two 3 </cd:listOfUnion>
+</cd:complexData>

@@ -1,0 +1,1163 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-numeric-mod">
+   <description>Tests for the numeric-mod() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-numeric-mod"/>
+
+   <test-case name="op-numeric-modint2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:int(lower bound) $arg2 = xs:int(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:int("-2147483648") mod xs:int("2147483647")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modintg2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:integer(lower bound) $arg2 = xs:integer(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:integer("-999999999999999999") mod xs:integer("830993497117024304")</test>
+      <result>
+         <assert-eq>-169006502882975695</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modintg2args-2">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:integer(lower bound) $arg2 = xs:integer(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:integer("-999999999999999999") mod xs:integer("999999999999999999")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-moddec2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:decimal(lower bound) $arg2 = xs:decimal(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:decimal("-999999999999999999") mod xs:decimal("617375191608514839")</test>
+      <result>
+         <assert-eq>-382624808391485160</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-moddec2args-2">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:decimal(lower bound) $arg2 = xs:decimal(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:decimal("-999999999999999999") mod xs:decimal("999999999999999999")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-moddbl2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:double(lower bound) $arg2 = xs:double(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:double("-1.7976931348623157E308") mod xs:double("1.7976931348623157E308")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modflt2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:float(lower bound) $arg2 = xs:float(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:float("-3.4028235E38") mod xs:float("3.4028235E38")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modlng2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:long(lower bound) $arg2 = xs:long(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:long("-92233720368547758") mod xs:long("92233720368547758")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modusht2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:unsignedShort(lower bound) $arg2 = xs:unsignedShort(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:unsignedShort("0") mod xs:unsignedShort("44633")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modusht2args-2">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:unsignedShort(lower bound) $arg2 = xs:unsignedShort(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:unsignedShort("0") mod xs:unsignedShort("65535")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modpint2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:positiveInteger(lower bound) $arg2 = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:positiveInteger("1") mod xs:positiveInteger("1")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modpint2args-2">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:positiveInteger(mid range) $arg2 = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:positiveInteger("52704602390610033") mod xs:positiveInteger("1")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modpint2args-3">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:positiveInteger(upper bound) $arg2 = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:positiveInteger("999999999999999999") mod xs:positiveInteger("1")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modpint2args-4">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:positiveInteger(lower bound) $arg2 = xs:positiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:positiveInteger("1") mod xs:positiveInteger("52704602390610033")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modpint2args-5">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:positiveInteger(lower bound) $arg2 = xs:positiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:positiveInteger("1") mod xs:positiveInteger("999999999999999999")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modulng2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:unsignedLong(lower bound) $arg2 = xs:unsignedLong(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:unsignedLong("0") mod xs:unsignedLong("130747108607674654")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modulng2args-2">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:unsignedLong(lower bound) $arg2 = xs:unsignedLong(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:unsignedLong("0") mod xs:unsignedLong("184467440737095516")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modnni2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:nonNegativeInteger(lower bound) $arg2 = xs:nonNegativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:nonNegativeInteger("0") mod xs:nonNegativeInteger("303884545991464527")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modnni2args-2">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:nonNegativeInteger(lower bound) $arg2 = xs:nonNegativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:nonNegativeInteger("0") mod xs:nonNegativeInteger("999999999999999999")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modsht2args-1">
+      <description> Evaluates The "op:numeric-mod" operator with the arguments set as follows: $arg1 = xs:short(lower bound) $arg2 = xs:short(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:short("-32768") mod xs:short("32767")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-1">
+      <description> Simple mod test with () as one operand should return null </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <test>() mod 1</test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-2">
+      <description> Simple mod test pass string for second operator </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <test>1 mod '1'</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-3">
+      <description> Simple mod test, second operator cast string to integer </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <test>1 mod xs:integer('1')</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-4">
+      <description> Simple mod test, second operator is a node, atomization applied </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[1 mod <a> 2 </a>]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-5">
+      <description> Simple mod test, second operator is a node, atomization applied </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[1 mod <a> <b> 2 </b> </a>]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-6">
+      <description> Simple mod test, second operator node which is not atomizable </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[1 mod <a> <b> 2</b> <c> 2</c> </a>]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-7">
+      <description> Simple mod test, two operands are nodes </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a> 1 </a> mod <b> 2 </b>]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-8">
+      <description> Simple mod test, second operator is a node, atomizable but not castable to integer </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[1 mod <a> x </a>]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-modmix2args-9">
+      <description> Simple mod test pass an empty node for second operator </description>
+      <created by="Ravindranath Chennoju" on="2004-12-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[1 mod <a/>]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-1">
+      <description> A test whose essence is: `(xs:decimal(6) mod xs:integer(2)) instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:decimal(6) mod xs:integer(2)) instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-2">
+      <description> A test whose essence is: `(xs:integer(6) mod xs:decimal(2)) instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:integer(6) mod xs:decimal(2)) instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-3">
+      <description> A test whose essence is: `(xs:integer(6) mod xs:integer(2)) instance of xs:integer`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:integer(6) mod xs:integer(2)) instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-4">
+      <description> A test whose essence is: `(xs:decimal(6) mod xs:decimal(2)) instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:decimal(6) mod xs:decimal(2)) instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-5">
+      <description> A test whose essence is: `(xs:decimal(6) mod xs:float(2)) instance of xs:float`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:decimal(6) mod xs:float(2)) instance of xs:float</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-6">
+      <description> A test whose essence is: `(xs:float(6) mod xs:decimal(2)) instance of xs:float`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:float(6) mod xs:decimal(2)) instance of xs:float</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-7">
+      <description> A test whose essence is: `(xs:float(6) mod xs:integer(2)) instance of xs:float`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:float(6) mod xs:integer(2)) instance of xs:float</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-8">
+      <description> A test whose essence is: `(xs:integer(6) mod xs:float(2)) instance of xs:float`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:integer(6) mod xs:float(2)) instance of xs:float</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-9">
+      <description> A test whose essence is: `(xs:float(6) mod xs:float(2)) instance of xs:float`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:float(6) mod xs:float(2)) instance of xs:float</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-10">
+      <description> A test whose essence is: `(xs:decimal(6) mod xs:double(2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:decimal(6) mod xs:double(2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-11">
+      <description> A test whose essence is: `(xs:double(6) mod xs:decimal(2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:double(6) mod xs:decimal(2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-12">
+      <description> A test whose essence is: `(xs:double(6) mod xs:float(2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:double(6) mod xs:float(2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-13">
+      <description> A test whose essence is: `(xs:float(6) mod xs:double(2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:float(6) mod xs:double(2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-14">
+      <description> A test whose essence is: `(xs:double(6) mod xs:integer(2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:double(6) mod xs:integer(2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-15">
+      <description> A test whose essence is: `(xs:integer(6) mod xs:double(2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:integer(6) mod xs:double(2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-16">
+      <description> A test whose essence is: `(xs:double(6) mod xs:double(2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:double(6) mod xs:double(2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-17">
+      <description> A test whose essence is: `10 mod 3 eq 1`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>10 mod 3 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-18">
+      <description> A test whose essence is: `6 mod -2 eq 0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>6 mod -2 eq 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-19">
+      <description> A test whose essence is: `4.5 mod 1.2 eq 0.9`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>4.5 mod 1.2 eq 0.9</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-20">
+      <description> A test whose essence is: `1.23E2 mod 0.6E1 eq 3.0E0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1.23E2 mod 0.6E1 eq 3.0E0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-21">
+      <description> Invalid whitespace for the 'mod' operator. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>10 mod3</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-22">
+      <description> Invalid whitespace for the 'mod' operator. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>10mod 3</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-23">
+      <description> Invalid whitespace for the 'mod' operator. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>10mod3</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-24">
+      <description> Invoke the 'mod operator with invalid operands. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>"3" mod "3"</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-25">
+      <description> Invoke the 'mod operator with invalid operands. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>"3" mod 1.1</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-26">
+      <description> A test whose essence is: `(xs:untypedAtomic("5") mod xs:double(3)) eq 2`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:untypedAtomic("5") mod xs:double(3)) eq 2</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-27">
+      <description> A test whose essence is: `(xs:decimal(5) mod xs:untypedAtomic("3")) eq 2`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(xs:decimal(5) mod xs:untypedAtomic("3")) eq 2</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-28">
+      <description> Operand(s) which are the empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(() mod ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NumericMod-29">
+      <description> Operand(s) which are the empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(xs:float(3) mod ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-1">
+      <description> Divisor is small negative xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>-1 mod -1</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-2">
+      <description> Divisor is small negative xs:decimal. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>-1.0 mod -1.0</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-3">
+      <description> Divisor is small negative xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>-1.0e0 mod -1.0e0</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-4">
+      <description> Divisor is small negative xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>-1.0e0 mod xs:float(-1.0e0)</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-5">
+      <description> Divisor is large negative xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>-1 mod -9223372036854775808</test>
+      <result>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-6">
+      <description> Divisor is large negative xs:decimal. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>-1.0 mod -9223372036854775808.0</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-7">
+      <description> Divisor is large negative xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>-1.0e0 mod xs:double(-9223372036854775808)</test>
+      <result>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-8">
+      <description> Divisor is large negative xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float(-1.0e0) mod xs:float(-9223372036854775808)</test>
+      <result>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-9">
+      <description> Left op is xs:float/NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("NaN") mod 3</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-10">
+      <description> Right op is xs:float/NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:float("NaN")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-11">
+      <description> Both ops are xs:float/NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("NaN") mod xs:float("NaN")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-12">
+      <description> Left op is xs:double/NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("NaN") mod 3</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-13">
+      <description> Right op is xs:double/NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:double("NaN")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-14">
+      <description> Both ops are xs:double/NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("NaN") mod xs:double("NaN")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-15">
+      <description> Left op is xs:double/positive INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("INF") mod 3</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-16">
+      <description> Right op is xs:double/positive INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:double("INF")</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-17">
+      <description> Both ops are xs:double/positive INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("INF") mod xs:double("INF")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-18">
+      <description> Left op is xs:double/-INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-INF") mod 3</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-19">
+      <description> Right op is xs:double/-INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:double("-INF")</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-20">
+      <description> Both ops are xs:double/-INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-INF") mod xs:double("-INF")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-21">
+      <description> Left op is xs:double/positive 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("0") mod 3</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-22">
+      <description> Right op is xs:double/positive 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:double("0")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-23">
+      <description> Both ops are xs:double/positive 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("0") mod xs:double("INF")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-24">
+      <description> Left op is xs:double/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-0") mod 3</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-25">
+      <description> Right op is xs:double/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:double("-0")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-26">
+      <description> Both ops are xs:double/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-0") mod xs:double("-0")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-27">
+      <description> Left op is xs:float/positive INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("INF") mod 3</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-28">
+      <description> Right op is xs:float/positive INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:float("INF")</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-29">
+      <description> Both ops are xs:float/positive INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("INF") mod xs:float("INF")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-30">
+      <description> Left op is xs:float/-INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-INF") mod 3</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-31">
+      <description> Right op is xs:float/-INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:float("-INF")</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-32">
+      <description> Both ops are xs:float/-INF. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-INF") mod xs:float("-INF")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-33">
+      <description> Left op is xs:float/positive 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("0") mod 3</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-34">
+      <description> Right op is xs:float/positive 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:float("0")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-35">
+      <description> Both ops are xs:float/positive 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("0") mod xs:float("INF")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-36">
+      <description> Left op is xs:float/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-0") mod 3</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-37">
+      <description> Right op is xs:float/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod xs:float("-0")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-38">
+      <description> Both ops are xs:float/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-0") mod xs:float("-0")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-39">
+      <description> Left op is xs:float/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-0") mod xs:float("4")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-40">
+      <description> Left op is xs:float/0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("0") mod xs:float("4")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-41">
+      <description> Left op is xs:double/-0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-0") mod xs:double("4")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-42">
+      <description> Left op is xs:double/0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("0") mod xs:double("4")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-43">
+      <description> Left op is xs:float/-0 with INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-0") mod xs:float("INF")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-44">
+      <description> Left op is xs:float/0 with INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("0") mod xs:float("INF")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-45">
+      <description> Left op is xs:double/-0 with INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-0") mod xs:double("INF")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-46">
+      <description> Left op is xs:double/0 with INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("0") mod xs:double("INF")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-47">
+      <description> Left op is xs:float/-0 with -INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-0") mod xs:float("-INF")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-48">
+      <description> Left op is xs:float/0 with -INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("0") mod xs:float("-INF")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-49">
+      <description> Left op is xs:double/-0 with -INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-0") mod xs:double("-INF")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-50">
+      <description> Left op is xs:double/0 with -INF as divisor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("0") mod xs:double("-INF")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-51">
+      <description> Trival mod with xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("10000000") mod xs:double("10000000")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-52">
+      <description> Trival mod with xs:double(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-10000000") mod xs:double("-10000000")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-53">
+      <description> Trival mod with xs:double(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("10000000") mod xs:double("-10000000")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-54">
+      <description> Trival mod with xs:double(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double("-10000000") mod xs:double("10000000")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-55">
+      <description> Trival mod with xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("10000000") mod xs:float("10000000")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-56">
+      <description> Trival mod with xs:float(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-10000000") mod xs:float("-10000000")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-57">
+      <description> Trival mod with xs:float(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("10000000") mod xs:float("-10000000")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-58">
+      <description> Trival mod with xs:float(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float("-10000000") mod xs:float("10000000")</test>
+      <result>
+         <assert-eq>-0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-59">
+      <description> Divide xs:integer by 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod 0</test>
+      <result>
+         <error code="FOAR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-60">
+      <description> Divide an xs:decimal by 0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3.0 mod 0</test>
+      <result>
+         <error code="FOAR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-61">
+      <description> Divide xs:integer by 0.0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 mod 0.0</test>
+      <result>
+         <error code="FOAR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NumericMod-62">
+      <description> Ensure the 'div' keyword is parsed correctly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(mod mod mod))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-mod-1">
+      <description> Check dynamic type of numeric mod on arguments of union of numeric types and untypedAtomic. </description>
+      <created by="Oliver Hallam" on="2010-03-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $x in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) for $y in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) return typeswitch ($x mod $y) case xs:integer return "integer" case xs:decimal return "decimal" case xs:float return "float" case xs:double return "double" default return error()</test>
+      <result>
+         <assert-string-value>integer decimal float double double decimal decimal float double double float float float double double double double double double double double double double double double</assert-string-value>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-numeric-mod-001">
+      <description> ensure that taking the modulo xs:integers returns an xs:integer </description>
+      <created by="Oliver Hallam" on="2008-05-29"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x }; 
+      	(local:integer(3) mod local:integer(2)) instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-mod-002">
+      <description> ensure that taking the modulo xs:integers returns an xs:integer </description>
+      <created by="Oliver Hallam" on="2008-05-29"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x }; 
+      	(local:integer(3.5) mod local:integer(2)) instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-mod-003">
+      <description> Test numeric mod with a potential type check error </description>
+      <created by="Tim Mills" on="2008-06-17"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:value($number as xs:boolean) { if ($number) then 1 else xs:string('1') }; 
+      	local:value(true()) mod local:value(true())</test>
+      <result>
+         <any-of>
+            <assert-string-value>0</assert-string-value>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+</test-set>

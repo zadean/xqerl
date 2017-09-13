@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<!-- A schema designed to explore corner cases relating to schema-element() and its
+     interaction with substitution groups -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.w3.org/XQueryTest/substitution"
+           elementFormDefault="qualified"
+           xmlns:s="http://www.w3.org/XQueryTest/substitution">
+
+  <xs:complexType name="Ht" block="extension">
+  <xs:sequence>
+    <xs:element name="string" type="xs:string" minOccurs="0"/>
+    <xs:element name="decimal" type="xs:decimal" minOccurs="0"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HtR">
+  <xs:complexContent>
+    <xs:restriction base="s:Ht">
+      <xs:sequence>
+        <xs:element name="string" type="xs:string" minOccurs="1"/>
+        <xs:element name="decimal" type="xs:decimal" minOccurs="1"/>
+      </xs:sequence>  
+    </xs:restriction>
+  </xs:complexContent>
+</xs:complexType>
+  
+  <xs:complexType name="HtRR">
+    <xs:complexContent>
+      <xs:restriction base="s:HtR">
+        <xs:sequence>
+          <xs:element name="string" type="xs:NCName" minOccurs="1"/>
+          <xs:element name="decimal" type="xs:decimal" minOccurs="1"/>
+        </xs:sequence>  
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>  
+
+<xs:complexType name="HtE">
+  <xs:complexContent>
+    <xs:extension base="s:Ht">
+      <xs:sequence>
+        <xs:element name="date" type="xs:date" minOccurs="0"/>
+      </xs:sequence>
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>          
+           
+<xs:element name="H" type="s:Ht" nillable="true"/>
+
+<xs:element name="A" abstract="true" substitutionGroup="s:H" nillable="true"/>
+
+<xs:element name="B" abstract="false" substitutionGroup="s:A" nillable="true"/> 
+
+<xs:element name="C" abstract="false" substitutionGroup="s:A" nillable="false"/>           
+
+<xs:element name="D" substitutionGroup="s:A" nillable="true" block="substitution"/>
+
+<xs:element name="E" substitutionGroup="s:D"/>
+
+<xs:element name="F" substitutionGroup="s:H" type="s:HtR"/>
+
+<xs:element name="G" substitutionGroup="s:H" type="s:HtE"/>
+
+<xs:element name="cuckoo">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="A" type="s:Ht"/>
+      <xs:element name="B" type="s:Ht"/>
+      <xs:element name="C" type="s:Ht" nillable="true"/>
+      <xs:element name="D" type="s:Ht"/>
+      <xs:element name="E" type="s:Ht"/>
+      <xs:element name="F" type="s:HtRR"/>
+      <xs:element name="G" type="s:HtE"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>      
+
+</xs:schema>

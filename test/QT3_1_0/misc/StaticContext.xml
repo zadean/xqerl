@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-StaticContext">
+   <description>Tests for the StaticContext</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-StaticContext"/>
+   <link type="spec" document="XQuery" section-number="2.1.1" idref="static_context"/>
+
+   <test-case name="static-context-1">
+      <description> Evaluate error condition XPST0001 </description>
+      <created by="Carmelo Montanez" on="2006-07-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace test = 'http://www.example.com'; 
+        <a/> instance of element(*, test:unknownType)]]></test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+</test-set>

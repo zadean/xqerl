@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-idref">
+   <description>Tests for the idref() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-idref"/>
+   
+   <environment name="id-idref-dtd">
+      <source role="." file="id/iddtd.xml">
+         <description>A DTD validated xml file, that contains data for the ID/IDREF function tests.</description>
+         <created by="Carmelo Montanez" on="2000-01-01"/>
+      </source>
+   </environment>
+   
+   <environment name="functx_book">
+      <source role="." file="../app/FunctxFn/functx_book.xml" >
+         <description/>
+         <created by="Frans Englich" on="2008-06-25"/>
+      </source>
+   </environment>
+
+   <test-case name="fn-idref-1">
+      <description>Evaluation of fn:idref with incorrect arity.</description>
+      <created by="Carmelo Montanez" on="2005-11-28"/>
+      <environment ref="id-idref-dtd"/>
+      <test>fn:idref("argument 1", / ,"Argument 3")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-2">
+      <description> Evaluation of fn:idref with context item not a node. </description>
+      <created by="Carmelo Montanez" on="2005-11-28"/>
+      <modified by="O'Neil Delpratt" on="2011-09-09" change="Error code in the result" />
+      <test>(1 to 10)[fn:idref("argument1")]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-3">
+      <description> Evaluation of fn:idref with second argument not a node. </description>
+      <created by="Carmelo Montanez" on="2005-11-28"/>
+      <test>fn:idref("argument1", "A")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-4">
+      <description> Evaluation of fn:idref with node not being from document where root is the document element. </description>
+      <created by="Carmelo Montanez" on="2005-11-28"/>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        let $var := copy:copy(/*) return fn:idref("argument1", $var)
+      </test>
+      <result>
+         <error code="FODC0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-5">
+      <description> Evaluation of fn:idref with given ID matching a single element. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref("id1",/IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-6">
+      <description> Evaluation of fn:idref with given ID not matching a single element. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <environment ref="id-idref-dtd"/>
+      <test>fn:idref("nomatchingid", /IDS[1])</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-7">
+      <description> Evaluation of fn:idref with given ID matching multiple elements. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref("id4", /IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-8">
+      <description> Evaluation of fn:idref function, which attempts to create element with two attributes with same name. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test><![CDATA[<results>{fn:idref(("id1", "id2"), /IDS[1])}</results>]]></test>
+      <result>
+         <error code="XQDY0025"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-9">
+      <description> Evaluation of fn:idref with multiple ID, but only one matching one element. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref(("id1", "nomatching"), /IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-10">
+      <description> Evaluation of fn:idref with multiple ID, but none matching one element. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <environment ref="id-idref-dtd"/>
+      <test>fn:count(fn:idref("nomatching1 nomatching2", /IDS[1]))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-11">
+      <description> Evaluation of fn:idref with ID set to empty string. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <environment ref="id-idref-dtd"/>
+      <test>fn:count(fn:idref("", /IDS[1]))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-12">
+      <description> Evaluation of fn:idref used as an argument to function fn:node-name() </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:node-name(fn:idref("id2", /IDS[1]))</test>
+      <result>
+         <assert-string-value>anIdRef</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-13">
+      <description> Evaluation of fn:idref used as part of a node expression ("is" operand). Compare same elements. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>(fn:idref("id1", /IDS[1])) is (fn:idref("id1", /IDS[1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-14">
+      <description> Evaluation of fn:idref used as part of a node expression ("is" operand). Compare different elements. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>(fn:idref("id1", /IDS[1])) is (fn:idref("id2", /IDS[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-15">
+      <description> Evaluation of fn:idref for which ID list have the same value for all its members. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>count(fn:idref(("id1","id1"), /IDS[1]))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-16">
+      <description> Evaluation of fn:idref for which ID list have the same value for all its members but different case. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>count(fn:idref(("id1","ID1"), /IDS[1]))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-17">
+      <description> Evaluation of fn:idref for which ID uses the fn lower case function. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref(fn:lower-case("ID1"), /IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-18">
+      <description> Evaluation of fn:idref for which ID uses the fn:upper-case function. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref(fn:upper-case("id5"), /IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-19">
+      <description> Evaluation of fn:idref for which $arg uses the fn:concat function. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref(fn:concat("i","d1"), /IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-20">
+      <description> Evaluation of fn:idref for which $arg uses the xs:string function. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref(xs:string("id1"), /IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-21">
+      <description> Evaluation of fn:idref for which $arg uses the fn:string-join function. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref(fn:string-join(("id","1"),""), /IDS[1])/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-22">
+      <description> Evaluation of fn:idref with context item not a node and second argument set to ".". </description>
+      <created by="Carmelo Montanez" on="2006-02-08"/>
+      <environment ref="empty"/>
+      <test>fn:idref("argument1",.)</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-23">
+      <description> Evaluation of fn:idref with declare ordering. </description>
+      <created by="Carmelo Montanez" on="2006-06-23"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test><![CDATA[declare ordering ordered;  
+        <results>{fn:idref("id4", /IDS[1])}</results>]]></test>
+      <result>
+         <assert-xml><![CDATA[<results anIdRef="id4"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-24">
+      <description> Evaluation of fn:idref, where an IDREFS node contains multiple IDREFs. For errata FO.E29. </description>
+      <created by="Bogdan Butnaru" on="2009-11-18"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="functx_book"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test><![CDATA[<results>{fn:idref("language", /)}</results>]]></test>
+      <result>
+         <assert-xml><![CDATA[<results refs='context language'/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-idref-dtd-25">
+      <description>Evaluation of fn:idref with no second argument.</description>
+      <created by="Michael Kay" on="2011-06-30"/>
+      <modified by="Michael Kay" on="2013-05-01" change="add dependency as per bug 21414"/>
+      <environment ref="id-idref-dtd"/>
+      <dependency type="feature" value="infoset-dtd"/>
+      <test>fn:idref("id1")/name(..)</test>
+      <result>
+         <assert-string-value>elementwithidrefattr-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIDREFFunc-1">
+      <description> Wrong arguments to fn:idref(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>idref((), ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIDREFFunc-2">
+      <description> Wrong arguments to fn:idref(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3)[idref("ncname", .)]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIDREFFunc-3">
+      <description> Wrong arguments to fn:idref(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3)[idref("ncname")]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-idref-001">
+      <description> test fn:idref on the empty sequence </description>
+      <created by="Tim Mills" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
+      	let $doc := document { <root /> } return fn:empty( fn:idref( local:generate(0), $doc) )
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-idref-002">
+      <description> test fn:idref on the empty sequence </description>
+      <created by="Tim Mills" on="2008-04-15"/>     
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $doc := document { <root /> } return fn:empty( fn:idref( (), $doc) )
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-idref-003">
+      <description> test fn:idref in an axis expression </description>
+      <created by="Tim Mills" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
+      	let $doc := document { <root /> } return fn:empty( $doc/fn:idref( local:generate(0)) )
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

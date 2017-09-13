@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-gMonthDay-equal">
+   <description>Tests for the gMonthDay-equal() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-gMonthDay-equal"/>
+   <test-case name="op-gMonthDay-equal2args-1">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-1                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(lower bound)                      
+$arg2 = xs:gMonthDay(lower bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--01-01Z") eq xs:gMonthDay("--01-01Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-2">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-2                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(mid range)                        
+$arg2 = xs:gMonthDay(lower bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--04-10Z") eq xs:gMonthDay("--01-01Z")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-3">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-3                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(upper bound)                      
+$arg2 = xs:gMonthDay(lower bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--12-31Z") eq xs:gMonthDay("--01-01Z")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-4">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-4                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(lower bound)                      
+$arg2 = xs:gMonthDay(mid range)                        
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--01-01Z") eq xs:gMonthDay("--04-10Z")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-5">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-5                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(lower bound)                      
+$arg2 = xs:gMonthDay(upper bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--01-01Z") eq xs:gMonthDay("--12-31Z")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-6">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-6                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(lower bound)                      
+$arg2 = xs:gMonthDay(lower bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--01-01Z") ne xs:gMonthDay("--01-01Z")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-7">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-7                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(mid range)                        
+$arg2 = xs:gMonthDay(lower bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--04-10Z") ne xs:gMonthDay("--01-01Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-8">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-8                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(upper bound)                      
+$arg2 = xs:gMonthDay(lower bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--12-31Z") ne xs:gMonthDay("--01-01Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-9">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-9                         
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(lower bound)                      
+$arg2 = xs:gMonthDay(mid range)                        
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--01-01Z") ne xs:gMonthDay("--04-10Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal2args-10">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal2args-10                        
+Written By: Carmelo Montanez                            
+Date: Tue Apr 12 16:29:07 GMT-05:00 2005                
+Purpose: Evaluates The "op:gMonthDay-equal" operator   
+ with the arguments set as follows:                    
+$arg1 = xs:gMonthDay(lower bound)                      
+$arg2 = xs:gMonthDay(upper bound)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:gMonthDay("--01-01Z") ne xs:gMonthDay("--12-31Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-2">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-2                             
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function      
+As per example 2 (for this function) of the F&amp;O  specs 
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--12-25Z") eq xs:gMonthDay("--12-26Z"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-3">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-3                             
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function that 
+return true and used together with fn:not (eq operator)
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>fn:not((xs:gMonthDay("--12-10Z") eq xs:gMonthDay("--12-10Z")))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-4">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-4                             
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function that 
+return true and used together with fn:not (ne operator)
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>fn:not(xs:gMonthDay("--05-01Z") ne xs:gMonthDay("--06-12Z"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-5">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-5                             
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function that 
+return false and used together with fn:not (eq operator)
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>fn:not(xs:gMonthDay("--11-10Z") eq xs:gMonthDay("--10-02Z"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-6">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-6                             
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function that 
+return false and used together with fn:not(ne operator)
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>fn:not(xs:gMonthDay("--05-10Z") ne xs:gMonthDay("--05-10Z"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-7">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-7                             
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "and" expression (eq operator).          
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--04-02Z") eq xs:gMonthDay("--02-03Z")) and (xs:gMonthDay("--01-07Z") eq xs:gMonthDay("--12-10Z"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-8">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-8                             
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "and" expression (ne operator).          
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--12-10Z") ne xs:gMonthDay("--03-11Z")) and (xs:gMonthDay("--05-12Z") ne xs:gMonthDay("--08-08Z"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-9">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-9                             
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "or" expression (eq operator).           
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--02-01Z") eq xs:gMonthDay("--02-10Z")) or (xs:gMonthDay("--06-02Z") eq xs:gMonthDay("--06-03Z"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-10">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-10                            
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "or" expression (ne operator).           
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--06-02Z") ne xs:gMonthDay("--06-09Z")) or (xs:gMonthDay("--08-06Z") ne xs:gMonthDay("--09-01Z"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-11">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-11                            
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "fn:true"/or expression (eq operator).   
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--03-04Z") eq xs:gMonthDay("--01-07Z")) or (fn:true())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-12">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-12                            
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "fn:true"/or expression (ne operator).   
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--08-04Z") ne xs:gMonthDay("--07-12Z")) or (fn:true())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-13">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-13                            
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "fn:false"/or expression (eq operator).  
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--05-05Z") eq xs:gMonthDay("--05-05Z")) or (fn:false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-gMonthDay-equal-14">
+      <description>
+*******************************************************
+Test: op-gMonthDay-equal-14                            
+Written By: Carmelo Montanez                           
+Date: June 22, 2005                                    
+Purpose: Evaluates The "gMonthDay-equal" function used 
+together with "fn:false"/or expression (ne operator).  
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2005-06-22"/>
+      <test>(xs:gMonthDay("--09-09Z") ne xs:gMonthDay("--09-10Z")) or (fn:false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-1">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-1                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Simple test of 'eq' for xs:gMonthDay, returning positive. 
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:gMonthDay("--04-01 ") eq xs:gMonthDay("--04-01")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-2">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-2                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Simple test of 'eq' for xs:gMonthDay.        
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>not(xs:gMonthDay("--03-03") eq xs:gMonthDay("--04-03"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-3">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-3                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Simple test of 'ne' for xs:gMonthDay.        
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:gMonthDay("--04-12") ne xs:gMonthDay("--04-11")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-4">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-4                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Simple test of 'ne' for xs:gMonthDay.        
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>not(xs:gMonthDay("--04-11") ne xs:gMonthDay("--04-11"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-5">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-5                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Test that zone offset -00:00 is equal to Z, in xs:gMonthDay. 
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:gMonthDay("--03-01-00:00") eq xs:gMonthDay("--03-01Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-6">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-6                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Test that zone offset +00:00 is equal to Z, in xs:gMonthDay. 
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:gMonthDay("--03-01+00:00") eq xs:gMonthDay("--03-01Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-7">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-7                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Test that zone offset Z is equal to Z, in xs:gMonthDay. 
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:gMonthDay("--03-01Z") eq xs:gMonthDay("--03-01Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-gMonthDayEQ-8">
+      <description>
+*******************************************************
+ Test: K-gMonthDayEQ-8                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Test that zone offset -00:00 is equal to +00:00, in xs:gMonthDay. 
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:gMonthDay("--03-01-00:00") eq xs:gMonthDay("--03-01+00:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-gMonthDay-equal-001">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($day as xs:integer) { if ($day lt 10) then xs:gMonthDay(concat("--12-0", $day)) else xs:gMonthDay(concat("--12-", $day)) }; not(local:gMonthDay(1) eq xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-002">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:01")
+            else xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-003">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-31+09:01") eq xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31+09:00") eq xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-004">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31-09:01")
+            else xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31-09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-005">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-31-09:01") eq xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31-09:00") eq xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-006">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($day as xs:integer) { if ($day lt 10) then xs:gMonthDay(concat("--12-0", $day)) else xs:gMonthDay(concat("--12-", $day)) }; not(local:gMonthDay(1) ne xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-007">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:01")
+            else xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-008">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-31+09:01") ne xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31+09:00") ne xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-009">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31-09:01")
+            else xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31-09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-010">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-31-09:01") ne xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31-09:00") ne xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-011">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; exists(local:gMonthDay(xs:gMonthDay("--12-31"), fn:true()) eq xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-012">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; local:gMonthDay(xs:gMonthDay("--12-31"), fn:false()) eq xs:gMonthDay("--12-31")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-013">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; exists(local:gMonthDay(xs:gMonthDay("--12-31"), fn:true()) ne xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-014">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; local:gMonthDay(xs:gMonthDay("--12-31"), fn:false()) ne xs:gMonthDay("--12-31")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-015">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-30-12:00") eq xs:gMonthDay("--01-31+12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-016">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-31+12:00") eq xs:gMonthDay("--01-30-12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-017">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-30-12:00") ne xs:gMonthDay("--01-31+12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-018">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-31+12:00") ne xs:gMonthDay("--01-30-12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-019">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT1M'))
+            then xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+01:01")
+            else xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+01:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-020">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT1M'))
+            then xs:gMonthDay("--12-31+01:01") eq xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31+01:00") eq xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+</test-set>

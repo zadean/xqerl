@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-format-time"  covers="fn-format-time">
+   <description>Tests for the format-time() function transferred from XSLT 2.0 to XPath 3.0</description>
+   
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-format-time"/>
+   <dependency type="spec" value="XP30+ XQ30+"/>
+
+   <test-case name="format-time-002a">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H01]:[m01]")</test>
+      <result>
+         <assert-string-value>09:15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002b">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]")</test>
+      <result>
+         <assert-string-value>9:15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002c">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H01]:[m01]:[s01]")</test>
+      <result>
+         <assert-string-value>09:15:06</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002d">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]:[s]")</test>
+      <result>
+         <assert-string-value>9:15:06</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002e">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]:[s1]")</test>
+      <result>
+         <assert-string-value>9:15:6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002f">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]:[s01]:[f001]")</test>
+      <result>
+         <assert-string-value>9:15:06:456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002g">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]:[s].[f,1-1]")</test>
+      <result>
+         <assert-string-value>9:15:06.5</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002h">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]:[s].[f1,1-1]")</test>
+      <result>
+         <assert-string-value>9:15:06.5</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002i">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]:[s].[f01]")</test>
+      <result>
+         <assert-string-value>9:15:06.46</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-002j">
+      <description>Test format-time: basic numeric formats</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t,"[H]:[m]:[s].[f001]")</test>
+      <result>
+         <assert-string-value>9:15:06.456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-004">
+      <description>Test format-time: 12-hour clock</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>
+        for $i in 1 to 24 return
+        format-time($t + xs:dayTimeDuration('PT1H')*$i, '[h].[m]')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+         10.15 11.15 12.15 1.15 2.15 3.15 4.15 5.15 6.15 7.15 8.15 9.15 10.15 11.15 
+         12.15 1.15 2.15 3.15 4.15 5.15 6.15 7.15 8.15 9.15
+         </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013n">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[m,3]')</test>
+      <result>
+         <assert-string-value>015</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013p">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[f,4-4]')</test>
+      <result>
+         <assert-string-value>4560</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013q">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[f,1-4]')</test>
+      <result>
+         <assert-string-value>456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013r">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[f,2-5]')</test>
+      <result>
+         <assert-string-value>456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013s">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[f,2-2]')</test>
+      <result>
+         <assert-string-value>46</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013t">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[f,1-*]')</test>
+      <result>
+         <assert-string-value>456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013u">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[f,*-2]')</test>
+      <result>
+         <assert-string-value>46</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-013v">
+      <description>test format-time(): effect of width specifiers </description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
+      </environment>
+      <test>format-time($t, '[f,3]')</test>
+      <result>
+         <assert-string-value>456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-014">
+      <description>test format-time(): timezones in +nn:nn notation</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-08-08" change="Bug fix 17285"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456Z')"/>
+      </environment>
+      <test>string-join(
+               for $z in -28 to +28
+               return format-time(adjust-time-to-timezone(
+               $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][Z]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+             0715-14:00; 0745-13:30; 0815-13:00; 0845-12:30; 0915-12:00; 0945-11:30; 1015-11:00; 1045-10:30; 1115-10:00; 
+             1145-09:30; 1215-09:00; 1245-08:30; 0115-08:00; 0145-07:30; 0215-07:00; 0245-06:30; 0315-06:00; 0345-05:30; 
+             0415-05:00; 0445-04:30; 0515-04:00; 0545-03:30; 0615-03:00; 0645-02:30; 0715-02:00; 0745-01:30; 0815-01:00; 
+             0845-00:30; 0915+00:00; 0945+00:30; 1015+01:00; 1045+01:30; 1115+02:00; 1145+02:30; 1215+03:00; 1245+03:30;
+             0115+04:00; 0145+04:30; 0215+05:00; 0245+05:30; 0315+06:00; 0345+06:30; 0415+07:00; 0445+07:30; 0515+08:00; 
+             0545+08:30; 0615+09:00; 0645+09:30; 0715+10:00; 0745+10:30; 0815+11:00; 0845+11:30; 0915+12:00; 0945+12:30; 
+             1015+13:00; 1045+13:30; 1115+14:00
+         </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-015">
+      <description>test format-time(): timezones in GMT+x notation</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-08-08" change="Bug fix 17285"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456Z')"/>
+      </environment>
+      <test>string-join(
+               for $z in -28 to +28
+               return format-time(adjust-time-to-timezone(
+                        $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+            0715GMT-14:00; 0745GMT-13:30; 0815GMT-13:00; 0845GMT-12:30; 0915GMT-12:00; 0945GMT-11:30; 1015GMT-11:00; 1045GMT-10:30;
+            1115GMT-10:00; 1145GMT-09:30; 1215GMT-09:00; 1245GMT-08:30; 0115GMT-08:00; 0145GMT-07:30; 0215GMT-07:00; 0245GMT-06:30;
+            0315GMT-06:00; 0345GMT-05:30; 0415GMT-05:00; 0445GMT-04:30; 0515GMT-04:00; 0545GMT-03:30; 0615GMT-03:00; 0645GMT-02:30;
+            0715GMT-02:00; 0745GMT-01:30; 0815GMT-01:00; 0845GMT-00:30; 0915GMT+00:00; 0945GMT+00:30; 1015GMT+01:00; 1045GMT+01:30; 1115GMT+02:00;
+            1145GMT+02:30; 1215GMT+03:00; 1245GMT+03:30; 0115GMT+04:00; 0145GMT+04:30; 0215GMT+05:00; 0245GMT+05:30; 0315GMT+06:00;
+            0345GMT+06:30; 0415GMT+07:00; 0445GMT+07:30; 0515GMT+08:00; 0545GMT+08:30; 0615GMT+09:00; 0645GMT+09:30; 0715GMT+10:00;
+            0745GMT+10:30; 0815GMT+11:00; 0845GMT+11:30; 0915GMT+12:00; 0945GMT+12:30; 1015GMT+13:00; 1045GMT+13:30;
+            1115GMT+14:00
+         </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-016">
+      <description>test format-time(): timezones in GMT+x notation</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-08-08" change="Bug fix 17285"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456Z')"/>
+      </environment>
+      <test>string-join(
+               for $z in -28 to +28
+               return format-time(adjust-time-to-timezone(
+                        $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,6-6]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+             0715GMT-14:00; 0745GMT-13:30; 0815GMT-13:00; 0845GMT-12:30; 0915GMT-12:00; 0945GMT-11:30; 1015GMT-11:00; 1045GMT-10:30;
+            1115GMT-10:00; 1145GMT-09:30; 1215GMT-09:00; 1245GMT-08:30; 0115GMT-08:00; 0145GMT-07:30; 0215GMT-07:00; 0245GMT-06:30;
+            0315GMT-06:00; 0345GMT-05:30; 0415GMT-05:00; 0445GMT-04:30; 0515GMT-04:00; 0545GMT-03:30; 0615GMT-03:00; 0645GMT-02:30;
+            0715GMT-02:00; 0745GMT-01:30; 0815GMT-01:00; 0845GMT-00:30; 0915GMT+00:00; 0945GMT+00:30; 1015GMT+01:00; 1045GMT+01:30; 1115GMT+02:00;
+            1145GMT+02:30; 1215GMT+03:00; 1245GMT+03:30; 0115GMT+04:00; 0145GMT+04:30; 0215GMT+05:00; 0245GMT+05:30; 0315GMT+06:00;
+            0345GMT+06:30; 0415GMT+07:00; 0445GMT+07:30; 0515GMT+08:00; 0545GMT+08:30; 0615GMT+09:00; 0645GMT+09:30; 0715GMT+10:00;
+            0745GMT+10:30; 0815GMT+11:00; 0845GMT+11:30; 0915GMT+12:00; 0945GMT+12:30; 1015GMT+13:00; 1045GMT+13:30;
+            1115GMT+14:00
+        </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-017">
+      <description>test format-time(): timezones in GMT+x notation</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-08-08" change="Bug fix 17285"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456Z')"/>
+      </environment>
+      <test>string-join(
+               for $z in -28 to +28
+               return format-time(adjust-time-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,5-6]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+             0715GMT-14:00; 0745GMT-13:30; 0815GMT-13:00; 0845GMT-12:30; 0915GMT-12:00; 0945GMT-11:30; 1015GMT-11:00; 1045GMT-10:30;
+            1115GMT-10:00; 1145GMT-09:30; 1215GMT-09:00; 1245GMT-08:30; 0115GMT-08:00; 0145GMT-07:30; 0215GMT-07:00; 0245GMT-06:30;
+            0315GMT-06:00; 0345GMT-05:30; 0415GMT-05:00; 0445GMT-04:30; 0515GMT-04:00; 0545GMT-03:30; 0615GMT-03:00; 0645GMT-02:30;
+            0715GMT-02:00; 0745GMT-01:30; 0815GMT-01:00; 0845GMT-00:30; 0915GMT+00:00; 0945GMT+00:30; 1015GMT+01:00; 1045GMT+01:30; 1115GMT+02:00;
+            1145GMT+02:30; 1215GMT+03:00; 1245GMT+03:30; 0115GMT+04:00; 0145GMT+04:30; 0215GMT+05:00; 0245GMT+05:30; 0315GMT+06:00;
+            0345GMT+06:30; 0415GMT+07:00; 0445GMT+07:30; 0515GMT+08:00; 0545GMT+08:30; 0615GMT+09:00; 0645GMT+09:30; 0715GMT+10:00;
+            0745GMT+10:30; 0815GMT+11:00; 0845GMT+11:30; 0915GMT+12:00; 0945GMT+12:30; 1015GMT+13:00; 1045GMT+13:30;
+            1115GMT+14:00
+         </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-018">
+      <description>test format-time(): timezones in GMT+x notation</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-08-08" change="Bug fix 17285"/>
+      <environment>
+         <param name="t" as="xs:time" select="xs:time('09:15:06.456Z')"/>
+      </environment>
+      <test>string-join(
+               for $z in -28 to +28
+               return format-time(adjust-time-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,2-6]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+              0715GMT-14:00; 0745GMT-13:30; 0815GMT-13:00; 0845GMT-12:30; 0915GMT-12:00; 0945GMT-11:30; 1015GMT-11:00; 1045GMT-10:30;
+            1115GMT-10:00; 1145GMT-09:30; 1215GMT-09:00; 1245GMT-08:30; 0115GMT-08:00; 0145GMT-07:30; 0215GMT-07:00; 0245GMT-06:30;
+            0315GMT-06:00; 0345GMT-05:30; 0415GMT-05:00; 0445GMT-04:30; 0515GMT-04:00; 0545GMT-03:30; 0615GMT-03:00; 0645GMT-02:30;
+            0715GMT-02:00; 0745GMT-01:30; 0815GMT-01:00; 0845GMT-00:30; 0915GMT+00:00; 0945GMT+00:30; 1015GMT+01:00; 1045GMT+01:30; 1115GMT+02:00;
+            1145GMT+02:30; 1215GMT+03:00; 1245GMT+03:30; 0115GMT+04:00; 0145GMT+04:30; 0215GMT+05:00; 0245GMT+05:30; 0315GMT+06:00;
+            0345GMT+06:30; 0415GMT+07:00; 0445GMT+07:30; 0515GMT+08:00; 0545GMT+08:30; 0615GMT+09:00; 0645GMT+09:30; 0715GMT+10:00;
+            0745GMT+10:30; 0815GMT+11:00; 0845GMT+11:30; 0915GMT+12:00; 0945GMT+12:30; 1015GMT+13:00; 1045GMT+13:30;
+            1115GMT+14:00
+         </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-809err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt" on="2012-05-22" change="Bug fix related to bug #14875: Corrected error code"/>
+      <test>format-time(current-time(), '[Y]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-810err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <test>format-time(current-time(), '[M]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-811err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <test>format-time(current-time(), '[d]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-812err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <test>format-time(current-time(), '[d]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-813err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <test>format-time(current-time(), '[F]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-814err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <test>format-time(current-time(), '[W]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-815err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <test>format-time(current-time(), '[w]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-816err">
+      <description>Error XTDE1350 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <test>format-time(current-time(), '[E]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1350"/>
+         <error code="FOFD1350"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-817err">
+      <description>Error XTDE1340 component in picture string not available in value</description>
+      <created by="Anders Berglund" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt" on="2012-05-22" change="Bug fix related to bug #14875: Change description and corrected error code"/>
+      <test>format-time(current-time(), '[bla]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1340"/>
+         <error code="FOFD1340"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-inpt-er1">
+      <description>wrong arg input to format-time()</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-time('abc', '[bla]', 'en', (), ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-inpt-er2">
+      <description>wrong number of args to format-time()</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-time(current-time(), '[bla]', 'en', (), (), 6)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="format-time-inpt-er3">
+      <description>wrong number of args to format-time()</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-time(current-time(), '[bla]', 'en', (), (), 6)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+
+   <test-case name="format-time-1340err">
+      <description>Error FOFD1340 syntax of picture is incorrect</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-time(current-time(), '[y]', 'en', (), ())</test>
+      <result>
+        <any-of>
+         <error code="XTDE1340"/>
+         <error code="FOFD1340"/>
+        </any-of>
+      </result>
+   </test-case>
+
+</test-set>

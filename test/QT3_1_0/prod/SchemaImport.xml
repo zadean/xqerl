@@ -1,0 +1,2330 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-SchemaImport">
+   <description>Tests for the SchemaImport production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-SchemaImport"/>
+   <link type="spec" document="XQuery" section-number="4.10" idref="id-schema-import"/>
+   
+   <environment name="hats" >
+        <schema uri="http://www.w3.org/XQueryTest/hats" file="SchemaImport/hats.xsd">
+            <description>A schema defining a motley collection of types.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+   </environment> 
+   <environment name="abf" >
+     <schema uri="http://www.w3.org/XQueryTest/abf" file="SchemaImport/abf.xsd">
+       <description>A schema defining a complex type abf.</description>
+       <created by="Michael Kay" on="2006-11-14"/>
+     </schema>
+   </environment>
+   <environment name="abf-emptydoc" >
+        <schema uri="http://www.w3.org/XQueryTest/abf" file="SchemaImport/abf.xsd">
+            <description>A schema defining a complex type abf.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+       <source role="." file="../docs/emptydoc.xml">
+         <description>Data for the the XML Query use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>
+   </environment>   
+   <environment name="mini-fpml" >
+        <schema uri="http://www.fpml.org/2005/FpML-4-2" file="SchemaImport/mini-fpml.xsd">
+            <description>A tiny but representative part of the FpML schema.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+   </environment>   
+   <environment name="addresses" >
+        <schema uri="http://www.w3.org/XQueryTest/addresses" file="SchemaImport/addresses.xsd">
+            <description>A little name and address schema.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+   </environment>  
+   <environment name="money" >
+        <schema uri="http://www.w3.org/XQueryTest/money" file="SchemaImport/money.xsd">
+            <description>A little currency schema.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+   </environment>    
+   <environment name="QNameComparisonTest" >
+        <schema uri="http://www.w3.org/XQueryTest/QNameComparisonTest" file="SchemaImport/QNameComparisonTest.xsd">
+            <description>Defines some QName types.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+   </environment>
+
+    <environment name="emptydoc">
+      <source role="$emptydoc1" file="../docs/emptydoc.xml">
+         <description>Data for the the XML Query use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>
+    </environment>
+    
+    <environment name="substitution">
+      <schema uri="http://www.w3.org/XQueryTest/substitution" file="SchemaImport/substitution.xsd">
+        <description>Defines some edge-case substitution groups.</description>
+        <created by="Michael Kay" on="2012-10-10"/>
+      </schema>
+    </environment>
+    
+    <environment name="substitution11">
+      <schema uri="http://www.w3.org/XQueryTest/substitution11" file="SchemaImport/substitution11.xsd"
+              xsd-version="1.1">
+        <description>XSD 1.1 schema: element in several substitution groups.</description>
+        <created by="Michael Kay" on="2012-10-10"/>
+      </schema>
+    </environment>
+
+    <environment name="validate">
+      <schema uri="http://www.w3.org/XQueryTest/testcases" file="../fn/nilled/validate.xsd">
+          <description>A Schema with some nillable elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </schema>
+      <source role="." file="../fn/nilled/validate.xml" validation="strict">
+          <description>An instance with some nilled elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </source>
+      <!--<namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>-->
+   </environment>
+   
+   <dependency type="spec" value="XQ10+"/>
+   <dependency type="feature" value="schemaImport"/>   
+
+   <test-case name="schema-import-1">
+      <description> Evaluation of a prolog with a schema import that should be hard to find </description>
+      <created by="Carmelo Montanez" on="2005-12-20"/>
+      <test>import schema namespace aSpace="http://www.youcannotfindthisschemaorg/schemas" at "http://www.youcannotfindithere/noschemas";
+             "abc"</test>
+      <result>
+         <error code="XQST0059"/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-2">
+      <description> Evaluation of a prolog with two schema import that specifies the same namespace. </description>
+      <created by="Carmelo Montanez" on="2005-12-20"/>
+      <test>import schema namespace ns1 = "http://www.w3.org/XQueryTestOrderBy";
+             import schema namespace ns2 = "http://www.w3.org/XQueryTestOrderBy";
+             "abc"</test>
+      <result>
+         <error code="XQST0058"/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-3">
+      <description> Evaluation of a prolog with two schema import that specifies no target namespace and specifies a prefix. </description>
+      <created by="Carmelo Montanez" on="2005-12-20"/>
+      <test>import schema namespace ns1 = "";
+             "abc"</test>
+      <result>
+         <error code="XQST0057"/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-4">
+      <description> Evaluation of usage of xs:boolean type as argument to fn:not(). </description>
+      <created by="Carmelo Montanez" on="2006-01-31"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+             fn:not(//atomic:boolean)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-5">
+      <description> Evaluation of usage of xs:float type as argument to fn:avg(). </description>
+      <created by="Carmelo Montanez" on="2006-01-31"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+             (fn:avg((//atomic:float,//atomic:float))) eq xs:float(1.26743233E15)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-6">
+      <description> Evaluation of usage of xs:integer type as argument to fn:avg(). </description>
+      <created by="Carmelo Montanez" on="2006-01-31"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:avg(//atomic:integer)) eq 12678967543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-7">
+      <description> Evaluation of usage of xs:decimal type as argument to fn:avg(). </description>
+      <created by="Carmelo Montanez" on="2006-01-31"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:avg((//atomic:decimal,//atomic:decimal))) eq 12678967.543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-8">
+      <description> Evaluation of usage of xs:double type as argument to fn:avg(). </description>
+      <created by="Carmelo Montanez" on="2006-01-31"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          fn:avg((//atomic:double,//atomic:double))</test>
+      <result>
+         <assert-string-value>1.26743233E15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-9">
+      <description> Evaluation of usage of xs:float type as argument to fn:abs(). </description>
+      <created by="Carmelo Montanez" on="2006-02-01"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:abs(//atomic:float[1])) eq xs:float(1.26743233E15)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-10">
+      <description> Evaluation of usage of xs:integer type as argument to fn:abs(). </description>
+      <created by="Carmelo Montanez" on="2006-02-01"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:abs(//atomic:integer[1])) eq 12678967543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-11">
+      <description> Evaluation of usage of xs:decimal type as argument to fn:abs(). </description>
+      <created by="Carmelo Montanez" on="2006-02-01"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:abs(//atomic:decimal[1])) eq 12678967.543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-12">
+      <description> Evaluation of usage of xs:double type as argument to fn:abs(). </description>
+      <created by="Carmelo Montanez" on="2006-02-01"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          fn:abs(//atomic:double[1])</test>
+      <result>
+         <assert-string-value>1.26743233E15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-13">
+      <description> Evaluation of usage of xs:float type as argument to fn:max(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:max((//atomic:float,//atomic:float))) eq xs:float(1.26743233E15)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-14">
+      <description> Evaluation of usage of xs:integer type as argument to fn:max(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:max((//atomic:integer,//atomic:integer))) eq 12678967543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-15">
+      <description> Evaluation of usage of xs:decimal type as argument to fn:max(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:max((//atomic:decimal,//atomic:decimal))) eq 12678967.543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-16">
+      <description> Evaluation of usage of xs:double type as argument to fn:max(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          fn:max((//atomic:double,//atomic:double))</test>
+      <result>
+         <assert-string-value>1.26743233E15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-17">
+      <description> Evaluation of usage of xs:float type as argument to fn:min(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:min((//atomic:float,//atomic:float))) eq xs:float(1.26743233E15)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-18">
+      <description> Evaluation of usage of xs:integer type as argument to fn:min(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:min((//atomic:integer,//atomic:integer))) eq 12678967543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-19">
+      <description> Evaluation of usage of xs:decimal type as argument to fn:min(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (fn:min((//atomic:decimal,//atomic:decimal))) eq 12678967.543233</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-20">
+      <description> Evaluation of usage of xs:double type as argument to fn:min(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          fn:min((//atomic:double,//atomic:double))</test>
+      <result>
+         <assert-string-value>1.26743233E15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-21">
+      <description> Evaluation of usage of xs:dateTime type as argument to fn:hours-from-dateTime(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          fn:hours-from-dateTime(//atomic:dateTime[1])</test>
+      <result>
+         <assert-eq>12</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-22">
+      <description> Evaluation of usage of xs:dateTime type as argument to fn:minutes-from-dateTime(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          fn:minutes-from-dateTime(//atomic:dateTime[1])</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-23">
+      <description> Evaluation of usage of xs:dateTime type as argument to fn:seconds-from-dateTime(). </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          fn:seconds-from-dateTime(//atomic:dateTime[1])</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-25">
+      <description> Evaluation of schema import of numeric type (float) and used on addition expression. </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          ((//atomic:float[1]) + (//atomic:float[1])) eq xs:float(2.53486466E15)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-26">
+      <description> Evaluation of schema import of numeric type (integer) and used on addition expression. </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          ((//atomic:integer[1]) + (//atomic:integer[1])) eq 25357935086466</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-27">
+      <description> Evaluation of schema import of numeric type (integer) and used on addition expression. </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          ((//atomic:integer[1]) + (//atomic:integer[1])) eq 2.5357935086466E13</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-28">
+      <description> Evaluation of schema import of numeric type (double) and used on addition expression. </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (//atomic:double[1]) + (//atomic:double[1])</test>
+      <result>
+         <assert-string-value>2.53486466E15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-29">
+      <description> Evaluation of schema import of numeric type (integer) and used on division (idiv operator) expression. </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (//atomic:integer[1]) idiv (//atomic:integer[1])</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-30">
+      <description> Evaluation of schema import of numeric type (integer) and used on subtraction expression. </description>
+      <created by="Carmelo Montanez" on="2006-02-02"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest";
+                          (//atomic:integer[1]) - (//atomic:integer[1])</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-schema-context">
+      <description> Test a module with a schema import. </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <environment>
+        <schema uri="http://www.w3.org/XQueryTest/simple" file="ModuleImport/simple.xsd"/>
+      </environment>
+      <module uri="http://www.w3.org/TestModules/context" file="SchemaImport/context-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace ctx="http://www.w3.org/TestModules/context";
+        <result>{ctx:use-schema() instance of xs:int}</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="schema-import-31">
+      <description> Evaluation of schema import with invalid namespace ("xml"). </description>
+      <created by="Carmelo Montanez" on="2006-03-21"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace xml="http://www.w3.org/XQueryTest";
+                          "abc"</test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+   
+   <test-case name="qischema001">
+      <description>import schema and cast to user-defined type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace hat = "http://www.w3.org/XQueryTest/hats"; 
+        <a> { 8 cast as hat:hatsize }</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>8</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema002">
+      <description>import schema using default element namespace </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; 
+        <hat:a xmlns:hat="http://www.example.com/shoes.uri"> { 8 cast as hatsize }</hat:a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">8</hat:a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema003">
+      <description>import schema using default namespace for a user-defined type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; 
+        <hat:a xmlns:hat="http://www.example.com/shoes.uri"> { xs:date('2003-02-02') cast as date2003 }</hat:a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">2003-02-02</hat:a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema004">
+      <description>import schema using default element namespace for a user-defined type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; 
+        <hat:a xmlns:hat="http://www.example.com/shoes.uri"> { 'abc123' cast as vreg }</hat:a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">abc123</hat:a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema005">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema005.xsd"; 
+        validate strict {
+            <abf xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> 
+                <a/> <b/> <b/> <f/> <f/> <f/> 
+            </abf>}
+        ]]></test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/hats"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:xs="http://www.w3.org/2001/XMLSchema"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema006">
+      <description>strict validation against a complex type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema005.xsd"; 
+        <out> { validate strict { <abf> <a/> <b/> <b/> <f/> <f/> <f/> </abf> }} </out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out xmlns="http://www.w3.org/XQueryTest/hats"><abf><a/><b/><b/><f/><f/><f/></abf></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema007">
+      <description>strict validation against a complex type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema005.xsd"; 
+        validate { <abf> <a/> <b/> <b/> { for $i in 1 to 3 return <f/> } </abf> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/hats"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema008">
+      <description>Strict validation against a complex type</description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf" (: at "qischema008.xsd" :); 
+        validate { <abf> <a/> { if (current-date() gt xs:date('1900-01-01')) then <b/> else <f/> } <b/> { for $i in 1 to 3 return <f/> } </abf> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema009">
+      <description>strict validation against a complex type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf" at "qischema008.xsd"; 
+        let $f := <f/> return validate { 
+            <abf> <a/> { if (current-date() gt xs:date('1900-01-01')) then <b/> else <f/> } <b/> { for $i in 1 to 3 return $f } </abf> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema010">
+      <description>strict validation against a complex type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf" at "qischema008.xsd"; 
+        let $c := (<a/>,<b/>,<f/>) return validate strict { <abf> {$c} </abf> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema011">
+      <description>strict validation of a partial document against a complex type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf" at "qischema008.xsd"; 
+        let $a := <a> { validate strict { <abf><a/><b/><f/></abf> } } </a> return $a/*
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema012">
+      <description>strict validation of a partial document against a complex type (doable statically) </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf" at "qischema008.xsd"; 
+        let $a := <a> { validate strict { <abf><a/><b/><f/></abf> } } </a> return $a/*
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema016">
+      <description>validate a document read using the doc() function </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment>
+        <source file="SchemaImport/xqischema008.xml" uri="http://www.w3.org/fots/SchemaImport/xqischema008.xml"/>
+        <schema uri="http://www.w3.org/XQueryTest/abf" file="SchemaImport/abf.xsd">
+            <description>A schema defining a complex type abf.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+      </environment>   
+      <test>
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf" at "qischema008.xsd"; 
+        validate strict { doc("http://www.w3.org/fots/SchemaImport/xqischema008.xml") }
+      </test>
+      <result>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema030">
+      <description>cast to a user-defined restricted type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default function namespace "http://www.w3.org/XQueryTest/hats"; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema030.xsd"; 
+        <a>{hatsize(5), bighatsize(8)}</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/hats">5 8</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema031">
+      <description>test 'castable' using a user-defined type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default function namespace "http://www.example.com/hats.uri"; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema030.xsd"; 
+        <a>{5 castable as hatsize, 8 castable as bighatsize, 3 castable as bighatsize}</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/hats">true true false</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema032">
+      <description>validate namespace-sensitive content at element level.
+        Validity of QName content depends on namespace generated by namespace fixup </description>
+      <created by="Michael Kay" on="2007-01-09"/>
+      <environment>
+        <source role="." file="SchemaImport/qischema032.xml"/>
+        <schema uri="http://schema.highwire.org/Publishing/Fragment" file="SchemaImport/qischema032.xsd"/>
+      </environment>
+      <test>
+        import schema namespace q="http://schema.highwire.org/Publishing/Fragment"; 
+        let $e := ./* 
+        return validate { element {node-name($e)} { $e/@*, $e/* } }
+      </test>
+      <result>
+         <assert-xml><![CDATA[<frg:fragment xmlns:frg="http://schema.highwire.org/Publishing/Fragment" type="frg:figure"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema032a">
+      <description>validate namespace-sensitive content at document level. 
+        Validity of QName content depends on namespace generated by namespace fixup </description>
+      <created by="Michael Kay" on="2007-01-09"/>
+      <environment>
+        <source role="." file="SchemaImport/qischema032.xml"/>
+        <schema uri="http://schema.highwire.org/Publishing/Fragment" file="SchemaImport/qischema032.xsd"/>
+      </environment>
+      <test>
+        import schema namespace q="http://schema.highwire.org/Publishing/Fragment" at "qischema032.xsd"; 
+        let $e := ./* return validate { document { element {node-name($e)} { $e/@*, $e/* } } }
+      </test>
+      <result>
+         <assert-xml><![CDATA[<frg:fragment xmlns:frg="http://schema.highwire.org/Publishing/Fragment" type="frg:figure"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema032b">
+      <description>validate namespace-sensitive content at element level.
+         Validity of QName content depends on namespace generated by namespace fixup of another attribute </description>
+      <created by="Michael Kay" on="2007-01-09"/>
+      <environment>
+        <source role="." file="SchemaImport/qischema032.xml"/>
+        <schema uri="http://schema.highwire.org/Publishing/Fragment" file="SchemaImport/qischema032.xsd"/>
+      </environment>
+      <test>
+        import schema namespace q="http://schema.highwire.org/Publishing/Fragment" at "qischema032.xsd"; 
+        declare namespace frg="http://schema.highwire.org/Publishing/Fragment"; 
+        declare namespace res="http://schema.highwire.org/Publishing/Resource"; 
+        let $e := ./* 
+        return validate { element {"res:resource"} { $e/@*, attribute{"frg:fragility"}{3}, $e/* } }
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
+              xmlns:frg="http://schema.highwire.org/Publishing/Fragment"
+              type="frg:figure"
+              frg:fragility="3"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema032c">
+      <description>validate namespace-sensitive content at element level validity of QName content depends 
+        on namespace generated by namespace fixup of another attribute; with two attributes having conflicting 
+        use of the same prefix note, it's unpredictable which namespace the QName-in-content will be associated with, 
+        though it should be valid either way </description>
+      <created by="Michael Kay" on="2007-01-09"/>
+      <environment>
+        <source role="." file="SchemaImport/qischema032.xml"/>
+        <schema uri="http://schema.highwire.org/Publishing/Fragment" file="SchemaImport/qischema032.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace q="http://schema.highwire.org/Publishing/Fragment" at "qischema032.xsd"; 
+        declare namespace frg="http://schema.highwire.org/Publishing/Fragment"; 
+        declare namespace res="http://schema.highwire.org/Publishing/Resource"; 
+        declare function local:f() { <e xmlns:frg="http://schema.highwire.org/Publishing/Different" frg:fragrance="4"/>/@* }; 
+        let $e := ./* 
+        return validate { element {"res:resource"} { $e/@*, attribute{"frg:fragility"}{3}, local:f(), $e/* } }
+      ]]></test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
+              xmlns:frg="http://schema.highwire.org/Publishing/Fragment"
+              xmlns:frg_1="http://schema.highwire.org/Publishing/Different"
+              type="frg:figure"
+              frg:fragility="3"
+              frg_1:fragrance="4"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema040">
+      <description>test use of import module together with import schema </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <module uri="http://www.w3.org/XQueryTest/hats" file="SchemaImport/xmod040a.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace hat = "http://www.w3.org/XQueryTest/hats"; 
+        import module "http://www.w3.org/XQueryTest/hats" (:at "xmod040a.xq":); 
+        <a> { hat:purchase(5 cast as hat:hatsize) }</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>2003-06-30</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema040a">
+      <description>test use of import module together with import schema; 
+        this time the module is imported before the schema that it refers to </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <module uri="http://www.w3.org/XQueryTest/hats" file="SchemaImport/xmod040a.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module "http://www.w3.org/XQueryTest/hats" (:at "xmod040a.xq":); 
+        import schema namespace hat = "http://www.w3.org/XQueryTest/hats"; 
+        <a> { hat:purchase(5 cast as hat:hatsize) }</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>2003-06-30</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema041">
+      <description>import a schema in two parts </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schema-location-hint"/>
+      <test><![CDATA[
+        declare default function namespace "http://www.w3.org/XQueryTest/Local/hats"; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/Local/hats" 
+                                             at "SchemaImport/qischema041a.xsd", "SchemaImport/qischema041.xsd"; 
+        <a>{hatsize(5), bighatsize(8), tinyhatsize(4)}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/Local/hats">5 8 4</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema042">
+      <description>import a schema in three parts, one of them non-existent. This test relies on the product under test
+        (and/or the test driver) respecting relative URIs as schema location hints. The URIs are relative to this
+        test catalog file.</description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schema-location-hint"/>
+      <test><![CDATA[
+        declare default function namespace "qischema0042.uri"; 
+        import schema default element namespace "qischema0042.uri" 
+                at "SchemaImport/qischema042.xsd", "SchemaImport/qischema042a.xsd", "SchemaImport/qischema042-non-existent.xsd"; 
+        <a>{hatsize(5), bighatsize(8), tinyhatsize(4)}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns="qischema0042.uri">5 8 4</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema043">
+      <description>test use of import module together with import schema This test does not raise XQST0036, 
+        because it does not reference $hat:docvar. See W3C bugzilla 2546 </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="mini-fpml"/>
+      <module uri="http://www.fpml.org/2005/FpML-4-2" file="SchemaImport/xmod043a.xq"/>
+      <test>
+        (: This test does not raise XQST0036, because it does not reference $hat:docvar. See W3C bugzilla 2546 :) 
+        declare namespace hat = "http://www.fpml.org/2005/FpML-4-2"; 
+        import module "http://www.fpml.org/2005/FpML-4-2" (:at "xmod043a.xq" :); 
+        $hat:twelve
+      </test>
+      <result>
+         <assert-string-value>12</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="qischema044">
+      <description>test use of import module together with import schema importing module must import 
+        schema definitions used in function signature of called functions, but this should be OK because 
+        the offending function isn't actually called. </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <module uri="http://www.w3.org/XQueryTest/hats" file="SchemaImport/xmod040a.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace hat = "http://www.w3.org/XQueryTest/hats"; 
+        import module "http://www.w3.org/XQueryTest/hats" (:at "xmod040a.xq" :); 
+        <a> { hat:trick(5) }</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>8</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema061">
+      <description>Type-checking of constructed elements involving substitution groups </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="addresses"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/addresses" (:at "qischema061.xsd":); 
+        declare function local:p () as schema-element(z:person) { 
+            validate strict { 
+                <z:person> 
+                    <z:first>Michael</z:first> 
+                    <z:middle>H</z:middle> 
+                    { local:sn() } 
+                </z:person> } 
+        }; 
+        declare function local:sn() as schema-element(z:last) { 
+            validate strict { <z:surname>Kay</z:surname> } 
+        }; 
+        <out> {local:p()} </out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"><z:first>Michael</z:first><z:middle>H</z:middle><z:surname>Kay</z:surname></z:person></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema062">
+      <description>validate top-level element with an xsi:type attribute </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/hats" at "qischema062.xsd"; 
+        validate strict { <z:s xsi:type="xs:NCName" xmlns:xs="http://www.w3.org/2001/XMLSchema">abc123</z:s> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<z:s xmlns:xs="http://www.w3.org/2001/XMLSchema"
+     xmlns:z="http://www.w3.org/XQueryTest/hats"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:type="xs:NCName">abc123</z:s>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema063">
+      <description>Validate top-level element with xsi:type attribute (user-defined type) </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="money"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/money" at "qischema063.xsd"; 
+        validate strict { <z:a xsi:type="z:positive-money-amount" xmlns:z="http://www.w3.org/XQueryTest/money">1234</z:a> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<z:a xmlns:z="http://www.w3.org/XQueryTest/money"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:type="z:positive-money-amount">1234</z:a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema063q02-err">
+      <description>
+        Show that duplicate attributes are rejected (even when validating...) 
+        Validate top-level element with xsi:type attribute (user-defined type) </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="money"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[import schema namespace z = "http://www.w3.org/XQueryTest/money" (: at "qischema063.xsd" :); 
+        let $s := attribute {"currency"}{"USD"} 
+        return validate lax { 
+            <z:a currency="EUR" xsi:type="z:positive-money-amount" xmlns:z="http://www.w3.org/XQueryTest/money" >{$s}1234</z:a> 
+        }
+      ]]></test>
+      <result>
+         <error code="XQDY0025"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema064">
+      <description>validate element against a type derived by extension </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="addresses"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/addresses"; 
+        validate strict { 
+            <z:person xsi:type="z:titled-person" > 
+                <z:first>Anthony</z:first> 
+                <z:middle>W</z:middle> 
+                <z:last>Benn</z:last> 
+                <z:title>Viscount Stansgate</z:title> 
+            </z:person> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:type="z:titled-person"><z:first>Anthony</z:first><z:middle>W</z:middle><z:last>Benn</z:last><z:title>Viscount Stansgate</z:title></z:person>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema065">
+      <description>validate document node against a type derived by extension </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="addresses"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema064.xsd"; validate strict { document { <z:person xsi:type="z:titled-person" xmlns:z="http://www.w3.org/XQueryTest/addresses"> <z:first>Anthony</z:first> <z:middle>W</z:middle> <z:last>Benn</z:last> <z:title>Viscount Stansgate</z:title> </z:person> } }]]></test>
+      <result>
+         <assert-xml><![CDATA[<z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:type="z:titled-person"><z:first>Anthony</z:first><z:middle>W</z:middle><z:last>Benn</z:last><z:title>Viscount Stansgate</z:title></z:person>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema070">
+      <description>validation relying on xsi:type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="mini-fpml"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace fpml="http://www.fpml.org/2005/FpML-4-2" (:at "mini-fpml.xsd" :); 
+        declare variable $v := "4.2"; 
+        declare function local:write() as schema-element(fpml:FpML) { 
+            validate strict { 
+            <FpML xmlns="http://www.fpml.org/2005/FpML-4-2" fpml-version="{$v}" xsi:type="ValuationDocument"> 
+                <header> <from>me</from> <to>you</to> <date>2005-10-25</date> </header> <market>cattle</market> <value>0.02</value> 
+            </FpML> }
+        }; 
+        local:write()
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<FpML xmlns="http://www.fpml.org/2005/FpML-4-2"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      fpml-version="4.2"
+      xsi:type="ValuationDocument"><header><from>me</from><to>you</to><date>2005-10-25</date></header><market>cattle</market><value>0.02</value></FpML>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema072-01">
+      <description>validation should fail, element is abstract </description>
+      <created by="Michael Kay" on="2006-12-22"/>
+      <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
+      <environment>
+        <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
+      </environment>  
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace res="http://schema.highwire.org/Publishing/Resource/qischema072"; 
+        declare function local:test() as schema-element(res:abs) { 
+            (validate { document { 
+                <res:abs xmlns:res="http://schema.highwire.org/Publishing/Resource/qischema072"> 
+                    <res:link href="file:/content/journals/jacc/issues/1/1"/> 
+                    <res:link href="file:/content/journals/jacc/issues/1"/> 
+                    <res:link href="file:/content/journals/jacc"/> 
+                </res:abs> } })/* }; 
+            local:test()
+        ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema072-02">
+      <description>validation should fail, element is abstract </description>
+      <created by="Michael Kay" on="2006-12-22"/>
+      <environment>
+        <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace res="http://schema.highwire.org/Publishing/Resource/qischema072"; 
+        declare function local:test() as schema-element(res:abs) { 
+            validate { 
+                <res:abs xmlns:res="http://schema.highwire.org/Publishing/Resource/qischema072"> 
+                    <res:link href="file:/content/journals/jacc/issues/1/1"/> 
+                    <res:link href="file:/content/journals/jacc/issues/1"/> 
+                    <res:link href="file:/content/journals/jacc"/> 
+                </res:abs> } 
+        }; 
+        local:test()
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema072-03">
+      <description>validation should fail, element has fixed value </description>
+      <created by="Michael Kay" on="2006-12-22"/>
+      <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
+      <environment>
+        <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace res="http://schema.highwire.org/Publishing/Resource/qischema072"; 
+        declare function local:test() as schema-element(res:fix) { 
+            (validate { document { 
+                <res:fix xmlns:res="http://schema.highwire.org/Publishing/Resource/qischema072"> wrong value </res:fix> } })/* 
+        }; 
+        local:test()
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema072-04">
+      <description>validation should fail, element has fixed value </description>
+      <created by="Michael Kay" on="2006-12-22"/>
+      <environment>
+        <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace res="http://schema.highwire.org/Publishing/Resource/qischema072"; 
+        declare function local:test() as schema-element(res:fix) { 
+            validate { 
+                <res:fix xmlns:res="http://schema.highwire.org/Publishing/Resource/qischema072"> wrong value </res:fix> } 
+        }; 
+        local:test()
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema072-05">
+      <description>validation should fail, non-unique value </description>
+      <created by="Michael Kay" on="2006-12-22"/>
+      <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
+      <environment>
+        <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace res="http://schema.highwire.org/Publishing/Resource/qischema072"; 
+        declare function local:test() as schema-element(res:uni) { 
+            (validate { document { 
+                <res:uni xmlns:res="http://schema.highwire.org/Publishing/Resource/qischema072"> 
+                    <res:link href="file:/content/journals/jacc/issues/1/1"/> 
+                    <res:link href="file:/content/journals/jacc/issues/1"/> 
+                    <res:link href="file:/content/journals/jacc/issues/1/1"/> 
+                </res:uni> } })/* 
+        }; 
+        local:test()
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema072-06">
+      <description>Validation fails in 9.3 (XQ 1.0 2nd edition) There is a non-unique value, in 1st edition identity constraints are 
+        not checked when validating at element level, but this changes as a result of an erratum </description>
+      <created by="Michael Kay" on="2006-12-22"/>
+      <environment>
+        <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace res="http://schema.highwire.org/Publishing/Resource/qischema072"; 
+         declare function local:test() as schema-element(res:uni) { 
+            validate { 
+                <res:uni xmlns:res="http://schema.highwire.org/Publishing/Resource/qischema072"> 
+                    <res:link href="file:/content/journals/jacc/issues/1/1"/> 
+                    <res:link href="file:/content/journals/jacc/issues/1"/> 
+                    <res:link href="file:/content/journals/jacc/issues/1/1"/> 
+                </res:uni> } 
+         }; 
+         local:test()
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema080">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="QNameComparisonTest"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        declare copy-namespaces preserve, inherit; 
+        declare namespace conf = "http://xbrl.org/2005/conformance"; 
+        declare namespace iso4217 = "http://www.xbrl.org/2003/iso4217"; 
+        import schema namespace qnc = "http://www.w3.org/XQueryTest/QNameComparisonTest" at "qischema080.xsd"; 
+        validate strict { <qnc:x>{ QName("http://www.xbrl.org/2003/iso4217","GBP") } </qnc:x> } , 
+        validate strict { <qnc:x xmlns:iso2="http://www.xbrl.org/2003/iso4217">iso2:GBP</qnc:x> }
+        ]]></test>
+      <result>
+         <assert-xml><![CDATA[<qnc:x xmlns:qnc="http://www.w3.org/XQueryTest/QNameComparisonTest">GBP</qnc:x><qnc:x 
+            xmlns:iso2="http://www.xbrl.org/2003/iso4217" 
+            xmlns:qnc="http://www.w3.org/XQueryTest/QNameComparisonTest">iso2:GBP</qnc:x>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="qischema083">
+      <description>Test where one imported schema imports the other. Saxon 9.1 bug. </description>
+      <created by="Michael Kay" on="2008-08-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schema-location-hint"/>
+      <test><![CDATA[
+        import schema namespace one = "http://www.w3.org/XQueryTest/q083one" at "SchemaImport/qischema083-1.xsd"; 
+        import schema namespace two = "http://www.w3.org/XQueryTest/q083two" at "SchemaImport/qischema083-2.xsd"; 
+        validate strict { <one:one> <two:two> <two:three/> <two:three/> <two:three/> </two:two> </one:one> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<one:one xmlns:one="http://www.w3.org/XQueryTest/q083one"
+            ><two:two xmlns:two="http://www.w3.org/XQueryTest/q083two"
+            ><two:three/><two:three/><two:three/></two:two></one:one>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="qischema265">
+      <description>Test construction=preserve</description>
+      <created by="Michael Kay" on="2009-05-08"/>
+      <environment ref="atomic-xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        <e>{.}</e> instance of element(*, xs:untyped), 
+        <e>{.}</e> instance of element(*, xs:anyType)
+      ]]></test>
+      <result>
+         <assert-string-value>false true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="qischema266">
+      <description/>
+      <created by="Michael Kay" on="2009-05-08"/>
+      <test>
+        declare construction preserve; 
+        declare function local:foo1($e as element()) {
+            data($e) instance of xs:untypedAtomic
+        }; 
+        declare function local:foo2($e as element(*,xs:decimal)) {
+            data($e) instance of xs:untypedAtomic
+        }; 
+        declare function local:foo3($e as element()) {
+            (data($e) + 1) instance of xs:double
+        }; 
+        declare function local:foo4($e as element(*,xs:decimal)) {
+            (data($e) + 1) instance of xs:double
+        }; 
+        declare function local:foo5($e as element(*,xs:decimal)) {
+            ($e + 1) instance of xs:double
+        }; 
+        declare function local:foo6($e as element(*,xs:decimal)) {
+            (data($e) + data($e)) instance of xs:double
+        }; 
+        3
+      </test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="qischema90007">
+      <description>Validate expression cannot be part of path expression</description>
+      <created by="Michael Kay" on="2011-08-29"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema005.xsd"; 
+        validate { <abf> <a/> <b/> <b/> { for $i in 1 to 3 return <f/> } </abf> }/*
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="qischema90008">
+      <description>Validate expression cannot be part of path expression</description>
+      <created by="Michael Kay" on="2011-08-29"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema005.xsd"; 
+        text{"abcd")/validate { <abf> <a/> <b/> <b/> { for $i in 1 to 3 return <f/> } </abf> }
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90031-err">
+      <description>date not valid against user-defined type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; <hat:a xmlns:hat="shoes.uri"> { xs:date('2002-02-02') cast as date2003 }</hat:a>]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90041-err">
+      <description>string not valid against regex pattern </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; <hat:a xmlns:hat="shoes.uri"> { 'abc''1234' cast as vreg }</hat:a>]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90042-err">
+      <description>string not valid against regex pattern </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="hats"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats"; 
+        <hat:a xmlns:hat="shoes.uri"> { 'abc''1234' cast as vreg }</hat:a>
+      ]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90051-err">
+      <description>invalid sequence for grammar of complex type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        validate strict { <abf> <a/> <b/> <b/> <c/> <f/> <f/> <f/> </abf> }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90061-err">
+      <description>this is invalid </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        <out> { validate strict { <abf> <ax/> <b/> <b/> <f/> <f/> <f/> </abf> }} </out>
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90071-err">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        validate strict { <abf> <a/> <b/> <b/> { for $i in 1 to 3 return (<f/>, <a/>) } </abf> }]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90081-err">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="O'Neil Delpratt" on="2011-09-07" change="add environment referencing xml doc"/>
+      <environment ref="abf-emptydoc"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf";
+        validate strict { 
+          <abf> 
+            <a/> 
+            { if (./*) then <b/> else <f/> }
+            <b/> 
+            { for $i in 1 to 3 return <g/> } 
+          </abf> 
+        }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90082-err">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="O'Neil Delpratt" on="2011-09-07" change="add environment referencing xml doc"/>
+      <environment ref="abf-emptydoc"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf";
+        validate strict { 
+          <abf> 
+            <a/> 
+            { if (./*) then <b/> else <f/> }
+            <b/> 
+            { for $i in 1 to 3 return <g/> } 
+          </abf> 
+        }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90101-err">
+      <description>text content not allowed by content model the text content should be an error when we validate </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        let $c := (<a>2</a>,<b/>,<f/>) return validate strict { <abf> {$c} </abf> }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90102-err">
+      <description>attribute not allowed by content model the attribute should be an error when we validate </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf" ; 
+        let $c := (<a att="3"/>,<b/>,<f/>) return validate strict { <abf> {$c} </abf> }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90131-err">
+      <description>no global element declaration available </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 14267"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        validate strict { <f/> }
+      ]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90151-err">
+      <description>no global element declaration available </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 14267"/>
+      <environment ref="abf"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        validate strict { <x/> }]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90171-err">
+      <description>operand of validate is an empty sequence </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment>
+        <source role="." file="SchemaImport/xqischema008.xml"/>
+        <schema uri="http://www.w3.org/XQueryTest/abf" file="SchemaImport/abf.xsd">
+            <description>A schema defining a complex type abf.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+      </environment>
+      <test>
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        validate strict { .//z }
+      </test>
+      <result>
+         <error code="XQTY0030"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90172-err">
+      <description>validate element that's valid locally but not top-level </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment>
+        <source file="SchemaImport/xqischema008.xml" uri="http://www.w3.org/fots/SchemaImport/xqischema008.xml"/>
+        <schema uri="http://www.w3.org/XQueryTest/abf" file="SchemaImport/abf.xsd">
+            <description>A schema defining a complex type abf.</description>
+            <created by="Michael Kay" on="2006-11-14"/>
+        </schema>
+      </environment>
+      <test>
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        validate strict { doc("http://www.w3.org/fots/SchemaImport/xqischema008.xml")//f }</test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90401-err">
+      <description>test use of import module together with import schema importing module must import schema 
+        definitions used in function signature of called functions </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="hats"/>
+      <module uri="http://www.w3.org/XQueryTest/hats" file="SchemaImport/xmod040a.xq"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        declare namespace hat = "http://www.w3.org/XQueryTest/hats"; 
+        import module "http://www.w3.org/XQueryTest/hats"; 
+        <a> { hat:purchase(5) }</a>]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90431-err">
+      <description>test use of import module together with import schema importing module. 
+        Must import schema definitions used in function signature of called functions </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="mini-fpml"/>
+      <module uri="http://www.fpml.org/2005/FpML-4-2" file="SchemaImport/xmod043a.xq"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        declare namespace hat = "http://www.fpml.org/2005/FpML-4-2"; 
+        import module "http://www.fpml.org/2005/FpML-4-2"; 
+        if (exists($hat:docvar)) then <a/> else <b/>
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90611-err">
+      <description>Type-checking of constructed elements involving substitution groups </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="addresses"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema061.xsd"; 
+        declare function local:p () as schema-element(z:person) { 
+            validate strict { 
+                <z:person> 
+                    <z:first>Michael</z:first> 
+                    <z:middle>H</z:middle> { local:sn() } </z:person> } 
+        }; 
+        declare function local:sn() as schema-element(z:last) { <z:surname>Kay</z:surname> }; 
+        <out> {local:p()} </out>
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90612-err">
+      <description>Type-checking of constructed elements involving substitution groups </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 14267"/>
+      <environment ref="addresses"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema061.xsd"; 
+        declare function local:p () as schema-element(z:person) { 
+            validate strict { 
+                <z:person> <z:first>Michael</z:first> <z:middle>H</z:middle> { local:sn() } </z:person> } 
+        }; 
+        declare function local:sn() as schema-element(z:last) { validate strict { <z:familyname>Kay</z:familyname> } }; 
+        <out> {local:p()} </out>
+      ]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90613-err">
+      <description>Type-checking of constructed element content </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="addresses"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema061.xsd"; declare function local:p () as schema-element(z:person) { validate strict { <z:person> <z:first>Michael</z:first> <z:middle>HP</z:middle> <z:last>Kay</z:last> </z:person> } }; <out> {local:p()} </out>]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90614-err">
+      <description>PURPOSE: Type-checking of constructed element content </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment>
+        <schema uri="http://www.w3.org/XQueryTest/addresses" file="SchemaImport/qischema061.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema061.xsd"; 
+        declare function local:p () as schema-element(z:person) { 
+            validate strict { 
+                <z:person> <z:first>Michael</z:first> <z:middle role="patronymic">H</z:middle> <z:last>Kay</z:last> </z:person> } 
+        }; <out> {local:p()} </out>
+        ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90621-err">
+      <description>Unsuccessful validation against simple type in xsi:type </description>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment>
+        <schema uri="http://www.w3.org/XQueryTest/qischema062" file="SchemaImport/qischema062.xsd"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/qischema062"; 
+        validate lax { <z:person xsi:type="xs:NCName" xmlns:xs="http://www.w3.org/2001/XMLSchema">abc 123</z:person> }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90631-err">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="money"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace z = "http://www.w3.org/XQueryTest/money" (:at "qischema063.xsd":); 
+        validate strict { <z:a xsi:type="z:positive-money-amount" xmlns:z="http://www.w3.org/XQueryTest/money">-1234</z:a> }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90701-err">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="mini-fpml"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace fpml="http://www.fpml.org/2005/FpML-4-2" at "mini-fpml.xsd"; 
+        declare function local:write() as schema-element(fpml:FpML) { 
+            validate strict { 
+                <FpML xmlns="http://www.fpml.org/2005/FpML-4-2" fpml-version="4.2" xsi:type="ValuationDocument"> 
+                    <header> <from>me</from> <to>you</to> <date>2005-10-253</date> </header> <market>cattle</market> <value>0.02</value> 
+                </FpML> }
+        }; 
+        local:write()
+        ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90702-err">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="mini-fpml"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace fpml="http://www.fpml.org/2005/FpML-4-2" at "mini-fpml.xsd"; 
+        declare function local:write() as schema-element(fpml:FpML) { 
+            validate strict { <FpML xmlns="http://www.fpml.org/2005/FpML-4-2" fpml-version="4.2" xsi:type="ValuationDocument"> 
+                                <header> <from>me</from> <to>you</to> <date>2005-10-25</date> <country>us</country> </header> <market>cattle</market> <value>0.02</value> 
+                              </FpML> }
+        }; 
+        local:write()
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="qischema90703-err">
+      <description/>
+      <created by="Michael Kay" on="2006-11-14"/>
+      <environment ref="mini-fpml"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import schema namespace fpml="http://www.fpml.org/2005/FpML-4-2" at "mini-fpml.xsd"; 
+        declare function local:write() as schema-element(fpml:FpML) {
+            validate strict { 
+                <FpML xmlns="http://www.fpml.org/2005/FpML-4-2" fpml-version="4.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:anyType"> 
+                    <header> <from>me</from> <to>you</to> <date>2005-10-25</date> <country>us</country> </header> 
+                    <market>cattle</market> <value>0.02</value> </FpML> }
+        }; 
+        local:write()
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-001" covers="substitution-groups">
+      <description>Simple use of schema-element on the head of a substitution group</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict { 
+                <H xmlns="http://www.w3.org/XQueryTest/substitution">
+                  <string>s</string>
+                  <decimal>93.7</decimal>
+                </H>                  
+            }; 
+        $in instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-002" covers="substitution-groups">
+      <description>Use of schema-element on the head of a substitution group when nilled</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict { 
+                <H xmlns="http://www.w3.org/XQueryTest/substitution"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>          
+            }; 
+        $in instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-003" covers="substitution-groups">
+      <description>
+        Use of schema-element on a pseudo-abstract-member of a substitution group.
+        
+        Element A does not satisfy the schema-element() test because although there
+        is an element declaration named A within the substitution group of H, the
+        element declaration of A is abstract, so no element named A can ever be
+        substituted for H; if an element named A is encountered, it must have been
+        validated using a different element declaration. 
+      
+        This situation was discussed under bug 10065, and the resolution was that
+        when the "substituted element" (here, A) is abstract, elements named A
+        cannot satisfy the schema-element() test.
+            
+      </description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <A/>
+              </cuckoo>            
+            }; 
+        $in/s:A instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-004" covers="substitution-groups">
+      <description>Use of schema-element on a pseudo-non-abstract-member of a substitution group</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <B/>
+              </cuckoo>            
+            }; 
+        $in/s:B instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-005" covers="substitution-groups">
+      <description>Use of schema-element on a pseudo-non-abstract-member of a substitution group</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <C/>
+              </cuckoo>            
+            }; 
+        $in/s:C instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-006" covers="substitution-groups">
+      <description>Use of schema-element on a pseudo-non-nillable-member of a substitution group</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <C xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+              </cuckoo>            
+            }; 
+        $in/s:C instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-007" covers="substitution-groups">
+      <description>Use of schema-element on a pseudo-non-blocked-member of a substitution group</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <D/>
+              </cuckoo>            
+            }; 
+        $in/s:D instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-008" covers="substitution-groups">
+      <description>Use of schema-element on an apparently blocked-member of a substitution group.
+      Note that although D blocks substitution, this does not prevent E being substitutable for H.</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <E/>
+              </cuckoo>            
+            }; 
+        $in/s:E instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-009" covers="substitution-groups">
+      <description>Use of schema-element on a restricted member of a substitution group</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <F><string>s</string><decimal>12.7</decimal></F>
+              </cuckoo>            
+            }; 
+        $in/s:F instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-010" covers="substitution-groups">
+      <description>
+        Use of schema-element on an extended member of a substitution group
+        when extension is blocked.
+        
+        This relies on the resolution of bug 10207, which unfortunately is not
+        well represented in the current draft of the specification. It was established
+        in the resolution of this bug that when the specification speaks of membership
+        of a substitution group, it means what the XSD specification calls "actual
+        membership" of the substitution group, as distinct from "potential membership".
+        The actual membership of a substitution group contains elements that are
+        "validly substitutable" for the head of the substitution group. In this example,
+        the type of H blocks extension, and the type of G is derived by extension. This
+        has the effect that G is not validly substitutable for H, which in turn means
+        that the G element in this instance does not satisfy schema-element(H).
+                
+        </description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <G><string>s</string><decimal>12.7</decimal><date>2012-10-10</date></G>
+              </cuckoo>            
+            }; 
+        $in/s:G instance of schema-element(s:H)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-011" covers="substitution-groups">
+      <description>
+      Use of schema-element on a blocked member of a substitution group.
+      
+      The rationale for this case is similar to that for test case substitution-010.
+      In this case, however, E is not an "actual member" of the substitution group
+      whose head is D, because D blocks substitution.      
+      </description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution">
+                <E/>
+              </cuckoo>            
+            }; 
+        $in/s:E instance of schema-element(s:D)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-020" covers="substitution-groups xsd11">
+      <description>XSD 1.1: element in more than one substitution group.
+        Not a member, because abstract.</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution11"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xsd-version" value="1.1"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution11"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution11">
+                <A/>
+              </cuckoo>            
+            }; 
+        $in/s:A instance of schema-element(s:H1)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-021" covers="substitution-groups xsd11">
+      <description>XSD 1.1: element in more than one substitution group.
+        Not a member, because abstract.</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution11"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xsd-version" value="1.1"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution11"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution11">
+                <A/>
+              </cuckoo>            
+            }; 
+        $in/s:A instance of schema-element(s:H2)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-022" covers="substitution-groups xsd11">
+      <description>XSD 1.1: element in more than one substitution group.</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution11"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xsd-version" value="1.1"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution11"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution11">
+                <B/>
+              </cuckoo>            
+            }; 
+        $in/s:B instance of schema-element(s:H1)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-023" covers="substitution-groups xsd11">
+      <description>XSD 1.1: element in more than one substitution group.</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution11"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xsd-version" value="1.1"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution11"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution11">
+                <B/>
+              </cuckoo>            
+            }; 
+        $in/s:B instance of schema-element(s:H2)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-024" covers="substitution-groups xsd11">
+      <description>XSD 1.1: element in more than one substitution group. Fails because
+      of the rules on nillability</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution11"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xsd-version" value="1.1"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution11"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution11">
+                <C xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+              </cuckoo>            
+            }; 
+        $in/s:C instance of schema-element(s:H1)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-025" covers="substitution-groups xsd11">
+      <description>XSD 1.1: element in more than one substitution group. Fails because
+      of the rules on nillability</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution11"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xsd-version" value="1.1"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution11"; 
+        declare variable $in :=
+            validate strict {
+              <cuckoo xmlns="http://www.w3.org/XQueryTest/substitution11">
+                <C xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+              </cuckoo>            
+            }; 
+        $in/s:C instance of schema-element(s:H2)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="substitution-030" covers="substitution-groups">
+      <description>
+        Test type subsumption of schema-element tests (Note: see bug 19425)
+        
+        As described in bug 19425, there is a problem in the specification here,
+        and the outcome of this test depends on how this is resolved.
+        
+        </description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution";
+        declare function local:f($p as schema-element(s:H)) as xs:integer {3}; 
+        local:f#1 instance of function(schema-element(s:A)) as xs:integer
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-031" covers="substitution-groups">
+      <description>Test type subsumption of schema-element tests
+                   (Note: see bug 19425)</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution";
+        declare function local:f($p as schema-element(s:D)) as xs:integer {3}; 
+        local:f#1 instance of function(schema-element(s:E)) as xs:integer
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="substitution-032" covers="substitution-groups">
+      <description>Test type subsumption of schema-element tests
+                   (Note: see bug 19425)</description>
+      <created by="Michael Kay" on="2012-10-10"/>
+      <environment ref="substitution"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+        import schema namespace s="http://www.w3.org/XQueryTest/substitution";
+        declare function local:f($p as schema-element(s:H)) as xs:integer {3}; 
+        local:f#1 instance of function(schema-element(s:G)) as xs:integer
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+
+   
+   <test-case name="cbcl-schema-element-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-head))</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-group))</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-3">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-group-nillable))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-4">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-nillable-head))</test>
+      <result>
+         <assert-string-value>7</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-5">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-nillable-group))</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-6">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-nillable-group-restriction))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-7">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:nillable))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-8">
+      <description> Test static type of schema-element tests in a substitution group </description>
+      <created by="Oliver Hallam" on="2009-02-20"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        exists(/tc:root/schema-element(tc:schema-element-head)/self::tc:schema-element-group)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-9">
+      <description> Test static type of schema-element tests in a substitution group </description>
+      <created by="Oliver Hallam" on="2009-02-20"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        declare function local:f($x as schema-element(tc:schema-element-head)) { local-name($x) };
+        local:f(exactly-one(/tc:root/schema-element(tc:schema-element-group-nillable)[2]))</test>
+      <result>
+         <assert-string-value>schema-element-group-nillable</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-1">
+      <description> Test schema element with validation </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        declare construction strip;
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := validate strict {/} 
+        return count($x/tc:root/schema-element(tc:schema-element-head))</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-2">
+      <description> Test schema element with validation </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip;
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := <newroot>{/}</newroot> return count($x/tc:root/schema-element(tc:schema-element-head))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-3">
+      <description> Test schema element with validation </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip;
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := validate lax {<newroot>{/}</newroot>} 
+        return count($x/tc:root/schema-element(tc:schema-element-head))]]></test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-4">
+      <description> Test static type of schema-element tests in a substitution group when validated </description>
+      <created by="Oliver Hallam" on="2009-02-20"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := validate strict {/} 
+        return exists($x/tc:root/schema-element(tc:schema-element-head)/self::tc:schema-element-group)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-attribute-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:schema-attribute/schema-attribute(tc:x))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-attribute-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:schema-attribute/schema-attribute(tc:y))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-default-attribute-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:default-attribute[1]/@attr)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-default-attribute-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:default-attribute[2]/@attr)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fixed-attribute-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        string(/tc:root/tc:fixed-attribute[1]/@attr)</test>
+      <result>
+         <assert-string-value>fixed</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fixed-attribute-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        string(/tc:root/tc:fixed-attribute[2]/@attr)</test>
+      <result>
+         <assert-string-value>fixed</assert-string-value>
+      </result>
+   </test-case>
+
+
+
+</test-set>

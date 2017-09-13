@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" 
+        targetNamespace="http://www.w3.org/XQueryTest/q083one" 
+        xmlns:one="http://www.w3.org/XQueryTest/q083one"
+        xmlns:two="http://www.w3.org/XQueryTest/q083two">
+
+
+  <import namespace="http://www.w3.org/XQueryTest/q083two" schemaLocation="qischema083-2.xsd"/>
+  
+	<element name="one">
+		<complexType>
+			<sequence maxOccurs="unbounded">
+				<element ref="two:two"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

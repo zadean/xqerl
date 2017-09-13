@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>XML Query Test Suite</title>
+  <meta name="generator" content="amaya 9.51, see http://www.w3.org/Amaya/" />
+  <style type="text/css">
+<!--
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+  </style>
+</head>
+
+<body>
+<p class="navbar" align="right"><a href="http://www.w3.org/"><img alt="W3C"
+src="http://www.w3.org/Icons/w3c_home" align="left" border="0" height="48"
+width="72" /></a> <a href="http://www.w3.org/UbiWeb/" rel="in-domain"><img
+src="http://www.w3.org/Icons/ubi212" alt="Ubiquitous Web Domain" align="left"
+border="0" height="48" width="212" /></a> <a
+href="http://www.w3.org/XML/Query/">XML Query</a></p>
+<br clear="all" />
+
+
+<h1 style="text-align: center;">XQuery/XPath/XSLT 3.* Test Suite</h1>
+
+
+<p>The XQuery/XPath 3.* Test Suite (QT3TS) provides a set of tests designed to demonstrate
+  the interoperability of <a href="http://www.w3.org/TR/xquery-30/">W3C XML Query Language, version 3.0</a> 
+  and <a href="http://www.w3.org/TR/xpath-30/">W3C XML Path Language</a> implementations.</p>
+  
+<p>The test suite currently contains over 26,000 test cases.</p>
+
+<p>The tests are published as a set of files, mostly in XML format. W3C does not supply a test
+  driver for executing the tests; you will have to write your own. Some implementors, however,
+  have made their test drivers available as part of the download, and you are welcome to 
+  use these as a baseline for developing your own drivers.</p>
+  
+<p>The metadata for each test indicates its dependencies. These include the specification(s)
+  exercised by the test (some subset of XPath 2.0, XPath 3.0, XQuery 1.0, and XQuery 3.0), as well as
+  dependencies on optional features which implementations may or may not support (such as
+  formatting of dates using English-language month names). The idea is that if your implementation
+  does not support an optional feature, you should not run the tests that require that feature.</p>
+
+<h2>History</h2>
+  
+  <p>Very many of the QT3 tests were converted automatically from tests in the older 
+    <a href="http://dev.w3.org/cvsweb/2006/xquery-test-suite/">XML Query 1.0 test suite</a>.
+There are several changes in approach:</p>
+
+<ol>
+<li>in most cases the test query is now inline within the catalog,
+making it much easier to find all the tests for a given area and to add new tests</li>
+<li>the mechanisms for testing results are more flexible: instead of being confined to
+comparing serialized output of a query, it is now possible to make an arbitrary number
+of assertions about the result. This gives much greater flexibility in handling queries
+where aspects of the result are implementation defined (for example, the order of items
+in the result)</li>
+<li>the dependencies applying to each test are more clearly defined in the metadata. Each test refers 
+to a named environment which in turn defines resources such as source documents and schemas
+used by the test: this allows resources used by multiple tests to be shared, without making
+all resources global. In addition, each test states its assumptions about the specification
+language and features that it depends on: for example a test might be labelled as XP20+ to indicate
+that it requires XPath 2.0 or later, or as XQ10 to indicate that it is only expected to be
+run with XQuery 1.0 and not with any later version. Test drivers can either use this information
+to configure an XPath/XQuery processor that meets the expectations, or they can use it to decide
+which tests it is approprriate to run. When reported test results are tabulated, they
+will be tabulated separately for each optional feature, so a processor that implements only
+XQuery 3.0 and not XQuery 1.0 will not be listed in the tabulation for XQuery 1.0.</li>
+</ol>
+  
+  <p>To enable tracking of test history, including controversies that may have arisen in the past
+    about the correctness of test results, all test names of XQuery 1.0 tests have been
+    retained unchanged.</p>
+
+<h2>Current Status</h2>
+  
+<p>Currently the test suite is work in progress. There are no versioned releases, instead
+the tests are continuously updated in the CVS repository. This will change as the specifications
+themselves stabilize, at which point snapshots of this test suite will be frozen and given
+version numbers.</p>
+  
+  
+  <p>Users of the test suite are strongly encouraged to provide feedback via the Bugzilla
+    bug database. A goal of the test suite is to discover areas where the language
+    specification is unclear, and where implementations can therefore produce results
+    that are different from those published; where this occurs, the Working Group will
+    examine the issue, and decide whether to make the specification more prescriptive,
+    or to change the test case to allow alternative results.</p>
+  
+
+<p>At the time of writing (January 2013), QT3TS contains over 25,000 test cases, and
+  these are believed to cover most areas of the specification; the area where coverage
+  is weakest is serialization. Working Group members and others are continually adding
+  new tests.</p>
+    
+    <p>Change control is currently informal. Anyone with CVS write access is able to submit new tests without
+ formality, and these become part of the test suite unless challenged by means of a bug report.
+ Existing tests should not be changed until there has been discussion of the change among
+ interested parties (typically including the test author), but individuals are responsible 
+ for deciding whether changes are sufficiently controversial to merit discussion by the full Working Group.
+ However, any user of the tests has the right to challenge new or changed tests and ask the relevant Working
+ Group(s) to make a formal decision.</p>
+  
+ <h2>Organization of the Test Suite</h2> 
+  
+  <p>The test suite contains a catalog that
+contains general information on the test suite as well as test descriptions for
+each of the test cases included in this release. Test queries and assertions about the expected
+results are contained in the catalog, or in some cases in files referenced from the catalog. </p>
+
+<p>The tests are organised into a number of groups, each with its own naming conventions.</p>
+
+<ul>
+<li>fn: tests of functions in Functions and Operators, one per function, named according to the function</li>
+<li>op: tests of operators in Functions and Operators, one per operator, named according to the operator</li>
+<li>math: tests of the functions in the math namespace</li>
+<li>map: tests of the facilities in the XSL WG maps proposal (which is not currently part of XPath or XQuery)</li>
+<li>prod: tests of XPath and XQuery language features, named after a production in the XPath/XQuery grammar that
+is most relevant to the test in question (for example CastExpr or CompAttrConstructor)</li>
+<li>xs: tests of specific data types</li>
+<li>misc: tests for capabilities that are orthogonal to specific language features, for example error handling,
+support for different XML editions, or support for non-BMP unicode characters.</li>
+<li>app: tests of XPath/XQuery "applications", that is, queries designed to accomplish some applicatation-oriented
+goal, rather than merely to test individual language constructs. These include tests harvested from the
+published use cases, from the XMark benchmark suite, and from Priscilla Walmsley's functx library,
+and also a number of tests whose main purpose is to validate the integrity of the test catalog itself.</li>
+</ul>
+
+<p>There is a master catalog, <code>catalog.xml</code>, that contains references to subsidiary
+catalogs, one per test area, organized in directories as above. There are some additional directories:</p>
+
+<ul>
+<li>docs: contains source documents and schemas used globally throughout the test suite</li>
+<li>tools: contains a miscellany of tools used for preparing or analyzing tests</li>
+<li>drivers: contains a selection of contributed test drivers that may be used as a starting point
+for writing new test drivers</li>
+</ul>
+
+<h2>Using the Test Suite</h2>
+  
+  <p>Implementors are encouraged 1) to write a harness for this test suite and to
+    test their implementations and 2) to report their results to the XML Query
+    Working Group. All of these areas are discussed in greater detail in the documents referenced below.</p>
+  
+  <p>See the following documents:</p>
+  
+  <ol>
+    <li><p><a href="guide/submitting.html">Writing and submitting tests</a></p></li>
+    <li><p><a href="guide/running.html">Running tests</a></p></li>
+    <li><p><a href="guide/reporting.html">Reporting results</a></p></li>
+  </ol>
+
+
+<h2>Releases</h2>
+
+<table style="border: solid 1px">
+  <tbody>
+    <tr>
+      <td>Version</td>
+      <td>Date</td>
+      <td>File</td>
+    </tr>
+    <tr>
+      <td>(none yet)</td>
+      <td>(none yet)</td>
+      <td><div align="left">(none yet)</div></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+<h2>Documentation</h2>
+
+<p>The primary documentation of the test suite (alongside this document) is the schema for the catalog and test-set files,
+    which is found at <a href="catalog-schema.xsd">catalog-schema.xsd</a>. If viewed directly in an XSLT-capable browser,
+    the schema is rendered automatically into HTML. In case this mechanism does not work, a pre-rendered version of the HTML
+is at <a href="catalog-schema.html">catalog-schema.html</a>. (In many browsers the pre-rendered form is more readable).</p>
+
+<!--
+
+<p>The zip files above each contain the files contained in the
+TestSuiteStagingArea directory.</p>
+
+<h1>Running the Test Suite</h1>
+
+<p>We encourage you, the implementors of XQuery and XQueryX, to run these tests
+and send us your results. These results will help us exit Candidate
+Recommendation (described in the W3C <a
+href="http://www.w3.org/Consortium/Process/">Process</a>).</p>
+
+<p>As there is no de jure or de facto API for implementations of XQuery 1.0, we
+are not able to provide a test harness to execute these tests. You will have to
+write your own test harnesses.</p>
+
+<p>We have provided <a
+href="Guidelines%20for%20Running%20the%20XML%20Query%20Test%20Suite.html">Guidelines
+for Running the XML Query Test Suite</a> to assist you in running these tests.
+These guidelines will tell you how the queries may be modified before they are
+executed and how to compare your actual results with the expected results that
+we have provided. At one time we solicited submissions of test cases from
+individuals and organizations that were not already participating in the XML
+Query Working Group. You may find a document that we prepared, <a
+href="Guidelines%20for%20Test%20Submission.html">Guidelines for XML Query Test
+Suite Submissions</a>, useful.</p>
+
+
+
+-->
+
+<!--
+<h1>Test Suite Results</h1>
+
+<p>We have received results for the following XQuery 1.0 implementations:</p>
+<ul>
+  <li>Saxon-SA</li>
+  <li>xq2xsl</li>
+  <li>X-Hive/DB</li>
+  <li>Qizx</li>
+  <li>DataDirect XQuery</li>
+  <li>Stylus Studio</li>
+  <li>Sedna XML Database System</li>
+  <li>xbird/open</li>
+  <li>Galax</li>
+  <li>eXist-db</li>
+  <li>Qexo</li>
+  <li>XQuantum</li>
+  <li>Berkeley DB XML</li>
+  <li>XQSharp</li>
+  <li>BaseX</li>
+  <li>Mark Logic</li>
+  <li>QueryMachine.XQuery</li>
+  <li>Zorba</li>
+</ul>
+
+<p>We have generated both <a href="XQTSReportSimple.html">summary</a> and <a
+href="XQTSReport.html">detail</a> reports from these results. You can also see
+<a href="XQTSReportSimple_XQTS_1_0_2.html">summary</a> and <a
+href="XQTSReport_XQTS_1_0_2.html">detail</a> reports reflecting the previous
+version of our test suite, XQTS 1.0.2.</p>
+
+<p>We have generated both <a
+href="XQTSReportSimple_XQuery_1_0_SecondEdition.html">summary</a> and <a
+href="XQTSReport_XQuery_1_0_SecondEdition.html">detail</a> reports for XQuery
+1.0 Second Edition from the more recently submitted results.</p>
+
+<h1>Contacting Us</h1>
+
+<p>Questions about the XQTS can be sent to the <a
+href="mailto:public-xqts-comments@w3.org">XQTS public mailing list</a>.
+Messages sent to this list can be seen in <a
+href="http://lists.w3.org/Archives/Public/public-xqts-comments/">public-xqts-comments@w3.org
+Mail Archives</a>.</p>
+
+<h1>Acknowledgements</h1>
+
+<p>The following members of the XML Query Working Group and XSL Working Group
+participated in early versions of this test suite:</p>
+
+<blockquote>
+  <p>Michael Rorke (Microsoft), Karuna Muthiah (Oracle), Ravindranath Chennoju
+  (Oracle), Ying Lu (Oracle), Andreas Behm (IBM), Carmelo Montanez (NIST),
+  Gauri Sharma (Sun Microsystems, Inc.), Joanne Tong (IBM), and Frans Englich
+  (invited expert).</p>
+</blockquote>
+
+<p>We would also like to acknowledge an initial test suite submission to the
+XML Query Working Group by:</p>
+
+<blockquote>
+  <p>David Marston (IBM), Asad Jawahar (Microsoft), Jinghao Liu (Microsoft),
+  Mike Rorke (Microsoft), Ana Elisa Schmidt (Microsoft), and Kuen Siew
+  (Microsoft)</p>
+
+  <p></p>
+</blockquote>
+-->
+
+<hr />
+<address>
+  <a href="http://www.w3.org/Help/Webmaster">Webmaster</a> · Last modified:
+  $Date: 2013-01-15 10:39:40 $ by $Author: mkay $ 
+</address>
+
+<p><a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
+1994-2013 <a href="http://www.w3.org/"><acronym
+title="World Wide Web Consortium">W3C</acronym></a><sup>®</sup> (<a
+href="http://www.csail.mit.edu/"><acronym
+title="Massachusetts Institute of Technology">MIT</acronym></a>, <a
+href="http://www.ercim.org/"><acronym
+title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
+<a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C <a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+<a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>,
+<a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+and <a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-software">software
+licensing</a> rules apply. Your interactions with this site are in accordance
+with our <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Public">public</a>
+and <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Members">Member</a>
+privacy statements.</p>
+
+<p></p>
+</body>
+</html>

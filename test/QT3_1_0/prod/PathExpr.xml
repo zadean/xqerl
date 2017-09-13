@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-PathExpr">
+   <description>Tests for the PathExpr production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-PathExpr"/>
+   <link type="spec" document="XQuery" section-number="3.2" idref="id-path-expressions"/>
+   
+   <environment name="OneTopElement">
+      <source role="." file="PathExpr/OneTopElement.xml">
+         <description/>
+         <created by="Nicolae Brinza" on="2009-04-01"/>
+      </source>
+   </environment>
+
+   <test-case name="PathExprErr-2">
+      <description> Evaluate error condition XPTY0018 </description>
+      <created by="Carmelo Montanez" on="2006-07-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<a>1</a>,<b>2</b>)/(if(position() eq 1) then . else data(.))]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-1">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test>fn:count(.[5 * /])</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-2">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test>fn:count(.[(/) * 5])</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-3">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test>fn:count(.[/ * 5])</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-4">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test><![CDATA[fn:count(.[(/) < 5])]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-5">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(.[/ < 5])]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-5p">
+      <description> In XPath, /&lt; doesn't trigger leading-lone-slash syntax contraint </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP20+"/>
+      <test><![CDATA[fn:count(.[/ < 5])]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-6">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test><![CDATA[fn:count(.[5</])]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-7">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(.[/ < a])]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-7p">
+      <description> In XPath, /&lt; doesn't trigger leading-lone-slash syntax contraint </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP20+"/>
+      <test><![CDATA[fn:count(.[/ < a])]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-8">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(.[/ < /b])]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-8p">
+      <description> In XPath, /&lt; doesn't trigger leading-lone-slash syntax contraint </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP20+"/>
+      <test><![CDATA[fn:count(.[/ < /b])]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-9">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(.[/<a div 3])]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-9p">
+      <description> In XPath, /&lt; doesn't trigger leading-lone-slash syntax contraint </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP20+"/>
+      <test><![CDATA[fn:count(.[/<a div 3])]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-10">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-06-11" change="Added error code XPST0008 according to bug issue #10697" />
+      <environment ref="OneTopElement"/>
+      <test>fn:count(.[if (doclevel) then / else /*])</test>
+      <result>
+         <any-of>
+           <error code="XPST0003"/>
+           <error code="XPST0008"/>
+         </any-of>  
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-11">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $a := . return fn:count(.[/ is $a])</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-12">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test>fn:count(.[/ instance of document-node(schema-element(x))])</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-13">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test>fn:count(.[let $doc := / return $doc/*])</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-14">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(.[/<a/>])]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-15">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <test>fn:count(.[/-5])</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="PathExpr-16">
+      <description> Leading lone slash syntax contraints </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $a := . return fn:count(.[/=$a])</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+</test-set>

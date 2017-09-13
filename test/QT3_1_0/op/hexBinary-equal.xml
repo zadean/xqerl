@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-hexBinary-equal">
+   <description>Tests for the hexBinary-equal() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-hexBinary-equal"/>
+   <test-case name="op-hexBinary-equal2args-1">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-1                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("767479716c6a647663") eq xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-2">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-2                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(mid range)                      
+$value2 = xs:hexBinary(lower bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("6e7875626264756366") eq xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-3">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-3                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(upper bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-4">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-4                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(mid range)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("767479716c6a647663") eq xs:hexBinary("6e7875626264756366")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-5">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-5                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(upper bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("767479716c6a647663") eq xs:hexBinary("786174616d61616772")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-6">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-6                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("767479716c6a647663") ne xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-7">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-7                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(mid range)                      
+$value2 = xs:hexBinary(lower bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("6e7875626264756366") ne xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-8">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-8                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(upper bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-9">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-9                         
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(mid range)                      
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("767479716c6a647663") ne xs:hexBinary("6e7875626264756366")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="op-hexBinary-equal2args-10">
+      <description>
+*******************************************************
+Test: op-hexBinary-equal2args-10                        
+Written By: Carmelo Montanez                            
+Date: Thu Dec 16 10:48:18 GMT-05:00 2004                
+Purpose: Evaluates The "op:hexBinary-equal" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(upper bound)                    
+*******************************************************
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>xs:hexBinary("767479716c6a647663") ne xs:hexBinary("786174616d61616772")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-1">
+      <description>
+Test: hexBinary-1                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-02"/>
+      <test>(xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663")) and (xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-2">
+      <description>
+Test: hexBinary-2                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-02"/>
+      <test>(xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663")) or (xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-3">
+      <description>
+Test: hexBinary-3                                       
+Description: Simple Binary hex opeartion as part of argument to fn:not function. 
+</description>
+      <created by="Carmelo Montanez" on="2005-09-02"/>
+      <test>fn:not((xs:hexBinary("786174616d61616772") eq xs:hexBinary("786174616d61616772")))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-4">
+      <description>
+Test: hexBinary-4                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators with "fn:true" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663")) and fn:true()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-5">
+      <description>
+Test: hexBinary-5                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators with "fn:false" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663")) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-6">
+      <description>
+Test: hexBinary-6                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "or" and "eq" operators and "fn:true" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663")) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-7">
+      <description>
+Test: hexBinary-7                                      
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "or" and "eq" operators and "fn:false" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") eq xs:hexBinary("767479716c6a647663")) or fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-8">
+      <description>
+Test: hexBinary-8                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "ne" operators.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-02"/>
+      <test>(xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663")) and (xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-9">
+      <description>
+Test: hexBinary-9                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-02"/>
+      <test>(xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663")) or (xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-10">
+      <description>
+Test: hexBinary-10                                       
+Description: Simple Binary hex opeartion as part of argument to fn:not function. 
+</description>
+      <created by="Carmelo Montanez" on="2005-09-02"/>
+      <test>fn:not((xs:hexBinary("786174616d61616772") ne xs:hexBinary("786174616d61616772")))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-11">
+      <description>
+Test: hexBinary-11                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "ne" operators with "fn:true" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663")) and fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-12">
+      <description>
+Test: hexBinary-12                                       
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "ne" operators with "fn:false" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663")) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-13">
+      <description>
+Test: hexBinary-13                                      
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "or" and "ne" operators and "fn:true" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663")) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-14">
+      <description>
+Test: hexBinary-14                                     
+Description: Simple Binary hex operation as part of a   
+logical expression.  Use "or" and "ne" operators and "fn:false" function.      
+</description>
+      <created by="Carmelo Montanez" on="2005-09-06"/>
+      <test>(xs:hexBinary("786174616d61616772") ne xs:hexBinary("767479716c6a647663")) or fn:false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-HexBinaryEQ-1">
+      <description>
+*******************************************************
+ Test: K-HexBinaryEQ-1                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Compare two hexBinary values.                
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:hexBinary("FF") eq xs:hexBinary("ff")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-HexBinaryEQ-2">
+      <description>
+*******************************************************
+ Test: K-HexBinaryEQ-2                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Compare two hexBinary values.                
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:hexBinary("FF") ne xs:hexBinary("aa")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-HexBinaryEQ-3">
+      <description>
+*******************************************************
+ Test: K-HexBinaryEQ-3                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Compare two hexBinary values.                
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>not(xs:hexBinary("FF") eq xs:hexBinary("aa"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-HexBinaryEQ-4">
+      <description>
+*******************************************************
+ Test: K-HexBinaryEQ-4                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Complex comparison test of wrapped hexBinary/base64Binary constructor functions. 
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:hexBinary(xs:base64Binary(xs:hexBinary("03"))) eq xs:hexBinary("03")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-HexBinaryEQ-5">
+      <description>
+*******************************************************
+ Test: K-HexBinaryEQ-5                                 
+ Written by: Frans Englich                             
+ Date: 2007-11-22T11:31:21+01:00                       
+ Purpose: Complex comparison test of wrapped hexBinary/base64Binary constructor functions. 
+*******************************************************
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>xs:hexBinary(xs:base64Binary(xs:hexBinary("03"))) ne xs:hexBinary("13")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+      <test-case name="cbcl-hexBinary-equal-001">
+      <description> test equality of xs:hexBinary </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') }; local:hexBinary-value(true()) eq local:hexBinary-value(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hexBinary-equal-002">
+      <description> test equality of xs:hexBinary </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') }; not(local:hexBinary-value(true()) eq local:hexBinary-value(false()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hexBinary-equal-003">
+      <description> test equality of xs:hexBinary </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') }; not(local:hexBinary-value(true()) ne local:hexBinary-value(false()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+</test-set>

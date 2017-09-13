@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set  xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="math-sin"  covers="math-sin">
+    <description>Tests for the math:sin function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-sin"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+    
+    <test-case name="math-sin-001">
+        <description>Evaluate the function math:sin() with the argument ()</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(())</test>
+        <result>
+            <assert-empty />
+        </result>
+    </test-case>
+    <test-case name="math-sin-002">
+        <description>Evaluate the function math:sin() with the argument 0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(0)</test>
+        <result>
+            <assert-eq>0.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-sin-003">
+        <description>Evaluate the function math:sin() with the argument -0.0e0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(-0.0e0)</test>
+        <result>
+            <assert-eq>-0.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-sin-004">
+        <description>Evaluate the function math:sin() with the argument math:pi() div 2</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(math:pi() div 2)</test>
+        <result>
+            <assert-eq>1.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-sin-005">
+        <description>Evaluate the function math:sin() with the argument -math:pi() div 2</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(-math:pi() div 2)</test>
+        <result>
+            <assert-eq>-1.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-sin-006">
+        <description>Evaluate the function math:sin() with the argument math:pi()</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(math:pi()) lt 1e-15</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="math-sin-007">
+        <description>Evaluate the function math:sin() with the argument xs:double('NaN')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(xs:double('NaN'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-sin-008">
+        <description>Evaluate the function math:sin() with the argument xs:double('INF')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(xs:double('INF'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-sin-009">
+        <description>Evaluate the function math:sin() with the argument xs:double('-INF')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:sin(xs:double('-INF'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+</test-set>

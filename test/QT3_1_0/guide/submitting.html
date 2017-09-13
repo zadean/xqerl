@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Writing and Submitting tests for the QT3 Test Suite</title>
+  <link
+  href="http://www.w3.org/XML/Group/xquery-test/TestSuiteStagingArXQTSCatalogExplain.html"
+  rel="stylesheet" type="text/css" />
+</head>
+
+<body xml:lang="en" lang="en">
+  <p><img alt="W3C" src="http://www.w3.org/Icons/WWW/w3c_home.gif" /></p>
+
+<h1 style="text-align: center;">Writing and Submitting tests for the QT3 Test
+Suite</h1>
+
+<h2>Policy</h2>
+ 
+  
+  <p>We welcome submissions of test cases from individuals and organizations
+  whether or not they already participating in a relevant Working Group. </p>
+  
+  <p>We particularly encourage submissions that follow the existing format of the test suite,
+    and that provide coverage of areas that are not well covered already.
+    Where test material is available in other formats, then we would still like to know about
+    it, and may be prepared to undertake the conversion. In all cases, the Working Groups
+    will, at their sole
+    discretion, determine what tests are incorporated in the test suite.</p>
+  
+  <p><i>The relevant Working Groups here means the XQuery Working Group in the case of XQuery
+  tests, and the XQuery and XSLT Working Groups (acting jointly) in the case of XPath tests.</i></p>
+ 
+  <p>If you would like to submit test cases, then you must:</p>
+  <ul>
+    <li>Register for a W3C account. You can request one through the <a
+      href="http://cgi.w3.org/MemberAccess/Public">Public Access Request
+      Form</a>.</li>
+    <li>Submit your test cases using <a>Grant II: Grant of License for
+      Contributed Test Cases Published Outside a W3C Recommendation</a>. This
+      license grant, for non-Participant test case Contributors, is described
+      in <a href="http://www.w3.org/2004/10/27-testcases.html">Policies for
+        Contribution of Test Cases to W3C</a>.</li>
+  </ul>
+  
+  <p><i>Contributors to the test suite agree to make material available under the terms described in this policy,
+    and take responsibility for ensuring that they are entitled to make the material available. In the event that anyone 
+    encounters material which should not have been submitted and published, however, they should immediately let the Working Group know, 
+    so that it can be withdrawn.</i></p>
+  
+  
+  <h2>The test repository</h2>
+  
+  <p>Our source files are available at <a
+    href="http://dev.w3.org/cvsweb/2011/QT3-test-suite/">http://dev.w3.org/cvsweb/2011/QT3-test-suite/</a>.
+    This page provides the ability to view individual files.</p>
+  
+  <p>If you want to get the latest version of the test suite, but don't intend to make any contributions,
+    you can use anonymous CVS to check the whole suite out into your local filestore. Use the
+    CVS repository name <code>:pserver:anonymous@dev.w3.org:/sources/public</code>, password <code>anonymous</code>,
+    and the module name <code>2011/QT3-test-suite</code>.</p>
+  
+  <p>To work on the test suite you will need to get read-write access to the W3C CVS repository. Official
+    information on how to do this is at <a href="https://www.w3.org/Project/CVSdoc/">https://www.w3.org/Project/CVSdoc/</a>;
+    unofficial information from people who have been through the experience and emerged from it triumphant is 
+    <a href="http://wiki.csswg.org/spec/cvs">here</a> (Tantek Çelik) and 
+    <a href="https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html">here</a> (Andrew Eisenberg).
+    Briefly the steps are:</p>
+  
+  <ol>
+    <li>Get a W3C username (ask your staff contact)</li>
+    <li>Create a private/public key pair and lodge the public half with W3C; wait until you get confirmation
+      that it has been installed.</li>
+    <li>Install a CVS client and configure it to be aware of your private/public key</li>
+    <li>Checkout the repository at <code>:ext:user@dev.w3.org:/sources/public</code> (where 'user' is your username), 
+      module (or directory) <code>2011/QT3-test-suite</code>. Note that many CVS clients invite you to ask the server for
+      a list of available modules, but the W3C server does not respond to this request: you need to
+      know the name of the module you are looking for.</li>
+  </ol>
+  
+  <p>Two graphical CVS clients I (Michael Kay) have found useful are: for Windows, <b>TortoiseCVS</b>, and for Mac, <b>SmartCVS</b>.
+    Use the command line if you're feeling macho; use Emacs if you are one of the faithful. Other tools that you have on your desktop
+    may also have a CVS client built in, though the number is declining as CVS is now considered obsolescent.</p>
+  
+  <p>Another guide you may find useful is Andrew Eisenberg's at 
+    <a href="https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html">https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html</a>
+  </p>
+  
+  <p>If you are new to CVS, here are some explanations of key terms:</p>
+  
+  <ul>
+    <li>checkout: checking out a repository is something you only do once, when you first access that repository on a new client machine.
+      It makes a copy of the repository in your local filestore. It doesn't give you any kind of lock.</li>
+    <li>update: refresh your local filestore copy of the data with updated information from the server</li>
+    <li>commit: send your changes back to the server</li>
+    <li>add: mark a local file or directory for inclusion in the repository next time you commit (an operation that is very easy to forget)</li>
+    <li>conflict: two people have been working on the same file, and the system can't work out how to merge the changes. If you get a conflict
+      on commit, try an update, and the system will give you a chance to merge the changes. Better, avoid conflicts
+      by updating and committing frequently, and by talking to your colleagues about what you are doing.</li>
+  </ul>
+  
+  <h2>Development Process</h2>
+  
+  
+  <p>At the current stage of development, the change control process for tests is
+    lightweight. </p>
+  
+  <p>If at all possible, test your tests against at least one implementation before committing them. 
+    Experience shows that untested tests have a 50% chance of being wrong.</p>
+  
+  <p>Where possible, make your CVS commits fine-grained, and mention bug numbers and/or test names in the commit message.</p>
+  
+  <p>This process will become more formal as the tests and the spec approach completion.</p>
+  
+  <h3>Submitting new tests</h3>
+  
+  
+  
+  <p>Unless you have been asked specifically to write tests for an area where tests are currently missing, you should not
+  submit a test until you have established that there is at least one implementation capable of running the test successfully.
+  You should also take care to ensure that any dependencies on features of that implementation are properly documented in the
+  metadata. Tests of optional features in the specification are welcome, but tests of vendor extensions are not.</p>
+  
+  <p>Tests should generally be small and self-contained. There are a few "system" tests designed to show that larger-scale
+  queries can be executed interoperably, but these need to be very carefully designed to ensure that the results are easily
+  compared. Tests that produce a large result file and expect it to be exactly equal to a supplied result file are
+  best avoided, since it can be very hard to isolate differences in the results and work back to their causes.</p>
+  
+  <p>Each test should have a description that summarizes the intent of the test: what is it designed to prove?</p>
+  
+  <p>Try to allocate any new test to the most appropriate existing test set, and to respect the naming conventions used
+  in that part of the test suite. Try to reuse existing test environments (source documents and schemas) if possible,
+  rather than adding new source documents. Try to use test assertions that reflect the purpose of the test.</p>
+  
+  <p>When you make changes to the test catalog, you should check before committing the change that the catalog is valid
+  against its schema, and conforms to other required consistency checks. The easiest way of checking this is to run
+  the test set named <code>CatalogCheck</code>, which performs these checks automatically.</p>
+  
+  <h3>Modifying existing tests</h3>
+  
+  <p>If you have CVS write access to the test suite then you are trusted to exercise responsibility in modifying existing
+  tests.</p>
+  
+  <p>Three levels of changes to tests can be identified:</p>
+  
+  <ol>
+    <li>Cosmetic changes, for example tidying the layout or improving the description. This is allowed without
+    formality.</li>
+    <li>Metadata changes, for example noting that a test is dependent on support for schema-awareness. Such changes do not
+      require a bug report, but should be logged: you should add a "modified by" element indicating your name, the date of the change, and
+      the reason. Splitting a test into multiple tests with different dependencies also falls into this category.</li>
+    <li>Substantive changes, that is changes to the test query or to its expected results (including adding alternative results). Such changes
+    should not be made without raising a bug report and giving the Working Group the opportunity to dispute the change.
+    If the error is obvious and uncontroversial (for example a misspelt variable or function name), and
+    in particular if the test was only recently submitted, then you may correct the error and close the bug without further consultation.
+    Normally, however, a bug report should not be closed until there is evidence of consensus (which might simply be the concurrence
+    of one other person and the absence of dissent.) In all cases, when a substantive change is made, the test should be updated with a "modified by"
+    element that cross-references the Bugzilla entry.</li>
+  </ol>
+  
+  
+  <p>You SHOULD NOT add an alternative expected result to a test purely because your own implementation delivers that result,
+  however strongly you believe that the alternative result is legitimate.</p>
+  
+  
+  
+  <h2>Documentation</h2>
+  
+  <p>The primary documentation of the test suite (alongside this document) is the schema for the catalog and test-set files,
+    which is found at <a href="../catalog-schema.xsd">catalog-schema.xsd</a>. If viewed directly in an XSLT-capable browser,
+    the schema is rendered automatically into HTML. In case this mechanism does not work, a pre-rendered version of the HTML
+    is at <a href="../catalog-schema.html">catalog-schema.html</a>. (In many browsers the pre-rendered form is more readable).</p>
+  
+  
+    
+
+
+
+
+<hr />
+<address>
+  <a href="http://www.w3.org/Help/Webmaster">Webmaster</a> · Last modified:
+  $Date: 2012-01-14 19:02:21 $ by $Author: mkay $ 
+</address>
+
+<p><a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
+1994-2013 <a href="http://www.w3.org/"><acronym
+title="World Wide Web Consortium">W3C</acronym></a><sup>®</sup> (<a
+href="http://www.csail.mit.edu/"><acronym
+title="Massachusetts Institute of Technology">MIT</acronym></a>, <a
+href="http://www.ercim.org/"><acronym
+title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
+<a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C <a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+<a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>,
+<a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+and <a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-software">software
+licensing</a> rules apply. Your interactions with this site are in accordance
+with our <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Public">public</a>
+and <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Members">Member</a>
+privacy statements.</p>
+
+<p></p>
+</body>
+</html>

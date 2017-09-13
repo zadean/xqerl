@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-SequenceType">
+   <description>Tests for the SequenceType production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-SequenceType"/>
+   <link type="spec" document="XQuery" section-number="2.5.4"
+         idref="id-sequencetype-matching"/>
+
+   <test-case name="sequence-type-1">
+      <description> Evaluate simple sequence type using instance of and integers. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1,2,3) instance of xs:integer*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-2">
+      <description> Evaluate simple sequence type using instance of and doubles. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1E3,2E3,3E3) instance of xs:double*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-3">
+      <description> Evaluate simple sequence type using instance of and decimal. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1.1,3.2,4.5) instance of xs:decimal*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-4">
+      <description> Evaluate simple sequence type using instance of and string. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>("ab","cde","fgh") instance of xs:string*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-5">
+      <description> Evaluate simple sequence type using instance of and strings. uses "integer*" on string sequence. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>("ab","cde","fgh") instance of xs:integer*</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-6">
+      <description> Evaluate simple sequence type using instance of and string. uses "integer?". </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1) instance of xs:integer?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-7">
+      <description> Evaluate simple sequence type using instance of and integer. uses "integer?". </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1,2) instance of xs:integer?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-8">
+      <description> Evaluate simple sequence type using instance of and integer. uses "integer+". </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1,2) instance of xs:integer+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-9">
+      <description> Evaluate simple sequence type using castable and integer. uses "integer?". </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(2) castable as xs:integer?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-10">
+      <description> Evaluate simple sequence type using castable and integer. uses "integer?" on sequence of two integers. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1,2) castable as xs:integer?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-11">
+      <description> Evaluate simple sequence type using castable and double. uses "double?" on sequence of one double. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1E3) castable as xs:double?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-12">
+      <description> Evaluate simple sequence type using castable and double. uses "double?" on sequence of two doubles. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1E3,2E3) castable as xs:double?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-13">
+      <description> Evaluate simple sequence type using castable and decimal. uses "decimal?" on sequence of one decimal. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1.2) castable as xs:decimal?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-14">
+      <description> Evaluate simple sequence type using castable and decimal. uses "decimal?" on sequence of two decimals. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(1.2,2.1) castable as xs:decimal?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-15">
+      <description> Evaluate simple sequence type using castable and string. uses "string?" on sequence of one string. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>("abc") castable as xs:string?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-16">
+      <description> Evaluate simple sequence type using castable and string. uses "string?" on sequence of two strings. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>("abc","def") castable as xs:string?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-17">
+      <description> Evaluate simple sequence type using castable and integer. uses "integer?" on sequence of one string. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>("abc") castable as xs:integer?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-18">
+      <description> Evaluate simple sequence type using castable and integer. uses "integer?" on sequence of two strings. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>("abc","def") castable as xs:integer?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-19">
+      <description> Evaluate simple sequence type using instance and boolean. uses "boolean*" on sequence of two booleans. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(fn:true(),fn:false()) instance of xs:boolean*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-20">
+      <description> Evaluate simple sequence type using instance and boolean. uses "boolean?" on sequence of two booleans. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(fn:true(),fn:false()) instance of xs:boolean?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="sequence-type-21">
+      <description> Evaluate simple sequence type using instance and boolean. uses "boolean+" on sequence of two booleans. </description>
+      <created by="Carmelo Montanez" on="2006-03-29"/>
+      <test>(fn:true(),fn:false()) instance of xs:boolean+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

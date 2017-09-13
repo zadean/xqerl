@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-current-dateTime">
+   <description>Tests for the current-dateTime() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-current-dateTime"/>
+
+   <test-case name="fn-current-dateTime-1">
+      <description>dateTime: December 1, 2005  Evaluates a simple call to the fn:current-dateTime" function. Uses a String Value. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-dateTime()</test>
+      <result>
+         <assert-type>xs:dateTime</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-2">
+      <description>dateTime: December 1, 2005  Evaluates The "current-dateTime" function as argument to fn:year-from-dateTime function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:year-from-dateTime(fn:current-dateTime())</test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-3">
+      <description>dateTime: December 1, 2005  Evaluates The "current-dateTime" function as argument to fn-month-from-dateTime function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:month-from-dateTime(fn:current-dateTime())</test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-4">
+      <description>dateTime: December 1, 2005  Evaluates The "current-dateTime" function used as as argument to "day-from-dateTime" function </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:day-from-dateTime(fn:current-dateTime())</test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-5">
+      <description>dateTime: December 1, 2005  Evaluates The "current-dateTime" function as part of a "-" operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-dateTime() - fn:current-dateTime()</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-6">
+      <description>dateTime: December 5, 2005  Evaluates The "fn-current-dateTime" function used as part of a "+" expression and a dayTimeDuration. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-dateTime() + xs:dayTimeDuration("P3DT1H15M")</test>
+      <result>
+         <assert-type>xs:dateTime</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-datetime-7">
+      <description>dateTime: December 5, 2005  Evaluates The "fn-current-dateTime" function used as part of a "-" expression and a dayTimeDuration. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-dateTime() - xs:dayTimeDuration("P3DT1H15M")</test>
+      <result>
+         <assert-type>xs:dateTime</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-8">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function invoked with incorrect arity. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-dateTime("Argument 1")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-9">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of of a subtraction expression. Both operands are the equal to "current-dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-dateTime() - fn:current-dateTime()</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-10">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as an argument to the xs:string function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>xs:string(fn:current-dateTime())</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-11">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as an argument to the timezone-from-dateTime function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:timezone-from-dateTime(current-dateTime())</test>
+      <result>
+         <assert-type>xs:dayTimeDuration</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-12">
+      <description>dateTime: December 5, 2005  Evaluates string value The "current-dateTime" as part of an equal expression (eq operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) eq fn:string(fn:current-dateTime())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-13">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of an equal expression (ne operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) ne fn:string(fn:current-dateTime())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-14">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of an equal expression (le operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) le fn:string(fn:current-dateTime())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-15">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of an equal expression (ge operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) ge fn:string(fn:current-dateTime())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-16">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of a boolean expression ("and" operator and fn:true function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) and fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-17">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of a boolean expression ("and" operator and fn:false function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-18">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of a boolean expression ("or" operator and fn:true function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-19">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function as part of a boolean expression ("or" operator and fn:false function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:string(fn:current-dateTime()) or fn:false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-20">
+      <description>dateTime: December 5, 2005  Evaluates The "current-dateTime" function (string value)as an argument to the fn:not function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:not(fn:string(fn:current-dateTime()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-21">
+      <description>dateTime: December 5, 2005  Evaluates The "fn-current-dateTime" function used as part of a "-" operation and a yearMonthDuration. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-dateTime() - xs:yearMonthDuration("P1Y2M")</test>
+      <result>
+         <assert-type>xs:dateTime</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-22">
+      <description>dateTime: December 1, 2005  Evaluates The "current-dateTime" function as argument to fn:hours-from-dateTime function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:hours-from-dateTime(fn:current-dateTime())</test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-23">
+      <description>dateTime: December 1, 2005  Evaluates The "current-dateTime" function as argument to fn-minutes-from-dateTime function. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:minutes-from-dateTime(fn:current-dateTime())</test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-24">
+      <description>dateTime: December 1, 2005  Evaluates The "current-dateTime" function used as as argument to "seconds-from-dateTime" function </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:seconds-from-dateTime(fn:current-dateTime())</test>
+      <result>
+         <assert-type>xs:decimal</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-dateTime-25">
+      <description>Test that the current dateTime has a timezone</description>
+      <created by="Michael Kay" on="2011-06-30"/>
+      <test>exists(timezone-from-dateTime(current-dateTime()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextCurrentDatetimeFunc-1">
+      <description> A test whose essence is: `current-dateTime("WRONG PARAM")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>current-dateTime("WRONG PARAM")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextCurrentDatetimeFunc-2">
+      <description> Test that the Dynamic Context property 'current dateTime' when presented as a xs:dateTime is stable during execution. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>current-dateTime() eq current-dateTime()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

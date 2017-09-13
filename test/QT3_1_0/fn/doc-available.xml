@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-doc-available">
+   <description>Tests for the doc-available() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-doc-available"/>
+
+   <test-case name="fn-doc-available-1">
+      <description> Evaluation of ana fn:doc-available function with wrong arity. </description>
+      <created by="Carmelo Montanez" on="2006-07-11"/>
+      <test>fn:doc-available("http://example.com","string 2")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-doc-available-2">
+      <description> Evaluation of ana fn:doc-available function with wrong argument type. </description>
+      <created by="Carmelo Montanez" on="2006-07-11"/>
+      <test>fn:doc-available(xs:integer(2))</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-doc-available-3">
+      <description> Check that a document with duplicated xml:id attributes is flagged. </description>
+      <created by="Frans Englich" on="2008-01-15"/>
+      <environment>
+         <source file="id/XMLIdDuplicated.xml" uri="id/XMLIdDuplicated.xml"/>
+         <param name="uri" as="xs:string" select="'id/XMLIdDuplicated.xml'"/>
+      </environment>
+      <test>fn:doc-available($uri)</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <assert-true/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-doc-available-4">
+      <description> Check that a document with an invalid xml:id attribute is flagged. </description>
+      <created by="Frans Englich" on="2008-01-15"/>
+      <environment>
+         <source file="id/InvalidXMLId.xml" uri="id/InvalidXMLId.xml"/>
+         <param name="uri" as="xs:string" select="'id/InvalidXMLId.xml'"/>
+      </environment>
+      <test>fn:doc-available($uri)</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-doc-available-5">
+      <description> Evaluation of fn:doc-available function using document URI of a known document. </description>
+      <created by="Michael Kay" on="2010-01-04"/>
+      <environment ref="works-mod"/>
+      <test>fn:doc-available(document-uri(/))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-doc-available-6">
+      <description> Evaluation of fn:doc-available function using a URI that does not exist. </description>
+      <created by="Michael Kay" on="2010-01-04"/>
+      <test>fn:doc-available("file:///a/b/c/wefdobqciyvdsoihnfcpinads.xml")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-doc-available-7">
+      <description> Evaluation of fn:doc-available function using an empty sequence. </description>
+      <created by="Andrew Eisenberg" on="2010-01-04"/>
+      <test>fn:doc-available(())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-doc-available-8">
+      <description> Evaluation of fn:doc-available function using a URI that exists but is not XML. </description>
+      <created by="Michael Kay" on="2011-07-12"/>
+      <test>fn:doc-available("../prod/ModuleImport/module1-lib.xq")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqDocAvailableFunc-1">
+      <description> ':/' is an invalid URI, no scheme. Under erratum FO.E26, this may either throw FODC0005, or return false </description>
+      <created by="Frans Englich" on="2008-01-15"/>
+      <test>doc-available(':/')</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FODC0005"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-doc-available-001">
+      <description> test fn:doc-available on () </description>
+      <created by="Tim Mills" on="2008-04-10"/>      
+      <test>fn:doc-available( () )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-doc-available-002">
+      <description> test fn:doc-available on invalid input </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      <modified by="Michael Kay" on="2012-12-31" change="implementations are not required to report invalid URI"/>      
+      <test>fn:doc-available( '%gg' )</test>
+      <result>
+         <any-of>
+            <error code="FODC0005"/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-doc-available-003">
+      <description> test fn:doc-available on a URI which is not that of a document </description>
+      <created by="Tim Mills" on="2008-04-10"/>      
+      <test>fn:doc-available( 'collection1' )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-doc-available-004">
+      <description> Test doc-available with a URL </description>
+      <created by="Nick Jones" on="2008-06-12"/>      
+      <modified by="Michael Kay" on="2012-12-31" change="implementations are not required to report invalid URI"/>      
+      <test>doc-available("%gg")</test>
+      <result>
+         <any-of>
+            <error code="FODC0005"/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+   
+</test-set>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set  xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="math-pi"  covers="math-pi">
+    <description>Tests for the math:pi function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-pi"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+    
+    <test-case name="math-pi-001">
+        <description>function pi() multipled by 2</description>
+        <created by="O'Neil Delpratt" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>2*math:pi()</test>
+        <result>
+            <assert-eq>6.283185307179586e0</assert-eq>
+        </result>
+    </test-case>
+  
+    <test-case name="math-pi-002">
+        <description>function pi() converts an angle of 60 degrees to radians</description>
+        <created by="O'Neil Delpratt" on="2010-12-10"/>
+        <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19783 - change expected result" />
+        <environment ref="math"/>        
+        <test>60 * (math:pi() div 180)</test>
+        <result>
+            <assert>abs($result - 1.0471975511965976e0) lt 1e-14</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="math-pi-003">
+        <description>function pi() itself</description>
+        <created by="Michael Kay" on="2013-01-07"/>        
+        <environment ref="math"/>        
+        <test>math:pi()</test>
+        <result>
+            <assert-eq>3.141592653589793e0</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="math-pi-004">
+        <description>function pi() as a function item</description>
+        <created by="Michael Kay" on="2013-01-07"/>        
+        <environment ref="math"/>        
+        <test>math:pi#0()</test>
+        <result>
+            <assert-eq>3.141592653589793e0</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="math-pi-005">
+        <description>function pi() via function lookup</description>
+        <created by="Michael Kay" on="2013-01-07"/>        
+        <environment ref="math"/>        
+        <test>function-lookup(xs:QName('math:pi'), 0)()</test>
+        <result>
+            <assert-eq>3.141592653589793e0</assert-eq>
+        </result>
+    </test-case>
+</test-set>

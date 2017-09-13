@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-ValueComp">
+   <description>Tests for the ValueComp (value comparison) production.
+      See also tests for the individual operators.</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-ValueComp"/>
+         
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>       
+
+   <test-case name="K-ValCompTypeChecking-1">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) eq 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-2">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 eq (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-3">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) ne 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-4">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 ne (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-5">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) lt 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-6">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 lt (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-7">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) le 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-8">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 le (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-9">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) gt 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-10">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 gt (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-11">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) ge 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-12">
+      <description> A value comparison where the cardinality of the operand(s) is wrong. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 ge (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-13">
+      <description> A value comparison involving empty sequence(s). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(() eq 1)</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-14">
+      <description> A value comparison involving empty sequence(s). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(1 eq ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-15">
+      <description> A value comparison involving empty sequence(s). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(() eq ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-16">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("1") eq xs:integer(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-17">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:integer(1) eq xs:untypedAtomic("1")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-18">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("0") ne xs:double(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-19">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double(1) ne xs:untypedAtomic("0")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-20">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("0") lt xs:float(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-21">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float(0) lt xs:untypedAtomic("1")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-22">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("0") gt xs:decimal(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-23">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:decimal(0) gt xs:untypedAtomic("1")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-24">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("4") eq 4</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-25">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>4 eq xs:untypedAtomic("4")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-26">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("3") eq 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-27">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:double(2) lt xs:untypedAtomic("3")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-28">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:float(4) gt xs:untypedAtomic("3")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-29">
+      <description> Value comparison involving xs:untypedAtomic, which leads to an inexistent operator mapping. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("3") ne xs:decimal(3.1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-30">
+      <description> Compare xs:untypedAtomic and xs:string. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("a string") eq "a string"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-31">
+      <description> Compare xs:untypedAtomic and xs:string. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>"a string" eq xs:untypedAtomic("a string")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-32">
+      <description> An expression involving the ge operator that trigger certain optimization paths in some implementations. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count((0, current-time())) ge 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-33">
+      <description> An expression involving the ne operator that trigger certain optimization paths in some implementations. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count((0, current-time())) ne 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-34">
+      <description> Test that fn:count combined with expressions that might disable compile time evaluations(optimization) as well as the '=' operator, is conformant. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(count((1, 2, current-time())) eq 0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-35">
+      <description> Combine error() with a value comparison, testing handling of the 'none' type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error() eq 3</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-36">
+      <description> Combine error() with a value comparison, testing handling of the 'none' type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error() eq error()</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-37">
+      <description> Combine error() with a value comparison, testing handling of the 'none' type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 eq error()</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-38">
+      <description> Combine error() with a value comparison, testing handling of the 'none' type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 eq (error(), 3)</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-39">
+      <description> Combine error() with a value comparison, testing handling of the 'none' type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 eq (3, error())</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-40">
+      <description> Combine error() with a value comparison, testing handling of the 'none' type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(error(), 3) eq 3</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-41">
+      <description> Combine error() with a value comparison, testing handling of the 'none' type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(3, error()) eq 3</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ValCompTypeChecking-42">
+      <description> A simple value comparison that in some Bison grammars triggers a bug. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count((1, 2)) eq 2</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comparison-3">
+      <description> Evaluation of numeric value comparison involving type promotion to least common type. 
+        Uses "eq" operator between integer and float types. </description>
+      <created by="Carmelo Montanez" on="2006-04-10"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:hatsize(5) eq myType:shoesize(5)</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XQST0009"/>
+            <error code="XPST0017"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="value-comparison-4">
+      <description> Evaluation of numeric value comparison involving type promotion to least common type. 
+        Uses "ne" operator between integer and float types. </description>
+      <created by="Carmelo Montanez" on="2006-04-10"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:hatsize(5) ne myType:shoesize(5)</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="XQST0009"/>
+            <error code="XPST0017"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+</test-set>

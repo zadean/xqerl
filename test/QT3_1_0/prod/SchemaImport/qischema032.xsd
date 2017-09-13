@@ -1,0 +1,21 @@
+<xs:schema
+    xmlns:xs        ="http://www.w3.org/2001/XMLSchema" xmlns:res
+    ="http://schema.highwire.org/Publishing/Resource" xmlns:adj
+    ="http://schema.highwire.org/Publishing/Adjunct" xmlns:frg
+    ="http://schema.highwire.org/Publishing/Fragment" targetNamespace
+    ="http://schema.highwire.org/Publishing/Fragment" elementFormDefault
+    ="qualified" attributeFormDefault="unqualified">
+
+  <xs:import
+      namespace     ="http://schema.highwire.org/Publishing/Resource"
+      schemaLocation="qischema032a.xsd" />
+
+  <xs:element   name="fragment"
+                substitutionGroup="res:resource">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:restriction base="res:resource" />
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

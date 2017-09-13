@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-string-join">
+   <description>Tests for the string-join() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-string-join"/>
+
+   <test-case name="fn-string-join2args-1">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = xs:string(lower bound) $arg2 = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-join(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-string-value>This is a characte</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join2args-2">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = xs:string(mid range) $arg2 = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-join(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-string-value>This is a characte</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join2args-3">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = xs:string(upper bound) $arg2 = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-join(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-string-value>This is a characte</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join2args-4">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = xs:string(lower bound) $arg2 = xs:string(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-join(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-string-value>This is a characte</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join2args-5">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = xs:string(lower bound) $arg2 = xs:string(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-join(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-string-value>This is a characte</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-1">
+      <description> Evaluates The "string-join" function as per example 1 for this frunction in F&amp;O sepecs. </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(('Now', 'is', 'the', 'time', '...'), ' ')</test>
+      <result>
+         <assert-string-value>Now is the time ...</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-2">
+      <description> Evaluates The "string-join" function as per example 2 for this function in the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(('Blow, ', 'blow, ', 'thou ', 'winter ', 'wind!'), '')</test>
+      <result>
+         <assert-string-value>Blow, blow, thou winter wind!</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-3">
+      <description> Evaluates The "string-join" function as per example 3 for this function in the F&amp;O specs. Use of fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:count(fn:string-join((), 'separator'))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-4">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = () $arg2 = "" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:count(fn:string-join((),""))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-5">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "" $arg2 = "" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:count(fn:string-join("",""))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-6">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "" $arg2 = "A Character String". </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:count(fn:string-join("","A Character String"))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-7">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = () $arg2 = "A Character String" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:count(fn:string-join((),"A Character String"))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-8">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "AAAAABBBBBCCCCC" $arg2 = "BBBBB" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(("AAAAABBBBBCCCCC"),"BBBBB")</test>
+      <result>
+         <assert-string-value>AAAAABBBBBCCCCC</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-9">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = ("AAAAABBBBB") $arg2 = " " </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(("AAAAABBBBB")," ")</test>
+      <result>
+         <assert-string-value>AAAAABBBBB</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-10">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = (" ") $arg2 = " AAAAABBBBB". Use of count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:count(fn:string-join((" "),"AAAAABBBBB"))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-11">
+      <description> Evaluates The "string-join" function using it as a argument of a fn:not - returns true </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:not(fn:string-join((),"A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-12">
+      <description> Evaluates The "string-join" function using it as a argument of a fn:not - returns true </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:not(fn:string-join(("A"),"B"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-13">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = xs:string("A") $arg2 = "A" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join((xs:string("A")),"A")</test>
+      <result>
+         <assert-string-value>A</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-14">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "A" $arg2 = xs:string("A") </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(("A"),xs:string("A"))</test>
+      <result>
+         <assert-string-value>A</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-15">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "A" $arg2 = "a" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(("A"),"a")</test>
+      <result>
+         <assert-string-value>A</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-16">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "a" $arg2 = "A" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(("a"),"A")</test>
+      <result>
+         <assert-string-value>a</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-17">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "string-join" $arg2 = "string-join" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join("string-join","string-join")</test>
+      <result>
+         <assert-string-value>string-join</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-18">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "string-joinstring-join" $arg2 = "string-join" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join(("string-joinstring-join"),"string-join")</test>
+      <result>
+         <assert-string-value>string-joinstring-join</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-19">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "****" $arg2 = "***" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join("****","***")</test>
+      <result>
+         <assert-string-value>****</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-20">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "12345" $arg2 = "1234" </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join("12345","1234")</test>
+      <result>
+         <assert-string-value>12345</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-string-join-21">
+      <description> Evaluates The "string-join" function with the arguments set as follows: $arg1 = "string-join $arg2 = "nioj-gnirts ("string-join" backwards) </description>
+      <created by="Carmelo Montanez" on="2005-06-24"/>
+      <test>fn:string-join("string-join","nioj-gnirts")</test>
+      <result>
+         <assert-string-value>string-join</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-22" covers="fn-string-join">
+      <description> Default second argument is zero-length string in 3.0 </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:string-join(("1", "2", "3"))</test>
+      <result>
+         <assert-string-value>123</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-23" covers="fn-string-join">
+      <description> Default second argument is zero-length string in 3.0 </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $e := <e><a>1</a><b>2</b><c>3</c></e>
+         return fn:string-join($e/*)
+      ]]></test>
+      <result>
+         <assert-string-value>123</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-24" covers="fn-string-join">
+      <description> Default second argument is zero-length string in 3.0 </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $e := <e><a>1</a><b></b><c>3</c></e>
+         return fn:string-join($e/*)
+      ]]></test>
+      <result>
+         <assert-string-value>13</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-25" covers="fn-string-join">
+      <description> Default second argument is zero-length string in 3.0 </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $e := <e><a>1</a><b></b><c>3</c></e>
+         return fn:string-join($e/d)
+      ]]></test>
+      <result>
+         <assert-string-value></assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-26" covers="fn-string-join">
+      <description> Default second argument is zero-length string in 3.0 </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         fn:string-join((1 to 9)!string())
+      ]]></test>
+      <result>
+         <assert-string-value>123456789</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-StringJoinFunc-1">
+      <description> A test whose essence is: `string-join("a string")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10 XP20"/>
+      <test>string-join("a string")</test>
+      <result>
+        <error code="XPST0017"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-StringJoinFunc-1a" covers="fn-string-join">
+      <description> A test whose essence is: `string-join("a string")`. Allowed in 3.0</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>string-join("a string")</test>
+      <result>
+         <assert-string-value>a string</assert-string-value>        
+      </result>
+   </test-case>
+
+   <test-case name="K-StringJoinFunc-2">
+      <description> A test whose essence is: `string-join("a string", "a string", "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-join("a string", "a string", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StringJoinFunc-3">
+      <description> A test whose essence is: `string-join(('Now', 'is', 'the', 'time', '...'), ' ') eq "Now is the time ..."`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-join(('Now', 'is', 'the', 'time', '...'), ' ') eq "Now is the time ..."</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StringJoinFunc-4">
+      <description> A test whose essence is: `string-join(("abc", "def"), "") eq "abcdef"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-join(("abc", "def"), "") eq "abcdef"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StringJoinFunc-5">
+      <description> A test whose essence is: `string-join(('Blow, ', 'blow, ', 'thou ', 'winter ', 'wind!'), '') eq "Blow, blow, thou winter wind!"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-join(('Blow, ', 'blow, ', 'thou ', 'winter ', 'wind!'), '') eq "Blow, blow, thou winter wind!"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StringJoinFunc-6">
+      <description> A test whose essence is: `string-join((), 'separator') eq ""`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-join((), 'separator') eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StringJoinFunc-7">
+      <description> A test whose essence is: `string-join("a string", ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-join("a string", ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-fn-string-join-001">
+      <description> Test boolean fn:string-join on various cases </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:repeat($count as xs:integer, $arg as xs:string) as xs:string* { if ($count le 0) then "" else for $x in 1 to $count return $arg };
+        string-join( for $x in 0 to 4 return local:repeat($x, 'a') , ' ') and string-join( for $x in 0 to 4 return local:repeat($x, 'a') , '')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

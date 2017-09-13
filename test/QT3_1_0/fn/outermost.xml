@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" 
+          name="fn-outermost" covers="fn-outermost">
+   <description>Tests for the outermost() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-outermost"/>
+
+   <environment name="outermost">
+      <source role="." 
+              file="innermost/innermost.xml">
+	     <description>Data for outermost tests</description>
+	     <created by="Tim Mills" on="2011-11-28"/>
+      </source>
+      <source role="$doc1"
+              file="innermost/doc1.xml">
+	     <description>Data for outermost tests</description>
+	     <created by="Tim Mills" on="2011-11-28"/>
+      </source>
+      <source role="$doc2"
+              file="innermost/doc2.xml">
+	     <description>Data for outermost tests</description>
+	     <created by="Tim Mills" on="2011-11-28"/>
+      </source>
+   </environment>
+
+   <test-case name="fn-outermost-001">
+      <description>Attempts to evaluate the "outermost" function with no arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost()</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-002">
+      <description>Attempts to reference the "outermost" function with arity zero.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost#0</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-003">
+      <description>Attempts to evaluate the "outermost" function with two arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( (), 1 )</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-004">
+      <description>Attempts to reference the "outermost" function with arity two.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost#2</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-005">
+      <description>Attempts to reference the "outermost" function with arity one.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:exists( fn:outermost#1 )</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-006">
+      <description>Evaluates the "outermost" function with an argument of type xs:anyAtomicType.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-007">
+      <description>Evaluates the "outermost" function with an argument of type function().</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( fn:dateTime#2 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-008">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="staticTyping"/>
+      <test>fn:outermost( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then .
+                               else 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-009">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then .
+                                 else 1 ),
+              fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then 1
+                                 else . ) )</test>
+      <result>
+	  <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-010">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="staticTyping"/>
+      <test>fn:outermost( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then .
+                               else fn:dateTime#2 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-011">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <environment ref="outermost" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then .
+                                 else fn:dateTime#2 ),
+              fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then fn:dateTime#2
+                                 else . ) )</test>
+      <result>
+	  <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+
+   <test-case name="fn-outermost-012">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type document-node() </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( / )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-013">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type document-node() </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal(fn:outermost( / ), / )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-014">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type attribute()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //*/@* )</test>
+      <result>
+	<assert-count>7</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-015">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type attribute()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //*/@* ) ! string()</test>
+      <result>
+	<assert-deep-eq>('0a','00a','000a','01a','010a','02a','020a')</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-016">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type attribute()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>deep-equal(fn:outermost( //*/@* ), //*/@*)</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-017">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:outermost( //*/namespace::* )</test>
+      <result>
+	<assert-count>69</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-018">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:outermost( //*/namespace::* )[position() le 2] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-019">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+" />
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:outermost( //*/namespace::* )[position() = (7 to 9)] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0','level00')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-020">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:outermost( //*/namespace::* )[position() = (17 to 20)] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0','level00','level000')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-021">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:outermost( //*/namespace::* )[position() = (66 to 69)] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0','level02','level020')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-022">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:deep-equal( fn:outermost( //*/namespace::* ),
+                           //*/namespace::* )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-023">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type processing-instruction()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //processing-instruction() )</test>
+      <result>
+	<assert-count>7</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-024">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type processing-instruction()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //processing-instruction() ) ! local-name() </test>
+      <result>
+	<assert-deep-eq>('level-0','level-00','level-000','level-01','level-010','level-02','level-020')</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-025">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type processing-instruction()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( //processing-instruction() ), 
+                          //processing-instruction() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-026">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type comment()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //comment() )</test>
+      <result>
+	<assert-count>7</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-027">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type comment()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //comment() ) ! string()</test>
+      <result>
+	<assert-deep-eq>('0c','00c','000c','01c','010c','02c','020c')</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-028">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type comment()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( //comment() ),
+                           //comment() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-029">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type text()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //text() )</test>
+      <result>
+	<assert-count>14</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-030">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type text()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //text() ) ! string() </test>
+      <result>
+	<assert-deep-eq>('0t',' ',
+                         '00t',' ','000t',' ',
+                         '01t',' ','010t',' ',
+                         '02t',' ','020t',' ')</assert-deep-eq>
+      </result>
+   </test-case>
+
+
+   <test-case name="fn-outermost-031">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type text()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( //text() ),
+                           //text() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-032">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type element()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //* )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-033">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type element()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //* ) ! local-name(.)</test>
+      <result>
+	<assert-eq>('root')</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-034">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type element()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( //* ), 
+                           let $nodes := //*
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-035">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( //node() )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-036">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( //node() ), 
+                           let $nodes := //node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-037">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/node() )</test>
+      <result>
+	<assert-count>8</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-038">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/node() ), 
+                           let $nodes := /root/node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-039">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/descendant::node() )</test>
+      <result>
+	<assert-count>8</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-040">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/descendant::node() ), 
+                           let $nodes := /root/descendant::node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-041">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/level[1]/level[1]/ancestor::node() )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-042">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/level[1]/level[1]/ancestor::node() ), 
+                           let $nodes := /root/level[1]/level[1]/ancestor::node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-043">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/level[1]/level[last()]/preceding-sibling::node() )</test>
+      <result>
+	<assert-count>5</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-044">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding-sibling::node() ), 
+                           let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-045">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/level[1]/level[last()]/preceding::node() )</test>
+      <result>
+	<assert-count>10</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-046">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding::node() ), 
+                           let $nodes := /root/level[1]/level[last()]/preceding::node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-047">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/level[1]/following-sibling::node() )</test>
+      <result>
+	<assert-count>2</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-048">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/level[1]/following-sibling::node() ), 
+                           let $nodes := /root/level[1]/following-sibling::node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-049">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/level[1]/level[1]/following::node() )</test>
+      <result>
+	<assert-count>2</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-050">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/level[1]/level[1]/following::node() ), 
+                           let $nodes := /root/level[1]/level[1]/following::node()
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-051">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( /root/node()/.. )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-052">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( /root/node()/.. ), 
+                           let $nodes := /root/node()/..
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-053">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* from two documents </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:outermost( ($doc1//node(), $doc2//node()) )</test>
+      <result>
+	<assert-count>2</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-outermost-054">
+      <description>Evaluates the "outermost" function with the argument set as follows: $nodes of type node()* from two documents </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:outermost( ($doc1//node(), $doc2//node()) ),
+                           let $nodes := ($doc1//node(), $doc2//node())
+                           return $nodes except $nodes/descendant::node() )</test>
+      <result>
+	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-055">
+      <description>Evaluates the "outermost" function with the input sequence not in document order </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:outermost($in)/local-name(), fn:outermost(//*)/local-name())</test>
+      <result>
+	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-056">
+      <description>Evaluates the "outermost" function with the input sequence containing duplicates </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:outermost(($in, $in))/local-name(), fn:outermost(//*)/local-name())</test>
+      <result>
+	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-057">
+      <description>Evaluates the "outermost" function with the input sequence empty </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>outermost(//rubbish)</test>
+      <result>
+	    <assert-empty />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-058">
+      <description>Check that "outermost" doesn't change node identity </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>outermost(//*) except //*</test>
+      <result>
+	    <assert-empty />
+      </result>
+   </test-case>
+
+</test-set>

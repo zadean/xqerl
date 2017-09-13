@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-PositionalVar">
+   <description>Tests for the PositionalVar production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-PositionalVar"/>
+         
+   <dependency type="spec" value="XQ10+"/>      
+
+   <test-case name="K-ForExprPositionalVar-1">
+      <description> Variable which is not in scope. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $a at $p in (1, 2) return 1, $p</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-2">
+      <description> Position variable which is not in scope. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $a at $p1 in (1, 2), $b at $p2 in (1, 2), $c at $p3 in (1, 2) return 1, $p1</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-3">
+      <description> Position variable which is not in scope. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $a at $p1 in (1, 2), $b at $p2 in (1, 2), $c at $p3 in (1, 2) return 1, $p2</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-4">
+      <description> Position variable which is not in scope. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $a at $p1 in (1, 2), $b at $p2 in (1, 2), $c at $p3 in (1, 2) return 1, $p3</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-5">
+      <description> The name for a positional variable must be preceeded with '$'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $a at p1 in 1 return 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-6">
+      <description> Verify positional variable with fn:deep-equal(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in (1, 2, 3) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-7">
+      <description> Extract the EBV from a positional variable. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((true(), true()), for $i at $p in (1, 2) return boolean($p))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-8">
+      <description> A positional variable causing a type error. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $i at $p in (1, 2, 3) return $p + "1"</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-9">
+      <description> Verify that the position is properly computed for fn:string-to-codepoints(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in string-to-codepoints("abc") return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-10">
+      <description> Verify that the position is properly computed for fn:string-to-codepoints(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in distinct-values((1, 2, 3, 1, 2)) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-11">
+      <description> Verify that the position is properly computed for the empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(for $i at $p in () return $p)</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-12">
+      <description> Verify that the position is properly computed for fn:insert-before(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3, 4), for $i at $p in insert-before((1, current-time()), 13, (current-date(), 3)) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-13">
+      <description> Verify that the position is properly computed for fn:insert-before()(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3, 4), for $i at $p in insert-before((1, current-time()), 1, (current-date(), 3)) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-14">
+      <description> Verify that the position is properly computed for fn:insert-before()(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3, 4), for $i at $p in insert-before((1, current-time()), 2, (current-date(), 3)) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-15">
+      <description> Verify that the position is properly computed for the range expression. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3, 4), for $i at $p in 1 to 4 return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-16">
+      <description> Verify that the position is properly computed for the range expression(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3, 4), for $i at $p in -10 to -7 return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-17">
+      <description> Verify that the position is properly computed for fn:remove(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 2) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-18">
+      <description> Verify that the position is properly computed for fn:remove(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 4) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-19">
+      <description> Verify that the position is properly computed for fn:remove(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in remove((1, 2, current-time()), 10) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-20">
+      <description> Verify that the position is properly computed for fn:remove(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in remove((1, 2, current-time()), 0) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-21">
+      <description> Verify that the position is properly computed for fn:remove(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 1) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-22">
+      <description> Verify that the position is properly computed for fn:remove(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 3) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-23">
+      <description> Verify that the position is properly computed for fn:subsequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 eq (for $i at $p in subsequence((1, 2, 3, current-time()), 1, 1) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-24">
+      <description> Verify that the position is properly computed for fn:subsequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(for $i at $p in subsequence((1, 2, 3, current-time()), 5) return $p)</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-25">
+      <description> Verify that the position is properly computed for fn:subsequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(for $i at $p in subsequence((1, 2, 3, current-time()), 5, 8) return $p)</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-26">
+      <description> Verify that the position is properly computed for fn:subsequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2), for $i at $p in subsequence((1, 2, 3, current-time()), 3, 2) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-27">
+      <description> Verify that the position is properly computed for fn:subsequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2), for $i at $p in subsequence((1, 2, 3, current-time()), 1, 2) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-28">
+      <description> Verify that the position is properly computed for fn:subsequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2), for $i at $p in subsequence((1, 2, 3, current-time()), 2, 2) return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-29">
+      <description> Verify that the position is properly computed for a singleton value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 eq (for $i at $p in 0 return $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ForExprPositionalVar-30">
+      <description> Evaluate the positional and binding expression at the same time. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal(for $i at $p in (1, 2, 3, 4) return ($i, $p), (1, 1, 2, 2, 3, 3, 4, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ForExprPositionalVar-1">
+      <description> Combine fn:remove() and a positional for-variable. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $i at $p in remove((1, 2, 3), 10) return $p</test>
+      <result>
+         <assert-string-value>1 2 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ForExprPositionalVar-2">
+      <description> A query that possibly could raise a type error. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $tree := <e> <a id="1"/> <a id="2"/> <a id="3"/> </e> for $i at $pos in ("a", "b", "c") return ($tree/@id eq $pos, $pos)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>1 2 3</assert-string-value>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ForExprPositionalVar-3">
+      <description> Usage of two positional variable references. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $tree := <e> <a id="1"/> <a id="2"/> <a id="3"/> </e> for $i at $pos in ("a", "b", "c") return ($tree/a/@id = $pos, $pos)]]></test>
+      <result>
+         <assert-string-value>true 1 true 2 true 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ForExprPositionalVar-4">
+      <description> Cache a positional variable with a let-binding. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $i at $pos in (3 to 6) let $let := $pos + 1 return ($let, $let - 1)</test>
+      <result>
+         <assert-string-value>2 1 3 2 4 3 5 4</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

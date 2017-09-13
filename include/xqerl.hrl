@@ -1,0 +1,477 @@
+
+%% The variables available in both XQuery 3.1 and XSLT 3.0 are:
+%% - err:code - the error code
+%% - err:description - a free-form error description
+%% - err:value - an arbitrary value associated with the error
+%% - err:module - the URI of the query stylesheet module in which the error occurred
+%% - err:line-number - the line number of the instruction where the error occurred
+%% - err:column-number - the column number of the instruction where the error occurred
+%% An additional variable is available only in XQuery 3.1:
+%% - err:additional - further implementation-defined information about the error
+
+-define(dbg(M,P), io:format("~p: ~p~n", [M,P])).
+-define(seq, xqerl_seq2).
+-record(xqError, {
+      name,
+      description = [],
+      value = [],
+      location = {[],[],[]} % {Module, Line, Column}
+   }).
+
+
+
+%% -define(STATIC_NS, [
+%%     #xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/XML/1998/namespace', prefix = "xml"}}
+%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2001/XMLSchema', prefix = "xs"}}
+%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2001/XMLSchema-instance', prefix = "xsi"}}
+%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xpath-functions', prefix = "fn"}}
+%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xquery-local-functions', prefix = "local"}}
+%%    % non-standard
+%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xqt-errors', prefix = "err"}}
+%% ]).
+
+-define(STATIC_SCHEMA_TYPES, 
+[
+ % XML Schema standard
+ % -------------------
+ % Primitive datatypes
+    'xs:string'
+   ,'xs:boolean'
+   ,'xs:decimal'
+   ,'xs:float'
+   ,'xs:double'
+   ,'xs:duration'
+   ,'xs:dateTime'
+   ,'xs:time'
+   ,'xs:date'
+   ,'xs:gYearMonth'
+   ,'xs:gYear'
+   ,'xs:gMonthDay'
+   ,'xs:gDay'
+   ,'xs:gMonth'
+   ,'xs:hexBinary'
+   ,'xs:base64Binary'
+   ,'xs:anyURI'
+   ,'xs:qname'
+   ,'xs:NOTATION'
+ % Derived datatypes - Derived from
+   ,'xs:normalizedString'  % 'xs:string'
+   ,'xs:token'             % 'xs:normalizedString'
+   ,'xs:language'          % 'xs:token'
+   ,'xs:NMTOKEN'           % 'xs:token'
+   ,'xs:NMTOKENS'          % 'xs:NMTOKEN'
+   ,'xs:Name'              % 'xs:token'
+   ,'xs:NCName'            % 'xs:Name'
+   ,'xs:ID'                % 'xs:NCName'
+   ,'xs:IDREF'             % 'xs:NCName'
+   ,'xs:IDREFS'            % 'xs:IDREF'
+   ,'xs:ENTITY'            % 'xs:NCName'
+   ,'xs:ENTITIES'          % 'xs:ENTITY'
+   ,'xs:integer'           % 'xs:decimal'
+   ,'xs:nonPositiveInteger'% 'xs:integer'
+   ,'xs:negativeInteger'   % 'xs:nonPositiveInteger'
+   ,'xs:long'              % 'xs:integer'
+   ,'xs:int'               % 'xs:long'
+   ,'xs:short'             % 'xs:int'
+   ,'xs:byte'              % 'xs:short'
+   ,'xs:nonNegativeInteger'% 'xs:integer'
+   ,'xs:unsignedLong'      % 'xs:nonNegativeInteger'
+   ,'xs:unsignedInt'       % 'xs:unsignedLong'
+   ,'xs:unsignedShort'     % 'xs:unsignedInt'
+   ,'xs:unsignedByte'      % 'xs:unsignedShort'
+   ,'xs:positiveInteger'   % 'xs:nonNegativeInteger'
+ % XQuery specific
+ % -------------------
+   ,'xs:untyped'                              
+   ,'xs:untypedAtomic'                              
+   ,'xs:dayTimeDuration'                              
+   ,'xs:yearMonthDuration'                              
+   ,'xs:anyAtomicType'
+   ,'xs:error'
+   ,'xs:dateTimeStamp'
+   ,'xs:numeric'          % union of xs:double, xs:float and xs:decimal
+]).
+
+-record(off_set, {sign = '+',
+                  hour = 0, 
+                  min = 0}).
+
+-record(xsDateTime, {
+                   sign     = '+',
+                   year     = 0,
+                   month    = 1,
+                   day      = 1,
+                   hour     = 0,
+                   minute   = 0,
+                   second   = 0.000,
+                   offset   = #off_set{},
+                   string_value
+                   }).
+
+-record(xqSeqType, {
+   type  = item :: term(), %:: atom() | #xqKindTest{},
+   occur = zero_or_many  :: zero | one | zero_or_one | zero_or_many | one_or_many
+}).
+
+-record(qname, 
+        {
+         namespace  :: 'no-namespace' | default | undefined | string(),
+         prefix    = undefined :: default | undefined | string(),
+         local_name :: undefined | string()
+        }).
+-record(xqPosVar,
+        {
+         id = -1 :: integer(),
+         name = undefined :: #'qname'{}
+        }).
+-record(annotation,
+        {
+         name     :: #'qname'{},
+         values   :: []         
+        }).
+
+-record(xqQuery, {query :: list()}).
+
+-record(xqVar, 
+        {
+         id = -1 :: integer(),
+         annotations = []  :: [ #annotation{} ], 
+         name :: #'qname'{},
+         type = #xqSeqType{},
+         value = undefined :: term(),
+         expr  = undefined :: term(),
+         external = false :: boolean(),
+         default = undefined :: term(),
+         position = undefined :: undefined | #xqPosVar{},
+         empty = false :: boolean()
+        }).
+
+-record(xqVarRef, 
+        {
+         name :: #'qname'{}
+        }).
+
+-record(xqFlwor, {
+   loop = undefined :: term(),
+   return = undefined :: term()
+}).
+
+
+%% -record(xqVariableValue, 
+%%         {
+%%          name :: #'qname'{},
+%%          value
+%%         }).
+
+-record(xqNamespace, 
+        {
+         namespace  :: undefined | atom(),
+         prefix     :: undefined | bitstring() | []
+        }).
+%% -record(xqElement, 
+%%         {
+%%          name         = undefined :: #'qname'{},
+%%          inscope_ns   = [] 
+%%         }).
+%% -record(typed_uri, {
+%%    uri  :: string(),
+%%    type :: undefined | string()
+%% }).
+%% -record(document_uri, {
+%%    uri  :: string(),
+%%    doc  % an XML
+%% }).
+
+% 3 types of items
+-record(xqAtomicValue,
+        {
+         type  = undefined :: atom(),
+         value = undefined :: term()
+        }).
+%% -record(xqFuncParam, {
+%%    name              = undefined    :: #'qname'{},
+%%    type              = #xqSeqType{} :: #xqSeqType{}
+%% }).
+-record(xqFunction, {
+   id                = 0 :: integer(),
+   annotations       = [] :: [ #annotation{} ],
+   name              = undefined :: #'qname'{} | undefined,
+   arity             = 0 :: integer(),
+   params            = [],
+   type              = #xqSeqType{} :: any | #xqSeqType{},
+   body              = undefined :: term()%,
+   %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
+}).
+
+-record(xqNode, {
+      frag_id      = 0 :: integer() | string(),
+      identity     = -1 :: integer()
+   }).
+
+-record(xqXmlFragment, {
+      identity     = undefined :: term(),
+      desc_count   = 0         :: integer(),
+      document_uri = undefined :: term(),
+      children     = []        :: [term()],
+      string_value = ""        :: string()
+   }).
+
+-record(xqDocumentNode, {
+      identity     = undefined :: term(),
+      desc_count   = 0         :: integer(),
+      base_uri     = undefined :: term(),
+      children     = []        :: [term()],
+      value        = undefined :: term(),
+      string_value = ""        :: string(),
+      path_index   = undefined,% :: [integer()],
+      expr         = undefined :: term()
+   }).
+
+-record(xqElementNode, {
+      identity     = undefined :: term(),
+      desc_count   = 0         :: integer(),
+      name         = undefined :: #qname{} | term(),
+      parent_node  = undefined :: term(),
+      children     = []        :: [term()],
+      attributes   = []        :: [term()],
+      inscope_ns   = []        ,
+      nilled       = false     :: boolean(),
+      value        = undefined :: term(),
+      base_uri     = ""        :: string() | #xqAtomicValue{},
+      path_index   = undefined,% :: [integer()],
+      expr         = undefined :: term()
+   }).
+
+-record(xqAttributeNode, {
+      identity     = undefined :: term(),
+      name         = undefined :: #qname{} | term(),
+      parent_node  = undefined :: term(),
+      value        = undefined :: term(),
+      string_value = ""        :: string(),
+      path_index   = undefined,% :: [integer()],
+      expr         = undefined :: term()
+   }).
+
+-record(xqNamespaceNode, {
+      identity     = undefined :: term(),
+      name         = undefined :: #qname{} | term(),
+      parent_node  = undefined :: term(),
+      path_index   = undefined,% :: [integer()],
+      expr         = undefined :: term()
+   }).
+
+-record(xqProcessingInstructionNode, {
+      identity     = undefined :: term(),
+      name         = undefined :: #qname{} | term(),
+      parent_node  = undefined :: term(),
+      string_value = ""        :: string(),
+      path_index   = undefined,% :: [integer()],
+      expr         = undefined :: term()
+   }).
+
+-record(xqCommentNode, {
+      identity     = undefined :: term(),
+      parent_node  = undefined :: term(),
+      string_value = ""        :: string(),
+      path_index   = undefined,% :: [integer()],
+      expr         = undefined :: term()
+   }).
+
+-record(xqTextNode, {
+      identity     = undefined :: term(),
+      parent_node  = undefined :: term(),
+      string_value = ""        :: string(),
+      path_index   = undefined,% :: [integer()],
+      expr         = undefined :: term()
+   }).
+
+
+-record(xqModule, {
+   version = {"3.1", 'utf-8'},
+   type    :: library | main,
+   declaration :: term(),
+   prolog :: term(),
+   body   :: term()                 
+}).
+
+-record(dec_format, {
+   decimal = ".",
+   grouping = ",",
+   infinity = "Infinity",
+   minus = "-",
+   nan = "NaN",
+   percent = "%",
+   per_mille = [2030],
+   zero = "0",
+   digit = "#",
+   pattern = ";",
+   exponent = "e"
+}).
+
+-record(array, {data = []}).
+
+-record(xqWindow, {
+   type         :: tumbling | sliding,
+   win_variable :: #xqVar{},
+   s            :: undefined | #xqVar{},
+   spos         :: undefined | #xqPosVar{},
+   sprev        :: undefined | #xqVar{},
+   snext        :: undefined | #xqVar{},
+   e            :: undefined | #xqVar{},
+   epos         :: undefined | #xqPosVar{},
+   eprev        :: undefined | #xqVar{},
+   enext        :: undefined | #xqVar{},
+   only         :: boolean(),
+   start_expr,
+   end_expr
+}).
+
+-record(xqGroupBy, {
+   grp_variable :: #xqVarRef{},
+   collation
+}).
+
+-record(xqNameTest, {
+   name :: #qname{}
+}).
+
+-record(xqKindTest, {
+   kind = node :: node | text | comment | 'namespace-node' | namespace | element | attribute | 'document-node' | document | 'processing-instruction',
+   name = undefined :: #qname{} | undefined | term(),
+   type,
+   test
+}).
+
+-record(xqFunTest, {
+   kind   = function :: function | map,
+   annotations = [] :: [ #annotation{} ],
+   name   :: #qname{},
+   params = any :: [#xqSeqType{}] | any,
+   type   = any :: #xqSeqType{} | any
+}).
+% {xqFunTest,function,[],undefined,any,any}
+-record(xqAxisStep, {
+   direction  = forward :: forward | reverse,
+   axis       = child :: child | descendant | attribute | self | 
+                 'descendant-or-self' | 'following-sibling' | following | namespace | 
+                 parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
+   node_test  = #xqKindTest{} :: #xqNameTest{} | #xqKindTest{},
+   predicates = []
+}).
+
+-record(xqPostfixStep, {
+   predicates = []
+}).
+
+
+%% % [50]
+%% 'WindowClause'           -> 'for' 'TumblingWindowClause' : {'window', '$2'}.
+%% 'WindowClause'           -> 'for' 'SlidingWindowClause'  : {'window', '$2'}.
+%% % [51]
+%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'tumbling', {variable, {'name', '$4'}, {'type', '$5'}, {'expr', '$7'}}, {'start', '$8'}, {'end', '$9'}}.
+%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'tumbling', {variable, {'name', '$4'}, {'type', 'undefined'}, {'expr', '$6'}}, {'start', '$7'}, {'end', '$8'}}.
+%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition'                      : {'tumbling', {variable, {'name', '$4'}, {'type', '$5'}, {'expr', '$7'}}, {'start', '$8'}, {'end', 'undefined'}}.
+%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition'                      : {'tumbling', {variable, {'name', '$4'}, {'type', 'undefined'}, {'expr', '$6'}}, {'start', '$7'}, {'end', 'undefined'}}.
+%% % [52]
+%% 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'sliding', {variable, {'name', '$4'}, {'type', '$5'}, {'expr', '$7'}}, {'start', '$8'}, {'end', '$9'}}.
+%% 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'sliding', {variable, {'name', '$4'}, {'type', 'undefined'}, {'expr', '$6'}}, {'start', '$7'}, {'end', '$8'}}.
+%% % [53]
+%% 'WindowStartCondition'   -> 'start' 'WindowVars' 'when' 'ExprSingle' : {'$2', '$4'}.
+%% % [54]
+%% 'WindowEndCondition'     -> 'only' 'end' 'WindowVars' 'when' 'ExprSingle' : {'only',      '$3', '$5'}.
+%% 'WindowEndCondition'     ->        'end' 'WindowVars' 'when' 'ExprSingle' : {'undefined', '$2', '$4'}.
+%% % [55]
+%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar' 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', '$6'},{'next', '$9'}].
+%% 'WindowVars'             ->                   'PositionalVar' 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', '$4'},{'next', '$7'}].
+%% 'WindowVars'             -> '$' 'CurrentItem'                 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', '$5'},{'next', '$8'}].
+%% 'WindowVars'             ->                                   'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', 'undefined'},{'previous', '$3'},{'next', '$6'}].
+%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar'                               'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', 'undefined'},{'next', '$6'}].
+%% 'WindowVars'             ->                   'PositionalVar'                               'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', 'undefined'},{'next', '$4'}].
+%% 'WindowVars'             -> '$' 'CurrentItem'                                               'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', 'undefined'},{'next', '$5'}].
+%% 'WindowVars'             ->                                                                 'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', 'undefined'},{'previous', 'undefined'},{'next', '$3'}].
+%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar' 'previous' '$' 'PreviousItem'                       : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', '$6'},{'next', 'undefined'}].
+%% 'WindowVars'             ->                   'PositionalVar' 'previous' '$' 'PreviousItem'                       : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', '$4'},{'next', 'undefined'}].
+%% 'WindowVars'             -> '$' 'CurrentItem'                 'previous' '$' 'PreviousItem'                       : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', '$5'},{'next', 'undefined'}].
+%% 'WindowVars'             ->                                   'previous' '$' 'PreviousItem'                       : [{'current', 'undefined'},{'pos-variable', 'undefined'},{'previous', '$3'},{'next', 'undefined'}].
+%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar'                                                     : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', 'undefined'},{'next', 'undefined'}].
+%% 'WindowVars'             ->                   'PositionalVar'                                                     : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', 'undefined'},{'next', 'undefined'}].
+%% 'WindowVars'             -> '$' 'CurrentItem'                                                                     : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', 'undefined'},{'next', 'undefined'}].
+%% % [56]
+%% 'CurrentItem'            -> 'EQName' : #xqVar{id = next_id(), 'name' = '$1'}.
+%% % [57]
+%% 'PreviousItem'           -> 'EQName' : #xqVar{id = next_id(), 'name' = '$1'}.
+%% % [58]
+%% 'NextItem'               -> 'EQName' : #xqVar{id = next_id(), 'name' = '$1'}.
+
+
+%% -record(xqCollection, {
+%%    uri  :: string(),
+%%    docs :: [term()] % an XML
+%% }).
+
+% most basic type
+%% -record(xqItem, {
+%%       data = undefined :: term()
+%%    }).
+
+% record type for all objects in XQuery 0 or more xqItems in a sequence
+%% -record(xqData, {
+%%     sequence :: [ #xqItem{} ]
+%%     }).
+
+%% Expression Context - The expression context for a given expression consists of all the information that can affect the result of the expression.
+
+%% Static Context - 
+%%  [Definition: The static context of an expression is the information that is available during 
+%%  static analysis of the expression, prior to its evaluation.] This information can be used to decide 
+%%  whether the expression contains a static error. If analysis of an expression relies on some component 
+%%  of the static context that has not been assigned a value, a static error is raised [err:XPST0001].
+
+%% In-scope schema definitions - 
+%%  This is a generic term for all the element declarations, attribute declarations, and schema type definitions 
+%%  that are in scope during processing of an expression.
+%% -record(inscope_schema_def, {
+%%    schema_types      = ?STATIC_SCHEMA_TYPES, % static plus all declared
+%%    element_decls     :: [#'qname'{}],
+%%    attribute_decls   :: [#'qname'{}]
+%% }).
+
+
+%% -record(context, {
+%%    %% static context items
+%%    xpath1compat               = false,
+%%    known_namespaces           = ?STATIC_NS, % static plus all declared
+%%    default_element_namespace  :: term(), %#xqNode{type = namespace, name = #'qname'{namespace = 'none', prefix = ""}}, % type too
+%%    default_function_namespace :: term(), %#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xpath-functions', prefix = "fn"}},
+%%    inscope_schema_defs        = [] :: #inscope_schema_def{},
+%%    inscope_variables          = [] :: [#xqVar{}], 
+%%    context_item_type          = undefined :: atom(), % type of the context item
+%%    function_signatures        = [] ,
+%%    known_collations           = [{uca, "http://www.w3.org/2005/xpath-functions/collation/codepoint"}],
+%%    default_collation          = {uca, "http://www.w3.org/2005/xpath-functions/collation/codepoint"},
+%%    construction_mode          = preserve :: preserve | strip,    % keep typing or remove it
+%%    ordering_mode              = ordered :: ordered | unordered,
+%%    empty_seq_order            = least :: greatest | least,
+%%    boundry_whitespace         = strip :: preserve | strip,
+%%    namespace_copy             :: {'preserve', 'inherit'}    | {'preserve', 'no-inherit'} | 
+%%                                  {'no-preserve', 'inherit'} | {'no-preserve', 'no-inherit'},
+%%    base_uri                   :: string(),   % absolute URI
+%%    known_documents            = [] :: [ #typed_uri{} ],
+%%    known_collections          = [] :: [ #typed_uri{} ],
+%%    known_def_coll_type        = {node, zero_or_more},
+%%    %
+%%    modules                    = [] :: list(),
+%%    functions                  = [] :: list(),
+%%    %% dynamic context items 
+%%    context_item            :: term(),
+%%    context_position        :: pos_integer(),
+%%    context_size            :: pos_integer(),
+%%    variable_values         = [] ,
+%%    named_functions         = [] ,
+%%    current_datetime        :: string(),
+%%    implicit_timezone       = "Z",
+%%    available_documents     = [] :: [ term() ],
+%%    available_collections   = [] :: [ #xqCollection{} ],
+%%    default_collection      :: #xqCollection{} 
+%% }).
+

@@ -1,0 +1,2583 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Schema document for namespace http://www.w3.org/2010/09/qt-fots-catalog</title>
+<style type="text/css">
+     .bodytext .bodytext {
+       margin-left: 0;
+       margin-right: 0;
+     }
+     .bodytext {
+       margin-left: 15%;
+       margin-right: 2%;
+     }
+     .annotation {
+       
+       
+     }
+     .same-ns {
+       color: Green;
+     }
+     .diff-ns {
+       color: maroon;
+     }
+     .warning {
+       color: red;
+     }
+     p.note {  
+       font-style: italic;
+     }
+     p.dt {  
+       font-weight: bold;
+     }
+     span.rfc {
+      font-variant: small-caps;
+     }
+    </style>
+</head>
+<body>
+<h1>Schema document for namespace http://www.w3.org/2010/09/qt-fots-catalog</h1>
+<div>
+<hr>
+<ul class="bodytext">
+<li>
+<a href="#ann_1">Annotation 1</a>
+</li>
+<li>
+<a href="#attgrp_byAttr">Attribute group <em>byAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_changeAttr">Attribute group <em>changeAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_codeAttr">Attribute group <em>codeAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_coversAttr">Attribute group <em>coversAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_creatorAttr">Attribute group <em>creatorAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_documentAttr">Attribute group <em>documentAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_encodingAttr">Attribute group <em>encodingAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_fileAttr">Attribute group <em>fileAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_media-typeAttr">Attribute group <em>media-typeAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_nameAttr">Attribute group <em>nameAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_onAttr">Attribute group <em>onAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_refAttr">Attribute group <em>refAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_roleAttr">Attribute group <em>roleAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_typeAttr">Attribute group <em>typeAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_uriAttr">Attribute group <em>uriAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_validationAttr">Attribute group <em>validationAttr</em></a>
+</li>
+<li>
+<a href="#attgrp_valueAttr">Attribute group <em>valueAttr</em></a>
+</li>
+<li>
+<a href="#type_baseType">Complex type <em>baseType</em></a>
+</li>
+<li>
+<a href="#type_resourceType">Complex type <em>resourceType</em></a>
+</li>
+<li>
+<a href="#type_schemaType">Complex type <em>schemaType</em></a>
+</li>
+<li>
+<a href="#type_SequenceOfAssertionsType">Complex type <em>SequenceOfAssertionsType</em></a>
+</li>
+<li>
+<a href="#type_sourceType">Complex type <em>sourceType</em></a>
+</li>
+<li>
+<a href="#elem_abstractAssertion">Element <em>abstractAssertion</em></a>
+</li>
+<li>
+<a href="#elem_all-of">Element <em>all-of</em></a>
+</li>
+<li>
+<a href="#elem_any-of">Element <em>any-of</em></a>
+</li>
+<li>
+<a href="#elem_assert">Element <em>assert</em></a>
+</li>
+<li>
+<a href="#elem_assert-count">Element <em>assert-count</em></a>
+</li>
+<li>
+<a href="#elem_assert-deep-eq">Element <em>assert-deep-eq</em></a>
+</li>
+<li>
+<a href="#elem_assert-empty">Element <em>assert-empty</em></a>
+</li>
+<li>
+<a href="#elem_assert-eq">Element <em>assert-eq</em></a>
+</li>
+<li>
+<a href="#elem_assert-false">Element <em>assert-false</em></a>
+</li>
+<li>
+<a href="#elem_assert-permutation">Element <em>assert-permutation</em></a>
+</li>
+<li>
+<a href="#elem_assert-serialization-error">Element <em>assert-serialization-error</em></a>
+</li>
+<li>
+<a href="#elem_assert-string-value">Element <em>assert-string-value</em></a>
+</li>
+<li>
+<a href="#elem_assert-true">Element <em>assert-true</em></a>
+</li>
+<li>
+<a href="#elem_assert-type">Element <em>assert-type</em></a>
+</li>
+<li>
+<a href="#elem_assert-xml">Element <em>assert-xml</em></a>
+</li>
+<li>
+<a href="#elem_catalog">Element <em>catalog</em></a>
+</li>
+<li>
+<a href="#elem_collation">Element <em>collation</em></a>
+</li>
+<li>
+<a href="#elem_collection">Element <em>collection</em></a>
+</li>
+<li>
+<a href="#elem_context-item">Element <em>context-item</em></a>
+</li>
+<li>
+<a href="#elem_created">Element <em>created</em></a>
+</li>
+<li>
+<a href="#elem_decimal-format">Element <em>decimal-format</em></a>
+</li>
+<li>
+<a href="#elem_dependency">Element <em>dependency</em></a>
+</li>
+<li>
+<a href="#elem_description">Element <em>description</em></a>
+</li>
+<li>
+<a href="#elem_environment">Element <em>environment</em></a>
+</li>
+<li>
+<a href="#elem_error">Element <em>error</em></a>
+</li>
+<li>
+<a href="#elem_function-library">Element <em>function-library</em></a>
+</li>
+<li>
+<a href="#elem_link">Element <em>link</em></a>
+</li>
+<li>
+<a href="#elem_modified">Element <em>modified</em></a>
+</li>
+<li>
+<a href="#elem_module">Element <em>module</em></a>
+</li>
+<li>
+<a href="#elem_namespace">Element <em>namespace</em></a>
+</li>
+<li>
+<a href="#elem_param">Element <em>param</em></a>
+</li>
+<li>
+<a href="#elem_resource">Element <em>resource</em></a>
+</li>
+<li>
+<a href="#elem_result">Element <em>result</em></a>
+</li>
+<li>
+<a href="#elem_schema">Element <em>schema</em></a>
+</li>
+<li>
+<a href="#elem_serialization-matches">Element <em>serialization-matches</em></a>
+</li>
+<li>
+<a href="#elem_source">Element <em>source</em></a>
+</li>
+<li>
+<a href="#elem_static-base-uri">Element <em>static-base-uri</em></a>
+</li>
+<li>
+<a href="#elem_test">Element <em>test</em></a>
+</li>
+<li>
+<a href="#elem_test-case">Element <em>test-case</em></a>
+</li>
+<li>
+<a href="#elem_test-set">Element <em>test-set</em></a>
+</li>
+<li>
+<a href="#imp_1">Import <code>http://www.w3.org/XML/1998/namespace</code></a>
+</li>
+<li>
+<a href="#type_dependencyEnumType">Simple type <em>dependencyEnumType</em></a>
+</li>
+<li>
+<a href="#type_encodingType">Simple type <em>encodingType</em></a>
+</li>
+<li>
+<a href="#type_EQName">Simple type <em>EQName</em></a>
+</li>
+<li>
+<a href="#type_one-char">Simple type <em>one-char</em></a>
+</li>
+<li>
+<a href="#type_validationEnumType">Simple type <em>validationEnumType</em></a>
+</li>
+</ul>
+<hr>
+</div>
+    
+<div id="imp_1">
+<h3>
+<a name="imp_1">Import <code>http://www.w3.org/XML/1998/namespace</code></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    &lt;xs:import
+      namespace="http://www.w3.org/XML/1998/namespace"
+      schemaLocation="xml.xsd"
+      xml:lang="en"/&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div class="annotation" id="ann_1">
+<h3>Annotation</h3>
+<div class="bodytext">
+        <h1 xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">QT3 Test Suite Schema</h1>
+<p xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    This schema documentation describes the elements and attributes
+                    which are to be used in the catalog and test-set instance 
+                    documents, and belong to the QT3 test suite (known during development as FOTS).
+                </p>
+<p xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">QT3 derives from the W3C <a href="http://dev.w3.org/cvsweb/2007/xpath-full-text-10-test-suite/" target="_blank">XQuery</a> and 
+                    <a href="http://dev.w3.org/2006/xquery-test-suite/PublicPagesStagingArea/" target="_blank">XSLT test suites</a>, where we 
+                    intend to overcome the following problems with the existing test suites:
+                    <ul>
+                        <li>Duplication across the XSLT and XQuery test suites</li>
+                        <li>Very large XQuery test suite which has become somewhat disorganised and cumbersome to find specific tests or
+                            find all test for a particular function</li>
+                        <li>Unavailability of the XSLT test suite to the general public</li>
+                        <li>Serialization issues of the test results, where the comparing of canonicalized XML documents, is
+                            unnecessarily cumbersome for the typical function test that returns an atomic value.</li>
+                        <li>Usability problems for standalone XPath processors and other host languages that use XPath</li>
+                        <li/>
+                    </ul>
+                </p>
+<p xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">This schema describes two kinds of file: the master catalog file, rooted at a
+                    <code>catalog</code> element, and test-set files, which are rooted at a <code>test-set</code>
+                    element. The catalog file contains a sequence of <code>test-set</code> elements which are
+                    references to the test-set files.</p>
+    
+</div>
+</div>
+    
+    
+<div id="elem_catalog">
+<h3>
+<a name="elem_catalog">Element <em>catalog</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>catalog</h3>
+                    <p>
+                        Denotes the root element of the catalog document. 
+                        The catalog lists all test-sets that are to be run and
+                        also contains an environment of assorted schemas and source documents.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="catalog"&gt;
+        
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element ref="<a href="#elem_environment">environment</a>" minOccurs="1" maxOccurs="unbounded"/&gt;
+                &lt;xs:element name="test-set" maxOccurs="unbounded"&gt;                    
+                    &lt;xs:complexType&gt;
+                        &lt;xs:complexContent&gt;
+                            &lt;xs:extension base="<a href="#type_baseType">baseType</a>"&gt;
+                                &lt;xs:attributeGroup ref="<a href="#attgrp_nameAttr">nameAttr</a>"/&gt;
+                                &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
+                             &lt;/xs:extension&gt;
+                        &lt;/xs:complexContent&gt;
+                    &lt;/xs:complexType&gt;
+                &lt;/xs:element&gt;
+            &lt;/xs:sequence&gt;
+            &lt;xs:attribute name="version" type="<span class="external-link diff-ns">xs:decimal</span>"&gt;
+                
+            &lt;/xs:attribute&gt;    
+            &lt;xs:attribute name="test-suite" type="<span class="external-link diff-ns">xs:string</span>"&gt;
+               
+            &lt;/xs:attribute&gt;                   
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_environment">
+<h3>
+<a name="elem_environment">Element <em>environment</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>environment</h3>
+                    <p>
+                        Denotes an element which defines an assorted list of schemas and sources documents available to test cases.</p>
+                        
+                    <p> In addition the environment may set further information about the static context for running the test.</p>
+                    
+                    <p>    
+                        An environment can be made globally available across all test-sets, 
+                        or within a particular test-set or within a test-case.
+                        Locally-defined environments are considered to have precedence over 
+                        environments defined at some ancestor node, therefore conflicts are avoided.
+                        
+                    </p>
+                    <p>
+                        An environment that is shared between test cases always has a name (given by its <code>name</code> attribute).
+                        An environment element within a test case may either be a reference to a shared environment (identified
+                        by its <code>ref</code> attribute) or a locally-defined environment (with no <code>name</code> or <code>ref</code>
+                        attributes.</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="environment"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:complexContent&gt;
+                &lt;xs:extension base="<a href="#type_baseType">baseType</a>"&gt;            
+                    &lt;xs:choice minOccurs="0" maxOccurs="unbounded"&gt;
+                        &lt;xs:element ref="<a href="#elem_schema">schema</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_source">source</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_resource">resource</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_param">param</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_context-item">context-item</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_decimal-format">decimal-format</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_namespace">namespace</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_function-library">function-library</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_collection">collection</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_static-base-uri">static-base-uri</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_collation">collation</a>"/&gt;
+                    &lt;/xs:choice&gt;
+                    &lt;xs:attributeGroup ref="<a href="#attgrp_nameAttr">nameAttr</a>"/&gt;
+                    &lt;xs:attributeGroup ref="<a href="#attgrp_refAttr">refAttr</a>"/&gt;
+                &lt;/xs:extension&gt;
+            &lt;/xs:complexContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_static-base-uri">
+<h3>
+<a name="elem_static-base-uri">Element <em>static-base-uri</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>static-base-uri</h3>
+                    <p>An element used to supply the static base URI for a query. The <code>uri</code> attribute
+                      should be an absolute URI.</p>
+                    <p>In the absence of this element, or of a base URI declaration in the query prolog,
+                    the static base URI of a query is the file containing the text of the query.</p>
+                    <p>The value <code>uri='#UNDEFINED'</code> indicates that the test expects the static base URI
+                    to be absent.</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="static-base-uri"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_collation">
+<h3>
+<a name="elem_collation">Element <em>collation</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>collation</h3>
+                    <p>An element which defines a collation URI used in the query.</p>
+                        
+                    <p>The <code>uri</code>
+                        attribute is the collation URI as it actually appears in the XPath expression. There is
+                        a small enumerated set of collation URIs that may appear in tests; these have a meaning
+                        that is defined in the test suite. If the implementation cannot bind arbitrary URIs to
+                        collations, it may substitute this URI in the source expression by a different one having
+                        the same semantics. If the implementation does not support the semantics of the collation,
+                        then it should not run the test (support for collations other than the codepoint collation
+                        is not a conformance requirement. 
+                    </p>
+                    <p>The <code>default</code> attribute indicates whether this collation is to be used as the
+                    default collation.</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="collation"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attribute name="uri"&gt;
+                &lt;xs:simpleType&gt;
+                    &lt;xs:restriction base="<span class="external-link diff-ns">xs:anyURI</span>"&gt;
+                        &lt;xs:enumeration value="http://www.w3.org/2005/xpath-functions/collation/codepoint"&gt;
+                            
+                        &lt;/xs:enumeration&gt;
+                        &lt;xs:enumeration value="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"&gt;
+                            
+                        &lt;/xs:enumeration&gt;
+                    &lt;/xs:restriction&gt;
+                &lt;/xs:simpleType&gt;
+             &lt;/xs:attribute&gt;
+             &lt;xs:attribute name="default" type="<span class="external-link diff-ns">xs:boolean</span>" use="optional" default="false"&gt;
+                
+             &lt;/xs:attribute&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_decimal-format">
+<h3>
+<a name="elem_decimal-format">Element <em>decimal-format</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+                <h3>decimal-format</h3>
+                <p>The <code>decimal-format</code> element allows a decimal format to be defined as part of the 
+                    static context for evaluating an XPath expression that calls the format-number() function.</p>
+                    
+                <p>When the <code>decimal-format</code> element is used in an environment, the test expression
+                will always be a simple XPath expression. If the test is to be run using an XQuery processor, 
+                the decimal format can be added to the static context either by using the processor's API, or
+                by constructing a query prolog containing a <code>declare decimal format</code> declaration and
+                prepending this to the test expression.</p>
+                
+                <p>The mechanism is used for testing the format-number() function. As such, the decimal format
+                    being defined should always be valid. Tests for invalid decimal formats should be written
+                    as XQuery tests with an explicit query prolog (or the equivalent in XSLT).</p>
+                    
+                <p>Test Catalog006 ensures that the decimal-format element is only used in tests that are
+                    pure XPath expressions.</p>
+              </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="decimal-format"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attribute name="name" type="<span class="external-link diff-ns">xs:QName</span>"/&gt;
+            &lt;xs:attribute name="decimal-separator" type="<a href="#type_one-char">one-char</a>"/&gt;
+            &lt;xs:attribute name="grouping-separator" type="<a href="#type_one-char">one-char</a>"/&gt;
+            &lt;xs:attribute name="zero-digit" type="<a href="#type_one-char">one-char</a>"/&gt; 
+            &lt;xs:attribute name="digit" type="<a href="#type_one-char">one-char</a>"/&gt;
+            &lt;xs:attribute name="minus-sign" type="<a href="#type_one-char">one-char</a>"/&gt; 
+            &lt;xs:attribute name="percent" type="<a href="#type_one-char">one-char</a>"/&gt;
+            &lt;xs:attribute name="per-mille" type="<a href="#type_one-char">one-char</a>"/&gt;
+            &lt;xs:attribute name="pattern-separator" type="<a href="#type_one-char">one-char</a>"/&gt;
+            &lt;xs:attribute name="infinity" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+            &lt;xs:attribute name="NaN" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_one-char">
+<h3>
+<a name="type_one-char">Simple type <em>one-char</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Notes</h4>
+<p xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">A simple type representing a string whose length is exactly one character.</p>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:simpleType name="one-char"&gt;
+        
+        &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
+            &lt;xs:length value="1"/&gt;
+        &lt;/xs:restriction&gt;
+    &lt;/xs:simpleType&gt;</pre>
+</div>
+</div>
+</div>
+               
+    
+    
+<div id="elem_param">
+<h3>
+<a name="elem_param">Element <em>param</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>param</h3>
+                    <p>
+                        An element within an environment that declares a variable that can be referenced
+                        within test expressions that use this environment.
+                        </p>
+                     <p>   
+                        The test expression will not include a declaration of the variable (so it can be
+                        executed if appropriate using XPath). The test driver can add a declaration of the
+                        variable to the query prolog if required. If the test expression includes the string
+                        "(:%VARDECL%:)" then the variable declaration should be added to replace this string;
+                        if it does not include this string, the variable declaration can be added at the start.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+               
+    
+    &lt;xs:element name="param"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attribute name="name" type="<span class="external-link diff-ns">xs:NCName</span>" use="required"/&gt;
+            &lt;xs:attribute name="select" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
+            &lt;xs:attribute name="as" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
+            &lt;xs:attribute name="source" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
+            &lt;xs:attribute name="declared" type="<span class="external-link diff-ns">xs:boolean</span>" use="optional" default="false"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_context-item">
+<h3>
+<a name="elem_context-item">Element <em>context-item</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>context-item</h3>
+                    <p>
+                        An element within an environment that declares the value of the context item
+                        for a query.</p>
+                     <p>   
+                        The query is called with the value of the select expression as the context item.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="context-item"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attribute name="select" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_collection">
+<h3>
+<a name="elem_collection">Element <em>collection</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>collection</h3>
+                    <p>
+                        Represents a collection accessible to the collection() function.
+                    </p>
+                    <p>The <code>uri</code> attribute identifies the collection URI. If this is
+                       absent or zero-length, the collection acts as the default collection, used
+                       when no URI is supplied to the <code>collection()</code> function.</p>
+                       
+                    <p>The contained <code>source</code> elements identify the documents making
+                    up the collection.</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="collection"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element ref="<a href="#elem_source">source</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+            &lt;/xs:sequence&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+       
+    
+<div id="elem_function-library">
+<h3>
+<a name="elem_function-library">Element <em>function-library</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>function-library</h3>
+                    <p>
+                        An element which provides access to a function library defined for xslt and xquery.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+       
+    &lt;xs:element name="function-library"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_nameAttr">nameAttr</a>"/&gt;
+            &lt;xs:attribute name="xslt-location"/&gt;
+            &lt;xs:attribute name="xquery-location"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_namespace">
+<h3>
+<a name="elem_namespace">Element <em>namespace</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>namespace</h3>
+                    <p>
+                        When this element is present in an environment, queries using this environment must
+                        have a namespace binding in the static context that binds the specified prefix to the
+                        specified namespace URI.</p>
+                        
+                    <p> A zero-length prefix denotes the default
+                        namespace for elements and types.</p>
+                        
+                    <p>
+                        All tests using an environment that contains a <code>namespace</code> element will
+                        be simple XPath expressions, so that the test can be run either under XPath or XQuery.
+                        If the test is run using an XPath processor, the namespace must be declared externally
+                        using the processor's API. If it is run using an XQuery processor, the namespace can
+                        either be declared externally using the processor's API, or a "declare namespace"
+                        declaration can be added to the query prolog. Because the test is guaranteed to be a
+                        simple XPath expression, adding the namespace declaration at the start is straightforward. </p>
+                        
+                    <p> Test Catalog005 checks that no test that requires XQuery uses an environment that contains
+                        a namespace element. </p>
+                        
+                    
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="namespace"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attribute name="prefix"/&gt;
+            &lt;xs:attribute name="uri"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_schema">
+<h3>
+<a name="elem_schema">Element <em>schema</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <h3>schema</h3>
+                <p>
+                    An element which provides information about a schema to be used to validate a source document. 
+                    The scope of the &lt;schema&gt; element is the parent &lt;environment&gt; element in which it appears.
+                </p>
+            </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="schema" type="<a href="#type_schemaType">schemaType</a>"&gt;
+    
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_baseType">
+<h3>
+<a name="type_baseType">Complex type <em>baseType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:complexType name="baseType" abstract="true"&gt;
+        &lt;xs:attribute ref="<span class="external-link diff-ns">xml:id</span>"/&gt;
+    &lt;/xs:complexType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_schemaType">
+<h3>
+<a name="type_schemaType">Complex type <em>schemaType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>schemaType</h3>
+                    <p>
+                        The type definition for the <code>schema</code> element
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:complexType name="schemaType"&gt;
+        
+        &lt;xs:complexContent&gt;
+            &lt;xs:extension base="<a href="#type_baseType">baseType</a>"&gt;
+                &lt;xs:sequence&gt;
+                    &lt;xs:element ref="<a href="#elem_description">description</a>" minOccurs="0" maxOccurs="1"/&gt;
+                    &lt;xs:element ref="<a href="#elem_created">created</a>" minOccurs="0" maxOccurs="1"/&gt;
+                    &lt;xs:element ref="<a href="#elem_modified">modified</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;/xs:sequence&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
+                &lt;xs:attribute name="xsd-version" type="<span class="external-link diff-ns">xs:decimal</span>" default="1.0"/&gt;
+                
+            &lt;/xs:extension&gt;
+            
+        &lt;/xs:complexContent&gt;
+        
+    &lt;/xs:complexType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_source">
+<h3>
+<a name="elem_source">Element <em>source</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>source</h3>
+                    <p>
+                        An element which provides information about a source xml file used as input to test cases.</p>
+                        
+                        
+                    <p> The <code>role</code> and <code>uri</code> attributes indicate how the source document is made
+                    avaiable to queries (as the context item, as the value of an external variable, or as a URI that can be
+                    supplied to the doc() function.)</p>
+                    
+                    <p> The <code>file</code> attribute gives the relative location of the file containing the XML source.</p>
+                    
+                    <p> The scope of the &lt;source&gt; element is 
+                        the parent &lt;environment&gt; element in which it appears. A validated source 
+                        document references the schema, which maps to the @id of the Schema element. 
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="source" type="<a href="#type_sourceType">sourceType</a>"&gt;
+        
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_sourceType">
+<h3>
+<a name="type_sourceType">Complex type <em>sourceType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>sourceType</h3>
+                    <p>
+                        defines the type of the <code>source</code> element.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:complexType name="sourceType"&gt;
+        
+        &lt;xs:complexContent&gt;
+            &lt;xs:extension base="<a href="#type_baseType">baseType</a>"&gt;
+                &lt;xs:sequence&gt;
+                    &lt;xs:sequence&gt;
+                    &lt;xs:element ref="<a href="#elem_description">description</a>" minOccurs="0" maxOccurs="1"/&gt;
+                    &lt;xs:element ref="<a href="#elem_created">created</a>" minOccurs="0" maxOccurs="1"/&gt;
+                    &lt;xs:element ref="<a href="#elem_modified">modified</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;/xs:sequence&gt;
+                &lt;/xs:sequence&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_roleAttr">roleAttr</a>"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_validationAttr">validationAttr</a>"/&gt;
+           
+            &lt;/xs:extension&gt;
+        &lt;/xs:complexContent&gt;
+        
+    &lt;/xs:complexType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_resource">
+<h3>
+<a name="elem_resource">Element <em>resource</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>resource</h3>
+                    <p>
+                        An element which provides information about a file that can be read as text, used as input to test cases.</p>
+                        
+                        
+                    <p> The <code>uri</code> attributes indicate how the resource is made avaiable to queries (as a URI that can be supplied to the unparsed-text(), unparsed-text-lines() and unparsed-text-available() functions.)</p>
+                    
+                    <p> The <code>file</code> attribute gives the relative location of the file containing the resource.</p>
+
+                    <p> The optional <code>media-type</code> attribute gives the media type of the resource.</p>
+
+                    <p> The optional <code>encoding</code> attribute gives the name of the encoding of the resource.</p>
+                    
+                    <p> The scope of the &lt;resource&gt; element is 
+                        the parent &lt;environment&gt; element in which it appears. A validated source 
+                        document references the schema, which maps to the @id of the Schema element. 
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="resource" type="<a href="#type_resourceType">resourceType</a>"&gt;
+        
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_resourceType">
+<h3>
+<a name="type_resourceType">Complex type <em>resourceType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>resourceType</h3>
+                    <p>
+                        defines the type of the <code>resource</code> element.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:complexType name="resourceType"&gt;
+        
+        &lt;xs:complexContent&gt;
+            &lt;xs:extension base="<a href="#type_baseType">baseType</a>"&gt;
+                &lt;xs:sequence&gt;
+                    &lt;xs:sequence&gt;
+                    &lt;xs:element ref="<a href="#elem_description">description</a>" minOccurs="0" maxOccurs="1"/&gt;
+                    &lt;xs:element ref="<a href="#elem_created">created</a>" minOccurs="0" maxOccurs="1"/&gt;
+                    &lt;xs:element ref="<a href="#elem_modified">modified</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;/xs:sequence&gt;
+                &lt;/xs:sequence&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_media-typeAttr">media-typeAttr</a>"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_encodingAttr">encodingAttr</a>"/&gt;
+           
+            &lt;/xs:extension&gt;
+        &lt;/xs:complexContent&gt;
+        
+    &lt;/xs:complexType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+    
+<div id="elem_description">
+<h3>
+<a name="elem_description">Element <em>description</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>description</h3>
+                    <p>
+                        An element which provides descriptive information about the
+                        resource described by its parent element.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    
+    &lt;xs:element name="description"&gt;
+        
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                                        
+                &lt;/xs:extension&gt;
+                
+            &lt;/xs:simpleContent&gt;
+            
+            
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_test-set">
+<h3>
+<a name="elem_test-set">Element <em>test-set</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>test-set</h3>
+                    <p>
+                        denotes an element which provides a sequence of test-case entries for a particular function. 
+                        Within this element we provide data needed to run the test for that function.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="test-set"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:choice maxOccurs="unbounded"&gt;
+                    &lt;xs:element ref="<a href="#elem_description">description</a>"/&gt;
+                    &lt;xs:element ref="<a href="#elem_link">link</a>"/&gt;
+                    &lt;xs:element ref="<a href="#elem_environment">environment</a>"/&gt;
+                    &lt;xs:element ref="<a href="#elem_dependency">dependency</a>"/&gt;
+                &lt;/xs:choice&gt;
+                &lt;xs:element ref="<a href="#elem_test-case">test-case</a>" maxOccurs="unbounded"/&gt;
+            &lt;/xs:sequence&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_nameAttr">nameAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_coversAttr">coversAttr</a>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_dependency">
+<h3>
+<a name="elem_dependency">Element <em>dependency</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>dependency</h3>
+                    <p>Indicates a dependency which must be satisfied in order for a test to be run.</p>
+                    
+                    <p>A dependency may be associated with an individual test case or with
+                        a test-set. A dependency at the level of a test-set appplies to all test cases in
+                        that test-set.</p> 
+                        
+                    <p>The attribute setting <code>satisfied="false"</code> indicates that the test should only
+                    be run if the dependency is NOT satisfied.</p>
+                    
+                    <p>The set of recognized values appearing in the <code>value</code> attribute
+                    depends on the content of the <code>type</code> attribute.</p>
+                    
+                    <p>The most commonly-used dependency is on the version of XPath or XQuery. This
+                    is represented by a dependency with <code>type="spec"</code> whose corresponding
+                    value is, for example <code>value="XQ10+ XP30+"</code> which indicates that the
+                    test can be run with XQuery 1.0 or later, or XPath 3.0 or later. A test with
+                    <code>value="XQ10"</code> should be run with an XQuery 1.0 processor only (typically,
+                    an XQuery 3.0 processor will produce a different result, described in a separate
+                    test case.)</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="dependency"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_typeAttr">typeAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_valueAttr">valueAttr</a>"/&gt;
+            &lt;xs:attribute name="satisfied" type="<span class="external-link diff-ns">xs:boolean</span>" default="true"&gt;
+                
+            &lt;/xs:attribute&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_test-case">
+<h3>
+<a name="elem_test-case">Element <em>test-case</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>test-case</h3>
+                    <p>
+                        denotes an element that contains a test that must be run in a named environment, 
+                        also contains the expected result and description of the test, including author 
+                        and creation date.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="test-case"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element ref="<a href="#elem_description">description</a>"/&gt;
+                &lt;xs:element ref="<a href="#elem_created">created</a>"/&gt;
+                &lt;xs:element ref="<a href="#elem_modified">modified</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;xs:element ref="<a href="#elem_environment">environment</a>" minOccurs="0"/&gt;
+                &lt;xs:element ref="<a href="#elem_module">module</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;xs:element ref="<a href="#elem_dependency">dependency</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;xs:element ref="<a href="#elem_test">test</a>"/&gt;
+                &lt;xs:element ref="<a href="#elem_result">result</a>"/&gt;
+            &lt;/xs:sequence&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_nameAttr">nameAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_coversAttr">coversAttr</a>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_test">
+<h3>
+<a name="elem_test">Element <em>test</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>test</h3>
+                    <p>
+                        The content of the element is an XPath or XQuery expression to be evaluated.                     
+                    </p>
+                    <p>
+                        As an alternative to providing the content inline, it may be provided in an external
+                        file referenced using the <code>file</code> attribute. This is done only exceptionally, where (a)
+                        the query is unusually large, or (b) there is a need to test features that can only
+                        be achieved with an external file, for example special encodings.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="test"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                    &lt;xs:attribute name="file" type="<span class="external-link diff-ns">xs:anyURI</span>" use="optional"/&gt;
+                &lt;/xs:extension&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_created">
+<h3>
+<a name="elem_created">Element <em>created</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>created</h3>
+                    <p>
+                        Provides details of the author and creation date of a test case, source document, schema, etc. 
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="created"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_byAttr">byAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_onAttr">onAttr</a>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_modified">
+<h3>
+<a name="elem_modified">Element <em>modified</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>modified</h3>
+                    <p>
+                        Provides a record of changes made to a test case or other resource over time. 
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="modified"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_byAttr">byAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_onAttr">onAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_changeAttr">changeAttr</a>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_module">
+<h3>
+<a name="elem_module">Element <em>module</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>module</h3>
+                    <p>
+                        Defines an XQuery library module imported by a test case. The module element gives the module
+                        URI and the location of the module. The query will contain an "import module" declaration
+                        referencing the same module URI, with no "at" location (except where the "at" attribute is being
+                        specifically tested, in which case the results are undefined.)
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="module"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attribute name="uri" type="<span class="external-link diff-ns">xs:anyURI</span>"/&gt;
+            &lt;xs:attribute name="file" type="<span class="external-link diff-ns">xs:anyURI</span>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_result">
+<h3>
+<a name="elem_result">Element <em>result</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>result</h3>
+                    <p>
+                        denotes an element which provides an &lt;assert&gt; or &gt;error&lt; element pertaining the expected result. 
+                        Alternatively assertions can appears as a list within &lt;any-of&gt; or &lt;all-of&gt; element. 
+                        The meaning of these elements are self explantary.
+                        
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="result"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element ref="<a href="#elem_abstractAssertion">abstractAssertion</a>"/&gt;
+            &lt;/xs:sequence&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+    
+<div id="type_SequenceOfAssertionsType">
+<h3>
+<a name="type_SequenceOfAssertionsType">Complex type <em>SequenceOfAssertionsType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>complexType for a sequence of assertions</h3>
+                    <p>
+                        
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    
+    &lt;xs:complexType name="SequenceOfAssertionsType"&gt;
+        
+        &lt;xs:sequence&gt;
+            &lt;xs:element ref="<a href="#elem_abstractAssertion">abstractAssertion</a>" minOccurs="1" maxOccurs="unbounded"/&gt;
+            
+        &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+    
+<div id="elem_any-of">
+<h3>
+<a name="elem_any-of">Element <em>any-of</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>any-of</h3>
+                    <p>
+                        denotes an element which provides a list of assertions. 
+                        One or more of the assertions needs to prove true for the test to pass, 
+                        but if all fail then the test fails.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    
+    &lt;xs:element
+      name="any-of"
+      type="<a href="#type_SequenceOfAssertionsType">SequenceOfAssertionsType</a>"
+      substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_all-of">
+<h3>
+<a name="elem_all-of">Element <em>all-of</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>all-of</h3>
+                    <p>
+                        denotes an element which provides a list of assertions that must be all satisfied, 
+                        if any of the assertions proves to be false then the test fails.      
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element
+      name="all-of"
+      type="<a href="#type_SequenceOfAssertionsType">SequenceOfAssertionsType</a>"
+      substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_abstractAssertion">
+<h3>
+<a name="elem_abstractAssertion">Element <em>abstractAssertion</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>abstractAssertion</h3>
+                    <p>
+                        Abstract superclass for the various kinds of assertion.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="abstractAssertion" abstract="true" type="<span class="external-link diff-ns">xs:anyType</span>"&gt;
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+    
+    
+<div id="elem_assert">
+<h3>
+<a name="elem_assert">Element <em>assert</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert</h3>
+                    <p>
+                        The assert element contains an XPath expression whose effective boolean
+                        value must be true; usually the expression will use the variable $result
+                        which references the result of the expression. 
+                    </p>
+                    <p>For example, <code>&lt;assert&gt;matches(string($result), '[0-9]{3}')&lt;/assert&gt;</code>
+                    asserts that the result of the test expression is a three-digit number.</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    
+    
+    &lt;xs:element name="assert" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"/&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-eq">
+<h3>
+<a name="elem_assert-eq">Element <em>assert-eq</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-eq</h3>
+                    <p>
+                        The assert element contains an XPath expression (usually a simple string or numeric literal) which must
+                        be equal to the result of the test case under the rules of the XPath 'eq' operator. 
+                    </p>
+                    <p>For example, <code>&lt;assert-eq&gt;12&lt;/assert-eq&gt;</code>
+                    asserts that the result of the test expression is an atomic value that compares
+                    equal to the integer 12 (which means it might be the double value 12.0 or the
+                    float value 12.0 or the untyped atomic value "12.0", for example).</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-eq" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"/&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-count">
+<h3>
+<a name="elem_assert-count">Element <em>assert-count</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-count</h3>
+                    <p>
+                        Asserts that the result must be a sequence containing a given number of items.
+                        The value of the element is an integer giving the expected length of the sequence.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-count" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:integer</span>"/&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-deep-eq">
+<h3>
+<a name="elem_assert-deep-eq">Element <em>assert-deep-eq</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-deep-eq</h3>
+                    <p>
+                        Asserts that the result must be a sequence of atomic values that is deep-equal
+                        to the supplied sequence under the rules of the deep-equal() function.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-deep-eq" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"/&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-permutation">
+<h3>
+<a name="elem_assert-permutation">Element <em>assert-permutation</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-permutation</h3>
+                    <p>
+                        Asserts that the result must be a sequence of atomic values that 
+                        has some permutation (reordering) that is deep-equal
+                        to the supplied sequence under the rules of the deep-equal() function.
+                    </p>
+                    
+                    <p>Note this implies that NaN is equal to NaN.</p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-permutation" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"/&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-xml">
+<h3>
+<a name="elem_assert-xml">Element <em>assert-xml</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-xml</h3>
+                    <p>
+                        Asserts the result of the query by providing a serialization of the expression 
+                        result using the default serialization parameters method="xml" indent="no" 
+                        omit-xml-declaration="yes".</p>
+                        
+                    <p> Previously called assert-serialization.    
+                        Note that this assertion is not used to test serialization; it is used
+                        as a way of supplying the expected results of the query in the form of an XML
+                        document.</p>
+                        
+                    <p> The assertion is true if the result of parsing and canonicalizing the XML
+                        given in the body of the assert-xml element is the same (byte-for-byte) as
+                        the result of canonicalizing the XML result of the query. As an alternative
+                        to canonicalizing, the results may be compared using the fn:deep-equal()
+                        function.</p>    
+                        
+                     <p>The value will not necessarily be a well-formed document (it may be a fragment). 
+                        The comparison can be done by converting the string into a well-formed
+                        document by adding a wrapper element.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-xml" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                    &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
+                    &lt;xs:attribute name="ignore-prefixes" type="<span class="external-link diff-ns">xs:boolean</span>"&gt;
+                        
+                    &lt;/xs:attribute&gt;
+                &lt;/xs:extension&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_serialization-matches">
+<h3>
+<a name="elem_serialization-matches">Element <em>serialization-matches</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>serialization-matches</h3>
+                    <p>
+                        Asserts the result of serializing the query matches a given regular
+                        expression.</p>
+                        
+                    <p> The result of the query must be serialized using the serialization
+                        options specified within the query (if any).</p>
+                        
+                    <p> The assertion is true if the output of the serializer (as a string)
+                        matches the regular expression, when compared using the matches() function
+                        with the specified flags. Note this is not an anchored match, unless
+                        anchors are included within the regular expression itself.</p>    
+                        
+                     <p>Note that the serializer output is treated as a string; we have no way
+                        of testing the encoding of serialized output when treated as an octet stream.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="serialization-matches" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                    &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
+                    &lt;xs:attribute name="flags" type="<span class="external-link diff-ns">xs:string</span>"&gt;
+                        
+                    &lt;/xs:attribute&gt;
+                &lt;/xs:extension&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-serialization-error">
+<h3>
+<a name="elem_assert-serialization-error">Element <em>assert-serialization-error</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-serialization-error</h3>
+                    <p>
+                        Asserts that the query can be executed without error, but serializing the result
+                        produces a serialization error. The expression result is serialized using the default
+                        serialization parameters method="xml" indent="no" omit-xml-declaration="yes".
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-serialization-error" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                    &lt;xs:attributeGroup ref="<a href="#attgrp_codeAttr">codeAttr</a>"/&gt;
+                &lt;/xs:extension&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-empty">
+<h3>
+<a name="elem_assert-empty">Element <em>assert-empty</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-empty</h3>
+                    <p>
+                        Asserts that the result of the test is an empty sequence.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-empty" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-type">
+<h3>
+<a name="elem_assert-type">Element <em>assert-type</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-type</h3>
+                    <p>
+                        Asserts that the result of the test matches the sequence type given as the value
+                        of the assert-type element.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-type" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"/&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-true">
+<h3>
+<a name="elem_assert-true">Element <em>assert-true</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-true</h3>
+                    <p>
+                        Asserts that the result of the test is the singleton boolean value true().
+                        Note, the test expression must actually evaluate to true: this is not an assertion
+                        on the effective boolean value.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-true" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-false">
+<h3>
+<a name="elem_assert-false">Element <em>assert-false</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-true</h3>
+                    <p>
+                        Asserts that the result of the test is the singleton boolean value false().
+                        Note, the test expression must actually evaluate to false: this is not an assertion
+                        on the effective boolean value.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-false" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_assert-string-value">
+<h3>
+<a name="elem_assert-string-value">Element <em>assert-string-value</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>assert-string-value</h3>
+                    <p>
+                        Asserts that the result of the test, after conversion to a string by applying the expression
+                        
+                        string-join(for $r in $result return string($r), " ")
+                        
+                        is equal to the string value of the assert-string-value element. Note that this test cannot
+                        be used if the result includes items that do not have a string value (elements with element-only
+                        content; function items)
+                        
+                        If the normalize-space attribute is present with the value true, then both the string value of the query
+                        result and the value of the assert-string-value
+                        element should be processed as if by the XPath normalize-space() function before the comparison.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="assert-string-value" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:simpleContent&gt;
+                &lt;xs:extension base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                    &lt;xs:attribute name="normalize-space" type="<span class="external-link diff-ns">xs:boolean</span>" default="false"/&gt;
+                &lt;/xs:extension&gt;
+            &lt;/xs:simpleContent&gt;
+        &lt;/xs:complexType&gt;
+        
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_error">
+<h3>
+<a name="elem_error">Element <em>error</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>error</h3>
+                    <p>
+                        Asserts that the test is expected to fail with a static or dynamic error condition. 
+                        The "code" attribute gives the expected error code.
+                    </p>
+                    <p>
+                        For the purpose of official test reporting, an implementation is considered to pass a test
+                        if the test expects and error and the implementation raises an error, regardless whether
+                        the error codes match. Implementors are advised, however, that raising the wrong error code
+                        often indicates a problem, so it is advisable to detect this situation. When reporting
+                        requirements are finalized, we will be asking implementors to indicate tests which passed
+                        but raised a different error, so that we can assess the extent to which implementations are
+                        interoperable at the level of error codes.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="error" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_codeAttr">codeAttr</a>"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="elem_link">
+<h3>
+<a name="elem_link">Element <em>link</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>link</h3>
+                    <p>
+                        denotes an element which provides reference to documentation of the function.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="link"&gt;
+        
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_typeAttr">typeAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_documentAttr">documentAttr</a>"/&gt;
+            &lt;xs:attribute name="idref" type="<span class="external-link diff-ns">xs:NCName</span>"/&gt;
+            &lt;xs:attribute name="section-number"&gt;
+                &lt;xs:simpleType&gt;
+                    &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                        &lt;xs:pattern value="[0-9A-Z](\.*[0-9]+)*"/&gt;
+                    &lt;/xs:restriction&gt;
+                &lt;/xs:simpleType&gt;
+            &lt;/xs:attribute&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_documentAttr">
+<h3>
+<a name="attgrp_documentAttr">Attribute group <em>documentAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>document (as an attribute name)</h3>
+                        <p>
+                            denotes an attribute which provides a URI to be used as reference to specification.
+                        </p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="documentAttr"&gt;
+        
+        &lt;xs:attribute name="document" type="<span class="external-link diff-ns">xs:anyURI</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_codeAttr">
+<h3>
+<a name="attgrp_codeAttr">Attribute group <em>codeAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>code (as an attribute name)</h3>
+                        <p>
+                            denotes an attribute which in most cases provides a NCName to be used as an error code 
+                            in the scope of a error element. The attribute gives the local name of the
+                            error code; the code is assumed to be in the standard error namespace.</p>
+                        <p> The value "*" indicates that any error code is allowed.</p>
+                        <p> The value may also be an EQName (Q{uri}local) to allow for user-defined error codes </p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="codeAttr"&gt;
+        
+        &lt;xs:attribute name="code"&gt;
+            &lt;xs:simpleType&gt;
+                &lt;xs:union memberTypes="<span class="external-link diff-ns">xs:NCName</span> <a href="#type_EQName">EQName</a>"&gt;
+                    &lt;xs:simpleType&gt;
+                        &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
+                            
+                            &lt;xs:enumeration value="*"/&gt;
+                        &lt;/xs:restriction&gt;
+                    &lt;/xs:simpleType&gt;
+                &lt;/xs:union&gt;
+            &lt;/xs:simpleType&gt;    
+        &lt;/xs:attribute&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_EQName">
+<h3>
+<a name="type_EQName">Simple type <em>EQName</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Notes</h4>
+<p xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">Allows a user-defined error code to be expressed in the form Q{uri}local</p>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:simpleType name="EQName"&gt;
+      
+      &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
+        &lt;xs:pattern value="Q\{.*\}\i\c*"/&gt;
+      &lt;/xs:restriction&gt;
+    &lt;/xs:simpleType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_fileAttr">
+<h3>
+<a name="attgrp_fileAttr">Attribute group <em>fileAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>file</h3>
+                        <p>
+                            This attribute provides a URI to be used as location of a resource within
+                            the test suite (for example, a source document, a query, a module, or a schema).
+                        </p>
+                        <p> The URI will always be relative to the base URI of the XML document in which
+                            the attribute appears.
+                        </p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="fileAttr"&gt;
+        
+        &lt;xs:attribute name="file" type="<span class="external-link diff-ns">xs:anyURI</span>" use="optional"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_roleAttr">
+<h3>
+<a name="attgrp_roleAttr">Attribute group <em>roleAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                            <h3>role</h3> 
+                            <p>Describes how a source document is made available to the query.</p>
+                            <p>The value "." indicates that the source document will be the context
+                            item for the query.</p>
+                            <p>A value in the form <code>$varname</code> indicates that the source document will
+                            be made available as the value of the external variable <code>$varname</code>. This variable
+                            will <i>not</i> be declared in the query (this is to allow the mechanism
+                            to be used in XPath). The query will always be such that it is possible to
+                            add <code>declare variable</code> declarations at the start before compiling the query.</p>
+                            <p>If the source document is to be made available to the query using the
+                            doc() function, the "source" element should have a "uri" attribute, and
+                            the "role" attribute should be absent.</p>
+                            <p>The "role" attribute should be omitted if the source is part of a collection
+                            definition.</p>
+                           </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="roleAttr"&gt;
+                    
+        &lt;xs:attribute name="role" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_nameAttr">
+<h3>
+<a name="attgrp_nameAttr">Attribute group <em>nameAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>name</h3>
+                        <p>
+                            An attribute used to provide a string that uniquely names an object within some scope.
+                        </p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="nameAttr"&gt;
+        
+        &lt;xs:attribute name="name" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_coversAttr">
+<h3>
+<a name="attgrp_coversAttr">Attribute group <em>coversAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>covers</h3>
+                    <p>
+                        An attribute used to cross-reference tests or test-sets to the changes in the specification
+                        that the tests are designed to cover.
+                    </p>
+                    <p> The value is syntactically similar to an xs:IDREFS value, in that it contains a space-separated
+                    list of change identifiers; however it is not actually an xs:IDREFS value, because the identfiers are
+                    in a different XML document, specifically the identifiers of changes appearing in the changes.xml file.</p>
+
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="coversAttr"&gt;
+        
+        &lt;xs:attribute name="covers" use="optional"&gt;
+            &lt;xs:simpleType&gt;
+                &lt;xs:list itemType="<span class="external-link diff-ns">xs:NCName</span>"/&gt;
+            &lt;/xs:simpleType&gt;
+        &lt;/xs:attribute&gt;    
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_creatorAttr">
+<h3>
+<a name="attgrp_creatorAttr">Attribute group <em>creatorAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>creator</h3>
+                        <p>
+                            An attribute used to name the creator of a test-case.
+                        </p>
+                        <p>Use of this attribute does not constitute a claim to intellectual property rights.</p>
+                        <p>The recommended form is as a personal name (first name, last name). An institutional name
+                            may be used if policy requires it.</p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="creatorAttr"&gt;
+        
+        &lt;xs:attribute name="creator" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_refAttr">
+<h3>
+<a name="attgrp_refAttr">Attribute group <em>refAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>ref</h3>
+                        <p>
+                            denotes an attribute which contains a reference to an object defined
+                            elsewhere in the test catalog, for example a reference to a named
+                            environment.
+                        </p>
+                        <p>Note, this is not typed as xs:IDREF because the reference might be to an
+                        object in a different XML document.</p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="refAttr"&gt;
+        
+        &lt;xs:attribute name="ref" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+     &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+   
+    
+<div id="attgrp_validationAttr">
+<h3>
+<a name="attgrp_validationAttr">Attribute group <em>validationAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>validation</h3>
+                        <p>
+                            indicates for a source document within an environment whether the source document is to be validated against
+                            the schema defined for that environment, and if so whether validation is to be strict or lax.
+                        </p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+   
+    &lt;xs:attributeGroup name="validationAttr"&gt;
+        
+        &lt;xs:attribute name="validation" type="<a href="#type_validationEnumType">validationEnumType</a>" use="optional"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_media-typeAttr">
+<h3>
+<a name="attgrp_media-typeAttr">Attribute group <em>media-typeAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                            <h3>media-type</h3> 
+                            <p>Describes the media type of a resource.</p>
+                            <p>The value should conform to RFC 2046.</p>
+                           </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="media-typeAttr"&gt;
+                    
+        &lt;xs:attribute name="media-type" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_encodingAttr">
+<h3>
+<a name="attgrp_encodingAttr">Attribute group <em>encodingAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                            <h3>encoding</h3> 
+                            <p>Describes the encoding of a resource.</p>
+                            <p>The value should be that of a character set registered with the Internet Assigned Numbers Authority.</p>
+                           </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="encodingAttr"&gt;
+                    
+        &lt;xs:attribute name="encoding" type="<a href="#type_encodingType">encodingType</a>" use="optional"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_encodingType">
+<h3>
+<a name="type_encodingType">Simple type <em>encodingType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:simpleType name="encodingType"&gt;
+      &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
+	    &lt;xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/&gt;
+      &lt;/xs:restriction&gt;
+    &lt;/xs:simpleType&gt;</pre>
+</div>
+</div>
+</div>
+
+    
+<div id="attgrp_typeAttr">
+<h3>
+<a name="attgrp_typeAttr">Attribute group <em>typeAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>type</h3>
+                        <p>
+                            The <code>type</code> attribute of a <code>dependency</code> element indicates what type of dependency
+                            it is: the set of possible values is enumerated.
+                        </p>
+                        <p>
+                            The most common <code>type</code> is <code>spec</code>, which indicates a dependency on specific versions of
+                            XPath or XQuery. In this case the corresponding <code>value</code> attribute is a space-separated list
+                            whose tokens are, for example, "XQ10" indicating XQuery 1.0, "XQ10+" indicating XQuery 1.0 or later, 
+                            "XQ30+" indication XQuery 3.0 or later, or "XP20+" indicating XPath 2.0 or later. The tokens in the list
+                            are alternatives; the test may be run if any of the dependencies is satisfied.
+                        </p>
+                        <p>Similarly, if the <code>type</code> is <code>xml-version</code>, the corresponding value is a space-separated
+                        list whose tokens are "1.0" (XML 1.0), "1.1" (XML 1.1), "1.0:5+" (1.0, 5th edition or later), "1.0:4-" (1.0,
+                        fourth edition or earlier).</p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+
+    &lt;xs:attributeGroup name="typeAttr"&gt;
+        
+        &lt;xs:attribute name="type" type="<a href="#type_dependencyEnumType">dependencyEnumType</a>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_dependencyEnumType">
+<h3>
+<a name="type_dependencyEnumType">Simple type <em>dependencyEnumType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:simpleType name="dependencyEnumType"&gt;
+        &lt;xs:restriction base="<span class="external-link diff-ns">xs:normalizedString</span>"&gt;
+            &lt;xs:enumeration value="calendar"/&gt;
+            &lt;xs:enumeration value="collection-stability"/&gt;
+            &lt;xs:enumeration value="default-language"/&gt;
+            &lt;xs:enumeration value="directory-as-collection-uri"/&gt;
+            &lt;xs:enumeration value="feature"/&gt;
+            &lt;xs:enumeration value="format-integer-sequence"/&gt;
+            &lt;xs:enumeration value="language"/&gt;
+            &lt;xs:enumeration value="limits"/&gt;
+            &lt;xs:enumeration value="spec"/&gt;
+            &lt;xs:enumeration value="schemaAware"/&gt;
+            &lt;xs:enumeration value="unicode-normalization-form"/&gt;
+            &lt;xs:enumeration value="xml-version"/&gt;
+            &lt;xs:enumeration value="xsd-version"/&gt;
+        &lt;/xs:restriction&gt;
+    &lt;/xs:simpleType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_validationEnumType">
+<h3>
+<a name="type_validationEnumType">Simple type <em>validationEnumType</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:simpleType name="validationEnumType"&gt;
+        &lt;xs:restriction base="<span class="external-link diff-ns">xs:normalizedString</span>"&gt;
+            &lt;xs:enumeration value="strict"/&gt;
+            &lt;xs:enumeration value="lax"/&gt;
+            &lt;xs:enumeration value="skip"/&gt;
+        &lt;/xs:restriction&gt;
+    &lt;/xs:simpleType&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+    
+<div id="attgrp_valueAttr">
+<h3>
+<a name="attgrp_valueAttr">Attribute group <em>valueAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>value</h3>
+                        <p>
+                            As an attribute of the <code>dependency</code> element,
+                            provides a string value to be used to indicate the dependency.
+                        </p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    
+    &lt;xs:attributeGroup name="valueAttr"&gt;
+        
+        &lt;xs:attribute name="value" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_uriAttr">
+<h3>
+<a name="attgrp_uriAttr">Attribute group <em>uriAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>uri (as an attribute name)</h3>
+                        <p>
+                            This attribute provides a URI to be used as an abstract identifier of a resource within
+                            the test suite (for example, a source document, or a module). The URI is designed to
+                            be independent of the location of the resource.
+                        </p>
+                        <p> The URI should always be an absolute URI.
+                        </p>
+                        <p>For source documents, the URI can be used in a call to the doc() function to retrieve
+                            this source document (so the actual query does not need to know its location.</p>
+                        <p>For modules, the URI defines the module URI and is again independent of location.</p>
+                        <p>For schemas, the URI defines the target namespace URI.</p>
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="uriAttr"&gt;
+        
+        &lt;xs:attribute name="uri" type="<span class="external-link diff-ns">xs:anyURI</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_byAttr">
+<h3>
+<a name="attgrp_byAttr">Attribute group <em>byAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>by (as an attribute name)</h3>
+                        <p>
+                            The name of the person who created or modified a test-case or source document, schema etc.
+                        </p>
+                        
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="byAttr"&gt;
+        
+        &lt;xs:attribute name="by" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_onAttr">
+<h3>
+<a name="attgrp_onAttr">Attribute group <em>onAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>on (as an attribute name)</h3>
+                        <p>
+                            The date of an event such as the creation or modification of a test-case.
+                        </p>
+                        
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="onAttr"&gt;
+        
+        &lt;xs:attribute name="on" type="<span class="external-link diff-ns">xs:date</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_changeAttr">
+<h3>
+<a name="attgrp_changeAttr">Attribute group <em>changeAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <h3>change (as an attribute name)</h3>
+                        <p>
+                            Textual explanation of a change made to a test-case.
+                        </p>
+                        
+                    </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="changeAttr"&gt;
+        
+        &lt;xs:attribute name="change" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<xs:schema
+   xmlns:xs = "http://www.w3.org/2001/XMLSchema"
+   xmlns:ids = "http://www.w3.org/XQueryTest/nillable" 
+   targetNamespace = "http://www.w3.org/XQueryTest/nillable" 
+   elementFormDefault = "qualified">
+ 
+  <xs:element name = "root" type = "ids:root"/>
+  
+   <xs:complexType name = "root">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+     <xs:element name = "branch" type="ids:root" nillable="true"/>
+     <xs:element name = "twig" type="xs:int" nillable="true"/>
+     <xs:element name = "note" type="ids:mixed" nillable="true"/>
+     <xs:element name = "date" type="ids:date" nillable="true"/>
+     <xs:element name = "size" type="ids:size" nillable="true"/>
+    </xs:choice>
+   </xs:complexType>
+   
+  <xs:complexType name = "mixed" mixed="true">
+    <xs:sequence>
+      <xs:element name="span" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:simpleType name="date">
+    <xs:restriction base="xs:date">
+      <xs:enumeration value="2012-07-01"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="size">
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:attribute name="units"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+   
+      
+</xs:schema>

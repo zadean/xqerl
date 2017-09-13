@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-error">
+   <description>Tests for the error() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-error"/>
+
+   <test-case name="fn-error-1">
+      <description> Evaluation of "fn:error" function with no arguments </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error()</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-2">
+      <description> Evaluation of "fn:error" function as per example 2 from the Funcs. and Ops. Specifications. </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.example.com/HR', 'myerr:toohighsal'), 'Does not apply because salary is too high')</test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-3">
+      <description> Evaluation of "fn:error" function with wrong argument type. </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error('Wrong Argument Type')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-4">
+      <description> Evaluation of "fn:error" for error code "FOCH0004". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOCH0004'))</test>
+      <result>
+         <error code="FOCH0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-5">
+      <description> Evaluation of "fn:error" with first argument set to empty string for 3rd signature. </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error((), 'err:FOER0000')</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-6">
+      <description> Evaluation of "fn:error" with first argument set to empty string for 4rd signature. </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error((), 'err:FOER0000','error raised by this test by setting first argument to empty sequence')</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-7">
+      <description> Evaluation of "fn:error" set to raise error "FODT0001". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FODT0001'))</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-8">
+      <description> Evaluation of "fn:error" set to raise error "FORG0009". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FORG0009'))</test>
+      <result>
+         <error code="FORG0009"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-9">
+      <description> Evaluation of "fn:error" set to raise error "FOTY0012". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOTY0012'))</test>
+      <result>
+         <error code="FOTY0012"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-10">
+      <description> Evaluation of "fn:error" set to raise error "SENR0001". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SENR0001'))</test>
+      <result>
+         <error code="SENR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-11">
+      <description> Evaluation of "fn:error" set to raise error "SEPM0004". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0004'))</test>
+      <result>
+         <error code="SEPM0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-12">
+      <description> Evaluation of "fn:error" set to raise error "SEPM0009". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0009'))</test>
+      <result>
+         <error code="SEPM0009"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-13">
+      <description> Evaluation of "fn:error" set to raise error "SEPM0010". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0010'))</test>
+      <result>
+         <error code="SEPM0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-14">
+      <description> Evaluation of "fn:error" set to raise error "SEPM0016". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0016'))</test>
+      <result>
+         <error code="SEPM0016"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-15">
+      <description> Evaluation of "fn:error" set to raise error "SERE0003". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0003'))</test>
+      <result>
+         <error code="SERE0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-16">
+      <description> Evaluation of "fn:error" set to raise error "SERE0005". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0005'))</test>
+      <result>
+         <error code="SERE0005"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-17">
+      <description> Evaluation of "fn:error" set to raise error "SERE0006". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0006'))</test>
+      <result>
+         <error code="SERE0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-18">
+      <description> Evaluation of "fn:error" set to raise error "SERE0008". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0008'))</test>
+      <result>
+         <error code="SERE0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-19">
+      <description> Evaluation of "fn:error" set to raise error "SERE0012". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0012'))</test>
+      <result>
+         <error code="SERE0012"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-20">
+      <description> Evaluation of "fn:error" set to raise error "SERE0014". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0014'))</test>
+      <result>
+         <error code="SERE0014"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-22">
+      <description> Evaluation of "fn:error" set to raise error "SESU0007". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SESU0007'))</test>
+      <result>
+         <error code="SESU0007"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-23">
+      <description> Evaluation of "fn:error" set to raise error "SESU0011". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SESU0011'))</test>
+      <result>
+         <error code="SESU0011"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-25">
+      <description> Evaluation of "fn:error" set to raise error "XPDY0002". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPDY0002'))</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-26">
+      <description> Evaluation of "fn:error" set to raise error "XPST0010". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPST0010'))</test>
+      <result>
+         <error code="XPST0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-27">
+      <description> Evaluation of "fn:error" set to raise error "XPST0080". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPST0080'))</test>
+      <result>
+         <error code="XPST0080"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-28">
+      <description> Evaluation of "fn:error" set to raise error "XPTY0018". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPTY0018'))</test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-29">
+      <description> Evaluation of "fn:error" set to raise error "XQDY0027". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQDY0027'))</test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-30">
+      <description> Evaluation of "fn:error" set to raise error "XQDY0061". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQDY0061'))</test>
+      <result>
+         <error code="XQDY0061"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-31">
+      <description> Evaluation of "fn:error" set to raise error "XQDY0084". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQDY0084'))</test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-32">
+      <description> Evaluation of "fn:error" set to raise error "XQST0009". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0009'))</test>
+      <result>
+         <error code="XQST0009"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-33">
+      <description> Evaluation of "fn:error" set to raise error "XQST0012". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0012'))</test>
+      <result>
+         <error code="XQST0012"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-34">
+      <description> Evaluation of "fn:error" set to raise error "XQST0013". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0013'))</test>
+      <result>
+         <error code="XQST0013"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-35">
+      <description> Evaluation of "fn:error" set to raise error "XQST0016". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0016'))</test>
+      <result>
+         <error code="XQST0016"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-36">
+      <description> Evaluation of "fn:error" set to raise error "XQST0035". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0035'))</test>
+      <result>
+         <error code="XQST0035"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-37">
+      <description> Evaluation of "fn:error" set to raise error "XQST0036". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0036'))</test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-38">
+      <description> Evaluation of "fn:error" set to raise error "XQST0046". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0046'))</test>
+      <result>
+         <error code="XQST0046"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-39">
+      <description> Evaluation of "fn:error" set to raise error "XQST0047". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0047'))</test>
+      <result>
+         <error code="XQST0047"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-40">
+      <description> Evaluation of "fn:error" set to raise error "XQST0048". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0048'))</test>
+      <result>
+         <error code="XQST0048"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-41">
+      <description> Evaluation of "fn:error" set to raise error "XQST0054". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0054'))</test>
+      <result>
+         <error code="XQST0054"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-42">
+      <description> Evaluation of "fn:error" set to raise error "XQST0055". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0055'))</test>
+      <result>
+         <error code="XQST0055"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-43">
+      <description> Evaluation of "fn:error" set to raise error "XQST0057". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0057'))</test>
+      <result>
+         <error code="XQST0057"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-44">
+      <description> Evaluation of "fn:error" set to raise error "XQST0058". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0058'))</test>
+      <result>
+         <error code="XQST0058"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-45">
+      <description> Evaluation of "fn:error" set to raise error "XQST0060". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0060'))</test>
+      <result>
+         <error code="XQST0060"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-46">
+      <description> Evaluation of "fn:error" set to raise error "XQST0073. </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0073'))</test>
+      <result>
+         <error code="XQST0073"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-47">
+      <description> Evaluation of "fn:error" set to raise error "XQST0075". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0075'))</test>
+      <result>
+         <error code="XQST0075"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-48">
+      <description> Evaluation of "fn:error" set to raise error "XQST0076". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0076'))</test>
+      <result>
+         <error code="XQST0076"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-49">
+      <description> Evaluation of "fn:error" set to raise error "XQST0079". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0079'))</test>
+      <result>
+         <error code="XQST0079"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-50">
+      <description> Evaluation of "fn:error" set to raise error "XQST0087". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0087'))</test>
+      <result>
+         <error code="XQST0087"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-error-51">
+      <description> Evaluation of "fn:error" set to raise error "XQTY0030". </description>
+      <created by="Carmelo Montanez" on="2005-12-12"/>
+      <test>fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQTY0030'))</test>
+      <result>
+         <error code="XQTY0030"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-1">
+      <description> A test whose essence is: `if(true()) then true() else error()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>if(true()) then true() else error()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-2">
+      <description> A test whose essence is: `if(true()) then true() else error(QName("", "local"), "description")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>if(true()) then true() else error(QName("", "local"), "description")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-3">
+      <description> A test whose essence is: `error(QName("", "local"), "description", "object", "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error(QName("", "local"), "description", "object", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-4">
+      <description> A test whose essence is: `error( () )`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error( () )</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-5">
+      <description> A test whose essence is: `error(QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error(QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'))</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-6">
+      <description> When fn:error() is passed a description, the first argument may be an empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error((), "description")</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-7">
+      <description> A test whose essence is: `if(false()) then error((), "description") else true()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>if(false()) then error((), "description") else true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-8">
+      <description> A test whose essence is: `error()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error()</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-9">
+      <description> A test whose essence is: `error(QName("", "XPDY6666"), "description", "error object")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error(QName("", "XPDY6666"), "description", "error object")</test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ErrorFunc-10">
+      <description> A test whose essence is: `exactly-one((true(), error()))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>exactly-one((true(), error()))</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ErrorFunc-1">
+      <description> Combine fn:error() with a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, error())[2]</test>
+      <result>
+         <any-of>
+            <assert-string-value>2</assert-string-value>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ErrorFunc-2">
+      <description> Using a QName with namespace 'none' as identifier. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare default element namespace ""; fn:error(xs:QName("onlyAnNCName"))</test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ErrorFunc-3">
+      <description> Use a QName with no namespace URI. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error(QName("", "FOO"), "DESCRIPTION")</test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-error-001">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:ignore($arg) { true() }; local:ignore( fn:error() )</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-002">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(() + fn:error())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-003">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:error() + ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-004">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(() eq fn:error())</test>
+      <result>
+	<any-of>
+	  <assert-true/>
+	  <error code="FOER0000"/>
+	</any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-005">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:error() eq ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-006">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>fn:error() = ()</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-007">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>() = fn:error()</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-008">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:error() is ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-009">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(() is fn:error())</test>
+      <result>
+	<any-of>
+	  <assert-true/>
+	  <error code="FOER0000"/>
+	</any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-010">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>fn:error() and false()</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-011">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>false() and fn:error()</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-012">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>fn:error() or true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-013">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>true() or fn:error()</test>
+      <result>
+         <any-of>
+	    <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-014">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>for $x in fn:error() return true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-015">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $x at $p in fn:error() return true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-016">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XQ10+ XP30+"/>
+      <test>let $x := fn:error() return true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-017">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>if (fn:error()) then true() else true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-018">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>some $x in fn:error() satisfies false()</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-019">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>every $x in fn:error() satisfies true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-020">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>fn:error() instance of xs:integer</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-021">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>typeswitch ( fn:error() ) case xs:integer return true() default return false()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-022">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>typeswitch ( fn:error() ) case xs:integer return true() default return false()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-023">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:error()[2])</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-024">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:error()[false()])</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-025">
+      <description> fn:error() may never be evaluated here </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty((1 div 0)[false()])</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOAR0001"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-026">
+      <description> fn:error() may never be evaluated here the static type of the conditional expression is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty( if (current-date() lt xs:date('2009-01-01')) then fn:error() else ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-027">
+      <description> fn:error() may never be evaluated here the static type of the conditional expression is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty( if (current-date() lt xs:date('2009-01-01')) then () else fn:error())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-028">
+      <description> fn:error() may never be evaluated here the static type of the typeswitch expression is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:item() { if (current-date() lt xs:date('2012-10-10')) then 1 else "one" }; empty( typeswitch ( local:item() ) case xs:integer return fn:error() default return ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-029">
+      <description> fn:error() may never be evaluated here the static type of the typeswitch expression is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:item() { if (current-date() gt xs:date('1900-01-01')) then 1 else "one" }; empty( typeswitch ( local:item() ) case xs:integer return () default return fn:error())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-030">
+      <description> fn:error() may never be evaluated here the static type of the fn:remove call is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:remove( fn:error(), 1))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-031">
+      <description> fn:error() may never be evaluated here the static type of the fn:remove call is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:subsequence( fn:error(), 2, 2))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-032">
+      <description> fn:error() may never be evaluated here the static type of the except operator is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:error() except fn:error() )</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-033">
+      <description> fn:error() may never be evaluated here the static type of the intersect operator is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty(fn:error() intersect fn:error() )</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-034">
+      <description> fn:error() may never be evaluated here the static type of fn:zero-or-one call is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty( fn:zero-or-one(fn:error()) )</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-error-035">
+      <description> fn:error() may never be evaluated here the static type of the treat as expression is empty </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      
+      <test>empty( fn:error() treat as empty-sequence() )</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+</test-set>

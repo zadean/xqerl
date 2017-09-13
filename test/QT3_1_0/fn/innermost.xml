@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" 
+          name="fn-innermost" covers="fn-innermost">
+   <description>Tests for the innermost() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-innermost"/>
+
+   <environment name="innermost">
+      <source role="." 
+              file="innermost/innermost.xml">
+	     <description>Data for innermost tests</description>
+	     <created by="Tim Mills" on="2011-11-28"/>
+      </source>
+      <source role="$doc1"
+              file="innermost/doc1.xml">
+	     <description>Data for innermost tests</description>
+	     <created by="Tim Mills" on="2011-11-28"/>
+      </source>
+      <source role="$doc2"
+              file="innermost/doc2.xml">
+	     <description>Data for innermost tests</description>
+	     <created by="Tim Mills" on="2011-11-28"/>
+      </source>
+   </environment>
+
+   <test-case name="fn-innermost-001">
+      <description>Attempts to evaluate the "innermost" function with no arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost()</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-002">
+      <description>Attempts to reference the "innermost" function with arity zero.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost#0</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-003">
+      <description>Attempts to evaluate the "innermost" function with two arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( (), 1 )</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-004">
+      <description>Attempts to reference the "innermost" function with arity two.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost#2</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-005">
+      <description>Attempts to reference the "innermost" function with arity one.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:exists( fn:innermost#1 )</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-006">
+      <description>Evaluates the "innermost" function with an argument of type xs:anyAtomicType.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-007">
+      <description>Evaluates the "innermost" function with an argument of type function().</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( fn:dateTime#2 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-008">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="staticTyping"/>
+      <test>fn:innermost( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then .
+                               else 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-009">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then .
+                                 else 1 ),
+              fn:innermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then 1
+                                 else . ) )</test>
+      <result>
+	  <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-010">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="staticTyping"/>
+      <test>fn:innermost( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then .
+                               else fn:dateTime#2 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-011">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <environment ref="innermost" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then .
+                                 else fn:dateTime#2 ),
+              fn:innermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then fn:dateTime#2
+                                 else . ) )</test>
+      <result>
+	  <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+
+   <test-case name="fn-innermost-012">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type document-node() </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( / )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-013">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type document-node() </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal(fn:innermost( / ), / )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-014">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type attribute()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //*/@* )</test>
+      <result>
+	<assert-count>7</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-015">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type attribute()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //*/@* ) ! string()</test>
+      <result>
+	<assert-deep-eq>('0a','00a','000a','01a','010a','02a','020a')</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-016">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type attribute()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>deep-equal(fn:innermost( //*/@* ), //*/@*)</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-017">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:innermost( //*/namespace::* )</test>
+      <result>
+	<assert-count>69</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-018">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:innermost( //*/namespace::* )[position() le 2] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-019">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:innermost( //*/namespace::* )[position() = (7 to 9)] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0','level00')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-020">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:innermost( //*/namespace::* )[position() = (17 to 20)] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0','level00','level000')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-021">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:innermost( //*/namespace::* )[position() = (66 to 69)] ! local-name()</test>
+      <result>
+	<assert-permutation>('xml', 'level0','level02','level020')</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-022">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type namespace-node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>fn:deep-equal( fn:innermost( //*/namespace::* ),
+                           //*/namespace::* )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-023">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type processing-instruction()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //processing-instruction() )</test>
+      <result>
+	<assert-count>7</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-024">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type processing-instruction()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //processing-instruction() ) ! local-name() </test>
+      <result>
+	<assert-deep-eq>('level-0','level-00','level-000','level-01','level-010','level-02','level-020')</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-025">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type processing-instruction()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( //processing-instruction() ), 
+                          //processing-instruction() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-026">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type comment()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //comment() )</test>
+      <result>
+	<assert-count>7</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-027">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type comment()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //comment() ) ! string()</test>
+      <result>
+	<assert-deep-eq>('0c','00c','000c','01c','010c','02c','020c')</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-028">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type comment()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( //comment() ),
+                           //comment() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-029">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type text()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //text() )</test>
+      <result>
+	<assert-count>14</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-030">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type text()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //text() ) ! string() </test>
+      <result>
+	<assert-deep-eq>('0t',' ',
+                         '00t',' ','000t',' ',
+                         '01t',' ','010t',' ',
+                         '02t',' ','020t',' ')</assert-deep-eq>
+      </result>
+   </test-case>
+
+
+   <test-case name="fn-innermost-031">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type text()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( //text() ),
+                           //text() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-032">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type element()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //* )</test>
+      <result>
+	<assert-count>14</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-033">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type element()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //* ) ! local-name(.)</test>
+      <result>
+	<assert-deep-eq>('empty-level-0',   'non-empty-level-0',
+                         'empty-level-00',  'non-empty-level-00',
+                         'empty-level-000', 'non-empty-level-000',
+                         'empty-level-01',  'non-empty-level-01',
+                         'empty-level-010', 'non-empty-level-010',
+                         'empty-level-02',  'non-empty-level-02',
+                         'empty-level-020', 'non-empty-level-020')</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-034">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type element()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( //* ), 
+                           let $nodes := //*
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-035">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( //node() )</test>
+      <result>
+	<assert-count>35</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-036">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( //node() ), 
+                           let $nodes := //node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-037">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/node() )</test>
+      <result>
+	<assert-count>8</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-038">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/node() ), 
+                           let $nodes := /root/node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-039">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/descendant::node() )</test>
+      <result>
+	<assert-count>35</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-040">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/descendant::node() ), 
+                           let $nodes := /root/descendant::node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-041">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/level[1]/level[1]/ancestor::node() )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-042">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/level[1]/level[1]/ancestor::node() ), 
+                           let $nodes := /root/level[1]/level[1]/ancestor::node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-043">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() )</test>
+      <result>
+	<assert-count>5</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-044">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() ), 
+                           let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-045">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/level[1]/level[last()]/preceding::node() )</test>
+      <result>
+	<assert-count>10</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-046">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding::node() ), 
+                           let $nodes := /root/level[1]/level[last()]/preceding::node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-047">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/level[1]/following-sibling::node() )</test>
+      <result>
+	<assert-count>2</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-048">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/level[1]/following-sibling::node() ), 
+                           let $nodes := /root/level[1]/following-sibling::node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-049">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/level[1]/level[1]/following::node() )</test>
+      <result>
+	<assert-count>20</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-050">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/level[1]/level[1]/following::node() ), 
+                           let $nodes := /root/level[1]/level[1]/following::node()
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-051">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( /root/node()/.. )</test>
+      <result>
+	<assert-count>1</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-052">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( /root/node()/.. ), 
+                           let $nodes := /root/node()/..
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-053">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* from two documents </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:innermost( ($doc1//node(), $doc2//node()) )</test>
+      <result>
+	<assert-count>26</assert-count>
+      </result>
+   </test-case>
+
+   <test-case name="fn-innermost-054">
+      <description>Evaluates the "innermost" function with the argument set as follows: $nodes of type node()* from two documents </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:deep-equal( fn:innermost( ($doc1//node(), $doc2//node()) ),
+                           let $nodes := ($doc1//node(), $doc2//node())
+                           return $nodes except $nodes/ancestor::node() )</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-innermost-055">
+      <description>Evaluates the "innermost" function with the input sequence not in document order </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:innermost($in)/local-name(), fn:innermost(//*)/local-name())</test>
+      <result>
+	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-innermost-056">
+      <description>Evaluates the "innermost" function with the input sequence containing duplicates </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:innermost(($in, $in))/local-name(), fn:innermost(//*)/local-name())</test>
+      <result>
+	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-innermost-057">
+      <description>Evaluates the "innermost" function with the input sequence empty </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>innermost(//rubbish)</test>
+      <result>
+	    <assert-empty />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-innermost-058">
+      <description>Check that "innermost" doesn't change node identity </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="innermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>innermost(//*) except //*</test>
+      <result>
+	    <assert-empty />
+      </result>
+   </test-case>
+
+
+</test-set>

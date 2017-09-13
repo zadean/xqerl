@@ -1,0 +1,1140 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-DirAttributeList">
+   <description>Tests for the DirAttributeList production (the list of attributes in a direct element constructor)</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-DirAttributeList"/>
+   <link type="spec" document="XQuery" section-number="3.7.1.1" idref="id-attributes"/>
+   
+   <dependency type="spec" value="XQ10+"/>
+
+   <test-case name="Constr-attr-syntax-1">
+      <description> Single attribute </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="value"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-2">
+      <description> Multiple attributes </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr1="val1" attr2="val2" attr3="val3"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr1="val1" attr2="val2" attr3="val3"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-3">
+      <description> Single quotes for attribute </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr='value'/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-4">
+      <description> Escaped single quote </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr=''''/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="'"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-5">
+      <description> Escaped double quote </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr=""""/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="&quot;"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-6">
+      <description> Mismatched quotes </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr='value"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-7">
+      <description> Mismatched quotes </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="value'/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-8">
+      <description> Whitespace between attributes </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr1="val1" attr2="val2"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr1="val1" attr2="val2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-9">
+      <description> Whitespace in attribute definition </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr = "value"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-syntax-10">
+      <description> Whitespace after last attribute </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="value" />]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-parent-1">
+      <description> Attribute parent element </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[for $x in <elem attr="value"/> return $x is $x/@attr/..]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-nsdecl-1">
+      <description> namespace declaration does not count as attribute </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[fn:count((<elem xmlns:foo="http://ns.example.com/uri"/>)/@*)]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-nsdecl-2">
+      <description> namespace default declaration does not count as attribute </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[fn:count((<elem xmlns="http://ns.example.com/uri"/>)/@*)]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-nspre-1">
+      <description> attribute prefix declared in prolog </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[declare namespace foo="http://www.w3.org/XQueryTest/Construct"; <elem foo:attr="value"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.w3.org/XQueryTest/Construct" foo:attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-nspre-2">
+      <description> attribute prefix declared in parent element </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.w3.org/XQueryTest/Construct"><child foo:attr="value"/></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.w3.org/XQueryTest/Construct"><child foo:attr="value"/></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-nsprein-1">
+      <description> attribute prefix declared in same element before </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.w3.org/XQueryTest/Construct" foo:attr="value"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.w3.org/XQueryTest/Construct" foo:attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-nsprein-2">
+      <description> attribute prefix declared in same element after </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem foo:attr="value" xmlns:foo="http://www.w3.org/XQueryTest/Construct"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.w3.org/XQueryTest/Construct" foo:attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-nsprein-3">
+      <description> namespace prefix used in content before it is declared </description>
+      <created by="Michael Kay" on="2011-07-06"/>
+      <test><![CDATA[<elem att="{<p:e/>/namespace-uri()}" xmlns:p="http://ns.example.com/uri"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem att="http://ns.example.com/uri" xmlns:p="http://ns.example.com/uri"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-nsprein-4">
+      <description> namespace prefix used deeply nested in content before it is declared </description>
+      <created by="Michael Kay" on="2011-07-06"/>
+      <test><![CDATA[<elem att="{<e2 a2="{<e3 a3="{<p:e/>/namespace-uri()}"></e3>/@a3}"></e2>/@a2}" 
+                                     xmlns:p="http://ns.example.com/uri"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem att="http://ns.example.com/uri" xmlns:p="http://ns.example.com/uri"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+
+   <test-case name="Constr-attr-distnames-1">
+      <description> attributes with identical local names </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="val1" attr="val2" attr2="val3"/>]]></test>
+      <result>
+         <error code="XQST0040"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-distnames-2">
+      <description> attributes with identical local names </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="val1" attr2="val2" attr="val3"/>]]></test>
+      <result>
+         <error code="XQST0040"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-distnames-3">
+      <description> attributes with identical local names </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr1="val1" attr="val2" attr2="val3" attr="val4" attr3="val5"/>]]></test>
+      <result>
+         <error code="XQST0040"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-distnames-4">
+      <description> attributes with identical local name and URI </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.w3.org/XQueryTest/Construct" xmlns:bar="http://www.w3.org/XQueryTest/Construct" foo:attr="val1" bar:attr="val2"/>]]></test>
+      <result>
+         <error code="XQST0040"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-content-1">
+      <description> Direct attribute content characters </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="abxxyz123890!@#$%^*()[]\|?/>:;"/>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<elem attr="abxxyz123890!@#$%^*()[]\|?/&gt;:;"/>]]></assert-xml>
+            <assert-xml><![CDATA[<elem attr="abxxyz123890!@#$%^*()[]\|?/>:;"/>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-content-2">
+      <description> Illegal attribute content "{" </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="{"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-content-3">
+      <description> Illegal attribute content "}" </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="}"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-content-4">
+      <description> Illegal attribute content "&lt;" </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="<"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-content-5">
+      <description> Illegal attribute content "&amp;" </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="&"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-ws-1">
+      <description> Attribute normalization line feed </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr=" "/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr=" "/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-ws-2">
+      <description> Attribute normalization tab </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr=" "/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr=" "/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-ws-3">
+      <description> Attribute normalization char ref &amp;#xd; </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="&#xd;"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="&#xD;"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-ws-4">
+      <description> Attribute normalization char ref &amp;#xa; </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="&#xa;"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="&#xA;"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-ws-5">
+      <description> Attribute normalization char ref &amp;#x9; </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="&#x9;"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="&#x9;"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-entref-1">
+      <description> entity references in attribute content </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="&amp;&lt;&gt;"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="&amp;&lt;&gt;"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-entref-2">
+      <description> entity references in attribute content </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[fn:string-length(string((<elem attr="&amp;&lt;&gt;"/>)/@attr))]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-charref-1">
+      <description> character references in attribute content </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <test><![CDATA[<elem attr="&#x30;&#x31;&#x32;"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="012"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-1">
+      <description> enclosed expression in attribute content - atomic values </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem attr="{1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="1 string 3.14 0.012345 2002-04-02T12:00:00-01:00"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-2">
+      <description> enclosed expression in attribute content - nodes </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem attr="{<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="123 456 789"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-3">
+      <description> enclosed expression in attribute content - empty string </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem attr="{1,'',2}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="1  2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-4">
+      <description> enclosed expression in attribute content - empty node </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem attr="{1,<a/>,2}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="1  2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-5">
+      <description> enclosed expression in attribute content - mix direct content and enclosed expressions </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem attr="123{456}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="123456"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-6">
+      <description> enclosed expression in attribute content - mix direct content and enclosed expressions </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem attr="{123}456"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="123456"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-7">
+      <description> enclosed expression in attribute content - mix direct content and enclosed expressions </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem attr="1{2,3}{4,5}6{<a>7</a>}{<a>8</a>}9"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="12 34 56789"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-enclexpr-8">
+      <description>Author: Oliver Hallam  Multiple content units in attribute content. </description>
+      <created by="Andreas Behm" on="2010-03-16"/>
+      <test><![CDATA[<elem attr="{(1,2)}{3}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="1 23"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-id-1">
+      <description> attribute xml:id - content is ncname </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem xml:id="ncname"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xml:id="ncname"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-attr-id-2">
+      <description> attribute xml:id - content is to be further normalized </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test><![CDATA[<elem xml:id=" a{'b c d',' '}"/>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<elem xml:id="ab c d"/>]]></assert-xml>
+            <error code="XQDY0091"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-1">
+      <description> Comments cannot appear inside direct element constructors. a misplaced comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<ncname (:a misplaced comment:)/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-2">
+      <description> Comments cannot appear inside direct element constructors. a misplaced comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<(:a misplaced comment:)ncname/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-3">
+      <description> Space is not allowed between '&lt;/' and the element name. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<ncname></ ncname>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-4" covers="error-XQST0118">
+      <description> Comments are not allowed where whitespace is, in direct element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<ncname></ncname (:a misplaced comment:)>]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0118"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-5">
+      <description> Whitespace is allowed in the end tag after the QName. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<ncname>content</ncname > = 'content']]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-6" covers="error-XQST0118">
+      <description> XML tags must be balanced. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<ncname></ncnameNOTBALANCED>]]></test>
+      <result>
+         <error code="XQST0118"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-7">
+      <description> CDATA sections can only appear inside element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>&lt;![CDATA[a string]]&gt;</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-8">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="""/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-9">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr='''/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-10">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="content<content"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-11">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="content}content"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-12">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="content{1"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-13">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="{{{"]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-14">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="{"]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-15">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="{]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-16">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<e attr="content}"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-17">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-18">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="<foo/>"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-19">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="<?target content?>"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-20">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="<!-- a comment-->"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-21">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>&lt;foo attr="&lt;![CDATA[content]]&gt;"/></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-22">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr=]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-23">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<elem attr="content'/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-24">
+      <description> Syntax error in direct attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<elem attr='content"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-25">
+      <description> Comments cannot appear inside direct element/attribute constructors. comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo (:comment :)/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-26">
+      <description> Comments cannot appear inside direct element/attribute constructors. comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr=(:comment:)"value" />]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-27">
+      <description> Comments cannot appear inside direct element/attribute constructors. comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr(:comment:)="value" />]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-28">
+      <description> Comments cannot appear inside direct element/attribute constructors. comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="value" (:comment:) attr2="value" />]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-29">
+      <description> Attribute containing two quotes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[string(<foo attr=""""/>/@attr)]]></test>
+      <result>
+         <assert-string-value>"</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-30">
+      <description> Attribute containing two quotes(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[string(<foo attr='""'/>/@attr)]]></test>
+      <result>
+         <assert-string-value>""</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-31">
+      <description> Attribute containing two apostrophes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[string(<foo attr="''"/>/@attr)]]></test>
+      <result>
+         <assert-string-value>''</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-32">
+      <description> Attribute containing two apostrophes(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[string(<foo attr=''''/>/@attr)]]></test>
+      <result>
+         <assert-string-value>'</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-33">
+      <description> Test that simple content computation is done properly with complex input sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<e attr="x{<e>a</e>, <e>b</e>, <e>c</e>, 1, 2, 3}y"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e attr="xa b c 1 2 3y"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-34">
+      <description> Extract the string value from a directly constructed attribute whose content consists of a computed comment constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[string(<elem attr="{comment {" content "}}"/>/@attr)]]></test>
+      <result>
+         <assert-string-value> content </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-35">
+      <description> Extract the string value from a directly constructed attribute whose content consists of a computed comment constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[local-name(<elem attr="{comment {" content "}}"/>/@attr)]]></test>
+      <result>
+         <assert-string-value>attr</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-36">
+      <description> Extract the string value from a directly constructed attribute whose content consists of a computed processing-instruction constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[string(<elem attr="{processing-instruction name {" content "}}"/>/@attr)]]></test>
+      <result>
+         <assert-string-value>content </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-37">
+      <description> Extract the local-name from a directly constructed attribute whose content consists of a computed processing-instruction constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[local-name(<elem attr="{processing-instruction name {" content "}}"/>/@attr)]]></test>
+      <result>
+         <assert-string-value>attr</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-38">
+      <description> Extract the string value from a directly constructed attribute whose content consists of a computed attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[local-name(<elem attr="{attribute name {" content "}}"/>/@attr)]]></test>
+      <result>
+         <assert-string-value>attr</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-39">
+      <description> Extract the string value from a directly constructed attribute whose content consists of a computed attribute constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[string(<elem attr="{attribute name {" content "}}"/>/@attr)]]></test>
+      <result>
+         <assert-string-value> content </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-40">
+      <description> Attributes with many apostrophes and quotes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<elem attr1="""" attr2='''' attr3="''" attr4='""' attr5="'" attr6='"'/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr1="&quot;" attr2="'" attr3="''" attr4="&quot;&quot;" attr5="'" attr6="&quot;"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-41">
+      <description> A direct attribute constructor taking a direct element constructor as input. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="{<foo attr="foo"/>}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo attr=""/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-42">
+      <description> A direct attribute constructor taking a direct comment constructor as input. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="{<!-- comment -->}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo attr=" comment "/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-43">
+      <description> A direct attribute constructor taking a direct PI constructor as input. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<foo attr="{<?target dat a ?>}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo attr="dat a "/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-44">
+      <description> xml:base attributes do not affect the static base-uri. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[declare base-uri "http://example.com/level/file.ext"; <e xml:base="../">{ static-base-uri()}</e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xml:base="../">http://example.com/level/file.ext</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-45">
+      <description> xml:base attributes do not affect the static base-uri(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[declare base-uri "http://example.com/level/file.ext"; <e xml:base="http://example.com/2/2">{ static-base-uri()}</e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xml:base="http://example.com/2/2">http://example.com/level/file.ext</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-46">
+      <description> Copy attributes from one element to another. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<e> { <b attr="fo" a="bo"/>/@* } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e attr="fo" a="bo"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-47">
+      <description> Ensure the typed value of directly constructed attributes has the correct type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[data(<e foo="content"/>/@*) instance of xs:untypedAtomic]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-48">
+      <description> There must be space between attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a foo="1"fb="1"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-49">
+      <description> A newline is a valid separator between two attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b="1" c="1"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a b="1" c="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-50">
+      <description> A tab is a valid separator between two attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b="1" c="1"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a b="1" c="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-51">
+      <description> There must be space between attributes(using apostrophes). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a foo='1'fb='1'/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-52">
+      <description> A tab is a valid separator between two attributes(using apostrophes). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b='1' c='1'/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a b="1" c="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-53">
+      <description> '/' is an invalid separator between two attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b="1"/a="1"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-54">
+      <description> '/' is an invalid separator between two attributes(using apostrophes). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b='1'/a='1'/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-55">
+      <description> '/' is an invalid separator between two attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b="1">a="1"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-56">
+      <description> '/' is an invalid separator between two attributes(using apostrophes). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b='1'>a='1'/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-57">
+      <description> End unexpectedly inside a direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr="content"]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-58">
+      <description> End unexpectedly inside a direct element constructor(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr='content']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-59">
+      <description> End unexpectedly inside a direct element constructor(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr="content"]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-60">
+      <description> End unexpectedly inside a direct element constructor(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr='content']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-61">
+      <description> End unexpectedly inside a direct element constructor(#5). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr='con]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-62">
+      <description> End unexpectedly inside a direct element constructor(#6). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr="con]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-63">
+      <description> End unexpectedly inside a direct element constructor(#7). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr=]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-64">
+      <description> End unexpectedly inside a direct element constructor(#8). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr=]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-65">
+      <description> End unexpectedly inside a direct element constructor(#9). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a attr]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-66">
+      <description> End unexpectedly inside a direct element constructor(#10). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b='1'/]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-67">
+      <description> End unexpectedly inside a direct element constructor(#10). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<a b='1'/]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-68">
+      <description> Use two namespace declarations with the same name. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<e xmlns="" xmlns=""/>]]></test>
+      <result>
+         <error code="XQST0071"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-69">
+      <description> Use two namespace declarations with the same name, in addition to doing invalid bindings. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<e xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xml="http://www.w3.org/XML/1998/namespace"/>]]></test>
+      <result>
+         <error code="XQST0071"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-70">
+      <description> Ensure that attributes constructed with direct constructors doesn't pick up the default namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[declare default element namespace "http://typedecl"; namespace-uri-from-QName(node-name(exactly-one(<e attr="foo"/>/@attr))) eq ""]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-71">
+      <description> Ensure that attributes constructed with computed constructors doesn't pick up the default namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[declare default element namespace "http://typedecl"; namespace-uri-from-QName(node-name(exactly-one(<e>{attribute attr {()} }/</e>/@attr))) eq ""]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-72">
+      <description> Ensure that attributes constructed with computed constructors doesn't pick up the default namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[namespace-uri-from-QName(node-name(exactly-one(<e xmlns="http://example.com/">{attribute attr {()} }/</e>/@attr))) eq ""]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-73">
+      <description> Ensure that attributes constructed with computed constructors doesn't pick up the default namespace(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare default element namespace "http://example.com/"; namespace-uri-from-QName(node-name(attribute e {()})) eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-74">
+      <description> Check that character references next to embedded expressions are parsed correctly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<e attr="{1}&#86;{1}&#86;"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e attr="1V1V"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-75">
+      <description> Mix several ways for creating text for various kinds of nodes. This test is useful if an implementation is performing normalization of such constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test file="DirAttributeList/K2-DirectConElemAttr-75.xq"/>
+      <result>
+         <assert-xml file="DirAttributeList/K2-DirectConElemAttr-75.out"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemAttr-76">
+      <description> Pass text nodes through a function and variable, into AVTs. </description>
+      <created by="Frans Englich" on="2009-01-08"/>
+      <test><![CDATA[
+        declare function local:t() { text{""}, text{"["}, text{"3"}, text{"]"}, text{""} }; 
+        declare variable $var := (text{""}, text{"["}, text{"3"}, text{"]"}, text{""}); 
+        <out fromFunction="{local:t()}" fromVariable="{$var}"/>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out fromFunction=" [ 3 ] " fromVariable=" [ 3 ] "/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="DirectConElemAttr-1">
+      <description> Namespace declaration attributes in direct element constructors. </description>
+      <created by="Sorin Nasoi" on="2009-04-01"/>
+      <test><![CDATA[<shoe name=" """" "/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<shoe name=" &#34;&#34; "/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="DirectConElemAttr-2">
+      <description> Namespace declaration attributes in direct element constructors. </description>
+      <created by="Sorin Nasoi" on="2009-04-01"/>
+      <test><![CDATA[<shoe name=" '''''''' "/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<shoe name=" '''''''' "/>]]></assert-xml>
+      </result>
+   </test-case>
+</test-set>

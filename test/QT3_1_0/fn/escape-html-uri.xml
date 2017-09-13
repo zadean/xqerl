@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-escape-html-uri">
+   <description>Tests for the escape-html-uri() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-escape-html-uri"/>
+
+   <test-case name="fn-escape-html-uri1args-1">
+      <description>Test escape-html-uri from example defined in functions and operators specification </description>
+      <created by="Joanne Tong" on="2005-09-29"/>
+      <test>escape-html-uri("http://www.example.com/00/Weather/CA/Los Angeles#ocean")</test>
+      <result>
+         <assert-string-value>http://www.example.com/00/Weather/CA/Los Angeles#ocean</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri1args-2">
+      <description>Test escape-html-uri from example defined in functions and operators specification </description>
+      <created by="Joanne Tong" on="2005-09-29"/>
+      <test>escape-html-uri("javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~b&#233;b&#233;');")</test>
+      <result>
+         <assert-string-value>javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~b%C3%A9b%C3%A9');</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri1args-3">
+      <description>Test escape-html-uri with zero-length string argument </description>
+      <created by="Joanne Tong" on="2005-09-29"/>
+      <test>escape-html-uri('')</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri1args-4">
+      <description>Test escape-html-uri with empty sequence argument </description>
+      <created by="Joanne Tong" on="2005-09-29"/>
+      <test>escape-html-uri(())</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri1args-5">
+      <description>Test escape-html-uri with invalid argument types </description>
+      <created by="Joanne Tong" on="2005-09-29"/>
+      <test>escape-html-uri(12)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri1args-6">
+      <description>Test escape-html-uri with incorrect arity </description>
+      <created by="Joanne Tong" on="2005-09-29"/>
+      <test>escape-html-uri('',())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-1">
+      <description> Examines that the fn:escape-html-uri function does not escape the lower cases letters. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("abcdedfghijklmnopqrstuvwxyz")</test>
+      <result>
+         <assert-string-value>abcdedfghijklmnopqrstuvwxyz</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-2">
+      <description> Examines that the fn:escape-html-uri function does not escape the upper cases letters. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("ABCDEFGHIJKLMNOPQRSTUVWXYZ")</test>
+      <result>
+         <assert-string-value>ABCDEFGHIJKLMNOPQRSTUVWXYZ</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-3">
+      <description> Examines that the fn:escape-html-uri function does not escape digits. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("a0123456789")</test>
+      <result>
+         <assert-string-value>a0123456789</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-4">
+      <description> Examines that the fn:escape-html-uri function does not escape the space. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example example")</test>
+      <result>
+         <assert-string-value>example example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-5">
+      <description> Examines that the fn:escape-html-uri function does not escape the "!" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example!example")</test>
+      <result>
+         <assert-string-value>example!example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-6">
+      <description> Examines that the fn:escape-html-uri function does not escape the "#" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example#example")</test>
+      <result>
+         <assert-string-value>example#example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-7">
+      <description> Examines that the fn:escape-html-uri function does not escape the "$" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example$example")</test>
+      <result>
+         <assert-string-value>example$example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-8">
+      <description> Examines that the fn:escape-html-uri function does not escape the "'" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example'example")</test>
+      <result>
+         <assert-string-value>example'example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-9">
+      <description> Examines that the fn:escape-html-uri function does not escape the "(" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example(example")</test>
+      <result>
+         <assert-string-value>example(example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-10">
+      <description> Examines that the fn:escape-html-uri function does not escape the ")" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example)example")</test>
+      <result>
+         <assert-string-value>example)example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-11">
+      <description> Examines that the fn:escape-html-uri function does not escape the "*" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example*example")</test>
+      <result>
+         <assert-string-value>example*example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-12">
+      <description> Examines that the fn:escape-html-uri function does not escape the "+" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example+example")</test>
+      <result>
+         <assert-string-value>example+example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-13">
+      <description> Examines that the fn:escape-html-uri function does not escape the "," symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example,example")</test>
+      <result>
+         <assert-string-value>example,example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-14">
+      <description> Examines that the fn:escape-html-uri function does not escape the "-" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example-example")</test>
+      <result>
+         <assert-string-value>example-example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-15">
+      <description> Examines that the fn:escape-html-uri function does not escape the "." symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example.example")</test>
+      <result>
+         <assert-string-value>example.example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-16">
+      <description> Examines that the fn:escape-html-uri function does not escape the "/" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example/example")</test>
+      <result>
+         <assert-string-value>example/example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-17">
+      <description> Examines that the fn:escape-html-uri function does not escape the ";" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example;example")</test>
+      <result>
+         <assert-string-value>example;example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-18">
+      <description> Examines that the fn:escape-html-uri function does not escape the ":" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example:example")</test>
+      <result>
+         <assert-string-value>example:example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-19">
+      <description> Examines that the fn:escape-html-uri function does not escape the "@" symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example@example")</test>
+      <result>
+         <assert-string-value>example@example</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-20">
+      <description> Examines that the fn:escape-html-uri function does escape the euro symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example&#233;&#8364;example")</test>
+      <result>
+         <assert-string-value>example%C3%A9%E2%82%ACexample</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-escape-html-uri-21">
+      <description> Examines that the fn:escape-html-uri function does escape the euro symbol. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:escape-html-uri("example&#8364;example")</test>
+      <result>
+         <assert-string-value>example%E2%82%ACexample</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-EscapeHTMLURIFunc-1">
+      <description> A test whose essence is: `escape-html-uri()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>escape-html-uri()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-EscapeHTMLURIFunc-2">
+      <description> A test whose essence is: `escape-html-uri("http://example.com/", "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>escape-html-uri("http://example.com/", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-EscapeHTMLURIFunc-3">
+      <description> A test whose essence is: `escape-html-uri(()) eq ""`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>escape-html-uri(()) eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-EscapeHTMLURIFunc-4">
+      <description> Combine fn:concat and fn:escape-html-uri. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>escape-html-uri("http://www.example.com/00/Weather/CA/Los Angeles#ocean") eq "http://www.example.com/00/Weather/CA/Los Angeles#ocean"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-EscapeHTMLURIFunc-5">
+      <description> Combine fn:concat and fn:escape-html-uri. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>escape-html-uri("javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~b&#233;b&#233;');") eq "javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~b%C3%A9b%C3%A9');"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-EscapeHTMLURIFunc-6">
+      <description> Invoke fn:normalize-space() on the return value of fn:escape-html-uri(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space(iri-to-uri(("example.com", current-time())[1] treat as xs:string))</test>
+      <result>
+         <assert-string-value>example.com</assert-string-value>
+      </result>
+   </test-case>
+   
+    <test-case name="cbcl-escape-html-uri-001">
+      <description> test fn:escape-html-uri with a variety of characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:escape-html-uri(codepoints-to-string((9, 65, 128)))</test>
+      <result>
+         <assert-string-value>%09A%C2%80</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

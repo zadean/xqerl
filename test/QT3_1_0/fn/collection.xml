@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-collection">
+   <description>Tests for the collection function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-collection"/>
+   <link type="spec" document="FuncOps" section-number="15.5.6" idref="func-collection"/>
+   
+   <environment name="default-collection-1">
+      <collection uri="">
+          <source file="../docs/bib.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>
+          <source file="../docs/reviews.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>     
+      </collection> 
+   </environment>
+     
+   <environment name="simple-collection-1">
+      <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/collection1">
+          <source file="../docs/bib.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>
+          <source file="../docs/reviews.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>     
+      </collection>
+      <static-base-uri uri="http://www.w3.org/2010/09/qt-fots-catalog/"/>
+      <param name="collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/collection1'" declared="false"/> 
+   </environment>
+   
+   <environment name="default-collection-2">
+      <collection uri="">    
+          <source file="../docs/bib.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>
+          <source file="../docs/reviews.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>
+          <source file="../docs/books.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>          
+      </collection>         
+   </environment> 
+   
+   <environment name="simple-collection-2">
+      <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/collection2">
+          <source file="../docs/bib.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>
+          <source file="../docs/reviews.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>
+          <source file="../docs/books.xml">
+             <description>Data for the the XML Query XMP use cases</description>
+             <created by="XQuery WG" on="2005-02-11"/>
+          </source>
+      </collection>
+      <param name="collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/collection2'" declared="false"/>          
+   </environment>    
+
+   <test-case name="fn-collection-1">
+      <description> Evaluation of an fn:collection function with wrong arity. </description>
+      <created by="Carmelo Montanez" on="2005-12-02"/>
+      <test>fn:collection("argument1","argument2")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-2" covers="fn-collection">
+      <description> Evaluation of ana fn:collection, which tries to retrieve a non-existent resource. </description>
+      <created by="Carmelo Montanez" on="2005-12-02"/>
+      <modified by="O'Neil Delpratt" on="2011-10-18" change="Corrected error code. See Bug ID # 14489" />
+      <test>fn:collection("thisfileshouldnotexists")</test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-3">
+      <description> Evaluation of ana fn:collection with argument set to an invalid URI. </description>
+      <created by="Carmelo Montanez" on="2006-01-25"/>
+      <test>fn:collection("invalidURI%gg")</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-4">
+      <description> Count the number of nodes in a named collection. </description>
+      <created by="Andrew Eisenberg" on="2006-07-07"/>
+      <environment ref="simple-collection-1"/>
+      <test>count(fn:collection($collection-uri))</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-4d">
+      <description> Count the number of nodes in the default collection. </description>
+      <created by="Andrew Eisenberg" on="2006-07-07"/>
+      <environment ref="default-collection-1"/>
+      <test>count(fn:collection())</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-5">
+      <description> Count the number of nodes in the collection. </description>
+      <created by="Andrew Eisenberg" on="2006-07-07"/>
+      <environment ref="simple-collection-2"/>
+      <test>count(fn:collection($collection-uri))</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-collection-5d">
+      <description> Count the number of nodes in the collection. </description>
+      <created by="Andrew Eisenberg" on="2006-07-07"/>
+      <environment ref="default-collection-2"/>
+      <test>count(fn:collection())</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-6">
+      <description> Return the titles in the collection ordered by the title. </description>
+      <created by="Andrew Eisenberg" on="2006-07-07"/>
+      <environment ref="simple-collection-2"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $x in fn:collection($collection-uri)//title order by string($x) return $x</test>
+      <result>
+         <assert-xml><![CDATA[<title>Advanced Programming in the Unix environment</title><title>Advanced Programming in the Unix environment</title><title>Basic Syntax</title><title>Data Model</title><title>Data on the Web</title><title>Data on the Web</title><title>Syntax For Data Model</title><title>TCP/IP Illustrated</title><title>TCP/IP Illustrated</title><title>The Economics of Technology and Content for Digital TV</title><title>XML</title><title>XML and Semistructured Data</title>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-7">
+      <description> Return elements that immediately contain TCP/IP. </description>
+      <created by="Andrew Eisenberg" on="2006-07-07"/>
+      <environment ref="simple-collection-2"/>
+      <test>distinct-values(fn:collection($collection-uri)//*[text()[contains(.,"TCP/IP")]]/normalize-space())</test>
+      <result>
+         <any-of>
+           <assert-permutation>"TCP/IP Illustrated", "One of the best books on TCP/IP."</assert-permutation>
+           <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-8">
+      <description> Return the first title element in each document. </description>
+      <created by="Andrew Eisenberg" on="2006-07-08"/>
+      <environment ref="simple-collection-1"/>
+      <test>for $d in fn:collection($collection-uri) return ($d//title)[1]</test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<title>TCP/IP Illustrated</title><title>Data on the Web</title>]]></assert-xml>
+            <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-9">
+      <description> Count the title elements in each document. </description>
+      <created by="Andrew Eisenberg" on="2006-07-08"/>
+      <environment ref="simple-collection-2"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $d in fn:collection($collection-uri) order by count($d//title) return count($d//title)</test>
+      <result>
+         <assert-string-value>3 4 5</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-10">
+      <description> Test that two uses of fn:collection are stable. </description>
+      <created by="Andrew Eisenberg" on="2006-07-17"/>
+      <environment ref="simple-collection-2"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        let $c1 := fn:collection($collection-uri) 
+        let $c2 := fn:collection($collection-uri) 
+        for $c at $p in $c1 
+        return $c is exactly-one($c2[$p])</test>
+      <result>
+         <assert-string-value>true true true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-collection-10d">
+      <description> Test that two uses of fn:collection are stable. </description>
+      <created by="Andrew Eisenberg" on="2006-07-17"/>
+      <environment ref="default-collection-2"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        let $c1 := fn:collection() 
+        let $c2 := fn:collection() 
+        for $c at $p in $c1 
+        return $c is exactly-one($c2[$p])</test>
+      <result>
+         <assert-string-value>true true true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqCollectionFunc-1">
+      <description> Pass an invalid xs:anyURI to fn:collection(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>collection("http:\\invalidURI\someURI%gg")</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqCollectionFunc-2">
+      <description> ':/ is an invalid URI. </description>
+      <created by="Frans Englich" on="2008-01-15"/>
+      <test>collection(":/")</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+    
+   <test-case name="collection-001">
+      <description>default collection</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="default-collection-1"/>
+      <test>collection()</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-002">
+      <description>default collection selected by supplying empty sequence</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="default-collection-1"/>
+      <test>collection(())</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-003">
+      <description>default collection is stable</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="default-collection-2"/>
+      <test>collection() | collection(())</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 3</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-004">
+      <description>default collection is not guaranteed stable if an appropriate user option is set</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="default-collection-1"/>
+      <dependency type="feature" value="collection-stability" satisfied="false"/>
+      <test>collection() | collection(())</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <all-of>
+                <assert>count($result) = 4</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-005">
+      <description>simple collection, absolute URI</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="simple-collection-1"/>
+      <test>collection("http://www.w3.org/2010/09/qt-fots-catalog/collection1")</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-006">
+      <description>simple collection, relative URI</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="simple-collection-1"/>
+      <test>collection("collection1")</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-007">
+      <description>simple collection, results are stable</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="simple-collection-1"/>
+      <test>collection("http://www.w3.org/2010/09/qt-fots-catalog/collection1") | collection("collection1")</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-008">
+      <description>simple collection, results are not stable at user option</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="simple-collection-1"/>
+      <dependency type="feature" value="collection-stability" satisfied="false"/>
+      <test>collection("http://www.w3.org/2010/09/qt-fots-catalog/collection1") | collection("collection1")</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <all-of>
+                <assert>count($result) = 4</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-009">
+      <description>simple collection, interaction with document-uri()</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <environment ref="simple-collection-1"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $c := collection("http://www.w3.org/2010/09/qt-fots-catalog/collection1") 
+            return $c | (for $doc in $c return doc(document-uri($doc)))</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-010">
+      <description>Use a directory URI as a collection URI, if supported</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <dependency type="feature" value="directory-as-collection-uri"/>  
+      <test>collection("collection/one/")</test>
+      <result>
+         <any-of>
+             <all-of>
+                <assert>count($result) = 3</assert>
+                <assert>sum($result/*/number()) = 6</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>
+             <error code="FODC0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="collection-900" covers="fn-collection">
+      <description>Unknown collection URI</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <modified by="O'Neil Delpratt" on="2011-10-18" change="Corrected error code. See Bug ID # 14489" />
+      <test>collection("nonexistent")</test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+   <test-case name="collection-901">
+      <description>Unknown default collection</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <test>collection()</test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+   <test-case name="collection-902">
+      <description>Invalid collection URI</description>
+      <created by="Michael Kay" on="2010-12-21"/>
+      <test>collection("##invalid")</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+   <test-case name="collection-903">
+      <description>Unknown default collection</description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>collection(())</test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-collection-001">
+      <description> test fn:collection with invalid input </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:collection('%gg')</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+
+</test-set>

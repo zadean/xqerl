@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-uri-collection" covers="fn-uri-collection">
+   <description>Tests for the uri-collection function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-uri-collection"/>
+   <link type="spec" document="FuncOps" section-number="14.8.4" idref="func-uri-collection"/>
+   <dependency type="spec" value="XP30+ XQ30+"/>
+
+   <test-case name="fn-uri-collection-1">
+      <description> Evaluation of an fn:uri-collection function with wrong arity.  Inspired by fn-collection-1. </description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>fn:uri-collection("argument1","argument2")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-uri-collection-2">
+      <description> Evaluation of ana fn:uri-collection, which tries to retrieve a non-existent resource. Inspired by fn-collection-2. </description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>fn:uri-collection("thisfileshouldnotexists")</test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-uri-collection-3">
+      <description> Evaluation of ana fn:uri-collection with argument set to an invalid URI. Inspired by fn-collection-3.</description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>fn:uri-collection("invalidURI%gg")</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqUriCollectionFunc-1">
+      <description> Pass an invalid xs:anyURI to fn:uri-collection(). Inspired by K2-SeqCollectionFunc-1.</description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>uri-collection("http:\\invalidURI\someURI%gg")</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqUriCollectionFunc-2">
+      <description> ':/ is an invalid URI. Inspired by K2-SeqCollectionFunc-2.</description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>uri-collection(":/")</test>
+      <result>
+         <error code="FODC0004"/>
+      </result>
+   </test-case>
+    
+   <test-case name="uri-collection-901">
+      <description>Unknown default resource collection. Inspired by collection-901.</description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>uri-collection()</test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="uri-collection-903">
+      <description>Unknown default resource collection.</description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>uri-collection(())</test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+
+</test-set>

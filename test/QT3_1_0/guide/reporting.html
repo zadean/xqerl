@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Writing and Submitting tests for the QT3 Test Suite</title>
+  <link
+  href="http://www.w3.org/XML/Group/xquery-test/TestSuiteStagingArXQTSCatalogExplain.html"
+  rel="stylesheet" type="text/css" />
+</head>
+
+<body xml:lang="en" lang="en">
+<p><img alt="W3C" src="http://www.w3.org/Icons/WWW/w3c_home.gif" /></p>
+
+  <h1 align="center">Submission of Test Suite Results</h1>
+  
+  <p>The purpose of the test suite is to demonstrate that the specifications can be
+  implemented and that implementations are interoperable. To achieve this aim, the Working
+  Group encourages implementors to submit results.</p>
+    
+  <p>Results submitted by implementors will be published at the discretion of the Working Groups. When submitting
+    results, you may indicate that you wish the results to be anonymous, in which case
+    the results will still be published, but the product under test will not be identified.</p>
+  
+  <p>You are welcome to make multiple submissions for different versions or variants of
+    your product. The objective is to test implementability and interoperability,
+    and multiple implementations based on substantially the same source code do not contribute
+    significantly to this aim, so the WG may decide not to publish all your submissions.</p>
+        
+    <p>Non-implementors are also welcome to
+  submit results, especially in the case of products where the vendor has chosen
+  not to do so. In such cases the WG will publish the results at its discretion, and will typically do so in a way that identifies the
+  submitter but not the product under test.</p>
+  
+  <p>The implementation against which results are reported does not need to be publicly available either at the time of submission
+  or at any time subsequently. Submissions are welcome not only for open-source and commercial products at any stage of development, but also for research prototypes
+  and in-house implementations where there is no intention to release a product.</p>
+  
+  <p>W3C are interested in knowing how many independent implementations of the specifications exist, and may therefore ask questions
+  about the extent to which multiple implementations are based on the same underlying technology.</p>
+  
+  <h2>Completeness of submissions</h2>
+  
+  <p>The Working Group naturally hopes that many implementations will pass as many tests as possible. However,
+  evidence of implementations that are not yet complete or conformant is also welcome. In particular, if there are
+  difficulties making it infeasible to implement some part of the specification, that is something the
+  Working Group wants to know about.</p>
+  
+  <p>Many tests have dependencies on optional features of the specification. For example, there are tests that
+  require English-language formatting of numbers and dates (and a small number of tests for languages other than English). The
+  specification does not require English or any other natural language to be supported by every implementation, and
+  a product that does not support this feature may therefore report such a test as "not applicable", with no adverse implications
+  on its conformance or quality. (There are also a few tests that are designed to be run only by products that do NOT
+  implement a particular optional feature; again, if the test is not applicable to a particular product, the result should
+  be reported as "not applicable", with no negative connotations.)</p>
+  
+  <p>Another situation in which tests may be reported as "not applicable" is if they exceed resource limits. Some tests are
+  designed explicitly to test the handling of extreme situations, such as formatting of 100-digit integers, where conformant
+  implementations are perfectly entitled to reject such values. In addition, some tests (such as complex regular expressions)
+  may take an unreasonable length of time on some implementations. Implementors are therefore perfectly entitled to report
+  such tests as "not applicable", with no negative implications on conformance. Where many implementors refrain from running a 
+  particular test, this information is in itself useful to the Working Group.</p>
+  
+  <p>Finally, there will always be some tests at any point in time whose results are contested by virtue of an unresolved
+  bug report. Implementors submitting results are encouraged to report such tests as "disputed" in preference to indicating
+  a test failure.</p>
+  
+  <p>Since there are several legitimate reasons for not running a particular test, when this outcome is included
+    in a submission, submitters are encouraged to include a comment that explains why.</p>
+  
+  <h2>Test suite versions</h2>
+  
+  <p>At the time of writing, the test suite is under continuous development. During this phase, submitted results
+  will be treated as provisional; they are welcomed because they will help the Working Group to refine the machinery
+  for analyzing and reporting results.</p>
+  
+  <p>At some stage, frozen snapshots of the test suite will be made, with identified version numbers; at that point
+  submitted results should identify which version of the test suite was executed.</p>
+  
+  <h2>Error codes</h2>
+  
+  <p>For test cases where an error is expected, the test case metadata always indicates an expected error code. The Working Group recognizes that
+  it is difficult to develop tests in which no other error code is legitimate, so it has determined that where an expected error code is
+  published for a test, an implementation that fails with a different error code should be regarded as passing the test. However, so that
+  the WG can assess the extent to which error codes are in fact interoperable, this outcome must be identified explicitly when reporting results.
+  (Note that for try/catch tests, where the test for a specific error code occurs within the query itself, an incorrect error code may result in test failure.)</p>
+  
+  <p>Experience suggests that reporting "the wrong error" is often evidence of a product bug, so implementors are advised to check such
+  outcomes carefully before concluding that a test can be treated as a pass.</p>
+  
+  <h2>Format for results submission</h2>
+  
+  <p>Results must be submitted in the form of an XML file conforming to a specific schema. The schema can be found within the test suite download at
+    <a href="../ReportingResults/results.xsd">results.xsd</a>, and in the same directory there are some speciment results files that illustrate
+  the required format.</p>
+  
+  <p>Each results file should reflect one implementation and one specification (that is, one of XPath 2.0, XPath 3.0, XQuery 1.0, or XQuery 3.0).
+  The Working Group is primarily interested in results for XPath 3.0 and XQuery 3.0, but will also collate results for the older versions if
+  submissions are received.</p>
+  
+  <p>The results file is in three sections.</p>
+  
+  <h3>The &lt;submission&gt; element</h3>
+  
+  <p>The first section, the <code>submission</code> element, contains basic administrative information identifying the submitter, the test suite version,
+  the implementation under test, and so on.</p>
+  
+  <h3>The &lt;dependencies&gt; element</h3>
+  
+  <p>The second section, the <code>dependencies</code> element, indicates which dependencies (other than the specification language) were satisifed when running the tests.
+  For example, the entry:</p>
+  
+  <pre>
+&lt;dependency type="feature" value="static-typing" satisfied="false"/>    
+  </pre>
+  
+  <p>indicates that the implementation under test does not support the static typing feature, and that tests dependent on the static typing feature are therefore
+  not run. (The test submission may include results for such tests with the outcome "not run", or it may simply omit these test cases.) 
+  Conversely, any tests which are designed for implementations that do NOT support static typing should be run, and should be reported in the test submission.</p>
+  
+  <p>Where the submission includes an element of the form </p>
+  
+  <pre>
+&lt;dependency type="feature" value="static-typing" satisfied="true"/>    
+  </pre>
+  
+  <p>this indicates that the implementation under test DOES support the static typing feature, and the submission will then include results for tests that depend
+  on this feature being present, and exclude result that depend on its absence.</p>
+  
+  <p>It is also possible to report:</p>
+  
+  <pre>
+&lt;dependency type="feature" value="static-typing" satisfied="both"/>    
+  </pre>
+  
+  <p>This indicates that the product is capable of running with static typing either enabled or disabled, and that results for both cases are included in the submission.</p>
+
+  <p>In the absence of a dependency element for a particular dependency present in the test suite, the value <code>satisfied="both"</code> will be assumed.</p>
+  
+  <h3>The &lt;test-set&gt; elements</h3>
+  
+  <p>The bulk of the submission consists of a sequence of <code>test-set</code> elements corresponding to the test sets in the test catalog, each containing a sequence
+  of <code>test-case</code> elements corresponding to the test cases in that test set.</p>
+  
+  <p>For each test case, the outcome may be reported as one of the following:</p>
+  
+  <table>
+    <thead>
+      <tr><th>Value</th><th>Meaning</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>pass</td><td>The test was run and the assertion was satisfied</td></tr>
+      <tr><td>fail</td><td>The test was run and the assertion was not satisfied</td></tr>
+      <tr><th>wrongError</th><th>The test was run; the expected results permitted an error to be reported; the actual result was an error, but not with the expected
+      error code</th></tr>
+      <tr><td>n/a</td><td>The test was not run because it is not applicable to this implementation (for example, because it depends on optional features)</td></tr>
+      <tr><td>disputed</td><td>The test or its results, or the specification they rely on, are the subject of an unresolved bug report (which should be identified
+      in the comment field)</td></tr>
+      <tr><td>tooBig</td><td>The test was not run because it exceeds limits imposed by the implementation or requires excessive resources</td></tr>
+      <tr><td>notRun</td><td>The test was not run for unspecified reasons (for example, an implementation might omit tests for features that have not been implemented)</td></tr>
+    </tbody>
+  </table>
+  
+  <p>The test sets and test cases may be reported in any order, but their names should be a subset of the names that appear in the test catalog; any non-matching names
+  will be ignored.</p>
+  
+  <p>If there is a test case in the test suite for which no result is reported in the results submission, 
+  the result that is assumed is <code>notRun</code>, which for statistical purposes is treated the same way as a test failure.
+  <b>If there is a legitimate reason for not running the test, the result reported should be one of <code>n/a</code>, <code>disputed</code>,
+  or <code>tooBig</code>.</b></p>
+  
+
+  
+  <p>In the analysis of submitted results, the categories "pass" and "wrongError" are treated as "green"; the categories "n/a", "disputed", and "tooBig" are treated
+    as "white", and the categories "fail" and "notRun" are treated as "red". When a percentage pass rate is quoted, the relevant figure is the ratio 
+    of "green" to ("green" + "red").
+  </p>
+  
+  <p>W3C will never challenge the results reported by an implementor, and makes no warranty about the correctness of any claims; nor will W3C intervene in any
+  dispute between implementors and/or users about the interpretation or validity of the reported results. Implementors are encouraged to publish their test drivers
+  so that the results they report can be independently verified.</p>
+  
+  <p>Submission of test results does not of itself constitute a claim to conformance. There may be tests that are unrelated to conformance, and there may be conformance
+  requirements (such as the requirement to report on implementation-defined features) than are unrelated to any test.</p>
+  
+  <h2>The submission process</h2>
+
+
+  
+  <p>When you are ready to submit your results to us, we ask that you follow the
+    guidelines provided in <a
+      href="Guidelines for Submitting XQTS Test Results.html">Guidelines for
+      Submitting XML Query Test Suite Results</a>. These guidelines will tell you how
+    to generate an XML result document that we can use to generate our reports.
+    They will also tell you how to generate your own report from the XML result
+    file.</p>
+  
+  <p>If you have indicated that you wish your results to be displayed as
+    &ldquo;Anonymous&rdquo;, then please send them to the XML Query WG Team
+    Contact, <a href="mailto:liam@w3.org">Liam Quin</a>, cc'ing <a
+      href="mailto:w3t-archive@w3.org">w3t-archive@w3.org</a>. Otherwise, please send
+    them to the test suite coordinator, <a
+      href="mailto:oneil@saxonica.com">O'Neil Delpratt</a>, cc'ing <a
+        href="mailto:www-archive@w3.org">www-archive@w3.org</a>.</p>
+  
+  <p>We encourage you to send us results early, and then to send us updates as
+  the XQTS progresses and as your implementation progresses.</p>
+  
+  <h2>Generating reports</h2>
+  
+  <p>W3C will generate reports from the submitted results files. These reports are available at (location TBA).</p>
+  
+  <p>The XSLT 2.0 stylesheet used for generating reports is included in the test suite download, and users of the test suite may
+  wish to use it to inspect results prior to submission. If the parameter <code>results-collection</code> is supplied
+  to the stylesheet, it will report on all result files in the specified collection; otherwise, it will report on the
+  result file supplied as the principal source document to the transformation.</p>
+  
+  <p>The stylesheet generates a large collection of HTML files. Typically the transformation will specify a file such
+  as <code>reports/results.html</code> as the principal output destination, and the output files will then all be generated within
+  the <code>reports</code> directory.</p>
+
+
+
+<hr />
+<address>
+  <a href="http://www.w3.org/Help/Webmaster">Webmaster</a> · Last modified:
+  $Date: 2013-01-14 19:02:21 $ by $Author: mkay $ 
+</address>
+
+<p><a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
+1994-2005 <a href="http://www.w3.org/"><acronym
+title="World Wide Web Consortium">W3C</acronym></a><sup>®</sup> (<a
+href="http://www.csail.mit.edu/"><acronym
+title="Massachusetts Institute of Technology">MIT</acronym></a>, <a
+href="http://www.ercim.org/"><acronym
+title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
+<a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C <a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+<a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>,
+<a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+and <a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-software">software
+licensing</a> rules apply. Your interactions with this site are in accordance
+with our <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Public">public</a>
+and <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Members">Member</a>
+privacy statements.</p>
+
+<p></p>
+</body>
+</html>

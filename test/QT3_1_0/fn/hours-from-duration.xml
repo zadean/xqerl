@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-hours-from-duration">
+   <description>Tests for the hours-from-duration() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-hours-from-duration"/>
+
+   <test-case name="fn-hours-from-duration1args-1">
+      <description> Evaluates The "hours-from-duration" function with the arguments set as follows: $arg = xs:dayTimeDuration(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P0DT0H0M0S"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration1args-2">
+      <description> Evaluates The "hours-from-duration" function with the arguments set as follows: $arg = xs:dayTimeDuration(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P15DT11H59M59S"))</test>
+      <result>
+         <assert-eq>11</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration1args-3">
+      <description> Evaluates The "hours-from-duration" function with the arguments set as follows: $arg = xs:dayTimeDuration(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P31DT23H59M59S"))</test>
+      <result>
+         <assert-eq>23</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-1">
+      <description> Evaluates The "hours-from-duration" function As per example 1 (for this function)of the F&amp;O specs </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P3DT10H"))</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-2">
+      <description> Evaluates The "hours-from-duration" function As per example 2 (for this function) of the F&amp;O specs </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P3DT12H32M12S"))</test>
+      <result>
+         <assert-eq>12</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-3">
+      <description> Evaluates The "hours-from-duration" function as per example 3 of this function on the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("PT123H"))</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-4">
+      <description> Evaluates The "hours-from-duration" function as per example 4 (for this function) in the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("-P3DT10H"))</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-5">
+      <description> Evaluates The "hours-from-duration" function using the empty sequence as an argument. Use count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:count(fn:hours-from-duration(()))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-6">
+      <description> Evaluates The "hours-from-duration" function that returns 1. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P01DT01H"))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-7">
+      <description> Evaluates The "hours-from-duration" function used as arguments to an avg function. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:avg((fn:hours-from-duration(xs:dayTimeDuration("P23DT10H")),fn:hours-from-duration(xs:dayTimeDuration("P21DT08H"))))</test>
+      <result>
+         <assert-eq>9</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-8">
+      <description> Evaluates The "hours-from-duration" function as part of a "+" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P21DT10H")) + fn:hours-from-duration(xs:dayTimeDuration("P22DT20H"))</test>
+      <result>
+         <assert-eq>30</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-9">
+      <description> Evaluates The "hours-from-duration" function as part of a "-" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P30DT10H")) - fn:hours-from-duration(xs:dayTimeDuration("P10DT02H"))</test>
+      <result>
+         <assert-eq>8</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-10">
+      <description> Evaluates The "hours-from-duration" function as part of a "*" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P20DT05H")) * fn:hours-from-duration(xs:dayTimeDuration("P03DT08H"))</test>
+      <result>
+         <assert-eq>40</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-11">
+      <description> Evaluates The "hours-from-duration" function as part of a "div" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P20DT10H")) div fn:hours-from-duration(xs:dayTimeDuration("P05DT05H"))</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-12">
+      <description> Evaluates The "hours-from-duration" function as part of a "idiv" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P25DT10H")) idiv fn:hours-from-duration(xs:dayTimeDuration("P05DT02H"))</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-13">
+      <description> Evaluates The "hours-from-duration" function as part of a "mod" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P10DT10H")) mod fn:hours-from-duration(xs:dayTimeDuration("P03DT02H"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-14">
+      <description> Evaluates The "hours-from-duration" function as part of a "numeric-unary-plus" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>+fn:hours-from-duration(xs:dayTimeDuration("P21DT10H"))</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-15">
+      <description> Evaluates The "hours-from-duration" function as part of a "numeric-unary-minus" expression. </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>-fn:hours-from-duration(xs:dayTimeDuration("P20DT02H"))</test>
+      <result>
+         <assert-eq>-2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-16">
+      <description> Evaluates The "hours-from-duration" function as part of a "numeric-equal" expression (eq operator) </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P22DT09H")) eq fn:hours-from-duration(xs:dayTimeDuration("P22DT09H"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-17">
+      <description> Evaluates The "hours-from-duration" function as part of a "numeric-equal" expression (ne operator) </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P23DT07H")) ne fn:hours-from-duration(xs:dayTimeDuration("P12DT05H"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-18">
+      <description> Evaluates The "hours-from-duration" function as part of a "numeric-equal" expression (le operator) </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P20DT03H")) le fn:hours-from-duration(xs:dayTimeDuration("P21DT01H"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-19">
+      <description> Evaluates The "hours-from-duration" function as part of a "numeric-equal" expression (ge operator) </description>
+      <created by="Carmelo Montanez" on="2005-06-13"/>
+      <test>fn:hours-from-duration(xs:dayTimeDuration("P21DT07H")) ge fn:hours-from-duration(xs:dayTimeDuration("P20DT08H"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-hours-from-duration-20">
+      <description> Evaluates The "hours-from-duration" function with wrong argument type. </description>
+      <created by="Carmelo Montanez" on="2006-03-24"/>
+      <test>fn:hours-from-duration(xs:duration("P1Y2M3DT10H30M"))</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-HoursFromDurationFunc-1">
+      <description> A test whose essence is: `hours-from-duration()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>hours-from-duration()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-HoursFromDurationFunc-2">
+      <description> A test whose essence is: `hours-from-duration((), "Wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>hours-from-duration((), "Wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-HoursFromDurationFunc-3">
+      <description> A test whose essence is: `empty(hours-from-duration(()))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(hours-from-duration(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-HoursFromDurationFunc-4">
+      <description> A test whose essence is: `hours-from-duration(()) instance of xs:integer?`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>hours-from-duration(()) instance of xs:integer?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-HoursFromDurationFunc-5">
+      <description> A test whose essence is: `hours-from-duration(xs:dayTimeDuration("P3DT8H2M1.03S")) eq 8`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>hours-from-duration(xs:dayTimeDuration("P3DT8H2M1.03S")) eq 8</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-HoursFromDurationFunc-6">
+      <description> Simple test invoking hours-from-duration() on a negative duration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>hours-from-duration(xs:dayTimeDuration("-P3DT8H2M1.03S")) eq -8</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-HoursFromDurationFunc-7">
+      <description> Simple test invoking days-from-hours() on an negative xs:duration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>hours-from-duration(xs:duration("-P3Y4M8DT1H23M2.34S")) eq -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+      
+   <test-case name="cbcl-hours-from-duration-001">
+      <description> test fn:hours-from-duration on xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:hours-from-duration(xs:yearMonthDuration('P1Y'))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

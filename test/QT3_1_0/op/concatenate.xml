@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-concatenate">
+   <description>Tests for the concatenate() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-concatenate"/>
+         
+   <environment name="bib">
+      <source role="." file="../docs/bib.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>
+   </environment>
+                    
+   <test-case name="sequenceexpressionhc1">
+      <description> Constructing Sequences. Simple sequence involving integers. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>(1,2,3,4,5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc2">
+      <description> Constructing Sequences. Simple sequence involving nested sequences. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>(1,(2,3),4,5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc3">
+      <description> Constructing Sequences. Simple sequence involving the empty sequence. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>(1, 2, (), 3, 4)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc4">
+      <description> Constructing Sequences. Simple sequence involving the "to" operand. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>(1, 2 to 5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc5">
+      <description> Constructing Sequences. Simple sequence involving repetition </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>(1, 2, 2)</test>
+      <result>
+         <assert-deep-eq>1, 2, 2</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc6">
+      <description> Constructing Sequences. Simple sequence expression resulting in an empty sequence. Uses count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>count((15 to 10))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc7">
+      <description> Constructing Sequences. Simple sequence expression that results on a sequence in reverse order </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>fn:reverse(10 to 15)</test>
+      <result>
+         <assert-deep-eq>15, 14, 13, 12, 11, 10</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc8">
+      <description> Constructing Sequences. Sequence expression resulting by quering xml file string data </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <environment ref="works"/>
+      <test>//empnum</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="sequenceexpressionhc9">
+      <description> Constructing Sequences. Sequence expression resulting by quering xml file string data (multiple xml sources) </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <environment ref="works-and-staff"/>
+      <test> ($works//empnum,$staff//empname)</test>
+      <result>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum><empname>Alice</empname><empname>Betty</empname><empname>Carmen</empname><empname>Don</empname><empname>Ed</empname>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-1">
+      <description> Constructing sequences. Constructing a sequence, where one of the members is an addition operation </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test>(1, 1 + 1, 3, 4, 5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-2">
+      <description> Constructing sequences. Constructing a sequence, where one of the members is subtraction operation. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test>(1, 3 - 1, 3, 4, 5)</test>
+      <result>
+         <assert-deep-eq>1, 2 ,3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-3">
+      <description> Constructing sequences. Constructing a sequence, where one of the members is a multiplication operation. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (1, 2 * 1, 3, 4, 5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-4">
+      <description> Constructing sequences. Constructing a sequence, where one of the members is a division (div) operation. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (1, 4 div 2, 3, 4, 5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-5">
+      <description> Constructing sequences. Constructing a sequence, where one of the members is a division (idiv) operation. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (1, 4 idiv 2, 3, 4, 5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-6">
+      <description> Constructing sequences. Constructing a sequence, where one of the members contains invocation to "fn:count" function. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (1, fn:count((1, 2)), 3, 4, 5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-7">
+      <description> Constructing sequences. Constructing a sequence, where one of the members contains invocation to "fn:string-length" function. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (1, fn:string-length("AB"), 3, 4, 5)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-8">
+      <description> Constructing sequences. Constructing a sequence, where both members contains invocation to "fn:true" function. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (fn:true(),fn:true())</test>
+      <result>
+         <assert-deep-eq>true(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-9">
+      <description> Constructing sequences. Constructing a sequence, where both members contains invocation to "fn:false" function. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (fn:false(),fn:false())</test>
+      <result>
+         <assert-deep-eq>false(), false()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-10">
+      <description> Constructing sequences. Constructing a sequence, where both members contains invocation to "fn:not()" function. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (fn:not("true"),fn:not("false"))</test>
+      <result>
+         <assert-deep-eq>false(), false()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-11">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains a boolean (and) operation. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (fn:true() and fn:true(), fn:true())</test>
+      <result>
+         <assert-deep-eq>true(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-12">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains a boolean (or) operation. </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (fn:true() or fn:true(), fn:true())</test>
+      <result>
+         <assert-deep-eq>true(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-13">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains invocation to "xs:string()". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:string("ABC"), "D", "E")</test>
+      <result>
+         <assert-deep-eq>"ABC", "D", "E"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-14">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains invocation to "xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:integer(1), 2, 3)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-15">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains invocation to "xs:decimal()". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:decimal(1), 2, 3)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-16">
+      <description> Constructing sequences. Constructing a sequence, where both of its members contains invocation to "xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:anyURI("http://www.example.com"),xs:anyURI("http://www.example1.com"))</test>
+      <result>
+         <assert-deep-eq>"http://www.example.com", "http://www.example1.com"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-17">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains invocation to "xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:float(1.1), 2.2, 3.3)</test>
+      <result>
+         <assert-deep-eq>xs:float('1.1e0'), 2.2, 3.3</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-18">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains invocation to "xs:double()". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:double(1.2E2), 2.2E2, 3.3E2)</test>
+      <result>
+         <assert-deep-eq>120, 220, 330</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-19">
+      <description> Constructing sequences. Constructing a sequence, where one of its members contains invocation to "xs:boolean()". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:boolean(fn:true()), fn:false(), fn:true())</test>
+      <result>
+         <assert-deep-eq>true(), false(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-20">
+      <description> Constructing sequences. Constructing a sequence, where both of its members contains invocation to "xs:date()". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:date("2004-12-25Z"),xs:date("2004-12-26Z"))</test>
+      <result>
+         <assert-string-value>2004-12-25Z 2004-12-26Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-21">
+      <description> Constructing sequences. Constructing a sequence, where both of its members contains invocation to "xs:dateTime()". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:dateTime("1999-11-28T09:00:00Z"),xs:dateTime("1998-11-28T09:00:00Z"))</test>
+      <result>
+         <assert-string-value>1999-11-28T09:00:00Z 1998-11-28T09:00:00Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="constSeq-22">
+      <description> Constructing sequences. Constructing a sequence, where both of its members contains invocation to "xs:time()". </description>
+      <created by="Carmelo Montanez" on="2005-08-31"/>
+      <test> (xs:time("08:00:00+09:00"),xs:time("08:00:00+10:00"))</test>
+      <result>
+         <assert-string-value>08:00:00+09:00 08:00:00+10:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-001">
+      <description> arg1 &amp; arg2 : sequence of number </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>(1) , (2)</test>
+      <result>
+         <assert-deep-eq>1, 2</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-002">
+      <description> arg1 &amp; arg2 : string </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:string("a") , xs:string("b")</test>
+      <result>
+         <assert-deep-eq>"a", "b"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-003">
+      <description> args : string </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:string("a") , (), "xyz"</test>
+      <result>
+         <assert-deep-eq>"a", "xyz"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-004">
+      <description> args : string </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>"xyz" , xs:string(" "), "b"</test>
+      <result>
+         <assert-deep-eq>"xyz", " ", "b"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-005">
+      <description> arg1 : string, arg2:anyURI </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:string("a") , xs:anyURI("www.example.com")</test>
+      <result>
+         <assert-deep-eq>"a", "www.example.com"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-006">
+      <description> arg1 : string, arg2:integer, arg3:anyURI </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:string("hello") , xs:integer("100"), xs:anyURI("www.example.com")</test>
+      <result>
+         <assert-deep-eq>"hello", 100, "www.example.com"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-007">
+      <description> arg1 : anyURI, arg2: decimal </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:anyURI("www.example.com") , xs:decimal("1.01")</test>
+      <result>
+         <assert-deep-eq>"www.example.com", 1.01</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-008">
+      <description> arg1 &amp; arg2 : float </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:float("1.01"), xs:float("NaN")</test>
+      <result>
+         <assert-string-value>1.01 NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-009">
+      <description> arg1:float, arg2: double </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:float("INF") , xs:double("NaN")</test>
+      <result>
+         <assert-string-value>INF NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-010">
+      <description> arg1: double, arg2: double, arg3:float </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:double("INF"), xs:double("-INF"), xs:float("-INF")</test>
+      <result>
+         <assert-string-value>INF -INF -INF</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-011">
+      <description> arg1:boolean, arg2: boolean, arg3: integer </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:boolean("true") , xs:boolean("0"), xs:integer("0")</test>
+      <result>
+         <assert-deep-eq>true(), false(), 0</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-012">
+      <description> arg1:boolean, arg2: boolean </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:boolean("false"), xs:boolean("1")</test>
+      <result>
+         <assert-deep-eq>false(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-013">
+      <description> arg1:date, arg2: boolean, arg3: string </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:date("1993-03-31") , xs:boolean("true"), xs:string("abc")</test>
+      <result>
+         <assert-string-value>1993-03-31 true abc</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-014">
+      <description> arg1:dateTime, arg2: empty sequence </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:dateTime("1972-12-31T00:00:00Z") , (())</test>
+      <result>
+         <assert-string-value>1972-12-31T00:00:00Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-015">
+      <description> arg1:time, arg2: string , arg3: decimal </description>
+      <created by="Pulkita Tyagi" on="2005-05-25"/>
+      <test>xs:time("12:30:00Z") , xs:string(" ") , xs:decimal("2.000000000000002")</test>
+      <result>
+         <assert-string-value>12:30:00Z   2.000000000000002</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-016">
+      <description> arg1:empty seq, arg2: string , arg3: decimal </description>
+      <created by="Ravindranath Chennoju" on="2005-05-25"/>
+      <test>() , xs:string(" ") , xs:decimal("2.000000000000002")</test>
+      <result>
+         <assert-string-value>  2.000000000000002</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-017">
+      <description> Use simple arithmetic expression with concat </description>
+      <created by="Ravindranath Chennoju" on="2005-05-25"/>
+      <test>(1+1), (2-2)</test>
+      <result>
+         <assert-deep-eq>2, 0</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-018">
+      <description> Concat more than two sequences </description>
+      <created by="Ravindranath Chennoju" on="2005-05-25"/>
+      <test>(1,2,2),(1,2,3),(123,""),(),("")</test>
+      <result>
+         <assert-deep-eq>1, 2, 2, 1, 2, 3, 123, "", ""</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-019">
+      <description>Written By: Ravindranath Chennnoju  Use an external variable with op:concatenate </description>
+      <created by="Ravindranath Chennoju" on="2005-05-25"/>
+      <environment ref="bib"/>
+      <test>//book/price, (), (1)</test>
+      <result>
+         <assert-xml><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>1]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="op-concatenate-mix-args-020">
+      <description> Use two external variables with op:contenate </description>
+      <created by="Ravindranath Chennoju" on="2005-05-25"/>
+      <environment ref="bib"/>
+      <test>//book/price, //book/title</test>
+      <result>
+         <assert-xml><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K-commaOp-1">
+      <description> A heavily nested sequence of expressions with the comma operator. On some implementations this triggers certain optimization paths. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal(((1, (2, (3, 4, (5, 6)), 7), 8, (9, 10), 11)), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-commaOp-2">
+      <description> An expression sequence containing only empty sequences. On some implementations this triggers certain optimization paths. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(((), (), ((), (), ((), (), (())), ()), (), (())))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-commaOp-3">
+      <description> An expression sequence containing many empty sequences and one xs:string. On some implementations this triggers certain optimization paths. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>((), (), ((), (), ((), (), ("str")), ()), (), (())) eq "str"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

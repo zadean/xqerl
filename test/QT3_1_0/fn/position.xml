@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-position">
+   <description>Tests for the position() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-position"/>
+
+   <test-case name="position-1">
+      <description> Evaluation of "fn"position", where context function is an element node and position is first. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = 1]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-2">
+      <description> Evaluation of "fn:position", where the context node is not defined. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="empty"/>
+      <test>position()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="position-3">
+      <description> Evaluation of "fn"position", where the last item is selected. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = 13]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 13</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-4">
+      <description> Evaluation of "fn"position" together with "fn:last". </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = last()]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 13</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-5">
+      <description> Evaluation of "fn:position" together with "fn:last" (format last() = position()). </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[last() = position()]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 13</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-6">
+      <description> Evaluation of "fn"position" together with a variable of type integer </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $var in 1 return for $h in (/works) return $h/employee[position() = $var]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-7">
+      <description> Evaluation of "fn"position" together with a variable of type string casted to integer inside the predicate. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $var in "1" return for $h in (/works) return $h/employee[position() = xs:integer($var)]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-8">
+      <description> Evaluation of "fn"position" where two position functions are used inside the predicate. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[12]) return $h/overtime[position() = position()]/day/string()</test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="position-9">
+      <description> Evaluation of "fn:position" where the position function is used inside a second predicate. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[@name][position() = 1]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-10">
+      <description> Evaluation of "fn:position" where the position function is used inside the first predicate. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = 1][@name]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-11">
+      <description> Evaluation of "fn:position" used in conjucntion with the fn:not function </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[12]/overtime) return $h/day[not(position() = 1)]/string()</test>
+      <result>
+         <assert-string-value>Tuesday</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-12">
+      <description> Evaluation of "fn:position" as a predicate to a wildcard (*). </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[12]/overtime) return $h/*[position() = position()]/string()</test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="position-13">
+      <description> Evaluation of "fn:position" used together with an addition operation. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = (2 + 2)]/string(@name)</test>
+      <result>
+         <assert-string-value>John Doe 4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-14">
+      <description> Evaluation of "fn:position" used together with a subtraction operation. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = (5 - 2)]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-15">
+      <description> Evaluation of "fn:position" used together with a multiplication operation. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = (3 * 2)]/string(@name)</test>
+      <result>
+         <assert-string-value>John Doe 6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-16">
+      <description> Evaluation of "fn:position" used together with a division (div) operation. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = (6 div 2)]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-17">
+      <description> Evaluation of "fn:position" used together with a division (idiv) operation. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = (6 idiv 2)]/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="position-18">
+      <description> Evaluation of "fn:position" used together with a logical expression ("and" operator and "true" function). </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[12]) return ($h/overtime[position() and fn:true()]/*/string())</test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="position-19">
+      <description> Evaluation of "fn:position" used together with a logical expression ("and" operator and "false" function). </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[12]) return ($h/overtime[position() and fn:false()])</test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="position-20">
+      <description> Evaluation of "fn:position" used together with a logical expression ("or" operator and "true" function). </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[12]) return $h/overtime[position() or fn:true()]/*/string()</test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="position-21">
+      <description> Evaluation of "fn:position" used together with a logical expression ("or" operator and "false" function). </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works/employee[12]) return $h/overtime[position() or fn:false()]/*/string()</test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="position-22">
+      <description> Evaluation of "fn:position" used in the middle of a path expression. </description>
+      <created by="Carmelo Montanez" on="2005-09-14"/>
+      <environment ref="works-mod"/>
+      <test>for $h in (/works) return $h/employee[position() = 12]/overtime/*/string()</test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="position-23">
+      <description>Top-level call on position()</description>
+      <created by="Michael Kay" on="2011-07-01"/>
+      <environment ref="works-mod"/>
+      <test>position()</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-1">
+      <description> A test whose essence is: `position(1)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>position(1)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-2">
+      <description> A test whose essence is: `(1, 2, 3)[if(1) then 1 else position()]`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3)[if(1) then 1 else position()]</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-3">
+      <description> fn:position() can never return 0('='). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() = 0])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-4">
+      <description> fn:position() can never return 0('='), #2. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [0 = position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-5">
+      <description> fn:position() can never return 0('eq'). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() eq 0])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-6">
+      <description> fn:position() can never return 0('eq'), #2. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [0 eq position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-7">
+      <description> fn:position() can never return 0('!='). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() != 0], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-8">
+      <description> fn:position() can never return 0('ne'). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() ne 0], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-9">
+      <description> fn:position() can never return 0('!='), #2. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [0 != position()], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-10">
+      <description> fn:position() can never return 0('ne'), #2. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [0 ne position()], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-11">
+      <description> fn:position() can never return anything less than 1(lt). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() lt 1])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-12">
+      <description> fn:position() can never return anything less than 1(&lt;). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() < 1])]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-13">
+      <description> fn:position() can never return anything less or equal to 0(le). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() le 0])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-14">
+      <description> fn:position() can never return anything less or equal to 0(&lt;=). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() <= 0])]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-15">
+      <description> The return value of fn:position() is always greater than 0('ne'). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() &gt; 0], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-16">
+      <description> The return value of fn:position() is always greater than 0('&gt;'). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() &gt; 0], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-17">
+      <description> The return value of fn:position() is always greater than 0('gt'). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() gt 0], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-18">
+      <description> The return value of fn:position() is always greater or equal to 0('&gt;='). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() &gt;= 1], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-19">
+      <description> The return value of fn:position() is always greater or equal to 0('ge'). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() ge 1], (1, 2, 3, 4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-20">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 eq (0, 1, current-time(), 4)[position() = 2] treat as xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-21">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 eq (0, 1, current-time(), 4)[position() eq 2] treat as xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-22">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 eq (0, 1, current-time(), 4)[2 eq position()] treat as xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-23">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 eq (0, 1, current-time(), 4)[2 = position()] treat as xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-24">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 4), (1, 2, current-time(), 4)[position() != 3])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-25">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 4), (1, 2, current-time(), 4)[position() ne 3])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-26">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 4), (1, 2, current-time(), 4)[3 ne position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-27">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 4), (1, 2, current-time(), 4)[3 != position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-28">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() lt 4])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-29">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() < 4])]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-30">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), (1, 2, 3, current-time())[4 gt position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-31">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), (1, 2, 3, current-time())[4 &gt; position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-32">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() le 3])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-33">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() <= 3])]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-34">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), (1, 2, 3, current-time())[3 ge position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-35">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3), (1, 2, 3, current-time())[3 &gt;= position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-36">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((4, 5), (1, 2, current-time(), 4, 5)[3 lt position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-37">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[deep-equal((4, 5), (1, 2, current-time(), 4, 5)[3 < position()])]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-38">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() gt 3])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-39">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() &gt; 3])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-40">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((4, 5), (1, 2, current-time(), 4, 5)[4 le position()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-41">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[deep-equal((4, 5), (1, 2, current-time(), 4, 5)[4 <= position()])]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-42">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() ge 4])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextPositionFunc-43">
+      <description> position() combined with a comparison operator inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() &gt;= 4])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

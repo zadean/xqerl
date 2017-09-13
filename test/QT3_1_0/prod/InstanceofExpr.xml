@@ -1,0 +1,3017 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-InstanceofExpr">
+   <description>Tests for the InstanceofExpr production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-InstanceofExpr"/>
+   <link type="spec" document="XQuery" section-number="3.12.1" idref="id-instance-of"/>
+   
+   <environment name="ListUnionTypes">
+      <schema uri="http://www.w3.org/XQueryTest/ListUnionTypes" file="ValidateExpr/listunion.xsd">
+         <description>A schema defining a list of unions.</description>
+         <created by="Anonymous" on="2006-06-07"/>
+      </schema>
+   </environment>
+   
+   <environment name="union-List-defined-Types" >
+     <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="SchemaImport/unionListDefined.xsd">
+       <description>A Schema of union and list defined types</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+     </schema>
+   </environment> 
+
+   <test-case name="instanceof1">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:dateTime</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof2">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof3">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof4">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof5">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof6">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof7">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof8">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof9">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof10">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof11">
+      <description>purpose: Evaluation of "instance of" expression for pattern "dateTime instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:dateTime("2002-04-02T12:00:00Z") instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof12">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof13">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:time</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof14">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof15">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof16">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof17">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof18">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof19">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof20">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof21">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof22">
+      <description>purpose: Evaluation of "instance of" expression for pattern "time instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:time("13:20:10.5Z") instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof23">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof24">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof25">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:date</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof26">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof27">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof28">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof29">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof30">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof31">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof32">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof33">
+      <description>purpose: Evaluation of "instance of" expression for pattern "date instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:date("2000-01-01+05:00") instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof34">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof35">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof36">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof37">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:boolean</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof38">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof39">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof40">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof41">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof42">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof43">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof44">
+      <description>purpose: Evaluation of "instance of" expression for pattern "boolean instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:boolean("true") instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof45">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof46">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof47">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof48">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof49">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof50">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof51">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof52">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof53">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof54">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof55">
+      <description>purpose: Evaluation of "instance of" expression for pattern "float instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof56">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof57">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof58">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof59">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof60">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof61">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof62">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof63">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof64">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof65">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof66">
+      <description>purpose: Evaluation of "instance of" expression for pattern "double instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>1267.43233E12 instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof67">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof68">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof69">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof70">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof71">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof72">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof73">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:anyURI</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof74">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof75">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof76">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof77">
+      <description>purpose: Evaluation of "instance of" expression for pattern "anyURI instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>xs:anyURI("http://www.example.com") instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof78">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof79">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof80">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof81">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof82">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof83">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof84">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof85">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof86">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:decimal</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof87">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof88">
+      <description>purpose: Evaluation of "instance of" expression for pattern "string instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>"A String Function" instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof89">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof90">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof91">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof92">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof93">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof94">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof95">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof96">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof97">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof98">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof99">
+      <description>purpose: Evaluation of "instance of" expression for pattern "decimal instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967.543233 instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof100">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:dateTime". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:dateTime</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof101">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:time". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:time</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof102">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:date". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:date</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof103">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:boolean". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:boolean</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof104">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:float". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:float</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof105">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:double". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:double</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof106">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:anyURI". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:anyURI</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof107">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:string". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:string</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof108">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:decimal". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof109">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:integer". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="instanceof110">
+      <description>purpose: Evaluation of "instance of" expression for pattern "integer instance of xs:int". </description>
+      <created by="Carmelo Montanez" on="2005-04-26"/>
+      <test>12678967543233 instance of xs:int</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="instanceof111" covers="type-derivation-with-unions">
+      <description>purpose: Test that a value is not testable as an instance of a list type. </description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <test>xs:NMTOKEN('abc') instance of xs:NMTOKENS</test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="instanceof112" covers="union-as-sequence-type type-derivation-with-unions">
+      <description>purpose: Test that a value is an instance of a simple union type. </description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	23 instance of lu:unionType
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="instanceof113" covers="union-as-sequence-type type-derivation-with-unions">
+      <description>purpose: Test that a value cannot be tested to be an instance of a union type derived by restriction. </description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	-23 instance of lu:restrictedUnionType
+      </test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="instanceof114" covers="union-as-sequence-type type-derivation-with-unions">
+      <description>purpose: Test that a value cannot be tested to be an instance of a list whose item type is a union. </description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	-23 instance of lu:listType
+      </test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="instanceof115" covers="union-as-sequence-type type-derivation-with-unions">
+      <description>purpose: Test that a value cannot be tested to be an instance of a union type with a list in its membership. </description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	-23 instance of lu:unionOfListType
+      </test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="instanceof116" covers="union-as-sequence-type type-derivation-with-unions">
+      <description>purpose: Test that a value can be tested to be an instance of a union type with a union in its membership. </description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	current-date() instance of lu:unionOfUnionType
+      	  and
+      	23 instance of lu:unionOfUnionType
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="instanceof117" covers="type-derivation-with-unions">
+       <description>Instance of a union type derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:gYearMonth('2012-10') instance of s:restrictedUnion
+       ]]></test>
+       <result>
+         <error code="XPST0051"/>  
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof118" covers="type-derivation-with-unions">
+       <description>Instance of a union type not derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:unrestrictedInteger(3) instance of s:myUnionType1
+       ]]></test>
+       <result>
+         <assert-true/> 
+       </result>
+   </test-case>
+
+   <test-case name="instanceof119" covers="type-derivation-with-unions">
+       <description>Instance of a union type not derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:restrictedString("IB40") instance of s:myUnionType2
+       ]]></test>
+       <result>
+         <assert-true/> 
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof120" covers="type-derivation-with-unions">
+       <description>Instance of a union type with a list type in its membership</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         85 instance of s:unionOfListsAndAtomic
+       ]]></test>
+       <result>
+         <error code="XPST0051"/> 
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof121" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(*)
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof122" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(node()?) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof123" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(node()) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof124" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)?) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof125" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof126" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:anyAtomicType
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof127" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:string+
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof128" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:NCName
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof129" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(node()*) as xs:string
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof130" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(item()) as xs:string
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof131" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#0 instance of function(item()) as xs:string
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof132" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         filter#2 instance of function(item()*, function(item()) as xs:boolean) as item()*
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof133" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         filter#2 instance of function(item()*, function(item()*) as xs:boolean) as item()*
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof134" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         filter#2 instance of function(function(*), item()*) as item()*
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof135" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:myUnionType1) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof136" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:unrestrictedDate) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof137" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:unrestrictedInteger) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof138" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:restrictedDate) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof139" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types. Note: there is a subtype relationship between union(A,B,C) and union(A,B).</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <modified by="Tim Mills" on="2012-12-20" change="Bug 19504"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:approximateDate) as xs:boolean { true() };
+         local:f#1 instance of function(s:dateOrDateTime) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+
+   <test-case name="instanceof140" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types. See Bug 20632.</description>
+       <created by="Tim Mills" on="2013-01-24"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as xs:integer) as xs:boolean { true() };
+         local:f#1 instance of function(s:integer-union) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+ 
+   <test-case name="instanceof141" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types. See Bug 20632.</description>
+       <created by="Tim Mills" on="2013-01-24"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:decimal-or-string) as xs:boolean { true() };
+         local:f#1 instance of function(xs:integer) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+ 
+   <test-case name="K-SeqExprInstanceOf-1">
+      <description> A test whose essence is: `1 instance of item()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of item()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-2">
+      <description> item() type with comment appearing inside the paranteses. comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of item()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-3">
+      <description> A test whose essence is: `1 instance of xs:integer`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-4">
+      <description> A test whose essence is: `1 instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-5">
+      <description> A test whose essence is: `1 instance of xs:integer?`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of xs:integer?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-6">
+      <description> A test whose essence is: `1 instance of xs:integer+`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of xs:integer+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-7">
+      <description> A test whose essence is: `1 instance of xs:integer*`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of xs:integer*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-8">
+      <description> A test whose essence is: `false() instance of xs:boolean`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>false() instance of xs:boolean</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-9">
+      <description> A test whose essence is: `false() instance of xs:anyAtomicType`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>false() instance of xs:anyAtomicType</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-10">
+      <description> A test whose essence is: `"a string" instance of xs:string`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>"a string" instance of xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-11">
+      <description> A test whose essence is: `not("false" instance of xs:boolean)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not("false" instance of xs:boolean)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-12">
+      <description> A test whose essence is: `1.1 instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1.1 instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-13">
+      <description> A test whose essence is: `not(1.1 instance of xs:integer)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1.1 instance of xs:integer)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-14">
+      <description> A test whose essence is: `xs:anyURI("http://www.example.com/") instance of xs:anyURI`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://www.example.com/") instance of xs:anyURI</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-15">
+      <description> A test whose essence is: `not(xs:anyURI("http://www.example.com/") instance of xs:string)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://www.example.com/") instance of xs:string)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-16">
+      <description> A test whose essence is: `not("a string" instance of xs:untypedAtomic)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not("a string" instance of xs:untypedAtomic)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-17">
+      <description> A test whose essence is: `(1, 2, 3, 4, 5) instance of xs:integer+`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3, 4, 5) instance of xs:integer+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-18">
+      <description> A test whose essence is: `not((1, 2, 3, 4, 5) instance of xs:integer)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not((1, 2, 3, 4, 5) instance of xs:integer)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-19">
+      <description> A test whose essence is: `not((1, 2, 3, 4, 5) instance of xs:integer?)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not((1, 2, 3, 4, 5) instance of xs:integer?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-20">
+      <description> A test whose essence is: `(1, 2, 3, 4, 5) instance of xs:integer*`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3, 4, 5) instance of xs:integer*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-21">
+      <description> A test whose essence is: `(1, 2, 3, 4, 5) instance of item()+`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3, 4, 5) instance of item()+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-22">
+      <description> A test whose essence is: `not((1, 2, "a string", 4, 5) instance of xs:integer*)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not((1, 2, "a string", 4, 5) instance of xs:integer*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-23">
+      <description> A test whose essence is: `not((1, 2, 1.1, 4, 5) instance of xs:integer*)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not((1, 2, 1.1, 4, 5) instance of xs:integer*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-24">
+      <description> A test whose essence is: `not((1, 2, "a string", 4, 5) instance of xs:string*)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not((1, 2, "a string", 4, 5) instance of xs:string*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-25">
+      <description> A test whose essence is: `(1, 2, "a string", 4, 5) instance of xs:anyAtomicType*`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, "a string", 4, 5) instance of xs:anyAtomicType*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-26">
+      <description> A test whose essence is: `(1, 2, count("one"), 4, 5) instance of xs:integer+`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, count("one"), 4, 5) instance of xs:integer+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-27">
+      <description> A test whose essence is: `not(1 instance of text())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of text())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-28">
+      <description> A test whose essence is: `not(1 instance of node())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of node())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-29">
+      <description> A test whose essence is: `not(1 instance of element())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of element())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-30">
+      <description> A test whose essence is: `not(1 instance of processing-instruction())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of processing-instruction())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-31">
+      <description> A test whose essence is: `not(1 instance of comment())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of comment())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-32">
+      <description> A comment appearing inside the paranteses of the sequence type text(). comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of text())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-33">
+      <description> A comment appearing inside the paranteses of the sequence type node(). comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of node())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-34">
+      <description> A comment appearing inside the paranteses of the sequence type element(). comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of element())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-35">
+      <description> A comment appearing inside the paranteses of the sequence type processing-instruction(). comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of processing-instruction())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-36">
+      <description> A comment appearing inside the paranteses of the sequence type comment(). comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of comment())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-37">
+      <description> A test whose essence is: `not(1 instance of empty-sequence())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(1 instance of empty-sequence())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-38">
+      <description> A test whose essence is: `not( (1, 2, 3) instance of empty-sequence())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not( (1, 2, 3) instance of empty-sequence())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-39">
+      <description> A test whose essence is: `() instance of empty-sequence()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>() instance of empty-sequence()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-40">
+      <description> Comment appearing inside the paranteses of empty-sequence(). comment </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>() instance of empty-sequence()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-41">
+      <description> A test whose essence is: `(((()))) instance of empty-sequence()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(((()))) instance of empty-sequence()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-42">
+      <description> A test whose essence is: `((), (), ()) instance of empty-sequence()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>((), (), ()) instance of empty-sequence()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-43">
+      <description> A test whose essence is: `((), "xs:string") instance of xs:string`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>((), "xs:string") instance of xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-44">
+      <description> A test whose essence is: `("xs:string", (), "xs:string") instance of xs:string+`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>("xs:string", (), "xs:string") instance of xs:string+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-45">
+      <description> A test whose essence is: `(1.1, (), 1) instance of xs:decimal+`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1.1, (), 1) instance of xs:decimal+</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-46">
+      <description> A test whose essence is: `not("a string" instance of xs:NOTATION)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not("a string" instance of xs:NOTATION)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-47">
+      <description> A test whose essence is: `not("a string" instance of xs:QName)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not("a string" instance of xs:QName)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-48">
+      <description> A test whose essence is: `1.1 instance of xs:decimal and not(1.1 instance of xs:integer)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1.1 instance of xs:decimal and not(1.1 instance of xs:integer)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-49">
+      <description> A type is referenced which doesn't exist. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 instance of prefixDoesNotExist:integer</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-50">
+      <description> A type is referenced which doesn't exist. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 instance of xs:doesNotExist</test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-51">
+      <description> A type is referenced which doesn't exist. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 instance of xs:qname</test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-52">
+      <description> A type is referenced which doesn't exist. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 instance of none</test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-53">
+      <description> A type is referenced which doesn't exist. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 instance of void</test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-54">
+      <description> A type is referenced which doesn't exist. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 instance of none()</test>
+      <result>
+         <any-of>
+            <error code="XPST0051"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-55">
+      <description> A type is referenced which doesn't exist. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>3 instance of void()</test>
+      <result>
+         <any-of>
+            <error code="XPST0051"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-56">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error() instance of xs:integer</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-57">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error() instance of xs:integer*</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-58">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>error() instance of empty-sequence()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-59">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(error(), 1) instance of empty-sequence()</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-60">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, error()) instance of xs:integer</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-61">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(error(), 1) instance of xs:integer</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-62">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, error()) instance of xs:integer*</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-63">
+      <description> The fn:error() function in combination with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(error(), 1) instance of xs:integer*</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-64">
+      <description> A test whose essence is: `not(((10)div(3)) instance of xs:integer)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(((10)div(3)) instance of xs:integer)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-65">
+      <description> A test whose essence is: `((10)idiv(3)) instance of xs:integer`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>((10)idiv(3)) instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprInstanceOf-66">
+      <description> A test whose essence is: `((10)mod(3)) instance of xs:integer`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>((10)mod(3)) instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-1">
+      <description> Test an element node against type element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of element()]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-2">
+      <description> Test an element node against type element(*). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of element(*)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-3">
+      <description> Test an element node against type element(*). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of element(e)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-4">
+      <description> Test an element node against type element(name). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of element(name)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-5">
+      <description> Test an element node against type attribute(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of attribute()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-6">
+      <description> Test an element node against type attribute(*). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of attribute(*)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-7">
+      <description> Test an element node against type attribute(e). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/> instance of attribute(e)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-8">
+      <description> Test an attribute node against type element(name). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>attribute e{"content"} instance of attribute(e)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-9">
+      <description> Test an attribute node against type attribute(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>attribute e{"content"} instance of attribute()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-10">
+      <description> Test an attribute node against type attribute(*). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>attribute e{"content"} instance of attribute(*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-11">
+      <description> Test an attribute node against type element(e). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>attribute e{"content"} instance of element(e)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-12">
+      <description> Test an attribute node against type element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>attribute e{"content"} instance of element()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-13">
+      <description> Test an attribute node against type element(*). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>attribute e{"content"} instance of element(*)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-14">
+      <description> Test an attribute node against type element(name). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>attribute e{"content"} instance of attribute(name)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-15">
+      <description> Check the return type of xs:nonPositiveInteger in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonPositiveInteger(0) instance of xs:nonPositiveInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-16">
+      <description> Check the return type of xs:negativeInteger in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:negativeInteger(-1) instance of xs:negativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-17">
+      <description> Check the return type of xs:long in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long(0) instance of xs:long</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-18">
+      <description> Check the return type of xs:int in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:int(0) instance of xs:int</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-19">
+      <description> Check the return type of xs:short in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:short(0) instance of xs:short</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-20">
+      <description> Check the return type of xs:byte in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:byte(0) instance of xs:byte</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-21">
+      <description> Check the return type of xs:nonNegativeInteger in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonNegativeInteger(0) instance of xs:nonNegativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-22">
+      <description> Check the return type of xs:nonNegativeInteger in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonNegativeInteger(0) instance of xs:nonNegativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-23">
+      <description> Check the return type of xs:unsignedLong in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedLong(0) instance of xs:unsignedLong</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-24">
+      <description> Check the return type of xs:unsignedInt in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedInt(0) instance of xs:unsignedInt</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-25">
+      <description> Check the return type of xs:unsignedShort in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedShort(0) instance of xs:unsignedShort</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-26">
+      <description> Check the return type of xs:unsignedByte in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedByte(0) instance of xs:unsignedByte</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-27">
+      <description> Check the return type of xs:positiveInteger in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:positiveInteger(1) instance of xs:positiveInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-28">
+      <description> Check the return type of xs:normalizedString in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:normalizedString("NCName") instance of xs:normalizedString</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-29">
+      <description> Check the return type of xs:token in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:token("NCName") instance of xs:token</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-30">
+      <description> Check the return type of xs:language in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:language("NCName") instance of xs:language</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-31">
+      <description> Check the return type of xs:NMTOKEN in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:NMTOKEN("NCName") instance of xs:NMTOKEN</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-32">
+      <description> Check the return type of xs:Name in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:Name("NCName") instance of xs:Name</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-33">
+      <description> Check the return type of xs:NCName in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:NCName("NCName") instance of xs:NCName</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-34">
+      <description> Check the return type of xs:ID in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:ID("NCName") instance of xs:ID</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-35">
+      <description> Check the return type of xs:IDREF in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:IDREF("NCName") instance of xs:IDREF</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-36">
+      <description> Check the return type of xs:ENTITY in a simple way. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:ENTITY("NCName") instance of xs:ENTITY</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-37">
+      <description> Check that xs:normalizedString has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:normalizedString("ncname") instance of xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-38">
+      <description> Check that xs:token has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:token("ncname") instance of xs:normalizedString</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-39">
+      <description> Check that xs:language has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:language("ncname") instance of xs:token</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-40">
+      <description> Check that xs:NMTOKEN has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:NMTOKEN("ncname") instance of xs:token</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-41">
+      <description> Check that xs:Name has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:Name("ncname") instance of xs:token</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-42">
+      <description> Check that xs:NCName has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:NCName("ncname") instance of xs:Name</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-43">
+      <description> Check that xs:ID has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:ID("ncname") instance of xs:NCName</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-44">
+      <description> Check that xs:IDREF has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:IDREF("ncname") instance of xs:NCName</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-45">
+      <description> Check that xs:ENTITY has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:ENTITY("ncname") instance of xs:NCName</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-46">
+      <description> Check that xs:nonPositiveInteger has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonPositiveInteger("0") instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-47">
+      <description> Check that xs:negativeInteger has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:negativeInteger("-1") instance of xs:nonPositiveInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-48">
+      <description> Check that xs:long has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long("0") instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-49">
+      <description> Check that xs:int has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:int("0") instance of xs:long</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-50">
+      <description> Check that xs:short has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:short("0") instance of xs:int</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-51">
+      <description> Check that xs:byte has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:byte("0") instance of xs:short</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-52">
+      <description> Check that xs:nonNegativeInteger has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonNegativeInteger("0") instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-53">
+      <description> Check that xs:unsignedLong has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedLong("0") instance of xs:nonNegativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-54">
+      <description> Check that xs:unsignedInt has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedInt("0") instance of xs:unsignedLong</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-55">
+      <description> Check that xs:unsignedShort has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedShort("0") instance of xs:unsignedInt</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-56">
+      <description> Check that xs:unsignedByte has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedByte("0") instance of xs:unsignedShort</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-57">
+      <description> Check that xs:positiveInteger has the correct parent type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:positiveInteger("1") instance of xs:nonNegativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-58">
+      <description> Check that xs:nonNegativeInteger is not a child of nonPositiveInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonNegativeInteger("1") instance of xs:nonPositiveInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-59">
+      <description> Check that xs:nonNegativeInteger is not a child of negativeInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonNegativeInteger("1") instance of xs:negativeInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-60">
+      <description> Check that xs:positiveInteger is not a child of negativeInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:positiveInteger("1") instance of xs:negativeInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-61">
+      <description> Check that xs:positiveInteger is not a child of nonPositiveInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:positiveInteger("1") instance of xs:nonPositiveInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-62">
+      <description> Check that xs:long is not a child of negativeInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long("1") instance of xs:negativeInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-63">
+      <description> Check that xs:long is not a child of nonPositiveInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long("1") instance of xs:nonPositiveInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-64">
+      <description> Check that xs:long is not a child of nonNegativeInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long("1") instance of xs:nonNegativeInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-65">
+      <description> Check that xs:long is not a child of positiveInteger. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long("1") instance of xs:positiveInteger</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-66">
+      <description> Check that xs:token is not a child of xs:NCName. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:token("ncname") instance of xs:NCName</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-67">
+      <description> Check that xs:ID is not a child of xs:NCName. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:ID("ncname") instance of xs:IDREF</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-68">
+      <description> Check that xs:ENTITY is not a child of xs:NCName. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:ENTITY("ncname") instance of xs:IDREF</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-69">
+      <description> Check that xs:language is not a child of xs:NMTOKEN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:language("ncname") instance of xs:NMTOKEN</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-70">
+      <description> Check that xs:Name is not a child of xs:language. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:Name("ncname") instance of xs:language</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-71">
+      <description> Check that xs:normalizedString is not a child of xs:token. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:normalizedString("ncname") instance of xs:token</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-72">
+      <description> Ensure a name test with the attribute axis gets the correct type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a=""/>/attribute::a instance of attribute(a)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-73">
+      <description> Ensure a name test with the abbreviated attribute axis gets the correct type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a=""/>/@a instance of attribute(a)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-74">
+      <description> Ensure that a cast to xs:byte is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:byte(xs:double("1")) instance of xs:byte</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-75">
+      <description> Ensure that a cast to xs:nonPositiveInteger is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonPositiveInteger(xs:double("0")) instance of xs:nonPositiveInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-76">
+      <description> Ensure that a cast to xs:negativeInteger is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:negativeInteger(xs:double("-4")) instance of xs:negativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-77">
+      <description> Ensure that a cast to xs:long is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long(xs:double("-4")) instance of xs:long</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-78">
+      <description> Ensure that a cast to xs:int is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:int(xs:double("-4")) instance of xs:int</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-79">
+      <description> Ensure that a cast to xs:short is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:short(xs:double("-4")) instance of xs:short</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-80">
+      <description> Ensure that a cast to xs:nonNegativeInteger is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonNegativeInteger(xs:double("4")) instance of xs:nonNegativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-81">
+      <description> Ensure that a cast to xs:unsignedLong is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedLong(xs:double("4")) instance of xs:unsignedLong</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-82">
+      <description> Ensure that a cast to xs:unsignedInt is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedInt(xs:double("4")) instance of xs:unsignedInt</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-83">
+      <description> Ensure that a cast to xs:unsignedShort is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedShort(xs:double("4")) instance of xs:unsignedShort</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-84">
+      <description> Ensure that a cast to xs:unsignedByte is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedByte(xs:double("4")) instance of xs:unsignedByte</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-85">
+      <description> Ensure that a cast to xs:positiveInteger is of the right type, when casting from xs:double. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:positiveInteger(xs:double("4")) instance of xs:positiveInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-86">
+      <description> Ensure that a cast to xs:byte is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:byte(xs:float("1")) instance of xs:byte</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-87">
+      <description> Ensure that a cast to xs:nonPositiveInteger is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonPositiveInteger(xs:float("0")) instance of xs:nonPositiveInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-88">
+      <description> Ensure that a cast to xs:negativeInteger is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:negativeInteger(xs:float("-4")) instance of xs:negativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-89">
+      <description> Ensure that a cast to xs:long is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:long(xs:float("-4")) instance of xs:long</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-90">
+      <description> Ensure that a cast to xs:int is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:int(xs:float("-4")) instance of xs:int</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-91">
+      <description> Ensure that a cast to xs:short is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:short(xs:float("-4")) instance of xs:short</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-92">
+      <description> Ensure that a cast to xs:nonNegativeInteger is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:nonNegativeInteger(xs:float("4")) instance of xs:nonNegativeInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-93">
+      <description> Ensure that a cast to xs:unsignedLong is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedLong(xs:float("4")) instance of xs:unsignedLong</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-94">
+      <description> Ensure that a cast to xs:unsignedInt is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedInt(xs:float("4")) instance of xs:unsignedInt</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-95">
+      <description> Ensure that a cast to xs:unsignedShort is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedShort(xs:float("4")) instance of xs:unsignedShort</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-96">
+      <description> Ensure that a cast to xs:unsignedByte is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:unsignedByte(xs:float("4")) instance of xs:unsignedByte</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-97">
+      <description> Ensure that a cast to xs:positiveInteger is of the right type, when casting from xs:float. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:positiveInteger(xs:float("4")) instance of xs:positiveInteger</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-98">
+      <description> Instance of involving empty-sequence(). </description>
+      <created by="Frans Englich" on="2008-11-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>node-name(text {""}) instance of empty-sequence()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-99">
+      <description> Test using attribute(). </description>
+      <created by="Frans Englich" on="2009-01-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e attr=""/>/(@attr instance of attribute(), @* instance of attribute())]]></test>
+      <result>
+         <assert-string-value>true true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExprInstanceOf-100">
+      <description> Test using element(). </description>
+      <created by="Frans Englich" on="2009-01-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a><b/></a>/(b instance of element(), * instance of element())]]></test>
+      <result>
+         <assert-string-value>true true</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-instance-of-001">
+      <description> Test that the types of variables are correctly preserved on the stack. </description>
+      <created by="Oliver Hallam" on="2008-11-25"/>
+      <test>
+        for $x in (xs:integer(1), xs:decimal(1)) return (((($x + 1) * 2) - 1) instance of xs:integer)
+      </test>
+      <result>
+         <assert-string-value>true false</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

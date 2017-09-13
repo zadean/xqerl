@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-prefix-from-QName">
+   <description>Tests for the prefix-from-QName() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-prefix-from-QName"/>
+
+   <test-case name="fn-prefix-from-qname-1">
+      <description> Evaluation of fn-prefix-fromQName function with wrong arity. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <test>fn:prefix-from-QName("arg1","arg2")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-2">
+      <description> Evaluation of fn-prefix-fromQName function with wrong argument type. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <test>fn:prefix-from-QName(xs:integer(1))</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-3">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:string function and no prefix. Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <test>fn:count(fn:prefix-from-QName(xs:QName("name")))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-4">
+      <description> Evaluation of fn-prefix-fromQName function as argument to xs:string function and no prefix Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <test>fn:string-length(xs:string(fn:prefix-from-QName(xs:QName("name"))))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-5">
+      <description> Evaluation of fn-prefix-fromQName function as argument to xs:string function and with prefix </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>xs:string(fn:prefix-from-QName(xs:QName("foo:name")))</test>
+      <result>
+         <assert-string-value>foo</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-6">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:string function and with prefix. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:string(fn:prefix-from-QName(xs:QName("foo:name")))</test>
+      <result>
+         <assert-string-value>foo</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-7">
+      <description> Evaluation of fn-prefix-fromQName function with argument set to empty sequence. Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <test>fn:count(fn:prefix-from-QName(()))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-8">
+      <description> Evaluation of fn-prefix-fromQName function with a prefix that is not defined. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <test>fn:prefix-from-QName(xs:QName("foo:bar"))</test>
+      <result>
+         <error code="FONS0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-9">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:upper-case. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:upper-case(fn:prefix-from-QName(xs:QName("foo:bar")))</test>
+      <result>
+         <assert-string-value>FOO</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-10">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:lower-case. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="FOO" uri="http://example.org"/>
+      </environment>
+      <test>fn:lower-case(fn:prefix-from-QName(xs:QName("FOO:bar")))</test>
+      <result>
+         <assert-string-value>foo</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-11">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:lower-case. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:concat(fn:prefix-from-QName(xs:QName("foo:bar")),":bar")</test>
+      <result>
+         <assert-string-value>foo:bar</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-12">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:substring-before. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:substring-before(fn:prefix-from-QName(xs:QName("foo:bar")),"oo")</test>
+      <result>
+         <assert-string-value>f</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-13">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:substring-after. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:substring-after(fn:prefix-from-QName(xs:QName("foo:bar")),"f")</test>
+      <result>
+         <assert-string-value>oo</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-14">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:string-length. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:string-length(fn:prefix-from-QName(xs:QName("foo:bar")))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-15">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:substring. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:substring(fn:prefix-from-QName(xs:QName("foo:bar")),2)</test>
+      <result>
+         <assert-string-value>oo</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-16">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:string-join. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:string-join((fn:prefix-from-QName(xs:QName("foo:bar")),":bar"),"")</test>
+      <result>
+         <assert-string-value>foo:bar</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-17">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:starts-with. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:starts-with(fn:prefix-from-QName(xs:QName("foo:bar")),"f")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-18">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:ends-with. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:ends-with(fn:prefix-from-QName(xs:QName("foo:bar")),"f")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-19">
+      <description> Evaluation of fn-prefix-fromQName function as argument to fn:contains. </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+      </environment>
+      <test>fn:contains(fn:prefix-from-QName(xs:QName("foo:bar")),"f")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-prefix-from-qname-20">
+      <description> Evaluation of fn-prefix-fromQName function with two namespaces declared with same namespace (different case). </description>
+      <created by="Carmelo Montanez" on="2006-02-17"/>
+      <environment>
+         <namespace prefix="foo" uri="http://example.org"/>
+         <namespace prefix="FOO" uri="http://example.org"/>
+      </environment>
+      <test>fn:prefix-from-QName(xs:QName("foo:bar"))</test>
+      <result>
+         <assert-string-value>foo</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-PrefixFromQName-1">
+      <description> A test whose essence is: `prefix-from-QName()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>prefix-from-QName()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-PrefixFromQName-2">
+      <description> A test whose essence is: `prefix-from-QName(1, 2)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>prefix-from-QName(1, 2)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-PrefixFromQName-3">
+      <description> A test whose essence is: `empty(prefix-from-QName( () ))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(prefix-from-QName( () ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-PrefixFromQName-4">
+      <description> A test whose essence is: `prefix-from-QName( QName("example.com/", "pre:lname")) eq "pre"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>prefix-from-QName( QName("example.com/", "pre:lname")) eq "pre"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

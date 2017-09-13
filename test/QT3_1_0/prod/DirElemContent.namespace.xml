@@ -1,0 +1,1448 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="prod-DirElemContent.namespace">
+   <description>Tests for the DirElemContent.namespace production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-DirElemContent.namespace"/>
+   <link type="spec" document="XQuery" section-number="3.7.1.2" idref="id-namespaces"/>
+   
+   <environment name="MixNS">
+      <source role="." file="DirElemContent.namespace/MixNS.xml">
+         <description>Small tree with element names in mixed namespaces.
+            Note: Use @index to identify elements precisely.</description>
+         <created by="David Marston" on="2003-03-25"/>
+      </source>
+   </environment>
+   
+   <environment name="inscope">
+      <source role="." file="DirElemContent.namespace/inscope.xml">
+         <description>Simple document with namespaces</description>
+         <created by="Andreas Behm" on="2005-08-26"/>
+      </source>
+   </environment>
+
+   <test-case name="Constr-namespace-1">
+      <description> Namespace Declarations - Use undeclared namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo:elem/>]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-2">
+      <description> Namespace Declarations - declare namespace with prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.example.com"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-3">
+      <description> Namespace Declarations - declare default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns="http://www.example.com"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns="http://www.example.com"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-4">
+      <description> Namespace Declarations - duplicate namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com" xmlns:foo="http://www.example.com"/>]]></test>
+      <result>
+         <error code="XQST0071"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-5">
+      <description> Namespace Declarations - duplicate default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns="http://www.example.com" xmlns="http://www.example.com"/>]]></test>
+      <result>
+         <error code="XQST0071"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-6">
+      <description> Namespace Declarations - local part of declaration is xml </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:xml="http://www.example.com"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-7">
+      <description> Namespace Declarations - local part of declaration is xmlns </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:xmlns="http://www.example.com"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-8">
+      <description> Namespace Declarations - child inherits namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<elem xmlns:foo="http://www.example.com"><foo:child/></elem>)/*:child]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo:child xmlns:foo="http://www.example.com"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-9">
+      <description> Namespace Declarations - overriding parents namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com/parent"><foo:child xmlns:foo="http://www.example.com/child"/></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.example.com/parent"><foo:child xmlns:foo="http://www.example.com/child"/></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-10">
+      <description> Namespace Declarations - overriding prolog namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace foo="http://www.example.com/prolog"; <foo:elem xmlns:foo="http://www.example.com/element"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo:elem xmlns:foo="http://www.example.com/element"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-11">
+      <description> Namespace Declarations - select child of element overriding parent namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<elem xmlns:foo="http://www.example.com/parent"><foo:child xmlns:foo="http://www.example.com/child"><foo:grand-child/></foo:child></elem>)//*:grand-child]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo:grand-child xmlns:foo="http://www.example.com/child"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-12">
+      <description> Namespace Declarations - select child of element overriding prolog namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace foo="http://www.example.com/prolog"; (<elem xmlns:foo="http://www.example.com/parent"><foo:child/></elem>)//*:child]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo:child xmlns:foo="http://www.example.com/parent"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-13">
+      <description> Namespace Declarations - undeclare namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo:elem xmlns:foo="http://www.example.com/parent"><child xmlns:foo=""/></foo:elem>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<foo:elem xmlns:foo="http://www.example.com/parent"><child/></foo:elem>]]></assert-xml>
+            <error code="XQST0085"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-14">
+      <description> Namespace Declarations - use undeclared parent prefix in child </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo:elem xmlns:foo="http://www.example.com/parent"><child xmlns:foo=""><foo:grand-child/></child></foo:elem>]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0081"/>
+            <error code="XQST0085"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-15">
+      <description> Namespace Declarations - use undeclared prolog prefix in child </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace foo="http://www.example.com/prolog"; <elem xmlns:foo=""><foo:child/></elem>]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0081"/>
+            <error code="XQST0085"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-16">
+      <description> Namespace Declarations - select child of element overriding namespace prefix </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<foo:elem xmlns:foo="http://www.example.com/parent"><child xmlns:foo=""><grand-child/></child></foo:elem>)//grand-child]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<grand-child/>]]></assert-xml>
+            <error code="XQST0085"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-17">
+      <description> Namespace Declarations - child inherits default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<elem xmlns="http://www.example.com"><child/></elem>)/*:child]]></test>
+      <result>
+         <assert-xml><![CDATA[<child xmlns="http://www.example.com"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-18">
+      <description> Namespace Declarations - override parents default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns="http://www.example.com/parent"><child xmlns="http://www.example.com/child"/></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns="http://www.example.com/parent"><child xmlns="http://www.example.com/child"/></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-19">
+      <description> Namespace Declarations - override prologs default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/prolog"; <elem xmlns="http://www.example.com/element"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns="http://www.example.com/element"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-20">
+      <description> Namespace Declarations - child inherits overridden parents default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<elem xmlns="http://www.example.com/parent"><child xmlns="http://www.example.com/child"><grand-child/></child></elem>)//*:grand-child]]></test>
+      <result>
+         <assert-xml><![CDATA[<grand-child xmlns="http://www.example.com/child"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-21">
+      <description> Namespace Declarations - child inherits overridden prologs default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/prolog"; (<elem xmlns="http://www.example.com/element"><child/></elem>)/*:child]]></test>
+      <result>
+         <assert-xml><![CDATA[<child xmlns="http://www.example.com/element"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-22">
+      <description> Namespace Declarations - undeclare default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns="http://www.example.com/parent"><child xmlns=""/></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns="http://www.example.com/parent"><child xmlns=""/></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-23">
+      <description> Namespace Declarations - child inherits undeclared default namespace </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<elem xmlns="http://www.example.com/parent"><child xmlns=""><grand-child/></child></elem>)//*:grand-child]]></test>
+      <result>
+         <assert-xml><![CDATA[<grand-child/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-24">
+      <description> Namespace Declarations - namespace URI is not string literal </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns="{'http://www.example.com'}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-25">
+      <description> Namespace Declarations - namespace URI is not string literal </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns="http://www.example.com{'/namespace'}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-26">
+      <description> Namespace Declarations - test namespace added to statically known namespaces: element content </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <environment ref="MixNS"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:cm="http://www.example.com">{count(//cm:b)}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:cm="http://www.example.com">1</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-27">
+      <description> Namespace Declarations - test namespace added to statically known namespaces: attribute content </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <environment ref="MixNS"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:cm="http://www.example.com" attr="{count(//cm:b)}"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:cm="http://www.example.com" attr="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-namespace-29">
+      <description> Namespace Declarations - test namespace removed from statically known namespaces after end of element </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <environment ref="MixNS"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<parent><child xmlns:cm="http://www.example.com"/><child>{count(//cm:b)}</child></parent>]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-1">
+      <description> A namespace declaration inside a direct element constructor is not in-scope for the next operand of the comma operator. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<name xmlns:ns="http://example.com/NS"/>, ns:nametest]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-2" covers="error-XQST0118">
+      <description> Element constructors aren't well-formed despite the namespace declarations. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a:elem xmlns:a="http://example.com/NS" xmlns:b="http://example.com/NS"></b:elem>]]></test>
+      <result>
+         <error code="XQST0118"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-3" covers="error-XQST0118">
+      <description> Element constructors aren't well-formed despite the namespace declarations. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a:elem xmlns:a="http://example.com/NS" xmlns:b="http://example.com/NS"></b:elem> declare default element namespace "http://example.com/NS";]]></test>
+      <result>
+         <error code="XQST0118"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-4">
+      <description> A namespace declaration binding to a a one-letter NCName. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare namespace p = "http://example.com/QuiteWeirdNamespace"; empty(p:e[1])</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPDY0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-5">
+      <description> Verify the 'xml' prefix is in scope in a direct constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(in-scope-prefixes(<e/>)[. eq "xml"])]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-6">
+      <description> Verify the 'xml' prefix is in scope in a computed constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count(in-scope-prefixes(element e{})[. eq "xml"])</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-7">
+      <description> Default namespace declarations does not affect the default function namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e a="{count()}" xmlns="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPST0017"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-8">
+      <description> Default namespace declarations does not affect the default function namespace(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e a="{p:count()}" xmlns:p="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPST0017"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-9">
+      <description> Default namespace declarations does not affect the default function namespace(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e xmlns="http://www.w3.org/2001/XMLSchema" a="{count()}"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPST0017"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-10">
+      <description> Default namespace declarations does not affect the default function namespace(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e xmlns:p="http://www.w3.org/2001/XMLSchema" a="{p:count()}"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPST0017"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-11">
+      <description> A name test whose namespace is declared with a default namespace attribute. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e xmlns="http://www.w3.org/2001/XMLSchema" a="{nametest}"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPDY0002"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-12">
+      <description> A name test whose namespace is declared with a default namespace attribute(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e a="{nametest}" xmlns="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPDY0002"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-13">
+      <description> A name test whose namespace is declared with a prefixed namespace attribute. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e xmlns:p="http://www.w3.org/2001/XMLSchema" p:p="{p:nametest}"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPDY0002"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-14">
+      <description> A name test whose namespace is declared with a prefixed namespace attribute(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default function namespace "http://example.com"; <e p:p="{p:nametest}" xmlns:p="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+        <any-of>
+         <error code="XQST0066"/> <!-- added znd -->
+         <error code="XPDY0002"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-15">
+      <description> A namespace must be a literal. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="content{{ {'1'}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-16">
+      <description> A namespace must be a literal(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="content{{ {'1'}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-17">
+      <description> A namespace must be a literal, for which bracket-escapes are invalid. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="content{()}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-18">
+      <description> A namespace must be a literal, for which bracket-escapes are invalid(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="content{()}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-19">
+      <description> Ensure that the correct default element namespace is used, with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 instance of integer}" xmlns="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.w3.org/2001/XMLSchema" a="true"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-20">
+      <description> Ensure that the correct default element namespace is used, with 'treat as'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 treat as integer}" xmlns="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.w3.org/2001/XMLSchema" a="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-21">
+      <description> Ensure that the correct default element namespace is used, with 'cast as'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 cast as string}" xmlns="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.w3.org/2001/XMLSchema" a="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-22">
+      <description> Ensure that the correct default element namespace is used, with 'cast as'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 castable as string}" xmlns="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.w3.org/2001/XMLSchema" a="true"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-23">
+      <description> Ensure that the correct default element namespace is used, with an element name test. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{<e><b>data</b></e>/b}" xmlns="http://www.example.com/"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/" a="data"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-24">
+      <description> Ensure that the correct default element namespace is used, with an attribute name test. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{<e b="data"/>/@b}" xmlns="http://www.example.com/"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/" a="data"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-25">
+      <description> Test that an empty namespace declaration is handled correctly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace b = "http://www.example.com/"; empty(<e xmlns="http://www.example.com/"><d xmlns=""><b/></d></e>/b:d/b:b)]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-26">
+      <description> Ensure that a declaration is only in-scope for the element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:d="http://www.example.com/"/>, d:d]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-27">
+      <description> Ensure that when one namespace declaration goes out of scope, that the one above doesn't dissapear. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="http://www.w3.org/2001/XMLSchema"> <b xmlns:p="http://www.w3.org/2001/XMLSchema"/> {p:integer(1)} </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.w3.org/2001/XMLSchema"><b/>1</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-28">
+      <description> Ensure that when one namespace declaration goes out of scope, that the one above persists. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="http://www.w3.org/2005/xpath-functions"> <b xmlns:p="http://www.w3.org/2001/XMLSchema"/> {fn:count(0)} </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.w3.org/2005/xpath-functions"><b xmlns:p="http://www.w3.org/2001/XMLSchema"/>1</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-29">
+      <description> Ensure that the correct namespace is used, with 'instance of'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 instance of p:integer}" xmlns:p="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.w3.org/2001/XMLSchema" a="true"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-30">
+      <description> Ensure that the correct namespace is used, with 'treat as'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 treat as p:integer}" xmlns:p="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.w3.org/2001/XMLSchema" a="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-31">
+      <description> Ensure that the correct namespace is used, with 'cast as'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 cast as p:string}" xmlns:p="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.w3.org/2001/XMLSchema" a="1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-32">
+      <description> Ensure that the correct namespace is used, with 'cast as'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{1 castable as p:string}" xmlns:p="http://www.w3.org/2001/XMLSchema"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.w3.org/2001/XMLSchema" a="true"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-33">
+      <description> Use a namespace binding in range variables that appears after them in query order. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a attr="{let $p:name := 3 return $p:name}" xmlns:p="http://www.example.com/"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns:p="http://www.example.com/" attr="3"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-34">
+      <description> Use an enclosed expression inside an namespace declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="http://{exa}mple.com/"/>/@xmlns]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-35">
+      <description> Use an enclosed expression inside an namespace declaration(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="{1}"/>/@xmlns]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-36">
+      <description> Use an enclosed expression inside an namespace declaration(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="{xs:anyURI("http://www.example.com/")}"/>/@xmlns]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-37">
+      <description> Use an enclosed expression inside an namespace declaration(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="{xs:untypedAtomic("http://www.example.com/")}"/>/@xmlns]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-38">
+      <description> Use an inproperly enclosed expression inside an namespace declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="/www.example.com/}"/>/@xmlns]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-39">
+      <description> Combine an empty default namespace, with a full namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p = "http://example.com/"; <p:e xmlns=""/>, count(in-scope-prefixes(<p:e xmlns=""/>))]]></test>
+      <result>
+         <assert-xml><![CDATA[<p:e xmlns:p="http://example.com/"/>2]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-40">
+      <description> Ensure the namespaces in-scope are outputted. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p = "http://www.example.com/A"; <e xmlns="http://www.example.com/A" xmlns:A="http://www.example.com/C"> <b xmlns:B="http://www.example.com/C"/> </e>/p:b]]></test>
+      <result>
+         <assert-xml><![CDATA[<b xmlns:B="http://www.example.com/C" xmlns:A="http://www.example.com/C" xmlns="http://www.example.com/A"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-41">
+      <description> Ensure all namespaces in-scope, through a couple of elements, are found by in-scope-prefixes(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p = "http://www.example.com/A"; "START", for $i in in-scope-prefixes(<e xmlns="http://www.example.com/A" xmlns:A="http://www.example.com/C"> <b xmlns:B="http://www.example.com/C" /> </e>/p:b) order by $i return $i, "END"]]></test>
+      <result>
+         <assert-string-value>START  A B xml END</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-42">
+      <description> A direct element constructor with a redundant, prefixed namespace declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="http://www.example.com/"> <e xmlns:p="http://www.example.com/"/> </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.example.com/"><e/></e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-43">
+      <description> A direct element constructor with a redundant namespace declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="http://www.example.com/"> <e xmlns="http://www.example.com/"/> </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><e/></e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-44">
+      <description> Use an inproperly enclosed expression inside an namespace declaration(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="/www.example.com/{"/>/@xmlns]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0022"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-45">
+      <description> Ensure the namespace declaration is output for a copied attribute. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $i := <e xmlns:p="http://example.com" p:anAttribute="attrValue"/> return <a>{$i/@*}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns:p="http://example.com" p:anAttribute="attrValue"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-46">
+      <description> Ensure no declaration is output for the XML namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $i := <e xml:space="preserve"/> return <a>{$i/@*}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xml:space="preserve"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-47">
+      <description> Use an empty-string namespace declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns=""/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-48">
+      <description> Declare a prefix that isn't used. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="http://example.com"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://example.com"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-49">
+      <description> Use a 'declare default element namespace' in addition to binding to the empty prefix. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/A"; <anElement xmlns="http://www.example.com/B"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<anElement xmlns="http://www.example.com/B"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-50">
+      <description> Ensure undeclarations affect path expressions correctly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="http://www.example.com/A" xmlns:A="http://www.example.com/C"> <b xmlns:B="http://www.example.com/C" xmlns=""/> </e>/b]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<b xmlns:B="http://www.example.com/C" xmlns:A="http://www.example.com/C"/>]]></assert-xml>
+            <assert-xml><![CDATA[<b xmlns:A="http://www.example.com/C" xmlns:B="http://www.example.com/C"/>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-51">
+      <description> Use an empty-string namespace declaration(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://example.com"; <e xmlns=""/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-52">
+      <description> Use an empty-string namespace declaration(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://example.com/"; <a> <e xmlns=""/> </a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns="http://example.com/"><e xmlns=""/></a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-53">
+      <description> Ensure a namespace undeclaration aren't counted as a namespace binding. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(in-scope-prefixes(<a xmlns="http://example.com/"> <e xmlns=""/> </a>/e))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-54">
+      <description> Ensure an undeclaration is treated properly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e xmlns="http://example.com/"><a xmlns=""/></e>/namespace-uri(exactly-one(*)))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-55">
+      <description> A combination of computed and direct constructors with namespace undeclarations. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="http://example.com/"> <b xmlns=""> { attribute {QName("http://example.com/2", "p:attr")} {()} } </b> </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://example.com/"><b xmlns="" xmlns:p="http://example.com/2" p:attr=""/></e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-56">
+      <description> Check that an attribute name tests properly interact with namespace declarations. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://example.com/"; <r xmlns:p="http://example.com/"> { <e p:att=""/>/(@att, attribute::att) } </r>]]></test>
+      <result>
+         <assert-xml><![CDATA[<r xmlns="http://example.com/" xmlns:p="http://example.com/"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-57">
+      <description> Attempt an attribute node copy that never will happen. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://example.com/"; declare namespace p = "http://example.com/"; <r> { <e p:att=""/>/(@att) } </r>]]></test>
+      <result>
+         <assert-xml><![CDATA[<r xmlns="http://example.com/"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-58">
+      <description> Use the pre-declared prefixes in element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<r> <xs:element/> <local:element/> <fn:element/> <xml:element/> </r>]]></test>
+      <result>
+         <assert-xml><![CDATA[<r><xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema"/><local:element xmlns:local="http://www.w3.org/2005/xquery-local-functions"/><fn:element xmlns:fn="http://www.w3.org/2005/xpath-functions"/><xml:element/></r>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-59">
+      <description> Use the {}-escape mechanism. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<p:e xmlns:p="http://example.com/{{{{{{}}}}}}asd"/>)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>http://example.com/{{{}}}asd</assert-string-value>
+            <error code="XQST0046"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-61">
+      <description> An non-matched { inside a namespace constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="{"/>]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0022"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-62">
+      <description> An non-matched } inside a namespace constructor(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="}"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-63">
+      <description> An non-matched { inside a namespace constructor(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="content{"/>]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0022"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-64">
+      <description> An non-matched } inside a namespace constructor(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="content}"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-65">
+      <description> Extract an escaped namespace with fn:namespace-for-prefix(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri-for-prefix("p", <e xmlns:p="http://example.com/{{}}{{{{}}}}"/>)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>http://example.com/{}{{}}</assert-string-value>
+            <error code="XQST0046"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-67">
+      <description> An non-matched { inside a namespace constructor with content afterwards. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="{content"/>]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0022"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-68">
+      <description> An non-matched } inside a namespace constructor with content afterwards(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="}content"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-69">
+      <description> An non-matched { inside a namespace constructor with content afterwards(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="content{content"/>]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XPST0022"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-70">
+      <description> An non-matched } inside a namespace constructor with content afterwards(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="content}content"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-71">
+      <description> Enclosed expressions cannot be used. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="{"http://example.com/"}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-72">
+      <description> Enclosed expressions cannot be used(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="{"http://example.com/"}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-73">
+      <description> Enclosed expressions containing the empty sequence cannot be used. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="{()}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-74">
+      <description> Enclosed expressions containing the empty sequence cannot be used(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="{()}"/>]]></test>
+      <result>
+         <error code="XQST0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-75">
+      <description> Serialize a namespace that has braces. Changed by MHK to avoid problems canonicalizing an invalid namespace URI </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<e xmlns="http://example.com/{{1}}"/>)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>http://example.com/{1}</assert-string-value>
+            <error code="XQST0046"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-76">
+      <description> Serialize a prefixed namespace that has braces. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="http://example.com/{{1}}"/>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<e xmlns:p="http://example.com/{1}"/>]]></assert-xml>
+            <error code="XQST0046"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-77">
+      <description> Pull out a namespace prefix that shadows another. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace t = "http://example.com/2"; <p:a xmlns:p="http://example.com/"> <p:e xmlns:p="http://example.com/2"/> </p:a>//t:e]]></test>
+      <result>
+         <assert-xml><![CDATA[<p:e xmlns:p="http://example.com/2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-78">
+      <description> Ensure that namespaces are expanded in the correct places(positive test). </description>
+      <created by="Frans Englich" on="2009-02-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $e := document{(<X1:L xmlns:X1="http://example.com/URL1">1</X1:L>, <X2:L xmlns:X2="http://example.com/URL2">2</X2:L>)} return <outer xmlns:P="http://example.com/URL1"> { let $outer as element(P:L) := $e/element(P:L) return <inner xmlns:P="http://example.com/URL2"> { let $inner as element(P:L) := $e/element(P:L) return ($outer, $inner) } </inner> } </outer>]]></test>
+      <result>
+         <assert-xml><![CDATA[<outer xmlns:P="http://example.com/URL1"><inner xmlns:P="http://example.com/URL2"><X1:L xmlns:X1="http://example.com/URL1">1</X1:L><X2:L xmlns:X2="http://example.com/URL2">2</X2:L></inner></outer>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElemNamespace-79">
+      <description> Ensure that namespaces are expanded in the correct places(negative test). </description>
+      <created by="Frans Englich" on="2009-02-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $e := document{(<X1:L xmlns:X1="http://ns.example.com/URL1">1</X1:L>, <X2:L xmlns:X2="http://ns.example.com/URL2">2</X2:L>)} return <outer xmlns:P="http://ns.example.com/URL1"> { let $outer as element(P:L) := $e/element(P:L) return <inner xmlns:P="http://ns.example.com/URL2"> { let $inner as element(P:L) := $outer return $inner } </inner> } </outer>]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="DirectConElemNamespace-3">
+      <description> Use the ""-escape mechanism. Modified by MHK to avoid generating output that won't canonicalize - bug 6868 </description>
+      <created by="Sorin Nasoi" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<p:e xmlns:p="http://ns.example.com/ns?val=""""""asd"/>)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>http://ns.example.com/ns?val="""asd</assert-string-value>
+            <error code="XQST0046"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="DirectConElemNamespace-4">
+      <description> Use the ""-escape mechanism. Modified by MHK to avoid generating output that won't canonicalize - bug 6868 </description>
+      <created by="Sorin Nasoi" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<p:e xmlns:p="http://ns.example.com/ns?val=""asd"/>)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>http://ns.example.com/ns?val="asd</assert-string-value>
+            <error code="XQST0046"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="DirectConElemNamespace-5">
+      <description> Use the ''-escape mechanism. Modified by MHK to avoid generating output that won't canonicalize - bug 6868 </description>
+      <created by="Sorin Nasoi" on="2009-04-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<p:e xmlns:p='http://ns.example.com/ns?val=''''''asd'/>)]]></test>
+      <result>
+         <assert-string-value>http://ns.example.com/ns?val='''asd</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="DirectConElemNamespace-6">
+      <description> Use the ''-escape mechanism. Modified by MHK to avoid generating output that won't canonicalize - bug 6868 </description>
+      <created by="Sorin Nasoi" on="2009-04-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<e xmlns='http://ns.example.com/ns?val=''asd'/>)]]></test>
+      <result>
+         <assert-string-value>http://ns.example.com/ns?val='asd</assert-string-value>
+      </result>
+   </test-case>
+   
+      <test-case name="Constr-inscope-1">
+      <description> Rename inscope namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new xmlns:foo="http://www.example.com">{//@*:attr1}</new>]]></test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<new xmlns:foo="http://www.example.com" xmlns:XXX="http://www.example.com/parent1" XXX:attr1="attr1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-2">
+      <description> Rename inscope namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new>{//@*:attr1, //@*:attr2}</new>]]></test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<new xmlns:foo="http://www.example.com/parent1" xmlns:XXX="http://www.example.com/parent2" foo:attr1="attr1" XXX:attr2="attr2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-3">
+      <description> Rename inscope namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <parent1 xmlns:foo="http://www.example.com/parent1" foo:attr1="attr1"/> return <new xmlns:foo="http://www.example.com">{$x//@*:attr1}</new>]]></test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<new xmlns:foo="http://www.example.com" xmlns:XXX="http://www.example.com/parent1" XXX:attr1="attr1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-4">
+      <description> Rename inscope namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <inscope> <parent1 xmlns:foo="http://www.example.com/parent1" foo:attr1="attr1"/> <parent2 xmlns:foo="http://www.example.com/parent2" foo:attr2="attr2"/></inscope> return <new>{$x//@*:attr1, $x//@*:attr2}</new>]]></test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<new xmlns:foo="http://www.example.com/parent1" xmlns:XXX="http://www.example.com/parent2" foo:attr1="attr1" XXX:attr2="attr2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-5">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new>{//*:child3}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new><foo:child3 xmlns:foo="http://www.example.com/parent3"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-6">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new>{//*:child4}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new><child4 xmlns="http://www.example.com/parent4"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-7">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <parent3 xmlns:foo="http://www.example.com/parent3"><foo:child3/></parent3> return <new>{$x//*:child3}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new><foo:child3 xmlns:foo="http://www.example.com/parent3"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-8">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <parent4 xmlns="http://www.example.com/parent4"><child4/></parent4> return <new>{$x//*:child4}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new><child4 xmlns="http://www.example.com/parent4"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-9">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new>{//*:child1}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new><child1 xmlns:foo="http://www.example.com/parent1" attr="child"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-10">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new xmlns="http://www.example.com">{//*:child2}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new xmlns="http://www.example.com"><child2 xmlns="" xmlns:foo="http://www.example.com/parent2" attr="child"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-11">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <parent1 xmlns:foo="http://www.example.com/parent1" foo:attr1="attr1"><child1 attr="child"/></parent1> return <new>{$x//*:child1}</new>]]></test>
+      <result>
+         <!-- znd <assert-xml><![CDATA[<new><child1 xmlns:foo="http://www.example.com/parent1" attr="child"/></new>]]></assert-xml> -->
+         <assert-xml><![CDATA[<new><child1 attr="child"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-12">
+      <description> copy element node with namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <parent2 xmlns:foo="http://www.example.com/parent2" foo:attr2="attr2"><child2 attr="child"/></parent2> return <new xmlns="http://www.example.com">{$x//*:child2}</new>]]></test>
+      <result>
+         <!-- znd <assert-xml><![CDATA[<new xmlns="http://www.example.com"><child2 xmlns="" xmlns:foo="http://www.example.com/parent2" attr="child"/></new>]]></assert-xml> -->
+         <assert-xml><![CDATA[<new xmlns="http://www.example.com"><child2 xmlns="" attr="child"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-13">
+      <description> declared element namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace foo = "http://example.com"; <new/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-14">
+      <description> declared element namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace foo = "http://example.com"; <foo:new/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo:new xmlns:foo="http://example.com"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-15">
+      <description> element with prefix xml </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<xml:new/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<xml:new/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-16">
+      <description> attribute with prefix xml </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new xml:attr="foo"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new xml:attr="foo"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-17">
+      <description> copy element with same prefix </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new xmlns:foo="http://www.example.com">{//*:child1}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new xmlns:foo="http://www.example.com"><child1 xmlns:foo="http://www.example.com/parent1" attr="child"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-18">
+      <description> copy element with same prefix </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new xmlns:foo="http://www.example.com/parent1">{//*:child1}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new xmlns:foo="http://www.example.com/parent1"><child1 attr="child"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-19">
+      <description> copy element with different default namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new xmlns="http://www.example.com">{//*:child4}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new xmlns="http://www.example.com"><child4 xmlns="http://www.example.com/parent4"/></new>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-inscope-20">
+      <description> copy element with same default namespace </description>
+      <created by="Andreas Behm" on="2005-08-28"/>
+      <environment ref="inscope"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<new xmlns="http://www.example.com/parent4">{//*:child4}</new>]]></test>
+      <result>
+         <assert-xml><![CDATA[<new xmlns="http://www.example.com/parent4"><child4/></new>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-inscope-21">
+      <description> namespace not declared: see bug 17040 (cezar.andrei@gmail.com)</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace cat ='mycat'; 
+        <a t='cat:miau'>42</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a t="cat:miau">42</a>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-inscope-22">
+      <description> namespace not declared: see bug 17040 (cezar.andrei@gmail.com)</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <a xsi:type='xs:integer'>42</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:integer">42</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConInScopeNamespace-1">
+      <description> Ensure the in-scope prefixes are correct for all top-level elements. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $i := document{<e1/>, <e2/>, <e3/>, <e4/>} return (in-scope-prefixes($i/e1), in-scope-prefixes($i/e2), in-scope-prefixes($i/e3), in-scope-prefixes($i/e4))]]></test>
+      <result>
+         <assert-string-value>xml xml xml xml</assert-string-value>
+      </result>
+   </test-case>
+   
+</test-set>

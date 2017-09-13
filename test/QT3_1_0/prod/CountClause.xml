@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-CountClause" covers="count-clause">
+   <description>Tests for the CountClause production in XQuery 3.0</description>
+   <link type="spec" document="XQuery" section-number="3.9.6" idref="id-count"/>
+         
+   <dependency type="spec" value="XQ30+"/>      
+
+   <test-case name="count-001">
+      <description>simple count clause</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 10 
+		  count $j
+		  return 
+		    <item><x>{$x}</x><j>{$j}</j></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><j>1</j></item><item><x>2</x><j>2</j></item><item><x>3</x><j>3</j></item><item><x>4</x><j>4</j></item><item><x>5</x><j>5</j></item><item><x>6</x><j>6</j></item><item><x>7</x><j>7</j></item><item><x>8</x><j>8</j></item><item><x>9</x><j>9</j></item><item><x>10</x><j>10</j></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-002">
+      <description>count clause </description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x at $j in 1 to 10 
+		  return 
+		    <item><x>{$x}</x><j>{$j}</j></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><j>1</j></item><item><x>2</x><j>2</j></item><item><x>3</x><j>3</j></item><item><x>4</x><j>4</j></item><item><x>5</x><j>5</j></item><item><x>6</x><j>6</j></item><item><x>7</x><j>7</j></item><item><x>8</x><j>8</j></item><item><x>9</x><j>9</j></item><item><x>10</x><j>10</j></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-003">
+      <description>count clauses in a nested for loop</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 4
+		  count $ix
+		  for $y in $x to 3
+		  count $iy 
+		  return 
+		    <item><x>{$x}</x><ix>{$ix}</ix><y>{$y}</y><iy>{$iy}</iy></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><ix>1</ix><y>1</y><iy>1</iy></item><item><x>1</x><ix>1</ix><y>2</y><iy>2</iy></item><item><x>1</x><ix>1</ix><y>3</y><iy>3</iy></item><item><x>2</x><ix>2</ix><y>2</y><iy>4</iy></item><item><x>2</x><ix>2</ix><y>3</y><iy>5</iy></item><item><x>3</x><ix>3</ix><y>3</y><iy>6</iy></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-004">
+      <description>count clauses in a nested for loop with allowing empty</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 4
+		  count $ix
+		  for $y allowing empty in $x to 3
+		  count $iy 
+		  return 
+		    <item><x>{$x}</x><ix>{$ix}</ix><y>{$y}</y><iy>{$iy}</iy></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><ix>1</ix><y>1</y><iy>1</iy></item><item><x>1</x><ix>1</ix><y>2</y><iy>2</iy></item><item><x>1</x><ix>1</ix><y>3</y><iy>3</iy></item><item><x>2</x><ix>2</ix><y>2</y><iy>4</iy></item><item><x>2</x><ix>2</ix><y>3</y><iy>5</iy></item><item><x>3</x><ix>3</ix><y>3</y><iy>6</iy></item><item><x>4</x><ix>4</ix><y/><iy>7</iy></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-005">
+      <description>Use of a count clause in a filter</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 5
+		  for $y in 1 to 5
+		  count $index
+		  where $index mod 3 = 0
+		  return 
+		    <item><x>{$x}</x><y>{$y}</y><index>{$index}</index></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><y>3</y><index>3</index></item><item><x>2</x><y>1</y><index>6</index></item><item><x>2</x><y>4</y><index>9</index></item><item><x>3</x><y>2</y><index>12</index></item><item><x>3</x><y>5</y><index>15</index></item><item><x>4</x><y>3</y><index>18</index></item><item><x>5</x><y>1</y><index>21</index></item><item><x>5</x><y>4</y><index>24</index></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-006">
+      <description>Use of a count clause in a filter</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 5
+		  for $y in 1 to 5
+		  count $index
+		  where $index mod 3 = 0
+		  count $index2
+		  return 
+		    <item><x>{$x}</x><y>{$y}</y><index2>{$index2}</index2></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><y>3</y><index2>1</index2></item><item><x>2</x><y>1</y><index2>2</index2></item><item><x>2</x><y>4</y><index2>3</index2></item><item><x>3</x><y>2</y><index2>4</index2></item><item><x>3</x><y>5</y><index2>5</index2></item><item><x>4</x><y>3</y><index2>6</index2></item><item><x>5</x><y>1</y><index2>7</index2></item><item><x>5</x><y>4</y><index2>8</index2></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-007">
+      <description>Re-assigning a count variable name</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 5
+		  for $y in 1 to 5
+		  count $index
+		  where $index mod 3 = 0
+		  count $index
+		  return 
+		    <item><x>{$x}</x><y>{$y}</y><index>{$index}</index></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><y>3</y><index>1</index></item><item><x>2</x><y>1</y><index>2</index></item><item><x>2</x><y>4</y><index>3</index></item><item><x>3</x><y>2</y><index>4</index></item><item><x>3</x><y>5</y><index>5</index></item><item><x>4</x><y>3</y><index>6</index></item><item><x>5</x><y>1</y><index>7</index></item><item><x>5</x><y>4</y><index>8</index></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-008">
+      <description>Re-assigning a count variable name</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 2
+		  for $y in 1 to 3
+		  let $index := $y
+		  count $index
+		  return 
+		    <item><x>{$x}</x><y>{$y}</y><index>{$index}</index></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><y>1</y><index>1</index></item><item><x>1</x><y>2</y><index>2</index></item><item><x>1</x><y>3</y><index>3</index></item><item><x>2</x><y>1</y><index>4</index></item><item><x>2</x><y>2</y><index>5</index></item><item><x>2</x><y>3</y><index>6</index></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="count-009">
+      <description>Using a count clause with order-by</description>
+      <created by="Andrew Coleman, IBM" on="2011-07-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        <out>{ 
+		  for $x in 1 to 4
+		  for $y in 1 to 4
+		  count $index
+		  let $remainder := $index mod 3
+		  order by $remainder, $index
+		  count $index2
+		  return 
+		    <item><x>{$x}</x><y>{$y}</y><remainder>{$remainder}</remainder><index2>{$index2}</index2></item> 
+		}</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><item><x>1</x><y>3</y><remainder>0</remainder><index2>1</index2></item><item><x>2</x><y>2</y><remainder>0</remainder><index2>2</index2></item><item><x>3</x><y>1</y><remainder>0</remainder><index2>3</index2></item><item><x>3</x><y>4</y><remainder>0</remainder><index2>4</index2></item><item><x>4</x><y>3</y><remainder>0</remainder><index2>5</index2></item><item><x>1</x><y>1</y><remainder>1</remainder><index2>6</index2></item><item><x>1</x><y>4</y><remainder>1</remainder><index2>7</index2></item><item><x>2</x><y>3</y><remainder>1</remainder><index2>8</index2></item><item><x>3</x><y>2</y><remainder>1</remainder><index2>9</index2></item><item><x>4</x><y>1</y><remainder>1</remainder><index2>10</index2></item><item><x>4</x><y>4</y><remainder>1</remainder><index2>11</index2></item><item><x>1</x><y>2</y><remainder>2</remainder><index2>12</index2></item><item><x>2</x><y>1</y><remainder>2</remainder><index2>13</index2></item><item><x>2</x><y>4</y><remainder>2</remainder><index2>14</index2></item><item><x>3</x><y>3</y><remainder>2</remainder><index2>15</index2></item><item><x>4</x><y>2</y><remainder>2</remainder><index2>16</index2></item></out>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="count-010">
+      <description>Count is reset on each execution of a FLWOR expression</description>
+      <created by="Michael Kay" on="2011-07-30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+		  for $x in 1 to 4 return
+		    for $y in 1 to 4
+		    count $index
+		    return $index
+      </test>
+      <result>
+         <assert-string-value>1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4</assert-string-value>
+      </result>
+   </test-case>
+   
+   
+
+
+
+
+</test-set>

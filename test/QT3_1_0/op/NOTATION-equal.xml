@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-NOTATION-equal">
+   <description>Tests for the NOTATION-equal() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+      idref="func-NOTATION-equal"/>
+   
+   <dependency type="spec" value="XQ10+"/>
+   <dependency type="feature" value="schemaValidation"/>
+   
+   <environment name="notation">
+      <source role="." file="NOTATION-equal/notation.xml" validation="strict">
+         <description>A schema-validated xml file with NOTATION elements</description>
+         <created by="Andreas Behm" on="2005-10-10"/>
+      </source>
+      <schema uri="http://www.example.com/notation" file="NOTATION-equal/notationschema.xsd">
+         <description>A Schema for NOTATION data</description>
+         <created by="Andreas Behm" on="2005-10-10"/>
+      </schema>
+   </environment>
+   
+   <test-case name="Comp-notation-1">
+      <description> notation comparison </description>
+      <created by="Andreas Behm" on="2005-10-05"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         fn:not(exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION3[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-2">
+      <description> notation comparison </description>
+      <created by="Andreas Behm" on="2005-10-05"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1])</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-3">
+      <description> notation comparison </description>
+      <created by="Andreas Behm" on="2005-10-05"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION4[1])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-4">
+      <description> notation comparison using "ne" </description>
+      <created by="Carmelo Montanez" on="2006-01-25"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION3[1])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-5">
+      <description> notation comparison using "ne" </description>
+      <created by="Carmelo Montanez" on="2006-01-25"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-6">
+      <description> notation comparison using "ne" </description>
+      <created by="Carmelo Montanez" on="2006-01-25"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION4[1])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-7">
+      <description> Evaluation of Notation Comparison operator (eq) and used expression as argument to fn:not function, returns false. </description>
+      <created by="Carmelo Montanez" on="2006-01-25"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         fn:not(exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION3[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-8">
+      <description> Evaluation of Notation Comparison operator (eq) and used expression as argument to fn:not function, returns true </description>
+      <created by="Carmelo Montanez" on="2006-01-25"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         fn:not(exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-9">
+      <description> Evaluation of Notation Comparison operator (ne) and used expression as argument to fn:not function, returns true. </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         fn:not(exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION3[1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-10">
+      <description> Evaluation of Notation Comparison operator (ne) and used expression as argument to fn:not function, returns false. </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         fn:not(exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-11">
+      <description> Evaluation of Notation Comparison operator (eq) and used expression as argument to fn:boolean function. </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         fn:boolean(exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-12">
+      <description> Evaluation of Notation Comparison operator (ne) and used expression as argument to fn:boolean function. </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         fn:boolean(exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-13">
+      <description> Evaluation of Notation Comparison operator (eq) and used in boolean expression with "fn:true" and "and" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1])) and fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-14">
+      <description> Evaluation of Notation Comparison operator (ne) and used in boolean expression with "fn:true" and "and" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1])) and fn:true()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-15">
+      <description> Evaluation of Notation Comparison operator (eq) and used in boolean expression with "fn:true" and "or" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1])) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-16">
+      <description> Evaluation of Notation Comparison operator (ne) and used in boolean expression with "fn:true" and "or" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1])) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-17">
+      <description> Evaluation of Notation Comparison operator (eq) and used in boolean expression with "fn:false" and "and" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1])) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-18">
+      <description> Evaluation of Notation Comparison operator (ne) and used in boolean expression with "fn:false" and "and" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1])) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-19">
+      <description> Evaluation of Notation Comparison operator (eq) and used in boolean expression with "fn:false" and "or" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1])) or fn:false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-20">
+      <description> Evaluation of Notation Comparison operator (ne) and used in boolean expression with "fn:false" and "or" . </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         (exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1])) or fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-21">
+      <description> Evaluation of expression of Notation Comparison operator (eq) used as argument to "fn:string" function. </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         exactly-one(//*:NOTATION1[1]) eq exactly-one(//*:NOTATION2[1])
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Comp-notation-22">
+      <description> Evaluation of expression of Notation Comparison operator (ne) used as argument to "fn:string" function. </description>
+      <created by="Carmelo Montanez" on="2006-01-26"/>
+      <environment ref="notation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace myns="http://www.example.com/notation"; 
+         exactly-one(//*:NOTATION1[1]) ne exactly-one(//*:NOTATION2[1])</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <assert-true/>
+         </any-of>
+      </result>
+   </test-case>
+</test-set>

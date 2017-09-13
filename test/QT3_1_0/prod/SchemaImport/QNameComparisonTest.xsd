@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" 
+targetNamespace="http://www.w3.org/XQueryTest/QNameComparisonTest" xmlns:local="http://www.w3.org/XQueryTest/QNameComparisonTest">
+	<element name="foo">
+		<complexType>
+			<sequence maxOccurs="unbounded">
+				<element ref="local:x"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="x" type="QName">
+		<annotation>
+			<documentation>This elements has a QName as content</documentation>
+		</annotation>
+	</element>
+</schema>

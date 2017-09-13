@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  == Copyright (c) 2002-2008. All rights reserved.
+  == Financial Products Markup Language is subject to the FpML public license.
+  == A copy of this license is available at http://www.fpml.org/license/license.html
+  --><!-- This example is an FX One Touch Digital Option
+  == UBS buys a two week GBP/USD One Touch (implicitly American) option and pays a premium.
+  == At any time before expiry, if the spot rate is above the trigger rate, UBS receives a payout - but this is deferred to maturity
+  -->
+<FpML xmlns="http://www.fpml.org/2007/FpML-4-4" xmlns:fpml="http://www.fpml.org/2007/FpML-4-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4-4" xsi:schemaLocation="http://www.fpml.org/2007/FpML-4-4 ../../../schema/fpml-main.xsd http://www.w3.org/2000/09/xmldsig# ../../../schema/xmldsig-core-schema.xsd" xsi:type="DataDocument">
+   <trade>
+      <tradeHeader>
+         <partyTradeIdentifier>
+            <partyReference href="party1"/>
+            <tradeId tradeIdScheme="http://www.citi.com/fx/trade-id">CITI10016</tradeId>
+         </partyTradeIdentifier>
+         <partyTradeIdentifier>
+            <partyReference href="party2"/>
+            <tradeId tradeIdScheme="http://www.ubsw.com/fx/trade-id">UBSW20016</tradeId>
+         </partyTradeIdentifier>
+         <tradeDate>2001-11-12Z</tradeDate>
+      </tradeHeader>
+      <fxDigitalOption>
+         <productType>One Touch</productType>
+         <buyerPartyReference href="party2"/>
+         <sellerPartyReference href="party1"/>
+         <expiryDateTime>
+            <expiryDate>2001-11-26Z</expiryDate>
+            <expiryTime>
+               <hourMinuteTime>14:00:00</hourMinuteTime>
+               <businessCenter>GBLO</businessCenter>
+            </expiryTime>
+            <cutName>SilverLondon</cutName>
+         </expiryDateTime>
+         <fxOptionPremium>
+            <payerPartyReference href="party2"/>
+            <receiverPartyReference href="party1"/>
+            <premiumAmount>
+               <currency>GBP</currency>
+               <amount>78000</amount>
+            </premiumAmount>
+            <premiumSettlementDate>2001-11-14Z</premiumSettlementDate>
+         </fxOptionPremium>
+         <valueDate>2001-11-26Z</valueDate>
+         <quotedCurrencyPair>
+            <currency1>GBP</currency1>
+            <currency2>USD</currency2>
+            <quoteBasis>Currency2PerCurrency1</quoteBasis>
+         </quotedCurrencyPair>
+         <spotRate>1.48</spotRate>
+         <fxAmericanTrigger>
+            <touchCondition>Touch</touchCondition>
+            <quotedCurrencyPair>
+               <currency1>GBP</currency1>
+               <currency2>USD</currency2>
+               <quoteBasis>Currency2PerCurrency1</quoteBasis>
+            </quotedCurrencyPair>
+            <triggerRate>1.52</triggerRate>
+            <informationSource>
+               <rateSource>Reuters</rateSource>
+               <rateSourcePage>GBP=</rateSourcePage>
+            </informationSource>
+            <observationStartDate>2001-11-12Z</observationStartDate>
+            <observationEndDate>2001-11-26Z</observationEndDate>
+         </fxAmericanTrigger>
+         <triggerPayout>
+            <currency>GBP</currency>
+            <amount>2000000</amount>
+            <payoutStyle>Deferred</payoutStyle>
+         </triggerPayout>
+      </fxDigitalOption>
+   </trade>
+   <party id="party1">
+      <partyId>CITIUS33</partyId>
+   </party>
+   <party id="party2">
+      <partyId>UBSWGB2L</partyId>
+   </party>
+</FpML>

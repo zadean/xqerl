@@ -1,0 +1,1895 @@
+<?xml version="1.0" encoding="UTF-8"?><test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-ModuleImport">
+   <description>Tests for the ModuleImport production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/" idref="doc-xquery30-ModuleImport"/>
+   <link type="spec" document="XQuery" section-number="4.12" idref="id-module-import"/>
+   
+
+   <dependency type="spec" value="XQ10+"/>
+   
+   <environment name="simple-schema">
+      <schema uri="http://www.w3.org/XQueryTest/simple" file="ModuleImport/simple.xsd">
+         <description>A schema for simple context tests</description>
+         <created by="Anonymous" on="2005-12-07"/>
+      </schema>
+   </environment>
+   
+   <environment name="attribute-schema">
+      <schema uri="http://www.w3.org/XQueryTest/sample" file="ModuleImport/attribute.xsd">
+         <description>Test schema that contains an attribute declaration</description>
+         <created by="Anonymous" on="2009-04-01"/>
+      </schema>
+   </environment>
+   
+   <environment name="complexData">
+      <source role="." file="../fn/data/complexData.xml" validation="strict">
+         <description>Document containing some nasty cases for fn:data.</description>
+         <created by="Oliver Hallam" on="2009-02-27"/>
+      </source>
+      <schema uri="http://www.cbcl.co.uk/XQueryTest/complexData" file="../fn/data/complexData.xsd">
+		  <description>Schema containing some nasty cases for fn:data.</description>
+		  <created by="Oliver Hallam" on="2009-02-27"/>
+	  </schema>
+   </environment> 
+   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>
+     
+   <test-case name="K2-ModuleProlog-1">
+      <description> A library module that has a query body. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[module namespace example = "http://example.com/"; "an expression"]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-simple">
+      <description> Simple module declaration and import </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-bad-ns">
+      <description> Negative test: wrong namespace </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test2="http://www.w3.org/TestModules/test2";
+        <result>{test2:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0059"/>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-1">
+      <description> leading and trailing whitespace is removed </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test" file="ModuleImport/module-uris1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="  http://www.w3.org/TestModules/test ";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-2">
+      <description> leading and trailing whitespace is removed </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test" file="ModuleImport/module-uris1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="&#x20;&#x9;&#xA;&#xD;http://www.w3.org/TestModules/test&#x20;&#x9;&#xA;&#xD;";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-3">
+      <description> any other sequence of whitespace characters is replaced by a single space (#x20) character </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/Test Modules/test" file="ModuleImport/module-uris2-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/Test&#x20;&#x20;&#x20;&#x20;Modules/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-4">
+      <description> do not resolve relative path in the target namespace </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test" file="ModuleImport/module-urisi1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/TestModules/test/../../TestModules/./test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0059"/>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-7">
+      <description> resolving dots in uri 1 </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules./test" file="ModuleImport/module-uris3-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/TestModules./test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-8">
+      <description> resolving dots in uri 2 </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/.TestModules/test" file="ModuleImport/module-uris4-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/.TestModules/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-9">
+      <description> resolving dots in uri 3 </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules../test" file="ModuleImport/module-uris5-lib.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/TestModules../test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-10">
+      <description> resolving dots in uri 4 </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/..TestModules/test" file="ModuleImport/module-uris6-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/..TestModules/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-11">
+      <description> URI containing unicode characters </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/&#xd0a4;/test" file="ModuleImport/module-uris7-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/TestModules/&#xd0a4;/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-12">
+      <description> URI containing unusual characters </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/&#x3c;&#x3d;&#x3e;&#x40;/test" file="ModuleImport/module-uris8-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/TestModules/&#x3c;&#x3d;&#x3e;&#x40;/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-13">
+      <description> URN as URI </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="urn:example:animal:ferret:nose" file="ModuleImport/module-uris9-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="urn:example:animal:ferret:nose";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-14">
+      <description> URI with type param </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="ftp://www.w3.org/TestModules/test;type=A" file="ModuleImport/module-uris10-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="ftp://www.w3.org/TestModules/test;type=A";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-15">
+      <description> URI containing query </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test?hello=world" file="ModuleImport/module-uris11-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/TestModules/test?hello=world";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-16">
+      <description> URI containing fragment </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test#world" file="ModuleImport/module-uris12-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org/TestModules/test#world";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-17">
+      <description> URI containing param, query and fragment </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="ftp://www.w3.org/TestModules/test;type=A?hello=world&amp;q#world" file="ModuleImport/module-uris13-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="ftp://www.w3.org/TestModules/test;type=A?hello=world&amp;q#world";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-18">
+      <description> URI containing fragment only </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="#1" file="ModuleImport/module-uris14-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="#1";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-19">
+      <description> relative URI containing scheme </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http:test" file="ModuleImport/module-uris15-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http:test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-20">
+      <description> URI containing username </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="ftp://user@www.w3.org/TestModules/test" file="ModuleImport/module-uris16-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="ftp://user@www.w3.org/TestModules/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-21">
+      <description> URI containing IPv6 </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test" file="ModuleImport/module-uris17-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-22">
+      <description> URI containing Port </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org:7334/TestModules/test" file="ModuleImport/module-uris18-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="http://www.w3.org:7334/TestModules/test";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-23">
+      <description> URI email </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="mailto:jane.doe@w3c.org" file="ModuleImport/module-uris19-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="mailto:jane.doe@w3c.org";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-24">
+      <description> URI fax </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="fax:+1-234-567-890" file="ModuleImport/module-uris20-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test="fax:+1-234-567-890";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="module-URIs-25">
+      <description> URI ldap </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="ldap://[2001:db8::7]/c=GB?objectClass?one" file="ModuleImport/module-uris21-lib.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace test="ldap://[2001:db8::7]/c=GB?objectClass?one";
+        <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-none">
+      <description>Written By: Carmelo Montanez  Test for importing non-existing library module. </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/none" file="ModuleImport/empty-lib.xq"/>
+      <test><![CDATA[
+        import module namespace none="http://www.w3.org/TestModules/none" at "empty-lib.xq"; 
+        "abc"
+      ]]></test>
+      <result>
+         <error code="XQST0059"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-two-import">
+      <description> Importing two modules the disapproved way </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        import module namespace test2="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0047"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-two-import-ok">
+      <description> Importing two modules, the approved way </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-var-001">
+      <description> Colliding variable declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1collide1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>]]></test>
+      <result>
+         <error code="XQST0049"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-var-002">
+      <description> Colliding variable declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare variable $test1:flag := 1; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0049"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-fn-001">
+      <description> Colliding function declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1collide2-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-fn-002">
+      <description> Colliding function declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare function test1:ok () { "ok" }; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-emptyns">
+      <description> Module with an empty namespace </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="" file="ModuleImport/emptyns-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1= ""; 
+        <result>ok</result>
+      ]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-circular">
+      <description> Importing circular modules </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1c1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test2c1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-1">
+      <description> Namespaces from imported modules are not visible. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        <foo:anElement>some Content</foo:anElement>
+      ]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-2">
+      <description> Same Namespace used in imported and importing modules. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        declare namespace foo = "http://example.org"; 
+        <foo:anElement>some Content</foo:anElement>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;foo:anElement xmlns:foo="http://example.org"&gt;some Content&lt;/foo:anElement&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-3">
+      <description> Evaluates that module importing is not transitive. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        let $var := $test1:flag + 1 return $var
+      ]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-4">
+      <description> Evaluates actual usage of a variable declared in an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        let $var := $defs:var1+ 1 return $var
+      ]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-5">
+      <description> Module that uses a variable from an imported module and modifies a variable. 
+        The importing module in turn uses that modified value. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        let $var := $defs:var2 + 1 return $var
+      ]]></test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-6">
+      <description> Evaluation of usage of variable from imported module and usage of variable with same name in importing module,
+         but with different namespace prefix. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare namespace foo = "http://example.org"; 
+        declare variable $foo:flag := 3; 
+        let $var := $test1:flag + $foo:flag 
+        return $var]]></test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-7">
+      <description> Evaluation of of an importing module that uses both a variable and a function from an importing module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        let $var := fn:concat(xs:string($test1:flag),xs:string(test1:ok())) 
+        return $var]]></test>
+      <result>
+         <assert-string-value>1ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-8">
+      <description> Evaluation of usage of same function name from imported/importing module, but different namespaces. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare namespace foo = "http://example.org"; 
+        declare function foo:ok () { "ok" }; 
+        let $var := fn:concat(test1:ok(),foo:ok()) 
+        return $var]]></test>
+      <result>
+         <assert-string-value>okok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-9">
+      <description> Evaluation of import module feature that applies the upper case function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        fn:upper-case(test1:ok())]]></test>
+      <result>
+         <assert-string-value>OK</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-10">
+      <description> Evaluation of import module feature that applies the lower case function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        fn:lower-case(test1:ok())
+      ]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-11">
+      <description> Evaluation of import module feature that applies the string-length function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        fn:string-length(test1:ok())]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-12">
+      <description> Evaluation of import module feature that performs and addition operation to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1";
+        $test1:flag + $test1:flag
+      ]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-13">
+      <description> Evaluation of import module feature that performs a subtraction operation to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        $test1:flag - $test1:flag
+      ]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-14">
+      <description> Evaluation of import module feature that applies the xs:integer function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        xs:integer($test1:flag)
+      ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-15">
+      <description> Evaluation of importing a library module whose namespace uri is set to "". </description>
+      <created by="Carmelo Montanez" on="2006-01-19"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test2-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test2="http://www.w3.org/TestModules/test2"; 
+        "aaa"
+      ]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-16">
+      <description> Evaluation of module import with "xml" prefix. </description>
+      <created by="Carmelo Montanez" on="2006-03-21"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace xml="http://www.w3.org/TestModules/test1"; 
+        xs:string($xml:flag)
+      ]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-17">
+      <description> Evaluation of module import with variables bound to a namespace URI different from the target namespace of the module. </description>
+      <created by="Carmelo Montanez" on="2006-04-11"/>
+      <module uri="http://www.w3.org/TestModules/diffns" file="ModuleImport/modulesdiffns-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/diffns"; 
+        "abc"
+      ]]></test>
+      <result>
+         <error code="XQST0048"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-18">
+      <description> Evaluation of module import with two imports, one of which import the other and uses its function. </description>
+      <created by="Carmelo Montanez" on="2006-07-13"/>
+      <module uri="http://www.w3.org/TestModules/module1" file="ModuleImport/module1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/module2" file="ModuleImport/module2-lib.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/module1"; 
+        import module namespace mod2="http://www.w3.org/TestModules/module2"; 
+        mod1:x(),mod2:y()]]></test>
+      <result>
+         <assert-string-value>x y x y</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-19">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        $mod3:var1
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-20">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        mod3:function1()
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-21">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3";
+        mod3:function2(1 cast as simple:myType)]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0081"/>
+            <error code="XQST0036"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="modules-22">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        $mod3:var2
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-23">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10" />
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        mod3:function3()]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-24">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        mod3:function4(<simple:integer>1</simple:integer>)
+      ]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0081"/>
+            <error code="XQST0036"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="modules-25">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="attribute-schema"/>
+      <module uri="http://www.w3.org/TestModules/module4" file="ModuleImport/module4-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+            import module namespace mod3 = "http://www.w3.org/TestModules/module4"; 
+            $mod3:var
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-26">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="attribute-schema"/>
+      <module uri="http://www.w3.org/TestModules/module4" file="ModuleImport/module4-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module4"; 
+        mod3:function1()
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-27">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="attribute-schema"/>
+      <module uri="http://www.w3.org/TestModules/module4" file="ModuleImport/module4-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module4"; 
+        mod3:function2(())
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-28" covers="module-cycles">
+      <description> Cyclic module imports </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <module uri="http://www.w3.org/TestModules/defs1" file="ModuleImport/modules-recursive1.xq"/>
+      <module uri="http://www.w3.org/TestModules/defs2" file="ModuleImport/modules-recursive2.xq"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace defs1 = "http://www.w3.org/TestModules/defs1"; 
+        $defs1:var
+      ]]></test>
+      <result>
+        <any-of>
+          <error code="XQST0093"/>
+          <error code="XQST0054"/>
+        </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="modules-28a" covers="module-cycles">
+      <description> Cyclic module imports </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Tim Mills" on="2013-01-14" change="XQST changed to XQDY"/>
+      <module uri="http://www.w3.org/TestModules/defs1" file="ModuleImport/modules-recursive1.xq"/>
+      <module uri="http://www.w3.org/TestModules/defs2" file="ModuleImport/modules-recursive2.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs1 = "http://www.w3.org/TestModules/defs1"; 
+        $defs1:var
+      ]]></test>
+      <result>
+        <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-29">
+      <description> Evaluation of module import with "xmlns" prefix. </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace xmlns="http://www.w3.org/TestModules/test"; 
+        xmlns:ok ()
+      ]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-ModuleImport-1">
+      <description> Module import with empty target namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import(::)module ""; 1 eq 1]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ModuleImport-2">
+      <description> Module import with empty target namespace, and two location hints. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import(::)module "" at "http://example.com/", "http://example.com/2"; 1 eq 1]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ModuleImport-3">
+      <description> ':=' cannot be used to assing namespaces in 'import module'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import module namespace NCName := "http://example.com/Dummy"; 1]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ModuleImport-1">
+      <description> Ensure that a start looking like an import, isn't treated as so. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import ne import]]></test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-001">
+      <description> Test XQST0036 for unknown simple type in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-1" file="ModuleImport/errata6-module1.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+       <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata6_1="http://www.w3.org/TestModules/errata6-1"; 
+        errata6_1:hatsize-add(3, 5)]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-002">
+      <description> Test XQST0036 for unknown simple type in imported function return type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-2" file="ModuleImport/errata6-module2.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata6_2="http://www.w3.org/TestModules/errata6-2"; 
+        errata6_2:hatsize-add(3, 5)
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-003">
+      <description> Test lack of XQST0036 for known simple type in imported function return type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19783 - moved assertion as an eq operation inside the test" />
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-2" file="ModuleImport/errata6-module2.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace errata6_2="http://www.w3.org/TestModules/errata6-2"; 
+        import schema namespace a = "http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        errata6_2:hatsize-add(3, 5) eq 8]]></test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="errata6-004">
+      <description> Test of XQST0036 for unknown simple type in imported global variable </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-4" file="ModuleImport/errata6-module4.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata6_4="http://www.w3.org/TestModules/errata6-4"; 
+        $errata6_4:var
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-005">
+      <description> Test XQST0036 for unknown element declaration in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment>
+         <schema uri="http://www.w3.org/XQueryTest/someExamples"
+              file="../fn/data/examples.xsd">
+           <description>A schema for examples.xml.</description>
+           <created by="Carmelo Montanez" on="2006-05-19"/>
+         </schema>
+      </environment>   
+      <module uri="http://www.w3.org/TestModules/errata6-5" file="ModuleImport/errata6-module5.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata6_5="http://www.w3.org/TestModules/errata6-5";
+        errata6_5:fun(<E6-Root/>)
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-006">
+      <description> Test XQST0036 for unknown attribute declaration in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment>
+         <schema uri="http://www.w3.org/XQueryTest/someExamples2" file="ModuleImport/examples2.xsd"/>
+      </environment>
+      <module uri="http://www.w3.org/TestModules/errata6-6" file="ModuleImport/errata6-module6.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata6_6="http://www.w3.org/TestModules/errata6-6"; 
+        errata6_6:fun(attribute attr {})
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-007">
+      <description> Test XQST0036 for unknown complex type in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="XQ10 only. Bug 19880."/>
+      <environment>
+         <schema uri="http://www.w3.org/XQueryTest/someExamples"
+              file="../fn/data/examples.xsd">
+           <description>A schema for examples.xml.</description>
+           <created by="Carmelo Montanez" on="2006-05-19"/>
+         </schema>
+      </environment>  
+      <module uri="http://www.w3.org/TestModules/errata6-7" file="ModuleImport/errata6-module7.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata6_7="http://www.w3.org/TestModules/errata6-7"; 
+        errata6_7:fun(<E6/>)
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata8-001" covers="module-cycles">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="Tim Mills" on="2013-01-14" change="XQST changed to XQDY"/>
+      <modified by="O'Neil Delpratt" on="2013-06-11" change="Added error code. Related to bug issue #10695" />
+      <module uri="http://www.w3.org/TestModules/errata8_1a" file="ModuleImport/errata8-module1a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_1b" file="ModuleImport/errata8-module1b.xq"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata8_1a="http://www.w3.org/TestModules/errata8_1a"; 
+        errata8_1a:fun()
+      ]]></test>
+      <result>
+        <any-of>
+	      <error code="XQST0093"/><!-- XQuery 1.0 -->
+          <error code="XQST0054"/><!-- XQuery 1.0 -->
+        </any-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="errata8-001a" covers="module-cycles">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="Tim Mills" on="2013-01-14" change="XQST changed to XQDY"/>
+      <module uri="http://www.w3.org/TestModules/errata8_1a" file="ModuleImport/errata8-module1a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_1b" file="ModuleImport/errata8-module1b.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace errata8_1a="http://www.w3.org/TestModules/errata8_1a"; 
+        errata8_1a:fun()
+      ]]></test>
+      <result>
+         <error code="XQDY0054"/><!-- XQuery 3.0 -->
+      </result>
+   </test-case>
+
+   <test-case name="errata8-002" covers="module-cycles">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2a" file="ModuleImport/errata8-module2a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2b" file="ModuleImport/errata8-module2b.xq"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[
+        import module namespace errata8_2a="http://www.w3.org/TestModules/errata8_2a"; 
+        errata8_2a:fun()]]></test>
+      <result>
+         <error code="XQST0093"/>
+      </result>
+   </test-case>
+   
+   <test-case name="errata8-002a" covers="module-cycles">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="Michael Kay" on="2013-01-07" change="no longer an error in XQuery 3.0"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2a" file="ModuleImport/errata8-module2a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2b" file="ModuleImport/errata8-module2b.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace errata8_2a="http://www.w3.org/TestModules/errata8_2a"; 
+        errata8_2a:fun()]]></test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="errata8-003" covers="module-cycles">
+      <description> Test lack of XQST0093 by importing a module without a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <module uri="http://www.w3.org/TestModules/errata8_3a" file="ModuleImport/errata8-module3a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_3b" file="ModuleImport/errata8-module3b.xq"/>
+      <test><![CDATA[
+        import module namespace errata8_3a="http://www.w3.org/TestModules/errata8_3a"; 
+        errata8_3a:fun()
+      ]]></test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-1" covers="private-functions">
+      <description> public functions in imported module are visible. </description>
+      <created by="Michael Kay, Saxonica" on="2009-10-28"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g(42)}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>65</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-2" covers="private-functions">
+      <description> private functions in imported module are not visible. </description>
+      <created by="Michael Kay, Saxonica" on="2009-10-28"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        defs:f()
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-3" covers="private-functions">
+      <description> public variables in imported module are visible. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-16"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g($defs:one)}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>24</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-4" covers="private-functions">
+      <description> private variables in imported module are not visible. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-16"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g($defs:two)}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0008"/>
+      </result>
+    </test-case>
+
+   <test-case name="modules-pub-priv-5" covers="private-functions">
+      <description> public functions in main module are visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        <a>{local:inc(1)}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-6" covers="private-functions">
+      <description> private functions in main module are visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        <a>{local:inc(1)}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-7" covers="private-functions">
+      <description> public variable in main module is visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public variable $i := 1;
+        <a>{$i+1}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-8" covers="private-functions">
+      <description> private variable in main module is visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private variable $i := 1;
+        <a>{$i+1}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-9" covers="private-functions">
+      <description> main module public function is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare function local:test() {
+            local:inc(1)
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-10" covers="private-functions">
+      <description> main module private function is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare function local:test() {
+            local:inc(1)
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-11" covers="private-functions">
+      <description> main module public variable is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public variable $i := 1;
+        
+        declare function local:test() {
+            $i + 1
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-12" covers="private-functions">
+      <description> main module private variable is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private variable $i := 1;
+        
+        declare function local:test() {
+           $i + 1
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-13" covers="private-functions">
+      <description> library module public function is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            defs:g(42)
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>65</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-14" covers="private-functions">
+      <description> library module private function is not visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            defs:f()
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-15" covers="private-variables">
+      <description> library module public variable is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            $defs:one
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>1</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-16" covers="private-variables">
+      <description> library module private variable is not visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            $defs:two
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+
+   <test-case name="modules-pub-priv-17" covers="private-functions">
+      <description> main module public function is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare variable $test := local:inc(1);
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-18" covers="private-functions">
+      <description> main module private function is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare variable $test := local:inc(1);
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-19" covers="private-variables">
+      <description> main module public variable is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public variable $i := 1;
+        
+	declare variable $test := $i + 1;
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-20" covers="private-variables">
+      <description> main module private variable is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private variable $i := 1;
+        
+        declare variable $test := $i + 1;
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>2</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-21" covers="private-functions">
+      <description> library module public function is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := defs:g(42);
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>65</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-22" covers="private-functions">
+      <description> library module private function is not visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := defs:f();
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-23" covers="private-variables">
+      <description> library module public variable is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := $defs:one;
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>1</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-24" covers="private-variables">
+      <description> library module private variable is not visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := $defs:two;
+
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-25" covers="private-functions">
+      <description> library module public function is visible from library module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        <a>{defs:h(42)}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>65</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-26" covers="private-functions private-variables">
+      <description> library module public/private functions/variables are visible from library module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        <a>{$defs:ninety}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>90</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+
+  <test-case name="modules-pub-priv-27" covers="private-functions">
+      <description> library module public function is visible from function in different library module. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv3" file="ModuleImport/module-pub-priv3.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv3"; 
+        <a>{defs:f(42)}</a>
+      ]]></test>
+      <result>
+            <assert-xml><![CDATA[<a>65</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-28" covers="private-functions">
+      <description> library module private function is visible from function in different library module. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv2" file="ModuleImport/module-pub-priv2.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv2"; 
+        <a>{defs:fails()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-29" covers="private-functions">
+      <description> It is an error if a function's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %public function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XQST0106"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-30" covers="private-functions">
+      <description> It is an error if a function's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <modified by="John Snelson" on="2012-06-19" change="Revised namespace as per bug 16199"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare namespace xq="http://www.w3.org/2012/xquery";
+        declare %private %xq:public function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XQST0106"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-31" covers="private-functions">
+      <description> It is an error if a function's annotations contain contain two public annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public %public function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XQST0106"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-32" covers="private-functions">
+      <description> It is an error if a function's annotations contain contain two private annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %private function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XQST0106"/>
+      </result>
+  </test-case>
+
+  <test-case name="modules-pub-priv-33" covers="private-variables">
+      <description> It is an error if a variable's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %public variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XQST0116"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-34" covers="private-variables">
+      <description> It is an error if a variable's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <modified by="John Snelson" on="2012-06-19" change="Revised namespace as per bug 16199"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare namespace xq="http://www.w3.org/2012/xquery";
+        declare %private %xq:public variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XQST0116"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-35" covers="private-variables">
+      <description> It is an error if a variable's annotations contain two private annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %private variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XQST0116"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-36" covers="private-variables">
+      <description> It is an error if a variable's annotations contain two public annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public %public variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XQST0116"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-37" covers="private-functions">
+      <description>Invokes a private function item</description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        defs:f#0()
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-38" covers="private-functions">
+      <description>Invokes a public function item </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g#1(42)}</a>
+      ]]></test>
+      <result>
+          <assert-xml><![CDATA[<a>65</a>]]></assert-xml>
+      </result>
+    </test-case>
+    
+    
+   <test-case name="cbcl-module-001">
+      <description> Test that schema types remain consistant across modules </description>
+      <created by="Oliver Hallam" on="2009-03-24"/>
+      <modified by="O'Neil Delpratt" on="2013-03-18" change="Corrected case of directory name 'ModuleImport'"/>
+      <environment ref="complexData"/>
+      <module uri="http://www.xqsharp.com/test/schemalib/" file="ModuleImport/schemalib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	import module namespace schemalib="http://www.xqsharp.com/test/schemalib/"; 
+      	import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData"; 
+      	count(schemalib:getShortStrings(validate {/}))
+      </test>
+      <result>
+         <assert-string-value>5</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-module-002">
+      <description> Test that the correct base URI is assigned to nodes constructed in a library. </description>
+      <created by="Oliver Hallam" on="2009-05-20"/>
+      <modified by="O'Neil Delpratt" on="2013-03-18" change="Corrected case of directory name 'ModuleImport'"/>
+      <module uri="http://www.xqsharp.com/test/baseuri-lib" file="ModuleImport/baseuri-lib.xq"/>
+      <test>
+      	import module namespace lib="http://www.xqsharp.com/test/baseuri-lib"; 
+      	declare base-uri "http://www.example.org/wrong/"; 
+      	base-uri($lib:node/node())
+      </test>
+      <result>
+         <assert-string-value>http://www.example.org/correct/</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-module-003">
+      <description> Test that global variables defined in one module are not "leaked" into another </description>
+      <created by="Oliver Hallam" on="2009-07-27"/>
+      <modified by="O'Neil Delpratt" on="2013-03-18" change="Corrected case of directory name 'ModuleImport'"/>
+      <module uri="http://www.xqsharp.com/test/variabledeclaration" file="ModuleImport/variabledeclaration-lib.xq"/>
+      <module uri="http://www.xqsharp.com/test/variablereference" file="ModuleImport/variablereference-lib.xq"/>
+      <test>
+      	import module namespace foo="http://www.xqsharp.com/test/variabledeclaration"; 
+      	import module namespace bar="http://www.xqsharp.com/test/variablereference"; 
+      	bar:test()
+      </test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-module-004">
+      <description> Test that the context item can be used in a library </description>
+      <created by="Oliver Hallam" on="2009-07-29"/>
+      <modified by="O'Neil Delpratt" on="2013-03-18" change="Corrected case of directory name 'ModuleImport'"/>
+      <environment ref="complexData"/>
+      <module uri="http://www.xqsharp.com/test/context" file="ModuleImport/contextitem-lib.xq"/>
+      <test>
+      	import module namespace context="http://www.xqsharp.com/test/context"; 
+      	count($context:item/node()/*)
+      </test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+</test-set>

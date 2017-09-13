@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-entry"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the map:entry function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-get"/>
+    <dependency type="spec" value="XT30+"/>
+
+    <test-case name="map-entry-001">
+        <description>Integer key, singleton value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:entry(3, 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert-type>function(xs:anyAtomicType) as xs:integer?</assert-type>
+                <assert>$result(3) eq 5</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-002">
+        <description>Integer key, empty value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:entry(3, ())</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, empty-sequence())</assert-type>
+                <assert>empty($result(3))</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-003">
+        <description>String key, sequence value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:entry("foo", ("x", "y", "z"))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:string*)</assert-type>
+                <assert>empty($result("bar"))</assert>
+                <assert>count($result("foo")) eq 3</assert>
+                <assert>map:get($result, "foo") = "z"</assert>
+                <assert>map:get($result, xs:untypedAtomic("foo")) = "z"</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, "foo")) eq 0</assert>
+                <assert>map:size(map:remove($result, "bar")) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-004">
+        <description>Untyped atomic key, map as value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:entry(xs:untypedAtomic("foo"), map{})</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, map(*))</assert-type>
+                <assert>empty($result("bar"))</assert>
+                <assert>count($result("foo")) eq 1</assert>
+                <assert>empty($result("foo")("bar"))</assert>
+                <assert>empty($result(xs:untypedAtomic("foo"))("bar"))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-005">
+        <description>NaN as key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:entry(number('NaN'), 'NaN')</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) eq 0</assert>
+                <assert>empty($result(number('NaN')))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-006">
+        <description>float NaN as key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:entry(xs:float('NaN'), 'NaN')</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) eq 0</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-007">
+        <description>collation of a singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:collation(map:entry(0,1))</test>
+        <result>
+            <assert-string-value>http://www.w3.org/2005/xpath-functions/collation/codepoint</assert-string-value>
+        </result>
+    </test-case>
+    
+ 
+
+</test-set>

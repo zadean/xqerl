@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-trace">
+   <description>Tests for the trace() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-trace"/>
+
+   <test-case name="fn-trace-1">
+      <description> Evaluation of "fn:trace" function with wrong arity. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-2">
+      <description> Simple call of "fn:trace" function with integer value. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>
+         let $var := xs:integer("123") 
+         return fn:trace($var,"The Value of $var is: ")</test>
+      <result>
+         <assert-string-value>123</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-3">
+      <description> Simple call of "fn:trace" function used with an addition operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var in (1,2,3,4,5) return fn:trace($var + 1,"The Value of $var + 1 is: ")</test>
+      <result>
+         <assert-string-value>2 3 4 5 6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-4">
+      <description> Simple call of "fn:trace" function used with a subtraction operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var in (2,3,4,5) return fn:trace($var - 1,"The Value of $var - 1 is: ")</test>
+      <result>
+         <assert-string-value>1 2 3 4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-5">
+      <description> Simple call of "fn:trace" function used with a multiplication operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var in (2,3,4,5) return fn:trace($var * 2 ,"The Value of $var * 2 is: ")</test>
+      <result>
+         <assert-string-value>4 6 8 10</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-6">
+      <description> Simple call of "fn:trace" function used with a division (div operator) operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var in (2,4,6,8) return fn:trace($var div 2 ,"The Value of $var div 2 is: ")</test>
+      <result>
+         <assert-string-value>1 2 3 4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-7">
+      <description> Simple call of "fn:trace" function used with a division (idiv operator) operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var in (2,4,6,8) return fn:trace($var idiv 2 ,"The Value of $var idiv 2 is: ")</test>
+      <result>
+         <assert-string-value>1 2 3 4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-8">
+      <description> Simple call of "fn:trace" function used with a modulus operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var in (2,4,6,8) return fn:trace($var mod 2 ,"The Value of $var mod 2 is: ")</test>
+      <result>
+         <assert-string-value>0 0 0 0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-9">
+      <description> Simple call of "fn:trace" function used with two variables, where the second one uses the first one in a more complex math expression. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var1 in (2,4,6,8), $var2 in (3 + $var1) - (4 * $var1) 
+        return fn:trace($var1 + $var2 ,"The Value of $var 1 + $var2 is: ")</test>
+      <result>
+         <assert-string-value>-1 -5 -9 -13</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-10">
+      <description> Simple call of "fn:trace" function used with string manipulation (fn:concat). </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>for $var in ("aa","bb","cc","dd","ee") return fn:trace(fn:concat($var,$var) ,"The Value of concat($var,$var) is: ")</test>
+      <result>
+         <assert-string-value>aaaa bbbb cccc dddd eeee</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-11">
+      <description> Simple call of "fn:trace" function used numbers manipulation queried from an xml file. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <environment ref="works-mod"/>
+      <test>for $var in (/works//hours) return fn:trace(($var div 2) ,"The Value of hours div/2 is: ")</test>
+      <result>
+         <assert-string-value>20 35 10 40 10 20 10 15 6 20 40 10 10 10 20 40</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-12">
+      <description> Simple call of "fn:trace" function used numbers manipulation queried from an xml file and the entire query is given as argument to the function. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <environment ref="works-mod"/>
+      <test>fn:trace((for $var in (/works//hours) return $var + $var) ,"The Value of the given expression is: ")</test>
+      <result>
+         <assert-string-value>80 140 40 160 40 80 40 60 24 80 160 40 40 40 80 160</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-13">
+      <description> Simple call of "fn:trace" function used in a math expression involving the "avg" function. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace((fn:avg((1,3,3,4,5)) * 2) ,"The Value of 'fn:avg((1,3,3,4,5)) * 2' is: ")</test>
+      <result>
+         <assert-string-value>6.4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-14">
+      <description> Simple call of "fn:trace" function used in expression involving casting (floats to integer). </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace((for $var in (1.1,2.2,3.3,4.4,5.5) return xs:integer($var)) ,"The Value of 'for $var in (1.1,2.2,3.3,4.4,5.5) return xs:float($var)' is: ")</test>
+      <result>
+         <assert-string-value>1 2 3 4 5</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-15">
+      <description> Simple call of "fn:trace" function that uses another fn-trace as argument. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace((fn:trace((2+2),"The value of '2 + 2' is:" )) ,"The Value of 'fn:trace(2+2)' is: ")</test>
+      <result>
+         <assert-string-value>4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-16">
+      <description> Simple call of "fn:trace" function used in a math expression involving the "abs" function. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace((fn:count((1,2,-3,-4,5)) * 2) ,"The Value of 'fn:count(1,2,-3,-4,5)) * 2' is: ")</test>
+      <result>
+         <assert-string-value>10</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-17">
+      <description> Simple call of "fn:trace" function used in a math expression involving boolean operations ("and" and fn:true()). </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace((for $var in (fn:true(),fn:false(),fn:true()) return $var and fn:true()) ,"The value of 'for $var in (fn:true(),fn:false(),fn:true() return $var and fn:true()' is:")</test>
+      <result>
+         <assert-string-value>true false true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-18">
+      <description> Simple call of "fn:trace" function used in a math expression involving boolean operations ("or" and fn:true()). </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace((for $var in (fn:true(),fn:false(),fn:true()) return $var or fn:true()) ,"The value of 'for $var in (fn:true(),fn:false(),fn:true() return $var or fn:true()' is:")</test>
+      <result>
+         <assert-string-value>true true true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-19">
+      <description> Simple call of "fn:trace" function where the first argument is the empty sequence. Uses fn:count to maybe avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:count(fn:trace(() ,"The value of the empty sequence is:"))</test>
+      <result>
+         <any-of>
+            <assert-string-value>0</assert-string-value>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-20">
+      <description> Simple call of "fn:trace" function where the first argument is the zero length string. Uses fn:count to maybe avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:count(fn:trace("" ,"The value of the zero length string is:"))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-trace-21">
+      <description> Simple call of "fn:trace" function involving string manipulations with upper/lower case functions. </description>
+      <created by="Carmelo Montanez" on="2005-12-14"/>
+      <test>fn:trace((for $var in (fn:upper-case("a"),fn:lower-case("B")) return (fn:lower-case($var),fn:upper-case($var))) ,"The value of the complex expression on the other argument is:")</test>
+      <result>
+         <assert-string-value>a A b B</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-TraceFunc-1">
+      <description> A test whose essence is: `trace()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>trace()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TraceFunc-2">
+      <description> A test whose essence is: `trace(.)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>trace(.)</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TraceFunc-3">
+      <description> A test whose essence is: `trace(., "message", "wrong parameter")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>trace(., "message", "wrong parameter")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-TraceFunc-4">
+      <description> A test whose essence is: `trace("a string", "trace message")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>trace("a string", "trace message")</test>
+      <result>
+         <assert-string-value>a string</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-TraceFunc-5">
+      <description> A test whose essence is: `empty(trace((), "trace message"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(trace((), "trace message"))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-TraceFunc-6">
+      <description> A test whose essence is: `empty(trace(error(), "trace message"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(trace(error(), "trace message"))</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+</test-set>

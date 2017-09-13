@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="prod-CompTextConstructor">
+          
+   <description>Tests for the CompTextConstructor (text node constructor) production</description>
+   
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-CompTextConstructor"/>
+   <link type="spec" document="XQuery" section-number="3.7.3.4"
+         idref="id-textConstructors"/>
+         
+   <environment name="DupNode">
+      <source role="." file="CompAttrConstructor/DupNode.xml">
+         <description>Simple document with all node kinds</description>
+         <created by="Andreas Behm" on="2005-04-26"/>
+      </source>
+   </environment>       
+         
+   <dependency type="spec" value="XQ10+"/>           
+
+   <test-case name="Constr-text-enclexpr-1">
+      <description> enclosed expression in text node - atomic values </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>text {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}</test>
+      <result>
+         <assert-string-value>1 string 3.14 0.012345 2002-04-02T12:00:00-01:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-enclexpr-2">
+      <description> enclosed expression in text node - nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[text {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}]]></test>
+      <result>
+         <assert-string-value>123 456 789</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-enclexpr-3">
+      <description> enclosed expression in text node - empty string </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>text {1,'',2}</test>
+      <result>
+         <assert-string-value>1  2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-enclexpr-4">
+      <description> enclosed expression in text node - empty node </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[text {1,<a/>,2}]]></test>
+      <result>
+         <assert-string-value>1  2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-enclexpr-5">
+      <description> enclosed expression in text node - nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="DupNode"/>
+      <test>text {/root}</test>
+      <result>
+         <assert-string-value>texttext</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-doc-1">
+      <description> strip document nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="DupNode"/>
+      <test>text {., .}</test>
+      <result>
+         <assert-string-value>texttext texttext</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-parent-1">
+      <description> empty parent </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count((text {'text'})/..)</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-string-1">
+      <description> string value of text node </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>fn:string(text {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>a  b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-data-1">
+      <description> typed value of text node </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>fn:data(text {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>a  b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-count-1">
+      <description> count text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count(text {''})</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-count-2">
+      <description> count text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count(text {()})</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-count-3">
+      <description> count text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count(element elem {text {''}}/text())</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-count-4">
+      <description> count text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count(document {text {''}}/text())</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-count-5">
+      <description> count text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a>{text {''}}<b/>{text {''}}<b/>{text {''}}</a>/text())]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-count-6">
+      <description> count text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(document {text {''},<b/>,text {''},<b/>,text {''}}/text())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-adjtext-1">
+      <description> merge adjacent text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<elem>{text {'te'}, text {'xt'}}</elem>/text())]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-adjtext-2">
+      <description> merge adjacent text nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count(document {text {'te'}, text {'xt'}}/text())</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-nested-1">
+      <description> nested text node constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>text {text {'one', text {'two'}}, 'three', text {'four'}}</test>
+      <result>
+         <assert-string-value>one two three four</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-nested-2">
+      <description> nested text nodes in element constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{text {'one'}}<a>{text {'two'}}</a>{text {'three'}}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>one<a>two</a>three</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-text-nested-3">
+      <description> nested text nodes in element constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document {text {'one'}, <a/>, text {'two'}, <b/>, text {'three'}}]]></test>
+      <result>
+         <assert-xml><![CDATA[one<a/>two<b/>three]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-1">
+      <description> Text constructors cannot specify a name. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>text {"name"} {"content"}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-2">
+      <description> Text constructors cannot specify a name(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>text name {"content"}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-3">
+      <description> An empty text node is nevertheless a text node, not the empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(text {""}) eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-4">
+      <description> Construct from an empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>{text{()}}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a></a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-5">
+      <description> The enclosed expression isn't optional. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <edited by="znd" on="2017-09-11" note="is optional"/>
+      <test>text{}</test>
+      <result>
+         <!-- <error code="XPST0003"/> -->
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-6">
+      <description> Test the atomized type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>data(text {"content"}) instance of xs:untypedAtomic</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-7">
+      <description> The end of content in a CDATA section may end with ']'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>&lt;![CDATA[content]]]&gt;&lt;/e></test>
+      <result>
+         <assert-xml><![CDATA[<e>content]</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-8">
+      <description> The end of content in a CDATA section may end with many ']'(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>&lt;![CDATA[content]]]]]]&gt;&lt;/e></test>
+      <result>
+         <assert-xml><![CDATA[<e>content]]]]</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-9">
+      <description> The end of content in a CDATA section may end with ']'(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>&lt;![CDATA[]]]&gt;&lt;/e></test>
+      <result>
+         <assert-xml><![CDATA[<e>]</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-10">
+      <description> The end of content in a CDATA section may end with many ']'(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>&lt;![CDATA[]]]]]]&gt;&lt;/e></test>
+      <result>
+         <assert-xml><![CDATA[<e>]]]]</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-11">
+      <description> A CDATA section ending incorrectly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>&lt;![CDATA]]</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-12">
+      <description> A CDATA section ending incorrectly(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>&lt;![CDATA]</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-13">
+      <description> An element ending incorrectly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>&lt;![CDATA]]&gt;</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-14">
+      <description> Ensure that an empty text node between two atomic values are serialized correctly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{1}{text{""}}{2}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>12</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConText-15">
+      <description> Ensure that an empty text node between two atomic values are serialized correctly(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(<elem>{1}{text{""}}{2}</elem>)]]></test>
+      <result>
+         <assert-string-value>12</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

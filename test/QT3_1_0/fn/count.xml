@@ -1,0 +1,3108 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-count">
+   <description>Tests for the count() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-count"/>
+
+   <test-case name="fn-countint1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:int(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:int("-2147483648")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countint1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:int(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:int("-1873914410")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countint1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:int(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:int("2147483647")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countintg1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:integer(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:integer("-999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countintg1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:integer(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:integer("830993497117024304")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countintg1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:integer(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:integer("999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countdec1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:decimal(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:decimal("-999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countdec1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:decimal(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:decimal("617375191608514839")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countdec1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:decimal(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:decimal("999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countdbl1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:double(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:double("-1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countdbl1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:double(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:double("0")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countdbl1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:double(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:double("1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countflt1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:float(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:float("-3.4028235E38")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countflt1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:float(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:float("0")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countflt1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:float(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:float("3.4028235E38")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countlng1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:long(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:long("-92233720368547758")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countlng1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:long(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:long("-47175562203048468")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countlng1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:long(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:long("92233720368547758")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countusht1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:unsignedShort(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:unsignedShort("0")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countusht1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:unsignedShort(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:unsignedShort("44633")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countusht1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:unsignedShort(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:unsignedShort("65535")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnint1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:negativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:negativeInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnint1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:negativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:negativeInteger("-297014075999096793")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnint1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:negativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:negativeInteger("-1")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countpint1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:positiveInteger("1")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countpint1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:positiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:positiveInteger("52704602390610033")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countpint1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:positiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:positiveInteger("999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countulng1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:unsignedLong(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:unsignedLong("0")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countulng1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:unsignedLong(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:unsignedLong("130747108607674654")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countulng1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:unsignedLong(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:unsignedLong("184467440737095516")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnpi1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:nonPositiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:nonPositiveInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnpi1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:nonPositiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:nonPositiveInteger("-475688437271870490")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnpi1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:nonPositiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:nonPositiveInteger("0")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnni1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:nonNegativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:nonNegativeInteger("0")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnni1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:nonNegativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:nonNegativeInteger("303884545991464527")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countnni1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:nonNegativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:nonNegativeInteger("999999999999999999")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countsht1args-1">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:short(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:short("-32768")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countsht1args-2">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:short(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:short("-5324")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-countsht1args-3">
+      <description> Evaluates The "count" function with the arguments set as follows: $arg = xs:short(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:count((xs:short("32767")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-1">
+      <description> A test whose essence is: `count()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-2">
+      <description> A test whose essence is: `count(1, ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(1, ())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-3">
+      <description> A test whose essence is: `count( () ) eq 0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count( () ) eq 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-4">
+      <description> A test whose essence is: `count( (1, 2, 3) ) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count( (1, 2, 3) ) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-5">
+      <description> A test whose essence is: `count( (1, 2, ()) ) eq 2`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count( (1, 2, ()) ) eq 2</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-6">
+      <description> A test whose essence is: `count(()) eq 0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(()) eq 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-7">
+      <description> A test whose essence is: `count(((((()))))) eq 0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(((((()))))) eq 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-8">
+      <description> A test whose essence is: `count( (((), (), ()), (), (), (), ()) ) eq 0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count( (((), (), ()), (), (), (), ()) ) eq 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-9">
+      <description> A test whose essence is: `count( (1, 2, 3) ) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count( (1, 2, 3) ) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-10">
+      <description> A test whose essence is: `count( ((), "one", 2, "three")) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count( ((), "one", 2, "three")) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-11">
+      <description> A test whose essence is: `count( ("one", (2, "three")) ) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count( ("one", (2, "three")) ) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-12">
+      <description> A test whose essence is: `count((1, 2)) eq 2`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count((1, 2)) eq 2</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-13">
+      <description> A test whose essence is: `count((1, 2, 3, "four")) eq 4`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count((1, 2, 3, "four")) eq 4</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-14">
+      <description> A test whose essence is: `count((1, 2, 3, "four")) eq 4`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count((1, 2, 3, "four")) eq 4</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-15">
+      <description> A test whose essence is: `count(1 to 3) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(1 to 3) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-16">
+      <description> A test whose essence is: `count(reverse((1, 2, 3))) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(reverse((1, 2, 3))) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-17">
+      <description> A test whose essence is: `count(reverse((1, 2, 3))) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(reverse((1, 2, 3))) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqCountFunc-18">
+      <description> A test whose essence is: `not(count((1, 2, current-time(), 4))) eq false()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(count((1, 2, current-time(), 4))) eq false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqCountFunc-1">
+      <description> fn:count() doesn't implicitly get the context node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1 to 10)/count()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count001">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//employee[@name='John Doe 4']) = 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count002">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[count(//employee[@name='John Doe 4']) < 2]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count003">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//employee[@name='John Doe 4']) > 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count004">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//employee[@name='John Doe 4']/@name) > 0.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count005">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//*[@name='John Doe 4']) lt 1.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count006">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//*[@name='John Doe 4']) eq 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count007">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//*[@name='John Doe 498']) eq 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count008">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//*[@name='John Doe 4']) lt 1000000000000</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count009">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//*[@name='John Doe 4']) gt -5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count010">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//*[@name='John Doe 4']) eq 0.3</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count011">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//node()) gt 40</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count012">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>count(//node()) ne -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count013">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>0 = count(//node())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count014">
+      <description> count() applied to nodes (with optimization opportunities) </description>
+      <created by="Michael Kay" on="2011-11-04"/>
+      <environment ref="works-mod"/>
+      <test>40 gt count(//node())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Count015">
+      <description> count() applied to a for expression </description>
+      <created by="Michael Kay" on="2013-05-03"/>
+      <test>count(for $s in ("red", "blue", "green") return string-to-codepoints($s))</test>
+      <result>
+         <assert-eq>12</assert-eq>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-count-001">
+      <description> test fn:count on a range </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      
+      <test>fn:count(1 to 10000000)</test>
+      <result>
+         <assert-string-value>10000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-002">
+      <description> test fn:count on a mix of values and expressions </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else $arg }; fn:count( ( (), local:generate( () ), local:generate( 0 ), (1 to 10000000), local:generate( () ), local:generate(1)) )</test>
+      <result>
+         <assert-string-value>10000004</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-003">
+      <description> Test fn:count on a range </description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      <dependency type="spec" value="XQ10+ XP30+"/>    
+      <test>let $x := year-from-date(current-date()) return count( 1 to $x ) = $x</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-005">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt 25</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-006">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le 25</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-007">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq 25</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-008">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 25</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-009">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt 25</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-010">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne 25</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-011">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt 25)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-012">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le 25)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-013">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq 25)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-014">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge 25)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-015">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt 25)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-016">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne 25)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-017">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 lt count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-018">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 le count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-019">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 eq count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-020">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 ge count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-021">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 gt count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-022">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 ne count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-023">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 lt count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-024">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 le count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-025">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 eq count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-026">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 ge count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-027">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 gt count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-028">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 ne count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-029">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) lt local:square(5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-030">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) le local:square(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-031">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) eq local:square(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-032">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ge local:square(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-033">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) gt local:square(5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-034">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ne local:square(5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-035">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) lt count(local:primes(100, 200))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-036">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) le count(local:primes(100, 200))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-037">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) eq count(local:primes(100, 200))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-038">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) ge count(local:primes(100, 200))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-039">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) gt count(local:primes(100, 200))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-040">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) ne count(local:primes(100, 200))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-041">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt -1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-042">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le -1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-043">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq -1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-044">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-045">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-046">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-047">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) lt -local:square(5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-048">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) le -local:square(5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-049">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) eq -local:square(5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-050">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ge -local:square(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-051">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) gt -local:square(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-052">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ne -local:square(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-053">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) lt count(local:primes(100, 200)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-054">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) le count(local:primes(100, 200)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-055">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) eq count(local:primes(100, 200)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-056">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) ge count(local:primes(100, 200)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-057">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) gt count(local:primes(100, 200)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-058">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) ne count(local:primes(100, 200)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-059">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt 25.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-060">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le 25.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-061">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq 25.5</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-062">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 25.5</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-063">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt 25.5</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-064">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne 25.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-065">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt 25.5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-066">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le 25.5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-067">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq 25.5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-068">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge 25.5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-069">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt 25.5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-070">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne 25.5)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-071">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 lt count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-072">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 le count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-073">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 eq count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-074">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 ge count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-075">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 gt count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-076">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 ne count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-077">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 lt count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-078">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 le count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-079">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 eq count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-080">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 ge count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-081">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 gt count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-082">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 ne count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-083">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) lt local:square(5.1)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-084">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) le local:square(5.1)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-085">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) eq local:square(5.1)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-086">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ge local:square(5.1)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-087">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) gt local:square(5.1)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-088">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ne local:square(5.1)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-089">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt -1.5</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-090">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le -1.5</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-091">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq -1.5</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-092">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge -1.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-093">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt -1.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-094">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne -1.5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-095">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) lt -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-096">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) le -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-097">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) eq -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-098">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ge -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-099">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) gt -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-100">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ne -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-101">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ge 1.0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-102">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float("25.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-103">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float("25.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-104">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float("25.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-105">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float("25.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-106">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float("25.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-107">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float("25.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-108">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt xs:float("25.5"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-109">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le xs:float("25.5"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-110">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq xs:float("25.5"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-111">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge xs:float("25.5"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-112">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt xs:float("25.5"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-113">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne xs:float("25.5"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-114">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float("24.5") lt count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-115">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float("24.5") le count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-116">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float("24.5") eq count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-117">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float("24.5") ge count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-118">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float("24.5") gt count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-119">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float("24.5") ne count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-120">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float("24.5") lt count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-121">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float("24.5") le count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-122">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float("24.5") eq count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-123">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float("24.5") ge count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-124">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float("24.5") gt count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-125">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float("24.5") ne count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-126">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) lt local:square(xs:float("4.9"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-127">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) le local:square(xs:float("4.9"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-128">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) eq local:square(xs:float("4.9"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-129">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ge local:square(xs:float("4.9"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-130">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) gt local:square(xs:float("4.9"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-131">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ne local:square(xs:float("4.9"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-132">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float("-1.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-133">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float("-1.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-134">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float("-1.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-135">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float("-1.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-136">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float("-1.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-137">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float("-1.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-138">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) lt -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-139">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) le -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-140">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) eq -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-141">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ge -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-142">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) gt -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-143">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ne -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-144">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float("1.0")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-145">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double("25.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-146">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double("25.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-147">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double("25.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-148">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double("25.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-149">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double("25.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-150">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double("25.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-151">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt xs:double("25.5"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-152">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le xs:double("25.5"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-153">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq xs:double("25.5"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-154">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge xs:double("25.5"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-155">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt xs:double("25.5"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-156">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne xs:double("25.5"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-157">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double("24.5") lt count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-158">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double("24.5") le count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-159">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double("24.5") eq count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-160">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double("24.5") ge count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-161">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double("24.5") gt count(local:primes(100))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-162">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double("24.5") ne count(local:primes(100))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-163">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double("24.5") lt count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-164">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double("24.5") le count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-165">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double("24.5") eq count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-166">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double("24.5") ge count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-167">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double("24.5") gt count(local:primes(100)))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-168">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double("24.5") ne count(local:primes(100)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-169">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) lt local:square(xs:double("4.9"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-170">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) le local:square(xs:double("4.9"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-171">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) eq local:square(xs:double("4.9"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-172">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ge local:square(xs:double("4.9"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-173">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) gt local:square(xs:double("4.9"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-174">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ne local:square(xs:double("4.9"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-175">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double("-1.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-176">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double("-1.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-177">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double("-1.5")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-178">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double("-1.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-179">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double("-1.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-180">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double("-1.5")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-181">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) lt -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-182">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) le -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-183">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) eq -local:square(5.0)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-184">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ge -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-185">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) gt -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-186">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ne -local:square(5.0)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-187">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double("1.0")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-188">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-189">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-190">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-191">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-192">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-193">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-194">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double("NaN")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-195">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double("INF")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-196">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double("INF")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-197">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double("INF")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-198">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double("INF")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-199">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double("INF")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-200">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double("INF")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-201">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-202">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-203">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-204">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-205">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float("NaN")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-206">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float("NaN")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-207">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float("INF")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-208">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float("INF")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-209">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float("INF")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-210">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float("INF")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-211">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float("INF")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-212">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float("INF")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-213">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) lt local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-214">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) le local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-215">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) eq local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-216">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ge local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-217">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) gt local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-218">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ne local:strange(true())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-219">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) lt local:strange(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-220">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) le local:strange(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-221">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) eq local:strange(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-222">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ge local:strange(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-223">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) gt local:strange(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-224">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ne local:strange(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-225">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) lt local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-226">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) le local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-227">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) eq local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-228">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ge local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-229">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) gt local:strange(true())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-230">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ne local:strange(true())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-231">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) lt local:strange(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-232">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) le local:strange(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-233">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) eq local:strange(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-234">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ge local:strange(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-235">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) gt local:strange(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-236">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ne local:strange(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-237">
+      <description> Tests a count of initial subsequence </description>
+      <created by="Nick Jones" on="2008-06-02"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((for $x in 1 to 10 return $x * $x)[position() < 3])]]></test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-238">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt -1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-count-239">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le -1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-240">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq -1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-241">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-242">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-243">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne -1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-count-244">
+      <description> test fn:count </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

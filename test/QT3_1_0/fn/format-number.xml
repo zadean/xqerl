@@ -1,0 +1,1076 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-format-number"  covers="fn-format-number">
+   <description>Tests for the format-number() function transferred from XSLT 1.0/2.0 to XPath 3.0/XQuery 3.0</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/"
+         idref="func-format-number"/>
+   <dependency type="spec" value="XP30+ XQ30+"/>
+   <test-case name="numberformat01">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number with 2 arguments, showing zeroes. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat01.xml-->
+      <test>format-number(2392.14*36.58,'000,000.000000')</test>
+      <result>
+         <assert-string-value>087,504.481200</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat02">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number and # and 0 in format string. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat02.xml-->
+      <test>format-number(12792.14*96.58,'##,###,000.000###')</test>
+      <result>
+         <assert-string-value>1,235,464.8812</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat03">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number on a negative number. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat03.xml-->
+      <test>format-number(2792.14*(-36.58),'000,000.000###')</test>
+      <result>
+         <assert-string-value>-102,136.4812</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat04">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number on a negative number; should choose second pattern. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat04.xml-->
+      <test>format-number(2392.14*(-36.58),'000,000.000###;###,###.000###')</test>
+     <result>
+         <assert-string-value>87,504.4812</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat05">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number percentage format. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat05.xml-->
+      <test>format-number(0.4857,'###.###%')</test>
+      <result>
+         <assert-string-value>48.57%</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat06">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number per-mille format. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat06.xml-->
+      <test>format-number(0.4857,'###.###&#8240;')</test>
+      <result>
+         <assert-string-value>485.7&#8240;</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat07">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number currency symbol, which is not supposed to be there. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat07.xml-->
+      <test>format-number(95.4857,'&#164;###.####')</test>
+      <result>
+         <assert-string-value>&#164;95.4857</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat08">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number with prefix and suffix in format string. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat08.xml-->
+      <test>format-number(2.14*86.58,'PREFIX##00.000###SUFFIX')</test>
+      <result>
+         <assert-string-value>PREFIX185.2812SUFFIX</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat09">
+      <description>
+        Creator: David Marston 
+        Purpose: Test default decimal-format on separator characters, changing both. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat09.xml-->
+      <environment>
+         <decimal-format decimal-separator="|" grouping-separator="."/>
+      </environment>
+      <test>format-number(931.4857,'000.000|###')</test>
+      <result>
+         <assert-string-value>000.931|486</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat11">
+      <description>
+        Creator: David Marston 
+        Purpose: Test default decimal-format on pattern-only characters, positive number. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat11.xml-->
+      <environment>
+         <decimal-format digit="!" pattern-separator="\"/>
+      </environment>
+      <test>format-number(26931.4,'+!!!,!!!.!!!\-!!,!!!.!!!')</test>
+      <result>
+         <assert-string-value>+26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat12">
+      <description>
+        Creator: David Marston 
+        Purpose: Test default decimal-format on pattern-only characters, negative number. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat12.xml-->
+      <environment>
+         <decimal-format digit="!" pattern-separator="\"/>
+      </environment>
+      <test>format-number(-26931.4,'+!!,!!!.!!!\-!!!,!!!.!!!')</test>
+      <result>
+         <assert-string-value>-26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat13">
+      <description>
+        Creator: David Marston 
+        Purpose: Test default decimal-format on pattern-only characters, negative number and one pattern. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat13.xml-->
+      <environment>
+         <decimal-format digit="!" pattern-separator="\"/>
+      </environment>
+      <test>format-number(-26931.4,'!!!,!!!.!!!')</test>
+      <result>
+         <assert-string-value>-26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat14">
+      <description>
+        Creator: David Marston 
+        Purpose: Test specified result pattern for infinity. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat14.xml-->
+      <environment>
+         <decimal-format infinity="off-the-scale"/>
+      </environment>
+      <test>format-number(1 div 0e0,'###############################')</test>
+      <result>
+         <assert-string-value>off-the-scale</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat15">
+      <description>
+        Creator: David Marston 
+        Purpose: Test specified result pattern for not-a-number. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat15.xml-->
+      <environment>
+         <decimal-format NaN="non-numeric"/>
+      </environment>
+      <dependency type="feature" value="xpath-1.0-compatibility"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>format-number('foo','#############')</test>
+      <result>
+         <assert-string-value>non-numeric</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat16">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of decimal-format per-mille format with character being changed. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat16.xml-->
+      <environment>
+         <decimal-format per-mille="m"/>
+      </environment>
+      <test>format-number(0.4857,'###.###m')</test>
+      <result>
+         <assert-string-value>485.7m</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat17">
+      <description>
+        Creator: David Marston 
+        Purpose: Test decimal-format output character for negative, 2 patterns. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat17.xml-->
+      <environment>
+         <decimal-format minus-sign="_"/>
+      </environment>
+      <test>format-number(-26931.4,'+###,###.###;-###,###.###')</test>
+      <result>
+         <assert-string-value>-26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat18">
+      <description>
+        Creator: David Marston 
+        Purpose: Test decimal-format output character for negative, one pattern. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat18.xml-->
+      <environment>
+         <decimal-format minus-sign="_"/>
+      </environment>
+      <test>format-number(-26931.4,'###,###.###')</test>
+      <result>
+         <assert-string-value>_26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat19">
+      <description>
+        Creator: David Marston 
+        Purpose: Test decimal-format declaration with a name. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat19.xml-->
+      <environment>
+         <decimal-format name="myminus" minus-sign="_"/>
+      </environment>
+      <test>concat(format-number(-26931.4,'###,###.###','myminus'), '/',
+            format-number(-42857.1,'###,###.###'))</test>
+      <result>
+         <assert-string-value>_26,931.4/-42,857.1</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat20">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of decimal-format with qualified name. Unqualified name provided as a trap. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat20.xml-->
+      <environment>
+         <namespace prefix="foo" uri="http://foo.ns"/>
+         <decimal-format xmlns:foo="http://foo.ns" name="foo:decimal1" decimal-separator="!" grouping-separator="*"/>
+         <decimal-format name="decimal1" decimal-separator="*" grouping-separator="!"/>
+      </environment>
+      <test>format-number(1234.567,'#*###*###!###','foo:decimal1')</test>
+     <result>
+         <assert-string-value>1*234!567</assert-string-value>
+      </result>
+   </test-case>
+   <!-- numberformat21 - XSLT specific -->
+   <!-- numberformat22 - XSLT specific -->
+   <!-- numberformat23 - XSLT specific -->
+   <!-- numberformat24 - XSLT specific -->
+   
+   <test-case name="numberformat26">
+      <description>
+        Creator: David Marston 
+        Purpose: Designate a space as the grouping separator. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat26.xml-->
+      <environment>
+         <decimal-format decimal-separator="," grouping-separator=" "/>
+      </environment>
+      <test>format-number(7654321.4857,'### ### ###,#####')</test>
+      <result>
+         <assert-string-value>7 654 321,4857</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat27">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number minus-sign behavior on positive numbers. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat27.xml-->
+      <environment>
+         <decimal-format name="myminus" minus-sign="_"/>
+      </environment>
+      <test>string-join((format-number(2392.14*36.58,'000,000.000000','myminus'),
+                        format-number(2392.14*36.58,'000,000.000000;###,###.000###'),
+                        format-number(2392.14*36.58,'000,000.000000;###,###.000###','myminus')), ' ')
+      </test>
+      <result>
+         <assert-string-value>087,504.481200 087,504.481200 087,504.481200</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat28">
+      <description>
+        Creator: David Marston 
+        Purpose: Test what happens to minus sign embedded in second pattern. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat28.xml-->
+      <environment/>
+      <test>format-number(2392.14*(-36.58),'000,000.000###;-###,###.000###')</test>
+      <result>
+         <assert-string-value>-87,504.4812</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat29">
+      <description>
+        Creator: David Marston 
+        Purpose: Test decimal-format output character does not influence input. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat29.xml-->
+      <environment>
+         <decimal-format minus-sign="_"/>
+      </environment>
+      <test>format-number(-26931.4,'+###,###.###;_###,###.###')</test>
+      <result>
+         <assert-string-value>_26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat30">
+      <description>
+        Creator: David Marston 
+        Purpose: Test effects of minus-sign in one pattern. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat30.xml-->
+      <environment>
+         <decimal-format name="myminus" minus-sign="_"/>
+      </environment>
+      <test>string-join((
+                format-number(-26931.4,'-###,###.###'),
+                format-number(-26931.4,'zzz-###,###.###','myminus'),
+                format-number(-26931.4,'_###,###.###','myminus')), ' ')</test>
+      <result>
+         <assert-string-value>--26,931.4 _zzz-26,931.4 __26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat31">
+      <description>
+        Creator: David Marston 
+        Purpose: Test output of altered minus, 2 patterns but no sign marker in pattern. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat31.xml-->
+      <environment>
+         <decimal-format minus-sign="_"/>
+      </environment>
+      <test>format-number(-26931.4,'###,###.###;###,###.###')</test>
+      <result>
+         <assert-string-value>26,931.4</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat32">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of format-number percent format with character being changed. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat32.xml-->
+      <environment>
+         <decimal-format percent="c"/>
+      </environment>
+      <test>format-number(0.4857,'###.###c')</test>
+      <result>
+         <assert-string-value>48.57c</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat34">
+      <description>
+        Creator: David Marston (modified by MHK because there are now rules on choosing a zero-digit) 
+        Purpose: Test changing both digit and zero-digit in format string. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat34.xml-->
+      <environment>
+         <decimal-format digit="!" zero-digit="&#1632;"/>
+      </environment>
+      <test>format-number(4030201.0506,'#!!!,!!!,&#1632;&#1632;&#1632;.&#1632;&#1632;&#1632;&#1632;&#1632;&#1632;0')</test>
+      <result>
+         <assert-string-value>#&#1636;,&#1632;&#1635;&#1632;,&#1634;&#1632;&#1633;.&#1632;&#1637;&#1632;&#1638;&#1632;&#1632;0</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat35">
+      <description>
+        Creator: David Marston 
+        Purpose: Test of unequal spacing of grouping-separator. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat35.xml-->
+      <environment/>
+      <test>format-number(987654321,'###,##0,00.00')</test>
+      <result>
+         <assert-string-value>9876,543,21.00</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat36">
+      <description>
+        Creator: David Marston 
+        Purpose: Test what happens when we overflow available digits on the left. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat36.xml-->
+      <environment/>
+      <test>format-number(239236.588,'00000.00')</test>
+      <result>
+         <assert-string-value>239236.59</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat37">
+      <description>
+        Creator: David Marston 
+        Purpose: Test result pattern for infinity, unchanged. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat37.xml-->
+      <environment/>
+      <test>format-number(1 div 0e0,'###############################')</test>
+      <result>
+         <assert-string-value>Infinity</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat38">
+      <description>
+        Creator: David Marston 
+        Purpose: Test result pattern for not-a-number, unchanged. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat38.xml-->
+      <environment/>
+      <dependency type="feature" value="xpath-1.0-compatibility"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>format-number('foo','#############')</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat39">
+      <description>
+        Creator: David Marston 
+        Purpose: Test result pattern for negative infinity, unchanged. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat39.xml-->
+      <environment/>
+      <test>format-number(-1 div 0e0,'###############################')</test>
+      <result>
+         <assert-string-value>-Infinity</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat40">
+      <description>
+        Creator: David Marston 
+        Purpose: Test specification of result pattern for infinity</description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat40.xml-->
+      <environment>
+         <decimal-format infinity="huge"/>
+      </environment>
+      <test>format-number(-1 div 0e0,'###############################')</test>
+      <result>
+         <assert-string-value>-huge</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat41">
+      <description>
+        Creator: David Bertoni 
+        Purpose: Test of multiple decimal-format elements with identical qualified names.</description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-10-26" change="Bug fix #19716" />
+      <modified by="Michael Kay, Saxonica" on="2013-04-24" change="Bug fix #19716" />
+      <!--SOURCE: numberformat/numberformat41.xml-->
+      <environment>
+         <namespace prefix="foo" uri="http://foo.ns"/>
+         <namespace prefix="baz" uri="http://foo.ns"/>
+         <decimal-format xmlns:foo="http://foo.ns" name="foo:decimal1" minus-sign="-" NaN="not a number" decimal-separator="."/>
+      </environment>
+      <dependency type="feature" value="xpath-1.0-compatibility"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>string-join((
+                format-number('NaN','###','foo:decimal1'),
+                format-number(-13.2,'###.0','foo:decimal1'),
+                format-number('NaN','###','baz:decimal1'),
+                format-number(-13.2,'###.0','baz:decimal1')), '|')</test>
+      <result>
+         <assert-string-value>not a number|-13.2|not a number|-13.2</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat42">
+      <description>
+        Creator: David Bertoni 
+        Purpose: Test of multiple decimal-format elements with identical names.</description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay, Saxonica" on="2013-04-24" change="Bug fix #19716" />
+      <!--SOURCE: numberformat/numberformat42.xml-->
+      <environment>
+         <decimal-format name="decimal2" zero-digit="0" NaN="not a number" decimal-separator="."/>
+      </environment>
+      <dependency type="feature" value="xpath-1.0-compatibility"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>concat(format-number('NaN','###','decimal2'), '|',
+                      format-number(3.2,'###.0','decimal2'))</test>
+      <result>
+         <assert-string-value>not a number|3.2</assert-string-value>
+      </result>
+   </test-case>
+   <!-- numberformat43 - XSLT-specific -->
+   <!-- numberformat44 - XSLT-specific -->
+   <!-- numberformat45 - XSLT-specific -->
+   <!-- numberformat46 - XSLT-specific -->
+   
+   <test-case name="numberformat60a">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E25,'#,######')</test>
+      <result>
+        <assert-string-value>10,000000,000000,000000,000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60b">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E10,'#####################')</test>
+      <result>
+        <assert-string-value>10000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60c">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E11,'#####################')</test>
+      <result>
+        <assert-string-value>100000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60d">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E12,'#####################')</test>
+      <result>
+        <assert-string-value>1000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60e">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E13,'#####################')</test>
+      <result>
+        <assert-string-value>10000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60f">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E14,'#####################')</test>
+      <result>
+        <assert-string-value>100000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60g">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E15,'#####################')</test>
+      <result>
+        <assert-string-value>1000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60h">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E16,'#####################')</test>
+      <result>
+        <assert-string-value>10000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60i">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E17,'#####################')</test>
+      <result>
+        <assert-string-value>100000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60j">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E18,'#####################')</test>
+      <result>
+        <assert-string-value>1000000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60k">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E19,'#####################')</test>
+      <result>
+        <assert-string-value>10000000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60l">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E20,'#####################')</test>
+      <result>
+        <assert-string-value>100000000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60m">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E25,'#####################')</test>
+      <result>
+        <assert-string-value>10000000000000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60n">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E30,'#####################')</test>
+      <result>
+        <assert-string-value>1000000000000000000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60o">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E35,'#####################')</test>
+      <result>
+        <assert-string-value>100000000000000000000000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60p">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E100,'#####################')</test>
+      <result>
+        <assert-string-value>10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat60q">
+      <description>
+        Test format-number() applied to large numbers (test how good the rounding is)
+        Bug report from Pedro Christian against Saxon 7.8
+      </description>  
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-17" change="changed expected result for 1e100 div 3 as per bug 14934"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <test>format-number(1E100 div 3,'#####################')</test>
+      <result>
+        <assert-string-value>3333333333333333000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-string-value>
+      </result>
+   </test-case>     
+
+   <test-case name="numberformat61">
+      <description>
+        format-number() applied to an empty sequence
+      </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment/>
+      <test>format-number((),'###.###')</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   <!-- numberformat62 is XSLT-specific-->
+ 
+   <test-case name="numberformat63">
+      <description>
+        Purpose: Test formatting of a high-precision decimal value. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 14933"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment/>
+      <test>format-number(000123456789012345678901234567890.123456789012345678900000,     '##0.0####################################################')</test>
+      <result>
+        <any-of>
+          <assert-string-value>123456789012345678901234567890.1234567890123456789</assert-string-value>
+          <error code="FOAR0002"/>
+        </any-of>  
+      </result>
+   </test-case>
+   <test-case name="numberformat64">
+      <description>
+        Purpose: Test formatting of a high-precision integer value. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 14933"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment>
+         <decimal-format grouping-separator=" "/>
+      </environment>   
+      <test>format-number(000123456789012345678901234567890123456789012345678900000,     '# #0.0####################################################')</test>
+      <result>
+         <any-of>
+           <assert-string-value>12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 00 00.0</assert-string-value>
+           <error code="FOAR0002"/>
+         </any-of>  
+      </result>
+   </test-case>
+   <test-case name="numberformat65">
+      <description>
+        Purpose: Test that a trailing decimalpoint is removed. 
+      </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment>
+         <decimal-format grouping-separator=" "/>
+      </environment>
+      <test>concat(format-number(1234e0, '0000.####'), '|',
+                    format-number(1234.00, '0000.####'))</test>
+      <result>
+         <assert-string-value>1234|1234</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat70">
+      <description>
+        Decimal separator and grouping separator in the astral planes
+      </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment>
+         <decimal-format decimal-separator="&#110000;" grouping-separator="&#110001;"/>
+      </environment>
+      <test>format-number(1234567890.123456,'&#110001;000&#110000;000')</test>
+      <result>
+         <assert-string-value>1&#110001;234&#110001;567&#110001;890&#110000;123</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat71">
+      <description>
+        Use Osmanya digits (non-BMP) in formatted output
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment>
+         <decimal-format zero-digit="&#66720;"/>
+      </environment>
+      <test>format-number(1234567890.123456,'##########&#66720;.&#66720;#####')</test>
+      <result>
+         <assert-string-value>&#66721;&#66722;&#66723;&#66724;&#66725;&#66726;&#66727;&#66728;&#66729;&#66720;.&#66721;&#66722;&#66723;&#66724;&#66725;&#66726;</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat72">
+      <description>
+        Check that overflow isn't an error
+      </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment/>
+      <test>format-number(1234567890.123456,'000.000')</test>
+      <result>
+         <assert-string-value>1234567890.123</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat80">
+      <description>
+        PURPOSE: test format-number() with two arguments
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat80.xml-->
+      <environment/>
+      <test>format-number(12.34, '##.##')</test>
+      <result>
+         <assert-string-value>12.34</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="numberformat81">
+      <description>
+        PURPOSE: test format-number() with three arguments; also tests use of whitespace in name
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <environment>
+         <namespace prefix="a" uri="http://a.ns/"/>
+         <namespace prefix="b" uri="http://a.ns/"/>
+         <decimal-format xmlns:a="http://a.ns/" name="a:test" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', ' b:test ')</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat82">
+      <description>
+        PURPOSE: test format-number() where third argument is not known statically
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <decimal-format name="one" decimal-separator="." grouping-separator=","/>
+         <decimal-format name="two" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', if (current-date() gt xs:date('1900-01-01')) then 'two' else 'one')</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat83">
+      <description>
+        PURPOSE: test format-number() where third argument is not known statically and depends on namespace context; 
+        also tests use of whitespace in name
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <namespace prefix="a" uri="http://a.ns/"/>
+         <namespace prefix="b" uri="http://b.ns/"/>
+         <decimal-format xmlns:x="http://a.ns/" name="x:one" decimal-separator="." grouping-separator=","/>
+         <decimal-format xmlns:y="http://b.ns/" name="y:one" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', concat(if (current-date() lt xs:date('1900-01-01')) then ' a' else ' b', ':one '))</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="numberformat84">
+      <description>
+        PURPOSE: test format-number() with grouping separator
+      </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat84.xml-->
+      <environment/>
+      <test>format-number(123456789.34, '#,###.##')</test>
+      <result>
+         <assert-string-value>123,456,789.34</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat85">
+      <description>
+        PURPOSE: test special case of format-number() imposing minWholePartSize = 1 with different data types
+      </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat84.xml-->
+      <environment/>
+      <test>string-join((
+                format-number(0, '#'),
+                format-number(0.0, '#'),
+                format-number(0.0e0, '#'),
+                format-number(xs:float(0), '#')), '|')
+        
+      </test>
+      <result>
+         <assert-string-value>0|0|0|0</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat86">
+      <description>In 3.0, () allowed as third argument (bug 14931)</description>
+      <created by="Michael Kay, Saxonica" on="2011-12-06"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>format-number(0.4857,'###.###%', ())</test>
+      <result>
+         <assert-string-value>48.57%</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat87">
+      <description>
+        PURPOSE: test format-number() with EQName for third argument, known statically; also tests use of whitespace in name
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <decimal-format xmlns:a="http://a.ns/" name="a:test" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', 'Q{http://a.ns/}test ')</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat88">
+      <description>
+        PURPOSE: test format-number() with EQName for third argument, not known statically; also tests use of whitespace in name
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <decimal-format xmlns:a="http://a.ns/" name="a:test" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', if (current-date() lt xs:date('1900-01-01')) then () else ' Q{http://a.ns/}test')</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+  
+  <test-case name="numberformat89">
+    <description>
+      PURPOSE: test format-number() with using "9" rather than "0" in picture
+    </description> 
+    <created by="Michael Kay, Saxonica" on="2013-05-15"/>
+    <test>format-number(12.34, '9,999.99')</test>
+    <result>
+      <assert-string-value>0,012.34</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat90">
+    <description>
+      PURPOSE: test format-number() with using "9" rather than "0" in picture, along with '#'
+    </description> 
+    <created by="Michael Kay, Saxonica" on="2013-05-15"/>
+    <test>format-number(12.34, '#,##9.99')</test>
+    <result>
+      <assert-string-value>12.34</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat91">
+    <description>
+      PURPOSE: test format-number() with using "001" rather than "000" in picture
+    </description> 
+    <created by="Michael Kay, Saxonica" on="2013-05-15"/>
+    <test>format-number(42, '001')</test>
+    <result>
+      <assert-string-value>042</assert-string-value>
+    </result>
+  </test-case>
+   
+   <test-case name="numberformat901err">
+      <description>
+        Creator: David Marston 
+        Purpose: Create a conflict in the use of the '!' character. 
+      </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <!--SOURCE: numberformat/numberformat901err.xml-->
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare default decimal-format decimal-separator="!" grouping-separator="!";
+        format-number(931.4857,'###!###!###')</test>
+      <result>
+         <error code="XQST0098"/>
+      </result>
+   </test-case>
+   <test-case name="numberformat902err">
+      <description>
+        Creator: Michael Kay (bug report from doerschlein) 
+        Purpose: Test use of an illegal picture. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #15626: Change to error code"/>
+      <!--SOURCE: numberformat/numberformat902err.xml-->
+      <environment/>
+      <test>format-number(931.4857,'000.##0')</test>
+      <result>
+         <error code="FODF1310"/>
+      </result>
+   </test-case>
+   <test-case name="numberformat905err">
+      <description>
+        Purpose: test error condition: no digit or zero-digit in picture. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+       <modified by="O'Neil Delpratt" on="2012-05-31" change="Bug fix related to bug #15626: Change to error code"/>
+      <!--SOURCE: numberformat/stdxmlfile.xml-->
+      <environment>
+         <decimal-format name="q" decimal-separator="." grouping-separator=","/>
+      </environment>
+      <test>format-number(931.4857,'fred.ginger', 'q')</test>
+      <result>
+         <error code="FODF1310"/>
+      </result>
+   </test-case>
+
+   <test-case name="numberformat906InputErr">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: Test wrong arg datatype inputs for format-number. </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number('abc','000.##0')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="numberformat907InputErr">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: Test wrong arg datatype inputs for format-number. </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number(931.45, 931.45)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+  <test-case name="numberformatFODF1280">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: Test raising error FODF1280. </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number(931.45, '000.##0', 'foo:bar')</test>
+      <result>
+         <error code="FODF1280"/>
+      </result>
+   </test-case>
+
+  <test-case name="numberformatNaN">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: NaN input from number("abc"). </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number(number("abc"),'#############')</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+</test-set>

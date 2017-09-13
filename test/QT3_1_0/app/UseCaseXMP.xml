@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-UseCaseXMP">
+   <description>Tests for the UseCaseXMP</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-UseCaseXMP"/>
+   <link type="spec" document="UseCases" section-number="1.1.9.1"
+         idref="xmp-queries-results-q1"/>
+         
+   <environment name="bib">
+      <source role="." file="../docs/bib.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>      
+   </environment>
+   
+   <environment name="bib-and-reviews">
+      <source role="$bib" file="../docs/bib.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>
+      <source role="$reviews" file="../docs/reviews.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>     
+   </environment>
+   
+   <environment name="books">
+      <source role="." file="../docs/books.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>      
+   </environment>
+   
+   <environment name="prices">
+      <source role="." file="../docs/prices.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>      
+   </environment>
+
+   <test-case name="xmp-queries-results-q1">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<bib> { 
+      		for $b in /bib/book 
+      		where $b/publisher = "Addison-Wesley" and $b/@year > 1991 
+      		return <book year="{ $b/@year }">{ $b/title }</book> } 
+      	</bib>]]></test>
+      <result>
+         <assert-xml><![CDATA[<bib><book year="1994"><title>TCP/IP Illustrated</title></book><book year="1992"><title>Advanced Programming in the Unix environment</title></book></bib>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q2">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<results> { 
+      		for $b in /bib/book, $t in $b/title, $a in $b/author 
+      		return <result> { $t } { $a } </result> } 
+      	</results>]]></test>
+      <result>
+         <assert-xml><![CDATA[<results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author></result><result><title>Data on the Web</title><author><last>Buneman</last><first>Peter</first></author></result><result><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></result></results>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q3">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<results> { 
+      		for $b in /bib/book 
+      		return <result> { $b/title } { $b/author } </result> } 
+      	</results>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></result><result><title>The Economics of Technology and Content for Digital TV</title></result></results>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q4">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<results> { 
+      		let $a := //author 
+      		for $last in distinct-values($a/last), $first in distinct-values($a[last=$last]/first) 
+      		order by $last, $first 
+      		return <result> 
+      				<author> <last>{ $last }</last> <first>{ $first }</first> </author> 
+      				{ for $b in /bib/book 
+      					where some $ba in $b/author satisfies ($ba/last = $last and $ba/first=$first) 
+      					return $b/title } 
+      			   </result> } 
+      	</results>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<results><result><author><last>Abiteboul</last><first>Serge</first></author><title>Data on the Web</title></result><result><author><last>Buneman</last><first>Peter</first></author><title>Data on the Web</title></result><result><author><last>Stevens</last><first>W.</first></author><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></result><result><author><last>Suciu</last><first>Dan</first></author><title>Data on the Web</title></result></results>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q5">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib-and-reviews"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<books-with-prices> { 
+        for $b in $bib//book, $a in $reviews//entry 
+        where $b/title = $a/title 
+        return <book-with-prices> { $b/title } <price-bstore2>{ $a/price/text() }</price-bstore2> <price-bstore1>{ $b/price/text() }</price-bstore1> </book-with-prices> } </books-with-prices>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<books-with-prices><book-with-prices><title>TCP/IP Illustrated</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Advanced Programming in the Unix environment</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Data on the Web</title><price-bstore2>34.95</price-bstore2><price-bstore1>39.95</price-bstore1></book-with-prices></books-with-prices>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q6">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<bib> { 
+      		for $b in //book 
+      		where count($b/author) > 0 
+      		return <book> 
+      			{ $b/title } 
+      			{ for $a in $b/author[position()<=2] return $a } 
+      			{ if (count($b/author) > 2) then <et-al/> else () } 
+      			</book> } 
+      	</bib>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><et-al/></book></bib>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q7">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<bib> { 
+      		for $b in //book 
+      		where $b/publisher = "Addison-Wesley" and $b/@year > 1991 
+      		order by exactly-one($b/title) 
+      		return <book> { $b/@year } { $b/title } </book> } 
+      	</bib>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<bib><book year="1992"><title>Advanced Programming in the Unix environment</title></book><book year="1994"><title>TCP/IP Illustrated</title></book></bib>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q8">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	for $b in //book 
+      	let $e := $b/*[contains(string(.), "Suciu") and ends-with(local-name(.), "or")] 
+      	where exists($e) 
+      	return <book> { $b/title } { $e } </book>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<book><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></book>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q9">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="books"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<results> { 
+      		for $t in //(chapter | section)/title 
+      		where contains(exactly-one($t/text()), "XML") 
+      		return $t } 
+      	</results>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<results><title>XML</title><title>XML and Semistructured Data</title></results>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q10">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="prices"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<results> { 
+      		let $doc := (/) 
+      		for $t in distinct-values($doc//book/title) 
+      		let $p := $doc//book[title = $t]/price 
+      		return <minprice title="{ $t }"> <price>{ min($p) }</price> </minprice> } 
+      	</results>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<results><minprice title="Advanced Programming in the Unix environment"><price>65.95</price></minprice><minprice title="TCP/IP Illustrated"><price>65.95</price></minprice><minprice title="Data on the Web"><price>34.95</price></minprice></results>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q11">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<bib> { 
+      		for $b in //book[author] 
+      		return <book> 
+      			{ $b/title } { $b/author } </book> } 
+      			{ for $b in //book[editor] 
+      				return <reference> { $b/title } {$b/editor/affiliation} </reference> } 
+      	</bib>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></book><reference><title>The Economics of Technology and Content for Digital TV</title><affiliation>CITI</affiliation></reference></bib>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="xmp-queries-results-q12">
+      <description/>
+      <created by="XML Query Group" on="2005-02-03"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<bib> { 
+      		for $book1 in //book, $book2 in //book 
+      		let $aut1 := 
+      			for $a in $book1/author 
+      			order by exactly-one($a/last), exactly-one($a/first) 
+      			return $a 
+      		let $aut2 := 
+      			for $a in $book2/author 
+      			order by exactly-one($a/last), exactly-one($a/first) 
+      			return $a 
+      		where $book1 << $book2 and not($book1/title = $book2/title) and deep-equal($aut1, $aut2) 
+      		return <book-pair> { $book1/title } { $book2/title } </book-pair> } 
+      	</bib>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<bib><book-pair><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></book-pair></bib>]]></assert-xml>
+      </result>
+   </test-case>
+</test-set>

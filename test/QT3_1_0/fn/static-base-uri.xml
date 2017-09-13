@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-static-base-uri">
+   <description>Tests for the static-base-uri() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-static-base-uri"/>
+
+   <test-case name="fn-static-base-1">
+      <description> Evaluation of fn;static-base-uri function with incorrect arity. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:static-base-uri("A argument")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-2">
+      <description> Evaluation of fn:static-base-uri function using "ftp". Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "ftp://ftp.is.co.za/rfc/somefile.txt"; fn:string(fn:static-base-uri())</test>
+      <result>
+         <assert-string-value>ftp://ftp.is.co.za/rfc/somefile.txt</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-3">
+      <description> Evaluation of fn:static-base-uri function using "mailto". Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "mailto:John.Doe@example.com"; fn:string(fn:static-base-uri())</test>
+      <result>
+         <assert-string-value>mailto:John.Doe@example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-4">
+      <description> Evaluation of fn:static-base-uri function using "news". Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "news:comp.infosystems.www.servers.unix"; fn:string(fn:static-base-uri())</test>
+      <result>
+         <assert-string-value>news:comp.infosystems.www.servers.unix</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-5">
+      <description> Evaluation of fn:static-base-uri function using "telnet". Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "telnet://192.0.2.16:80/"; fn:string(fn:static-base-uri())</test>
+      <result>
+         <assert-string-value>telnet://192.0.2.16:80/</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-6">
+      <description> Evaluation of fn:static-base-uri function using "tel". Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "tel:+1-816-555-1212"; fn:string(fn:static-base-uri())</test>
+      <result>
+         <assert-string-value>tel:+1-816-555-1212</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-7">
+      <description> Evaluation of fn:static-base-uri function using "ldap" scheme. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "urn:oasis:names:specification:docbook:dtd:xml:4.1.2"; fn:string(fn:static-base-uri())</test>
+      <result>
+         <assert-string-value>urn:oasis:names:specification:docbook:dtd:xml:4.1.2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-8">
+      <description> Evaluation of fn:static-base-uri function using Used as argument to upper-case function. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "http://www.example.com"; fn:upper-case(fn:string(fn:static-base-uri()))</test>
+      <result>
+         <assert-string-value>HTTP://WWW.EXAMPLE.COM</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-9">
+      <description> Evaluation of fn:static-base-uri function using Used as argument to lower-case function. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "http://www.example.com"; fn:lower-case(fn:string(fn:static-base-uri()))</test>
+      <result>
+         <assert-string-value>http://www.example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-10">
+      <description> Evaluation of fn:static-base-uri function using Used as argument to fn:concat function. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "http://www.example.com"; fn:concat(fn:string(fn:static-base-uri()),"another string")</test>
+      <result>
+         <assert-string-value>http://www.example.comanother string</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-11">
+      <description> Evaluation of fn:static-base-uri function using Used as argument to fn:string-join function. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "http://www.example.com"; fn:string-join((fn:string(fn:static-base-uri()),"another string"),"")</test>
+      <result>
+         <assert-string-value>http://www.example.comanother string</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-12">
+      <description> Evaluation of fn:static-base-uri function using Used as argument to fn:string-length function. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "http://www.example.com"; fn:string-length(fn:string(fn:static-base-uri()))</test>
+      <result>
+         <assert-string-value>22</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-13">
+      <description> Evaluation of fn:static-base-uri function using Used as argument to fn:substring-before function. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "http://www.example.com"; fn:substring-before(fn:string(fn:static-base-uri()),":")</test>
+      <result>
+         <assert-string-value>http</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-14">
+      <description> Evaluation of fn:static-base-uri function using Used as argument to fn:substring-after function. Uses fn:string . </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare base-uri "http://www.example.com"; fn:substring-after(fn:string(fn:static-base-uri()),":")</test>
+      <result>
+         <assert-string-value>//www.example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-static-base-15">
+      <description>Rely on test case environment for the base URI (this should work under XPath, but depends on the test driver) </description>
+      <created by="Michael Kay" on="2011-07-01"/>
+      <environment>
+         <static-base-uri uri="http://www.example.com"/>
+      </environment>
+      <test>static-base-uri()</test>
+      <result>
+         <assert-string-value>http://www.example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-StaticBaseURIFunc-1">
+      <description> A test whose essence is: `static-base-uri(.)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>static-base-uri(.)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StaticBaseURIFunc-2">
+      <description> A test whose essence is: `static-base-uri(1, 2)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>static-base-uri(1, 2)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-StaticBaseURIFunc-3">
+      <description> A test whose essence is: `if(static-base-uri()) then true() else true()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>if(static-base-uri()) then true() else true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

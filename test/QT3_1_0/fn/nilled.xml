@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-nilled">
+   <description>Tests for the nilled() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-nilled"/>
+         
+   <environment name="nillable">
+      <schema uri="http://www.w3.org/XQueryTest/nillable" file="nilled/nillable.xsd">
+          <description>A Schema with some nillable elements</description>
+          <created by="Michael Kay" on="2012-10-02"/>
+      </schema>
+      <source role="." file="nilled/nillable.xml" validation="strict">
+          <description>An instance with some nilled elements</description>
+          <created by="Michael Kay" on="2012-10-02"/>
+      </source>
+      <namespace prefix="" uri="http://www.w3.org/XQueryTest/nillable"/>
+   </environment>
+   
+   <environment name="nillable-Q">
+      <!-- differs from 'nillable' by omission of the namespace declaration -->
+      <schema uri="http://www.w3.org/XQueryTest/nillable" file="nilled/nillable.xsd">
+         <description>A Schema with some nillable elements</description>
+         <created by="Michael Kay" on="2012-10-02"/>
+      </schema>
+      <source role="." file="nilled/nillable.xml" validation="strict">
+         <description>An instance with some nilled elements</description>
+         <created by="Michael Kay" on="2012-10-02"/>
+      </source>
+   </environment>
+   
+   <environment name="validate">
+      <schema uri="http://www.w3.org/XQueryTest/testcases" file="nilled/validate.xsd">
+          <description>A Schema with some nillable elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </schema>
+      <source role="." file="nilled/validate.xml" validation="strict">
+          <description>An instance with some nilled elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </source>
+      <!--<namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>-->
+   </environment>
+         
+
+   <test-case name="fn-nilled-1">
+      <description> Evaluation of nilled function with argument set to empty sequence. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <test>fn:count(fn:nilled(()))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-2">
+      <description> Evaluation of nilled function with argument set to comment node. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <environment ref="works-mod"/>
+      <test> fn:count(fn:nilled(/works[1]/employee[2]/child::text()[last()]))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-3">
+      <description> Evaluation of nilled function with argument set to an element node. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <environment ref="works-mod"/>
+      <test> fn:nilled(/works[1]/employee[2])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-4">
+      <description> Evaluation of nilled function with argument set to an element node. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe size = "5"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-5">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = true. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="true"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-6">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = false. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="false"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-7">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = fn:true(). </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-8">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = fn:false(). </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:false()}"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-9">
+      <description> Evaluation of nilled function with more than one argument. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>,"A Second Argument")]]></test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-10">
+      <description> Evaluation of nilled function as argument to fn:not function. returns true. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:not(fn:nilled(<shoe xsi:nil="{fn:false()}"/>))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-11">
+      <description> Evaluation of nilled function as argument to fn:not function. returns false. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:not(fn:nilled(<shoe xsi:nil="{fn:true()}"/>))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-12">
+      <description> Evaluation of nilled function used a part of boolean expression ("and" operator and fn:true() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) and fn:true()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-13">
+      <description> Evaluation of nilled function used a part of boolean expression ("and" operator and fn:false() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) and fn:false()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-14">
+      <description> Evaluation of nilled function used a part of boolean expression ("or" operator and fn:true() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) or fn:true()]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-15">
+      <description> Evaluation of nilled function used a part of boolean expression ("or" operator and fn:false() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) or fn:false()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-16">
+      <description> Evaluation of nilled function used as argument to fn:string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-17">
+      <description> Evaluation of nilled function used as argument to xs:boolean function. Returns false </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ xs:boolean(fn:nilled(<shoe xsi:nil="{fn:true()}"/>))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-18">
+      <description> Evaluation of nilled function used as argument to xs:boolean function. Returns false </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ xs:boolean(fn:nilled(<shoe xsi:nil="{fn:false()}"/>))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-19">
+      <description> Evaluation of nilled function with argument set to a document node </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(document {<aList><anElement>data</anElement></aList>})]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-20">
+      <description> Evaluation of nilled function with argument set to an attribute node </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test> fn:nilled(attribute size {1})</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-21">
+      <description> Evaluation of nilled function with argument set to a comment node </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<!-- This is a comment node -->)]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-22">
+      <description> Evaluation of nilled function with argument set to a processing instruction node</description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<?format role="output" ?>)]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-23" covers="fn-nilled">
+      <description> nilled() applied to document node (Allowed in 3.0). </description>
+      <created by="O'Neil Delpratt" on="2012-05-22"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>nilled()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-24" covers="fn-nilled">
+      <description>  nilled() applied to element node (Allowed in 3.0). </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>/*/nilled()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-25" covers="fn-nilled">
+      <description>  nilled() applied to attribute node (Allowed in 3.0). </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>/works/employee[1]/@gender/nilled()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-26" covers="fn-nilled">
+      <description>  nilled() applied to text node (Allowed in 3.0). </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>/works/employee[1]/empnum/text()/nilled()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-27" covers="fn-nilled">
+      <description>  nilled() applied to untyped element node with xsi:nil=true (Allowed in 3.0). </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[ (<shoe xsi:nil="true"/>)/fn:nilled()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-28" covers="fn-nilled">
+      <description>  nilled() : context item is atomic </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>23[nilled()]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-29" covers="fn-nilled">
+      <description>  nilled() : context item is a function item </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>nilled#0[nilled()]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-30" covers="fn-nilled">
+      <description>  nilled() : context item is absent </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="empty"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>current-date() gt current-date()+xs:dayTimeDuration('P1D') or nilled()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-31">
+      <description>  nilled() : with nillable content (!) </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>nilled(/root)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-32">
+      <description>  nilled() : with nillable content (!) </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>nilled(/root/branch)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-33">
+      <description>  nilled() : with nillable content (!) </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>nilled(/root/branch/branch[1])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-34">
+      <description>  nilled() : with nillable content (!) </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>nilled(/root/branch/branch[2])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-35">
+      <description>  nilled() : with nillable content (!) </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>nilled(/root/branch/branch[2]/twig)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-36" covers="fn-nilled">
+      <description>  nilled() : with nillable content (!) </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>/root/branch/branch[2]/nilled()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-37" covers="fn-nilled">
+      <description>  nilled() : with nillable content (!) </description>
+      <created by="Michael Kay" on="2012-10-02"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>/root/branch/branch[2]/twig/nilled()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-38">
+      <description> If node is nilled, its typed value is empty </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>data(/root/branch/note[3])</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-39">
+      <description> If node is nilled, its typed value is empty </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>data(/root/branch/branch[2]/twig)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-40">
+      <description> If node is nilled, it matches element(E, T?) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable-Q"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/ids:root/ids:branch/ids:branch[1] instance of element(ids:branch, ids:root?)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-41">
+      <description> If node is nilled, it doesn't match element(E, T) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable-Q"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/ids:root/ids:branch/ids:branch[1] instance of element(ids:branch, ids:root)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-42">
+      <description> If node is nilled, it matches element(E, T?) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:int?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-43">
+      <description> If node is nilled, it matches element(E, T?) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:decimal?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-44">
+      <description> If node is nilled, it does not match element(E, T) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:int)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-45">
+      <description> If node is nilled, it does not match element(E, T) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:decimal)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-46">
+      <description> Nilled value with user-defined simple type </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>nilled(/root/branch/date)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-47">
+      <description> If node is nilled, its typed value is empty (user-defined simple type)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>data(/root/branch/date)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-48">
+      <description> If node is nilled, it does not match element(E, T)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable-Q"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/root/branch/date instance of element(*, ids:date)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-49">
+      <description> If node is nilled, it matches element(E, T?)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable-Q"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema default element namespace "http://www.w3.org/XQueryTest/nillable";
+      	/root/branch/date instance of element(*, date?)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-50">
+      <description> Nilled value with user-defined complex type with simple content</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>nilled(/root/branch/size)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-51">
+      <description> If node is nilled, its typed value is empty (user-defined complex type with simple content)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>data(/root/branch/size)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-52">
+      <description> If node is nilled, it does not match element(E, T)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable-Q"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/ids:root/ids:branch/ids:size instance of element(*, ids:size)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-53">
+      <description> If node is nilled, it matches element(E, T?)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable-Q"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/ids:root/ids:branch/ids:size instance of element(*, ids:size?)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-1" covers="fn-nilled">
+      <description> A test whose essence is: `nilled()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-05-22" change="Bug fix related to bug #14854: Added dependency"/>
+      <dependency type="spec" value="XP20 XQ10"/>
+      <test>nilled()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-2">
+      <description> A test whose essence is: `nilled((), "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>nilled((), "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-3">
+      <description> A test whose essence is: `empty(nilled( () ))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(nilled( () ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-4">
+      <description> A test whose essence is: `nilled(1)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>nilled(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>  
+   
+   <test-case name="cbcl-nilled-001">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	fn:nilled(/tc:root/tc:nillable[1])
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-nilled-002">
+      <description> Evaluation of nilled function with a nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	fn:nilled(/tc:root/tc:nillable[2])
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-nilled-003">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	fn:nilled(/tc:root/tc:nillable[3])
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-nilled-004">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	let $v := validate { <tc:nillable xsi:nil="false" /> } 
+      	return fn:nilled($v)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-nilled-005">
+      <description> Evaluation of nilled function with a nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	let $v := validate { <tc:nillable xsi:nil="true" /> } return fn:nilled($v)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-nilled-006">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	let $v := validate { <tc:nillable /> } return fn:nilled($v)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-nilled-007">
+      <description> Test fn:nilled on non-element nodes. </description>
+      <created by="Tim Mills" on="2008-10-04"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	empty(nilled( <?foo ?> ))
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

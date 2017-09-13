@@ -1,0 +1,3 @@
+A line ending with the two-character sequence &xD;&xA
+A line ending with the two-character sequence &xD;&x85A line ending with the single character &x85A line ending with the single character &x2028; A line ending with an &xD character that is not immediately followed by &#xA or &x85;A line ending with an &xA character that is not immediately preceded by &#xD;
+A line terminated by end of file

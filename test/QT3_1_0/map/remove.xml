@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-remove"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the map:remove function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-remove"/>
+    <dependency type="spec" value="XT30+"/>
+
+    <test-case name="map-remove-001">
+        <description>Remove from empty map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map{}, 1)</test>
+        <result>
+            <assert>map:size($result) eq 0</assert>
+        </result>
+    </test-case>
+    <test-case name="map-remove-002">
+        <description>Keys in empty map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map:new(()), "abcd")</test>
+        <result>
+            <assert>map:size($result) eq 0</assert>
+        </result>
+    </test-case>
+    <test-case name="map-remove-003">
+        <description>Remove from singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map{"a":1}, "a")</test>
+        <result>
+            <assert>map:size($result) eq 0</assert>
+        </result>
+    </test-case>
+    <test-case name="map-remove-005">
+        <description>Remove from singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map:entry("a", "1"), "b")</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:contains($result, "a")</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-006">
+        <description>Remove from two-entry map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map:new((map:entry("a", "1"), map:entry("b", 2))), "b")</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:contains($result, "a")</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-007">
+        <description>Null remove from two-entry map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map:new((map:entry("a", "1"), map:entry("b", 2))), "c")</test>
+        <result>
+            <all-of>
+                <assert>map:keys($result) = "a"</assert>
+                <assert>map:keys($result) = "b"</assert>
+                <assert>map:size($result) = 2</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-008">
+        <description>Remove match of numeric values</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map:new((map:entry(12, 1), map:entry(13, 2))), 12e0)</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) = 1</assert>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:contains($result, 13)</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-009">
+        <description>Remove match of untypedAtomic</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map:new((map:entry("a",1), map:entry("b",2))), xs:untypedAtomic("b"))</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) = 1</assert>
+                <assert-type>map(xs:string, xs:integer)</assert-type>
+                <assert>map:contains($result, "a")</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-010">
+        <description>Type after removing an entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map{"a":1,"b":"xyz"}, "b")</test>
+        <result>
+            <assert-type>map(xs:string, xs:integer)</assert-type>
+        </result>
+    </test-case>
+    <test-case name="map-remove-011">
+        <description>Type after removing an entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map{"a":1,12:"xyz"}, 12)</test>
+        <result>
+            <assert-type>map(xs:string, xs:integer)</assert-type>
+        </result>
+    </test-case>
+    <test-case name="map-remove-012">
+        <description>Remove from a large map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>map:remove(map:new(for $n in 1 to 500000 return map:entry($n, $n+1)), 123456)</test>
+        <result>
+            <all-of>
+                <assert>map:contains($result, 1)</assert>
+                <assert>map:contains($result, 500000)</assert>
+                <assert>map:size($result) = 499999</assert>
+                <assert>not(map:contains($result, 123456))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-013">
+        <description>Deep equal after removing an entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3)}, "a"), map:entry("b", (2,3)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-remove-014">
+        <description>Remove an entry matching by collation</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-30"/>
+        <environment>
+            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind" default="true"/>
+        </environment>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3)}, "A"), map:entry("b", (2,3)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+ 
+
+</test-set>

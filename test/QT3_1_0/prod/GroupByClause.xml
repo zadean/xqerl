@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-GroupByClause" covers="group-by">
+   <description>Tests for the GroupByClause production in XQuery 3.0</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-GroupByClause"/>
+   <link type="spec" document="XQuery" section-number="3.8.1" idref="id-for-group-by"/>
+   
+   <environment name="GroupByUseCases">
+      <source role="$products-doc" file="GroupByClause/products.xml">
+         <description>Taken from XQuery 3.0 Use Cases</description>
+         <created by="Andrew Eisenberg" on="2012-03-14"/>      
+      </source>
+      <source role="$sales-records-doc" file="GroupByClause/sales-records.xml">
+         <description>Taken from XQuery 3.0 Use Cases</description>
+         <created by="Andrew Eisenberg" on="2012-03-14"/>      
+      </source>
+      <source role="$stores-doc" file="GroupByClause/stores.xml">
+         <description>Taken from XQuery 3.0 Use Cases</description>
+         <created by="Andrew Eisenberg" on="2012-03-14"/>      
+      </source>
+      <source role="$books-doc" file="GroupByClause/books.xml">
+         <description>Taken from XQuery 3.0 Use Cases</description>
+         <created by="Andrew Eisenberg" on="2012-03-14"/>      
+      </source>
+   </environment>
+   
+   <dependency type="spec" value="XQ30+"/>
+   
+   <test-case name="group-001">
+      <description>Group atomic values</description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="order of groups is undefined"/>
+      <test> 
+            for $x in 1 to 100 
+            let $key := $x mod 10 
+            group by $key 
+            return string(text{$x})
+      </test>
+      <result>
+         <assert-permutation>"1 11 21 31 41 51 61 71 81 91", "2 12 22 32 42 52 62 72 82 92", "3 13 23 33 43 53 63 73 83 93", 
+            "4 14 24 34 44 54 64 74 84 94", "5 15 25 35 45 55 65 75 85 95", "6 16 26 36 46 56 66 76 86 96", 
+            "7 17 27 37 47 57 67 77 87 97", "8 18 28 38 48 58 68 78 88 98", "9 19 29 39 49 59 69 79 89 99", 
+            "10 20 30 40 50 60 70 80 90 100"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="group-001a">
+      <description>Group atomic values using new syntax agreed Sept 2011</description>
+      <created by="Michael Kay" on="2011-09-14"/>
+      <test> 
+            for $x in 1 to 100 
+            group by $key := $x mod 10 
+            return string(text{$x})
+      </test>
+      <result>
+         <assert-permutation>"1 11 21 31 41 51 61 71 81 91", "2 12 22 32 42 52 62 72 82 92", "3 13 23 33 43 53 63 73 83 93", 
+            "4 14 24 34 44 54 64 74 84 94", "5 15 25 35 45 55 65 75 85 95", "6 16 26 36 46 56 66 76 86 96", 
+            "7 17 27 37 47 57 67 77 87 97", "8 18 28 38 48 58 68 78 88 98", "9 19 29 39 49 59 69 79 89 99", 
+            "10 20 30 40 50 60 70 80 90 100"</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="group-002">
+      <description> Basic grouping test, using nodes as input </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test and allow permutation of results"/>
+      <environment ref="works-mod"/>
+      <test> 
+            for $x in //employee 
+            let $key := $x/@gender 
+            group by $key 
+            return concat($key, ':',  
+                   string-join(for $e in $x return $e/@name/string(), ',')) 
+      </test>
+      <result>
+         <assert-permutation>
+            "female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13",
+            "male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12"
+         </assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="group-002a">
+      <description> Basic grouping test, using nodes as input, using new Sept 2011 syntax </description>
+      <created by="Michael Kay" on="2011-09-14"/>
+      <environment ref="works-mod"/>
+      <test> 
+            for $x in //employee 
+            group by $key := $x/@gender 
+            return concat($key, ':',  
+                   string-join(for $e in $x return $e/@name/string(), ',')) 
+      </test>
+      <result>
+         <assert-permutation>
+            "female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13",
+            "male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12"
+         </assert-permutation>
+      </result>
+   </test-case>
+
+
+   <test-case name="group-003">
+      <description> Basic grouping test, using nodes as input, boolean grouping key </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test and allow permutation of results"/>
+      <environment ref="works-mod"/>
+      <test> 
+            for $x in //employee 
+            let $key := ($x/@gender = 'male') 
+            group by $key 
+            return concat($key, ':',  
+                   string-join(for $e in $x return $e/@name/string(), ',')) 
+      </test>
+      <result>
+         <assert-permutation>
+            "false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13",
+            "true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12"
+         </assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="group-003a">
+      <description> Basic grouping test, using nodes as input, boolean grouping key;
+          using new Sept 2011 syntax</description>
+      <created by="Michael Kay" on="2011-09-14"/>
+      <environment ref="works-mod"/>
+      <test> 
+            for $x in //employee 
+            group by $key := ($x/@gender = 'male') 
+            return concat($key, ':',  
+                   string-join(for $e in $x return $e/@name/string(), ',')) 
+      </test>
+      <result>
+         <assert-permutation>
+            "false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13",
+            "true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12"
+         </assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="group-004">
+      <description> Basic grouping test, using nodes as input, aggregate over a group </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test and allow permutation of results"/>
+      <environment ref="works-mod"/>
+      <test> 
+            for $x in //employee 
+            let $key := $x/@gender 
+            group by $key 
+            return concat($key, ':', avg($x/hours)) 
+      </test>
+      <result>
+         <assert-permutation>"female:41.25", "male:37.75"</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="group-005">
+      <description> Basic grouping test, multivalued grouping key, currently an error </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test; change expected error"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[
+            for $x in //employee 
+            let $key := $x/hours 
+            group by $key 
+            return <group hours="{$key}" avHours="{avg($x/hours)}"/> 
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="group-006">
+      <description> A grouping key can be empty </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="allow permutations of result"/>
+      <modified by="Michael Kay" on="2011-09-14" change="use new group-by syntax"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            group by $key := $x/status 
+            return <group status="{$key}" count="{count($x)}"/> 
+        }</out>
+      ]]></test>
+      <result>
+         <any-of>
+           <assert-xml><![CDATA[<out><group status="" count="12"/><group status="active" count="1"/></out>]]></assert-xml>
+           <assert-xml><![CDATA[<out><group status="active" count="1"/><group status="" count="12"/></out>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="group-007">
+      <description> Group by with a where clause </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="allow permutations of result"/>
+      <environment ref="works-mod"/>
+      <test> 
+            for $x in //employee 
+            let $key := $x/hours[1] 
+            group by $key 
+            where count($x) gt 2 
+            return concat($key, ':', count($x)) 
+      </test>
+      <result>
+         <assert-permutation>"40:3", "80:3", "20:5"</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="group-008">
+      <description> Group by with an order-by clause </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="make results predictable by adding second order key"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := $x/empnum 
+            group by $key 
+            order by count($x), $key 
+            return <group count="{count($x)}"> {string-join($x/@name, '|')} </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><group count="2">Jane Doe 7|John Doe 8</group><group count="2">Jane Doe 9|John Doe 10</group><group count="3">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count="6">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="group-009">
+      <description> Group by with a collation, and with sorting </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := $x/empnum 
+            group by $key collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            order by $key 
+            return <group count="{count($x)}" key="{$key}"> {string-join($x/pnum, '|')} </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><group count="6" key="E1">P1|P2|P3|P4|P5|P6</group><group count="2" key="E2">P1|P2</group><group count="2" key="E3">P2|P2</group><group count="3" key="E4">P2|P4|P5</group></out>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="group-009a">
+      <description> Group by with a collation, and with sorting; using new (Sept 2011) syntax </description>
+      <created by="Michael Kay" on="2011-09-14"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            group by $key := $x/empnum collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            order by $key 
+            return <group count="{count($x)}" key="{$key}"> {string-join($x/pnum, '|')} </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><group count="6" key="E1">P1|P2|P3|P4|P5|P6</group><group count="2" key="E2">P1|P2</group><group count="2" key="E3">P2|P2</group><group count="3" key="E4">P2|P4|P5</group></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="group-010">
+      <description> NaN values go in the same group </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := if ($x/@gender='male') then number('NaN') else 42 
+            group by $key 
+            return <group key="{$key}" count="{count($x)}"/> 
+        }</out>
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<out><group key="NaN" count="6"/><group key="42" count="7"/></out>]]></assert-xml>
+            <assert-xml><![CDATA[<out><group key="42" count="7"/><group key="NaN" count="6"/></out>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="group-011">
+     <description>Group by with position variable (Bug report on Saxon submitted by Leo Wörteler of BaseX)</description>
+     <created by="Michael Kay" on="2011-07-24"/>
+     <modified by="Michael Kay" on="2011-08-01" change="correct expected result"/>
+     <test>
+        for $a at $p in 1 to 10
+        let $g := $p mod 2
+        group by $g
+        return string-join($p!string(), ' ')  
+     </test>
+     <result>
+        <assert-permutation>"1 3 5 7 9", "2 4 6 8 10"</assert-permutation>
+     </result>
+   </test-case>
+   
+   <test-case name="group-012">
+      <description> Grouping of an empty sequence </description>
+      <created by="Michael Kay" on="2011-07-24"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee[age > 300] 
+            let $key := @gender 
+            group by $key 
+            return <group gender="{$key}"> { 
+                        for $e in $x return <person>{$e/@name/string()}</person> 
+                   } </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="group-013">
+     <description>Grouping by already existing variable</description>
+     <created by="Matthias Brantner" on="2012-06-04"/>
+     <test><![CDATA[
+       for $x in 1 to 10, $y in 1 to 4
+       let $org_y := $y
+       group by $y, $y := $x mod 2
+       return <grp y="{$org_y[1]}" even="{$y}">{$x}</grp>
+     ]]></test>
+     <result>
+       <any-of>
+         <assert-xml><![CDATA[<grp even="1" y="1">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp><grp even="0" y="1">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp>]]></assert-xml>
+         <assert-xml><![CDATA[<grp even="0" y="1">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp><grp even="1" y="1">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp>]]></assert-xml>
+       </any-of>
+     </result>
+   </test-case>
+
+   <test-case name="group-014">
+      <description>Referenced grouping variable is not in the tuple stream. </description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>
+         let $x := 1
+         return
+           for $i in ("a", "b")
+           group by $x
+           return
+             ($x, count($i))
+      </test>
+      <result>
+         <error code="XQST0094"/>
+      </result>
+   </test-case>
+
+   <test-case name="group-015">
+      <description>No value comparisons are available to compare the grouping keys.</description>
+      <created by="Josh Spiegel" on="2012-10-02"/>
+      <test>
+          for $x in (true(), "true", xs:QName("true"))
+          group by $x
+          return $x
+      </test>
+      <result>
+         <assert-xml><![CDATA[true true true]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="group-016">
+     <description>In the first grouping spec, the grouping variable does not reference the generated let binding.  See also group-013 </description>
+     <created by="Josh Spiegel" on="2012-10-02"/>
+     <test>
+       count(
+         for $y in 1 to 10
+         group by $y := $y, $y := $y mod 2
+         return $y
+       )
+     </test>
+     <result><assert-eq>2</assert-eq></result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q1">
+      <description>Use Case "Group By" - Q1</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <sales-qty-by-product>{
+                 for $sales in $sales-records-doc/*/record
+                 let $pname := $sales/product-name
+                 group by $pname
+                 order by $pname
+                 return
+                   <product name="{$pname}">{
+                     sum($sales/qty)
+                   }</product>
+               }</sales-qty-by-product> 
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<sales-qty-by-product><product name="blender">250</product><product name="broiler">20</product><product name="shirt">10</product><product name="socks">510</product><product name="toaster">200</product></sales-qty-by-product>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q2">
+      <description>Use Case "Group By" - Q2</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <result>{
+                 for $sales in $sales-records-doc/*/record
+                 let $state := $stores-doc/*/store[store-number = $sales/store-number]/state
+                 let $category := $products-doc/*/product[name = $sales/product-name]/category
+                 group by $state, $category
+                 order by $state, $category
+                 return
+                   <group>
+                     <state>{$state}</state>
+                     <category>{$category}</category>
+                     <total-qty>{sum($sales/qty)}</total-qty>
+                   </group>
+               }</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result><group><state>CA</state><category>clothes</category><total-qty>510</total-qty></group><group><state>CA</state><category>kitchen</category><total-qty>170</total-qty></group><group><state>MA</state><category>clothes</category><total-qty>10</total-qty></group><group><state>MA</state><category>kitchen</category><total-qty>300</total-qty></group></result>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q3">
+      <description>Use Case "Group By" - Q3</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <result>{
+                 for $sales in $sales-records-doc/*/record
+                 let $state := $stores-doc/*/store[store-number = $sales/store-number]/state,
+                   $product := $products-doc/*/product[name = $sales/product-name],
+                   $category := $product/category,
+                   $revenue := $sales/qty * $product/price
+                 group by $state, $category
+                 order by $state, $category
+                 return
+                   <group>
+                     <state>{$state}</state>
+                     <category>{$category}</category>
+                     <total-revenue>{sum($revenue)}</total-revenue>
+                   </group>
+               }</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result><group><state>CA</state><category>clothes</category><total-revenue>2550</total-revenue></group><group><state>CA</state><category>kitchen</category><total-revenue>6500</total-revenue></group><group><state>MA</state><category>clothes</category><total-revenue>100</total-revenue></group><group><state>MA</state><category>kitchen</category><total-revenue>14000</total-revenue></group></result>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q4">
+      <description>Use Case "Group By" - Q4</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <result>{
+                 for $store in $stores-doc/*/store
+                 let $state := $store/state
+                 group by $state
+                 order by $state
+                 return
+                   <state name="{$state}">{
+                     for $product in $products-doc/*/product
+                     let $category := $product/category
+                     group by $category
+                     order by $category
+                     return
+                       <category name="{$category}">{
+                         for $sales in $sales-records-doc/*/record[store-number = $store/store-number
+                           and product-name = $product/name]
+                         let $pname := $sales/product-name
+                         group by $pname
+                         order by $pname
+                         return
+                           <product name="{$pname}" total-qty="{sum($sales/qty)}" />
+                         }</category>
+                   }</state>
+               }</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result><state name="CA"><category name="clothes"><product name="socks" total-qty="510"/></category><category name="kitchen"><product name="broiler" total-qty="20"/><product name="toaster" total-qty="150"/></category></state><state name="MA"><category name="clothes"><product name="shirt" total-qty="10"/></category><category name="kitchen"><product name="blender" total-qty="250"/><product name="toaster" total-qty="50"/></category></state><state name="WA"><category name="clothes"/><category name="kitchen"/></state></result>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q5">
+      <description>Use Case "Group By" - Q5</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <result>{
+                 for $sales in $sales-records-doc/*/record
+                 let $storeno := $sales/store-number
+                 group by $storeno
+                 order by $storeno
+                 return
+                   <store number = "{$storeno}">{
+                     for $s in $sales
+                     order by xs:int($s/qty) descending
+                     return
+                       <product name = "{$s/product-name}" qty = "{$s/qty}"/>
+                   }</store>
+               }</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result><store number="1"><product name="socks" qty="500"/><product name="broiler" qty="20"/></store><store number="2"><product name="toaster" qty="100"/><product name="toaster" qty="50"/><product name="socks" qty="10"/></store><store number="3"><product name="blender" qty="150"/><product name="blender" qty="100"/><product name="toaster" qty="50"/><product name="shirt" qty="10"/></store></result>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q6">
+      <description>Use Case "Group By" - Q6</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <result>{
+                 for $sales in $sales-records-doc/*/record
+                 let $storeno := $sales/store-number,
+                   $product := $products-doc/*/product[name = $sales/product-name],
+                   $prd := $product,
+                   $profit := $sales/qty * ($prd/price - $prd/cost)
+                 group by $storeno
+                 let $total-store-profit := sum($profit)
+                 where $total-store-profit > 100
+                 order by $total-store-profit descending
+                 return
+                   <store number = "{$storeno}" total-profit = "{$total-store-profit}"/>
+                }</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result><store number="3" total-profit="7320"/><store number="2" total-profit="3030"/><store number="1" total-profit="2100"/></result>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q7">
+      <description>Use Case "Group By" - Q7</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <result>{
+                 for $book in $books-doc/*/book
+                 for $author in $book/author
+                 group by $author
+                 order by $author
+                 return
+                 <author name="{$author}">{
+                   for $b in $book
+                   order by $b/title
+                   return
+                     <title> {fn:data($b/title)} </title>
+                 }</author>
+               }</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result><author name="Alan Simon"><title>SQL:1999</title><title>Strategic Database Technology</title></author><author name="Andrew Eisenberg"><title>Understanding SQL and Java Together</title></author><author name="Jim Melton"><title>Advanced SQL:1999</title><title>Querying XML</title><title>SQL:1999</title><title>Understanding SQL and Java Together</title></author><author name="Stephen Buxton"><title>Querying XML</title></author></result>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="use-case-groupby-Q8">
+      <description>Use Case "Group By" - Q8</description>
+      <created by="Andrew Eisenberg" on="2012-03-14"/>
+      <environment ref="GroupByUseCases"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+               <result>{
+                 for $book in $books-doc/*/book
+                 let $author-list := fn:string-join($book/author, ', ')
+                 group by $author-list
+                 order by $author-list
+                 return
+                   <author-list names="{$author-list}">{
+                     for $b in $book
+                     order by $b/title
+                     return
+                       <title> {fn:data($b/title)} </title>
+                   }</author-list>
+               }</result>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<result><author-list names="Alan Simon"><title>Strategic Database Technology</title></author-list><author-list names="Jim Melton"><title>Advanced SQL:1999</title></author-list><author-list names="Jim Melton, Alan Simon"><title>SQL:1999</title></author-list><author-list names="Jim Melton, Andrew Eisenberg"><title>Understanding SQL and Java Together</title></author-list><author-list names="Jim Melton, Stephen Buxton"><title>Querying XML</title></author-list></result>]]></assert-xml>
+      </result>
+   </test-case>
+   
+
+
+</test-set>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-generate-id" covers="fn-generate-id">
+   <description>Tests for the generate-id() function transferred from the XSLT 2.0 specification to XPath/XQuery 3.0</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-generate-id"/>
+   <environment name="collection">
+      <collection uri="">
+         <source role="." file="../docs/works-mod.xml">
+            <description>Data for various NIST tests (abbreviated, unabbreviated syntax)</description>
+            <created by="Carmelo Montanez" on="2005-03-04"/>
+         </source>
+         <source role="." file="../docs/auction.xml">
+            <description>Data for the the XML Query NS use cases</description>
+            <created by="XQuery WG" on="2005-02-11"/>
+         </source>    
+      </collection> 
+   </environment>    
+   <dependency type="spec" value="XP30+ XQ30+"/>
+   <test-case name="generate-id-000">
+      <description>generate-id() applied to an empty sequence</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="empty"/>
+      <test>generate-id(())</test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>""</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   <test-case name="generate-id-001">
+      <description>generate-id() applied to an element node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>generate-id(/*)</test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-002">
+      <description>generate-id() applied to an attribute node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>generate-id((//@*)[1])</test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-003">
+      <description>generate-id() applied to a document node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>generate-id(/)</test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-004">
+      <description>generate-id() applied to a comment node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>generate-id((//comment())[1])</test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-005">
+      <description>generate-id() applied to a processing instruction node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>generate-id((//processing-instruction())[1])</test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-006">
+      <description>generate-id() applied to a text node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>generate-id((//text())[1])</test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-007">
+      <description>generate-id() applied to a namespace node (if supported)</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>generate-id((//namespace::*)[1])</test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-008">
+      <description>generate-id() with no arguments applied to a document node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>generate-id() eq generate-id(/)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-009">
+      <description>generate-id() with no arguments applied to an element node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>/*/(generate-id() eq generate-id(.))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-010">
+      <description>Uniqueness of generated IDs</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <test>let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
+            return count($nodes) eq count(distinct-values($nodes/generate-id()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-011">
+      <description>Uniqueness of generated IDs including namespaces</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="auction"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>let $nodes := //*/(@* | namespace::*) 
+            return count($nodes) eq count(distinct-values($nodes/generate-id()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-012">
+      <description>Uniqueness of generated IDs for document nodes across multiple documents</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="collection"/>
+      <test>let $nodes := collection()
+            return count($nodes) eq count(distinct-values($nodes/generate-id()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-013">
+      <description>Uniqueness of generated IDs for element nodes across multiple documents</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="collection"/>
+      <test>let $nodes := collection()//*
+            return count($nodes) eq count(distinct-values($nodes/generate-id()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-014">
+      <description>generate-id() applied to a parentless element node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        generate-id(copy:copy(/*))
+      </test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-015">
+      <description>generate-id() applied to a parentless attribute node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        generate-id(copy:copy((//@*)[1]))
+      </test>
+      <result>
+         <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
+      </result>
+   </test-case>
+   <test-case name="generate-id-016">
+      <description>generate-id() changes when a node is copied</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        generate-id(copy:copy(/*)) eq generate-id(/*)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-017">
+      <description>generate-id() applied to a parentless attribute node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="generate-id-018">
+      <description>generate-id() applied to a sequence of element nodes in backwards-compatibility mode</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <modified by="Michael Kay" on="2013-01-15" change="make dependency on XPath explicit"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="xpath-1.0-compatibility"/>
+      <test>generate-id(//*) eq generate-id(/*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+      
+   <test-case name="generate-id-901">
+      <description>generate-id() with no context item</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="empty"/>
+      <test>let $f := function() {generate-id()} return $f()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-902">
+      <description>generate-id() with context item not a node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="empty"/>
+      <test>let $f := function($x as item()) {generate-id($x)} return $f(3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-903">
+      <description>generate-id() with context item not a node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="empty"/>
+      <test>for $i in 1 to 20 return generate-id($i)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-904">
+      <description>generate-id() with context item not a node</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="empty"/>
+      <test>let $f := function($x as item()) {""} return generate-id($f)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="generate-id-905">
+      <description>generate-id() applied to a sequence of nodes</description>
+      <created by="Michael Kay" on="2010-12-20"/>
+      <environment ref="works-mod"/>
+      <test>generate-id(//*)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+</test-set>

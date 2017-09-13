@@ -1,0 +1,1038 @@
+-module('fn_position_SUITE').
+-include_lib("common_test/include/ct.hrl").
+-export([all/0]).
+-export([suite/0]).
+-export([init_per_suite/1]).
+-export([end_per_suite/1]).
+-export(['position-1'/1]).
+-export(['position-2'/1]).
+-export(['position-3'/1]).
+-export(['position-4'/1]).
+-export(['position-5'/1]).
+-export(['position-6'/1]).
+-export(['position-7'/1]).
+-export(['position-8'/1]).
+-export(['position-9'/1]).
+-export(['position-10'/1]).
+-export(['position-11'/1]).
+-export(['position-12'/1]).
+-export(['position-13'/1]).
+-export(['position-14'/1]).
+-export(['position-15'/1]).
+-export(['position-16'/1]).
+-export(['position-17'/1]).
+-export(['position-18'/1]).
+-export(['position-19'/1]).
+-export(['position-20'/1]).
+-export(['position-21'/1]).
+-export(['position-22'/1]).
+-export(['position-23'/1]).
+-export(['K-ContextPositionFunc-1'/1]).
+-export(['K-ContextPositionFunc-2'/1]).
+-export(['K-ContextPositionFunc-3'/1]).
+-export(['K-ContextPositionFunc-4'/1]).
+-export(['K-ContextPositionFunc-5'/1]).
+-export(['K-ContextPositionFunc-6'/1]).
+-export(['K-ContextPositionFunc-7'/1]).
+-export(['K-ContextPositionFunc-8'/1]).
+-export(['K-ContextPositionFunc-9'/1]).
+-export(['K-ContextPositionFunc-10'/1]).
+-export(['K-ContextPositionFunc-11'/1]).
+-export(['K-ContextPositionFunc-12'/1]).
+-export(['K-ContextPositionFunc-13'/1]).
+-export(['K-ContextPositionFunc-14'/1]).
+-export(['K-ContextPositionFunc-15'/1]).
+-export(['K-ContextPositionFunc-16'/1]).
+-export(['K-ContextPositionFunc-17'/1]).
+-export(['K-ContextPositionFunc-18'/1]).
+-export(['K-ContextPositionFunc-19'/1]).
+-export(['K-ContextPositionFunc-20'/1]).
+-export(['K-ContextPositionFunc-21'/1]).
+-export(['K-ContextPositionFunc-22'/1]).
+-export(['K-ContextPositionFunc-23'/1]).
+-export(['K-ContextPositionFunc-24'/1]).
+-export(['K-ContextPositionFunc-25'/1]).
+-export(['K-ContextPositionFunc-26'/1]).
+-export(['K-ContextPositionFunc-27'/1]).
+-export(['K-ContextPositionFunc-28'/1]).
+-export(['K-ContextPositionFunc-29'/1]).
+-export(['K-ContextPositionFunc-30'/1]).
+-export(['K-ContextPositionFunc-31'/1]).
+-export(['K-ContextPositionFunc-32'/1]).
+-export(['K-ContextPositionFunc-33'/1]).
+-export(['K-ContextPositionFunc-34'/1]).
+-export(['K-ContextPositionFunc-35'/1]).
+-export(['K-ContextPositionFunc-36'/1]).
+-export(['K-ContextPositionFunc-37'/1]).
+-export(['K-ContextPositionFunc-38'/1]).
+-export(['K-ContextPositionFunc-39'/1]).
+-export(['K-ContextPositionFunc-40'/1]).
+-export(['K-ContextPositionFunc-41'/1]).
+-export(['K-ContextPositionFunc-42'/1]).
+-export(['K-ContextPositionFunc-43'/1]).
+suite() ->[{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> erlang:erase().
+init_per_suite(Config) -> ok
+,Config.
+all() -> [
+   'position-1',
+   'position-2',
+   'position-3',
+   'position-4',
+   'position-5',
+   'position-6',
+   'position-7',
+   'position-8',
+   'position-9',
+   'position-10',
+   'position-11',
+   'position-12',
+   'position-13',
+   'position-14',
+   'position-15',
+   'position-16',
+   'position-17',
+   'position-18',
+   'position-19',
+   'position-20',
+   'position-21',
+   'position-22',
+   'position-23',
+   'K-ContextPositionFunc-1',
+   'K-ContextPositionFunc-2',
+   'K-ContextPositionFunc-3',
+   'K-ContextPositionFunc-4',
+   'K-ContextPositionFunc-5',
+   'K-ContextPositionFunc-6',
+   'K-ContextPositionFunc-7',
+   'K-ContextPositionFunc-8',
+   'K-ContextPositionFunc-9',
+   'K-ContextPositionFunc-10',
+   'K-ContextPositionFunc-11',
+   'K-ContextPositionFunc-12',
+   'K-ContextPositionFunc-13',
+   'K-ContextPositionFunc-14',
+   'K-ContextPositionFunc-15',
+   'K-ContextPositionFunc-16',
+   'K-ContextPositionFunc-17',
+   'K-ContextPositionFunc-18',
+   'K-ContextPositionFunc-19',
+   'K-ContextPositionFunc-20',
+   'K-ContextPositionFunc-21',
+   'K-ContextPositionFunc-22',
+   'K-ContextPositionFunc-23',
+   'K-ContextPositionFunc-24',
+   'K-ContextPositionFunc-25',
+   'K-ContextPositionFunc-26',
+   'K-ContextPositionFunc-27',
+   'K-ContextPositionFunc-28',
+   'K-ContextPositionFunc-29',
+   'K-ContextPositionFunc-30',
+   'K-ContextPositionFunc-31',
+   'K-ContextPositionFunc-32',
+   'K-ContextPositionFunc-33',
+   'K-ContextPositionFunc-34',
+   'K-ContextPositionFunc-35',
+   'K-ContextPositionFunc-36',
+   'K-ContextPositionFunc-37',
+   'K-ContextPositionFunc-38',
+   'K-ContextPositionFunc-39',
+   'K-ContextPositionFunc-40',
+   'K-ContextPositionFunc-41',
+   'K-ContextPositionFunc-42',
+   'K-ContextPositionFunc-43'].
+environment('empty') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('atomic') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
+{resources, []},
+{modules, []}
+];
+environment('atomic-xq') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('works-mod') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('works') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('staff') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('works-and-staff') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('auction') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
+{"http://www.w3.org/1999/xlink","xlink"},
+{"http://www.example.com/auctioneers#anyzone","anyzone"},
+{"http://www.example.com/auctioneers#eachbay","eachbay"},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{resources, []},
+{modules, []}
+];
+environment('qname') ->
+[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.example.com/QNameXSD",""}]},
+{resources, []},
+{modules, []}
+];
+environment('math') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+].
+'position-1'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = 1]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 1
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 1" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-2'(_Config) ->
+   Qry = "position()",
+   Env = xqerl_test:handle_environment(environment('empty')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
+           true -> ct:fail({Res, 'XPDY0002'}) end.
+'position-3'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = 13]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 13
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 13" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-4'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = last()]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 13
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 13" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-5'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[last() = position()]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 13
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 13" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-6'(_Config) ->
+   Qry = "for $var in 1 return for $h in (/works) return $h/employee[position() = $var]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 1
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 1" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-7'(_Config) ->
+   Qry = "for $var in \"1\" return for $h in (/works) return $h/employee[position() = xs:integer($var)]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 1
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 1" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-8'(_Config) ->
+   Qry = "for $h in (/works/employee[12]) return $h/overtime[position() = position()]/day/string()",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         \"Monday\", \"Tuesday\"
+      ",
+ Tst = xqerl:run("\"Monday\", \"Tuesday\""),
+  ResVal = xqerl_types:string_value(Res),
+  TstVal = xqerl_types:string_value(Tst),
+  if ResVal == TstVal -> {comment, "assert-deep-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'position-9'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[@name][position() = 1]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 1
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 1" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-10'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = 1][@name]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 1
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 1" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-11'(_Config) ->
+   Qry = "for $h in (/works/employee[12]/overtime) return $h/day[not(position() = 1)]/string()",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Tuesday
+      ",
+   case xqerl_types:string_value(Res) of
+             "Tuesday" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-12'(_Config) ->
+   Qry = "for $h in (/works/employee[12]/overtime) return $h/*[position() = position()]/string()",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         \"Monday\", \"Tuesday\"
+      ",
+ Tst = xqerl:run("\"Monday\", \"Tuesday\""),
+  ResVal = xqerl_types:string_value(Res),
+  TstVal = xqerl_types:string_value(Tst),
+  if ResVal == TstVal -> {comment, "assert-deep-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'position-13'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = (2 + 2)]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         John Doe 4
+      ",
+   case xqerl_types:string_value(Res) of
+             "John Doe 4" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-14'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = (5 - 2)]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 3
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 3" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-15'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = (3 * 2)]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         John Doe 6
+      ",
+   case xqerl_types:string_value(Res) of
+             "John Doe 6" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-16'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = (6 div 2)]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 3
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 3" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-17'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = (6 idiv 2)]/string(@name)",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         Jane Doe 3
+      ",
+   case xqerl_types:string_value(Res) of
+             "Jane Doe 3" -> {comment, "assert-string-value"};
+             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+'position-18'(_Config) ->
+   Qry = "for $h in (/works/employee[12]) return ($h/overtime[position() and fn:true()]/*/string())",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         \"Monday\", \"Tuesday\"
+      ",
+ Tst = xqerl:run("\"Monday\", \"Tuesday\""),
+  ResVal = xqerl_types:string_value(Res),
+  TstVal = xqerl_types:string_value(Tst),
+  if ResVal == TstVal -> {comment, "assert-deep-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'position-19'(_Config) ->
+   Qry = "for $h in (/works/employee[12]) return ($h/overtime[position() and fn:false()])",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+            
+            
+         
+      ",
+ case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
+   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+'position-20'(_Config) ->
+   Qry = "for $h in (/works/employee[12]) return $h/overtime[position() or fn:true()]/*/string()",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         \"Monday\", \"Tuesday\"
+      ",
+ Tst = xqerl:run("\"Monday\", \"Tuesday\""),
+  ResVal = xqerl_types:string_value(Res),
+  TstVal = xqerl_types:string_value(Tst),
+  if ResVal == TstVal -> {comment, "assert-deep-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'position-21'(_Config) ->
+   Qry = "for $h in (/works/employee[12]) return $h/overtime[position() or fn:false()]/*/string()",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         \"Monday\", \"Tuesday\"
+      ",
+ Tst = xqerl:run("\"Monday\", \"Tuesday\""),
+  ResVal = xqerl_types:string_value(Res),
+  TstVal = xqerl_types:string_value(Tst),
+  if ResVal == TstVal -> {comment, "assert-deep-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'position-22'(_Config) ->
+   Qry = "for $h in (/works) return $h/employee[position() = 12]/overtime/*/string()",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         \"Monday\", \"Tuesday\"
+      ",
+ Tst = xqerl:run("\"Monday\", \"Tuesday\""),
+  ResVal = xqerl_types:string_value(Res),
+  TstVal = xqerl_types:string_value(Tst),
+  if ResVal == TstVal -> {comment, "assert-deep-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'position-23'(_Config) ->
+   Qry = "position()",
+   Env = xqerl_test:handle_environment(environment('works-mod')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         1
+      ",
+ Tst = xqerl:run("1"),
+  ResVal = xqerl_types:value(Res),
+  TstVal = xqerl_types:value(Tst),
+  if ResVal == TstVal -> {comment, "assert-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-1'(_Config) ->
+   Qry = "position(1)",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
+           true -> ct:fail({Res, 'XPST0017'}) end.
+'K-ContextPositionFunc-2'(_Config) ->
+   Qry = "(1, 2, 3)[if(1) then 1 else position()]",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         1
+      ",
+ Tst = xqerl:run("1"),
+  ResVal = xqerl_types:value(Res),
+  TstVal = xqerl_types:value(Tst),
+  if ResVal == TstVal -> {comment, "assert-eq"};
+    true -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-3'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() = 0])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-4'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [0 = position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-5'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() eq 0])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-6'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [0 eq position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-7'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() != 0], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-8'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() ne 0], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-9'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [0 != position()], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-10'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [0 ne position()], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-11'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() lt 1])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-12'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() < 1])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-13'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() le 0])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-14'(_Config) ->
+   Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [position() <= 0])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-15'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() > 0], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-16'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() > 0], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-17'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() gt 0], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-18'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() >= 1], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-19'(_Config) ->
+   Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [position() ge 1], (1, 2, 3, 4))",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-20'(_Config) ->
+   Qry = "1 eq (0, 1, current-time(), 4)[position() = 2] treat as xs:integer",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-21'(_Config) ->
+   Qry = "1 eq (0, 1, current-time(), 4)[position() eq 2] treat as xs:integer",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-22'(_Config) ->
+   Qry = "1 eq (0, 1, current-time(), 4)[2 eq position()] treat as xs:integer",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-23'(_Config) ->
+   Qry = "1 eq (0, 1, current-time(), 4)[2 = position()] treat as xs:integer",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-24'(_Config) ->
+   Qry = "deep-equal((1, 2, 4), (1, 2, current-time(), 4)[position() != 3])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-25'(_Config) ->
+   Qry = "deep-equal((1, 2, 4), (1, 2, current-time(), 4)[position() ne 3])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-26'(_Config) ->
+   Qry = "deep-equal((1, 2, 4), (1, 2, current-time(), 4)[3 ne position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-27'(_Config) ->
+   Qry = "deep-equal((1, 2, 4), (1, 2, current-time(), 4)[3 != position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-28'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() lt 4])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-29'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() < 4])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-30'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[4 gt position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-31'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[4 > position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-32'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() le 3])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-33'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[position() <= 3])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-34'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[3 ge position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-35'(_Config) ->
+   Qry = "deep-equal((1, 2, 3), (1, 2, 3, current-time())[3 >= position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-36'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[3 lt position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-37'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[3 < position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-38'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() gt 3])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-39'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() > 3])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-40'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[4 le position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-41'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[4 <= position()])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-42'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() ge 4])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.
+'K-ContextPositionFunc-43'(_Config) ->
+   Qry = "deep-equal((4, 5), (1, 2, current-time(), 4, 5)[position() >= 4])",
+   Qry1 = Qry,
+   Res = xqerl:run(Qry1),
+   ResXml = xqerl_node:to_xml(Res),
+   Options = [{'result',Res}],
+   Exp = "
+         
+      ",
+   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
+           _ -> ct:fail({Res,Exp}) end.

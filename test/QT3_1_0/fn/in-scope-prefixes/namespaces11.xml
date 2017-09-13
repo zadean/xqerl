@@ -1,0 +1,8 @@
+<?xml version="1.1"?>
+<outer xmlns="http://example.com/outer" xmlns:one="http://example.com/outer/one">
+  <inner xmlns="http://example.com/inner" xmlns:two="http://example.com/inner/two">
+    <magpie xmlns="http://example.com/magpie" xmlns:three="http://example.com/magpie/three" xmlns:one="">
+      <bull xmlns:two=""/>
+    </magpie>
+  </inner>
+</outer>

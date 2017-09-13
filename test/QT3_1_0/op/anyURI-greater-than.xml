@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-anyURI-greater-than">
+   <description>Tests for the anyURI-greater-than operator (not actually defined as such in F+O)</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-compare"/>
+
+   <test-case name="K2-AnyURILeGe-1">
+      <description> Invoked 'le' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/A") le xs:anyURI("http://example.com/B")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-2">
+      <description> Invoked 'le' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/A") le xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-3">
+      <description> Invoked 'le' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://example.com/B") le xs:anyURI("http://example.com/A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-4">
+      <description> Invoked 'gt' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/B") ge xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-5">
+      <description> Invoked 'gt' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/B") gt xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-6">
+      <description> Invoked 'gt' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://example.com/A") gt xs:anyURI("http://example.com/B"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-7">
+      <description> Invoked 'le' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:string("http://example.com/A") le xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-8">
+      <description> Invoked 'le' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://example.com/B") le xs:string("http://example.com/A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-9">
+      <description> Invoked 'gt' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:string("http://example.com/B") gt xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURILeGe-10">
+      <description> Invoked 'gt' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/B") gt xs:string("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

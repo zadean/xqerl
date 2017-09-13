@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:x="http://www.w3.org/2010/09/qt-fots-catalogX" name="prod-NodeTest">
+   <description>Tests for the NodeTest production</description>
+   <link x:type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-NodeTest"/>
+   <link type="spec" document="XQuery" section-number="3.2.1.2" idref="node-tests"/>
+   
+   <environment name="bib">
+      <source role="." file="../docs/bib.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>      
+   </environment>
+   
+   <environment name="TopMany">
+      <source role="." file="AxisStep/TopMany.xml">
+         <description>Like TreeCompass, but with comments and PIs off the root. PI targets vary.
+            All text nodes must have non-whitespace characters.</description>
+         <created by="David Marston" on="2003-03-25"/>   
+      </source>
+   </environment>
+    
+   <environment name="Tree1Child">
+      <source role="." file="AxisStep/Tree1Child.xml">
+         <description>A "compass" tree that has just one child, of an abnormal name, off the center node.
+            One attribute each on west and center.</description>
+         <created by="David Marston" on="2003-03-25"/>      
+      </source>
+   </environment>
+   
+   <environment name="Tree1Text">
+      <source role="." file="AxisStep/Tree1Child.xml">
+         <description>A "compass" tree that has just a text node and no child element off the center node.</description>
+         <created by="David Marston" on="2003-03-25"/>   
+      </source>
+   </environment>
+   
+   <environment name="TreeCompass">
+      <source role="." file="AxisStep/TreeCompass.xml">
+         <description>A tree intended to allow many kinds of path expressions.
+         Need multiple attributes on center, west, and south, plus @mark scattered around.
+         Mix of text and element children in many places, but east should have only a text node.
+         All text nodes must have non-whitespace characters.
+         Top element is far-north.</description>
+         <created by="David Marston" on="2003-03-25"/>   
+      </source>
+   </environment>
+         
+   <environment name="TreeEmpty">
+      <source role="." file="AxisStep/TreeEmpty.xml">
+         <description>A "compass" tree that has just one "south" element at the top, bearing one "mark" attribute.</description>
+         <created by="David Marston" on="2003-03-25"/> 
+      </source>
+   </environment>
+   
+   <environment name="TreeRepeat">      
+      <source role="." file="AxisStep/TreeRepeat.xml">
+         <description>A "compass" tree that has center elements off the real center node.</description>
+         <created by="David Marston" on="2003-03-25"/> 
+      </source>
+   </environment>
+   
+   <environment name="TreeStack">      
+      <source role="." file="AxisStep/TreeStack.xml">
+         <description>A "compass" tree that has several "south" elements, some stacked within each other.</description>
+         <created by="David Marston" on="2003-03-25"/> 
+      </source>
+   </environment>      
+         
+   <environment name="TreeTrunc">      
+     <source role="." file="AxisStep/TreeTrunc.xml">
+       <description>A "compass" tree that has no content at all in center or west, no attributes anywhere.</description>
+       <created by="David Marston" on="2003-03-25"/> 
+     </source>
+   </environment>
+   
+   <environment name="bib2">
+      <source role="." file="../op/union/bib2.xml">
+         <description>Bibliography example with extra comments and PIs.</description>
+         <created by="spec-authors" on="2000-01-01"/>
+      </source>
+   </environment>    
+   
+
+   <test-case name="NodeTest001">
+      <description> Simple test for comment() node type </description>
+      <created by="Asad Jawahar" on="2003-03-07"/>
+      <environment ref="bib2"/>
+      <test>/comment()</test>
+      <result>
+         <assert-xml><![CDATA[<!-- this file is a copy of bib.xml; just adds a few comments and PI nodes for testing --><!-- Comment 1 --><!-- Comment 2 -->]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest002">
+      <description> Simple test for processing-instruction() node test </description>
+      <created by="Asad Jawahar" on="2003-03-07"/>
+      <environment ref="bib2"/>
+      <test>/processing-instruction()</test>
+      <result>
+         <assert-xml><![CDATA[<?PI1 Processing Instruction 1?><?PI2 Processing Instruction 2?>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest006">
+      <description> Simple test for node type text() </description>
+      <created by="Asad Jawahar" on="2003-03-07"/>
+      <environment ref="bib"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {/bib/book/editor/affiliation/text()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>CITI</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest007-1">
+      <description>FileName: NodeTest007  processing-instruction('name') NodeTest can apply under root </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TreeEmpty"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//processing-instruction('a-pi'))}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>0</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest007-2">
+      <description>FileName: NodeTest007  processing-instruction('name') NodeTest can apply under root </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//processing-instruction('a-pi'))}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>4</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest008-1">
+      <description>FileName: NodeTest008  text() as a NodeTest </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="Tree1Child"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/text())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>0</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest008-2">
+      <description>FileName: NodeTest008  text() as a NodeTest </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TreeCompass"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/text())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>6</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest009-1">
+      <description>FileName: NodeTest009  comment() as a NodeTest </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="Tree1Child"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/comment())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>0</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest009-2">
+      <description>FileName: NodeTest009  comment() as a NodeTest </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TreeCompass"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/comment())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>1</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest010-1">
+      <description>FileName: NodeTest010  comment() NodeTest can apply under root </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TreeEmpty"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//comment())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>0</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest010-2">
+      <description>FileName: NodeTest010  comment() NodeTest can apply under root </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//comment())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>7</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest011-1">
+      <description>FileName: NodeTest011  processing-instruction() as a NodeTest </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="Tree1Child"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/processing-instruction())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>0</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest011-2">
+      <description>FileName: NodeTest011  processing-instruction() as a NodeTest </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TreeCompass"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/processing-instruction())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>1</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest012-1">
+      <description>FileName: NodeTest012  processing-instruction() NodeTest can apply under root </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TreeEmpty"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//processing-instruction())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>0</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest012-2">
+      <description>FileName: NodeTest012  processing-instruction() NodeTest can apply under root </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TopMany"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//processing-instruction())}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>6</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTest013-1">
+      <description>FileName: NodeTest013  processing-instruction('name') matches only the given name </description>
+      <created by="David Marston" on="2003-02-28"/>
+      <environment ref="TreeCompass"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/processing-instruction('a-pi'))}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>1</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-1">
+      <description> Simple test for text type involving a boolean expression (and fn:true) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//text() and fn:true()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-2">
+      <description> Simple test for text type involving a boolean expression (or fn:true) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//text() or fn:true()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-3">
+      <description> Simple test for text type involving a boolean expression (and fn:false) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//text() and fn:false()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>false</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-4">
+      <description> Simple test for text type involving a boolean expression (or fn:false) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//text() or fn:false()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-5">
+      <description> Simple test for Element node types involving a boolean expression (or fn:false) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//overtime/node() or fn:false()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-6">
+      <description> Simple test for Element node types involving a boolean expression (or fn:true) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//overtime/node() or fn:true()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-7">
+      <description> Simple test for Element node types involving a boolean expression (and fn:false) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//overtime/node() and fn:false()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>false</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="NodeTesthc-8">
+      <description> Simple test for Element node types involving a boolean expression (and fn:true) </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<result> {//overtime/node() and fn:true()} </result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-1">
+      <description> Check the child count of an empty direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a></a>/node())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-2">
+      <description> Check the child count of an empty direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a/>/node())]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-3">
+      <description> '*' is not allowed inside processing-instruction(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-4">
+      <description> '*' is not allowed inside text(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>text(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-5">
+      <description> '*' is not allowed inside comment(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>comment(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-6">
+      <description> '*' is not allowed inside node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>node(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-7">
+      <description> '*' is not allowed inside document-node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-8">
+      <description> '*' is not allowed inside schema-attribute(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>schema-attribute(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-9">
+      <description> '*' is not allowed inside schema-element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>schema-element(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-10">
+      <description> There is no type by name document(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document(*)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-11">
+      <description> There is no type by name document(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-12">
+      <description> There is no type by name document(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of document(*)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-13">
+      <description> There is no type by name document(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 instance of document()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-14">
+      <description> 'name' is not allowed inside document-node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(name)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-15">
+      <description> 'name' is not allowed inside document-node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(local:name)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-16">
+      <description> processing-instruction() isn't allowed inside document-node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(processing-instruction())</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-17">
+      <description> unknown() isn't allowed inside document-node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(unknown())</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-18">
+      <description> schema-attribute() isn't allowed inside document-node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(schema-attribute(ncname))</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-19">
+      <description> Use document-node() with an unkown schema-element() type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(schema-element(thisTypeIsNotRecognizedExample.Com))</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-20">
+      <description> Use document-node() with an unkown schema-element() type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         declare namespace ex = "http://www.example.com/"; 
+         document-node(schema-element(ex:thisTypeIsNotRecognizedExample.Com))</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-21">
+      <description> Ensure 'element(local:ncname)' is parsed correctly when inside document-node(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         declare namespace ex = "http://www.example.com/"; 
+         declare function local:userFunction() { document-node(element(local:ncname)) }; 1</test>
+      <result>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="XPDY0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-22">
+      <description> Use an unbound prefix inside document-node()/element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(element(notBound:ncname))</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-23">
+      <description> Use an unbound prefix inside element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>element(notBound:ncname)</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-24">
+      <description> Use an unbound prefix inside element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute(notBound:ncname)</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-25">
+      <description> Use an unbound prefix inside document-node()/schema-element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node(schema-element(notBound:ncname))</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-26">
+      <description> Use an unbound prefix inside schema-element(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>schema-element(notBound:ncname)</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-27">
+      <description> Use an unbound prefix inside schema-attribute(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>schema-attribute(notBound:ncname)</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-28">
+      <description> Invoke '/' on a tree whose root is not a document node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/>/(/)//f]]></test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-29">
+      <description> Apostrophes are valid separators in processing-instruction(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>processing-instruction('ncname')</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-30">
+      <description> Ensure element() isn't parsed as a function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>element()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-31">
+      <description> Trigger XPTY0018 inside a function body. </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:aFunction() { <e/>/(1, <e/>) }; 1, local:aFunction()]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-32">
+      <description> We evaluate to only atomic values, although the static type does not reflect that. </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> <a/> <b/> </e>/(if(position() = 10) then (<e/>, .) else 4)]]></test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-33">
+      <description> Trigger XPTY0018 inside a body for a global variable. </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $myVariable := <e/>/(1, <e/>); $myVariable]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-34">
+      <description> Trigger XPTY0018 inside a body for a global variable(#2). </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $myVariable := <e/>/(<e/>, 2); $myVariable]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-35">
+      <description> Trigger XPTY0018 inside a function body(#2). </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:aFunction() { <e/>/(<e/>, 2) }; 1, local:aFunction()]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-36">
+      <description> Trigger XPTY0018 inside a function body(#3). </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:aFunction() { (1, 2, 3, (4, <e/>/(<e/>, 2))) }; 1, local:aFunction()]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-37">
+      <description> Trigger XPTY0018 inside a function body(#4). </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:aFunction() { (<e/>/., <e/>/((<e/>, 2), 1, 2)) }; 1, local:aFunction()]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-38">
+      <description> Trigger XPTY0018 inside a function body(#5). </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:aFunction() { (<e/>/(., 4, 5, <e/>/((<e/>, 2)))) }; 1, local:aFunction()]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-39">
+      <description> Trigger XPTY0018 inside a let clause. </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $i := <e/>/(., 4, 5, <e/>/((<e/>, 2))) return ($i, $i)]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-40">
+      <description> Trigger XPTY0018 inside a for clause. </description>
+      <created by="Frans Englich" on="2008-01-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $i in <e/>/(., 4, 5, <e/>/((<e/>, 2))) return ($i, $i)]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-41">
+      <description> Use fn:last() with nested predicates. </description>
+      <created by="Frans Englich" on="2008-01-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a><b name="C"/><b name= "D"/></a>//b[@name="D"][last() = 1]]]></test>
+      <result>
+         <assert-xml><![CDATA[<b name="D"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-42">
+      <description> Use fn:last() with nested predicates(#2). </description>
+      <created by="Frans Englich" on="2008-01-03"/>
+      <test>(4, 5)[position() = 2][last() = 1]</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeTest-43">
+      <description> Use fn:last() with nested predicates(#3). </description>
+      <created by="Frans Englich" on="2008-01-03"/>
+      <test>(4, 5)[position() = 2][last() = 1][last() = 1][last()]</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+</test-set>

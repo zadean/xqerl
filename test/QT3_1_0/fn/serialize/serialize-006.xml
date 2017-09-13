@@ -1,0 +1,5 @@
+<params xmlns:p="http://www.saxonica.com">
+    <method>xml</method>
+    <indent>yes</indent>
+    <cdata-section-elements>p:a p:b c</cdata-section-elements>
+</params>
