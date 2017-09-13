@@ -9,12 +9,12 @@ Much of the code is horrible! I know that. But, there are also some real gems in
 
 The junk will be phased out as I get to it.
 
-###Features it has:
+### Features it has:
 
 * Module Feature
 * Higher-Order Function Feature
 
-###Features it does not have, but might later:
+### Features it does not have, but might later:
 
 * XQuery Update Facility
 * Schema Aware Feature
@@ -22,7 +22,7 @@ The junk will be phased out as I get to it.
 * Static Typing Feature
 * Serialization Feature
 
-###Using
+### Using
 
 There is no real API to speak of yet, only debugging/testing functions that are not fool-proof. 
 
@@ -33,15 +33,15 @@ The output from the main module will be in an internal format understood by xqer
 
 To see what it would look like as XML or text, the debugging function `xqerl_node:to_xml(Response)` can be used.
 
-###Building
+### Building
 The normal way :) but there are .xrl for leex and .yrl for yecc.
 I am using eclipse, so there is currently no makefile.
 
-###Contributing
+### Contributing
 Yes, please.
 
 
-###Known problems and TODO's:
+### Known problems and TODO's:
 
 Regex is hacked together (fn:matches, fn:replace, etc.). 
 To make it 100% will take building a regex parser that rewrites XML Schema regex into Erlang-known flavor. 
@@ -50,7 +50,7 @@ There is no clear separation of Static and Dynamic phases. That means static pro
 
 No attempt is made to optimize the code or data flow.
 
-It needs a code server! Currently, main modules are compiled as an Erlang module and run with: xqerl_main:main(Options).
+It needs a code server! Currently, main modules are compiled as an Erlang module and run with `xqerl_main:main(Options)`.
 This is okay for debugging and test suites I guess, but not cool at all for a running system!
 
 It uses the process dictionary for "static" information (nasty).
