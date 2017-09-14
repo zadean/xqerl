@@ -33,8 +33,8 @@
 -export([zip_with/4]).
 -export([map/3]).
 -export([next/1]).
--export([foldl/3]).
--export([foldr/3]).
+-export([foldl/4]).
+-export([foldr/4]).
 -export([val_map/2]).
 -export([node_map/3]).
 -export([union/2]).
@@ -225,7 +225,7 @@ tail(Seq) ->
                           Loop(NewIter,NewSeq)
                     end
              end,
-   FunLoop(Iter,New).
+   sort_seq(FunLoop(Iter,New)).
 
 reverse({Type,Size,Seq}) ->
    New1 = {Type,Size, []},
@@ -273,7 +273,7 @@ insert({_,Size,_} = Seq1,Seq2,Pos) ->
                           Loop(NewIter1,append(Value1,CurrSeq))
                     end
              end,
-   FunLoop(Iter1,New).
+   sort_seq(FunLoop(Iter1,New)).
 
 zip_with(Ctx, Fun,{_,Size1,_} = Seq1,{_,Size2,_} = Seq2) when is_function(Fun) ->
    New = empty(),
@@ -428,7 +428,7 @@ val_map(Fun,Seq) when is_function(Fun) ->
              end,
    FunLoop(Iter,New).
 
-foldl(Fun,Acc,Seq) when is_function(Fun) ->
+foldl(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
    Iter = get_seq_iter(Seq),
    FunLoop = fun Loop(CurrIter,Acc0) ->
                     case ?MODULE:next(CurrIter) of
@@ -437,24 +437,22 @@ foldl(Fun,Acc,Seq) when is_function(Fun) ->
                        empty ->
                           Acc0;
                        {_Key,Value,NewIter} ->
-                          %?dbg("Fun",erlang:fun_info(Fun)),
-                          Output = Fun([], Acc0,Value),
-                          Loop(NewIter,Output)
+                          Loop(NewIter,Fun(Ctx,Acc0,Value))
                     end
              end,
    FunLoop(Iter,Acc);
-foldl(Fun,Acc,Seq) ->
+foldl(Ctx,Fun,Acc,Seq) ->
    Fun1 = singleton_value(Fun),
    if is_function(Fun1) ->
-         foldl(Fun1,Acc,Seq);
+         foldl(Ctx,Fun1,Acc,Seq);
       true ->
          xqerl_error:error('XPTY0004')
    end.
 
-foldr(Fun,Acc,Seq) when is_function(Fun) ->
-   Rev = reverse(Seq),
+foldr(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
+   %Rev = reverse(Seq),
    %?dbg("Rev",Rev),
-   Iter = get_seq_iter(Rev),
+   Iter = get_seq_iter(Seq),
    %?dbg("Iter",Iter),
    FunLoop = fun Loop(CurrIter,Acc0) ->
                     case ?MODULE:next(CurrIter) of
@@ -463,18 +461,14 @@ foldr(Fun,Acc,Seq) when is_function(Fun) ->
                        empty ->
                           Acc0;
                        {_Key,Value,NewIter} ->
-                          %?dbg("Value",Value),
-                          %?dbg("NewIter",NewIter),
-                          Output = Fun([],Value, Acc0),
-                          %?dbg("Output",Output),
-                          Loop(NewIter,Output)
+                          Fun(Ctx,Value,Loop(NewIter,Acc0))
                     end
              end,
    FunLoop(Iter,Acc);
-foldr(Fun,Acc,Seq) ->
+foldr(Ctx,Fun,Acc,Seq) ->
    Fun1 = singleton_value(Fun),
    if is_function(Fun1) ->
-         foldr(Fun1,Acc,Seq);
+         foldr(Ctx,Fun1,Acc,Seq);
       true ->
          xqerl_error:error('XPTY0004')
    end.
@@ -893,6 +887,13 @@ get_item_type(#array{}) ->
    array;
 get_item_type(#qname{}) ->
    'xs:QName';
+get_item_type(#xqElementNode{}) -> 'element';
+get_item_type(#xqAttributeNode{}) -> 'attribute';
+get_item_type(#xqTextNode{}) -> 'text';
+get_item_type(#xqCommentNode{}) -> 'comment';
+get_item_type(#xqNamespaceNode{}) -> 'namespace';
+get_item_type(#xqProcessingInstructionNode{}) -> 'processing-instruction';
+get_item_type(#xqDocumentNode{}) -> 'document-node';
 get_item_type(#xqNode{} = Node) ->
    xqerl_node:get_node_type(Node).
 %% ;

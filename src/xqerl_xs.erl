@@ -201,7 +201,9 @@ xs_NMTOKENS(_S, Arg1) ->
 xs_Name(_S, Arg1) -> 
    ?sin(xqerl_types:cast_as( Arg1, 'xs:Name' )).
 xs_QName(S, Arg1) ->
-   Ns = maps:get(namespaces,S),
+   Ns = lists:map(fun({Px,N}) ->
+                        #xqNamespace{namespace = N,prefix = Px}
+                  end, maps:get(namespaces,S)),
    ?sin(xqerl_types:cast_as( Arg1, 'xs:QName',Ns )).
 xs_anyURI(_S, Arg1) -> 
    ?sin(xqerl_types:cast_as( Arg1, 'xs:anyURI' )).

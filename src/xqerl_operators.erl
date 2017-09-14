@@ -913,7 +913,7 @@ unary_minus(Arg1) ->
             0 ->
                Arg1;
             1 ->
-               ?sing(numeric_unary_minus(?seq:singleton_value(Arg1)));
+               ?sing(unary_minus(?seq:singleton_value(Arg1)));
             _ ->
                xqerl_error:error('XPTY0004')
          end;
@@ -1263,7 +1263,8 @@ numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
                             X
                       end;
                   true ->
-                      ((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000
+                      ValA * ValB
+                      %((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000
                 end,
          #xqAtomicValue{type = TypeC, value = ValC};
       _ ->
@@ -1373,12 +1374,7 @@ numeric_mod(#xqAtomicValue{type = TypeA, value = ValA} = A,
    case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
       true ->
          Prec = max(?num(TypeA), ?num(TypeB)),
-         TypeC = case ?numtype(Prec) of
-                    'xs:integer' ->
-                       'xs:decimal';
-                    P ->
-                       P
-                 end,
+         TypeC = ?numtype(Prec),
          if (ValB == 0) andalso TypeC =/= 'xs:double' andalso TypeC =/= 'xs:float' ->
                xqerl_error:error('FOAR0001');
             (ValA == "NaN") orelse (ValB == "NaN") ->
@@ -1393,6 +1389,8 @@ numeric_mod(#xqAtomicValue{type = TypeA, value = ValA} = A,
                #xqAtomicValue{type = TypeC, value = ValA};
             (ValA == 0) ->
                #xqAtomicValue{type = 'xs:integer', value = 0};
+            (abs(ValA) == abs(ValB)) ->
+               #xqAtomicValue{type = TypeC, value = 0};
             true ->
                %?dbg("numeric_mod(A)",A),
                %?dbg("numeric_mod(B)",B),

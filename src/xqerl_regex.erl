@@ -92,13 +92,13 @@ regex_back_ref([$\\,$\\|T],D) ->
 
 % replace XML \f flag
 regex_back_ref([$[,$\\,$w|T],D) ->
-   "[^\p{P}\p{Z}\p{C}]|[" ++ regex_back_ref(T,D);
+   "[^\\p{P}\\p{Z}\\p{C}]|[" ++ regex_back_ref(T,D);
 regex_back_ref([$\\,$w|T],D) ->
-   "[^\p{P}\p{Z}\p{C}]" ++ regex_back_ref(T,D);
+   "[^\\p{P}\\p{Z}\\p{C}]" ++ regex_back_ref(T,D);
 regex_back_ref([$[,$\\,$W|T],D) ->
-   "[\p{P}\p{Z}\p{C}]|[" ++ regex_back_ref(T,D);
+   "[\\p{P}\\p{Z}\\p{C}]|[" ++ regex_back_ref(T,D);
 regex_back_ref([$\\,$W|T],D) ->
-   "[\p{P}\p{Z}\p{C}]" ++ regex_back_ref(T,D);
+   "[\\p{P}\\p{Z}\\p{C}]" ++ regex_back_ref(T,D);
 
 regex_back_ref([$[,$\\,$i|T],D) ->
    "[\:\_\\p{L}]|[" ++ regex_back_ref(T,D);
@@ -1274,6 +1274,8 @@ regex_back_ref([$\\,$$|T],D) ->
    [$\\,$$|regex_back_ref(T,D)];
 regex_back_ref([$$|[]],_D) ->
    [$$];
+regex_back_ref([$],$$|T],D) ->
+   "]$"++regex_back_ref(T,D);
 regex_back_ref([$$|T],D) ->
    "\\g"++regex_back_ref(T,D);
 regex_back_ref([$(|T],D) ->

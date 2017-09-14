@@ -3,11 +3,8 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing!
 
-It is passing about 90% its (25k) test cases.
+It is passing about 91% its (~25k) test cases.
 
-Much of the code is horrible! I know that. But, there are also some real gems in here too. :-) 
-
-The junk will be phased out as I get to it.
 
 ### Features it has:
 
@@ -38,7 +35,7 @@ The normal way :) but there are .xrl for leex and .yrl for yecc.
 I am using eclipse, so there is currently no makefile.
 
 ### Contributing
-Yes, please.
+Yes, please. I've been doing it alone (instead of working a "real" job), so any help is much appreciated.
 
 
 ### Known problems and TODO's:

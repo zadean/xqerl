@@ -265,23 +265,23 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/moduleDefs-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/test1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib1.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib2.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib3.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib4.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib5.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib6.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib7.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0046_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0047_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0048_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0059_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0070_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0088_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0093_lib1.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0093_lib2.xq") catch _:_ -> ok end,Config.
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/moduleDefs-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/test1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib1.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib2.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib3.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib4.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib5.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib6.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036_lib7.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0046_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0047_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0048_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0059_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0070_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0088_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0093_lib1.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0093_lib2.xq") catch _:_ -> ok end,Config.
 all() -> [
    'combined-errors-1',
    'combined-errors-2',
@@ -552,8 +552,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -562,8 +562,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -572,7 +572,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -582,7 +582,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -592,7 +592,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -602,8 +602,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -613,7 +613,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -627,8 +627,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -647,8 +647,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('orderdata') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -657,8 +657,8 @@ environment('orderdata') ->
 {modules, []}
 ];
 environment('namespace-sensitive') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/namespace-sensitive.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/namespace-sensitive.xsd","http://www.xqsharp.com/test/namespace-sensitive"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/namespace-sensitive.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/namespace-sensitive.xsd","http://www.xqsharp.com/test/namespace-sensitive"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -668,7 +668,7 @@ environment('namespace-sensitive') ->
 ];
 environment('xqst0036') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036.xsd","http://www.example.org/2007/schema/XQST0036"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQST0036.xsd","http://www.example.org/2007/schema/XQST0036"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -678,7 +678,7 @@ environment('xqst0036') ->
 ];
 environment('foty0012') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/FOTY0012.xsd","http://www.example.org/2007/schema/FOTY0012"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/FOTY0012.xsd","http://www.example.org/2007/schema/FOTY0012"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -688,7 +688,7 @@ environment('foty0012') ->
 ];
 environment('xqdy0027') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQDY0027.xsd","http://www.example.org/2007/schema/XQDY0027"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQDY0027.xsd","http://www.example.org/2007/schema/XQDY0027"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -698,7 +698,7 @@ environment('xqdy0027') ->
 ];
 environment('xqdy0084') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQDY0084.xsd","http://www.example.org/2007/schema/XQDY0084"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/misc/CombinedErrorCodes/XQDY0084.xsd","http://www.example.org/2007/schema/XQDY0084"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},

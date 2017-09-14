@@ -162,8 +162,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -172,8 +172,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -182,7 +182,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -192,7 +192,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -202,7 +202,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -212,8 +212,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -223,7 +223,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -237,8 +237,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -257,7 +257,7 @@ environment('math') ->
 {modules, []}
 ];
 environment('acme_corp') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/op/union/acme_corp.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/op/union/acme_corp.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -267,7 +267,7 @@ environment('acme_corp') ->
 {modules, []}
 ];
 environment('bib2') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/op/union/bib2.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/op/union/bib2.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -478,12 +478,12 @@ environment('bib2') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = "
-         <a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>
+         <a>65.95</a><a>65.95</a><a>39.95</a><a>129.95</a>
       ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>"++"</x>)")) == "true" of
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65.95</a><a>65.95</a><a>39.95</a><a>129.95</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>" of
+              case ResXml == "<a>65.95</a><a>65.95</a><a>39.95</a><a>129.95</a>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end

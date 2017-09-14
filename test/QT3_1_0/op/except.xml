@@ -247,7 +247,7 @@
       <environment ref="bib2"/>
       <test>string-join((for $node in ((//price/text()) , (//price/text())) except (//price) return $node)/string(), "|")</test>
       <result>
-         <assert-string-value> 65.95|65.95| 39.95|129.95</assert-string-value>
+         <assert-string-value>65.95|65.95|39.95|129.95</assert-string-value>
       </result>
    </test-case>
 

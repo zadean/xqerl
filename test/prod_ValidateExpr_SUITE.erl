@@ -188,8 +188,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -198,8 +198,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -208,7 +208,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -218,7 +218,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -228,7 +228,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -238,8 +238,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -249,7 +249,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -263,8 +263,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -283,8 +283,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('orderData') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -294,7 +294,7 @@ environment('orderData') ->
 ];
 environment('ListUnionTypes') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/ValidateExpr/listunion.xsd","http://www.w3.org/XQueryTest/ListUnionTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ValidateExpr/listunion.xsd","http://www.w3.org/XQueryTest/ListUnionTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -304,7 +304,7 @@ environment('ListUnionTypes') ->
 ];
 environment('simplexsd') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/ValidateExpr/simple.xsd","http://www.w3.org/XQueryTest/simple"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ValidateExpr/simple.xsd","http://www.w3.org/XQueryTest/simple"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -314,7 +314,7 @@ environment('simplexsd') ->
 ];
 environment('xq-e18xsd') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/ValidateExpr/xq-e18.xsd","http://www.example.com/ns/test/xq-e18"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ValidateExpr/xq-e18.xsd","http://www.example.com/ns/test/xq-e18"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -324,7 +324,7 @@ environment('xq-e18xsd') ->
 ];
 environment('constraints') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/ValidateExpr/constraints.xsd","http://www.w3.org/constraints"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ValidateExpr/constraints.xsd","http://www.w3.org/constraints"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -334,7 +334,7 @@ environment('constraints') ->
 ];
 environment('complexSimple') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/ValidateExpr/simpleContent.xsd","http://www.w3.org/query-test/complexSimple"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ValidateExpr/simpleContent.xsd","http://www.w3.org/query-test/complexSimple"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -344,7 +344,7 @@ environment('complexSimple') ->
 ];
 environment('hats') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/SchemaImport/hats.xsd","http://www.w3.org/XQueryTest/hats"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/SchemaImport/hats.xsd","http://www.w3.org/XQueryTest/hats"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -353,8 +353,8 @@ environment('hats') ->
 {modules, []}
 ];
 environment('complexData') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/data/complexData.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/data/complexData.xsd","http://www.cbcl.co.uk/XQueryTest/complexData"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/data/complexData.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/data/complexData.xsd","http://www.cbcl.co.uk/XQueryTest/complexData"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -363,8 +363,8 @@ environment('complexData') ->
 {modules, []}
 ];
 environment('validate') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/nilled/validate.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/nilled/validate.xsd","http://www.w3.org/XQueryTest/testcases"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/nilled/validate.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/nilled/validate.xsd","http://www.w3.org/XQueryTest/testcases"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -374,7 +374,7 @@ environment('validate') ->
 ];
 environment('user-defined-types') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},

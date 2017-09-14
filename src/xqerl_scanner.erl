@@ -24,10 +24,7 @@
 
 -module(xqerl_scanner).
 
-
 %% main API
--export([test/0]).
--export([main/0]).
 -export([tokens/1]).
 -export([scan_name/1]).
 -export([remove_all_comments/1]).
@@ -42,73 +39,6 @@
 -define(whitespace(H), H==?space ; H==?cr ; H==?lf ; H==?tab).
 
 -include("xqerl.hrl").
-
-test() ->
-   %{ok, Bin} = file:read_file("C:/git/basexerl/tmp/qMod.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/basexerl/tmp/get-web2.xq"),
-   %{ok, Bin} = file:read_file("C:/git/aw_xi/xquery/modules/aw_xi_time2.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/aw_xi/xquery/modules/aw_xi_time.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/xqerl/scratch/fn.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/xqerl/scratch/xs.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/xqerl/scratch/math.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/xqerl/scratch/map.xqm"),
-   {ok, Bin} = file:read_file("C:/git/xqerl/scratch/array.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/xqerl/test/functx/functx.xqm"),
-   %{ok, Bin} = file:read_file("C:/git/xqerl/test/QT3_1_0/fn/id/copy.xq"),
-   Str = binary_to_list(Bin),
-   Str2 = xqerl_scanner:remove_all_comments(Str),
-   Toks = xqerl_scanner:tokens(Str2),
-   %io:format("~p~n", [Toks]),
-   erlang:put(xquery_id, xqerl_context:init(self())),
-   {ok, Toks1} = xqerl_parser:parse(Toks),
-   %io:format("~p~n", [Toks1]),
-   %Tab = xqerl_context:all(),
-   %xqerl_context:remove_key(erlang:get(xquery_id)),
-   %io:format("~p~n", [Tab]),
-   Ret = xqerl_abs:scan_mod(Toks1),
-   %io:format("~p~n", [Ret]),
-   case compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
-      {ok,M,B} ->
-         {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
-          {ok, IoDevice} = file:open("C:/git/xqerl/test/functx/functx.erl", [write]),
-         io:fwrite(IoDevice,"~s~n", [erl_prettypr:format(erl_syntax:form_list(AC))]),   
-         code:load_binary(M, M, B);
-      Other ->
-         io:format("~p~n", [Other])
-   end,
-   %io:format("~p~n", [erlang:get()]),
-   erlang:erase(),
-   ok.
-
-main() ->
-   %{ok, Bin} = file:read_file("C:/git/xqerl/test/functx/fxs/month-abbrev-en.xq"),
-   {ok, Bin} = file:read_file("C:/git/xqerl/scratch/scratch.xq"),
-   Str = binary_to_list(Bin),
-   Str2 = xqerl_scanner:remove_all_comments(Str),
-   Toks = xqerl_scanner:tokens(Str2),
-%   io:format("~p~n", [Toks]),
-   erlang:put(xquery_id, xqerl_context:init(self())),
-   {ok, Toks1} = xqerl_parser:parse(Toks),
-%   io:format("~p~n", [Toks1]),
-   %xqerl_context:remove_key(erlang:get(xquery_id)),
-   Ret = xqerl_abs:scan_mod(Toks1),
-   io:format("~p~n", [Ret]),
-   {ok, Mod1, _} = erl_scan:string("-module('xqerl_main')."),
-   {ok, Mod2, _} = erl_scan:string("-export([main/0])."),
-   {ok, PMod1} = erl_parse:parse_form(Mod1),
-   {ok, PMod2} = erl_parse:parse_form(Mod2),
-   case compile:forms([PMod1|[PMod2|Ret]], [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
-      {ok,M,B} ->
-         {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
-         io:fwrite("~s~n", [erl_prettypr:format(erl_syntax:form_list(AC))]),   
-         code:load_binary(M, M, B);
-      Other ->
-         io:format("~p~n", [Other])
-   end,
-   erlang:erase(),
-   ok.
-
-
 
 tokens(Str) ->
    %?dbg("tokens(Str)", Str),
@@ -438,58 +368,60 @@ scan_token([H|T], _A) when H == $" ; H == $' ->
    {{'StringLiteral', ?L, Literal}, T1};
 
 % types
-scan_token("xs:nonPositiveInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:nonPositiveInteger"), {QName, T};
-scan_token("xs:nonNegativeInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:nonNegativeInteger"), {QName, T};
-scan_token("xs:yearMonthDuration" ++ T, _A) ->  {QName, _} = scan_name("xs:yearMonthDuration"), {QName, T};
-scan_token("xs:normalizedString" ++ T, _A) ->  {QName, _} = scan_name("xs:normalizedString"), {QName, T};
-scan_token("xs:positiveInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:positiveInteger"), {QName, T};
-scan_token("xs:negativeInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:negativeInteger"), {QName, T};
-scan_token("xs:dayTimeDuration" ++ T, _A) ->  {QName, _} = scan_name("xs:dayTimeDuration"), {QName, T};
-scan_token("xs:untypedAtomic" ++ T, _A) ->  {QName, _} = scan_name("xs:untypedAtomic"), {QName, T};
-scan_token("xs:unsignedShort" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedShort"), {QName, T};
-scan_token("xs:anyAtomicType" ++ T, _A) ->  {QName, _} = scan_name("xs:anyAtomicType"), {QName, T};
-scan_token("xs:unsignedLong" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedLong"), {QName, T};
-scan_token("xs:unsignedByte" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedByte"), {QName, T};
-scan_token("xs:base64Binary" ++ T, _A) ->  {QName, _} = scan_name("xs:base64Binary"), {QName, T};
-scan_token("xs:unsignedInt" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedInt"), {QName, T};
-scan_token("xs:gYearMonth" ++ T, _A) ->  {QName, _} = scan_name("xs:gYearMonth"), {QName, T};
-scan_token("xs:hexBinary" ++ T, _A) ->  {QName, _} = scan_name("xs:hexBinary"), {QName, T};
-scan_token("xs:gMonthDay" ++ T, _A) ->  {QName, _} = scan_name("xs:gMonthDay"), {QName, T};
-scan_token("xs:NOTATION" ++ T, _A) ->  {QName, _} = scan_name("xs:NOTATION"), {QName, T};
-scan_token("xs:NMTOKENS" ++ T, _A) ->  {QName, _} = scan_name("xs:NMTOKENS"), {QName, T};
-scan_token("xs:language" ++ T, _A) ->  {QName, _} = scan_name("xs:language"), {QName, T};
-scan_token("xs:ENTITIES" ++ T, _A) ->  {QName, _} = scan_name("xs:ENTITIES"), {QName, T};
-scan_token("xs:duration" ++ T, _A) ->  {QName, _} = scan_name("xs:duration"), {QName, T};
-scan_token("xs:dateTimeStamp" ++ T, _A) ->  {QName, _} = scan_name("xs:dateTimeStamp"), {QName, T};
-scan_token("xs:dateTime" ++ T, _A) ->  {QName, _} = scan_name("xs:dateTime"), {QName, T};
-scan_token("xs:untyped" ++ T, _A) ->  {QName, _} = scan_name("xs:untyped"), {QName, T};
-scan_token("xs:NMTOKEN" ++ T, _A) ->  {QName, _} = scan_name("xs:NMTOKEN"), {QName, T};
-scan_token("xs:integer" ++ T, _A) ->  {QName, _} = scan_name("xs:integer"), {QName, T};
-scan_token("xs:decimal" ++ T, _A) ->  {QName, _} = scan_name("xs:decimal"), {QName, T};
-scan_token("xs:boolean" ++ T, _A) ->  {QName, _} = scan_name("xs:boolean"), {QName, T};
-scan_token("xs:string" ++ T, _A) ->  {QName, _} = scan_name("xs:string"), {QName, T};
-scan_token("xs:NCName" ++ T, _A) ->  {QName, _} = scan_name("xs:NCName"), {QName, T};
-scan_token("xs:IDREFS" ++ T, _A) ->  {QName, _} = scan_name("xs:IDREFS"), {QName, T};
-scan_token("xs:gMonth" ++ T, _A) ->  {QName, _} = scan_name("xs:gMonth"), {QName, T};
-scan_token("xs:ENTITY" ++ T, _A) ->  {QName, _} = scan_name("xs:ENTITY"), {QName, T};
-scan_token("xs:double" ++ T, _A) ->  {QName, _} = scan_name("xs:double"), {QName, T};
-scan_token("xs:anyURI" ++ T, _A) ->  {QName, _} = scan_name("xs:anyURI"), {QName, T};
-scan_token("xs:token" ++ T, _A) ->  {QName, _} = scan_name("xs:token"), {QName, T};
-scan_token("xs:short" ++ T, _A) ->  {QName, _} = scan_name("xs:short"), {QName, T};
-scan_token("xs:QName" ++ T, _A) ->  {QName, _} = scan_name("xs:QName"), {QName, T};
-scan_token("xs:IDREF" ++ T, _A) ->  {QName, _} = scan_name("xs:IDREF"), {QName, T};
-scan_token("xs:gYear" ++ T, _A) ->  {QName, _} = scan_name("xs:gYear"), {QName, T};
-scan_token("xs:float" ++ T, _A) ->  {QName, _} = scan_name("xs:float"), {QName, T};
-scan_token("xs:time" ++ T, _A) ->  {QName, _} = scan_name("xs:time"), {QName, T};
-scan_token("xs:Name" ++ T, _A) ->  {QName, _} = scan_name("xs:Name"), {QName, T};
-scan_token("xs:long" ++ T, _A) ->  {QName, _} = scan_name("xs:long"), {QName, T};
-scan_token("xs:gDay" ++ T, _A) ->  {QName, _} = scan_name("xs:gDay"), {QName, T};
-scan_token("xs:date" ++ T, _A) ->  {QName, _} = scan_name("xs:date"), {QName, T};
-scan_token("xs:byte" ++ T, _A) ->  {QName, _} = scan_name("xs:byte"), {QName, T};
-scan_token("xs:int" ++ T, _A) ->  {QName, _} = scan_name("xs:int"), {QName, T};
-scan_token("xs:ID" ++ T, _A) ->  {QName, _} = scan_name("xs:ID"), {QName, T};
-scan_token("xs:anyType" ++ T, _A) ->  {QName, _} = scan_name("xs:anyType"), {QName, T};
-scan_token("xs:error" ++ T, _A) ->  {QName, _} = scan_name("xs:error"), {QName, T};
+%% scan_token("xs:nonPositiveInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:nonPositiveInteger"), {QName, T};
+%% scan_token("xs:nonNegativeInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:nonNegativeInteger"), {QName, T};
+%% scan_token("xs:yearMonthDuration" ++ T, _A) ->  {QName, _} = scan_name("xs:yearMonthDuration"), {QName, T};
+%% scan_token("xs:normalizedString" ++ T, _A) ->  {QName, _} = scan_name("xs:normalizedString"), {QName, T};
+%% scan_token("xs:positiveInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:positiveInteger"), {QName, T};
+%% scan_token("xs:negativeInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:negativeInteger"), {QName, T};
+%% scan_token("xs:dayTimeDuration" ++ T, _A) ->  {QName, _} = scan_name("xs:dayTimeDuration"), {QName, T};
+%% scan_token("xs:untypedAtomic" ++ T, _A) ->  {QName, _} = scan_name("xs:untypedAtomic"), {QName, T};
+%% scan_token("xs:unsignedShort" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedShort"), {QName, T};
+%% scan_token("xs:anyAtomicType" ++ T, _A) ->  {QName, _} = scan_name("xs:anyAtomicType"), {QName, T};
+%% scan_token("xs:unsignedLong" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedLong"), {QName, T};
+%% scan_token("xs:unsignedByte" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedByte"), {QName, T};
+%% scan_token("xs:base64Binary" ++ T, _A) ->  {QName, _} = scan_name("xs:base64Binary"), {QName, T};
+%% scan_token("xs:unsignedInt" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedInt"), {QName, T};
+%% scan_token("xs:gYearMonth" ++ T, _A) ->  {QName, _} = scan_name("xs:gYearMonth"), {QName, T};
+%% scan_token("xs:hexBinary" ++ T, _A) ->  {QName, _} = scan_name("xs:hexBinary"), {QName, T};
+%% scan_token("xs:gMonthDay" ++ T, _A) ->  {QName, _} = scan_name("xs:gMonthDay"), {QName, T};
+%% scan_token("xs:NOTATION" ++ T, _A) ->  {QName, _} = scan_name("xs:NOTATION"), {QName, T};
+%% scan_token("xs:NMTOKENS" ++ T, _A) ->  {QName, _} = scan_name("xs:NMTOKENS"), {QName, T};
+%% scan_token("xs:language" ++ T, _A) ->  {QName, _} = scan_name("xs:language"), {QName, T};
+%% scan_token("xs:ENTITIES" ++ T, _A) ->  {QName, _} = scan_name("xs:ENTITIES"), {QName, T};
+%% scan_token("xs:duration" ++ T, _A) ->  {QName, _} = scan_name("xs:duration"), {QName, T};
+%% scan_token("xs:dateTimeStamp" ++ T, _A) ->  {QName, _} = scan_name("xs:dateTimeStamp"), {QName, T};
+%% scan_token("xs:dateTime" ++ T, _A) ->  {QName, _} = scan_name("xs:dateTime"), {QName, T};
+%% scan_token("xs:untyped" ++ T, _A) ->  {QName, _} = scan_name("xs:untyped"), {QName, T};
+%% scan_token("xs:NMTOKEN" ++ T, _A) ->  {QName, _} = scan_name("xs:NMTOKEN"), {QName, T};
+%% scan_token("xs:integer" ++ T, _A) ->  {QName, _} = scan_name("xs:integer"), {QName, T};
+%% scan_token("xs:decimal" ++ T, _A) ->  {QName, _} = scan_name("xs:decimal"), {QName, T};
+%% scan_token("xs:boolean" ++ T, _A) ->  {QName, _} = scan_name("xs:boolean"), {QName, T};
+%% scan_token("xs:string" ++ T, _A) ->  {QName, _} = scan_name("xs:string"), {QName, T};
+%% scan_token("xs:NCName" ++ T, _A) ->  {QName, _} = scan_name("xs:NCName"), {QName, T};
+%% scan_token("xs:IDREFS" ++ T, _A) ->  {QName, _} = scan_name("xs:IDREFS"), {QName, T};
+%% scan_token("xs:gMonth" ++ T, _A) ->  {QName, _} = scan_name("xs:gMonth"), {QName, T};
+%% scan_token("xs:ENTITY" ++ T, _A) ->  {QName, _} = scan_name("xs:ENTITY"), {QName, T};
+%% scan_token("xs:double" ++ T, _A) ->  {QName, _} = scan_name("xs:double"), {QName, T};
+%% scan_token("xs:anyURI" ++ T, _A) ->  {QName, _} = scan_name("xs:anyURI"), {QName, T};
+%% scan_token("xs:token" ++ T, _A) ->  {QName, _} = scan_name("xs:token"), {QName, T};
+%% scan_token("xs:short" ++ T, _A) ->  {QName, _} = scan_name("xs:short"), {QName, T};
+%% scan_token("xs:QName" ++ T, _A) ->  {QName, _} = scan_name("xs:QName"), {QName, T};
+%% scan_token("xs:IDREF" ++ T, _A) ->  {QName, _} = scan_name("xs:IDREF"), {QName, T};
+%% scan_token("xs:gYear" ++ T, _A) ->  {QName, _} = scan_name("xs:gYear"), {QName, T};
+%% scan_token("xs:float" ++ T, _A) ->  {QName, _} = scan_name("xs:float"), {QName, T};
+%% scan_token("xs:time" ++ T, _A) ->  {QName, _} = scan_name("xs:time"), {QName, T};
+%% scan_token("xs:Name" ++ T, _A) ->  {QName, _} = scan_name("xs:Name"), {QName, T};
+%% scan_token("xs:long" ++ T, _A) ->  {QName, _} = scan_name("xs:long"), {QName, T};
+%% scan_token("xs:gDay" ++ T, _A) ->  {QName, _} = scan_name("xs:gDay"), {QName, T};
+%% scan_token("xs:date" ++ T, _A) ->  {QName, _} = scan_name("xs:date"), {QName, T};
+%% scan_token("xs:byte" ++ T, _A) ->  {QName, _} = scan_name("xs:byte"), {QName, T};
+%% scan_token("xs:int" ++ T, _A) ->  {QName, _} = scan_name("xs:int"), {QName, T};
+%% scan_token("xs:ID" ++ T, _A) ->  {QName, _} = scan_name("xs:ID"), {QName, T};
+%% scan_token("xs:anyType" ++ T, _A) ->  {QName, _} = scan_name("xs:anyType"), {QName, T};
+%% scan_token("xs:error" ++ T, _A) ->  {QName, _} = scan_name("xs:error"), {QName, T};
+scan_token(Str = "xs:" ++ T, _A) ->  
+   scan_name(Str);
 %% scan_token("xs:" ++ _T, _A) -> 
 %%    xqerl_error:error('XQST0052', "Unkown xs type");
 % end types
@@ -1239,19 +1171,37 @@ scan_token([32,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'},
 scan_token([13,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'}, T};
 scan_token([10,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'}, T};
 scan_token([9 ,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'}, T};
-scan_token(Str = "idiv" ++ _T, _A) -> scan_name(Str);
+scan_token(Str = "idiv" ++ T, A) -> 
+   case lookback(A) of
+      ')' ->
+         {{'idiv',1,'idiv'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 
 scan_token([32,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
 scan_token([13,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
 scan_token([10,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
 scan_token([9 ,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
-scan_token(Str = "mod" ++ _T, _A) -> scan_name(Str);
+scan_token(Str = "mod" ++ T, A) -> 
+   case lookback(A) of
+      ')' ->
+         {{'mod',1,'mod'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 
 scan_token([32,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
 scan_token([13,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
 scan_token([10,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
 scan_token([9 ,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
-scan_token(Str = "div" ++ _T, _A) -> scan_name(Str);
+scan_token(Str = "div" ++ T, A) -> 
+   case lookback(A) of
+      ')' ->
+         {{'div',1,'div'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 
 scan_token("else" ++ T, A) -> qname_if_path("else", T, lookback(A));
 scan_token("cast" ++ T, A) -> qname_if_path("cast", T, lookback(A));
@@ -1355,12 +1305,16 @@ scan_token(Str = "in" ++ T, A) ->
             'NCName' ->
                {{'in',1,'in'}, T};
             _LB ->
-               %?dbg("LB",LB),
-               case lookforward_is_nameletter(T) of
+               case lookforward_is_var(T) orelse lookforward_is_paren(T) of
                   true ->
-                     scan_name(Str);
+                     {{'in',1,'in'}, T};
                   _ ->
-                     {{'in',1,'in'}, T}
+                     case lookforward_is_nameletter(T) of
+                        true ->
+                           scan_name(Str);
+                        _ ->
+                           {{'in',1,'in'}, T}
+                     end
                end
          end;
       _ ->
@@ -1759,7 +1713,7 @@ scan_prefix(Str = [H|T], Acc) ->
 
 scan_local_part([], Acc) ->
    {{'NCName',?L, lists:reverse(Acc)}, []};
-scan_local_part([H|T], _Acc) when H == $* ->
+scan_local_part([H|T], []) when H == $* ->
    {{'*',1, '*'}, T};
 scan_local_part(Str = [H|_], Acc) when ?whitespace(H) ->
    {{'NCName',?L, lists:reverse(Acc)}, Str};

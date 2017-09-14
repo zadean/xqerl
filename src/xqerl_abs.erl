@@ -1080,9 +1080,9 @@ expr_do(Ctx, 'context-item') ->
 expr_do(Ctx, {range,Expr1,Expr2}) ->
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,range}},
     [
-     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as_seq}},[expr_do(Ctx, Expr1),
+     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},[expr_do(Ctx, Expr1),
                                                                        abs_seq_type(Ctx, #xqSeqType{type = 'xs:integer', occur = zero_or_one})]},
-     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as_seq}},[expr_do(Ctx, Expr2),
+     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},[expr_do(Ctx, Expr2),
                                                                        abs_seq_type(Ctx, #xqSeqType{type = 'xs:integer', occur = zero_or_one})]}
     ]};
 expr_do(Ctx, {'and',Expr1,Expr2}) ->
@@ -1122,16 +1122,37 @@ expr_do(Ctx, {'or',Expr1,Expr2}) ->
 expr_do(Ctx, {instance_of,Expr1,Expr2}) ->
    %?dbg("instance_of abs",{Ctx, Expr2}),
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,instance_of}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)]};
+
+expr_do(_Ctx, {castable_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "NOTATION"}}}) -> % namespace sensitive
+   xqerl_error:error('XPST0080');
+expr_do(_Ctx, {castable_as,'empty-sequence',#xqSeqType{occur = one}}) -> % bad empty cast
+   abs_boolean(false);
+expr_do(_Ctx, {castable_as,'empty-sequence',#xqSeqType{occur = zero_or_one}}) -> % good empty cast
+   abs_boolean(true);
+expr_do(_Ctx, {castable_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "*"}}}) -> % bad cast
+   xqerl_error:error('XPST0003');
+expr_do(Ctx, {castable_as,Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "QName"}}}) -> % namespace sensitive
+   Namespaces = abs_ns_list(Ctx),
+   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,castable}},
+    [expr_do(Ctx, Expr1), {atom,?L,'xs:QName'} ,Namespaces]
+   };
 expr_do(Ctx, {castable_as,Expr1,Expr2}) ->
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,castable}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
    ]};
-expr_do(Ctx, {cast_as,Expr1,#xqSeqType{type = 'xs:QName',occur = _} = Type}) -> % namespace sensitive
+
+expr_do(_Ctx, {cast_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "NOTATION"}}}) -> % namespace sensitive
+   xqerl_error:error('XPST0080');
+expr_do(_Ctx, {cast_as,'empty-sequence',#xqSeqType{occur = one}}) -> % bad empty cast
+   xqerl_error:error('XPTY0004');
+expr_do(Ctx, {cast_as,'empty-sequence',#xqSeqType{occur = zero_or_one}}) -> % good empty cast
+   expr_do(Ctx, 'empty-sequence');
+expr_do(_Ctx, {cast_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "*"}}}) -> % bad cast
+   xqerl_error:error('XPST0003');
+expr_do(Ctx, {cast_as,Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "QName"}}}) -> % namespace sensitive
    Namespaces = abs_ns_list(Ctx),
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as}},
-    [expr_do(Ctx, Expr1),expr_do(Ctx, Type),Namespaces]
+    [expr_do(Ctx, Expr1), {atom,?L,'xs:QName'} ,Namespaces]
    };
-expr_do(_Ctx, {cast_as,_Expr1,#xqSeqType{type = 'xs:NOTATION',occur = _} = _Type}) -> % namespace sensitive
-   xqerl_error:error('XPST0080');
 expr_do(Ctx, {cast_as,Expr1,Expr2}) ->
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
    ]};
@@ -1317,6 +1338,11 @@ expr_do(_Ctx, []) ->
     {nil,?L};
 
 % steps
+
+expr_do(Ctx, #xqAxisStep{} = Step) ->
+   CtxVar = get_context_variable_name(Ctx),
+   Base = {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[{var,?L,CtxVar}]},
+   step_expr_do(Ctx, {step, Step}, Base);
 
 % function based path
 expr_do(Ctx, {step, {'function-call', _, _, _} = Base, Step}) ->
@@ -3288,7 +3314,7 @@ abs_element_node(Ctx, #xqElementNode{name = N, expr = E1}) ->
             {var,?L,CtxVar}, 
             Namespaces),
    Ctx2 = prepend_namespaces(Ctx, Namespaces),
-   %Ctx1 = set_context_variable_name(Ctx2, NextCtxVar),
+   Ctx1 = set_context_variable_name(Ctx2, NextCtxVar),
    %?dbg("abs_element_node",Ctx1),
    %?dbg("abs_element_node",Namespaces),
    %?dbg("abs_element_node",Ctx2),
@@ -3318,13 +3344,13 @@ abs_element_node(Ctx, #xqElementNode{name = N, expr = E1}) ->
         true ->
            Flat = flatten_node_expr(maybe_strip_boundry_space(Ctx,E)),
            %?dbg("Flat",Flat),
-           %{block,?L,
-            %[
-             %{match,?L,{var,?L,NextCtxVar},NsAbs},
+           {block,?L,
+            [
+             {match,?L,{var,?L,NextCtxVar},NsAbs},
               lists:foldr(fun(X, Abs) ->
-                         {cons,?L,expr_do(Ctx2, X), Abs} 
+                         {cons,?L,expr_do(Ctx1, X), Abs} 
                    end, {nil,?L}, Flat)
-             %]}
+             ]}
      end
     ]}.
 flatten_node_expr(E) ->
@@ -3335,7 +3361,7 @@ flatten_node_cons({expr, Expr}) ->
    %?dbg(?FUNCTION_NAME,?LINE),
    if is_list(Expr) ->
          lists:flatmap(fun({'node-cons',NC}) ->
-                         [NC];
+                             [NC];
                           (Other) ->
                              alist(Other)
                        end, Expr);
@@ -3682,14 +3708,14 @@ abs_param_list(Ctx, List) ->
 %%       [?e:atom(xqAtomicValue),
 %%        ?e:atom('xs:boolean'),
 %%        ?e:atom(true)]), C));
+abs_boolean(false) ->
+   {tuple, ?L, [atom_or_string(xqAtomicValue),
+    atom_or_string('xs:boolean'),
+    atom_or_string(false)]};
 abs_boolean(true) ->
    {tuple, ?L, [atom_or_string(xqAtomicValue),
     atom_or_string('xs:boolean'),
     atom_or_string(true)]}.
-%% abs_boolean(false) ->
-%%    {tuple, ?L, [atom_or_string(xqAtomicValue),
-%%     atom_or_string('xs:boolean'),
-%%     atom_or_string(false)]};
 %% abs_boolean(#xqAtomicValue{type = 'xs:boolean', value = Val}) ->
 %%    {tuple, ?L, [atom_or_string(xqAtomicValue),
 %%     atom_or_string('xs:boolean'),
@@ -3817,12 +3843,12 @@ maybe_strip_boundry_space(Ctx,Expr0) ->
    Expr1 = alist(Expr0),
    if Pol == strip ->
          case Expr1 of
-            [#xqAtomicValue{type = 'xs:string', value = Val} = O] ->
+            [#xqAtomicValue{type = 'xs:string', value = Val}] ->
                case string:trim(Val) of
                   "" ->
                      [];
                   _ ->
-                     [O]
+                     Expr1
                end;
             _ ->
                maybe_strip_boundry_space1(Expr1)
@@ -3831,54 +3857,29 @@ maybe_strip_boundry_space(Ctx,Expr0) ->
          Expr1
    end.
 
+maybe_strip_boundry_space2(Val,E1,E2,O,T) ->
+   case string:trim(Val) of
+      "" ->
+         [E1|maybe_strip_boundry_space1([E2|T])];
+      _ ->
+         [E1,O|maybe_strip_boundry_space1([E2|T])]
+   end.
+
 maybe_strip_boundry_space1([]) ->
    [];
-maybe_strip_boundry_space1([{expr,_} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O,{expr,_} = E2|T]) ->
-   %?dbg("maybe_strip_boundry_space1 e 2nd", T),
-   case string:trim(Val) of
-      "" ->
-         [E1|maybe_strip_boundry_space1([E2|T])];
-      _ ->
-         [E1,O|maybe_strip_boundry_space1([E2|T])]
-   end;
-maybe_strip_boundry_space1([#xqElementNode{} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O,{expr,_} = E2|T]) ->
-   case string:trim(Val) of
-      "" ->
-         [E1|maybe_strip_boundry_space1([E2|T])];
-      _ ->
-         [E1,O|maybe_strip_boundry_space1([E2|T])]
-   end;
-maybe_strip_boundry_space1([#xqNamespaceNode{} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O,{expr,_} = E2|T]) ->
-   case string:trim(Val) of
-      "" ->
-         [E1|maybe_strip_boundry_space1([E2|T])];
-      _ ->
-         [E1,O|maybe_strip_boundry_space1([E2|T])]
-   end;
-maybe_strip_boundry_space1([#xqAttributeNode{} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O,{expr,_} = E2|T]) ->
-   case string:trim(Val) of
-      "" ->
-         [E1|maybe_strip_boundry_space1([E2|T])];
-      _ ->
-         [E1,O|maybe_strip_boundry_space1([E2|T])]
-   end;
-maybe_strip_boundry_space1([{expr,_} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O,#xqElementNode{} = E2|T]) ->
-   %?dbg("maybe_strip_boundry_space1 e 2nd", T),
-   case string:trim(Val) of
-      "" ->
-         [E1|maybe_strip_boundry_space1([E2|T])];
-      _ ->
-         [E1,O|maybe_strip_boundry_space1([E2|T])]
-   end;
-maybe_strip_boundry_space1([#xqElementNode{} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O,#xqElementNode{} = E2|T]) ->
-   %?dbg("maybe_strip_boundry_space1 e 2nd", {E1,O,E2}),
-   case string:trim(Val) of
-      "" ->
-         [E1|maybe_strip_boundry_space1([E2|T])];
-      _ ->
-         [E1,O|maybe_strip_boundry_space1([E2|T])]
-   end;
-maybe_strip_boundry_space1([#xqAtomicValue{type = 'xs:string', value = Val} = O,#xqElementNode{} = E2|T]) ->
+maybe_strip_boundry_space1([{expr,_} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,{expr,_} = E2|T]) ->
+   maybe_strip_boundry_space2(Val,E1,E2,O,T);
+maybe_strip_boundry_space1([#xqElementNode{} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,{expr,_} = E2|T]) ->
+   maybe_strip_boundry_space2(Val,E1,E2,O,T);
+maybe_strip_boundry_space1([#xqNamespaceNode{} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,{expr,_} = E2|T]) ->
+   maybe_strip_boundry_space2(Val,E1,E2,O,T);
+maybe_strip_boundry_space1([#xqAttributeNode{} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,{expr,_} = E2|T]) ->
+   maybe_strip_boundry_space2(Val,E1,E2,O,T);
+maybe_strip_boundry_space1([{expr,_} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,#xqElementNode{} = E2|T]) ->
+   maybe_strip_boundry_space2(Val,E1,E2,O,T);
+maybe_strip_boundry_space1([#xqElementNode{} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,#xqElementNode{} = E2|T]) ->
+   maybe_strip_boundry_space2(Val,E1,E2,O,T);
+maybe_strip_boundry_space1([#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,#xqElementNode{} = E2|T]) ->
    %?dbg("maybe_strip_boundry_space1 e 2nd", T),
    case string:trim(Val) of
       "" ->
@@ -3886,7 +3887,7 @@ maybe_strip_boundry_space1([#xqAtomicValue{type = 'xs:string', value = Val} = O,
       _ ->
          [O|maybe_strip_boundry_space1([E2|T])]
    end;
-maybe_strip_boundry_space1([#xqAtomicValue{type = 'xs:string', value = Val} = O,{expr,_} = E2|T]) ->
+maybe_strip_boundry_space1([#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O,{expr,_} = E2|T]) ->
    %?dbg("maybe_strip_boundry_space1 e 2nd", {E1,O,E2}),
    case string:trim(Val) of
       "" ->
@@ -3894,7 +3895,7 @@ maybe_strip_boundry_space1([#xqAtomicValue{type = 'xs:string', value = Val} = O,
       _ ->
          [O|maybe_strip_boundry_space1([E2|T])]
    end;
-maybe_strip_boundry_space1([{expr,_} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O|T]) ->
+maybe_strip_boundry_space1([{expr,_} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O|T]) ->
    %?dbg("maybe_strip_boundry_space1 e 2nd", T),
    case string:trim(Val) of
       "" ->
@@ -3902,7 +3903,7 @@ maybe_strip_boundry_space1([{expr,_} = E1,#xqAtomicValue{type = 'xs:string', val
       _ ->
          [E1,O|maybe_strip_boundry_space1(T)]
    end;
-maybe_strip_boundry_space1([#xqElementNode{} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O|T]) ->
+maybe_strip_boundry_space1([#xqElementNode{} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O|T]) ->
    %?dbg("maybe_strip_boundry_space1 e 2nd", {E1,O,E2}),
    case string:trim(Val) of
       "" ->
@@ -3910,7 +3911,7 @@ maybe_strip_boundry_space1([#xqElementNode{} = E1,#xqAtomicValue{type = 'xs:stri
       _ ->
          [E1,O|maybe_strip_boundry_space1(T)]
    end;
-maybe_strip_boundry_space1([#xqAttributeNode{} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O|T]) ->
+maybe_strip_boundry_space1([#xqAttributeNode{} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O|T]) ->
    %?dbg("maybe_strip_boundry_space1 e 2nd", {E1,O,E2}),
    case string:trim(Val) of
       "" ->
@@ -3918,7 +3919,7 @@ maybe_strip_boundry_space1([#xqAttributeNode{} = E1,#xqAtomicValue{type = 'xs:st
       _ ->
          [E1,O|maybe_strip_boundry_space1(T)]
    end;
-maybe_strip_boundry_space1([#xqNamespaceNode{} = E1,#xqAtomicValue{type = 'xs:string', value = Val} = O|T]) ->
+maybe_strip_boundry_space1([#xqNamespaceNode{} = E1,#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = Val}} = O|T]) ->
    %?dbg("maybe_strip_boundry_space1 e 2nd", {E1,O,E2}),
    case string:trim(Val) of
       "" ->

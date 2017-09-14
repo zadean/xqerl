@@ -106,8 +106,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -116,8 +116,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -126,7 +126,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -136,7 +136,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -146,7 +146,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -156,8 +156,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -167,7 +167,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -181,8 +181,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -201,7 +201,7 @@ environment('math') ->
 {modules, []}
 ];
 environment('works-mod-uri') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".","http://www.w3.org/fots/docs/works-mod.xml"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".","http://www.w3.org/fots/docs/works-mod.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -211,8 +211,8 @@ environment('works-mod-uri') ->
 {modules, []}
 ];
 environment('works-and-staff-uri') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","","http://www.w3.org/fots/docs/works.xml"},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","","http://www.w3.org/fots/docs/staff.xml"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","","http://www.w3.org/fots/docs/works.xml"},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","","http://www.w3.org/fots/docs/staff.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -618,7 +618,7 @@ end.
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-doc-24'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/SpaceBracket.xml","","id/SpaceBracket.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/SpaceBracket.xml","","id/SpaceBracket.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -644,7 +644,7 @@ end.
 end.
 'fn-doc-25'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/HighUnicode.xml","","id/HighUnicode.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/HighUnicode.xml","","id/HighUnicode.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -668,7 +668,7 @@ end.
 end.
 'fn-doc-26'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/HighUnicode2.xml","","id/HighUnicode2.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/HighUnicode2.xml","","id/HighUnicode2.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -692,7 +692,7 @@ end.
 end.
 'fn-doc-27'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/BCisInvalid.xml","","id/BCisInvalid.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/BCisInvalid.xml","","id/BCisInvalid.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -712,7 +712,7 @@ end.
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-doc-28'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/InvalidUmlaut.xml","","id/InvalidUmlaut.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/InvalidUmlaut.xml","","id/InvalidUmlaut.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -732,7 +732,7 @@ end.
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-doc-29'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/NamespaceSuppliedInternally.xml","","id/NamespaceSuppliedInternally.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/NamespaceSuppliedInternally.xml","","id/NamespaceSuppliedInternally.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -758,7 +758,7 @@ end.
 end.
 'fn-doc-30'(_Config) ->
    Qry = "local-name(fn:doc($uri)/*)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/XMLIdDuplicated.xml","","id/XMLIdDuplicated.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/XMLIdDuplicated.xml","","id/XMLIdDuplicated.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -781,7 +781,7 @@ end.
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-doc-31'(_Config) ->
    Qry = "local-name(fn:doc($uri)/*)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/InvalidXMLId.xml","","id/InvalidXMLId.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/InvalidXMLId.xml","","id/InvalidXMLId.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -815,7 +815,7 @@ end.
            true -> ct:fail({Res, 'FODC0005'}) end.
 'fn-doc-32'(_Config) ->
    Qry = "string(fn:doc($uri)), string(exactly-one(fn:doc($uri)/*))",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/Books2.xml","","id/Books2.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/Books2.xml","","id/Books2.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -868,7 +868,7 @@ end.
             for $object in $root//QObject for $i in local:drawDiagram($object) stable order by string($i) return $i 
         } </s:svg>
      ",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/QObject.xml","","id/QObject.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/QObject.xml","","id/QObject.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -893,7 +893,7 @@ end.
 end.
 'fn-doc-34'(_Config) ->
    Qry = "doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/0x010D.xml","","id/0x010D.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/0x010D.xml","","id/0x010D.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -928,7 +928,7 @@ end.
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-doc-36'(_Config) ->
    Qry = "count(doc($uri)//text())",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/builtinEntities.xml","","id/builtinEntities.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/builtinEntities.xml","","id/builtinEntities.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -951,7 +951,7 @@ end.
     true -> ct:fail({Res,Exp}) end.
 'fn-doc-37'(_Config) ->
    Qry = "let $result := id(\"idABC\", doc($uri)) return (empty($result), $result)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/fn/id/XMLIdWhitespace.xml","","id/XMLIdWhitespace.xml"}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/XMLIdWhitespace.xml","","id/XMLIdWhitespace.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},

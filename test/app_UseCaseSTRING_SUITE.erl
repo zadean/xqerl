@@ -28,8 +28,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -38,8 +38,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -48,7 +48,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -58,7 +58,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -68,7 +68,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -78,8 +78,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -89,7 +89,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -103,8 +103,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -123,7 +123,7 @@ environment('math') ->
 {modules, []}
 ];
 environment('string') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/string.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/string.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -133,8 +133,8 @@ environment('string') ->
 {modules, []}
 ];
 environment('string-and-company-data') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/string.xml","$string",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/company-data.xml","$company-data",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/string.xml","$string",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/company-data.xml","$company-data",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -154,8 +154,9 @@ environment('string-and-company-data') ->
          
       ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<title>Foobar Corporation releases its new line of Foo products
-   today</title><title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title>"++"</x>)")) of "true" -> {comment, "assert-xml"};
+   today</title>
+<title>Foobar Corporation is suing Gorilla Corporation for
+   patent infringement</title>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
                  true -> {comment, "assert-xml"};
@@ -199,9 +200,20 @@ end.
    Exp = "
          
       ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<news_item><title> Gorilla Corporation acquires YouNameItWeIntegrateIt.com </title><date>1-20-2000</date></news_item><news_item><title>Foobar Corporation releases its new line of Foo products
-   today</title><date>1-20-2000</date></news_item><news_item><title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title><date>1-20-2000</date></news_item>"++"</x>)")) of "true" -> {comment, "assert-xml"};
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<news_item>
+  <title>Gorilla Corporation acquires YouNameItWeIntegrateIt.com</title>
+  <date>1-20-2000</date>
+</news_item>
+<news_item>
+  <title>Foobar Corporation releases its new line of Foo products
+   today</title>
+  <date>1-20-2000</date>
+</news_item>
+<news_item>
+  <title>Foobar Corporation is suing Gorilla Corporation for
+   patent infringement</title>
+  <date>1-20-2000</date>
+</news_item>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
                  true -> {comment, "assert-xml"};
@@ -229,40 +241,35 @@ end.
          
       ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<news_item>
-   <title> Gorilla Corporation acquires YouNameItWeIntegrateIt.com </title>
-   <content>
-      <par> Today, Gorilla Corporation announced that it will purchase
+  <title>Gorilla Corporation acquires YouNameItWeIntegrateIt.com</title>
+  <content>
+    <par>Today, Gorilla Corporation announced that it will purchase
           YouNameItWeIntegrateIt.com. The shares of
           YouNameItWeIntegrateIt.com dropped $3.00 as a result of this
-          announcement.
-      </par>
-
-      <par> As a result of this acquisition, the CEO of
+          announcement.</par>
+    <par>As a result of this acquisition, the CEO of
           YouNameItWeIntegrateIt.com Bill Smarts resigned. He did not
           announce what he will do next.  Sources close to
           YouNameItWeIntegrateIt.com hint that Bill Smarts might be
-          taking a position in Foobar Corporation.
-      </par>
-
-      <par>YouNameItWeIntegrateIt.com is a leading systems integrator
-          that enables <quote>brick and mortar</quote> companies to
-          have a presence on the web.
-      </par>
-
-   </content>
-   <date>1-20-2000</date>
-   <author>Mark Davis</author>
-   <news_agent>News Online</news_agent>
-</news_item><news_item> <title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title>
-   <content>
-      <par> In surprising developments today, Foobar Corporation
+          taking a position in Foobar Corporation.</par>
+    <par>YouNameItWeIntegrateIt.com is a leading systems integrator
+          that enables<quote>brick and mortar</quote>companies to
+          have a presence on the web.</par>
+  </content>
+  <date>1-20-2000</date>
+  <author>Mark Davis</author>
+  <news_agent>News Online</news_agent>
+</news_item>
+<news_item>
+  <title>Foobar Corporation is suing Gorilla Corporation for
+   patent infringement</title>
+  <content>
+    <par>In surprising developments today, Foobar Corporation
          announced that it is suing Gorilla Corporation for patent
          infringement. The patents that were mentioned as part of the
          lawsuit are considered to be the basis of Foobar
-         Corporation's <quote>Wireless Foo</quote> line of products.
-      </par>
-      <par>The tension between Foobar and Gorilla Corporations has
+         Corporation's<quote>Wireless Foo</quote>line of products.</par>
+    <par>The tension between Foobar and Gorilla Corporations has
          been increasing ever since the Gorilla Corporation acquired
          more than 40 engineers who have left Foobar Corporation,
          TheAppCompany Inc. and YouNameItWeIntegrateIt.com over the
@@ -271,11 +278,10 @@ end.
          the next generation of server products and applications which
          will directly compete with Foobar's Foo 20.9 servers. Most of
          the engineers have relocated to Hawaii where the Gorilla
-         Corporation's server development is located.
-      </par>
-   </content>
-   <date>1-20-2000</date>
-   <news_agent>Reliable News Corporation</news_agent>
+         Corporation's server development is located.</par>
+  </content>
+  <date>1-20-2000</date>
+  <news_agent>Reliable News Corporation</news_agent>
 </news_item>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -300,17 +306,16 @@ end.
    Exp = "
          
       ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<item_summary> Gorilla Corporation acquires YouNameItWeIntegrateIt.com . 1-20-2000.  Today, Gorilla Corporation announced that it will purchase
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<item_summary>Gorilla Corporation acquires YouNameItWeIntegrateIt.com. 1-20-2000. Today, Gorilla Corporation announced that it will purchase
           YouNameItWeIntegrateIt.com. The shares of
           YouNameItWeIntegrateIt.com dropped $3.00 as a result of this
-          announcement.
-      </item_summary><item_summary>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement . 1-20-2000.  In surprising developments today, Foobar Corporation
+          announcement.</item_summary>
+<item_summary>Foobar Corporation is suing Gorilla Corporation for
+   patent infringement. 1-20-2000. In surprising developments today, Foobar Corporation
          announced that it is suing Gorilla Corporation for patent
          infringement. The patents that were mentioned as part of the
          lawsuit are considered to be the basis of Foobar
-         Corporation's Wireless Foo line of products.
-      </item_summary>"++"</x>)")) of "true" -> {comment, "assert-xml"};
+         Corporation'sWireless Fooline of products.</item_summary>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
                  true -> {comment, "assert-xml"};

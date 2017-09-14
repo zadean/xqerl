@@ -11,12 +11,12 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/app/Demos/raytracer.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/app/Demos/scene.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/app/Demos/vector.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/app/Demos/shapes.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/app/Demos/materials.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/xqerl/test/QT3_1_0/app/Demos/math.xq") catch _:_ -> ok end,Config.
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/raytracer.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/scene.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/vector.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/shapes.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/materials.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/math.xq") catch _:_ -> ok end,Config.
 all() -> [
    'sudoku',
    'currencysvg',
@@ -33,8 +33,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -43,8 +43,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -53,7 +53,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -63,7 +63,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -73,7 +73,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -83,8 +83,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -94,7 +94,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -108,8 +108,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -321,7 +321,7 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
   }
 </svg>
 ",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/GBPNoon.xml",".",""}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/GBPNoon.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -365,19 +365,19 @@ end.
         	string-join( for $channel in raytracer:plot-pixel($scene, $x-recentered, $y-recentered) 
         			     return string(floor($channel * 255)), \" \") ), \"&#xA;\" )
       ",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/scene.xml",".",""}]},
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/scene.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
 {namespaces, []},
 {resources, []},
-{modules, [{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/raytracer.xq","http://www.xqsharp.com/raytracer"},
-{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/scene.xq","http://www.xqsharp.com/raytracer/scene"},
-{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/vector.xq","http://www.xqsharp.com/raytracer/vector"},
-{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/shapes.xq","http://www.xqsharp.com/raytracer/shapes"},
-{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/materials.xq","http://www.xqsharp.com/raytracer/materials"},
-{"file:///C:/git/xqerl/test/QT3_1_0/app/Demos/math.xq","http://www.xqsharp.com/raytracer/math"}]}
+{modules, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/raytracer.xq","http://www.xqsharp.com/raytracer"},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/scene.xq","http://www.xqsharp.com/raytracer/scene"},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/vector.xq","http://www.xqsharp.com/raytracer/vector"},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/shapes.xq","http://www.xqsharp.com/raytracer/shapes"},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/materials.xq","http://www.xqsharp.com/raytracer/materials"},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/Demos/math.xq","http://www.xqsharp.com/raytracer/math"}]}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),

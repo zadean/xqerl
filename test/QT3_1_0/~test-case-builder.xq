@@ -155,7 +155,7 @@ declare function local:print-testcase($test-case)
   (: $test-case/../*:environment[*:source[@validation]]/@name :)
   let $inscope-schema-envs := 
     ($test-case/../*:environment[*:source[@validation]]/@name union 
-     doc("/git/xqerl/test/QT3_1_0/catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
+     doc("catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
   let $name := $test-case/@name
   let $deps := $test-case/*:dependency | $test-case/../*:dependency (: < type="feature" value="schemaImport"/> :)
   let $env  := $test-case/*:environment/@ref/string()
@@ -428,8 +428,9 @@ declare function local:dec($text)
 
 (: Erlang SUITE :)
 (
-let $globalEnvs := doc("/git/xqerl/test/QT3_1_0/catalog.xml")/*:catalog/*:environment
-for $ts in doc("/git/xqerl/test/QT3_1_0/catalog.xml")/*:catalog/*:test-set(: [@name = "app-FunctxFunctx"] :)
+let $doc := doc("catalog.xml")
+let $globalEnvs := $doc/*:catalog/*:environment
+for $ts in$doc/*:catalog/*:test-set(: [@name = "app-FunctxFunctx"] :)
 let $file := resolve-uri($ts/@file, base-uri($ts)) 
 let $case := doc($file)
 let $name := $ts/@name
@@ -490,6 +491,6 @@ return
 ||"."
 ||out:nl()
 return
-file:write-text("/git/xqerl/test/"||$usname||"_SUITE.erl", $mod, "utf-8")
+file:write-text("/git/zadean/xqerl/test/"||$usname||"_SUITE.erl", $mod, "utf-8")
 )
 

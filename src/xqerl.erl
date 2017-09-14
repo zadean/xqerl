@@ -60,6 +60,8 @@ run(Str, Options) ->
       erlang:erase(),
       erlang:put('available-documents', Docs2),
       xqerl_main:main(Options)
+%%    .
+
    catch
       _:#xqError{} = E ->
          ?dbg("run",E),

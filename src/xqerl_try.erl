@@ -45,13 +45,46 @@
 
 -functions([{{qname,
          "http://www.w3.org/2005/xquery-local-functions",
-         "local", "square"},
-        {xqSeqType, 'xs:float', one}, [], {'fx$^1', 2}, 1,
-        [{xqSeqType, 'xs:float', one}]}]).
+         "local", "sum"},
+        {xqSeqType, item, zero_or_many}, [], {'fx$^1', 2}, 1,
+        [{xqSeqType, item, zero_or_many}]}]).
 
 -export([]).
 
--export([]).
+-export(['fx$^1'/2]).
+
+'fx$^1'(Ctx0, Param__var_1) ->
+    xqerl_types:as_seq(case
+          xqerl_seq2:singleton_value(xqerl_fn:boolean(Ctx0,
+                             xqerl_fn:empty(Ctx0,
+                                  xqerl_types:as_seq(Param__var_1,
+                                           {xqSeqType,
+                                       item,
+                                       zero_or_many}))))
+            of
+          {xqAtomicValue, 'xs:boolean', true} ->
+              {xqAtomicValue, 'xs:integer', 0};
+          _ ->
+             H = xqerl_fn:head(Ctx0,
+                            xqerl_types:as_seq(Param__var_1,
+                                {xqSeqType,
+                                 item,
+                                 zero_or_many})),
+             T = xqerl_fn:tail(Ctx0,
+                                   xqerl_types:as_seq(Param__var_1,
+                                            {xqSeqType,
+                                             item,
+                                             zero_or_many})),
+             ?dbg("H",H),
+             ?dbg("T",T),
+              xqerl_operators:add(H,
+                   'fx$^1'(Ctx0,
+                      xqerl_types:as_seq(T,
+                               {xqSeqType,
+                                item,
+                                zero_or_many})))
+             end,
+             {xqSeqType, item, zero_or_many}).
 
 get_namespaces() ->
     lists:foreach(fun ({Ns, Px}) ->
@@ -98,41 +131,17 @@ main(Options) ->
     xqerl_context:init(),
     get_namespaces(),
     Ctx = Ctx0,
-    xqerl_fn:filter(Ctx,
-          xqerl_types:as_seq(xqerl_seq2:from_list([{xqAtomicValue,
-                           'xs:string',
-                           "apple"},
-                          {xqAtomicValue,
-                           'xs:string',
-                           "pear"},
-                          {xqAtomicValue,
-                           'xs:string',
-                           "apricot"},
-                          {xqAtomicValue,
-                           'xs:string',
-                           "advocado"},
-                          {xqAtomicValue,
-                           'xs:string',
-                           "orange"}]),
-                   {xqSeqType, item, zero_or_many}),
-          xqerl_types:as_seq(fun (Ctx__1, Local__1) ->
-                      xqerl_fn:'starts-with'(Ctx__1,
-                              xqerl_types:as_seq(Local__1,
-                                  {xqSeqType,
-                                   'xs:string',
-                                   zero_or_one}),
-                              xqerl_types:as_seq({xqAtomicValue,
-                                   'xs:string',
-                                   "a"},
-                                  {xqSeqType,
-                                   'xs:string',
-                                   zero_or_one}))
-                   end,
-                   {xqSeqType,
-               {function, [],
-                {qname,
-                 "http://www.w3.org/2005/xpath-functions",
-                 "fn", "filter"},
-                [{xqSeqType, item, one}],
-                {xqSeqType, 'xs:boolean', one}},
-               one})).
+    'fx$^1'(Ctx,
+       xqerl_types:as_seq(xqerl_seq2:range(xqerl_types:as_seq({xqAtomicValue,
+                            'xs:integer',
+                            1},
+                           {xqSeqType,
+                            'xs:integer',
+                            zero_or_one}),
+                  xqerl_types:as_seq({xqAtomicValue,
+                            'xs:integer',
+                            5},
+                           {xqSeqType,
+                            'xs:integer',
+                            zero_or_one})),
+                {xqSeqType, item, zero_or_many})).

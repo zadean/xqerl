@@ -247,7 +247,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[for $node in ((//price/text()) , (//price/text())) intersect ((//price/text()) , (//price/text())) return <a> {$node} </a>]]></test>
       <result>
-         <assert-xml><![CDATA[<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>]]></assert-xml>
+         <assert-xml><![CDATA[<a>65.95</a><a>65.95</a><a>39.95</a><a>129.95</a>]]></assert-xml>
       </result>
    </test-case>
 

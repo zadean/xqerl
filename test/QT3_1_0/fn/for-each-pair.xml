@@ -334,7 +334,8 @@
                             else deep-equal($a, $b)
                           } )</test>
       <result>
-	<assert-string-value>true true true true true true true true true true true true true true</assert-string-value>
+	<assert-string-value>true true true true true true true true true true</assert-string-value>
+ 	<!-- <assert-string-value>true true true true true true true true true true true true true true</assert-string-value> -->
       </result>
    </test-case>
 

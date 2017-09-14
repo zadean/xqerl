@@ -1296,15 +1296,15 @@ Left  2000  '[' ']' '?'.
 'DirElemContent'         -> 'DirectConstructor'   : '$1'.
 'DirElemContent'         -> 'CDataSection'        : '$1'.
 'DirElemContent'         -> 'CommonContent'       : '$1'.
-'DirElemContent'         -> 'ElementContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
+'DirElemContent'         -> 'ElementContentChars' : #xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = '$1'}}.
 
 'ElementContentChars'    -> 'ElementContentChar' 'ElementContentChars' : [value_of('$1') | '$2'].
 'ElementContentChars'    -> 'ElementContentChar' : [value_of('$1')].
 % [148]    CommonContent     ::=      PredefinedEntityRef | CharRef | "{{" | "}}" | EnclosedExpr  
-'CommonContent'          -> 'PredefinedEntityRef' : #xqAtomicValue{type = 'xs:string', value = value_of('$1')}.
+'CommonContent'          -> 'PredefinedEntityRef' : #xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = value_of('$1')}}.
 'CommonContent'          -> 'CharRef'             : #xqAtomicValue{type = 'xs:string', value = [value_of('$1')]}.
-'CommonContent'          -> '{{'                  : #xqAtomicValue{type = 'xs:string', value = "{"}.
-'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = "}"}.
+'CommonContent'          -> '{{'                  : #xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = "{"}}.
+'CommonContent'          -> '}}'                  : #xqTextNode{expr = #xqAtomicValue{type = 'xs:string', value = "}"}}.
 'CommonContent'          -> 'EnclosedExpr' : '$1'.
 % [149]    DirCommentConstructor      ::=      "<!--" DirCommentContents "-->"  /* ws: explicit */
 'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : #xqCommentNode{identity = next_node_id(), expr = '$2'}.
@@ -1431,7 +1431,15 @@ Left  2000  '[' ']' '?'.
 'ItemType'               -> 'AtomicOrUnionType'     : '$1'.
 'ItemType'               -> 'ParenthesizedItemType' : '$1'.
 % [187]    AtomicOrUnionType    ::=      EQName   
-'AtomicOrUnionType'      -> 'EQName' : qname_to_atom(qname(type,'$1')).
+'AtomicOrUnionType'      -> 'EQName' : case qname(type,'$1') of
+                                          #qname{namespace = _, prefix = "xs", local_name = "*"} = Q ->
+                                             Q;
+                                          #qname{namespace = _, prefix = "xs", local_name = _} = Q ->
+                                             qname_to_atom(Q);
+                                          Q ->
+                                             Q
+                                       end.
+%% 'AtomicOrUnionType'      -> 'EQName' : qname_to_atom(qname(type,'$1')).
 % [188]    KindTest    ::=      DocumentTest | ElementTest | AttributeTest | SchemaElementTest | SchemaAttributeTest | 
 %                               PITest | CommentTest | TextTest | NamespaceNodeTest | AnyKindTest  
 'KindTest'               -> 'DocumentTest' : '$1'.

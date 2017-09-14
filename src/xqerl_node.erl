@@ -883,17 +883,11 @@ merge_content([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs:string
 merge_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) when Type == 'xs:string' ->
    merge_content([], [#xqTextNode{expr = Expr}|Acc]);
 merge_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
-   %?dbg("merge_content",5),
-   NewH2 = xqerl_types:cast_as(H2, 'xs:string'),
-   V1 = xqerl_types:value(H1),
-   V2 = xqerl_types:value(NewH2),
-   Str = V1 ++ V2,
-%%    Str = V1 ++ case string:trim(V2) of
-%%                   "" -> " ";
-%%                   _ -> "" ++ V2
-%%                end,
-   ?dbg("Atomic Merge",Str),
-   merge_content([NewH2#xqAtomicValue{value = Str}|T], Acc);
+   St1 = xqerl_types:value(xqerl_types:string_value(H1)),
+   St2 = xqerl_types:value(xqerl_types:string_value(H2)),
+   Str3 = lists:concat([St1,St2]),
+   %?dbg("Atomic Merge",Str),
+   merge_content([#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc);
 
 merge_content([#xqAtomicValue{} = H1,H2|T], Acc) ->
    %?dbg("merge_content",4),
@@ -1272,11 +1266,13 @@ nodes_equal({#xqElementNode{identity = Id1, children = _C1, name = Q1}, Doc1},
 nodes_equal({#xqAttributeNode{name = Q1, expr = E1}, _Doc1},
             {#xqAttributeNode{name = Q2, expr = E2}, _Doc2}) ->
    %?dbg("{E1,E2}",{E1,E2}),
+   %?dbg("{Q1,Q2}",{Q1,Q2}),
    ?seq:singleton_value(
      xqerl_operators:equal(#xqAtomicValue{type = 'xs:QName', value = Q1},
                            #xqAtomicValue{type = 'xs:QName', value = Q2})) == ?bool(true)
   andalso
-   ?seq:singleton_value(xqerl_operators:equal(E1,E2)) == ?bool(true);
+     % E1 == E2 to catch [] == []
+   (E1 == E2 orelse ?seq:singleton_value(xqerl_operators:equal(E1,E2)) == ?bool(true));
 
 nodes_equal({#xqProcessingInstructionNode{name = Q1, expr = V1}, _Doc1},
             {#xqProcessingInstructionNode{name = Q2, expr = V2}, _Doc2}) ->

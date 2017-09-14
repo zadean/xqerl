@@ -1201,7 +1201,7 @@ avg1([H|T], Sum, Count) ->
 %% Returns true if the string $arg1 contains $arg2 as a substring, taking collations into account. 
 'contains'(_Ctx,Arg1,Arg2) -> 
    S1 = string_value(data(_Ctx, Arg1)),
-   S2 = string_value(Arg2),
+   S2 = xqerl_types:value(Arg2),
    case string:find(S1,S2) of
       nomatch ->
          ?bool(false);
@@ -1635,12 +1635,17 @@ pct_encode3([H|T]) ->
 
 %% Returns $arg if it contains exactly one item. Otherwise, raises an error. 
 'exactly-one'(_Ctx,Arg1) -> 
-   case ?seq:size(Arg1) of
-      1 ->
-         Arg1;
+   case ?seq:is_sequence(Arg1) of
+      true ->
+         case ?seq:size(Arg1) of
+            1 ->
+               Arg1;
+            _ ->
+               xqerl_error:error('FORG0005')
+         end;
       _ ->
-         xqerl_error:error('FORG0005')
-   end.
+         ?seq:singleton(Arg1)
+  end.
 
 %% Returns true if the argument is a non-empty sequence. 
 'exists'(_Ctx,Arg1) ->
@@ -1691,13 +1696,13 @@ pct_encode3([H|T]) ->
 
 %% Processes the supplied sequence from left to right, applying the supplied function repeatedly to each item in turn, 
 %% together with an accumulated result value. 
-'fold-left'(_Ctx,Seq,Zero,F) -> 
-   ?seq:foldl(F, Zero, Seq).
+'fold-left'(Ctx,Seq,Zero,F) -> 
+   ?seq:foldl(Ctx,F, Zero, Seq).
 
 %% Processes the supplied sequence from right to left, applying the supplied function repeatedly to each item in turn, 
 %% together with an accumulated result value. 
-'fold-right'(_Ctx,Seq,Zero,F) -> 
-   ?seq:foldr(F, Zero, Seq).
+'fold-right'(Ctx,Seq,Zero,F) -> 
+   ?seq:foldr(Ctx,F, Zero, Seq).
 
 %% Applies the function item $action to every item from the sequence $seq in turn, 
 %% returning the concatenation of the resulting sequences in order. 
@@ -1741,7 +1746,8 @@ pct_encode3([H|T]) ->
          Formatted = xqerl_format:parse_picture(IntVal, StrVal),
          ?str(Formatted)
    end.
-'format-integer'(_Ctx,_Arg1,_Arg2,_Arg3) -> exit({not_implemented,?LINE}).
+'format-integer'(_Ctx,Int,Picture,_Lang) -> 
+   'format-integer'(_Ctx,Int,Picture).
 
 %% Returns a string containing a number formatted according to a given picture string, taking account of decimal formats specified in the static context. 
 'format-number'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
@@ -1991,11 +1997,17 @@ unmask_static_mod_ns(T) -> T.
                                        %?dbg("At",At),
                                        Ty = xqerl_types:type(At), 
                                        %?dbg("Ty",Ty),
-                                       Match = ?seq:singleton_value(xqerl_operators:general_compare('=',xqerl_types:cast_as(At,'xs:string'),
-                                                                               RefToks)),
-                                       %?dbg("Match",Match),
-                                       ?bool(Ty == 'xs:ID' andalso
-                                               Match == #xqAtomicValue{type = 'xs:boolean', value = true}) 
+                                       if Ty == 'xs:ID' ->
+                                             Str = xqerl_types:value(At),
+                                             %?dbg("Str",Str),
+                                             Match = ?seq:singleton_value(xqerl_operators:general_compare('=',
+                                                                                                          #xqAtomicValue{type = 'xs:string', value = Str},
+                                                                                                          RefToks)),
+                                             %?dbg("Match",Match),
+                                             ?bool(Match == #xqAtomicValue{type = 'xs:boolean', value = true});
+                                          true ->
+                                             ?bool(false)
+                                       end
                                          
                                  end]),
       %?dbg("id Refs", Refs),
@@ -2213,19 +2225,19 @@ unmask_static_mod_ns(T) -> T.
 'matches'(_Ctx,String,Pattern,Flags) ->
    Pattern1 = xqerl_regex:regex_back_ref(xqerl_types:value(Pattern),0),
    %?dbg("back ref", Pattern),
-   ?dbg("Pattern1", Pattern1),
+   %?dbg("Pattern1", Pattern1),
    MP = xqerl_regex:regex_comp(Pattern1,Flags),
    %?dbg("MP", MP),
    Input1 = string_value(String),
-   ?dbg("Input1", Input1),
+   %?dbg("Input1", Input1),
    case re:run(Input1, MP, [global]) of
       nomatch ->
          %?dbg("",false),
          ?bool(false);
       {match,[[{0,0}]]} ->
          ?bool(false);
-      _X ->
-         %?dbg("",{X,Input1, MP}),
+      X ->
+         ?dbg(?LINE,X),
          ?bool(true)
    end.
 
@@ -2757,8 +2769,8 @@ remove1([H|T],Position,Current) ->
    Repl = string_value(Replacement),
    Repl1 = xqerl_regex:regex_back_ref(Repl,0),
    Input1 = string_value(Input),
-   ?dbg("Input1", Input1),
-   ?dbg("Repl1", Repl1),
+   %?dbg("Input1 replace", Input1),
+   %?dbg("Repl1 replace", Repl1),
    Str = re:replace(Input1, MP, Repl1, [{return,list},global]),
    ?str(Str).
 
@@ -2977,18 +2989,18 @@ string_value(At) -> xqerl_types:string_value(At).
                                      {NewInt, NewFract}
                                end
                          end,
-         ?dbg("All",{Int1,Int,Fract1,Fract}),
          Int2 = list_to_integer(Int1),
          Mod1 = Int2 rem 2,
+         ?dbg("All",{Int1,Int,Fract1,Fract,Int2,Mod1}),
          Int3 = case {Mod1, Half(Fract1)} of
-                   {0, less} ->
+                   {_, less} ->
                       Int2;
-                   {1, less} ->
-                      if Fract1 == [] ->
-                            Int2;
-                         true ->
-                            Int2 + 1
-                      end;
+%%                    {1, less} ->
+%%                       if Fract1 == [] ->
+%%                             Int2;
+%%                          true ->
+%%                             Int2 + 1
+%%                       end;
                    _ ->
                       Int2 + 1
                 end,
@@ -3205,7 +3217,12 @@ string_value(At) -> xqerl_types:string_value(At).
    Str1 = string_value(Arg1),
    Str2 = string_value(Arg2),
    Str3 = string:split(Str1,Str2),
-   ?str(hd(Str3)).
+   case Str3 of
+      [_] ->
+         ?str("");
+      _ ->
+         ?str(hd(Str3))
+   end.
 %TODO collation
 'substring-before'(Ctx,Arg1,Arg2,Collation) ->
    Coll = xqerl_types:value(Collation),
@@ -3274,29 +3291,41 @@ sum1([H|T], Sum) ->
 
 %% Returns the timezone component of an xs:date. 
 'timezone-from-date'(_Ctx,Dt) ->
-   #xsDateTime{offset = OS} = xqerl_types:value(Dt),
-   if OS == [] -> [];
-      true ->
-         Str = xqerl_datetime:to_string(OS,'xs:dayTimeDuration'),
-         ?seq:singleton(xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ))
+   case xqerl_types:value(Dt) of
+      [] ->
+         ?seq:empty();
+      #xsDateTime{offset = OS} ->
+         if OS == [] -> [];
+            true ->
+               Str = xqerl_datetime:to_string(OS,'xs:dayTimeDuration'),
+               ?seq:singleton(xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ))
+         end
    end.
 
 %% Returns the timezone component of an xs:dateTime. 
 'timezone-from-dateTime'(_Ctx,Dt) ->
-   #xsDateTime{offset = OS} = xqerl_types:value(Dt),
-   if OS == [] -> [];
-      true ->
-         Str = xqerl_datetime:to_string(OS,'xs:dayTimeDuration'),
-         ?seq:singleton(xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ))
+   case xqerl_types:value(Dt) of
+      [] ->
+         ?seq:empty();
+      #xsDateTime{offset = OS} ->
+         if OS == [] -> [];
+            true ->
+               Str = xqerl_datetime:to_string(OS,'xs:dayTimeDuration'),
+               ?seq:singleton(xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ))
+         end
    end.
 
 %% Returns the timezone component of an xs:time. 
 'timezone-from-time'(_Ctx,Dt) -> 
-   #xsDateTime{offset = OS} = xqerl_types:value(Dt),
-   if OS == [] -> [];
-      true ->
-         Str = xqerl_datetime:to_string(OS,'xs:dayTimeDuration'),
-         ?seq:singleton(xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ))
+   case xqerl_types:value(Dt) of
+      [] ->
+         ?seq:empty();
+      #xsDateTime{offset = OS} ->
+         if OS == [] -> [];
+            true ->
+               Str = xqerl_datetime:to_string(OS,'xs:dayTimeDuration'),
+               ?seq:singleton(xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ))
+         end
    end.
 
 %% Returns a sequence of strings constructed by splitting the input wherever a separator is found; the separator is any substring that matches a given regular expression. 
@@ -3311,11 +3340,18 @@ sum1([H|T], Sum) ->
    Str = xqerl_types:cast_as(Input, 'xs:string'),
    %?dbg("Str",Str),
    Input1 = string_value(Str),
+   %?dbg("Input1",Input1),
    List = re:split(Input1, MP, [group, {return,list}]),
    %?dbg("List",List),
    ?seq:sort_seq(lists:foldl(fun(S, Seq) -> 
                        H = lists:flatten(hd(S)),
-                       if H == [] -> ?seq:empty();
+                       if H == [] ->
+                             T = lists:flatten(tl(S)),
+                             if T == [] ->
+                                   ?seq:empty();
+                                true ->
+                                   ?seq:append(#xqAtomicValue{type = 'xs:string', value = ""}, Seq)
+                             end;
                           true ->
                              ?seq:append(#xqAtomicValue{type = 'xs:string', value = hd(S)}, Seq)
                        end
@@ -3448,14 +3484,21 @@ zip_map_trans([H|T],[TH|TT]) ->
    end.
 
 %% Returns $arg if it contains zero or one items. Otherwise, raises an error. 
+'zero-or-one'(_Ctx,[]) -> [];
+'zero-or-one'(_Ctx,L) when is_list(L) -> L;
 'zero-or-one'(_Ctx,Arg1) -> 
-   case ?seq:size(Arg1) of
-      0 ->
-         Arg1;
-      1 ->
-         Arg1;
+   case ?seq:is_sequence(Arg1) of
+      true ->
+         case ?seq:size(Arg1) of
+            0 ->
+               Arg1;
+            1 ->
+               Arg1;
+            _ ->
+            xqerl_error:error('FORG0003')
+         end;
       _ ->
-      xqerl_error:error('FORG0003')
+         ?seq:singleton(Arg1)
    end.
 
 %% The external effects of fn:put are implementation-defined, since they occur outside the domain of XQuery. The intent is that, if fn:put is invoked on a document node and no error is raised, a subsequent query can access the stored document by invoking fn:doc with the same URI. 

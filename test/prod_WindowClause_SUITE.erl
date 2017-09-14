@@ -254,8 +254,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -264,8 +264,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -274,7 +274,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -284,7 +284,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -294,7 +294,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -304,8 +304,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -315,7 +315,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -329,8 +329,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -349,7 +349,7 @@ environment('math') ->
 {modules, []}
 ];
 environment('WindowingUseCases01') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/arrange_rows.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/arrange_rows.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -359,8 +359,8 @@ environment('WindowingUseCases01') ->
 {modules, []}
 ];
 environment('WindowingUseCases01S') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/arrange_rows.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/arrange_rows.xsd",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/arrange_rows.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/arrange_rows.xsd",""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -369,7 +369,7 @@ environment('WindowingUseCases01S') ->
 {modules, []}
 ];
 environment('WindowingUseCases02') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/head_para.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/head_para.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -379,8 +379,8 @@ environment('WindowingUseCases02') ->
 {modules, []}
 ];
 environment('WindowingUseCases02S') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/head_para.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/head_para.xsd",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/head_para.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/head_para.xsd",""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -389,7 +389,7 @@ environment('WindowingUseCases02S') ->
 {modules, []}
 ];
 environment('WindowingUseCases03') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/term_def_list.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/term_def_list.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -399,8 +399,8 @@ environment('WindowingUseCases03') ->
 {modules, []}
 ];
 environment('WindowingUseCases03S') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/term_def_list.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/term_def_list.xsd",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/term_def_list.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/term_def_list.xsd",""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -409,7 +409,7 @@ environment('WindowingUseCases03S') ->
 {modules, []}
 ];
 environment('WindowingUseCases04') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/temp_events.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/temp_events.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -419,8 +419,8 @@ environment('WindowingUseCases04') ->
 {modules, []}
 ];
 environment('WindowingUseCases04S') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/temp_events.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/temp_events.xsd",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/temp_events.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/temp_events.xsd",""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -429,7 +429,7 @@ environment('WindowingUseCases04S') ->
 {modules, []}
 ];
 environment('WindowingUseCases05') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/person_events.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/person_events.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -439,8 +439,8 @@ environment('WindowingUseCases05') ->
 {modules, []}
 ];
 environment('WindowingUseCases05S') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/person_events.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/person_events.xsd",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/person_events.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/person_events.xsd",""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -449,7 +449,7 @@ environment('WindowingUseCases05S') ->
 {modules, []}
 ];
 environment('WindowingUseCases06') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/rss.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/rss.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -459,8 +459,8 @@ environment('WindowingUseCases06') ->
 {modules, []}
 ];
 environment('WindowingUseCases06S') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/rss.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/rss.xsd",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/rss.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/rss.xsd",""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -469,7 +469,7 @@ environment('WindowingUseCases06S') ->
 {modules, []}
 ];
 environment('WindowingUseCases07') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/cxml.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/cxml.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -479,8 +479,8 @@ environment('WindowingUseCases07') ->
 {modules, []}
 ];
 environment('WindowingUseCases07S') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/cxml.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/prod/WindowClause/cxml.xsd",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/cxml.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/WindowClause/cxml.xsd",""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},

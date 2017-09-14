@@ -80,8 +80,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -90,8 +90,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -100,7 +100,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -110,7 +110,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -120,7 +120,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -130,8 +130,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -141,7 +141,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -155,8 +155,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -177,8 +177,8 @@ environment('math') ->
 environment('default-collection-1') ->
 [{sources, []},
 {schemas, []},
-{collections, [{"",["file:///C:/git/xqerl/test/QT3_1_0/docs/bib.xml",
-"file:///C:/git/xqerl/test/QT3_1_0/docs/reviews.xml"]}]},
+{collections, [{"",["file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/bib.xml",
+"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/reviews.xml"]}]},
 {'static-base-uri', []},
 {params, []},
 {namespaces, []},
@@ -188,8 +188,8 @@ environment('default-collection-1') ->
 environment('simple-collection-1') ->
 [{sources, []},
 {schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",["file:///C:/git/xqerl/test/QT3_1_0/docs/bib.xml",
-"file:///C:/git/xqerl/test/QT3_1_0/docs/reviews.xml"]}]},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",["file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/bib.xml",
+"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/reviews.xml"]}]},
 {'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]},
 {params, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
 {namespaces, []},
@@ -199,9 +199,9 @@ environment('simple-collection-1') ->
 environment('default-collection-2') ->
 [{sources, []},
 {schemas, []},
-{collections, [{"",["file:///C:/git/xqerl/test/QT3_1_0/docs/bib.xml",
-"file:///C:/git/xqerl/test/QT3_1_0/docs/reviews.xml",
-"file:///C:/git/xqerl/test/QT3_1_0/docs/books.xml"]}]},
+{collections, [{"",["file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/bib.xml",
+"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/reviews.xml",
+"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/books.xml"]}]},
 {'static-base-uri', []},
 {params, []},
 {namespaces, []},
@@ -211,9 +211,9 @@ environment('default-collection-2') ->
 environment('simple-collection-2') ->
 [{sources, []},
 {schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",["file:///C:/git/xqerl/test/QT3_1_0/docs/bib.xml",
-"file:///C:/git/xqerl/test/QT3_1_0/docs/reviews.xml",
-"file:///C:/git/xqerl/test/QT3_1_0/docs/books.xml"]}]},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",["file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/bib.xml",
+"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/reviews.xml",
+"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/books.xml"]}]},
 {'static-base-uri', []},
 {params, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
 {namespaces, []},

@@ -39,6 +39,7 @@
 -export([cast_as_seq/3]).
 -export([instance_of/2]).
 -export([castable/2]).
+-export([castable/3]).
 -export([subtype_of/2]).
 -export([seq_type_val_match/2]).
 -export([is_ns_sensitive/1]).
@@ -315,7 +316,11 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
             AType == 'xs:untypedAtomic' ->
                case is_numeric_type(Type) of
                   true ->
-                     cast_as_seq(Seq,'xs:double');
+                     try
+                        cast_as_seq(Seq,'xs:double')
+                     catch _:_ ->
+                              xqerl_error:error('XPTY0004')
+                     end;
                   _ ->
                      cast_as_seq(Seq,TargetSeqType)
                end;
@@ -355,7 +360,7 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
                      ?dbg(?FUNCTION_NAME,?LINE),
                      xqerl_error:error('XPTY0004')
                end;
-            AType == 'xs:decimal' ->
+            AType == 'xs:decimal' andalso Type =/= 'xs:integer' -> % loss of precision
                case is_numeric_type(Type) of
                   true ->
                      cast_as_seq(Seq,TargetSeqType);
@@ -434,8 +439,9 @@ cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occur} = TargetSeqType) ->
                   true ->
                      case is_ns_sensitive(Type) of
                         true ->
-                           ?seq:val_map(fun(Val) -> 
-                                           case type(Val) == 'xs:untypedAtomic' of
+                           ?seq:val_map(fun(#xqNode{}) -> xqerl_error:error('XPTY0117');
+                                           (Val) -> 
+                                            case type(Val) == 'xs:untypedAtomic' of
                                               true ->
                                                  xqerl_error:error('XPTY0117');
                                               _ ->
@@ -607,10 +613,10 @@ subtype_of('xs:NMTOKEN'           , 'xs:token') -> true;
 subtype_of('xs:NMTOKEN'           , 'xs:normalizedString') -> true;
 subtype_of('xs:NMTOKEN'           , 'xs:string') -> true;
 
-subtype_of('xs:NMTOKENS'          , 'xs:NMTOKEN') -> true;
-subtype_of('xs:NMTOKENS'          , 'xs:token') -> true;
-subtype_of('xs:NMTOKENS'          , 'xs:normalizedString') -> true;
-subtype_of('xs:NMTOKENS'          , 'xs:string') -> true;
+%% subtype_of('xs:NMTOKENS'          , 'xs:NMTOKEN') -> true;
+%% subtype_of('xs:NMTOKENS'          , 'xs:token') -> true;
+%% subtype_of('xs:NMTOKENS'          , 'xs:normalizedString') -> true;
+%% subtype_of('xs:NMTOKENS'          , 'xs:string') -> true;
 
 subtype_of('xs:Name'              , 'xs:token') -> true;
 subtype_of('xs:Name'              , 'xs:normalizedString') -> true;
@@ -750,7 +756,9 @@ castable(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
             _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
             _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
             _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
+            _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
             _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
+            _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
             _:E -> throw(E)            
          end;
       _ ->
@@ -765,7 +773,48 @@ castable( Av, Type ) ->
       _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
       _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
       _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
+      _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
       _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
+      _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
+      _:E -> throw(E)            
+   end.
+
+castable(#xqAtomicValue{} = Seq, TargetSeqType, Namespaces) ->
+   castable(?seq:singleton(Seq), TargetSeqType, Namespaces);
+castable(Seq, #xqSeqType{type = Type} = TargetSeqType, Namespaces) ->
+   SeqType = ?seq:get_seq_type(Seq),
+   case seq_type_val_match(TargetSeqType, SeqType) of
+      nocast ->
+         ?true;
+      true ->
+         try
+            cast_as(Seq, Type, Namespaces),
+            %?dbg("castable", {Seq, Type}),
+            ?true
+         catch
+            _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
+            _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
+            _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
+            _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
+            _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
+            _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
+            _:E -> throw(E)            
+         end;
+      _ ->
+         ?false
+   end;
+castable( Av, Type, Namespaces) -> 
+   try
+      cast_as(Av, Type, Namespaces),
+      %?dbg("castable", {Av, Type}),
+      ?true
+   catch
+      _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
+      _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
+      _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
+      _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
+      _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
+      _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
       _:E -> throw(E)            
    end.
 
@@ -877,18 +926,23 @@ instance_of( Seq0, TargetSeqType ) ->
                   true -> ?true
                end;
             T ->
-               ?dbg("T",T),
-               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
-                                   derives_from( ATy, T );
-                                (#xqNode{frag_id = F, identity = Id}) ->
-                                   Doc = xqerl_context:get_available_document(F),
-                                   T == 'node' orelse 
-                                    T == xqerl_node:get_node_type({Id,Doc});
-                                (Fx) when is_function(Fx) ->
-                                   false
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
+               case is_known_type(T) of
+                  true ->
+                     B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
+                                         derives_from( ATy, T );
+                                      (#xqNode{frag_id = F, identity = Id}) ->
+                                         Doc = xqerl_context:get_available_document(F),
+                                         T == 'node' orelse 
+                                          T == xqerl_node:get_node_type({Id,Doc});
+                                      (Fx) when is_function(Fx) ->
+                                         false
+                         end, ?seq:to_list(Seq)),
+                     if B == false -> ?false;
+                        true -> ?true
+                     end;
+                  _ ->
+                     ?dbg("unknown type",T),
+                     xqerl_error:error('XPST0051')
                end
          end;
       _ ->
@@ -1472,27 +1526,37 @@ cast_as( #xqAtomicValue{type = 'xs:QName'} = Q, 'xs:untypedAtomic' ) ->
    Val = value(cast_as( Q, 'xs:string' )),
    #xqAtomicValue{type = 'xs:untypedAtomic', value = Val} ;
 
-cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 
-         'xs:anyURI' ) -> % MAYBE castable
-   #xqAtomicValue{type = 'xs:anyURI', value = string:trim(Val)};
+cast_as( #xqAtomicValue{type = 'xs:string', value = []}, 'xs:anyURI' ) -> #xqAtomicValue{type = 'xs:anyURI', value = []};
+cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 'xs:anyURI' ) -> % MAYBE castable
+   Trim = string:trim(Val),
+   if Trim == "" ->
+         #xqAtomicValue{type = 'xs:anyURI', value = []};
+      true ->
+         EncBig = lists:flatmap(fun(Cp) when Cp > 255 ->
+                                      "&#" ++ integer_to_list(Cp) ++ ";";
+                                   (Cp) ->
+                                      [Cp]                                   
+                                end, Trim),
+?dbg(?LINE,EncBig),
+         case ietf_rfc2396_scanner:string(EncBig) of
+            {ok,L,_} ->
+               ?dbg(?LINE,L),
+               Head = hd(L),
+               
+               Bad = element(3, Head) == ":" orelse lists:keyfind(excluded, 1, L),
+               if Bad == false ->
+                     #xqAtomicValue{type = 'xs:anyURI', value = EncBig};
+                  true ->
+                     xqerl_error:error('FORG0001')
+               end;
+            X ->
+               ?dbg(?LINE,X),
+               xqerl_error:error('FORG0001')
+         end
+   end;
 
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 
          'xs:base64Binary' ) -> % MAYBE castable
-%%    case lists:any(fun(C) when C >= 48, C =< 57 -> false;
-%%                 (C) when C >= 65, C =< 90 -> false;
-%%                 (C) when C >= 97, C =< 102 -> false;
-%%                 (_) -> true
-%%              end, Val) of
-%%       true ->
-%%          xqerl_error:error('FORG0001');
-%%       _ ->
-%%             if byte_size(Bin) rem 4 =/= 0 ->
-%%                   D = base64:decode_to_string(<<"00", Bin/binary>>),
-%%                   ?dbg("D",D);
-%%                true ->
-%%                   D = base64:decode_to_string(Bin),
-%%                   ?dbg("D",D)
-%%             end,
    #xqAtomicValue{type = 'xs:base64Binary', value = str_to_b64bin(string:trim(Val))};
 
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val0}, 
@@ -1665,7 +1729,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
    try
       if Val == "NaN"  -> #xqAtomicValue{type = 'xs:double', value = Val};
          Val == "-INF" -> #xqAtomicValue{type = 'xs:double', value = Val};
-         %Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = Val}; % schema 1.1 
+         Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = "INF"}; % schema 1.1 
          Val == "INF"  -> #xqAtomicValue{type = 'xs:double', value = Val};
          true ->
          Bin = list_to_binary(string:trim(Val)),
@@ -1848,8 +1912,12 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                         minute = 0,
                         second = 0, 
                         offset = Offset},
-         #xqAtomicValue{type = 'xs:gYear', 
-                        value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gYear')}}
+      if Year == 0 ->
+            xqerl_error:error('FORG0001');
+         true ->
+            #xqAtomicValue{type = 'xs:gYear',
+                           value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gYear')}}
+      end
    catch
       G:Err -> xqerl_error:error('FORG0001', ["xs:gYear", Val,G,Err] )
    end;
@@ -1871,7 +1939,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
       Offset = tz_bin_to_offset(Rest1),
       Year = list_to_integer([C1,C2,Y1,Y2]),
       Mon  = list_to_integer([M1,M2]),
-      if Mon < 1 orelse Mon > 12 ->
+      if Mon < 1 orelse Mon > 12 orelse Year == 0 ->
             xqerl_error:error('FORG0001');
          true ->
             Rec = #xsDateTime{sign   = Sign,
@@ -1982,7 +2050,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:token' ) ->
 
 cast_as( #xqAtomicValue{} = Arg1,'xs:language' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
-   case re:run(StrVal, "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*",[unicode]) of
+   case re:run(StrVal, "^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$",[unicode]) of
       nomatch ->
          xqerl_error:error('FORG0001');
       _ ->
@@ -2002,25 +2070,25 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKEN' ) ->
                xqerl_error:error('FORG0001')
          end
    end;
-cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKENS' ) ->
-   case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
-      [] ->
-         xqerl_error:error('FORG0001');
-      StrVal ->
-         Tokens = string:split(StrVal," ",all),
-         ?seq:from_list(
-           lists:map(fun(Tok) ->
-                        case lists:all(fun(C) ->
-                                             xqerl_lib:is_xsname_char(C)
-                                       end, Tok) of
-                           true ->
-                              #xqAtomicValue{type = 'xs:NMTOKEN', value = Tok};
-                           _ ->
-                              xqerl_error:error('FORG0001')
-                        end
-                     end, Tokens)
-           )
-   end;
+%% cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKENS' ) ->
+%%    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
+%%       [] ->
+%%          xqerl_error:error('FORG0001');
+%%       StrVal ->
+%%          Tokens = string:split(StrVal," ",all),
+%%          ?seq:from_list(
+%%            lists:map(fun(Tok) ->
+%%                         case lists:all(fun(C) ->
+%%                                              xqerl_lib:is_xsname_char(C)
+%%                                        end, Tok) of
+%%                            true ->
+%%                               #xqAtomicValue{type = 'xs:NMTOKEN', value = Tok};
+%%                            _ ->
+%%                               xqerl_error:error('FORG0001')
+%%                         end
+%%                      end, Tokens)
+%%            )
+%%    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:Name' ) ->
    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
       [H|T] ->
@@ -2318,7 +2386,7 @@ cast_as( #xqAtomicValue{type = Intype}, T ) when
                            Intype == 'xs:dayTimeDuration';
                            Intype == 'xs:untypedAtomic';
                            Intype == 'xs:dateTimeStamp';
-                           Intype == 'xs:NMTOKENS';
+                           %Intype == 'xs:NMTOKENS';
                            Intype == 'xs:ENTITIES';
                            Intype == 'xs:IDREFS';
                            Intype == 'xs:error' -> 
@@ -2365,9 +2433,7 @@ cast_as(Seq,T)  ->
          end
    end.
 
-%% NO Validation !! 
-%% For xs:anyURI, the extent to which an implementation validates the 
-%% lexical form of xs:anyURI is implementation-dependent.
+% namespace sensitive
 cast_as( #xqNode{} = N, TT, Namespaces ) ->
    String = xqerl_node:atomize_nodes(N),
    cast_as(String, TT, Namespaces);
@@ -2375,7 +2441,7 @@ cast_as( #xqAtomicValue{type = 'xs:QName'} = Q,'xs:QName', _Namespaces) ->
    Q;
 cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when AType == 'xs:string';
                                                                                 AType == 'xs:untypedAtomic'-> % MAYBE castable
-   ?dbg("Namespaces",Namespaces),
+   %?dbg("Namespaces",Namespaces),
    try
       {Prefix, Local} = case scan_ncname(string:trim(Val)) of
                               {P, L} -> {P, L};
@@ -2406,9 +2472,8 @@ cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when 
             end
       end
    catch
-      _:#xqError{} = E -> 
-         ?dbg("QName",E),
-         throw(E);
+      _:#xqError{name = #qname{local_name = "FOCA0002"}} -> xqerl_error:error('FORG0001');
+      _:#xqError{} = E -> throw(E);
       G:E -> xqerl_error:error('FORG0001', ["xs:QName", Val,G,E] )
    end;
 %% cast_as( #xqAtomicValue{type = 'xs:untypedAtomic'},'xs:QName', _Namespaces) -> % MAYBE castable
@@ -2476,7 +2541,10 @@ tz_bin_to_offset(Bin) ->
             [];
          <<"Z">> ->
             #off_set{};
-         <<P,Ho1,Ho2,$:,Mio1,Mio2>> ->
+         <<P,Ho1,Ho2,$:,Mio1,Mio2>> when Mio1 >= $0, Mio1 =< $9,
+                                         Mio2 >= $0, Mio2 =< $9,
+                                         Ho1 >= $0, Ho1 =< $9,
+                                         Ho2 >= $0, Ho2 =< $9 ->
             Ho  = list_to_integer([P,Ho1,Ho2]), 
             Mio = list_to_integer([Mio1,Mio2]), 
             if Mio =< 59 ->
@@ -2497,7 +2565,8 @@ tz_bin_to_offset(Bin) ->
       end
    catch
       _:#xqError{} = E -> throw(E);
-      _:_ ->
+      _:badarg -> xqerl_error:error('FORG0001');
+      _:_ -> 
          xqerl_error:error('FODT0001')
    end.  
 
@@ -2574,7 +2643,9 @@ time_bin_to_hms(Bin) ->
    catch
       _:#xqError{} = E -> throw(E);
       _:{badmatch,_} -> xqerl_error:error('FORG0001');
-      _:_ -> xqerl_error:error('FODT0001')
+      _:badarg -> xqerl_error:error('FORG0001');
+      _:_ ->  
+         xqerl_error:error('FODT0001')
    end.
 
 timedur_bin_to_hms(Bin) ->
@@ -2604,8 +2675,10 @@ timedur_bin_to_hms(Bin) ->
                     ?dbg("R2",R2),
                     xqerl_error:error('FORG0001')
                  end;
-              [_R2] ->
-                 0
+              [<<>>] ->
+                 0;
+              [_R2] -> % timezone not allowed
+                 xqerl_error:error('FORG0001')
            end,
    {Hour,Min,Sec}.
 
@@ -2640,6 +2713,11 @@ daytimedur_bin_to_dhms(Bin) ->
                      <<$P,R/binary>> ->
                         {'+', <<R/binary>>}
                     end,
+   _ = if Bin1 == <<>> ->
+             xqerl_error:error('FORG0001');
+          true ->
+             ok
+       end,          
    [DayPart,TimePart] = case binary:split(Bin1,<<"T">>) of
                            [_D,<<>>] ->
                               xqerl_error:error('FORG0001');
@@ -2679,6 +2757,11 @@ dur_bin_to_ymdhms(Bin) ->
                      <<$P,R/binary>> ->
                         {'+', <<R/binary>>}
                     end,
+   _ = if Bin1 == <<>> ->
+             xqerl_error:error('FORG0001');
+          true ->
+             ok
+       end,          
    [DayPart,TimePart] = case binary:split(Bin1,<<"T">>) of
                            [_D,<<>>] ->
                               xqerl_error:error('FORG0001'); % T alone should throw error
@@ -2898,6 +2981,7 @@ is_known_type('xs:negativeInteger')        -> true;
 is_known_type('xs:long')                   -> true;
 is_known_type('xs:int')                    -> true;
 is_known_type('xs:short')                  -> true;
+is_known_type('xs:byte')                   -> true;
 is_known_type('xs:nonNegativeInteger')     -> true;
 is_known_type('xs:unsignedLong')           -> true;
 is_known_type('xs:unsignedShort')          -> true;
@@ -2907,10 +2991,13 @@ is_known_type('xs:yearMonthDuration')      -> true;
 is_known_type('xs:dayTimeDuration')        -> true;
 is_known_type('xs:untypedAtomic')          -> true;
 is_known_type('xs:dateTimeStamp')          -> true;
-is_known_type('xs:NMTOKENS')               -> true;
+
+%is_known_type('xs:NMTOKENS')               -> true;
 is_known_type('xs:ENTITIES')               -> true;
 is_known_type('xs:IDREFS')                 -> true;
+
 is_known_type('xs:error')                  -> true;
+is_known_type('xs:anyAtomicType')          -> true;
 
 is_known_type('xs:numeric')                -> true;
 is_known_type('empty-sequence')            -> true;
