@@ -24,7 +24,8 @@
 
 -module(xqerl_xs).
 
--define(sin(Item), ?seq:singleton(Item)).
+-define(sin(Item), Item).
+%-define(sin(Item), ?seq:singleton(Item)).
 
 -'module-namespace'({"http://www.w3.org/2001/XMLSchema","xs"}).
 -'element-namespace'([]).

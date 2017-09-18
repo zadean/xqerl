@@ -24,6 +24,7 @@
 
 -module(xqerl_types).
 
+-export([return_value/1]).
 -export([value/1]).
 -export([atomize/1]).
 -export([string_value/1]).
@@ -98,8 +99,44 @@ atomize(_) ->
    xqerl_error:error('XPTY0004').
 
 
-  
+return_value([]) -> ?seq:empty();
+return_value(#xqNode{frag_id = FragId,identity = Id}) ->
+   Doc = xqerl_context:get_available_document(FragId),
+   case xqerl_node:new_fragment({Id,Doc}) of
+      #xqNode{frag_id = NewFragId,identity = NewId} ->
+         NewDoc = xqerl_context:get_available_document(NewFragId),
+         {0,NewDoc};
+         %{NewId,NewDoc};
+      X ->
+         X
+   end;
+return_value(#xqAtomicValue{} = A) -> A;
+return_value(Other) -> 
+   %?dbg("Other",Other),
+   case ?seq:is_sequence(Other) of
+      true ->
+         case ?seq:size(Other) of
+            0 ->
+               Other;
+            _ ->
+               List = ?seq:to_list(Other),
+               case lists:map(fun return_value/1,List) of
+                  [S] ->
+                     S;
+                  X ->
+                     X
+               end
+         end;
+      _ ->
+         Other
+   end.
 
+string_value([]) -> [];
+string_value([V]) when not is_integer(V) -> string_value(V);
+string_value({Id,Doc}) when is_integer(Id) ->
+   _ = xqerl_context:add_available_document(Id, Doc),
+   Node = #xqNode{frag_id = Id,identity = 1},
+   string_value(Node);
 string_value({Error,_}) ->
    {Error};
 %% string_value([At]) ->
@@ -115,21 +152,20 @@ string_value(#xqNode{} = Nd) ->
    %?dbg("string_value",xqerl_fn:data([], Nd)),
    string_value(cast_as(Nd, 'xs:string'));
 
-string_value(Other) when is_list(Other) ->
-   AllAtom = lists:all(fun(#xqAtomicValue{}) ->
-                             true;
-                          (_) ->
-                             false
-                       end, Other),
-   if AllAtom ->
-         %xqerl_fn:'string-join'([], Other);
-         Joined = xqerl_fn:'string-join'([], ?seq:from_list(Other), #xqAtomicValue{type = 'xs:string', value = " "}),
-         string_value(Joined);
-      true ->
-         lists:map(fun(O) ->
-                         string_value(O)
-                   end, Other)
-   end;
+%% string_value(List) when is_list(List) ->
+%%    AllAtom = lists:all(fun(#xqAtomicValue{}) ->
+%%                              true;
+%%                           (_) ->
+%%                              false
+%%                        end, List),
+%%    if AllAtom ->
+%%          string_value(lists:concat([string_value(hd(List))|[" "++ string_value(Av) || Av <- tl(List) ] ]));
+%%       true ->
+%%          lists:map(fun(O) ->
+%%                          ?dbg("O",O),
+%%                          string_value(O)
+%%                    end, List)
+%%    end;
 string_value(Seq) ->
    case ?seq:is_sequence(Seq) of
       true ->
@@ -146,10 +182,12 @@ string_value(Seq) ->
          Seq
    end.
 
+value(#xqFunction{body = V}) ->
+   V;
 value(#xqAtomicValue{value = V}) ->
    V;
-value(Seq) ->
-   %?dbg("Seq",Seq),
+value({_,0,[]}) -> [];
+value({_,1,_} = Seq) ->
    case ?seq:singleton_value(Seq) of
       #xqAtomicValue{value = V} ->
          V;
@@ -157,7 +195,9 @@ value(Seq) ->
          V;
       O ->
          O
-   end.
+   end;
+value(V) ->
+   V.
 
 type({not_implemented_maybe_later,L}) ->
    {not_implemented_maybe_later,L};
@@ -169,6 +209,10 @@ type(Seq) ->
    #xqSeqType{type = T, occur = _One} = ?seq:get_seq_type(Seq),
    T.
 
+as_seq({Id,Doc}, SeqType) -> % new document fragment
+   _ = xqerl_context:add_available_document(Id, Doc),
+   Node = #xqNode{frag_id = Id,identity = 1},
+   as_seq(?seq:singleton(Node), SeqType);
 as_seq(Vals, []) ->
    Vals;
 as_seq(#qname{} = Q, SeqType) ->
@@ -271,16 +315,7 @@ as_seq(Seq, #xqSeqType{type = #xqKindTest{kind = Type, name = undefined},occur =
          end
    end;
 %% as_seq(Seq, #xqSeqType{type = item}) ->
-%%    case ?seq:is_sequence(Seq) of
-%%       true ->
-%%          Seq;
-%%       _ ->
-%%          if is_list(Seq) ->
-%%                ?seq:from_list(Seq);
-%%             true ->
-%%                ?seq:singleton(Seq)
-%%          end
-%%    end;
+%%    Seq;
 as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
    Seq = case ?seq:is_sequence(Seq0) of
             true ->
@@ -313,27 +348,21 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
                Seq;
             AType == function ->
                xqerl_error:error('FOTY0013');
-            AType == 'xs:untypedAtomic' ->
-               case is_numeric_type(Type) of
-                  true ->
-                     try
-                        cast_as_seq(Seq,'xs:double')
-                     catch _:_ ->
-                              xqerl_error:error('XPTY0004')
-                     end;
-                  _ ->
-                     cast_as_seq(Seq,TargetSeqType)
+            AType == 'xs:untypedAtomic' andalso ?numeric(Type) ->
+               try
+                  cast_as_seq(Seq,'xs:double')
+               catch _:_ ->
+                        xqerl_error:error('XPTY0004')
                end;
+            AType == 'xs:untypedAtomic' ->
+               cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:anyURI' andalso Type == 'xs:string' ->
                cast_as_seq(Seq,TargetSeqType);
+            AType == 'xs:string' andalso ?numeric(Type) ->
+               ?dbg(?FUNCTION_NAME,?LINE),
+               xqerl_error:error('XPTY0004');
             AType == 'xs:string' ->
-               case is_numeric_type(Type) of
-                  true ->
-                     ?dbg(?FUNCTION_NAME,?LINE),
-                     xqerl_error:error('XPTY0004');
-                  _ ->
-                     cast_as_seq(Seq,TargetSeqType)
-               end;
+               cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:anySimpleType' -> % maybe castable
                cast_as_seq(Seq,TargetSeqType);
             AType == 'item' -> % maybe castable
@@ -342,41 +371,31 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
                cast_as_seq(Seq,TargetSeqType);
             AType == 'text' ->
                cast_as_seq(Seq,TargetSeqType);
+            AType == 'comment' andalso ?numeric(Type) ->
+               ?dbg(?FUNCTION_NAME,?LINE),
+               xqerl_error:error('XPTY0004');
             AType == 'comment' ->
-               case is_numeric_type(Type) of
-                  true ->
-                     ?dbg(?FUNCTION_NAME,?LINE),
-                     xqerl_error:error('XPTY0004');
-                  _ ->
-                     cast_as_seq(Seq,TargetSeqType)
-               end;
+               cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:integer' andalso Type == 'xs:numeric' ->
                Seq;
+            AType == 'xs:integer' andalso ?numeric(Type);
+            AType == 'xs:integer' andalso Type == 'xs:boolean';
+            AType == 'xs:integer' andalso Type == 'xs:anyAtomicType' ->
+               cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:integer' ->
-               case is_numeric_type(Type) orelse Type == 'xs:boolean' orelse Type == 'xs:anyAtomicType' of
-                  true ->
-                     cast_as_seq(Seq,TargetSeqType);
-                  _ ->
-                     ?dbg(?FUNCTION_NAME,?LINE),
-                     xqerl_error:error('XPTY0004')
-               end;
-            AType == 'xs:decimal' andalso Type =/= 'xs:integer' -> % loss of precision
-               case is_numeric_type(Type) of
-                  true ->
-                     cast_as_seq(Seq,TargetSeqType);
-                  _ ->
-                     ?dbg(?FUNCTION_NAME,?LINE),
-                     ?dbg("as_seq AType,Type", {?LINE,AType,Type,TargetSeqType}),
-                     xqerl_error:error('XPTY0004')
-               end;
+               ?dbg(?FUNCTION_NAME,?LINE),
+               xqerl_error:error('XPTY0004');
+            AType == 'xs:decimal' andalso Type =/= 'xs:integer' andalso ?numeric(Type) -> % loss of precision
+               cast_as_seq(Seq,TargetSeqType);
+            AType == 'xs:decimal' andalso Type =/= 'xs:integer' ->
+               ?dbg(?FUNCTION_NAME,?LINE),
+               ?dbg("as_seq AType,Type", {?LINE,AType,Type,TargetSeqType}),
+               xqerl_error:error('XPTY0004');
+            AType == 'processing-instruction' andalso ?numeric(Type) ->
+               ?dbg(?FUNCTION_NAME,?LINE),
+               xqerl_error:error('XPTY0004');
             AType == 'processing-instruction' ->
-               case is_numeric_type(Type) of
-                  true ->
-                     ?dbg(?FUNCTION_NAME,?LINE),
-                     xqerl_error:error('XPTY0004');
-                  _ ->
-                     cast_as_seq(Seq,TargetSeqType)
-               end;
+               cast_as_seq(Seq,TargetSeqType);
             AType == 'node' ->
                cast_as_seq(Seq,TargetSeqType);
             AType == 'element' ->
@@ -390,9 +409,9 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
                xqerl_error:error('XPTY0117');
             true ->
                case subtype_of(AType,Type) of
-                  {'EXIT',_} -> 
-                     ?dbg("as_seq AType,Type", {?LINE,AType,Type,TargetSeqType}),
-                     xqerl_error:error('XPTY0004');
+%%                   {'EXIT',_} -> 
+%%                      ?dbg("as_seq AType,Type", {?LINE,AType,Type,TargetSeqType}),
+%%                      xqerl_error:error('XPTY0004');
                   false ->
                      ?dbg("as_seq AType,Type", {?LINE,AType,Type,TargetSeqType}),
                      case is_known_type(Type) of
@@ -471,6 +490,7 @@ cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occur} = TargetSeqType) ->
 cast_as_seq(Vals, [], _) -> Vals.
 
 treat_as_seq(Vals, SeqType) ->
+   %?dbg("Vals, SeqType",{Vals, SeqType}),
    try cast_as_seq(Vals, SeqType) of
       Seq ->
          Seq
@@ -540,6 +560,8 @@ seq_type_val_match(#xqSeqType{type = _Type, occur = one_or_many}, #xqSeqType{typ
 seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_one}, #xqSeqType{type = 'empty-sequence'}) ->
    nocast;
 seq_type_val_match(#xqSeqType{type = TType, occur = one}, #xqSeqType{type = AType, occur = one}) when TType == AType ->
+   nocast;
+seq_type_val_match(#xqSeqType{type = #xqKindTest{kind = TType} , occur = one}, #xqSeqType{type = AType, occur = one}) when TType == AType ->
    nocast;
 seq_type_val_match(#xqSeqType{type = TType, occur = zero_or_one}, #xqSeqType{type = AType, occur = one}) when TType == AType ->
    nocast;
@@ -740,17 +762,44 @@ subtype_of('xs:positiveInteger'   , 'xs:numeric') -> true;
 subtype_of( _AT, _ET ) -> 
    false.
 
+castable(#xqNode{} = Seq, TargetSeqType) ->
+   castable(xqerl_node:atomize_nodes(Seq), TargetSeqType);
 castable(#xqAtomicValue{} = Seq, TargetSeqType) ->
    castable(?seq:singleton(Seq), TargetSeqType);
 castable(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
-   SeqType = ?seq:get_seq_type(Seq),
-   case seq_type_val_match(TargetSeqType, SeqType) of
-      nocast ->
-         ?true;
+   #xqSeqType{occur = O} = SeqType = ?seq:get_seq_type(Seq),
+   if O == one_or_many ->
+         ?false;
+      true ->
+         case seq_type_val_match(TargetSeqType, SeqType) of
+            nocast ->
+               ?true;
+            true ->
+               try
+                  cast_as(Seq, Type),
+                  %?dbg("castable", {Seq, Type}),
+                  ?true
+               catch
+                  _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
+                  _:E -> throw(E)            
+               end;
+            _ ->
+               ?false
+         end
+   end;
+castable( Av, Type ) -> 
+   #xqSeqType{occur = O} = ?seq:get_seq_type(Av),
+   if O == one_or_many ->
+         ?false;
       true ->
          try
-            cast_as(Seq, Type),
-            %?dbg("castable", {Seq, Type}),
+            cast_as(Av, Type),
+            %?dbg("castable", {Av, Type}),
             ?true
          catch
             _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
@@ -760,36 +809,45 @@ castable(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
             _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
             _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
             _:E -> throw(E)            
-         end;
-      _ ->
-         ?false
-   end;
-castable( Av, Type ) -> 
-   try
-      cast_as(Av, Type),
-      %?dbg("castable", {Av, Type}),
-      ?true
-   catch
-      _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
-      _:E -> throw(E)            
+         end
    end.
 
 castable(#xqAtomicValue{} = Seq, TargetSeqType, Namespaces) ->
    castable(?seq:singleton(Seq), TargetSeqType, Namespaces);
 castable(Seq, #xqSeqType{type = Type} = TargetSeqType, Namespaces) ->
-   SeqType = ?seq:get_seq_type(Seq),
-   case seq_type_val_match(TargetSeqType, SeqType) of
-      nocast ->
-         ?true;
+   #xqSeqType{occur = O} = SeqType = ?seq:get_seq_type(Seq),
+   if O == one_or_many ->
+         ?false;
+      true ->
+         case seq_type_val_match(TargetSeqType, SeqType) of
+            nocast ->
+               ?true;
+            true ->
+               try
+                  cast_as(Seq, Type, Namespaces),
+                  %?dbg("castable", {Seq, Type}),
+                  ?true
+               catch
+                  _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
+                  _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
+                  _:E -> throw(E)            
+               end;
+            _ ->
+               ?false
+         end
+   end;
+castable( Av, Type, Namespaces) -> 
+   #xqSeqType{occur = O} = ?seq:get_seq_type(Av),
+   if O == one_or_many ->
+         ?false;
       true ->
          try
-            cast_as(Seq, Type, Namespaces),
-            %?dbg("castable", {Seq, Type}),
+            cast_as(Av, Type, Namespaces),
+            %?dbg("castable", {Av, Type}),
             ?true
          catch
             _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
@@ -799,23 +857,7 @@ castable(Seq, #xqSeqType{type = Type} = TargetSeqType, Namespaces) ->
             _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
             _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
             _:E -> throw(E)            
-         end;
-      _ ->
-         ?false
-   end;
-castable( Av, Type, Namespaces) -> 
-   try
-      cast_as(Av, Type, Namespaces),
-      %?dbg("castable", {Av, Type}),
-      ?true
-   catch
-      _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "XPTY0004"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "FODT0001"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "FODT0002"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "FOCA0002"}} -> ?false;
-      _:#xqError{name = #qname{local_name = "XPST0081"}} -> ?false;
-      _:E -> throw(E)            
+         end
    end.
 
 instance_of( #xqNode{} = Seq, TargetSeqType ) ->
@@ -865,6 +907,23 @@ instance_of( Seq0, TargetSeqType ) ->
                                    Kind == 'node' orelse 
                                    Kind == NodeType
                    end, ?seq:to_list(Seq)),
+               if B == false -> ?false;
+                  true -> ?true
+               end;
+            #xqKindTest{kind = element, type = ETy, name = #qname{} = Name}  ->
+               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
+                                   derives_from( ATy, ETy );
+                                (#xqNode{frag_id = F, identity = Id}) ->
+                                   Doc = xqerl_context:get_available_document(F),
+                                   Node = xqerl_node:get_node({Id,Doc}),
+                                   case has_name(Node, Name) of
+                                      true ->
+                                         #xqSeqType{type = ExTy} = ETy,
+                                         Node#xqElementNode.type == ExTy;
+                                      _ ->
+                                         false
+                                   end
+                             end, ?seq:to_list(Seq)),
                if B == false -> ?false;
                   true -> ?true
                end;
@@ -1047,17 +1106,12 @@ cast_as( [], 'xs:date') -> [];
 cast_as( [], 'xs:time') -> [];
 cast_as( [], 'xs:dateTime') -> [];
 
-cast_as( #xqAtomicValue{type = Type} = ST, 'xs:numeric' ) ->
-   case is_numeric_type(Type) of
-      true ->
-         ST;
-      _ ->
-         if Type == 'xs:untypedAtomic' ->
-               cast_as(ST,'xs:double');
-            true ->
-               xqerl_error:error('XPTY0004')
-         end
-   end;
+cast_as( #xqAtomicValue{type = Type} = ST, 'xs:numeric' ) when ?numeric(Type) ->
+   ST;
+cast_as( #xqAtomicValue{type = 'xs:untypedAtomic'} = ST, 'xs:numeric' ) ->
+   cast_as(ST,'xs:double');
+cast_as( #xqAtomicValue{type = _}, 'xs:numeric' ) ->
+   xqerl_error:error('XPTY0004');
 
 cast_as( [At], TT ) -> 
    cast_as( At, TT );
@@ -3007,6 +3061,28 @@ is_known_type(_)                           -> false.
 
 
 
+has_name(_, undefined) ->
+   true;
+has_name(#xqElementNode{name = _Name}, #qname{namespace = undefined,prefix = Px}) when Px =/= "*" ->
+   % non-expandable QName
+   xqerl_error:error('XPST0081');
+has_name(#xqElementNode{name = Name}, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
+   %?dbg("Name,Ns,Px,Loc",{Name,Ns,Px,Loc}),
+   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+   (Loc == "*" orelse Loc == Name#qname.local_name);
+has_name(#xqAttributeNode{name = _Name}, undefined) ->
+   true;
+has_name(#xqAttributeNode{name = Name}, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
+   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+   (Loc == "*" orelse Loc == Name#qname.local_name).
+
+unmask_ns("xqerl_fn") -> "http://www.w3.org/2005/xpath-functions";
+unmask_ns("xqerl_xs") -> "http://www.w3.org/2001/XMLSchema";
+unmask_ns("xqerl_math") -> "http://www.w3.org/2005/xpath-functions/math";
+unmask_ns("xqerl_map") -> "http://www.w3.org/2005/xpath-functions/map";
+unmask_ns("xqerl_array") -> "http://www.w3.org/2005/xpath-functions/array";
+unmask_ns("xqerl_error") -> "http://www.w3.org/2005/xqt-errors";
+unmask_ns(Ns) -> Ns.
 
 
 

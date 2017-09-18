@@ -30,8 +30,9 @@
 -module(xqerl_fn).
 
 -define(inbool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
--define(bool(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:boolean', value = Val})).
--define(int(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:integer', value = Val})).
+-define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
+%-define(bool(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:boolean', value = Val})).
+-define(atint(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:integer', value = Val})).
 -define(dec(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:decimal', value = Val})).
 -define(dbl(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:double', value = Val})).
 -define(str(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
@@ -883,7 +884,7 @@ get_groups(String,[{Start,End}],Cnt) ->
                                 prefix = "fn",
                                 local_name = "group"},
                   expr = [#xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"},
-                                           expr = ?int(Cnt)},
+                                           expr = ?atint(Cnt)},
                           if End == 0 ->
                                 [];
                              true ->
@@ -897,14 +898,14 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
    if NStart =< Pos1 orelse (NStart == Pos1 andalso NEnd > 0) -> % overlap
          End1 = NStart - Start,
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End1))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"}, expr = ?int(Cnt)},
+         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"}, expr = ?atint(Cnt)},
          [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                       prefix = "fn",
                                       local_name = "group"},
                         expr = [Att1,Txt1,get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)]}];
       true -> % no overlap
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"}, expr = ?int(Cnt)},
+         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"}, expr = ?atint(Cnt)},
          [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                       prefix = "fn",
                                       local_name = "group"},
@@ -926,38 +927,42 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
       true ->
          Arg1;
       _ ->
+         {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
+         %?dbg("{Seq,SeqType}", {Seq,SeqType}),
          try
-            {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
-            %?dbg("min", {Seq,SeqType}),
             Avg = avg1(Seq, [], 0),
-            %?dbg("min1", Min1),
-            xqerl_types:cast_as(Avg,
-                                case xqerl_types:subtype_of(SeqType, 'xs:integer') of
+            %?dbg("Avg", Avg),
+            OutType = case xqerl_types:subtype_of(SeqType, 'xs:integer') of
                                    true ->
                                       'xs:decimal';
                                    _ ->
                                       SeqType
-                                end)
-         catch
-            _:_ ->
-               xqerl_error:error('FORG0006')
+                                end,
+             xqerl_types:cast_as(Avg,OutType)
+         catch 
+            _:#xqError{name = #qname{local_name = "XPTY0004"}} -> xqerl_error:error('FORG0006');
+            E -> throw(E)
          end
    end.
 
 avg1([], Sum, Count) ->
-   xqerl_operators:divide(Sum, ?int(Count));
+   xqerl_operators:divide(Sum, ?atint(Count));
 avg1([#xqAtomicValue{type = 'xs:double', value = "NaN"} = H|_], _, _) ->
    H;
 avg1([#xqAtomicValue{type = 'xs:float', value = "NaN"} = H|_], _, _) ->
    H;
-avg1([#xqAtomicValue{type = 'xs:double', value = "INF"} = H|_], _, _) ->
-   H#xqAtomicValue{value = "NaN"};
-avg1([#xqAtomicValue{type = 'xs:float', value = "INF"} = H|_], _, _) ->
-   H#xqAtomicValue{value = "NaN"};
-avg1([#xqAtomicValue{type = 'xs:double', value = "-INF"} = H|_], _, _) ->
-   H#xqAtomicValue{value = "NaN"};
-avg1([#xqAtomicValue{type = 'xs:float', value = "-INF"} = H|_], _, _) ->
-   H#xqAtomicValue{value = "NaN"};
+%% avg1([#xqAtomicValue{type = 'xs:double', value = "INF"} = H|_], _, _) ->
+%%    H;
+%%    %H#xqAtomicValue{value = "NaN"};
+%% avg1([#xqAtomicValue{type = 'xs:float', value = "INF"} = H|_], _, _) ->
+%%    H;
+%%    %H#xqAtomicValue{value = "NaN"};
+%% avg1([#xqAtomicValue{type = 'xs:double', value = "-INF"} = H|_], _, _) ->
+%%    H;
+%%    %H#xqAtomicValue{value = "NaN"};
+%% avg1([#xqAtomicValue{type = 'xs:float', value = "-INF"} = H|_], _, _) ->
+%%    H;
+%%    %H#xqAtomicValue{value = "NaN"};
 avg1([H|T], [], 0) ->
    avg1(T, H, 1);
 avg1([H|T], Sum, Count) ->
@@ -1031,64 +1036,8 @@ avg1([H|T], Sum, Count) ->
 
 %% Computes the effective boolean value of the sequence $arg. 
 % 1
-'boolean'(_Ctx,true) ->
-   ?bool(true);
-'boolean'(_Ctx,[true]) ->
-   ?bool(true);
-'boolean'(_Ctx,false) -> 
-   ?bool(false);
-'boolean'(_Ctx,[false]) -> 
-   ?bool(false);
-% 2
-'boolean'(_Ctx,#xqNode{}) ->
-   ?bool(true);
-'boolean'(_Ctx,[#xqNode{}|_]) ->
-   ?bool(true);
-% 3
-'boolean'(_Ctx,#xqAtomicValue{type = 'xs:boolean', value = true}) -> 
-   ?bool(true);
-'boolean'(_Ctx,#xqAtomicValue{type = 'xs:boolean', value = false}) -> 
-   ?bool(false);
-% 4
-'boolean'(_Ctx,#xqAtomicValue{type = Type, value = Val}) when Type == 'xs:string';
-                                                                Type == 'xs:anyURI';
-                                                                Type == 'xs:untypedAtomic'-> 
-   ?bool(if Val == "" -> false;
-            true -> true
-         end);
-% 5 + 6
-'boolean'(_Ctx,#xqAtomicValue{type = Type, value = Val}) ->
-   %?dbg("boolean", Type),
-   %?dbg("boolean", Val),
-   case xqerl_types:is_numeric_type(Type) of
-      true ->
-         if Val == 0 orelse Val == "NaN" ->
-               ?bool(false);
-            true ->
-               ?bool(true)
-         end;
-      _ ->
-         xqerl_error:error('FORG0006')
-   end;
-%% 'boolean'(Ctx,Arg1) when is_map(Arg1) ->
-%%    'boolean'(Ctx,xqerl_context:get_context_item(Arg1));
-%% 'boolean'(Ctx,Arg1) when is_tuple(Arg1) -> 
-%%    'boolean'(Ctx,[Arg1]);
-'boolean'(Ctx,[Seq]) -> 'boolean'(Ctx,Seq);
-
-'boolean'(Ctx,Seq) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         case ?seq:is_empty(Seq) of
-            true ->
-               ?bool(false);
-            _ ->
-               'boolean'(Ctx,?seq:to_list(Seq))
-         end;
-      _ ->
-         ?dbg("boolean", Seq),
-         xqerl_error:error('FORG0006')
-   end.
+'boolean'(_Ctx,Arg) ->
+   ?bool(xqerl_operators:eff_bool_val(Arg)).
 
 %% Rounds $arg upwards to a whole number. 
 'ceiling'(_Ctx,Arg1) ->
@@ -1103,9 +1052,9 @@ avg1([H|T], Sum, Count) ->
                Type = xqerl_types:type(Arg1),
                T = trunc(Val),
                case (Val - T) of
-                  Neg when Neg < 0 -> xqerl_types:cast_as(?int(T), Type) ;
-                  Pos when Pos > 0 -> xqerl_types:cast_as(?int(T + 1), Type);
-                  _ -> xqerl_types:cast_as(?int(T), Type)
+                  Neg when Neg < 0 -> xqerl_types:cast_as(?atint(T), Type) ;
+                  Pos when Pos > 0 -> xqerl_types:cast_as(?atint(T + 1), Type);
+                  _ -> xqerl_types:cast_as(?atint(T), Type)
                end
          end
    end.
@@ -1166,9 +1115,9 @@ avg1([H|T], Sum, Count) ->
          _ ->
             Str1 = xqerl_types:string_value(Arg1),
             Str2 = xqerl_types:string_value(Arg2),
-            if Str1 < Str2 -> ?int(-1);
-               Str1 > Str2 -> ?int(1);
-               true -> ?int(0)
+            if Str1 < Str2 -> ?atint(-1);
+               Str1 > Str2 -> ?atint(1);
+               true -> ?atint(0)
             end
          end
    end.
@@ -1203,7 +1152,7 @@ avg1([H|T], Sum, Count) ->
    S1 = string_value(data(_Ctx, Arg1)),
    S2 = xqerl_types:value(Arg2),
    case string:find(S1,S2) of
-      nomatch ->
+      nomatch when S2 =/= [] ->
          ?bool(false);
       _ ->
          ?bool(true)
@@ -1226,7 +1175,7 @@ avg1([H|T], Sum, Count) ->
 
 'count'(_Ctx,Arg1) ->
    Size = ?seq:size(Arg1),
-   ?int(Size).
+   ?atint(Size).
 
 %% Returns the current date. 
 'current-date'(_Ctx) -> 
@@ -1310,7 +1259,7 @@ avg1([H|T], Sum, Count) ->
                   true ->
                      Dy
                end,
-         ?int(Dy1)
+         ?atint(Dy1)
    end.
 
 %% This function assesses whether two sequences are deep-equal to each other. 
@@ -1687,9 +1636,9 @@ pct_encode3([H|T]) ->
                Type = xqerl_types:type(Arg1),
                T = trunc(Val),
                case (Val - T) of
-                  Neg when Neg < 0 -> xqerl_types:cast_as(?int(T - 1), Type) ;
-                  Pos when Pos > 0 -> xqerl_types:cast_as(?int(T), Type);
-                  _ -> xqerl_types:cast_as(?int(T), Type)
+                  Neg when Neg < 0 -> xqerl_types:cast_as(?atint(T - 1), Type) ;
+                  Pos when Pos > 0 -> xqerl_types:cast_as(?atint(T), Type);
+                  _ -> xqerl_types:cast_as(?atint(T), Type)
                end
          end
    end.
@@ -1764,14 +1713,14 @@ pct_encode3([H|T]) ->
 %% Returns the arity of the function identified by a function item. 
 'function-arity'(_Ctx,Arg1) when is_function(Arg1) ->
    {_,A} = erlang:fun_info(Arg1,arity),
-   ?int(A - 1);
+   ?atint(A - 1);
 'function-arity'(_Ctx,Arg1) ->
    case ?seq:singleton_value(Arg1) of
       Fx when is_function(Fx) ->
          {_,A} = erlang:fun_info(Fx,arity),
-         ?int(A - 1);
+         ?atint(A - 1);
       #xqFunction{arity = Ar} ->
-         ?int(Ar)
+         ?atint(Ar)
    end.
 
 %% Returns the function having a given name and arity, if there is one. 
@@ -1966,7 +1915,7 @@ unmask_static_mod_ns(T) -> T.
                   true ->
                      Hr
                end,
-         ?int(Hr1)
+         ?atint(Hr1)
    end.
 
 %% Returns the hours component of an xs:time. 
@@ -2135,25 +2084,26 @@ unmask_static_mod_ns(T) -> T.
 'lang'(Ctx,Testlang0,Node) -> 
    try
       Testlang = xqerl_types:string_value(Testlang0),
-      Root = xqerl_step:any_root(Ctx,Node),
-      Desc = xqerl_step:forward(Ctx,Root, 'descendant-or-self', #qname{prefix = "*", local_name = "*"}, []),
-      Atts = xqerl_step:forward(Ctx,Desc, attribute, #qname{prefix = "*", local_name = "*"}, 
-                                [fun(CtxLoc) ->
-                                       Ci = ?seq:singleton_value(xqerl_context:get_context_item(CtxLoc)),
-                                       Att = xqerl_node:get_node(Ci),
-                                       At = hd(string:tokens(xqerl_types:string_value(Att#xqAttributeNode.expr),"-")),
-                                       %?dbg("Lang",Lang),
-                                       %?dbg("At",At),
-                                       ?bool(string:to_lower(At) == string:to_lower(Testlang))
-                                 end]),
-      Elems = xqerl_step:reverse(Ctx,Atts, 'parent', #xqKindTest{type = node},[]),
-      Ances = xqerl_step:forward(Ctx,Elems, 'descendant-or-self', #xqKindTest{type = node},[]),
-      Any = ?seq:intersect(Node, Ances),
-      %?dbg("Lang Atts",Atts),
-      %?dbg("Lang Ances",Ances),
-      %?dbg("Lang Node",Node),
-      %?dbg("Lang Any",Any),
-      exists(Ctx, Any)
+      Ances = xqerl_step:reverse(Ctx,Node, 'ancestor-or-self', #qname{prefix = "*", local_name = "*"}, []),
+      Atts = xqerl_step:forward(Ctx,Ances, attribute, #qname{namespace = "http://www.w3.org/XML/1998/namespace",
+                                                             prefix = "xml", 
+                                                             local_name = "lang"},[]),
+      LastIx = ?seq:size(Atts),
+      Lang = ?seq:filter(Ctx, #xqAtomicValue{type = 'xs:integer', value = LastIx},Atts),
+      Exists = xqerl_step:forward(Ctx,Lang, self, #qname{namespace = "*",
+                                                         prefix = "*", 
+                                                         local_name = "*"}, 
+                                   [fun(CtxLoc) ->
+                                          Ci = ?seq:singleton_value(xqerl_context:get_context_item(CtxLoc)),
+                                          Att = xqerl_node:get_node(Ci),
+                                          Raw = xqerl_types:string_value(Att#xqAttributeNode.expr),
+                                          At = hd(string:tokens(Raw,"-")),
+                                          %?dbg("Testlang",Testlang),
+                                          %?dbg("At",At),
+                                          ?bool(string:lowercase(At) == string:lowercase(Testlang)
+                                                orelse string:lowercase(Testlang) == string:lowercase(Raw))
+                                    end]),
+      ?MODULE:exists([], Exists)
    catch 
       _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPDY0050"}} ->
             xqerl_error:error('FODC0001');
@@ -2232,9 +2182,10 @@ unmask_static_mod_ns(T) -> T.
    %?dbg("Input1", Input1),
    case re:run(Input1, MP, [global]) of
       nomatch ->
-         %?dbg("",false),
+         ?dbg(?LINE,Input1),
          ?bool(false);
-      {match,[[{0,0}]]} ->
+      {match,[[{0,0}]]} when Input1 =/= [] ->
+         ?dbg(?LINE,Input1),
          ?bool(false);
       X ->
          ?dbg(?LINE,X),
@@ -2301,11 +2252,16 @@ compare_convert_seq([H|T], Acc, SeqType) ->
          H1 = ?seq:singleton_value(xqerl_node:atomize_nodes(H)),
          compare_convert_seq([H1|T], Acc, SeqType);
       #xqAtomicValue{type = 'xs:untypedAtomic'} ->
-         H1 = xqerl_types:cast_as(H,'xs:double'),
-         if SeqType == 'xs:double' orelse SeqType == 'xs:decimal' orelse SeqType == 'xs:float' orelse SeqType == 'xs:integer' orelse SeqType == [] ->
-               compare_convert_seq([H1|T], Acc, 'xs:double');
-            true ->
-               xqerl_error:error('FORG0006')
+         try xqerl_types:cast_as(H,'xs:double') of
+            H1 ->
+               if ?numeric(SeqType) orelse SeqType == [] ->
+                     compare_convert_seq([H1|T], Acc, 'xs:double');
+                  true ->
+                     xqerl_error:error('FORG0006')
+               end
+         catch 
+            _:_ ->
+               xqerl_error:error('FORG0001')
          end;
       #xqAtomicValue{type = 'xs:anyURI'} ->
          H1 = xqerl_types:cast_as(H,'xs:string'),
@@ -2409,7 +2365,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                   true ->
                      Mi
                end,
-         ?int(Mi1)
+         ?atint(Mi1)
    end.
 
 %% Returns the minutes component of an xs:time. 
@@ -2427,7 +2383,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
         Arg1;
       _ ->
          #xqAtomicValue{value = #xsDateTime{month = Mo}} = ?seq:singleton_value(Arg1),
-         ?int(Mo)
+         ?atint(Mo)
    end.
 
 %% Returns the number of months in a duration. 
@@ -2442,7 +2398,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                   true ->
                      Mo
                end,
-         ?int(Mo1)
+         ?atint(Mo1)
    end.
 
 
@@ -2507,8 +2463,28 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    end.   
 
 %% Returns true for an element that is nilled. 
-'nilled'(_Ctx) -> exit({not_implemented,?LINE}).
-'nilled'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
+'nilled'(Ctx) ->
+   Ci = xqerl_context:get_context_item(Ctx),
+   'nilled'(Ctx,Ci).
+'nilled'(Ctx,Node) -> 
+   Self = xqerl_step:forward(Ctx, Node, self, 
+                             #xqKindTest{kind = element, 
+                                         name = #qname{namespace = "*",
+                                                       prefix = "*",local_name = "*"}},[]),
+   case ?seq:is_empty(Self) of
+      true ->
+         ?seq:empty();
+      _ ->
+         Atts = xqerl_step:forward(Ctx,Node, attribute, #qname{namespace = "http://www.w3.org/2001/XMLSchema-instance",
+                                                               prefix = "xsi", 
+                                                               local_name = "nil"},[]),
+         case ?seq:is_empty(Atts) of
+            true ->
+               ?bool(false);
+            _ ->
+               ?bool(xqerl_types:string_value(Atts) == "true" )
+         end
+   end.
 
 %% Returns the name of a node, as an xs:QName. 
 'node-name'(Ctx) ->
@@ -2624,15 +2600,23 @@ shrink_spaces([H|T]) ->
    'number'([], Val).
 'number'(_Ctx,Arg1) -> 
    Val = ?seq:singleton_value(Arg1),
-   case catch xqerl_types:cast_as(Val, 'xs:double') of
-      {'EXIT',_} ->
+   if Val == [] ->
          ?dbl("NaN");
-      V ->
-         ?seq:singleton(V)
+      true ->
+         case catch xqerl_types:cast_as(Val, 'xs:double') of
+            {'EXIT',_} ->
+               ?dbl("NaN");
+            V ->
+               ?seq:singleton(V)
+         end
    end.
 
 %% Returns $arg if it contains one or more items. Otherwise, raises an error. 
+'one-or-more'(_Ctx,Arg1) when is_record(Arg1, xqAtomicValue);
+                              is_record(Arg1, xqFunction);
+                              is_record(Arg1, xqNode) -> Arg1;
 'one-or-more'(_Ctx,Arg1) -> 
+   %?dbg("one-or-more",Arg1),
    case ?seq:is_empty(Arg1) of
       true ->
          xqerl_error:error('FORG0004');
@@ -2682,13 +2666,17 @@ shrink_spaces([H|T]) ->
 
 %% Returns the context position from the dynamic context. 
 'position'(Ctx) -> 
-   ?seq:singleton(xqerl_context:get_context_position(Ctx)).
+   ?seq:singleton(?atm('xs:integer', xqerl_context:get_context_position(Ctx))).
 
 %% Returns the prefix component of the supplied QName. 
 'prefix-from-QName'(_Ctx,[]) -> [] ;
 'prefix-from-QName'(_Ctx,Arg) -> 
    #qname{prefix = L} = xqerl_types:value(Arg),
-   #xqAtomicValue{type = 'xs:NCName', value = L}.
+   if L == [] ->
+         [];
+      true ->
+         #xqAtomicValue{type = 'xs:NCName', value = L}
+   end.
 
 %% Returns an xs:QName value formed using a supplied namespace URI and lexical QName. 
 'QName'(Ctx,[],QNameTxt) ->
@@ -2814,7 +2802,7 @@ string_value(At) -> xqerl_types:string_value(At).
 
 %% Rounds a value to a specified number of decimal places, rounding upwards if two such values are equally near. 
 'round'(Ctx,Arg1) -> 
-   'round'(Ctx,Arg1, ?int(0)).
+   'round'(Ctx,Arg1, ?atint(0)).
 'round'(_Ctx,Arg,Precision) -> 
    Half = fun([$5|Rest]) ->
                 case lists:all(fun($0) -> true; (_) -> false end, Rest) of
@@ -2921,7 +2909,7 @@ string_value(At) -> xqerl_types:string_value(At).
    end.
 
 %% Rounds a value to a specified number of decimal places, rounding to make the last digit even if two such values are equally near. 
-'round-half-to-even'(Ctx,Arg1) -> 'round-half-to-even'(Ctx,Arg1,?int(0)).
+'round-half-to-even'(Ctx,Arg1) -> 'round-half-to-even'(Ctx,Arg1,?atint(0)).
 'round-half-to-even'(_Ctx,Arg,Precision) -> 
    Pres = xqerl_types:value(Precision),
    ArgType = xqerl_types:type(Arg),
@@ -3141,9 +3129,9 @@ string_value(At) -> xqerl_types:string_value(At).
 %% Returns the number of characters in a string. 
 'string-length'(Ctx) -> 
    Val = xqerl_context:get_context_item(Ctx),
-   ?int(length(xqerl_types:string_value(Val))).
+   ?atint(length(xqerl_types:string_value(Val))).
 'string-length'(_Ctx,Arg1) -> 
-   ?int(length(xqerl_types:string_value(Arg1))).
+   ?atint(length(xqerl_types:string_value(Arg1))).
 
 %% Returns the sequence of codepoints that constitute an xs:string value. 
 'string-to-codepoints'(_Ctx,Arg1) -> 
@@ -3155,22 +3143,42 @@ string_value(At) -> xqerl_types:string_value(At).
 
 %% Returns the contiguous sequence of items in the value of $sourceSeq beginning at the position indicated by the value of $startingLoc and continuing for the number of items indicated by the value of $length. 
 'subsequence'(_Ctx,SourceSeq,StartingLoc) -> 
-   ?dbg("SourceSeq,StartingLoc",{SourceSeq,StartingLoc}),
-   Start = erlang:round(erlang:max(1,xqerl_types:value(StartingLoc))),
-   case Start > ?seq:size(SourceSeq) of
-      true ->
-         ?seq:empty();
-      _ ->
-         ?seq:from_list(lists:sublist(?seq:to_list(SourceSeq), Start, ?seq:size(SourceSeq)))
-   end.
+   %?dbg("SourceSeq,StartingLoc",{SourceSeq,StartingLoc}),
+   Len = ?seq:size(SourceSeq),
+   'subsequence'(_Ctx,SourceSeq,StartingLoc,Len).
 'subsequence'(_Ctx,SourceSeq,StartingLoc,Length) -> 
-   Start = erlang:round(erlang:max(1,xqerl_types:value(StartingLoc))),
-   Len = erlang:round(xqerl_types:value(Length)),
-   case Start > ?seq:size(SourceSeq) of
-      true ->
+   VLen = xqerl_types:value(Length),
+   VStart = xqerl_types:value(StartingLoc),
+   if VLen == "INF" ->
          ?seq:empty();
-      _ ->
-         ?seq:from_list(lists:sublist(?seq:to_list(SourceSeq), Start, Len))
+      VLen == "-INF" ->
+         ?seq:empty();
+      VLen == "NaN" ->
+         ?seq:empty();
+      VStart == "INF" ->
+         ?seq:empty();
+      VStart == "-INF" ->
+         ?seq:empty();
+      VStart == "NaN" ->
+         ?seq:empty();
+      true ->
+         Len = erlang:round(VLen),
+         Start = erlang:round(VStart),
+         {Start1,End} = if Start < 1 ->
+                              {1, Len + Start - 1};
+                           true ->
+                              {Start, Len}
+                        end,
+         ?dbg(?LINE,Len),
+         ?dbg(?LINE,Start),
+         ?dbg(?LINE,Start1),
+         ?dbg(?LINE,End),
+         case Start1 > ?seq:size(SourceSeq) orelse End < 1 of
+            true ->
+               ?seq:empty();
+            _ ->
+               ?seq:from_list(lists:sublist(?seq:to_list(SourceSeq), Start1, End))
+         end
    end.
 
 %% Returns the portion of the value of $sourceString beginning at the position indicated by the value of $start and continuing for the number of characters indicated by the value of $length. 
@@ -3178,28 +3186,52 @@ string_value(At) -> xqerl_types:string_value(At).
    'substring'(Ctx,SourceString,Start, 'string-length'(Ctx,SourceString)).
 
 'substring'(_Ctx,SourceString,Start,Length) -> 
-   Str = xqerl_types:cast_as(SourceString, 'xs:string'),
-   Val = xqerl_types:value(Str),
-   StartPos = erlang:round(erlang:max(1,xqerl_types:value(Start))),
-   Length1 = erlang:round(xqerl_types:value(Length)),
-   if Val == [] ->
-         ?str("");
-      StartPos > length(Val) ->
-         ?str("");
+   Val = xqerl_types:value(xqerl_types:cast_as(SourceString, 'xs:string')),
+   VLen = xqerl_types:value(Length),
+   VStart = xqerl_types:value(Start),
+   if VLen == "INF" ->
+         ?seq:empty();
+      VLen == "-INF" ->
+         ?seq:empty();
+      VLen == "NaN" ->
+         ?seq:empty();
+      VStart == "INF" ->
+         ?seq:empty();
+      VStart == "-INF" ->
+         ?seq:empty();
+      VStart == "NaN" ->
+         ?seq:empty();
       true ->
-         Sub = string:substr(Val, StartPos, Length1),
-         ?str(Sub)
+         Len = erlang:round(VLen),
+         Start2 = erlang:round(VStart)-1,
+         {Start1,End} = if Start2 < 0 ->
+                              {0, Len + Start2};
+                           true ->
+                              {Start2, Len}
+                        end,
+         if Val == [] ->
+               ?str("");
+            Start1 > length(Val) ->
+               ?str("");
+            true ->
+               Sub = string:slice(Val, Start1, End),
+               ?str(Sub)
+         end
    end.
 
 %% Returns the part of $arg1 that follows the first occurrence of $arg2, taking collations into account. 
 'substring-after'(_Ctx,Arg1,Arg2) ->
    Str1 = string_value(Arg1),
    Str2 = string_value(Arg2),
-   case string:split(Str1,Str2) of
-      [_] ->
-         ?str("");
-      [_,A] ->
-         ?str(A)
+   if Str1 == "" orelse Str2 == "" ->
+         ?str(Str1);
+      true ->
+         case string:split(Str1,Str2) of
+            [_] ->
+               ?str("");
+            [_,A] ->
+               ?str(A)
+         end
    end.
 
 'substring-after'(Ctx,Arg1,Arg2,Collation) ->
@@ -3237,9 +3269,9 @@ string_value(At) -> xqerl_types:string_value(At).
 
 %% Returns a value obtained by adding together the values in $arg. 
 'sum'(_Ctx,[]) ->
-   ?int(0);
+   ?atint(0);
 'sum'(Ctx,Arg1) ->
-   'sum'(Ctx,Arg1,?int(0)).
+   'sum'(Ctx,Arg1,?atint(0)).
 
 'sum'(_Ctx,Arg1,Arg2) -> 
    case ?seq:is_empty(Arg1) of
@@ -3248,13 +3280,17 @@ string_value(At) -> xqerl_types:string_value(At).
       _ ->
          {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
          %?dbg("sum", {Seq,SeqType}),
-         case xqerl_types:is_numeric_type(SeqType) orelse xqerl_types:is_date_type(SeqType) of
-            true ->
+         if ?numeric(SeqType) ->
                Sum1 = sum1(lists:reverse(Seq), []),
-               %?dbg("sum1", Sum1),
                xqerl_types:cast_as(Sum1, SeqType);
-            _ ->
-               xqerl_error:error('FORG0006')
+            true ->
+               case xqerl_types:is_date_type(SeqType) of
+                  true ->
+                     Sum1 = sum1(lists:reverse(Seq), []),
+                     xqerl_types:cast_as(Sum1, SeqType);
+                  _ ->
+                     xqerl_error:error('FORG0006')
+               end
          end
    end.
 
@@ -3334,29 +3370,21 @@ sum1([H|T], Sum) ->
    'tokenize'(_Ctx,Arg1,Arg2,[]).
 'tokenize'(_Ctx,Input,Pattern,Flags) -> 
    MP = xqerl_regex:regex_comp(Pattern,Flags),
-   %?dbg("Input",Input),
-   %?dbg("Pattern",Pattern),
-   %?dbg("Flags",Flags),
    Str = xqerl_types:cast_as(Input, 'xs:string'),
-   %?dbg("Str",Str),
    Input1 = string_value(Str),
-   %?dbg("Input1",Input1),
-   List = re:split(Input1, MP, [group, {return,list}]),
-   %?dbg("List",List),
-   ?seq:sort_seq(lists:foldl(fun(S, Seq) -> 
-                       H = lists:flatten(hd(S)),
-                       if H == [] ->
-                             T = lists:flatten(tl(S)),
-                             if T == [] ->
-                                   ?seq:empty();
-                                true ->
-                                   ?seq:append(#xqAtomicValue{type = 'xs:string', value = ""}, Seq)
-                             end;
-                          true ->
-                             ?seq:append(#xqAtomicValue{type = 'xs:string', value = hd(S)}, Seq)
-                       end
-               end, ?seq:empty(), List)).
-
+   if Input1 == "" ->
+         ?seq:empty();
+      true ->
+         List = re:split(Input1, MP, [group, {return,list}]),
+         %?dbg("List",List),
+         Out = ?seq:sort_seq(lists:foldl(fun(S, Seq) -> 
+                             H = lists:flatten(hd(S)),
+                             ?seq:append(#xqAtomicValue{type = 'xs:string', value = H}, Seq)
+                     end, ?seq:empty(), List)),
+         %?dbg(?LINE,Out),
+         Out
+   end.
+   
 %% Provides an execution trace intended to be used in debugging queries. 
 'trace'(_Ctx,Arg1) -> 
    io:format("~p~n", [Arg1]),
@@ -3480,7 +3508,7 @@ zip_map_trans([H|T],[TH|TT]) ->
                   true ->
                      Yr
                end,
-         ?int(Yr1)
+         ?atint(Yr1)
    end.
 
 %% Returns $arg if it contains zero or one items. Otherwise, raises an error. 

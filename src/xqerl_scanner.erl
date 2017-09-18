@@ -53,11 +53,11 @@ tokens_encl(Str, Acc) ->
          tokens(NewStr, Acc);
       {direct, NewStr, Depth} ->
          dc_tokens(NewStr, Acc, Depth);
-      {close, NewStr} ->
-         %?dbg("close",close),
-         {Acc, NewStr};
-      {error, E} ->
-         xqerl_error:error('XPST0003', #xqError{value = E} );
+%%       {close, NewStr} ->
+%%          %?dbg("close",close),
+%%          {Acc, NewStr};
+%%       {error, E} ->
+%%          xqerl_error:error('XPST0003', #xqError{value = E} );
       {invalid_name, _E} ->
          xqerl_error:error('XPST0003');
       {Token, T} ->
@@ -77,10 +77,10 @@ tokens(Str, Acc) ->
          tokens(NewStr, Acc);
       {direct, NewStr, Depth} ->
          dc_tokens(NewStr, Acc, Depth);
-      {close, NewStr} ->
-         {Acc, NewStr};
-      {error, E} ->
-         xqerl_error:error('XPST0003', #xqError{value = E} );
+%%       {close, NewStr} ->
+%%          {Acc, NewStr};
+%%       {error, E} ->
+%%          xqerl_error:error('XPST0003', #xqError{value = E} );
       {invalid_name, _E} ->
          xqerl_error:error('XPST0003');
       {Token, T} ->
@@ -210,6 +210,8 @@ scan_dc_token("}" ++ T, _A, Depth) -> {{'}', ?L, '}'}, T, Depth};
  
 scan_dc_token([H|T], _Acc, Depth) -> %when not ?whitespace(H) ->
    case is_content_char(H) of
+      true when ?whitespace(H) ->
+         {{'S', ?L, [H]}, T, Depth};
       true ->
          {{'ElementContentChar', ?L, H}, T, Depth};
       _ ->
@@ -268,6 +270,12 @@ scan_dir_attr_apos_value("''" ++ T, Acc) ->
    scan_dir_attr_apos_value(T, [{'EscapeApos', ?L, "'"}|Acc]);
 scan_dir_attr_apos_value("'" ++ T, Acc) ->
    {lists:reverse(Acc), T};
+scan_dir_attr_apos_value("&#x" ++ T, Acc) ->  
+   {S, T1} = scan_hex_char_ref(T, []),
+   scan_dir_attr_apos_value(T1, [S|Acc]);
+scan_dir_attr_apos_value("&#" ++ T, Acc) ->  
+   {S, T1} = scan_dec_char_ref(T, []),
+   scan_dir_attr_apos_value(T1, [S|Acc]);
 scan_dir_attr_apos_value("}}" ++ T, Acc) -> 
    scan_dir_attr_apos_value(T, [{'}}', ?L, $}}|Acc]);
 scan_dir_attr_apos_value("{{" ++ T, Acc) -> 
@@ -291,6 +299,12 @@ scan_dir_attr_quot_value("\"\"" ++ T, Acc) ->
    scan_dir_attr_quot_value(T, [{'EscapeQuot', ?L, "\""}|Acc]);
 scan_dir_attr_quot_value("\"" ++ T, Acc) ->
    {lists:reverse(Acc), T};
+scan_dir_attr_quot_value("&#x" ++ T, Acc) ->  
+   {S, T1} = scan_hex_char_ref(T, []),
+   scan_dir_attr_quot_value(T1, [S|Acc]);
+scan_dir_attr_quot_value("&#" ++ T, Acc) ->  
+   {S, T1} = scan_dec_char_ref(T, []),
+   scan_dir_attr_quot_value(T1, [S|Acc]);
 scan_dir_attr_quot_value("}}" ++ T, Acc) -> 
    scan_dir_attr_quot_value(T, [{'}}', ?L, $}}|Acc]);
 scan_dir_attr_quot_value("{{" ++ T, Acc) -> 
@@ -362,7 +376,7 @@ scan_token([H | T], _A) when H >= $0, H =< $9 ->
 
 % StringLiteral
 scan_token([H|T], _A) when H == $" ; H == $' ->
-   %?dbg("StringLiteral",A),
+   %?dbg("StringLiteral",H),
    {Literal, T1} = scan_literal(T, H, []),
    %?dbg("StringLiteral",Literal),
    {{'StringLiteral', ?L, Literal}, T1};
@@ -673,6 +687,13 @@ scan_token(")#" ++ T, _A) ->  {{')#', ?L, ')#'}, T};
 scan_token("`{" ++ T, _A) ->  {{'`{', ?L, '`{'}, T};
 scan_token("}`" ++ T, _A) ->  {{'}`', ?L, '}`'}, T};
 
+scan_token(Str = "schema-attribute" ++ T, _A) -> 
+   case lookforward_is_paren(T) of
+      true ->
+         {{'schema-attribute', ?L, 'schema-attribute'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 scan_token(Str = "processing-instruction" ++ T, A) -> 
    case lookforward_is_paren_or_curly(T) of
       true ->
@@ -756,7 +777,13 @@ scan_token(Str = "document-node" ++ T, _A) ->
       _ ->
          scan_name(Str)
    end;   
-scan_token("construction" ++ T, A) -> qname_if_path("construction", T, lookback(A));
+scan_token(Str = "construction" ++ T, A) -> 
+   case lookback(A) of
+      'declare' ->
+         {{'construction', ?L, 'construction'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 scan_token("descending" ++ T, A) -> qname_if_path("descending", T, lookback(A));
 scan_token(Str = "unordered" ++ T, A) -> 
    case lookforward_is_paren(T) of 
@@ -779,7 +806,12 @@ scan_token("satisfies" ++ T, A) -> qname_if_path("satisfies", T, lookback(A));
 scan_token(Str = "namespace" ++ T, A) ->
    case lookback(A) of
       [] ->
-         scan_name(Str);
+         case lookforward_is_curly(T) of
+            true ->
+               {{'namespace', ?L, 'namespace'}, T};
+            _ ->
+               scan_name(Str)
+         end;
       'declare' ->
          {{'namespace', ?L, 'namespace'}, T};
       'module' ->
@@ -795,7 +827,7 @@ scan_token(Str = "namespace" ++ T, A) ->
       '(' ->
          {{'namespace', ?L, 'namespace'}, T};
       _ ->
-         qname_if_path("namespace", T, lookback(A))
+         scan_name(Str)
    end;
 scan_token("intersect" ++ T, A) -> qname_if_path("intersect", T, lookback(A));
 scan_token("collation" ++ T, A) -> qname_if_path("collation", T, lookback(A));
@@ -1304,6 +1336,8 @@ scan_token(Str = "in" ++ T, A) ->
                {{'in',1,'in'}, T};
             'NCName' ->
                {{'in',1,'in'}, T};
+            'empty' ->
+               {{'in',1,'in'}, T};
             _LB ->
                case lookforward_is_var(T) orelse lookforward_is_paren(T) of
                   true ->
@@ -1426,7 +1460,13 @@ scan_token("//" ++ T, _A) ->  {{'//', ?L, '//'}, T};
 scan_token("::" ++ T, _A) ->  {{'::', ?L, '::'}, T};
 scan_token(":=" ++ T, _A) ->  {{':=', ?L, ':='}, T};
 scan_token(":*" ++ T, _A) ->  {{':*', ?L, ':*'}, T};
-scan_token("*:" ++ T, _A) ->  {{'*:', ?L, '*:'}, T};
+scan_token("*:" ++ T, _A) ->  
+   case lookforward_is_ws(T) of
+      true ->
+         xqerl_error:error('XPST0003');
+      _ ->
+         {{'*:', ?L, '*:'}, T}
+   end;
 %scan_token("</" ++ T, _A) ->  {{'</', ?L, '</'}, T};
 scan_token("<<" ++ T, _A) ->  {{'<<', ?L, '<<'}, T};
 scan_token("<=" ++ T, _A) ->  {{'<=', ?L, '<='}, T};
@@ -1500,8 +1540,12 @@ scan_token("/" ++ T, A) ->
                      {{'/', ?L, '/'}, T};
                   ')' ->
                      {{'/', ?L, '/'}, T};
+                  ']' ->
+                     {{'/', ?L, '/'}, T};
                   {'$',_,_} ->
                      {{'/', ?L, '/'}, T};
+                  'IntegerLiteral' ->
+                     xqerl_error:error('XPTY0019'); % path on number
                   B ->
                      ?dbg("B",B),
                      {{'lone-slash', ?L, 'lone-slash'}, T}
@@ -1510,6 +1554,22 @@ scan_token("/" ++ T, A) ->
    end;
 scan_token(":)" ++ _T, _A) -> % unbalanced comment
    xqerl_error:error('XPST0003');
+scan_token([H,$:,$=|T], _A) when ?whitespace(H) ->
+   {{':=', ?L, ':='}, T};
+scan_token([H,$:|T], A) when ?whitespace(H) ->
+   case lookback(A) of
+      'NCName' ->
+         xqerl_error:error('XPST0003');
+      _ ->
+         {{':', ?L, ':'}, T}
+   end;
+scan_token([$:,H|T], A) when ?whitespace(H) -> 
+   case lookback(A) of
+      'NCName' ->
+         xqerl_error:error('XPST0003');
+      _ ->
+         {{':', ?L, ':'}, T}
+   end;
 scan_token(":" ++ T, _A) ->  {{':', ?L, ':'}, T};
 scan_token(";" ++ T, _A) ->  {{';', ?L, ';'}, T};
 scan_token("?" ++ T, _A) ->  {{'?', ?L, '?'}, T};

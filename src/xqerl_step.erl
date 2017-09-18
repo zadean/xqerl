@@ -35,6 +35,11 @@
 -define(ctx, xqerl_context).
 
 % for internal use when the root node is not a document
+any_root(Ctx0, {Id,Doc}) ->
+   % this happens when stepping on a newly created document
+   _ = xqerl_context:add_available_document(Id, Doc),
+   Node = #xqNode{frag_id = Id,identity = 1},
+   any_root(Ctx0, Node);
 any_root(Ctx0, Seq) ->
    Fun = fun(Ctx) ->
                #xqNode{frag_id = F} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
@@ -47,6 +52,11 @@ any_root(Ctx0, Seq) ->
          end,
    doc_ord(Ctx0, Fun, Seq).
 
+root(Ctx0, {Id,Doc}) ->
+   % this happens when stepping on a newly created document
+   _ = xqerl_context:add_available_document(Id, Doc),
+   Node = #xqNode{frag_id = Id,identity = 1},
+   root(Ctx0, Node);
 root(Ctx0, Seq) ->
    Seq1 = case ?seq:is_sequence(Seq) of
              true ->
@@ -77,6 +87,12 @@ root(Ctx0, Seq) ->
    %?dbg("Line",?LINE),
    doc_ord(Ctx0, Fun, Seq1).
 
+forward(Ctx0, {Id,Doc}, Axis, Name, PredFuns) ->
+   % this happens when stepping on a newly created document
+   _ = xqerl_context:add_available_document(Id, Doc),
+   Node = #xqNode{frag_id = Id,identity = 1},
+   forward(Ctx0, Node, Axis, Name, PredFuns);
+   
 forward(Ctx0, Seq, self, #qname{} = Name, PredFuns) ->
    % self axis just sorts what comes in and returns it in document order
    Fun = fun(Ctx) ->
@@ -124,11 +140,24 @@ forward(Ctx0, Seq, self, #xqKindTest{kind = Kind, name = Name}, PredFuns) ->
                              has_name(Self, Name);
                           Kind == 'processing-instruction' ->
                              is_record(Self, xqProcessingInstructionNode) ;
+                          Kind == 'comment' ->
+                             is_record(Self, xqCommentNode) ;
+                          Kind == 'text' ->
+                             is_record(Self, xqTextNode) ;
+                          Kind == 'namespace' ->
+                             is_record(Self, xqNamespaceNode) ;
+                          Kind == 'document-node' ->
+                             is_record(Self, xqDocumentNode) ;
                           true ->
                              false
                        end],
-               PreFilterSeq = ?seq:singleton(List),
-               do_preds(Ctx0, PreFilterSeq, PredFuns)
+               if List == [] ->
+                     ?seq:empty();
+                  true ->
+                     [L] = List,
+                     PreFilterSeq = ?seq:singleton(L),
+                     do_preds(Ctx0, PreFilterSeq, PredFuns)
+               end
          end,
    doc_ord(Ctx0, Fun, Seq);
 
@@ -238,12 +267,13 @@ forward(Ctx0, Seq, child, #xqKindTest{kind = node} = _Kt, PredFuns) ->
    doc_ord(Ctx0, Fun, Seq);
 
 
-forward(Ctx0, Seq, child, #xqKindTest{kind = attribute, name = #qname{} = Name}, PredFuns) ->
+forward(Ctx0, Seq, child, #xqKindTest{kind = attribute, name = Name}, PredFuns) ->
    Fun = fun(Ctx) ->
                #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
                Doc = xqerl_context:get_available_document(F),
                List = [#xqNode{frag_id = F, identity = C} ||
                        C <- xqerl_node:child_ids({Id, Doc}),
+                       %%A <- xqerl_node:child_ids({C, Doc}),
                        Child <- [get_node(C, Doc)],
                        is_record(Child, xqAttributeNode),
                        has_name(Child, Name)],
@@ -265,6 +295,7 @@ forward(Ctx0, Seq, child, #xqKindTest{kind = namespace}, PredFuns) ->
          end,
    doc_ord(Ctx0, Fun, Seq);
 
+forward(_Ctx0, _Seq, child, #xqKindTest{kind = 'document-node'}, _PredFuns) -> ?seq:empty();
 
 forward(Ctx0, Seq, attribute, #xqKindTest{kind = node}, PredFuns) ->
    Fun = fun(Ctx) ->
@@ -343,6 +374,44 @@ forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = text}, PredFuns) ->
                        C <- [Id] ++ xqerl_node:descendant_ids({Id, Doc}),
                        Child <- [get_node(C, Doc)],
                        is_record(Child, xqTextNode)],
+               PreFilterSeq = ?seq:from_list(List),
+               do_preds(Ctx0, PreFilterSeq, PredFuns)
+         end,
+   doc_ord(Ctx0, Fun, Seq);
+
+forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = element}, PredFuns) ->
+   Fun = fun(Ctx) ->
+               #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
+               Doc = xqerl_context:get_available_document(F),
+               List = [#xqNode{frag_id = F, identity = C} ||
+                       C <- [Id] ++ xqerl_node:descendant_ids({Id, Doc}),
+                       Child <- [get_node(C, Doc)],
+                       is_record(Child, xqElementNode)],
+               PreFilterSeq = ?seq:from_list(List),
+               do_preds(Ctx0, PreFilterSeq, PredFuns)
+         end,
+   doc_ord(Ctx0, Fun, Seq);
+
+forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = comment}, PredFuns) ->
+   Fun = fun(Ctx) ->
+               #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
+               Doc = xqerl_context:get_available_document(F),
+               List = [#xqNode{frag_id = F, identity = C} ||
+                       C <- [Id] ++ xqerl_node:descendant_ids({Id, Doc}),
+                       Child <- [get_node(C, Doc)],
+                       is_record(Child, xqCommentNode)],
+               PreFilterSeq = ?seq:from_list(List),
+               do_preds(Ctx0, PreFilterSeq, PredFuns)
+         end,
+   doc_ord(Ctx0, Fun, Seq);
+forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = 'processing-instruction'}, PredFuns) ->
+   Fun = fun(Ctx) ->
+               #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
+               Doc = xqerl_context:get_available_document(F),
+               List = [#xqNode{frag_id = F, identity = C} ||
+                       C <- [Id] ++ xqerl_node:descendant_ids({Id, Doc}),
+                       Child <- [get_node(C, Doc)],
+                       is_record(Child, xqProcessingInstructionNode)],
                PreFilterSeq = ?seq:from_list(List),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
@@ -433,9 +502,20 @@ forward(Ctx0, Seq, attribute, #xqKindTest{kind = 'attribute',name = Name}, PredF
          end,
    doc_ord(Ctx0, Fun, Seq);
 
+forward(_Ctx0, _Seq, attribute, #xqKindTest{}, _PredFuns) -> ?seq:empty();
+
+forward(_Ctx0, _Seq, _, #xqKindTest{kind = attribute}, _PredFuns) -> ?seq:empty();
+forward(_Ctx0, _Seq, _, #xqKindTest{kind = 'document-node'}, _PredFuns) -> ?seq:empty();
+   
 forward(_Ctx, _Seq, Axis, #xqKindTest{} = Kt, _PredFuns) ->
    exit({'unknown', kind_test, Axis, Kt}).
 
+
+reverse(Ctx0, {Id,Doc}, Axis, Name, PredFuns) ->
+   % this happens when stepping on a newly created document
+   _ = xqerl_context:add_available_document(Id, Doc),
+   Node = #xqNode{frag_id = Id,identity = 1},
+   reverse(Ctx0, Node, Axis, Name, PredFuns);
 
 reverse(Ctx0, Seq, 'ancestor-or-self', #qname{} = Name, PredFuns) ->
    Fun = fun(Ctx) ->
@@ -588,7 +668,9 @@ reverse(Ctx0, Seq, 'preceding-sibling', #xqKindTest{kind = comment}, PredFuns) -
          end,
    doc_ord(Ctx0, Fun, Seq);
 
-reverse(Ctx0, Seq, 'parent', _Kt, PredFuns) ->
+reverse(Ctx0, Seq, 'parent', #xqKindTest{kind = Type}, PredFuns) when Type == node;
+                                                                      Type == element;
+                                                                      Type == 'document-node' ->
    Fun = fun(Ctx) ->
                #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
                Doc = xqerl_context:get_available_document(F),
@@ -599,6 +681,13 @@ reverse(Ctx0, Seq, 'parent', _Kt, PredFuns) ->
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
+
+reverse(_Ctx0, _Seq, _Axis, #xqKindTest{kind = Type}, _PredFuns) when Type == text;
+                                                                      Type == attribute;
+                                                                      Type == comment;
+                                                                      Type == namespace;
+                                                                      Type == 'processing-instruction' ->
+   ?seq:empty();
 
 reverse(_Ctx, _Seq, Axis, #xqKindTest{} = Kt, _PredFuns) ->
    exit({'unknown',reverse, Axis, Kt}).
@@ -645,7 +734,7 @@ doc_ord(Ctx, Fun, Seq) ->
          % unique in doc order
          ?seq:union(Res, ?seq:empty());
       _ ->
-         xqerl_error:error('XPTY0019') % only step on nodes
+         xqerl_error:error('XPTY0020') % only step on nodes
    end.
 
 filter(Ctx, PredFuns,PreFilterSeq) ->

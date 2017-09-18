@@ -25,7 +25,7 @@
 -module(xqerl_array).
 
 -include("xqerl.hrl").
--define(int(I), #xqAtomicValue{type = 'xs:integer', value = I}).
+-define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
 
 
 -'module-namespace'({"http://www.w3.org/2005/xpath-functions/array","array"}).
@@ -271,13 +271,13 @@
 
 %% Concatenates the contents of several arrays into a single array. 
 'join'(_Ctx,#array{} = A) -> A;
-'join'(_Ctx,Arrays) ->
+'join'(Ctx,Arrays) ->
    Fun = fun(_,Acc,#array{data = L}) ->
                Acc ++ L;
             (_,_,_) ->
                xqerl_error:error('FORG0006')            
          end,
-   Data = ?seq:foldl(Fun,[],Arrays),
+   Data = ?seq:foldl(Ctx,Fun,[],Arrays),
    #array{data = Data}.
 
 %% Returns an array containing all the members of a supplied array, except for one member which is replaced with a new value. 
@@ -337,7 +337,7 @@
 
 %% Returns the number of members in the supplied array. 
 'size'(_Ctx,#array{data=List}) -> 
-   ?int(erlang:length(List));
+   ?atint(erlang:length(List));
 'size'(Ctx,Seq) ->
    case ?seq:is_sequence(Seq) of
       true ->

@@ -145,6 +145,7 @@
 %% -export([get_context_item/2]).
 -export([set_empty_context_item/1]).
 -export([set_context_item/2]).
+-export([set_context_item/3]).
 -export([get_context_position/1]).
 -export([set_context_position/2]).
 -export([get_context_size/1]).
@@ -184,9 +185,9 @@
 init() -> init(self()).
 
 init(Pid) ->
-   Docs = erlang:get('available-documents'),
-   erlang:erase(),
-   erlang:put('available-documents', Docs),
+%%    Docs = erlang:get('available-documents'),
+%%    erlang:erase(),
+%%    erlang:put('available-documents', Docs),
    
    Now = erlang:timestamp(),
    Key = {Pid, Now},
@@ -290,9 +291,15 @@ set_ordering_mode(Value) ->
    erlang:put('ordering-mode', Value).
 
 get_default_function_namespace() ->
-   "http://www.w3.org/2005/xpath-functions".
-set_default_function_namespace(_Value) ->
-   xqerl_error:error('XQST0066').
+   case erlang:get('default-function-namespace') of
+      undefined ->
+         "http://www.w3.org/2005/xpath-functions";
+      N ->
+         N
+   end.
+set_default_function_namespace(Value) ->
+   erlang:put('default-function-namespace', Value).
+%%    xqerl_error:error('XQST0066').
 
 get_in_scope_schema_types() ->
    erlang:get('in-scope-schema-types').
@@ -541,6 +548,9 @@ set_empty_context_item(Ctx) ->
    Ctx3.
    
 % returns new Ctx map
+set_context_item(Ctx, CI, Pos) ->
+   Ctx#{'context-item' => CI,
+        'context-position' => Pos}.
 set_context_item(Ctx, CI) ->
    maps:put('context-item', CI, Ctx).
 
@@ -696,7 +706,7 @@ add_default_static_values({_, RawCdt} = Key) ->
    set_statically_known_collations(["http://www.w3.org/2005/xpath-functions/collation/codepoint"]),
    set_default_language(#xqAtomicValue{type = 'xs:language', value = "en"}),
    set_default_collation("http://www.w3.org/2005/xpath-functions/collation/codepoint"),
-   add_available_document(0, gb_trees:empty()), % erlang:put(0, gb_trees:empty()),
+   %add_available_document(0, gb_trees:empty()), % erlang:put(0, gb_trees:empty()),
    
    %% non-augmentable values from dynamic context can be put here as well.
    set_current_datetime(xqerl_datetime:get_from_now(RawCdt)),
@@ -718,7 +728,7 @@ add_default_static_values({_, RawCdt} = Key) ->
 
 %TODO annotations (private)
 import_modules(Imports) ->
-   lists:foldl(fun({Ns,Px}, {FunsAcc, VarsAcc}) ->
+   lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc}) ->
                  Mod = list_to_atom(Ns),
                  case catch Mod:module_info(attributes) of
                     {'EXIT',_} ->
@@ -727,16 +737,16 @@ import_modules(Imports) ->
                        Vars = proplists:get_value(variables, Atts, []),
                        Funs = proplists:get_value(functions, Atts, []),
                        PVars = [begin
-                                   Qn = element(1, V),
-                                   V1 = setelement(1, V, Qn#qname{namespace = Ns, prefix = Px}),
+                                   %Qn = element(1, V),
+                                   %V1 = setelement(1, V, Qn#qname{namespace = Ns, prefix = Px}),
                                    {F, A} = element(4, V),
-                                   setelement(4, V1, {Mod,F,A})
+                                   setelement(4, V, {Mod,F,A})
                                 end || V <- Vars],
                        PFuns = [begin
-                                   Qn = element(1, V),
-                                   V1 = setelement(1, V, Qn#qname{namespace = Ns, prefix = Px}),
+                                   %Qn = element(1, V),
+                                   %V1 = setelement(1, V, Qn#qname{namespace = Ns, prefix = Px}),
                                    {F, A} = element(4, V),
-                                   setelement(4, V1, {Mod,F,A})
+                                   setelement(4, V, {Mod,F,A})
                                 end || V <- Funs],
                        FunsAcc1 = PFuns ++ FunsAcc, 
                        VarsAcc1 = PVars ++ VarsAcc,

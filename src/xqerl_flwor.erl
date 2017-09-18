@@ -31,7 +31,7 @@
 
 -include("xqerl.hrl").
 
--define(int(I), #xqAtomicValue{type = 'xs:integer', value = I}).
+-define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
 
 
 -export([split_clauses/1]).
@@ -140,9 +140,9 @@ expand_nodes(Node, allow_empty) ->
 %% append_position([H|T], Cnt, Acc) ->
 %%    New = case element(1, H) of
 %%       E when is_atom(E) ->
-%%          erlang:append_element({H}, [?int(Cnt)]);
+%%          erlang:append_element({H}, [?atint(Cnt)]);
 %%       _E ->
-%%          erlang:append_element(H, [?int(Cnt)])
+%%          erlang:append_element(H, [?atint(Cnt)])
 %%    end,
 %%    append_position(T, Cnt + 1, [New|Acc]).
 
@@ -157,11 +157,11 @@ add_position([], _Cnt, Acc) ->
    lists:reverse(Acc);
 add_position([H|T], Cnt, Acc) ->
    %io:format("H CNT ~p ~p~n",[H,Cnt]),
-   New = {H, ?int(Cnt)},
+   New = {H, ?atint(Cnt)},
    add_position(T, Cnt + 1, [New|Acc]);
 add_position(H, Cnt, Acc) ->
    %io:format("H CNT ~p ~p~n",[H,Cnt]),
-   New = {H, ?int(Cnt)},
+   New = {H, ?atint(Cnt)},
    add_position([], Cnt + 1, [New|Acc]).
 
 %% takes {{K1,KN}, {V1,V2,VN}} and returns {K1,KN,V1,V2,VN} grouped
@@ -468,9 +468,15 @@ do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
          true;
       Empty == greatest andalso ValB == [] ->
          false;
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', value = "NaN"};
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+         true;
       Empty == least andalso ValA == [] ->
          false;
       Empty == least andalso ValB == [] ->
+         true;
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', value = "NaN"};
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
          true;
       Empty == default andalso ValA == [] ->
          case xqerl_context:get_default_order_for_empty_sequences() of
@@ -501,8 +507,8 @@ do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
    end;
 do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
    %?dbg("in",{A,B}),
-   ValA = Fun(A),
-   ValB = Fun(B),
+   ValA = Fun(A), %W
+   ValB = Fun(B), %V
    %?dbg("in",{ValA,ValB}),
    if ValA == ValB ->
          true; % stable sort
@@ -510,10 +516,16 @@ do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
          false;
       Empty == greatest andalso ValB == [] ->
          true;
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', value = "NaN"};
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+         true;
       Empty == least andalso ValA == [] ->
          true;
       Empty == least andalso ValB == [] ->
          false;
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', value = "NaN"};
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+         true;
       Empty == default andalso ValA == [] ->
          case xqerl_context:get_default_order_for_empty_sequences() of
             greatest ->

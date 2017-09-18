@@ -57,11 +57,11 @@ monthname_to_num({_,_,"DEC"}) -> 12.
 
   
 
--file("c:/Program Files/erl7.0/lib/parsetools-2.1/include/yeccpre.hrl", 0).
+-file("c:/erlang/erl9.0/lib/parsetools-2.1.5/include/yeccpre.hrl", 0).
 %%
 %% %CopyrightBegin%
 %%
-%% Copyright Ericsson AB 1996-2015. All Rights Reserved.
+%% Copyright Ericsson AB 1996-2017. All Rights Reserved.
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -211,27 +211,26 @@ yecctoken_location(Token) ->
     end.
 
 -compile({nowarn_unused_function, yecctoken2string/1}).
-yecctoken2string({atom, _, A}) -> io_lib:write(A);
+yecctoken2string({atom, _, A}) -> io_lib:write_atom(A);
 yecctoken2string({integer,_,N}) -> io_lib:write(N);
 yecctoken2string({float,_,F}) -> io_lib:write(F);
 yecctoken2string({char,_,C}) -> io_lib:write_char(C);
 yecctoken2string({var,_,V}) -> io_lib:format("~s", [V]);
 yecctoken2string({string,_,S}) -> io_lib:write_string(S);
 yecctoken2string({reserved_symbol, _, A}) -> io_lib:write(A);
-yecctoken2string({_Cat, _, Val}) -> io_lib:format("~p",[Val]);
+yecctoken2string({_Cat, _, Val}) -> io_lib:format("~tp", [Val]);
 yecctoken2string({dot, _}) -> "'.'";
-yecctoken2string({'$end', _}) ->
-    [];
+yecctoken2string({'$end', _}) -> [];
 yecctoken2string({Other, _}) when is_atom(Other) ->
-    io_lib:write(Other);
+    io_lib:write_atom(Other);
 yecctoken2string(Other) ->
-    io_lib:write(Other).
+    io_lib:format("~tp", [Other]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
--file("C:/git/zadean/xqerl/src/ietf_date_parse.erl", 234).
+-file("C:/git/zadean/xqerl/src/ietf_date_parse.erl", 233).
 
 -dialyzer({nowarn_function, yeccpars2/7}).
 yeccpars2(0=S, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1124,6 +1123,7 @@ yeccpars2_115(_S, Cat, Ss, Stack, T, Ts, Tzr) ->
  NewStack = yeccpars2_115_(Stack),
  yeccgoto_datespec(hd(Nss), Cat, Nss, NewStack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_asctime/7}).
 yeccgoto_asctime(0, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_4(4, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_asctime(8, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1137,6 +1137,7 @@ yeccgoto_asctime(94, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_asctime(101, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_103(103, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_datespec/7}).
 yeccgoto_datespec(0, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_3(3, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_datespec(8, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1150,6 +1151,7 @@ yeccgoto_datespec(94, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_datespec(101, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_102(102, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_daynum/7}).
 yeccgoto_daynum(0, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_2(2, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_daynum(8, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1165,6 +1167,7 @@ yeccgoto_daynum(94, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_daynum(101, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_2(2, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_dsep/7}).
 yeccgoto_dsep(2, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_112(112, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_dsep(7, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1172,6 +1175,7 @@ yeccgoto_dsep(7, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_dsep(113, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_86(114, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_hours/7}).
 yeccgoto_hours(17, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_19(19, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_hours(29, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1191,9 +1195,11 @@ yeccgoto_hours(105, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_hours(109, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_19(19, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_input/7}).
 yeccgoto_input(0, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_1(1, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_minutes/7}).
 yeccgoto_minutes(22, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_23(23, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_minutes(34=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1205,9 +1211,11 @@ yeccgoto_minutes(38=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_minutes(40=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_41(_S, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_seconds/7}).
 yeccgoto_seconds(28, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_42(42, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_time/7}).
 yeccgoto_time(17, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_18(18, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_time(70, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1223,6 +1231,7 @@ yeccgoto_time(105, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_time(109, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_110(110, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_timezone/7}).
 yeccgoto_timezone(23=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_27(_S, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_timezone(31=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1232,6 +1241,7 @@ yeccgoto_timezone(42=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_timezone(47=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_48(_S, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_tzoffset/7}).
 yeccgoto_tzoffset(23, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_26(26, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_tzoffset(31, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -1241,6 +1251,7 @@ yeccgoto_tzoffset(42, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccgoto_tzoffset(47, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_26(26, Cat, Ss, Stack, T, Ts, Tzr).
 
+-dialyzer({nowarn_function, yeccgoto_year/7}).
 yeccgoto_year(86=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_87(_S, Cat, Ss, Stack, T, Ts, Tzr);
 yeccgoto_year(114=_S, Cat, Ss, Stack, T, Ts, Tzr) ->

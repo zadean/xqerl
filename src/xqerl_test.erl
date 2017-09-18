@@ -1,9 +1,22 @@
 -module(xqerl_test).
+-export([size/1]).
+-export([string_value/1]).
 -export([run/1]).
 -export([run/2]).
 -export([run_suite/1]).
 -export([handle_environment/1]).
 -include("xqerl.hrl").
+
+size({Id,{Size,_}}) when is_integer(Id), is_integer(Size) ->
+   1;
+size(A) ->
+   ?seq:size(A).
+
+string_value(List) when is_list(List) ->
+   Seq = ?seq:from_list(List),
+   xqerl_types:string_value(Seq);
+string_value(Seq) ->
+   xqerl_types:string_value(Seq).
 
 run_suite(Suite) ->
    ct:run_test([{},{suite, Suite},{dir, "/git/zadean/xqerl/test"},{logdir, "/git/zadean/xqerl/test/logs"}])
@@ -436,14 +449,14 @@ handle_environment(List) ->
                                     
                               if Role == "." ->
                          if Uri == [] ->
-                               "declare context item := doc('"++File++"');\n";
+                               "declare context item := Q{http://www.w3.org/2005/xpath-functions}doc('"++File++"');\n";
                             true ->
-                               "declare context item := doc('"++Uri++"');\n"
+                               "declare context item := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri++"');\n"
                          end;
                       true ->
                          if Role == [] -> "";
                             true ->
-                               "declare variable "++Role++" := doc('"++File++"');\n"
+                               "declare variable "++Role++" := Q{http://www.w3.org/2005/xpath-functions}doc('"++File++"');\n"
                          end
                    end
              end, Sources),

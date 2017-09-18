@@ -24,8 +24,9 @@ SCHEME = (file|http|https|ftp|ssh|sftp|tftp)://
 %SCHEME = [a-zA-Z]([0-9A-Za-z]|\+|\-|\.)+
 Rules.
  
-{CONTROL}|{SPACE}|{DELIMS}|{UNWISE} : {token,{excluded,TokenLine,TokenChars}}.
+{CONTROL}|{DELIMS}|{UNWISE} : {token,{excluded,TokenLine,TokenChars}}.
 {RESERVED} : {token,{reserved,TokenLine,TokenChars}}.
+{SPACE} : {token,{unreserved,TokenLine,TokenChars}}.
 {UNRESERVED} : {token,{unreserved,TokenLine,TokenChars}}.
 {ESCAPED} : {token,{escaped,TokenLine,TokenChars}}.
 {BIG} : {token,{escaped,TokenLine,TokenChars}}.

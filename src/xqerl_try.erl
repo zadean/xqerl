@@ -43,48 +43,11 @@
 
 -variables([]).
 
--functions([{{qname,
-         "http://www.w3.org/2005/xquery-local-functions",
-         "local", "sum"},
-        {xqSeqType, item, zero_or_many}, [], {'fx$^1', 2}, 1,
-        [{xqSeqType, item, zero_or_many}]}]).
+-functions([]).
 
 -export([]).
 
--export(['fx$^1'/2]).
-
-'fx$^1'(Ctx0, Param__var_1) ->
-    xqerl_types:as_seq(case
-          xqerl_seq2:singleton_value(xqerl_fn:boolean(Ctx0,
-                             xqerl_fn:empty(Ctx0,
-                                  xqerl_types:as_seq(Param__var_1,
-                                           {xqSeqType,
-                                       item,
-                                       zero_or_many}))))
-            of
-          {xqAtomicValue, 'xs:boolean', true} ->
-              {xqAtomicValue, 'xs:integer', 0};
-          _ ->
-             H = xqerl_fn:head(Ctx0,
-                            xqerl_types:as_seq(Param__var_1,
-                                {xqSeqType,
-                                 item,
-                                 zero_or_many})),
-             T = xqerl_fn:tail(Ctx0,
-                                   xqerl_types:as_seq(Param__var_1,
-                                            {xqSeqType,
-                                             item,
-                                             zero_or_many})),
-             ?dbg("H",H),
-             ?dbg("T",T),
-              xqerl_operators:add(H,
-                   'fx$^1'(Ctx0,
-                      xqerl_types:as_seq(T,
-                               {xqSeqType,
-                                item,
-                                zero_or_many})))
-             end,
-             {xqSeqType, item, zero_or_many}).
+-export([]).
 
 get_namespaces() ->
     lists:foreach(fun ({Ns, Px}) ->
@@ -131,17 +94,63 @@ main(Options) ->
     xqerl_context:init(),
     get_namespaces(),
     Ctx = Ctx0,
-    'fx$^1'(Ctx,
-       xqerl_types:as_seq(xqerl_seq2:range(xqerl_types:as_seq({xqAtomicValue,
-                            'xs:integer',
-                            1},
-                           {xqSeqType,
-                            'xs:integer',
-                            zero_or_one}),
-                  xqerl_types:as_seq({xqAtomicValue,
-                            'xs:integer',
-                            5},
-                           {xqSeqType,
-                            'xs:integer',
-                            zero_or_one})),
-                {xqSeqType, item, zero_or_many})).
+    xqerl_types:return_value(xqerl_fn:'local-name'(Ctx,
+                     xqerl_types:as_seq(xqerl_step:forward(Ctx,
+                                  xqerl_node:new_fragment({xqElementNode,
+                                            undefined,
+                                            undefined,
+                                            {qname,
+                                             'no-namespace',
+                                             [],
+                                             "elem"},
+                                            undefined,
+                                            [],
+                                            [],
+                                            [],
+                                            undefined,
+                                            'xs:anyType',
+                                            undefined,
+                                            undefined,
+                                            begin
+                                              Ctx__1 =
+                                             Ctx,
+                                              [{xqAttributeNode,
+                                                undefined,
+                                                {qname,
+                                                 'no-namespace',
+                                                 [],
+                                                 "attr"},
+                                                undefined,
+                                                undefined,
+                                                undefined,
+                                                undefined,
+                                                [{xqAttributeNode,
+                                             undefined,
+                                             {qname,
+                                              'no-namespace',
+                                              [],
+                                              "name"},
+                                             undefined,
+                                             undefined,
+                                             undefined,
+                                             undefined,
+                                             [xqerl_seq2:singleton({xqAtomicValue,
+                                                          'xs:string',
+                                                          " content "})]}]}]
+                                            end},
+                                           {xqAtomicValue,
+                                            'xs:anyURI',
+                                            "C:\\Users\\Zack"}),
+                                  attribute,
+                                  {qname,
+                                   'no-namespace',
+                                   [],
+                                   "attr"},
+                                  []),
+                              {xqSeqType,
+                               {xqKindTest,
+                           node,
+                           undefined,
+                           undefined,
+                           undefined},
+                               zero_or_one}))).

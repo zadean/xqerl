@@ -63,80 +63,6 @@
 -define(set, ordsets).
 %-define(set, gb_sets).
 
--define(node(I), (I=='node' orelse I=='document' orelse I=='document-node' orelse I=='element' orelse I=='attribute' orelse I=='namespace' orelse I=='text' orelse I=='comment' orelse I=='processing-instruction')).
--define(duration(I),(I=='xs:duration' orelse I=='xs:yearMonthDuration' orelse I=='xs:dayTimeDuration')).
--define(numeric(I), (I=='xs:numeric' orelse 
-                     I=='xs:float' orelse I=='xs:double' orelse 
-                     I=='xs:decimal' orelse 
-                     I=='xs:integer' orelse 
-                     I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
-                     I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
-                     I=='xs:nonNegativeInteger' orelse 
-                     I=='xs:positiveInteger' orelse 
-                     I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')
-                     ).
--define(decimal(I), (I=='xs:decimal' orelse 
-                    I=='xs:integer' orelse 
-                    I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
-                    I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
-                    I=='xs:nonNegativeInteger' orelse 
-                    I=='xs:positiveInteger' orelse 
-                    I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
--define(integer(I), (I=='xs:integer' orelse 
-                    I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
-                    I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
-                    I=='xs:nonNegativeInteger' orelse 
-                    I=='xs:positiveInteger' orelse 
-                    I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
--define(nonPositiveInteger(I), (I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger')).
--define(long(I),    (I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte')).
--define(int(I),     (I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte')).
--define(short(I),   (I=='xs:short' orelse I=='xs:byte')).
--define(nonNegativeInteger(I), 
-                    (I=='xs:nonNegativeInteger' orelse 
-                    I=='xs:positiveInteger' orelse 
-                    I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
--define(unsignedLong(I), 
-                    (I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
--define(unsignedInt(I), 
-                    (I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
--define(unsignedShort(I), 
-                    (I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
--define(string(I),  (I=='xs:string' orelse 
-                    I=='xs:normalizedString' orelse 
-                    I=='xs:token' orelse 
-                    I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
-                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
--define(normalizedString(I),
-                    (I=='xs:normalizedString' orelse 
-                    I=='xs:token' orelse 
-                    I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
-                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
--define(token(I),   (I=='xs:token' orelse 
-                    I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
-                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
--define(Name(I),    (I=='xs:Name' orelse I=='xs:NCName' orelse 
-                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
--define(NCName(I),  (I=='xs:NCName' orelse 
-                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
--define(anySimpleType(I),
-       (I=='xs:anySimpleType' orelse I=='xs:untypedAtomic' orelse I=='xs:dateTime' orelse I=='xs:dateTimeStamp' orelse I=='xs:time' orelse I=='xs:date' orelse 
-        I=='xs:gYearMonth' orelse I=='xs:gYear' orelse I=='xs:gMonthDay' orelse I=='xs:gDay' orelse I=='xs:gMonth' orelse I=='xs:boolean' orelse 
-        I=='xs:base64Binary' orelse I=='xs:hexBinary' orelse I=='xs:float' orelse I=='xs:double' orelse I=='xs:anyURI' orelse I=='xs:QName' orelse I=='xs:NOTATION' orelse 
-        I=='xs:decimal' orelse 
-        I=='xs:integer' orelse 
-        I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
-        I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
-        I=='xs:nonNegativeInteger' orelse 
-        I=='xs:positiveInteger' orelse 
-        I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte' orelse 
-        I=='xs:string' orelse 
-        I=='xs:normalizedString' orelse 
-        I=='xs:token' orelse 
-        I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
-        I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES' orelse 
-        I=='xs:duration' orelse I=='xs:yearMonthDuration' orelse I=='xs:dayTimeDuration')
-        ).
 %% construct:
 %% 
 %% { sequence type, size, [list of values each as {position, value}] }
@@ -145,10 +71,14 @@
 -type seq() :: {#xqSeqType{}, integer(), list()}.
 -type ctx() :: term().
 
--spec size(seq()|map()) -> integer().
+-spec size(seq()|map()|tuple()|list()) -> integer().
+size(#xqAtomicValue{}) ->
+   1;
+size(List) when is_list(List) ->
+   length(List);
 size(Map) when is_map(Map) ->
    maps:size(Map);
-size({_,Size,_}) ->
+size({_,Size,_}) when is_integer(Size) ->
    Size.
 
 -spec is_empty(seq()) -> boolean().
@@ -161,25 +91,10 @@ is_sequence({T,Size,Seq}) when is_tuple(T), is_integer(Size), is_list(Seq) -> tr
 is_sequence(_) -> false.
 
 -spec next({integer(), seq()}) -> empty | none | {integer(), term(), {integer(), seq()}}.
-next({0,Array}) ->
-   case is_sequence(Array) andalso is_empty(Array) of
-      true ->
-         empty;
-      _ ->
-         {Ty,Sz,Seq} = Array,
-         case Seq of
-            [] -> none;
-            [{Pos,Val}|T] ->
-               {Pos,Val,{1,{Ty,Sz,T}}}
-         end
-   end;
-next({LastPos,Array}) ->
-   {Ty,Sz,Seq} = Array,
-   case Seq of
-      [] -> none;
-      [{Pos,Val}|T] ->
-         {Pos,Val,{LastPos + 1,{Ty,Sz,T}}}
-   end.
+next({0,{_Ty,0,_Seq}}) -> empty;
+next({_,{_Ty,_Sz,[]}}) -> none;
+next({LastPos,{Ty,Sz,[{Pos,Val}|T]}}) ->
+   {Pos,Val,{LastPos + 1,{Ty,Sz,T}}}.
 
 -spec head(seq()) -> seq().
 head({_,_,Seq}) ->
@@ -190,22 +105,35 @@ head({_,_,Seq}) ->
          append(Val, New)
    end.
 
+singleton_value(Fun) when is_function(Fun) -> Fun;
+singleton_value(Map) when is_map(Map) -> Map;
 singleton_value(#xqFunction{body = Fun}) -> Fun;
-singleton_value(Seq) ->
-   case is_sequence(Seq) of 
-      true ->
-         case ?MODULE:size(Seq) of
-            0 ->
-               [];
-            1 ->
-               {_,_,[{_,I}]} = Seq,
-               I;
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         Seq
-   end.
+singleton_value(#xqError{} = E) -> E;
+singleton_value(#xqAtomicValue{} = A) -> A;
+singleton_value(#xqNode{} = A) -> A;
+singleton_value(#qname{} = A) -> A;
+singleton_value({#xqSeqType{},0,_}) -> [];
+singleton_value({#xqSeqType{},1,[{_,V}]}) -> V;
+singleton_value({#xqSeqType{},_,_}) -> 
+   ?dbg("singleton_value",?LINE),
+   xqerl_error:error('XPTY0004');
+singleton_value(Seq) -> 
+   ?dbg("singleton_value",Seq),
+%%    case is_sequence(Seq) of 
+%%       true ->
+%%          case ?MODULE:size(Seq) of
+%%             0 ->
+%%                [];
+%%             1 ->
+%%                {_,_,[{_,I}]} = Seq,
+%%                I;
+%%             _ ->
+               xqerl_error:error('XPTY0004').
+%% 
+%%          end;
+%%       _ ->
+%%          Seq
+%%    end.
 
 -spec tail(seq()) -> seq().
 tail(Seq) ->
@@ -293,8 +221,8 @@ zip_with(Ctx, Fun,{_,Size1,_} = Seq1,{_,Size2,_} = Seq2) when is_function(Fun) -
                           CurrSeq;
                        {{Key1,Value1,NewIter1},{_Key2,Value2,NewIter2}} ->
                           try
-                             Ctx2 = xqerl_context:set_context_item(Ctx1, Value1),
-                             Ctx3 = xqerl_context:set_context_position(Ctx2, int_rec(Key1)),
+                             Ctx3 = xqerl_context:set_context_item(Ctx1, Value1, Key1),
+                             %Ctx3 = xqerl_context:set_context_position(Ctx2, int_rec(Key1)),
                              OutputSeq = Fun(Ctx3, singleton(Value1), singleton(Value2)),
                              %?dbg("OutputSeq",OutputSeq),
                              NewSeq = combine([CurrSeq, OutputSeq]),
@@ -328,8 +256,7 @@ for_each(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
                           CurrSeq;
                        {Key,Value,NewIter} ->
                           try
-                             Ctx2 = xqerl_context:set_context_item(Ctx1, Value),
-                             Ctx3 = xqerl_context:set_context_position(Ctx2, int_rec(Key)),
+                             Ctx3 = xqerl_context:set_context_item(Ctx1, Value, Key),
                              OutputSeq = Fun(Ctx3, singleton(Value)),
                              %?dbg("OutputSeq",OutputSeq),
                              NewSeq = combine([CurrSeq, OutputSeq]),
@@ -364,8 +291,7 @@ map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
                        empty ->
                           CurrSeq;
                        {Key,Value,NewIter} ->
-                          Ctx2 = xqerl_context:set_context_item(Ctx1, Value),
-                          Ctx3 = xqerl_context:set_context_position(Ctx2, int_rec(Key)),
+                          Ctx3 = xqerl_context:set_context_item(Ctx1, Value, Key),
                           OutputSeq = Fun(Ctx3),
                           %?dbg("OutputSeq",OutputSeq),
                           NewSeq = combine([CurrSeq, OutputSeq]),
@@ -374,8 +300,11 @@ map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
              end,
    FunLoop(Iter,New).
 
-node_map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
-   %?dbg("Seq",Seq),
+node_map(Ctx, Fun,#xqNode{} = N) ->
+   node_map(Ctx, Fun,singleton(N));
+node_map(_Ctx, _Fun,{#xqSeqType{type = Type},_Size,_}) when not ?node(Type) ->
+   xqerl_error:error('XPTY0019');
+node_map(Ctx, Fun,{#xqSeqType{type = Type},Size,_} = Seq) when is_function(Fun), ?node(Type) ->
    New = empty(),
    Iter = get_seq_iter(Seq),
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
@@ -386,12 +315,12 @@ node_map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
                        empty ->
                           CurrSeq;
                        {Key,Value,NewIter} ->
-                          Ctx2 = xqerl_context:set_context_item(Ctx1, Value),
-                          Ctx3 = xqerl_context:set_context_position(Ctx2, int_rec(Key)),
+                          Ctx3 = xqerl_context:set_context_item(Ctx1, Value, Key),
                           OutputSeq = Fun(Ctx3),
                           %?dbg("OutputSeq",OutputSeq),
                           %?dbg("CurrSeq",CurrSeq),
-                          NewSeq = combine([CurrSeq, OutputSeq]),
+                          NewSeq = append(OutputSeq,CurrSeq),
+                          %NewSeq = combine([CurrSeq, OutputSeq]),
                           Loop(NewIter,NewSeq)
                     end
              end,
@@ -404,6 +333,7 @@ node_map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
          case all_not_node(Out) of
             true ->
                %?dbg("all not node",true),
+               %xqerl_error:error('XPTY0019');
                Out;
             _ ->
                %?dbg("not all node",Out),
@@ -593,52 +523,100 @@ singleton(Item) ->
    Seq = empty(),
    append(Item, Seq).
 
+append({Id,Doc}, Seq) -> % new document fragment
+   _ = xqerl_context:add_available_document(Id, Doc),
+   Node = #xqNode{frag_id = Id,identity = 1},
+   append(Node, Seq);
 append([],Seq) -> Seq;
-append(Item, Seq) when is_list(Item) ->
-   append(from_list(Item), Seq);
-append(Item, {Type,Size,List} = Seq) ->
-   case is_sequence(Item) of
-      true ->
-         concat_seqs(Seq,Item);
-      _ ->
-         Pos = Size + 1,
-         #xqSeqType{type = OldType, occur = OldOccur} = Type,
-         ItemType = get_item_type(Item),
-         NewType = combined_type(OldType, ItemType),
-         NewOccur = if Pos == 1 -> one;
-                       true -> one_or_many
-                    end,
-         SeqType = if NewType == OldType andalso NewOccur == OldOccur ->
-                         Type;
-                      true ->
-                         #xqSeqType{type = NewType, occur = NewOccur }
-                   end,
-         NewVal = {Pos,Item},
-         List2 = [NewVal|List],
-         {SeqType,Pos,List2}
-   end.
+append({#xqSeqType{},_,_} = Seq1, {#xqSeqType{},_,[]}) ->
+   Seq1;
+append({#xqSeqType{},_,[]}, {#xqSeqType{},_,_} = Seq2) ->
+   Seq2;
+append({#xqSeqType{},_,_} = Seq1, {#xqSeqType{},_,_} = Seq2) ->
+   concat_seqs(Seq2,Seq1);
+append(#xqAtomicValue{type = ItemType} = Item, {#xqSeqType{},_,[]}) ->
+   {#xqSeqType{type = ItemType, occur = one},1,[{1,Item}]};   
+append(#xqAtomicValue{type = ItemType} = Item, {#xqSeqType{type = OldType, occur = OldOccur} = Type,Size,List}) ->
+   Pos = Size + 1,
+   %ItemType = get_item_type(Item),
+   %?dbg("append atomic",?LINE),
+   NewType = if OldType == ItemType ->
+                   OldType;
+                true ->
+                   combined_type(OldType, ItemType)
+             end,
+   NewOccur = if Pos == 1 -> one;
+                 true -> one_or_many
+              end,
+   SeqType = if NewType == OldType andalso NewOccur == OldOccur ->
+                   Type;
+                true ->
+                   #xqSeqType{type = NewType, occur = NewOccur }
+             end,
+   NewVal = {Pos,Item},
+   List2 = [NewVal|List],
+   {SeqType,Pos,List2};   
+append(Item, {#xqSeqType{type = OldType, occur = OldOccur} = Type,Size,List}) ->
+   %?dbg("append not atomic",?LINE),
+   Pos = Size + 1,
+   ItemType = get_item_type(Item),
+   NewType = if OldType == ItemType ->
+                   OldType;
+                true ->
+                   combined_type(OldType, ItemType)
+             end,
+   NewOccur = if Pos == 1 -> one;
+                 true -> one_or_many
+              end,
+   SeqType = if NewType == OldType andalso NewOccur == OldOccur ->
+                   Type;
+                true ->
+                   #xqSeqType{type = NewType, occur = NewOccur }
+             end,
+   NewVal = {Pos,Item},
+   List2 = [NewVal|List],
+   {SeqType,Pos,List2}.
 
-append(Item,{Type,_Size,List} = Seq,Pos) ->
-   case is_sequence(Item) of
-      true ->
-         concat_seqs(Seq,Item);
-      _ ->
-         #xqSeqType{type = OldType, occur = OldOccur} = Type,
-         ItemType = get_item_type(Item),
-         NewType = combined_type(OldType, ItemType),
-         NewOccur = if Pos == 1 -> one;
-                       true -> one_or_many
-                    end,
-         SeqType = if NewType == OldType andalso NewOccur == OldOccur ->
-                         Type;
-                      true ->
-                         #xqSeqType{type = NewType, occur = NewOccur }
-                   end,
-         NewVal = {Pos,Item},
-         List2 = lists:keystore(Pos, 1, List, NewVal),
-         {SeqType,Pos,List2}
-   end.
+append({#xqSeqType{},_,_} = Seq1, {#xqSeqType{},_,_} = Seq2, _Pos) ->
+   concat_seqs(Seq2,Seq1);
+append(#xqAtomicValue{type = ItemType} = Item,{#xqSeqType{type = OldType, occur = OldOccur} = Type,_Size,List},Pos) ->
+   NewType = if OldType == ItemType ->
+                   OldType;
+                true ->
+                   combined_type(OldType, ItemType)
+             end,
+   NewOccur = if Pos == 1 -> one;
+                 true -> one_or_many
+              end,
+   SeqType = if NewType == OldType andalso NewOccur == OldOccur ->
+                   Type;
+                true ->
+                   #xqSeqType{type = NewType, occur = NewOccur }
+             end,
+   NewVal = {Pos,Item},
+   List2 = lists:keystore(Pos, 1, List, NewVal),
+   {SeqType,Pos,List2};
+append(Item,{#xqSeqType{type = OldType, occur = OldOccur} = Type,_Size,List},Pos) ->
+   ItemType = get_item_type(Item),
+   NewType = if OldType == ItemType ->
+                   OldType;
+                true ->
+                   combined_type(OldType, ItemType)
+             end,
+   NewOccur = if Pos == 1 -> one;
+                 true -> one_or_many
+              end,
+   SeqType = if NewType == OldType andalso NewOccur == OldOccur ->
+                   Type;
+                true ->
+                   #xqSeqType{type = NewType, occur = NewOccur }
+             end,
+   NewVal = {Pos,Item},
+   List2 = lists:keystore(Pos, 1, List, NewVal),
+   {SeqType,Pos,List2}.
 
+filter(_Ctx, [#xqAtomicValue{} = V],Seq) ->
+   filter(_Ctx, V,Seq);
 filter(_Ctx, #xqAtomicValue{type = 'xs:integer', value = Pos},_Seq) when Pos =< 0 ->
    empty();
 filter(_Ctx, #xqAtomicValue{type = 'xs:integer', value = Pos},_Seq) when not is_integer(Pos) ->
@@ -658,14 +636,15 @@ filter(Ctx, #xqAtomicValue{type = T, value = Pos},Seq) when ?numeric(T) ->
       true ->
          empty()
    end;
-filter(Ctx, Fun,Seq0) when is_function(Fun,1) ->
+filter(Ctx, Fun,{_Type,Size,List} = Seq) when is_function(Fun,1) ->
    New = empty(),
-   {_Type,Size,List} = Seq = case is_sequence(Seq0) of
-                          true ->
-                             Seq0;
-                          _ ->
-                             singleton(Seq0)
-                       end,
+%%    {_Type,Size,List} = Seq = case is_sequence(Seq0) of
+%%                           true ->
+%%                              Seq0;
+%%                           _ ->
+%%                              ?dbg("not sequence",?LINE),
+%%                              singleton(Seq0)
+%%                        end,
    Iter = get_seq_iter(Seq),
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
    %?dbg("Line",Seq),
@@ -679,15 +658,14 @@ filter(Ctx, Fun,Seq0) when is_function(Fun,1) ->
                           CurrSeq;
                        {Key,Value,NewIter} ->
                           %?dbg("Line",?LINE),
-                          Ctx2 = xqerl_context:set_context_item(Ctx1, singleton(Value)),
-                          Ctx3 = xqerl_context:set_context_position(Ctx2, int_rec(Key)),
+                          Ctx3 = xqerl_context:set_context_item(Ctx1, Value, Key),
                           %?dbg("Ctx3",Ctx3),
                           Resp = Fun(Ctx3),
                           %?dbg("Resp",Resp),
                           RespType = xqerl_types:type(Resp),
                           %?dbg("RespType",RespType),
-                          case xqerl_types:is_numeric_type(RespType) andalso (is_record(Resp, xqAtomicValue) orelse ?MODULE:size(Resp) == 1) of % short out any numeric singles
-                             true ->
+                          case (is_record(Resp, xqAtomicValue) orelse ?MODULE:size(Resp) == 1) of % short out any numeric singles
+                             true when ?numeric(RespType) ->
                                 Num = xqerl_types:value(Resp),
                                 case Num > 0 andalso Num == trunc(Num) of
                                    true ->
@@ -703,12 +681,12 @@ filter(Ctx, Fun,Seq0) when is_function(Fun,1) ->
                                       Loop(NewIter,CurrSeq)
                                 end;
                              _ ->
-                                case singleton_value(xqerl_fn:boolean([], Resp)) of
-                                   #xqAtomicValue{type = 'xs:boolean', value = false} ->
-                                      %?dbg("Line",?LINE),
+                                case xqerl_operators:eff_bool_val(Resp) of
+                                   false ->
+                                %?dbg("Resp false",Resp),
                                       Loop(NewIter,CurrSeq);
-                                   #xqAtomicValue{type = 'xs:boolean', value = true} ->
-                                      %?dbg("Line",?LINE),
+                                   true ->
+                                %?dbg("Resp true",Resp),
                                       NewSeq = append(Value, CurrSeq),
                                       Loop(NewIter,NewSeq)
                                 end
@@ -873,8 +851,6 @@ get_seq_iter({Type,Size,List} = Seq) ->
          {0,Seq}
    end.
 
-%% get_item_type([X]) ->
-%%    get_item_type(X);
 get_item_type(#xqAtomicValue{type = Type}) ->
    Type;
 get_item_type(Item) when is_function(Item) ->
@@ -896,9 +872,6 @@ get_item_type(#xqProcessingInstructionNode{}) -> 'processing-instruction';
 get_item_type(#xqDocumentNode{}) -> 'document-node';
 get_item_type(#xqNode{} = Node) ->
    xqerl_node:get_node_type(Node).
-%% ;
-%% get_item_type(X) ->
-%%    ?dbg("get_item_type",X).
 
 combined_type(T1, T2) when T1 == T2 -> T1;
 combined_type('item', _T2) -> 'item';
@@ -937,15 +910,16 @@ combined_type(_T1,_T2) ->
 
 
 doc_ord(Seq) ->
-   Seq1 = case is_sequence(Seq) of
-             true ->
-                Seq;
-             _ ->
-                singleton(Seq)
-          end,
-   case all_node(Seq1) of
+%%    Seq1 = case is_sequence(Seq) of
+%%              true ->
+%%                 Seq;
+%%              _ ->
+%%                 ?dbg("not sequence",?LINE),
+%%                 singleton(Seq)
+%%           end,
+   case all_node(Seq) of
       true ->
-         union(Seq1, empty());
+         union(Seq, empty());
       _ ->
          xqerl_error:error('XPTY0019') % only step on nodes
    end.

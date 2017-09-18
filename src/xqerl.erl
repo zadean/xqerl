@@ -12,6 +12,7 @@
 -export([run/1]). 
 -export([run/2]). 
 -export([compile/1]). 
+-export([compile_main/1]). 
 
 compile(FileName) ->
    {ok, Bin} = file:read_file(FileName),
@@ -39,9 +40,10 @@ compile(FileName) ->
 run(Str) -> run(Str, []).
 
 run(Str, Options) ->
+   % saving the docs between runs to not have to reparse
    Docs = erlang:get('available-documents'),
    erlang:erase(),
-   erlang:put('available-documents', Docs),
+   
    catch code:purge(xqerl_main),
    catch code:delete(xqerl_main),
    try
@@ -56,9 +58,8 @@ run(Str, Options) ->
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
 %      print_erl(B),
-      Docs2 = erlang:get('available-documents'),
       erlang:erase(),
-      erlang:put('available-documents', Docs2),
+      erlang:put('available-documents', Docs),
       xqerl_main:main(Options)
 %%    .
 
@@ -156,4 +157,23 @@ print_erl(B) ->
    io:fwrite("~s~n", [PP]),
    %?dbg("huh",ok),
    ok.   
+
+
+
+
+
+compile_main(Str) ->
+   % saving the docs between runs to not have to reparse
+   erlang:erase(),
    
+   catch code:purge(xqerl_main),
+   catch code:delete(xqerl_main),
+   Str2 = strip_comments(Str),
+   Tokens = scan_tokens(Str2),
+   _ = erlang:put(xquery_id, xqerl_context:init(self())),
+   Tree = parse_tokens(Tokens),
+   Abstract = scan_tree(Tree),
+   B = compile_abstract(Abstract),
+   print_erl(B),
+   erlang:erase(),
+   ok.   

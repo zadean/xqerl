@@ -27,21 +27,6 @@
 -define(MINFLOAT, -3.4028235e38).
 -define(MAXFLOAT,  3.4028235e38).
 
--define(string(I),  (I=='xs:string' orelse 
-                    I=='xs:normalizedString' orelse 
-                    I=='xs:token' orelse 
-                    I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
-                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
--define(numeric(I), (I=='xs:numeric' orelse 
-                     I=='xs:float' orelse I=='xs:double' orelse 
-                     I=='xs:decimal' orelse 
-                     I=='xs:integer' orelse 
-                     I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
-                     I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
-                     I=='xs:nonNegativeInteger' orelse 
-                     I=='xs:positiveInteger' orelse 
-                     I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')
-                     ).
 -define( num(Type),
          if Type =:= 'xs:double' -> 16;
             Type =:= 'xs:float' -> 15;
@@ -84,7 +69,8 @@
 -define(is_numeric(Num), (is_integer(Num) or is_float(Num))).
 
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
--define(sing(Val), ?seq:singleton(Val)).
+-define(sing(Val), Val).
+%-define(sing(Val), ?seq:singleton(Val)).
 
 %(xs:integer, xs:decimal, xs:float, xs:double)
 
@@ -113,7 +99,9 @@
          node_before/2,
          node_after/2,
          node_is/2,
-         general_compare/3
+         general_compare/3,
+         % effective boolean value
+         eff_bool_val/1
         ]).
 
 
@@ -129,7 +117,8 @@ is_comparable('xs:hexBinary') -> true;
 is_comparable('xs:string') -> true;
 is_comparable('xs:time') -> true;
 is_comparable('xs:yearMonthDuration') -> true;
-is_comparable(Type) -> xqerl_types:is_numeric_type(Type).   
+is_comparable(Type) when ?numeric(Type) -> true;
+is_comparable(_)-> false.
 
 add(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
@@ -1065,7 +1054,7 @@ general_compare(Op,List1,List2) ->
                                             #xqAtomicValue{type = 'xs:boolean',value = true}
                                     end, ?seq:to_list(AList2))
                     end, ?seq:to_list(AList1)),
-   ?seq:singleton(#xqAtomicValue{type = 'xs:boolean', value = Bool}).
+   ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool}).
 
 %2a both are untyped
 value_compare(Op,#xqAtomicValue{type = 'xs:untypedAtomic'} = Val1,#xqAtomicValue{type = 'xs:untypedAtomic'} = Val2) ->
@@ -1098,13 +1087,10 @@ value_compare(Op,#xqAtomicValue{type = Type} = Val1, #xqAtomicValue{type = 'xs:u
                xqerl_types:cast_as(Val2,'xs:yearMonthDuration');
            Type when ?string(Type) ->
               xqerl_types:cast_as(Val2,'xs:string');
+           Type when ?numeric(Type) ->
+              xqerl_types:cast_as(Val2,'xs:double');
            _ ->
-              case xqerl_types:is_numeric_type(Type) of 
-                 true ->
-                    xqerl_types:cast_as(Val2,'xs:double');
-                 _ ->
-                     xqerl_types:cast_as(Val2,Type)
-              end
+              xqerl_types:cast_as(Val2,Type)
         end,
    value_compare(Op,Val1,V2);
 % 2c do the compare
@@ -1140,296 +1126,283 @@ numeric_add(A,B) when is_integer(A) ->
 numeric_add(A,B) when is_integer(B) -> 
    numeric_add(A,#xqAtomicValue{type = 'xs:integer', value = B});
 numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
-            #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         Prec = max(?num(TypeA), ?num(TypeB)),
-         TypeC = ?numtype(Prec),
-         ValC = if ValA == "INF", ?is_numeric(ValB) ->
+            #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) -> 
+   Prec = max(?num(TypeA), ?num(TypeB)),
+   TypeC = ?numtype(Prec),
+   ValC = if ValA == "INF", ?is_numeric(ValB) ->
+                "INF";
+             ValB == "INF", ?is_numeric(ValA) ->
+                "INF";
+             ValA == "-INF", ?is_numeric(ValB) ->
+                "-INF";
+             ValB == "-INF", ?is_numeric(ValA) ->
+                "-INF";
+             ValA == "INF", ValB == "INF" ->
+                "INF";
+             ValA == "-INF", ValB == "-INF" ->
+                "-INF";
+             ValA == "INF", ValB == "-INF" ->
+                "NaN";
+             ValA == "-INF", ValB == "INF" ->
+                "NaN";
+             ValA == "NaN" orelse ValB == "NaN" ->
+                "NaN";
+             Prec == 15 -> % float could be overflowed
+                case ValA + ValB of
+                   X when X > ?MAXFLOAT ->
                       "INF";
-                   ValB == "INF", ?is_numeric(ValA) ->
-                      "INF";
-                   ValA == "-INF", ?is_numeric(ValB) ->
+                   X when X < ?MINFLOAT ->
                       "-INF";
-                   ValB == "-INF", ?is_numeric(ValA) ->
-                      "-INF";
-                   ValA == "INF", ValB == "INF" ->
-                      "INF";
-                   ValA == "-INF", ValB == "-INF" ->
-                      "-INF";
-                   ValA == "INF", ValB == "-INF" ->
-                      "NaN";
-                   ValA == "-INF", ValB == "INF" ->
-                      "NaN";
-                   ValA == "NaN" orelse ValB == "NaN" ->
-                      "NaN";
-                   Prec == 15 -> % float could be overflowed
-                      case ValA + ValB of
-                         X when X > ?MAXFLOAT ->
-                            "INF";
-                         X when X < ?MINFLOAT ->
-                            "-INF";
-                         X ->
-                            X
-                      end;
-                   true ->
-                      ValA + ValB
-                end,
-         
-         #xqAtomicValue{type = TypeC, value = ValC};
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                   X ->
+                      X
+                end;
+             true ->
+                ValA + ValB
+          end,
+   
+   #xqAtomicValue{type = TypeC, value = ValC};
+numeric_add(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: numeric
 numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
-                 #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         Prec = max(?num(TypeA), ?num(TypeB)),
-         TypeC = ?numtype(Prec),
-         ValC = if ValA == "INF", ?is_numeric(ValB) ->
+                 #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
+   Prec = max(?num(TypeA), ?num(TypeB)),
+   TypeC = ?numtype(Prec),
+   ValC = if ValA == "INF", ?is_numeric(ValB) ->
+                "INF";
+             ValB == "INF", ?is_numeric(ValA) ->
+                "-INF";
+             ValA == "-INF", ?is_numeric(ValB) ->
+                "-INF";
+             ValB == "-INF", ?is_numeric(ValA) ->
+                "INF";
+             ValA == "INF", ValB == "INF" ->
+                "NaN";
+             ValA == "-INF", ValB == "-INF" ->
+                "NaN";
+             ValA == "INF", ValB == "-INF" ->
+                "INF";
+             ValA == "-INF", ValB == "INF" ->
+                "-INF";
+             ValA == "NaN" orelse ValB == "NaN" ->
+                "NaN";
+             (is_integer(ValA) orelse trunc(ValA) == ValA) andalso (is_integer(ValB) orelse trunc(ValB) == ValB) ->
+                ValA - ValB;
+             Prec == 15 -> % float could be overflowed
+                case ((ValA * 100000000) - (ValB * 100000000)) / 100000000 of
+                   X when X > ?MAXFLOAT ->
                       "INF";
-                   ValB == "INF", ?is_numeric(ValA) ->
+                   X when X < ?MINFLOAT ->
                       "-INF";
-                   ValA == "-INF", ?is_numeric(ValB) ->
-                      "-INF";
-                   ValB == "-INF", ?is_numeric(ValA) ->
-                      "INF";
-                   ValA == "INF", ValB == "INF" ->
-                      "NaN";
-                   ValA == "-INF", ValB == "-INF" ->
-                      "NaN";
-                   ValA == "INF", ValB == "-INF" ->
-                      "INF";
-                   ValA == "-INF", ValB == "INF" ->
-                      "-INF";
-                   ValA == "NaN" orelse ValB == "NaN" ->
-                      "NaN";
-                   (is_integer(ValA) orelse trunc(ValA) == ValA) andalso (is_integer(ValB) orelse trunc(ValB) == ValB) ->
-                      ValA - ValB;
-                   Prec == 15 -> % float could be overflowed
-                      case ((ValA * 100000000) - (ValB * 100000000)) / 100000000 of
-                         X when X > ?MAXFLOAT ->
-                            "INF";
-                         X when X < ?MINFLOAT ->
-                            "-INF";
-                         X ->
-                            X
-                      end;
-                   true ->
-                      ((ValA * 100000000) - (ValB * 100000000)) / 100000000
-                end,
-         %?dbg("numeric_subtract",{ValA,ValB,ValC}),
-         #xqAtomicValue{type = TypeC, value = ValC};
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                   X ->
+                      X
+                end;
+             true ->
+                ((ValA * 100000000) - (ValB * 100000000)) / 100000000
+          end,
+   %?dbg("numeric_subtract",{ValA,ValB,ValC}),
+   #xqAtomicValue{type = TypeC, value = ValC};
+numeric_subtract(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: numeric
 numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
-                 #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         Prec = max(?num(TypeA), ?num(TypeB)),
-         TypeC = ?numtype(Prec),
-         ValC = if ValA == "INF" andalso ?is_numeric(ValB) andalso ValB > 0 ->
+                 #xqAtomicValue{type = TypeB, value = ValB})  when ?numeric(TypeA),?numeric(TypeB) -> 
+   Prec = max(?num(TypeA), ?num(TypeB)),
+   TypeC = ?numtype(Prec),
+   ValC = if ValA == "INF" andalso ?is_numeric(ValB) andalso ValB > 0 ->
+                "INF";
+             ValA == "INF" andalso ?is_numeric(ValB) andalso ValB < 0 ->
+                "-INF";
+             ValB == "INF" andalso ?is_numeric(ValA) andalso ValA > 0 ->
+                "INF";
+             ValB == "INF" andalso ?is_numeric(ValA) andalso ValA < 0 ->
+                "-INF";
+             ValA == "INF" andalso ValB == 0 ->
+                "NaN";
+             ValA == "INF" andalso ValB == 0 ->
+                "NaN";
+             ValB == "INF" andalso ValA == 0 ->
+                "NaN";
+             ValB == "INF" andalso ValA == 0 ->
+                "NaN";
+             ValA == "NaN" orelse ValB == "NaN" ->
+                "NaN";
+             is_integer(ValA) andalso is_integer(ValB) ->
+                ValA * ValB;
+             Prec == 15 -> % float could be overflowed
+                case ((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000 of
+                   X when X > ?MAXFLOAT ->
                       "INF";
-                   ValA == "INF" andalso ?is_numeric(ValB) andalso ValB < 0 ->
+                   X when X < ?MINFLOAT ->
                       "-INF";
-                   ValB == "INF" andalso ?is_numeric(ValA) andalso ValA > 0 ->
-                      "INF";
-                   ValB == "INF" andalso ?is_numeric(ValA) andalso ValA < 0 ->
-                      "-INF";
-                   ValA == "INF" andalso ValB == 0 ->
-                      "NaN";
-                   ValA == "INF" andalso ValB == 0 ->
-                      "NaN";
-                   ValB == "INF" andalso ValA == 0 ->
-                      "NaN";
-                   ValB == "INF" andalso ValA == 0 ->
-                      "NaN";
-                   ValA == "NaN" orelse ValB == "NaN" ->
-                      "NaN";
-                   is_integer(ValA) andalso is_integer(ValB) ->
-                      ValA * ValB;
-                   Prec == 15 -> % float could be overflowed
-                      case ((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000 of
-                         X when X > ?MAXFLOAT ->
-                            "INF";
-                         X when X < ?MINFLOAT ->
-                            "-INF";
-                         X ->
-                            X
-                      end;
-                  true ->
-                      ValA * ValB
-                      %((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000
-                end,
-         #xqAtomicValue{type = TypeC, value = ValC};
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                   X ->
+                      X
+                end;
+            true ->
+                ValA * ValB
+                %((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000
+          end,
+   #xqAtomicValue{type = TypeC, value = ValC};
+numeric_multiply(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: numeric; but xs:decimal if both operands are xs:integer
 numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
-               #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case catch xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         Prec = max(?num(TypeA), ?num(TypeB)),
-         TypeC = case ?numtype(Prec) of
-                    'xs:integer' -> 'xs:decimal';
-                    P ->
-                       case xqerl_types:subtype_of(P, 'xs:integer') of
-                          true ->
-                             'xs:decimal';
-                          _ ->
-                             P
-                       end
-                 end,
-         ValC = if ValB == 0, ?is_numeric(ValA), ValA > 0, TypeC =/= 'xs:decimal' ->
+               #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) -> 
+   Prec = max(?num(TypeA), ?num(TypeB)),
+   TypeC = case ?numtype(Prec) of
+              'xs:integer' -> 'xs:decimal';
+              P ->
+                 case xqerl_types:subtype_of(P, 'xs:integer') of
+                    true ->
+                       'xs:decimal';
+                    _ ->
+                       P
+                 end
+           end,
+   ValC = if ValA == "-INF", ?is_numeric(ValB), ValB >= 0 ->
+                "-INF";
+             ValA == "INF", ?is_numeric(ValB), ValB >= 0 ->
+                "INF";
+             ValA == "-INF", ?is_numeric(ValB), ValB < 0 ->
+                "INF";
+             ValA == "INF", ?is_numeric(ValB), ValB < 0 ->
+                "-INF";
+             ValB == 0, ?is_numeric(ValA), ValA > 0, TypeC =/= 'xs:decimal' ->
+                "INF";
+             ValB == 0, ?is_numeric(ValA), ValA < 0, TypeC =/= 'xs:decimal' ->
+                "-INF";
+             ValA == 0, ValB == 0 ->
+                "NaN";
+             ValB == 0 ->
+                xqerl_error:error('FOAR0001');
+             ValA == "INF", ValB == "INF" ->
+                "NaN";
+             ValA == "INF", ValB == "-INF" ->
+                "NaN";
+             ValA == "-INF", ValB == "INF" ->
+                "NaN";
+             ValA == "-INF", ValB == "-INF" ->
+                "NaN";
+             ValA == "NaN" orelse ValB == "NaN" ->
+                "NaN";
+             Prec == 15 -> % float could be overflowed
+                case ValA / ValB of
+                   X when X > ?MAXFLOAT ->
                       "INF";
-                   ValB == 0, ?is_numeric(ValA), ValA < 0, TypeC =/= 'xs:decimal' ->
+                   X when X < ?MINFLOAT ->
                       "-INF";
-                   ValA == 0, ValB == 0 ->
-                      "NaN";
-                   ValB == 0 ->
-                      xqerl_error:error('FOAR0001');
-                   ValA == "INF", ValB == "INF" ->
-                      "NaN";
-                   ValA == "INF", ValB == "-INF" ->
-                      "NaN";
-                   ValA == "-INF", ValB == "INF" ->
-                      "NaN";
-                   ValA == "-INF", ValB == "-INF" ->
-                      "NaN";
-                   ValA == "NaN" orelse ValB == "NaN" ->
-                      "NaN";
-                   Prec == 15 -> % float could be overflowed
-                      case ValA / ValB of
-                         X when X > ?MAXFLOAT ->
-                            "INF";
-                         X when X < ?MINFLOAT ->
-                            "-INF";
-                         X ->
-                            X
-                      end;
-                   true ->
-                      ValA / ValB
-                end,
-         #xqAtomicValue{type = TypeC, value = ValC};
-      {'EXIT',_} ->
-         xqerl_error:error('FOAR0002');
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                   X ->
+                      X
+                end;
+             true ->
+                ValA / ValB
+          end,
+   #xqAtomicValue{type = TypeC, value = ValC};
+%% {'EXIT',_} ->
+%%    xqerl_error:error('FOAR0002');
+numeric_divide(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:integer
 numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
-                       #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         Prec = max(?num(TypeA), ?num(TypeB)),
-         ValC = if ValB == "INF", ValA =/= "INF" ->
-                      0;
-                   ValB == "-INF", ValA =/= "INF" ->
-                      0;
-                   ValB == "INF", ValA =/= "-INF" ->
-                      0;
-                   ValB == "-INF", ValA =/= "-INF" ->
-                      0;
-                   ValB == 0 ->
-                      xqerl_error:error('FOAR0001');
-                   ValA == "NaN" ->
+                       #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
+   Prec = max(?num(TypeA), ?num(TypeB)),
+   ValC = if ValB == "INF", ValA =/= "INF" ->
+                0;
+             ValB == "-INF", ValA =/= "INF" ->
+                0;
+             ValB == "INF", ValA =/= "-INF" ->
+                0;
+             ValB == "-INF", ValA =/= "-INF" ->
+                0;
+             ValB == 0 ->
+                xqerl_error:error('FOAR0001');
+             ValA == "NaN" ->
+                xqerl_error:error('FOAR0002');
+             ValB == "NaN" ->
+                xqerl_error:error('FOAR0002');
+             ValA == "INF" ->
+                xqerl_error:error('FOAR0002');
+             ValA == "-INF" ->
+                xqerl_error:error('FOAR0002');
+             is_integer(ValA) andalso is_integer(ValB) ->
+                ValA div ValB;
+             Prec == 15 -> % float could be overflowed
+                case trunc(float(ValA) / float(ValB)) of
+                   X when X > ?MAXFLOAT ->
                       xqerl_error:error('FOAR0002');
-                   ValB == "NaN" ->
+                   X when X < ?MINFLOAT ->
                       xqerl_error:error('FOAR0002');
-                   ValA == "INF" ->
-                      xqerl_error:error('FOAR0002');
-                   ValA == "-INF" ->
-                      xqerl_error:error('FOAR0002');
-                   is_integer(ValA) andalso is_integer(ValB) ->
-                      ValA div ValB;
-                   Prec == 15 -> % float could be overflowed
-                      case trunc(float(ValA) / float(ValB)) of
-                         X when X > ?MAXFLOAT ->
-                            xqerl_error:error('FOAR0002');
-                         X when X < ?MINFLOAT ->
-                            xqerl_error:error('FOAR0002');
-                         X ->
-                            X
-                      end;
-                   true ->
-                      trunc(float(ValA) / float(ValB))
-                end,
-         #xqAtomicValue{type = 'xs:integer', value = ValC};
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                   X ->
+                      X
+                end;
+             true ->
+                trunc(float(ValA) / float(ValB))
+          end,
+   #xqAtomicValue{type = 'xs:integer', value = ValC};
+numeric_integer_divide(_,_) ->
+   xqerl_error:error('XPTY0004').
       
 
 % returns: numeric
 numeric_mod(#xqAtomicValue{type = TypeA, value = ValA} = A,
-            #xqAtomicValue{type = TypeB, value = ValB} = B) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
+            #xqAtomicValue{type = TypeB, value = ValB} = B) when ?numeric(TypeA),?numeric(TypeB) ->
+   Prec = max(?num(TypeA), ?num(TypeB)),
+   TypeC = ?numtype(Prec),
+   if (ValB == 0) andalso TypeC =/= 'xs:double' andalso TypeC =/= 'xs:float' ->
+         xqerl_error:error('FOAR0001');
+      (ValA == "NaN") orelse (ValB == "NaN") ->
+         #xqAtomicValue{type = TypeC, value = "NaN"};
+      (ValA == "-INF") orelse (ValB == 0) ->
+         #xqAtomicValue{type = TypeC, value = "NaN"};
+      (ValA == "INF") orelse (ValB == 0) ->
+         #xqAtomicValue{type = TypeC, value = "NaN"};
+      (ValB == "-INF") ->
+         #xqAtomicValue{type = TypeC, value = ValA};
+      (ValB == "INF") ->
+         #xqAtomicValue{type = TypeC, value = ValA};
+      (ValA == 0) ->
+         #xqAtomicValue{type = 'xs:integer', value = 0};
+      (abs(ValA) == abs(ValB)) ->
+         #xqAtomicValue{type = TypeC, value = 0};
       true ->
-         Prec = max(?num(TypeA), ?num(TypeB)),
-         TypeC = ?numtype(Prec),
-         if (ValB == 0) andalso TypeC =/= 'xs:double' andalso TypeC =/= 'xs:float' ->
-               xqerl_error:error('FOAR0001');
-            (ValA == "NaN") orelse (ValB == "NaN") ->
-               #xqAtomicValue{type = TypeC, value = "NaN"};
-            (ValA == "-INF") orelse (ValB == 0) ->
-               #xqAtomicValue{type = TypeC, value = "NaN"};
-            (ValA == "INF") orelse (ValB == 0) ->
-               #xqAtomicValue{type = TypeC, value = "NaN"};
-            (ValB == "-INF") ->
-               #xqAtomicValue{type = TypeC, value = ValA};
-            (ValB == "INF") ->
-               #xqAtomicValue{type = TypeC, value = ValA};
-            (ValA == 0) ->
-               #xqAtomicValue{type = 'xs:integer', value = 0};
-            (abs(ValA) == abs(ValB)) ->
-               #xqAtomicValue{type = TypeC, value = 0};
-            true ->
-               %?dbg("numeric_mod(A)",A),
-               %?dbg("numeric_mod(B)",B),
-               Div = numeric_integer_divide(A, B),
-               %?dbg("numeric_mod(Div)",Div),
-               Mul = numeric_multiply(Div, B),
-               %?dbg("numeric_mod(Mul)",Mul),
-               Sub = numeric_subtract(A, Mul),
-               %?dbg("numeric_mod(Sub)",Sub),
-               Sub
-         end;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+         %?dbg("numeric_mod(A)",A),
+         %?dbg("numeric_mod(B)",B),
+         Div = numeric_integer_divide(A, B),
+         %?dbg("numeric_mod(Div)",Div),
+         Mul = numeric_multiply(Div, B),
+         %?dbg("numeric_mod(Mul)",Mul),
+         Sub = numeric_subtract(A, Mul),
+         %?dbg("numeric_mod(Sub)",Sub),
+         Sub
+   end;
+numeric_mod(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:boolean
 numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
-              #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         ValC = if (ValA == "NaN") andalso (ValB == "NaN") ->
-                      false;
-                   (ValA == "NaN") orelse (ValB == "NaN") ->
-                      false;
-                   (ValA == "INF") andalso (ValB == "INF") ->
-                      true;
-                   (ValA == "-INF") andalso (ValB == "-INF") ->
-                      true;
-                   (ValA == ValB) andalso TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
-                      false;
-                   (ValA == ValB) andalso TypeB == 'xs:float' andalso TypeA == 'xs:double' ->
-                      false;
-                   true ->
-                      ValA == ValB %andalso TypeA == TypeB
-                end,
-         ?bool(ValC);
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+              #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
+   ValC = if (ValA == "NaN") andalso (ValB == "NaN") ->
+                false;
+             (ValA == "NaN") orelse (ValB == "NaN") ->
+                false;
+             (ValA == "INF") andalso (ValB == "INF") ->
+                true;
+             (ValA == "-INF") andalso (ValB == "-INF") ->
+                true;
+             (ValA == ValB) andalso TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
+                false;
+             (ValA == ValB) andalso TypeB == 'xs:float' andalso TypeA == 'xs:double' ->
+                false;
+             true ->
+                ValA == ValB %andalso TypeA == TypeB
+          end,
+   ?bool(ValC);
+numeric_equal(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:boolean
 numeric_less_than(A,B) when is_integer(A) -> 
@@ -1437,53 +1410,43 @@ numeric_less_than(A,B) when is_integer(A) ->
 numeric_less_than(A,B) when is_integer(B) -> 
    numeric_less_than(A,#xqAtomicValue{type = 'xs:integer', value = B});
 numeric_less_than(#xqAtomicValue{type = TypeA, value = ValA},
-                  #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         ValC = if (ValA == "NaN") or(ValB == "NaN") ->
-                      false;
-                   (ValA == "INF") ->
-                      false;
-                   (ValB == "INF") ->
-                      true;
-                   (ValA == "-INF") ->
-                      true;
-                   (ValB == "-INF") ->
-                      false;
-                   true ->
-                      ValA < ValB
-                end,
-         ?bool(ValC);
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                  #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
+   ValC = if (ValA == "NaN") or(ValB == "NaN") ->
+                false;
+             (ValA == "INF") ->
+                false;
+             (ValB == "INF") ->
+                true;
+             (ValA == "-INF") ->
+                true;
+             (ValB == "-INF") ->
+                false;
+             true ->
+                ValA < ValB
+          end,
+   ?bool(ValC);
+numeric_less_than(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:boolean
-%% numeric_greater_than(A,B) when is_integer(A) -> 
-%%    numeric_greater_than(#xqAtomicValue{type = 'xs:integer', value = A},B);
-%% numeric_greater_than(A,B) when is_integer(B) -> 
-%%    numeric_greater_than(A,#xqAtomicValue{type = 'xs:integer', value = B});
 numeric_greater_than(#xqAtomicValue{type = TypeA, value = ValA},
-                     #xqAtomicValue{type = TypeB, value = ValB}) -> 
-   case xqerl_types:is_numeric_type(TypeA) andalso xqerl_types:is_numeric_type(TypeB) of
-      true ->
-         ValC = if (ValA == "NaN") or(ValB == "NaN") ->
-                      false;
-                   (ValA == "INF") ->
-                      true;
-                   (ValB == "INF") ->
-                      false;
-                   (ValA == "-INF") ->
-                      false;
-                   (ValB == "-INF") ->
-                      true;
-                   true ->
-                      ValA > ValB
-                end,
-         ?bool(ValC);
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                     #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
+   ValC = if (ValA == "NaN") or(ValB == "NaN") ->
+                false;
+             (ValA == "INF") ->
+                true;
+             (ValB == "INF") ->
+                false;
+             (ValA == "-INF") ->
+                false;
+             (ValB == "-INF") ->
+                true;
+             true ->
+                ValA > ValB
+          end,
+   ?bool(ValC);
+numeric_greater_than(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:boolean
 boolean_equal(#xqAtomicValue{type = 'xs:boolean', value = ValA},
@@ -1614,30 +1577,23 @@ divide_yearMonthDuration(_A,#xqAtomicValue{value = "-INF"}) ->
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "P0M"}, 'xs:yearMonthDuration' );
 divide_yearMonthDuration(_A,#xqAtomicValue{value = Val}) when Val == 0 ->
    xqerl_error:error('FODT0002');
-%%    RecDt = #xsDateTime{sign = '+', year = 0, month = 0, day = 0},
-%%    Str = xqerl_datetime:to_string(RecDt,'xs:yearMonthDuration'),
-%%    #xqAtomicValue{type = 'xs:yearMonthDuration',
-%%                   value = RecDt#xsDateTime{string_value = Str}};
 divide_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                         value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
-                         #xqAtomicValue{type = Type, value = Dbl}) ->
-   case xqerl_types:is_numeric_type(Type) of
-      true ->
-         MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-         MonC = if (MonA / Dbl) < 0 -> erlang:trunc(MonA / Dbl);
-                   true -> erlang:round(MonA / Dbl)
-                end,
-         SnC = if MonC < 0 -> '-';
-                  true -> '+'
-               end,  
-         {Mon, Year} = {abs(MonC) rem 12, abs(MonC) div 12},
-         RecDt = #xsDateTime{sign = SnC, year = Year, month = Mon, day = 0},
-         Str = xqerl_datetime:to_string(RecDt,'xs:yearMonthDuration'),
-         #xqAtomicValue{type = 'xs:yearMonthDuration',
-                        value = RecDt#xsDateTime{string_value = Str}};
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                         #xqAtomicValue{type = Type, value = Dbl}) when ?numeric(Type) ->
+   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
+   MonC = if (MonA / Dbl) < 0 -> erlang:trunc(MonA / Dbl);
+             true -> erlang:round(MonA / Dbl)
+          end,
+   SnC = if MonC < 0 -> '-';
+            true -> '+'
+         end,  
+   {Mon, Year} = {abs(MonC) rem 12, abs(MonC) div 12},
+   RecDt = #xsDateTime{sign = SnC, year = Year, month = Mon, day = 0},
+   Str = xqerl_datetime:to_string(RecDt,'xs:yearMonthDuration'),
+   #xqAtomicValue{type = 'xs:yearMonthDuration',
+                  value = RecDt#xsDateTime{string_value = Str}};
+divide_yearMonthDuration(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:decimal
 divide_yearMonthDuration_by_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
@@ -1719,18 +1675,15 @@ divide_dayTimeDuration(_A,#xqAtomicValue{value = "-INF"}) ->
 divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                       value = #xsDateTime{sign = SnA, day = DyA, hour = HrA,
                                                           minute = MiA, second = SdA}},
-                       #xqAtomicValue{type = Type, value = Dbl}) ->
-   case xqerl_types:is_numeric_type(Type) of
-      true ->
-         SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-         SecC = SecA / Dbl,
-         Str = if SecC < 0 -> "-";
-                  true -> ""
-               end ++ "PT" ++ erlang:float_to_list(erlang:abs(SecC), [{decimals, 18}]) ++ "S",
-         xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' );
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+                       #xqAtomicValue{type = Type, value = Dbl}) when ?numeric(Type) ->
+   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
+   SecC = SecA / Dbl,
+   Str = if SecC < 0 -> "-";
+            true -> ""
+         end ++ "PT" ++ erlang:float_to_list(erlang:abs(SecC), [{decimals, 18}]) ++ "S",
+   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' );
+divide_dayTimeDuration(_,_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:decimal
 divide_dayTimeDuration_by_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
@@ -2238,27 +2191,18 @@ nOTATION_equal(#xqAtomicValue{type = 'xs:NOTATION', value = #qname{namespace = N
 % returns: xs:numeric
 numeric_unary_plus([]) -> [];
 numeric_unary_plus([#xqAtomicValue{} = Arg]) -> numeric_unary_plus(Arg);
-numeric_unary_plus(#xqAtomicValue{type = Type} = Arg) ->
-   case xqerl_types:is_numeric_type(Type) of
-      true ->
-         Arg;
-      _ ->
-         xqerl_error:error('XPTY0004')
-         %xqerl_fn:number([], Arg)
-   end.
+numeric_unary_plus(#xqAtomicValue{type = Type} = Arg) when ?numeric(Type) ->
+   Arg;
+numeric_unary_plus(_) ->
+   xqerl_error:error('XPTY0004').
 
 % returns: xs:numeric
 numeric_unary_minus([]) -> [];
 numeric_unary_minus([#xqAtomicValue{} = Arg]) -> numeric_unary_minus(Arg);
-numeric_unary_minus(#xqAtomicValue{type = Type, value = Val} = Arg) ->
-   case xqerl_types:is_numeric_type(Type) of
-      true ->
-         Arg#xqAtomicValue{value = Val * -1};
-      _ ->
-         xqerl_error:error('XPTY0004')
-         %Tmp = xqerl_fn:number([], Arg),
-         %Tmp#xqAtomicValue{value = Tmp#xqAtomicValue.value * -1}
-   end.
+numeric_unary_minus(#xqAtomicValue{type = Type, value = Val} = Arg) when ?numeric(Type) ->
+   Arg#xqAtomicValue{value = Val * -1};
+numeric_unary_minus(_) ->
+   xqerl_error:error('XPTY0004').
 
 
 
@@ -2419,4 +2363,57 @@ key_val(Val) ->
          {N,L};
       _ ->
          Atomic
+   end.
+
+
+
+%% Computes the effective boolean value of the sequence $arg. 
+% 1
+eff_bool_val(true) ->
+   true;
+eff_bool_val(false) -> 
+   false;
+% 2
+eff_bool_val(#xqNode{}) ->
+   true;
+eff_bool_val([#xqNode{}|_]) ->
+   true;
+eff_bool_val([#xqAtomicValue{} = A]) -> 
+   eff_bool_val(A);
+% 3
+eff_bool_val(#xqAtomicValue{type = 'xs:boolean', value = true}) -> 
+   true;
+eff_bool_val(#xqAtomicValue{type = 'xs:boolean', value = false}) -> 
+   false;
+% 4
+eff_bool_val(#xqAtomicValue{type = Type, value = Val}) when ?string(Type);
+                                                            Type == 'xs:anyURI';
+                                                            Type == 'xs:untypedAtomic'-> 
+   if Val == "" -> false;
+      true -> true
+   end;
+% 5 + 6
+eff_bool_val(#xqAtomicValue{type = Type, value = Val}) when ?numeric(Type), Val == 0;
+                                                            ?numeric(Type), Val == "NaN"->
+   false;
+eff_bool_val(#xqAtomicValue{type = Type}) when ?numeric(Type) ->
+   true;
+eff_bool_val(#xqAtomicValue{type = _Type, value = Val}) when Val == 0;
+                                                             Val == "NaN"->
+   true;
+eff_bool_val(#xqAtomicValue{} = A) ->
+   ?dbg("boolean", {?LINE,A}),
+   xqerl_error:error('FORG0006');
+eff_bool_val(Seq) ->
+   case ?seq:is_sequence(Seq) of
+      true ->
+         case ?seq:is_empty(Seq) of
+            true ->
+               false;
+            _ ->
+               eff_bool_val(?seq:to_list(Seq))
+         end;
+      _ ->
+         ?dbg("boolean", Seq),
+         xqerl_error:error('FORG0006')
    end.

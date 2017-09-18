@@ -11,6 +11,83 @@
 
 -define(dbg(M,P), io:format("~p: ~p~n", [M,P])).
 -define(seq, xqerl_seq2).
+
+-define(node(I), (I=='node' orelse I=='document' orelse I=='document-node' orelse I=='element' orelse I=='attribute' orelse I=='namespace' orelse I=='text' orelse I=='comment' orelse I=='processing-instruction')).
+-define(duration(I),(I=='xs:duration' orelse I=='xs:yearMonthDuration' orelse I=='xs:dayTimeDuration')).
+-define(numeric(I), (I=='xs:numeric' orelse 
+                     I=='xs:float' orelse I=='xs:double' orelse 
+                     I=='xs:decimal' orelse 
+                     I=='xs:integer' orelse 
+                     I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
+                     I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
+                     I=='xs:nonNegativeInteger' orelse 
+                     I=='xs:positiveInteger' orelse 
+                     I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')
+                     ).
+-define(decimal(I), (I=='xs:decimal' orelse 
+                    I=='xs:integer' orelse 
+                    I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
+                    I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
+                    I=='xs:nonNegativeInteger' orelse 
+                    I=='xs:positiveInteger' orelse 
+                    I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
+-define(integer(I), (I=='xs:integer' orelse 
+                    I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
+                    I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
+                    I=='xs:nonNegativeInteger' orelse 
+                    I=='xs:positiveInteger' orelse 
+                    I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
+-define(nonPositiveInteger(I), (I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger')).
+-define(long(I),    (I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte')).
+-define(int(I),     (I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte')).
+-define(short(I),   (I=='xs:short' orelse I=='xs:byte')).
+-define(nonNegativeInteger(I), 
+                    (I=='xs:nonNegativeInteger' orelse 
+                    I=='xs:positiveInteger' orelse 
+                    I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
+-define(unsignedLong(I), 
+                    (I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
+-define(unsignedInt(I), 
+                    (I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
+-define(unsignedShort(I), 
+                    (I=='xs:unsignedShort' orelse I=='xs:unsignedByte')).
+-define(string(I),  (I=='xs:string' orelse 
+                    I=='xs:normalizedString' orelse 
+                    I=='xs:token' orelse 
+                    I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
+                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
+-define(normalizedString(I),
+                    (I=='xs:normalizedString' orelse 
+                    I=='xs:token' orelse 
+                    I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
+                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
+-define(token(I),   (I=='xs:token' orelse 
+                    I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
+                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
+-define(Name(I),    (I=='xs:Name' orelse I=='xs:NCName' orelse 
+                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
+-define(NCName(I),  (I=='xs:NCName' orelse 
+                    I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
+-define(anySimpleType(I),
+       (I=='xs:anySimpleType' orelse I=='xs:untypedAtomic' orelse I=='xs:dateTime' orelse I=='xs:dateTimeStamp' orelse I=='xs:time' orelse I=='xs:date' orelse 
+        I=='xs:gYearMonth' orelse I=='xs:gYear' orelse I=='xs:gMonthDay' orelse I=='xs:gDay' orelse I=='xs:gMonth' orelse I=='xs:boolean' orelse 
+        I=='xs:base64Binary' orelse I=='xs:hexBinary' orelse I=='xs:float' orelse I=='xs:double' orelse I=='xs:anyURI' orelse I=='xs:QName' orelse I=='xs:NOTATION' orelse 
+        I=='xs:decimal' orelse 
+        I=='xs:integer' orelse 
+        I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
+        I=='xs:long' orelse I=='xs:int' orelse I=='xs:short' orelse I=='xs:byte' orelse 
+        I=='xs:nonNegativeInteger' orelse 
+        I=='xs:positiveInteger' orelse 
+        I=='xs:unsignedLong' orelse I=='xs:unsignedInt' orelse I=='xs:unsignedShort' orelse I=='xs:unsignedByte' orelse 
+        I=='xs:string' orelse 
+        I=='xs:normalizedString' orelse 
+        I=='xs:token' orelse 
+        I=='xs:language' orelse I=='xs:Name' orelse I=='xs:NCName' orelse I=='xs:NMTOKEN'  orelse I=='xs:NMTOKENS' orelse 
+        I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES' orelse 
+        I=='xs:duration' orelse I=='xs:yearMonthDuration' orelse I=='xs:dayTimeDuration')
+        ).
+
+
 -record(xqError, {
       name,
       description = [],
@@ -236,7 +313,7 @@
       attributes   = []        :: [term()],
       inscope_ns   = []        ,
       nilled       = false     :: boolean(),
-      value        = undefined :: term(),
+      type         = undefined :: term(),
       base_uri     = ""        :: string() | #xqAtomicValue{},
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
@@ -280,7 +357,7 @@
 -record(xqTextNode, {
       identity     = undefined :: term(),
       parent_node  = undefined :: term(),
-      string_value = ""        :: string(),
+      cdata        = false     :: boolean(),
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
    }).
@@ -321,7 +398,7 @@
    epos         :: undefined | #xqPosVar{},
    eprev        :: undefined | #xqVar{},
    enext        :: undefined | #xqVar{},
-   only         :: boolean(),
+   only         = false :: boolean(),
    start_expr,
    end_expr
 }).
@@ -343,9 +420,9 @@
 }).
 
 -record(xqFunTest, {
-   kind   = function :: function | map,
+   kind   = function :: function | map | array,
    annotations = [] :: [ #annotation{} ],
-   name   :: #qname{},
+   name   :: undefined | #qname{},
    params = any :: [#xqSeqType{}] | any,
    type   = any :: #xqSeqType{} | any
 }).

@@ -35,7 +35,6 @@
 -include("xqerl.hrl").
 
 -define(str(S), #xqAtomicValue{type = 'xs:string', value = S} ).
--define(int(S), #xqAtomicValue{type = 'xs:integer', value = S} ).
 -define(NS, "http://www.w3.org/2005/xqt-errors").
 
 %% -record(xqError, {

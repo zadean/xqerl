@@ -360,20 +360,20 @@ handle_event({characters, String}, _Ln, #state{counter = C,
    String1 = if Flag ->
                    String;
                 true ->
-                   string:trim(String)
+                   case string:trim(String) of
+                      [] ->
+                         " ";
+                      _ ->
+                         String
+                   end
              end,
-%%      case string:trim(String) of
-%%                 [] ->
-%%                    " ";
-%%                 _ ->
-%%                    String
-%%              end,
    TextTab1 = maps:put(C, ?at('xs:string', String1), TextTab),
    {K,V} = norm(Record),
    NodeTab1 = maps:put(K, V, NodeTab),
    State#state{counter = C +1, children = Children1, texts = TextTab1, nodes = NodeTab1};   
 
 handle_event({ignorableWhitespace, _String}, _Ln, State) -> State;
+   %handle_event({characters, " "}, _Ln, State);
 
 handle_event({processingInstruction, "xml", _Data}, _Ln, State) -> State;
 handle_event({processingInstruction, Target, Data}, _Ln, #state{counter = C, 
