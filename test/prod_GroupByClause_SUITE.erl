@@ -184,242 +184,104 @@ environment('GroupByUseCases') ->
 {modules, []}
 ].
 'group-001'(_Config) ->
-   Qry = " 
-            for $x in 1 to 100 
-            let $key := $x mod 10 
-            group by $key 
-            return string(text{$x})
-      ",
+   Qry = " \n            for $x in 1 to 100 \n            let $key := $x mod 10 \n            group by $key \n            return string(text{$x})\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", 
-            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", 
-            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", 
-            \"10 20 30 40 50 60 70 80 90 100\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", 
-            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", 
-            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", 
-            \"10 20 30 40 50 60 70 80 90 100\"</assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", \n            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", \n            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", \n            \"10 20 30 40 50 60 70 80 90 100\"\n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", \n            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", \n            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", \n            \"10 20 30 40 50 60 70 80 90 100\"</assert-permutation>\n      </result>", Res]).
 'group-001a'(_Config) ->
-   Qry = " 
-            for $x in 1 to 100 
-            group by $key := $x mod 10 
-            return string(text{$x})
-      ",
+   Qry = " \n            for $x in 1 to 100 \n            group by $key := $x mod 10 \n            return string(text{$x})\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", 
-            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", 
-            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", 
-            \"10 20 30 40 50 60 70 80 90 100\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", 
-            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", 
-            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", 
-            \"10 20 30 40 50 60 70 80 90 100\"</assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", \n            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", \n            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", \n            \"10 20 30 40 50 60 70 80 90 100\"\n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", \n            \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", \n            \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", \n            \"10 20 30 40 50 60 70 80 90 100\"</assert-permutation>\n      </result>", Res]).
 'group-002'(_Config) ->
-   Qry = " 
-            for $x in //employee 
-            let $key := $x/@gender 
-            group by $key 
-            return concat($key, ':',  
-                   string-join(for $e in $x return $e/@name/string(), ',')) 
-      ",
+   Qry = " \n            for $x in //employee \n            let $key := $x/@gender \n            group by $key \n            return concat($key, ':',  \n                   string-join(for $e in $x return $e/@name/string(), ',')) \n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>
-            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         </assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \n            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         \n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\n            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         </assert-permutation>\n      </result>", Res]).
 'group-002a'(_Config) ->
-   Qry = " 
-            for $x in //employee 
-            group by $key := $x/@gender 
-            return concat($key, ':',  
-                   string-join(for $e in $x return $e/@name/string(), ',')) 
-      ",
+   Qry = " \n            for $x in //employee \n            group by $key := $x/@gender \n            return concat($key, ':',  \n                   string-join(for $e in $x return $e/@name/string(), ',')) \n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>
-            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         </assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \n            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         \n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\n            \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         </assert-permutation>\n      </result>", Res]).
 'group-003'(_Config) ->
-   Qry = " 
-            for $x in //employee 
-            let $key := ($x/@gender = 'male') 
-            group by $key 
-            return concat($key, ':',  
-                   string-join(for $e in $x return $e/@name/string(), ',')) 
-      ",
+   Qry = " \n            for $x in //employee \n            let $key := ($x/@gender = 'male') \n            group by $key \n            return concat($key, ':',  \n                   string-join(for $e in $x return $e/@name/string(), ',')) \n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>
-            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         </assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \n            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         \n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\n            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         </assert-permutation>\n      </result>", Res]).
 'group-003a'(_Config) ->
-   Qry = " 
-            for $x in //employee 
-            group by $key := ($x/@gender = 'male') 
-            return concat($key, ':',  
-                   string-join(for $e in $x return $e/@name/string(), ',')) 
-      ",
+   Qry = " \n            for $x in //employee \n            group by $key := ($x/@gender = 'male') \n            return concat($key, ':',  \n                   string-join(for $e in $x return $e/@name/string(), ',')) \n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>
-            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
-            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
-         </assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \n            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         \n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\n            \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",\n            \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"\n         </assert-permutation>\n      </result>", Res]).
 'group-004'(_Config) ->
-   Qry = " 
-            for $x in //employee 
-            let $key := $x/@gender 
-            group by $key 
-            return concat($key, ':', avg($x/hours)) 
-      ",
+   Qry = " \n            for $x in //employee \n            let $key := $x/@gender \n            group by $key \n            return concat($key, ':', avg($x/hours)) \n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"female:41.25\", \"male:37.75\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"female:41.25\", \"male:37.75\"</assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \"female:41.25\", \"male:37.75\"\n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\"female:41.25\", \"male:37.75\"</assert-permutation>\n      </result>", Res]).
 'group-005'(_Config) ->
-   Qry = "
-            for $x in //employee 
-            let $key := $x/hours 
-            group by $key 
-            return <group hours=\"{$key}\" avHours=\"{avg($x/hours)}\"/> 
-      ",
+   Qry = "\n            for $x in //employee \n            let $key := $x/hours \n            group by $key \n            return <group hours=\"{$key}\" avHours=\"{avg($x/hours)}\"/> \n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'group-006'(_Config) ->
-   Qry = "
-        <out>{ 
-            for $x in //employee 
-            group by $key := $x/status 
-            return <group status=\"{$key}\" count=\"{count($x)}\"/> 
-        }</out>
-      ",
+   Qry = "\n        <out>{ \n            for $x in //employee \n            group by $key := $x/status \n            return <group status=\"{$key}\" count=\"{count($x)}\"/> \n        }</out>\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-           <out><group status=\"\" count=\"12\"/><group status=\"active\" count=\"1\"/></out>
-           <out><group status=\"active\" count=\"1\"/><group status=\"\" count=\"12\"/></out>
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<out><group status=\"\" count=\"12\"/><group status=\"active\" count=\"1\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P2 -> "deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<out><group status=\"active\" count=\"1\"/><group status=\"\" count=\"12\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n         \n           <out><group status=\"\" count=\"12\"/><group status=\"active\" count=\"1\"/></out>\n           <out><group status=\"active\" count=\"1\"/><group status=\"\" count=\"12\"/></out>\n         \n      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<out><group status=\"\" count=\"12\"/><group status=\"active\" count=\"1\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<out><group status=\"active\" count=\"1\"/><group status=\"\" count=\"12\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'group-007'(_Config) ->
-   Qry = " 
-            for $x in //employee 
-            let $key := $x/hours[1] 
-            group by $key 
-            where count($x) gt 2 
-            return concat($key, ':', count($x)) 
-      ",
+   Qry = " \n            for $x in //employee \n            let $key := $x/hours[1] \n            group by $key \n            where count($x) gt 2 \n            return concat($key, ':', count($x)) \n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"40:3\", \"80:3\", \"20:5\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"40:3\", \"80:3\", \"20:5\"</assert-permutation>
-      </result>", Res]).
+   Exp = "\n         \"40:3\", \"80:3\", \"20:5\"\n      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\"40:3\", \"80:3\", \"20:5\"</assert-permutation>\n      </result>", Res]).
 'group-008'(_Config) ->
-   Qry = "
-        <out>{ 
-            for $x in //employee 
-            let $key := $x/empnum 
-            group by $key 
-            order by count($x), $key 
-            return <group count=\"{count($x)}\"> {string-join($x/@name, '|')} </group> 
-        }</out>
-      ",
+   Qry = "\n        <out>{ \n            for $x in //employee \n            let $key := $x/empnum \n            group by $key \n            order by count($x), $key \n            return <group count=\"{count($x)}\"> {string-join($x/@name, '|')} </group> \n        }</out>\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <out><group count=\"2\">Jane Doe 7|John Doe 8</group><group count=\"2\">Jane Doe 9|John Doe 10</group><group count=\"3\">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count=\"6\">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><group count=\"2\">Jane Doe 7|John Doe 8</group><group count=\"2\">Jane Doe 9|John Doe 10</group><group count=\"3\">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count=\"6\">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>"++"</x>)")) == "true" of
+   Exp = "\n         <out><group count=\"2\">Jane Doe 7|John Doe 8</group><group count=\"2\">Jane Doe 9|John Doe 10</group><group count=\"3\">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count=\"6\">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><group count=\"2\">Jane Doe 7|John Doe 8</group><group count=\"2\">Jane Doe 9|John Doe 10</group><group count=\"3\">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count=\"6\">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<out><group count=\"2\">Jane Doe 7|John Doe 8</group><group count=\"2\">Jane Doe 9|John Doe 10</group><group count=\"3\">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count=\"6\">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>" of
@@ -428,24 +290,14 @@ environment('GroupByUseCases') ->
               end
 end.
 'group-009'(_Config) ->
-   Qry = "
-        <out>{ 
-            for $x in //employee 
-            let $key := $x/empnum 
-            group by $key collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\" 
-            order by $key 
-            return <group count=\"{count($x)}\" key=\"{$key}\"> {string-join($x/pnum, '|')} </group> 
-        }</out>
-      ",
+   Qry = "\n        <out>{ \n            for $x in //employee \n            let $key := $x/empnum \n            group by $key collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\" \n            order by $key \n            return <group count=\"{count($x)}\" key=\"{$key}\"> {string-join($x/pnum, '|')} </group> \n        }</out>\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>"++"</x>)")) == "true" of
+   Exp = "\n         <out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>" of
@@ -454,23 +306,14 @@ end.
               end
 end.
 'group-009a'(_Config) ->
-   Qry = "
-        <out>{ 
-            for $x in //employee 
-            group by $key := $x/empnum collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\" 
-            order by $key 
-            return <group count=\"{count($x)}\" key=\"{$key}\"> {string-join($x/pnum, '|')} </group> 
-        }</out>
-      ",
+   Qry = "\n        <out>{ \n            for $x in //employee \n            group by $key := $x/empnum collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\" \n            order by $key \n            return <group count=\"{count($x)}\" key=\"{$key}\"> {string-join($x/pnum, '|')} </group> \n        }</out>\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>"++"</x>)")) == "true" of
+   Exp = "\n         <out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>" of
@@ -479,64 +322,32 @@ end.
               end
 end.
 'group-010'(_Config) ->
-   Qry = "
-        <out>{ 
-            for $x in //employee 
-            let $key := if ($x/@gender='male') then number('NaN') else 42 
-            group by $key 
-            return <group key=\"{$key}\" count=\"{count($x)}\"/> 
-        }</out>
-      ",
+   Qry = "\n        <out>{ \n            for $x in //employee \n            let $key := if ($x/@gender='male') then number('NaN') else 42 \n            group by $key \n            return <group key=\"{$key}\" count=\"{count($x)}\"/> \n        }</out>\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            <out><group key=\"NaN\" count=\"6\"/><group key=\"42\" count=\"7\"/></out>
-            <out><group key=\"42\" count=\"7\"/><group key=\"NaN\" count=\"6\"/></out>
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<out><group key=\"NaN\" count=\"6\"/><group key=\"42\" count=\"7\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P2 -> "deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<out><group key=\"42\" count=\"7\"/><group key=\"NaN\" count=\"6\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n         \n            <out><group key=\"NaN\" count=\"6\"/><group key=\"42\" count=\"7\"/></out>\n            <out><group key=\"42\" count=\"7\"/><group key=\"NaN\" count=\"6\"/></out>\n         \n      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<out><group key=\"NaN\" count=\"6\"/><group key=\"42\" count=\"7\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<out><group key=\"42\" count=\"7\"/><group key=\"NaN\" count=\"6\"/></out>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'group-011'(_Config) ->
-   Qry = "
-        for $a at $p in 1 to 10
-        let $g := $p mod 2
-        group by $g
-        return string-join($p!string(), ' ')  
-     ",
+   Qry = "\n        for $a at $p in 1 to 10\n        let $g := $p mod 2\n        group by $g\n        return string-join($p!string(), ' ')  \n     ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        \"1 3 5 7 9\", \"2 4 6 8 10\"
-     ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-        <assert-permutation>\"1 3 5 7 9\", \"2 4 6 8 10\"</assert-permutation>
-     </result>", Res]).
+   Exp = "\n        \"1 3 5 7 9\", \"2 4 6 8 10\"\n     ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n        <assert-permutation>\"1 3 5 7 9\", \"2 4 6 8 10\"</assert-permutation>\n     </result>", Res]).
 'group-012'(_Config) ->
-   Qry = "
-        <out>{ 
-            for $x in //employee[age > 300] 
-            let $key := @gender 
-            group by $key 
-            return <group gender=\"{$key}\"> { 
-                        for $e in $x return <person>{$e/@name/string()}</person> 
-                   } </group> 
-        }</out>
-      ",
+   Qry = "\n        <out>{ \n            for $x in //employee[age > 300] \n            let $key := @gender \n            group by $key \n            return <group gender=\"{$key}\"> { \n                        for $e in $x return <person>{$e/@name/string()}</person> \n                   } </group> \n        }</out>\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <out/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out/>"++"</x>)")) == "true" of
+   Exp = "\n         <out/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<out/>" of
@@ -545,56 +356,31 @@ end.
               end
 end.
 'group-013'(_Config) ->
-   Qry = "
-       for $x in 1 to 10, $y in 1 to 4
-       let $org_y := $y
-       group by $y, $y := $x mod 2
-       return <grp y=\"{$org_y[1]}\" even=\"{$y}\">{$x}</grp>
-     ",
+   Qry = "\n       for $x in 1 to 10, $y in 1 to 4\n       let $org_y := $y\n       group by $y, $y := $x mod 2\n       return <grp y=\"{$org_y[1]}\" even=\"{$y}\">{$x}</grp>\n     ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-       
-         <grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp><grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp>
-         <grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp><grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp>
-       
-     ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp><grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P2 -> "deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp><grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n       \n         <grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp><grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp>\n         <grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp><grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp>\n       \n     ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp><grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp><grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'group-014'(_Config) ->
-   Qry = "
-         let $x := 1
-         return
-           for $i in (\"a\", \"b\")
-           group by $x
-           return
-             ($x, count($i))
-      ",
+   Qry = "\n         let $x := 1\n         return\n           for $i in (\"a\", \"b\")\n           group by $x\n           return\n             ($x, count($i))\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0094" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0094'}) end.
 'group-015'(_Config) ->
-   Qry = "
-          for $x in (true(), \"true\", xs:QName(\"true\"))
-          group by $x
-          return $x
-      ",
+   Qry = "\n          for $x in (true(), \"true\", xs:QName(\"true\"))\n          group by $x\n          return $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         true true true
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"true true true"++"</x>)")) == "true" of
+   Exp = "\n         true true true\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"true true true"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "true true true" of
@@ -603,13 +389,7 @@ end.
               end
 end.
 'group-016'(_Config) ->
-   Qry = "
-       count(
-         for $y in 1 to 10
-         group by $y := $y, $y := $y mod 2
-         return $y
-       )
-     ",
+   Qry = "\n       count(\n         for $y in 1 to 10\n         group by $y := $y, $y := $y mod 2\n         return $y\n       )\n     ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -621,27 +401,14 @@ end.
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'use-case-groupby-Q1'(_Config) ->
-   Qry = "
-               <sales-qty-by-product>{
-                 for $sales in $sales-records-doc/*/record
-                 let $pname := $sales/product-name
-                 group by $pname
-                 order by $pname
-                 return
-                   <product name=\"{$pname}\">{
-                     sum($sales/qty)
-                   }</product>
-               }</sales-qty-by-product> 
-      ",
+   Qry = "\n               <sales-qty-by-product>{\n                 for $sales in $sales-records-doc/*/record\n                 let $pname := $sales/product-name\n                 group by $pname\n                 order by $pname\n                 return\n                   <product name=\"{$pname}\">{\n                     sum($sales/qty)\n                   }</product>\n               }</sales-qty-by-product> \n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <sales-qty-by-product><product name=\"blender\">250</product><product name=\"broiler\">20</product><product name=\"shirt\">10</product><product name=\"socks\">510</product><product name=\"toaster\">200</product></sales-qty-by-product>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<sales-qty-by-product><product name=\"blender\">250</product><product name=\"broiler\">20</product><product name=\"shirt\">10</product><product name=\"socks\">510</product><product name=\"toaster\">200</product></sales-qty-by-product>"++"</x>)")) == "true" of
+   Exp = "\n         <sales-qty-by-product><product name=\"blender\">250</product><product name=\"broiler\">20</product><product name=\"shirt\">10</product><product name=\"socks\">510</product><product name=\"toaster\">200</product></sales-qty-by-product>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<sales-qty-by-product><product name=\"blender\">250</product><product name=\"broiler\">20</product><product name=\"shirt\">10</product><product name=\"socks\">510</product><product name=\"toaster\">200</product></sales-qty-by-product>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<sales-qty-by-product><product name=\"blender\">250</product><product name=\"broiler\">20</product><product name=\"shirt\">10</product><product name=\"socks\">510</product><product name=\"toaster\">200</product></sales-qty-by-product>" of
@@ -650,30 +417,14 @@ end.
               end
 end.
 'use-case-groupby-Q2'(_Config) ->
-   Qry = "
-               <result>{
-                 for $sales in $sales-records-doc/*/record
-                 let $state := $stores-doc/*/store[store-number = $sales/store-number]/state
-                 let $category := $products-doc/*/product[name = $sales/product-name]/category
-                 group by $state, $category
-                 order by $state, $category
-                 return
-                   <group>
-                     <state>{$state}</state>
-                     <category>{$category}</category>
-                     <total-qty>{sum($sales/qty)}</total-qty>
-                   </group>
-               }</result>
-      ",
+   Qry = "\n               <result>{\n                 for $sales in $sales-records-doc/*/record\n                 let $state := $stores-doc/*/store[store-number = $sales/store-number]/state\n                 let $category := $products-doc/*/product[name = $sales/product-name]/category\n                 group by $state, $category\n                 order by $state, $category\n                 return\n                   <group>\n                     <state>{$state}</state>\n                     <category>{$category}</category>\n                     <total-qty>{sum($sales/qty)}</total-qty>\n                   </group>\n               }</result>\n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result><group><state>CA</state><category>clothes</category><total-qty>510</total-qty></group><group><state>CA</state><category>kitchen</category><total-qty>170</total-qty></group><group><state>MA</state><category>clothes</category><total-qty>10</total-qty></group><group><state>MA</state><category>kitchen</category><total-qty>300</total-qty></group></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><group><state>CA</state><category>clothes</category><total-qty>510</total-qty></group><group><state>CA</state><category>kitchen</category><total-qty>170</total-qty></group><group><state>MA</state><category>clothes</category><total-qty>10</total-qty></group><group><state>MA</state><category>kitchen</category><total-qty>300</total-qty></group></result>"++"</x>)")) == "true" of
+   Exp = "\n         <result><group><state>CA</state><category>clothes</category><total-qty>510</total-qty></group><group><state>CA</state><category>kitchen</category><total-qty>170</total-qty></group><group><state>MA</state><category>clothes</category><total-qty>10</total-qty></group><group><state>MA</state><category>kitchen</category><total-qty>300</total-qty></group></result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><group><state>CA</state><category>clothes</category><total-qty>510</total-qty></group><group><state>CA</state><category>kitchen</category><total-qty>170</total-qty></group><group><state>MA</state><category>clothes</category><total-qty>10</total-qty></group><group><state>MA</state><category>kitchen</category><total-qty>300</total-qty></group></result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result><group><state>CA</state><category>clothes</category><total-qty>510</total-qty></group><group><state>CA</state><category>kitchen</category><total-qty>170</total-qty></group><group><state>MA</state><category>clothes</category><total-qty>10</total-qty></group><group><state>MA</state><category>kitchen</category><total-qty>300</total-qty></group></result>" of
@@ -682,32 +433,14 @@ end.
               end
 end.
 'use-case-groupby-Q3'(_Config) ->
-   Qry = "
-               <result>{
-                 for $sales in $sales-records-doc/*/record
-                 let $state := $stores-doc/*/store[store-number = $sales/store-number]/state,
-                   $product := $products-doc/*/product[name = $sales/product-name],
-                   $category := $product/category,
-                   $revenue := $sales/qty * $product/price
-                 group by $state, $category
-                 order by $state, $category
-                 return
-                   <group>
-                     <state>{$state}</state>
-                     <category>{$category}</category>
-                     <total-revenue>{sum($revenue)}</total-revenue>
-                   </group>
-               }</result>
-      ",
+   Qry = "\n               <result>{\n                 for $sales in $sales-records-doc/*/record\n                 let $state := $stores-doc/*/store[store-number = $sales/store-number]/state,\n                   $product := $products-doc/*/product[name = $sales/product-name],\n                   $category := $product/category,\n                   $revenue := $sales/qty * $product/price\n                 group by $state, $category\n                 order by $state, $category\n                 return\n                   <group>\n                     <state>{$state}</state>\n                     <category>{$category}</category>\n                     <total-revenue>{sum($revenue)}</total-revenue>\n                   </group>\n               }</result>\n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result><group><state>CA</state><category>clothes</category><total-revenue>2550</total-revenue></group><group><state>CA</state><category>kitchen</category><total-revenue>6500</total-revenue></group><group><state>MA</state><category>clothes</category><total-revenue>100</total-revenue></group><group><state>MA</state><category>kitchen</category><total-revenue>14000</total-revenue></group></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><group><state>CA</state><category>clothes</category><total-revenue>2550</total-revenue></group><group><state>CA</state><category>kitchen</category><total-revenue>6500</total-revenue></group><group><state>MA</state><category>clothes</category><total-revenue>100</total-revenue></group><group><state>MA</state><category>kitchen</category><total-revenue>14000</total-revenue></group></result>"++"</x>)")) == "true" of
+   Exp = "\n         <result><group><state>CA</state><category>clothes</category><total-revenue>2550</total-revenue></group><group><state>CA</state><category>kitchen</category><total-revenue>6500</total-revenue></group><group><state>MA</state><category>clothes</category><total-revenue>100</total-revenue></group><group><state>MA</state><category>kitchen</category><total-revenue>14000</total-revenue></group></result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><group><state>CA</state><category>clothes</category><total-revenue>2550</total-revenue></group><group><state>CA</state><category>kitchen</category><total-revenue>6500</total-revenue></group><group><state>MA</state><category>clothes</category><total-revenue>100</total-revenue></group><group><state>MA</state><category>kitchen</category><total-revenue>14000</total-revenue></group></result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result><group><state>CA</state><category>clothes</category><total-revenue>2550</total-revenue></group><group><state>CA</state><category>kitchen</category><total-revenue>6500</total-revenue></group><group><state>MA</state><category>clothes</category><total-revenue>100</total-revenue></group><group><state>MA</state><category>kitchen</category><total-revenue>14000</total-revenue></group></result>" of
@@ -716,40 +449,14 @@ end.
               end
 end.
 'use-case-groupby-Q4'(_Config) ->
-   Qry = "
-               <result>{
-                 for $store in $stores-doc/*/store
-                 let $state := $store/state
-                 group by $state
-                 order by $state
-                 return
-                   <state name=\"{$state}\">{
-                     for $product in $products-doc/*/product
-                     let $category := $product/category
-                     group by $category
-                     order by $category
-                     return
-                       <category name=\"{$category}\">{
-                         for $sales in $sales-records-doc/*/record[store-number = $store/store-number
-                           and product-name = $product/name]
-                         let $pname := $sales/product-name
-                         group by $pname
-                         order by $pname
-                         return
-                           <product name=\"{$pname}\" total-qty=\"{sum($sales/qty)}\" />
-                         }</category>
-                   }</state>
-               }</result>
-      ",
+   Qry = "\n               <result>{\n                 for $store in $stores-doc/*/store\n                 let $state := $store/state\n                 group by $state\n                 order by $state\n                 return\n                   <state name=\"{$state}\">{\n                     for $product in $products-doc/*/product\n                     let $category := $product/category\n                     group by $category\n                     order by $category\n                     return\n                       <category name=\"{$category}\">{\n                         for $sales in $sales-records-doc/*/record[store-number = $store/store-number\n                           and product-name = $product/name]\n                         let $pname := $sales/product-name\n                         group by $pname\n                         order by $pname\n                         return\n                           <product name=\"{$pname}\" total-qty=\"{sum($sales/qty)}\" />\n                         }</category>\n                   }</state>\n               }</result>\n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result><state name=\"CA\"><category name=\"clothes\"><product name=\"socks\" total-qty=\"510\"/></category><category name=\"kitchen\"><product name=\"broiler\" total-qty=\"20\"/><product name=\"toaster\" total-qty=\"150\"/></category></state><state name=\"MA\"><category name=\"clothes\"><product name=\"shirt\" total-qty=\"10\"/></category><category name=\"kitchen\"><product name=\"blender\" total-qty=\"250\"/><product name=\"toaster\" total-qty=\"50\"/></category></state><state name=\"WA\"><category name=\"clothes\"/><category name=\"kitchen\"/></state></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><state name=\"CA\"><category name=\"clothes\"><product name=\"socks\" total-qty=\"510\"/></category><category name=\"kitchen\"><product name=\"broiler\" total-qty=\"20\"/><product name=\"toaster\" total-qty=\"150\"/></category></state><state name=\"MA\"><category name=\"clothes\"><product name=\"shirt\" total-qty=\"10\"/></category><category name=\"kitchen\"><product name=\"blender\" total-qty=\"250\"/><product name=\"toaster\" total-qty=\"50\"/></category></state><state name=\"WA\"><category name=\"clothes\"/><category name=\"kitchen\"/></state></result>"++"</x>)")) == "true" of
+   Exp = "\n         <result><state name=\"CA\"><category name=\"clothes\"><product name=\"socks\" total-qty=\"510\"/></category><category name=\"kitchen\"><product name=\"broiler\" total-qty=\"20\"/><product name=\"toaster\" total-qty=\"150\"/></category></state><state name=\"MA\"><category name=\"clothes\"><product name=\"shirt\" total-qty=\"10\"/></category><category name=\"kitchen\"><product name=\"blender\" total-qty=\"250\"/><product name=\"toaster\" total-qty=\"50\"/></category></state><state name=\"WA\"><category name=\"clothes\"/><category name=\"kitchen\"/></state></result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><state name=\"CA\"><category name=\"clothes\"><product name=\"socks\" total-qty=\"510\"/></category><category name=\"kitchen\"><product name=\"broiler\" total-qty=\"20\"/><product name=\"toaster\" total-qty=\"150\"/></category></state><state name=\"MA\"><category name=\"clothes\"><product name=\"shirt\" total-qty=\"10\"/></category><category name=\"kitchen\"><product name=\"blender\" total-qty=\"250\"/><product name=\"toaster\" total-qty=\"50\"/></category></state><state name=\"WA\"><category name=\"clothes\"/><category name=\"kitchen\"/></state></result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result><state name=\"CA\"><category name=\"clothes\"><product name=\"socks\" total-qty=\"510\"/></category><category name=\"kitchen\"><product name=\"broiler\" total-qty=\"20\"/><product name=\"toaster\" total-qty=\"150\"/></category></state><state name=\"MA\"><category name=\"clothes\"><product name=\"shirt\" total-qty=\"10\"/></category><category name=\"kitchen\"><product name=\"blender\" total-qty=\"250\"/><product name=\"toaster\" total-qty=\"50\"/></category></state><state name=\"WA\"><category name=\"clothes\"/><category name=\"kitchen\"/></state></result>" of
@@ -758,30 +465,14 @@ end.
               end
 end.
 'use-case-groupby-Q5'(_Config) ->
-   Qry = "
-               <result>{
-                 for $sales in $sales-records-doc/*/record
-                 let $storeno := $sales/store-number
-                 group by $storeno
-                 order by $storeno
-                 return
-                   <store number = \"{$storeno}\">{
-                     for $s in $sales
-                     order by xs:int($s/qty) descending
-                     return
-                       <product name = \"{$s/product-name}\" qty = \"{$s/qty}\"/>
-                   }</store>
-               }</result>
-      ",
+   Qry = "\n               <result>{\n                 for $sales in $sales-records-doc/*/record\n                 let $storeno := $sales/store-number\n                 group by $storeno\n                 order by $storeno\n                 return\n                   <store number = \"{$storeno}\">{\n                     for $s in $sales\n                     order by xs:int($s/qty) descending\n                     return\n                       <product name = \"{$s/product-name}\" qty = \"{$s/qty}\"/>\n                   }</store>\n               }</result>\n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result><store number=\"1\"><product name=\"socks\" qty=\"500\"/><product name=\"broiler\" qty=\"20\"/></store><store number=\"2\"><product name=\"toaster\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"socks\" qty=\"10\"/></store><store number=\"3\"><product name=\"blender\" qty=\"150\"/><product name=\"blender\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"shirt\" qty=\"10\"/></store></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><store number=\"1\"><product name=\"socks\" qty=\"500\"/><product name=\"broiler\" qty=\"20\"/></store><store number=\"2\"><product name=\"toaster\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"socks\" qty=\"10\"/></store><store number=\"3\"><product name=\"blender\" qty=\"150\"/><product name=\"blender\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"shirt\" qty=\"10\"/></store></result>"++"</x>)")) == "true" of
+   Exp = "\n         <result><store number=\"1\"><product name=\"socks\" qty=\"500\"/><product name=\"broiler\" qty=\"20\"/></store><store number=\"2\"><product name=\"toaster\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"socks\" qty=\"10\"/></store><store number=\"3\"><product name=\"blender\" qty=\"150\"/><product name=\"blender\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"shirt\" qty=\"10\"/></store></result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><store number=\"1\"><product name=\"socks\" qty=\"500\"/><product name=\"broiler\" qty=\"20\"/></store><store number=\"2\"><product name=\"toaster\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"socks\" qty=\"10\"/></store><store number=\"3\"><product name=\"blender\" qty=\"150\"/><product name=\"blender\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"shirt\" qty=\"10\"/></store></result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result><store number=\"1\"><product name=\"socks\" qty=\"500\"/><product name=\"broiler\" qty=\"20\"/></store><store number=\"2\"><product name=\"toaster\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"socks\" qty=\"10\"/></store><store number=\"3\"><product name=\"blender\" qty=\"150\"/><product name=\"blender\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"shirt\" qty=\"10\"/></store></result>" of
@@ -790,30 +481,14 @@ end.
               end
 end.
 'use-case-groupby-Q6'(_Config) ->
-   Qry = "
-               <result>{
-                 for $sales in $sales-records-doc/*/record
-                 let $storeno := $sales/store-number,
-                   $product := $products-doc/*/product[name = $sales/product-name],
-                   $prd := $product,
-                   $profit := $sales/qty * ($prd/price - $prd/cost)
-                 group by $storeno
-                 let $total-store-profit := sum($profit)
-                 where $total-store-profit > 100
-                 order by $total-store-profit descending
-                 return
-                   <store number = \"{$storeno}\" total-profit = \"{$total-store-profit}\"/>
-                }</result>
-      ",
+   Qry = "\n               <result>{\n                 for $sales in $sales-records-doc/*/record\n                 let $storeno := $sales/store-number,\n                   $product := $products-doc/*/product[name = $sales/product-name],\n                   $prd := $product,\n                   $profit := $sales/qty * ($prd/price - $prd/cost)\n                 group by $storeno\n                 let $total-store-profit := sum($profit)\n                 where $total-store-profit > 100\n                 order by $total-store-profit descending\n                 return\n                   <store number = \"{$storeno}\" total-profit = \"{$total-store-profit}\"/>\n                }</result>\n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result><store number=\"3\" total-profit=\"7320\"/><store number=\"2\" total-profit=\"3030\"/><store number=\"1\" total-profit=\"2100\"/></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><store number=\"3\" total-profit=\"7320\"/><store number=\"2\" total-profit=\"3030\"/><store number=\"1\" total-profit=\"2100\"/></result>"++"</x>)")) == "true" of
+   Exp = "\n         <result><store number=\"3\" total-profit=\"7320\"/><store number=\"2\" total-profit=\"3030\"/><store number=\"1\" total-profit=\"2100\"/></result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><store number=\"3\" total-profit=\"7320\"/><store number=\"2\" total-profit=\"3030\"/><store number=\"1\" total-profit=\"2100\"/></result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result><store number=\"3\" total-profit=\"7320\"/><store number=\"2\" total-profit=\"3030\"/><store number=\"1\" total-profit=\"2100\"/></result>" of
@@ -822,30 +497,14 @@ end.
               end
 end.
 'use-case-groupby-Q7'(_Config) ->
-   Qry = "
-               <result>{
-                 for $book in $books-doc/*/book
-                 for $author in $book/author
-                 group by $author
-                 order by $author
-                 return
-                 <author name=\"{$author}\">{
-                   for $b in $book
-                   order by $b/title
-                   return
-                     <title> {fn:data($b/title)} </title>
-                 }</author>
-               }</result>
-      ",
+   Qry = "\n               <result>{\n                 for $book in $books-doc/*/book\n                 for $author in $book/author\n                 group by $author\n                 order by $author\n                 return\n                 <author name=\"{$author}\">{\n                   for $b in $book\n                   order by $b/title\n                   return\n                     <title> {fn:data($b/title)} </title>\n                 }</author>\n               }</result>\n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result><author name=\"Alan Simon\"><title>SQL:1999</title><title>Strategic Database Technology</title></author><author name=\"Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author><author name=\"Jim Melton\"><title>Advanced SQL:1999</title><title>Querying XML</title><title>SQL:1999</title><title>Understanding SQL and Java Together</title></author><author name=\"Stephen Buxton\"><title>Querying XML</title></author></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><author name=\"Alan Simon\"><title>SQL:1999</title><title>Strategic Database Technology</title></author><author name=\"Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author><author name=\"Jim Melton\"><title>Advanced SQL:1999</title><title>Querying XML</title><title>SQL:1999</title><title>Understanding SQL and Java Together</title></author><author name=\"Stephen Buxton\"><title>Querying XML</title></author></result>"++"</x>)")) == "true" of
+   Exp = "\n         <result><author name=\"Alan Simon\"><title>SQL:1999</title><title>Strategic Database Technology</title></author><author name=\"Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author><author name=\"Jim Melton\"><title>Advanced SQL:1999</title><title>Querying XML</title><title>SQL:1999</title><title>Understanding SQL and Java Together</title></author><author name=\"Stephen Buxton\"><title>Querying XML</title></author></result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><author name=\"Alan Simon\"><title>SQL:1999</title><title>Strategic Database Technology</title></author><author name=\"Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author><author name=\"Jim Melton\"><title>Advanced SQL:1999</title><title>Querying XML</title><title>SQL:1999</title><title>Understanding SQL and Java Together</title></author><author name=\"Stephen Buxton\"><title>Querying XML</title></author></result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result><author name=\"Alan Simon\"><title>SQL:1999</title><title>Strategic Database Technology</title></author><author name=\"Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author><author name=\"Jim Melton\"><title>Advanced SQL:1999</title><title>Querying XML</title><title>SQL:1999</title><title>Understanding SQL and Java Together</title></author><author name=\"Stephen Buxton\"><title>Querying XML</title></author></result>" of
@@ -854,30 +513,14 @@ end.
               end
 end.
 'use-case-groupby-Q8'(_Config) ->
-   Qry = "
-               <result>{
-                 for $book in $books-doc/*/book
-                 let $author-list := fn:string-join($book/author, ', ')
-                 group by $author-list
-                 order by $author-list
-                 return
-                   <author-list names=\"{$author-list}\">{
-                     for $b in $book
-                     order by $b/title
-                     return
-                       <title> {fn:data($b/title)} </title>
-                   }</author-list>
-               }</result>
-      ",
+   Qry = "\n               <result>{\n                 for $book in $books-doc/*/book\n                 let $author-list := fn:string-join($book/author, ', ')\n                 group by $author-list\n                 order by $author-list\n                 return\n                   <author-list names=\"{$author-list}\">{\n                     for $b in $book\n                     order by $b/title\n                     return\n                       <title> {fn:data($b/title)} </title>\n                   }</author-list>\n               }</result>\n      ",
    Env = xqerl_test:handle_environment(environment('GroupByUseCases')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result><author-list names=\"Alan Simon\"><title>Strategic Database Technology</title></author-list><author-list names=\"Jim Melton\"><title>Advanced SQL:1999</title></author-list><author-list names=\"Jim Melton, Alan Simon\"><title>SQL:1999</title></author-list><author-list names=\"Jim Melton, Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author-list><author-list names=\"Jim Melton, Stephen Buxton\"><title>Querying XML</title></author-list></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><author-list names=\"Alan Simon\"><title>Strategic Database Technology</title></author-list><author-list names=\"Jim Melton\"><title>Advanced SQL:1999</title></author-list><author-list names=\"Jim Melton, Alan Simon\"><title>SQL:1999</title></author-list><author-list names=\"Jim Melton, Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author-list><author-list names=\"Jim Melton, Stephen Buxton\"><title>Querying XML</title></author-list></result>"++"</x>)")) == "true" of
+   Exp = "\n         <result><author-list names=\"Alan Simon\"><title>Strategic Database Technology</title></author-list><author-list names=\"Jim Melton\"><title>Advanced SQL:1999</title></author-list><author-list names=\"Jim Melton, Alan Simon\"><title>SQL:1999</title></author-list><author-list names=\"Jim Melton, Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author-list><author-list names=\"Jim Melton, Stephen Buxton\"><title>Querying XML</title></author-list></result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><author-list names=\"Alan Simon\"><title>Strategic Database Technology</title></author-list><author-list names=\"Jim Melton\"><title>Advanced SQL:1999</title></author-list><author-list names=\"Jim Melton, Alan Simon\"><title>SQL:1999</title></author-list><author-list names=\"Jim Melton, Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author-list><author-list names=\"Jim Melton, Stephen Buxton\"><title>Querying XML</title></author-list></result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result><author-list names=\"Alan Simon\"><title>Strategic Database Technology</title></author-list><author-list names=\"Jim Melton\"><title>Advanced SQL:1999</title></author-list><author-list names=\"Jim Melton, Alan Simon\"><title>SQL:1999</title></author-list><author-list names=\"Jim Melton, Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author-list><author-list names=\"Jim Melton, Stephen Buxton\"><title>Querying XML</title></author-list></result>" of

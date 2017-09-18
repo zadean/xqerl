@@ -174,9 +174,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'fn-resolve-qname-2'(_Config) ->
@@ -185,9 +183,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FONS0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FONS0004'}) end.
 'fn-resolve-qname-3'(_Config) ->
@@ -196,249 +192,207 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0\n      ",
+   case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-4'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(\"p1:name\", <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         name
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         name\n      ",
+   case xqerl_test:string_value(Res) of
              "name" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-5'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(\"p1:name\", <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-6'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(\"p1:name\", <anElement xmlns:p1=\"http://example.com/examples\" xmlns:P1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         name
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         name\n      ",
+   case xqerl_test:string_value(Res) of
              "name" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-7'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(\"P1:name\", <anElement xmlns:p1=\"http://example.com/examples\" xmlns:P1=\"http://someothernamespace.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://someothernamespace.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://someothernamespace.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://someothernamespace.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-8'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(\"anElement\", <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         anElement
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         anElement\n      ",
+   case xqerl_test:string_value(Res) of
              "anElement" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-9'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(\"anElement\", <anElement xmlns=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-10'(_Config) ->
    Qry = "fn:count(fn:namespace-uri-from-QName(fn:resolve-QName(\"anElement\", <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1\n      ",
+   case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-11'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(xs:string(\"p1:anElement\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         anElement
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         anElement\n      ",
+   case xqerl_test:string_value(Res) of
              "anElement" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-12'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(xs:string(\"p1:anElement\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-13'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(fn:concat(\"p1:\",\"anElement\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         anElement
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         anElement\n      ",
+   case xqerl_test:string_value(Res) of
              "anElement" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-14'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(fn:concat(\"p1:\",\"anElement\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-15'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(fn:string-join((\"p1:\",\"anElement\"),\"\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         anElement
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         anElement\n      ",
+   case xqerl_test:string_value(Res) of
              "anElement" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-16'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(fn:string-join(('p1:','anElement'),''), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-17'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(fn:substring-before(\"p1:anElementabc\",\"abc\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         anElement
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         anElement\n      ",
+   case xqerl_test:string_value(Res) of
              "anElement" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-18'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(fn:substring-before(\"p1:anElementabc\",\"abc\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-19'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(fn:substring-after(\"abcp1:anElement\",\"abc\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         anElement
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         anElement\n      ",
+   case xqerl_test:string_value(Res) of
              "anElement" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-20'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(fn:substring-after(\"abcp1:anElement\",\"abc\"), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-21'(_Config) ->
    Qry = "fn:string(fn:local-name-from-QName(fn:resolve-QName(fn:substring(\"abcp1:anElement\",4), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         anElement
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         anElement\n      ",
+   case xqerl_test:string_value(Res) of
              "anElement" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-qname-22'(_Config) ->
    Qry = "fn:string(fn:namespace-uri-from-QName(fn:resolve-QName(fn:substring(\"abcp1:anElement\",4), <anElement xmlns:p1=\"http://example.com/examples\">Some content</anElement>)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-ResolveQNameConstructFunc-1'(_Config) ->
    Qry = "resolve-QName()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-ResolveQNameConstructFunc-2'(_Config) ->
@@ -447,9 +401,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-ResolveQNameConstructFunc-3'(_Config) ->
@@ -458,9 +410,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-ResolveQNameConstructFunc-4'(_Config) ->
@@ -469,12 +419,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'cbcl-fn-resolve-qname-001'(_Config) ->
@@ -483,9 +428,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         blah
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         blah\n      ",
+   case xqerl_test:string_value(Res) of
              "blah" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

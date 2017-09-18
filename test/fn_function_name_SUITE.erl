@@ -168,9 +168,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-name-002'(_Config) ->
@@ -179,9 +177,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-name-003'(_Config) ->
@@ -190,9 +186,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-name-004'(_Config) ->
@@ -201,9 +195,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-name-005'(_Config) ->
@@ -212,9 +204,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-name-006'(_Config) ->
@@ -223,9 +213,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-name-007'(_Config) ->
@@ -234,9 +222,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-name-008'(_Config) ->
@@ -245,9 +231,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-name-009'(_Config) ->
@@ -256,40 +240,25 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-name-010'(_Config) ->
-   Qry = "fn:function-name( if ( fn:current-dateTime() eq
-                                   fn:dateTime( fn:current-date(),
-                                                fn:current-time() ))
-                               then fn:dateTime#2
-                               else 1 )",
+   Qry = "fn:function-name( if ( fn:current-dateTime() eq\n                                   fn:dateTime( fn:current-date(),\n                                                fn:current-time() ))\n                               then fn:dateTime#2\n                               else 1 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-name-011'(_Config) ->
-   Qry = "( fn:function-name( if (current-date() eq xs:date('1900-01-01'))
-                                then fn:dateTime#2
-                                else 1 ),
-              fn:function-name( if (current-date() eq xs:date('1900-01-01'))
-                                then 1
-                                else fn:dateTime#2 ) )",
+   Qry = "( fn:function-name( if (current-date() eq xs:date('1900-01-01'))\n                                then fn:dateTime#2\n                                else 1 ),\n              fn:function-name( if (current-date() eq xs:date('1900-01-01'))\n                                then 1\n                                else fn:dateTime#2 ) )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  
-      ",
+   Exp = "\n	  \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-name-012'(_Config) ->
@@ -298,9 +267,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         xs:QName
-      ",
+   Exp = "\n         xs:QName\n      ",
    case xqerl_types:type(Res) of
            'xs:QName' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -310,12 +277,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  
-	
-      ",
+   Exp = "\n	\n	  \n	  \n	\n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-function-name-014'(_Config) ->
@@ -324,12 +286,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  
-	
-      ",
+   Exp = "\n	\n	  \n	  \n	\n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-function-name-015'(_Config) ->
@@ -338,12 +295,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:dateTime\")
-      ",
- Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:dateTime\")"),
+   Exp = "\n	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:dateTime\")\n      ",
+ Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:dateTime\")"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -355,12 +308,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  fn:QName(\"http://www.w3.org/2005/xpath-functions/math\", 
-                              \"math:pow\")
-      ",
- Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions/math\", 
-                              \"math:pow\")"),
+   Exp = "\n	  fn:QName(\"http://www.w3.org/2005/xpath-functions/math\", \n                              \"math:pow\")\n      ",
+ Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions/math\", \n                              \"math:pow\")"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -371,12 +320,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:concat\")
-      ",
- Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:concat\")"),
+   Exp = "\n	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:concat\")\n      ",
+ Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:concat\")"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -387,15 +332,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:concat\")
-	
-      ",
- case ( begin Tst2 = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:concat\")"),
+   Exp = "\n	\n	  \n	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:concat\")\n	\n      ",
+ case ( begin Tst2 = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:concat\")"),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
   ResVal2 == TstVal2 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002") of true -> {comment, "any-of"};
@@ -406,99 +344,56 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  
-      ",
+   Exp = "\n	  \n      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-name-020'(_Config) ->
-   Qry = "fn:function-name( function($arg1, $arg2)
-                               { subsequence($arg1, $arg2, 1) } )",
+   Qry = "fn:function-name( function($arg1, $arg2)\n                               { subsequence($arg1, $arg2, 1) } )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  
-      ",
+   Exp = "\n	  \n      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-name-021'(_Config) ->
-   Qry = "let $initial := fn:substring(?, 1, 1) 
-            return fn:function-name( $initial )",
+   Qry = "let $initial := fn:substring(?, 1, 1) \n            return fn:function-name( $initial )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  
-      ",
+   Exp = "\n	  \n      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-name-022'(_Config) ->
-   Qry = "
-	declare function local:add($arg1, $arg2, $arg3)
-        {
-           $arg1 + $arg2 + $arg3
-        };
-
-	fn:function-name( local:add#3 )
-      ",
+   Qry = "\n	declare function local:add($arg1, $arg2, $arg3)\n        {\n           $arg1 + $arg2 + $arg3\n        };\n\n	fn:function-name( local:add#3 )\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  fn:QName(\"http://www.w3.org/2005/xquery-local-functions\",
-                              \"local:add\")
-      ",
- Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xquery-local-functions\",
-                              \"local:add\")"),
+   Exp = "\n	  fn:QName(\"http://www.w3.org/2005/xquery-local-functions\",\n                              \"local:add\")\n      ",
+ Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xquery-local-functions\",\n                              \"local:add\")"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-function-name-023'(_Config) ->
-   Qry = "
-	declare function local:add($arg1, $arg2, $arg3)
-        {
-           $arg1 + $arg2 + $arg3
-        };
-
-	fn:function-name( local:add(1, 2, ?) )
-      ",
+   Qry = "\n	declare function local:add($arg1, $arg2, $arg3)\n        {\n           $arg1 + $arg2 + $arg3\n        };\n\n	fn:function-name( local:add(1, 2, ?) )\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  
-      ",
+   Exp = "\n	  \n      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-name-024'(_Config) ->
-   Qry = "
-	declare function local:coerce($arg as function(item()*) as item()*)
-          as function(item()*) as item()*
-        {
-           $arg
-        };
-        
-        let $coerced := local:coerce(fn:abs#1)
-        return if ($coerced instance of function(item()*) as item()*)
-               then fn:function-name( local:coerce(fn:abs#1) )
-               else \"error\"
-      ",
+   Qry = "\n	declare function local:coerce($arg as function(item()*) as item()*)\n          as function(item()*) as item()*\n        {\n           $arg\n        };\n        \n        let $coerced := local:coerce(fn:abs#1)\n        return if ($coerced instance of function(item()*) as item()*)\n               then fn:function-name( local:coerce(fn:abs#1) )\n               else \"error\"\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:abs\")
-      ",
- Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", 
-                              \"fn:abs\")"),
+   Exp = "\n	  fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:abs\")\n      ",
+ Tst = xqerl:run("fn:QName(\"http://www.w3.org/2005/xpath-functions\", \n                              \"fn:abs\")"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};

@@ -139,9 +139,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-        ",
+   Exp = "\n            \n        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'math-sqrt-002'(_Config) ->
@@ -151,9 +149,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            0.0e0
-        ",
+   Exp = "\n            0.0e0\n        ",
  Tst = xqerl:run("0.0e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -166,9 +162,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            0.0e0
-        ",
+   Exp = "\n            0.0e0\n        ",
  Tst = xqerl:run("0.0e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -181,9 +175,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            -0.0e0
-        ",
+   Exp = "\n            -0.0e0\n        ",
  Tst = xqerl:run("-0.0e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -196,9 +188,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            1.0e3
-        ",
+   Exp = "\n            1.0e3\n        ",
  Tst = xqerl:run("1.0e3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -211,9 +201,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            1.4142135623730951e0
-        ",
+   Exp = "\n            1.4142135623730951e0\n        ",
  Tst = xqerl:run("1.4142135623730951e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -226,12 +214,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            NaN
-        ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n            NaN\n        ",
+   case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'math-sqrt-008'(_Config) ->
    Qry = "math:sqrt(xs:double('INF'))",
    Env = xqerl_test:handle_environment(environment('math')),
@@ -239,9 +225,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            xs:double('INF')
-        ",
+   Exp = "\n            xs:double('INF')\n        ",
  Tst = xqerl:run("xs:double('INF')"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -254,9 +238,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            NaN
-        ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n            NaN\n        ",
+   case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

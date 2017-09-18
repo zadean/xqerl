@@ -15,9 +15,16 @@ declare function local:print-result-as-true($parts)
   order by $name
   return
   if ($name = "assert-count") then
-    "xqerl_seq2:size(Res) == "||$part/text()
+    "xqerl_test:size(Res) == "||$part/text()
   else if ($name = "assert-empty") then
     "case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end"
+  else if ($name = "assert-serialization-error") then
+  (
+    if ($part/@code eq "*") then
+    "is_tuple(Res) andalso element(1,Res) == 'xqError'"
+    else
+    "is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == """||$part/@code||""""
+  )
   else if ($name = "error") then
   (
     if ($part/@code eq "*") then
@@ -32,9 +39,9 @@ declare function local:print-result-as-true($parts)
   else if ($name = "assert-string-value") then
   (
     if ($part/@normalize-space = "true") then
-    "xqerl_types:string_value(Res) == "||local:dec(normalize-space($part/text()))
+    "string:trim(xqerl_test:string_value(Res)) == "||local:dec(normalize-space($part/text()))
     else
-    "xqerl_types:string_value(Res) == "||local:dec($part/text())
+    "xqerl_test:string_value(Res) == "||local:dec($part/text())
   )
   else if ($name = "assert-eq") then
 " begin Tst"||$i||" = xqerl:run("||local:dec($part/data())||"),
@@ -42,11 +49,11 @@ declare function local:print-result-as-true($parts)
   TstVal"||$i||" = xqerl_types:value(Tst"||$i||"),
   ResVal"||$i||" == TstVal"||$i||" end"
   else if ($name = "assert-xml" and $part/@file) then
-    "xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""deep-equal(<x></x>""; P"||$i||" -> ""deep-equal(<x>""++P"||$i||"++""</x>"" end ++ "" , "" ++ ""<x>"" ++ "||
+    "xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P"||$i||" -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P"||$i||"++""</x>"" end ++ "" , "" ++ ""<x>"" ++ "||
       local:dec(file:read-text(substring-after(resolve-uri($part/@file, base-uri($part)),"file:///")))
     ||"++ ""</x>)"" )) == ""true"" orelse ResXml == Exp"
   else if ($name = "assert-xml") then
-    "xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""deep-equal(<x></x>""; P"||$i||" -> ""deep-equal(<x>""++P"||$i||"++""</x>"" end ++ "" , "" ++ ""<x>"" ++ "||
+    "xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P"||$i||" -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P"||$i||"++""</x>"" end ++ "" , "" ++ ""<x>"" ++ "||
       local:dec($part/data())
     ||"++ ""</x>)"" )) == ""true"" orelse ResXml == Exp"
   else if ($name = "assert-type") then
@@ -64,7 +71,7 @@ declare function local:print-result($result)
 {
   (: assert-count :)
   if ($result/*:assert-count) then
-    "   case xqerl_seq2:size(Res) of "||$result/*:assert-count||" -> {comment, ""Count correct""};
+    "   case xqerl_test:size(Res) of "||$result/*:assert-count||" -> {comment, ""Count correct""};
            Q -> ct:fail({Res,Exp,Q}) end"
   else if ($result/*:assert-empty) then
     "   case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, ""Is empty""};
@@ -75,6 +82,13 @@ declare function local:print-result($result)
   else if ($result/*:any-of) then (: TODO :)
     " case ("||string-join(local:print-result-as-true($result/*:any-of/*),") orelse (")||") of true -> {comment, ""any-of""};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end"
+  else if ($result/*:assert-serialization-error) then
+    (if ($result/*:assert-serialization-error/@code eq "*") then
+    "   if is_tuple(Res) andalso element(1,Res) == 'xqError'"
+    else
+    "   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == """||$result/*:assert-serialization-error/@code||"""")
+    ||" -> {comment, ""Correct error""};
+           true -> ct:fail({Res, '"||$result/*:assert-serialization-error/@code||"'}) end"
   else if ($result/*:error) then
     (if ($result/*:error/@code eq "*") then
     "   if is_tuple(Res) andalso element(1,Res) == 'xqError'"
@@ -90,16 +104,16 @@ declare function local:print-result($result)
            _ -> ct:fail({Res,Exp}) end"
   else if ($result/*:assert-string-value) then
     if ($result/*:assert-string-value/@normalize-space="true") then
-      "   case xqerl_types:string_value(Res) of
+      "   case string:trim(xqerl_test:string_value(Res)) of
              "||local:dec(normalize-space($result/*:assert-string-value/text()))||
              " -> {comment, ""assert-string-value""};
              _ -> ct:fail({Res,Exp}) end"
     else
      (: trace($result) || :)
-      "   case xqerl_types:string_value(Res) of
+      "   case xqerl_test:string_value(Res) of
              "||local:dec($result/*:assert-string-value/text())||
              " -> {comment, ""assert-string-value""};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end"
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end"
   else if ($result/*:assert-eq) then
 " Tst = xqerl:run("||local:dec($result/*:assert-eq/data())||"),
   ResVal = xqerl_types:value(Res),
@@ -108,12 +122,12 @@ declare function local:print-result($result)
     true -> ct:fail({Res,Exp}) end"
   else if ($result/*:assert-deep-eq) then
 " Tst = xqerl:run("||local:dec($result/*:assert-deep-eq/data())||"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, ""assert-deep-eq""};
     true -> ct:fail({Res,Exp}) end"
   else if ($result/*:assert-xml and $result/*:assert-xml/@file) then
-    "   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""deep-equal(<x></x>""; P -> ""deep-equal(<x>""++P++""</x>"" end ++ "" , "" ++ ""<x>""++"
+    "   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P++""</x>"" end ++ "" , "" ++ ""<x>""++"
     ||local:dec(file:read-text(substring-after(resolve-uri($result/*:assert-xml/@file, base-uri($result)),"file:///")))||
     "++""</x>)"")) of ""true"" -> {comment, ""assert-xml""};
            _ -> 
@@ -126,7 +140,7 @@ end"
       local:dec(file:read-text(substring-after(resolve-uri($result/*:assert-xml/@file, base-uri($result)),"file:///")))
     ||"" :)
   else if ($result/*:assert-xml) then
-    "   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""deep-equal(<x></x>""; P -> ""deep-equal(<x>""++P++""</x>"" end ++ "" , "" ++ ""<x>""++"||
+    "   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P++""</x>"" end ++ "" , "" ++ ""<x>""++"||
     local:dec($result/*:assert-xml/data())
     ||"++""</x>)"")) == ""true"" of
            true -> {comment, ""assert-xml""};
@@ -160,7 +174,7 @@ declare function local:print-testcase($test-case)
   let $deps := $test-case/*:dependency | $test-case/../*:dependency (: < type="feature" value="schemaImport"/> :)
   let $env  := $test-case/*:environment/@ref/string()
   return
-  "'"||$name||"'(_Config) ->"||out:nl()||
+  "'"||$name||"'(_Config) ->"||'&#10;'||
   (
     (: Collation environments :)
     if ($test-case/*:environment/*:collation) then 
@@ -233,23 +247,23 @@ declare function local:print-testcase($test-case)
       else
         local:dec($test-case/*:test/text())
    )
-    ||","||out:nl()||
+    ||","||'&#10;'||
     (
       if ($test-case/*:environment[@name or @ref]) then
-        "   Env = xqerl_test:handle_environment(environment('"||$env||"')),"||out:nl()||
-        "   Qry1 = lists:flatten(Env ++ Qry),"||out:nl()
+        "   Env = xqerl_test:handle_environment(environment('"||$env||"')),"||'&#10;'||
+        "   Qry1 = lists:flatten(Env ++ Qry),"||'&#10;'
       else if ($test-case/*:environment) then
         "   Env = xqerl_test:handle_environment("||
         string-join(local:print-local-environment($test-case))
-        ||"),"||out:nl()||
-        "   Qry1 = lists:flatten(Env ++ Qry),"||out:nl()
+        ||"),"||'&#10;'||
+        "   Qry1 = lists:flatten(Env ++ Qry),"||'&#10;'
       else
-        "   Qry1 = Qry,"||out:nl()
+        "   Qry1 = Qry,"||'&#10;'
     )||
-    "   Res = xqerl:run(Qry1),"||out:nl()||
-    "   ResXml = xqerl_node:to_xml(Res),"||out:nl()||
-    "   Options = [{'result',Res}],"||out:nl()||
-    "   Exp = "||local:dec($test-case/*:result/data())||","||out:nl()||
+    "   Res = xqerl:run(Qry1),"||'&#10;'||
+    "   ResXml = xqerl_node:to_xml(Res),"||'&#10;'||
+    "   Options = [{'result',Res}],"||'&#10;'||
+    "   Exp = "||local:dec($test-case/*:result/data())||","||'&#10;'||
     local:print-result($test-case/*:result)
   )
 };
@@ -267,22 +281,22 @@ declare function local:print-environment($env)
   let $modules         := $env/*:module | $env/../*:module
   
   return 
-  "environment('"||$name||"') ->" || out:nl() ||
+  "environment('"||$name||"') ->" || '&#10;' ||
   "["||
   "{sources, ["||
   (
     for $res in $sources
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@role||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{schemas, ["||
   (
     for $res in $schemas
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{collections, ["||
   (
     for $res in $collections
@@ -291,45 +305,45 @@ declare function local:print-environment($env)
       for $s in $res/*:source
       return
       """"||resolve-uri($s/@file, base-uri($s)) ||""""
-    ) => string-join(","||out:nl())
+    ) => string-join(","||'&#10;')
     ||"]}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{'static-base-uri', ["||
   (
     for $res in $static-base-uri
     return
     "{"""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{params, ["||
   (
     for $res in $params
     return
     "{"""||$res/@name||""","""||$res/@as||""","""||$res/@select||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{namespaces, ["||
   (
     for $res in $namespaces
     return
     "{"""||$res/@uri||""","""||$res/@prefix||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{resources, ["||
   (
     for $res in $resources
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]}," || out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]}," || '&#10;' ||
   "{modules, ["||
   (
     for $res in $modules
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]}" || out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]}" || '&#10;' ||
   "]"
 };
 
@@ -351,15 +365,15 @@ declare function local:print-local-environment($env as item()*) as item()*
     for $res in $sources
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@role||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl()) 
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;') 
+  ||"]},"|| '&#10;' ||
   "{schemas, ["||
   (
     for $res in $schemas
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{collections, ["||
   (
     for $res in $collections
@@ -368,45 +382,45 @@ declare function local:print-local-environment($env as item()*) as item()*
       for $s in $res/*:source
       return
       """"||resolve-uri($s/@file, base-uri($s)) ||""""
-    ) => string-join(","||out:nl())
+    ) => string-join(","||'&#10;')
     ||"]}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{'static-base-uri', ["||
   (
     for $res in $static-base-uri
     return
     "{"""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{params, ["||
   (
     for $res in $params
     return
     "{"""||$res/@name||""","""||$res/@as||""","""||$res/@select||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{namespaces, ["||
   (
     for $res in $namespaces
     return
     "{"""||$res/@uri||""","""||$res/@prefix||"""}"
-  ) => string-join(","||out:nl())
-  ||"]},"|| out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{resources, ["||
   (
     for $res in $resources
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]}," || out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]}," || '&#10;' ||
   "{modules, ["||
   (
     for $res in $modules
     return
     "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
-  ) => string-join(","||out:nl())
-  ||"]}" || out:nl() ||
+  ) => string-join(","||'&#10;')
+  ||"]}" || '&#10;' ||
   "]")
 };
 
@@ -421,7 +435,14 @@ declare function local:dec($text)
     "["||string-join($cp2,",")||"]"
   else
   (
-    let $list := replace(replace(replace($text,'\\','\\\\'), """","\\"""),"&#xD;&#xA;","&#xA;")
+    let $list := 
+    replace(
+      replace(
+        replace(
+          $text,
+          '\\','\\\\'),
+        """","\\"""),
+      out:nl(),"\\n")
     return """"||$list||""""
   )
 };
@@ -435,12 +456,12 @@ let $file := resolve-uri($ts/@file, base-uri($ts))
 let $case := doc($file)
 let $name := $ts/@name
 let $usname := replace(replace($name,'-','_'),'\.','_')
-let $mod := "-module('"||$usname||"_SUITE')."||out:nl()
-||"-include_lib(""common_test/include/ct.hrl"")."||out:nl()
-||"-export([all/0])."||out:nl()
-||"-export([suite/0])."||out:nl()
-||"-export([init_per_suite/1])."||out:nl()
-||"-export([end_per_suite/1])."||out:nl()
+let $mod := "-module('"||$usname||"_SUITE')."||'&#10;'
+||"-include_lib(""common_test/include/ct.hrl"")."||'&#10;'
+||"-export([all/0])."||'&#10;'
+||"-export([suite/0])."||'&#10;'
+||"-export([init_per_suite/1])."||'&#10;'
+||"-export([end_per_suite/1])."||'&#10;'
 (: exports :)
 || string-join(
   (
@@ -448,48 +469,48 @@ let $mod := "-module('"||$usname||"_SUITE')."||out:nl()
     return
     "-export(['"||$tc/@name||"'/1])."
   )
-  ,out:nl())
-||out:nl()
+  ,'&#10;')
+||'&#10;'
 (: suite :)
 ||"suite() ->[{timetrap,{seconds,5}}]."
-||out:nl()
+||'&#10;'
 (: end_per_suite(Config) :)
 ||"end_per_suite(_Config) -> erlang:erase()."
-||out:nl()
+||'&#10;'
 (: init_per_suite(Config) :)
 ||"init_per_suite(Config) -> ok"
-||out:nl()
+||'&#10;'
 ||( for $res in $case//*:module
 return
-", try  xqerl:compile("""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""") catch _:_ -> ok end" ) => distinct-values() => string-join(out:nl())
+", try  xqerl:compile("""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""") catch _:_ -> ok end" ) => distinct-values() => string-join('&#10;')
 ||",Config."
-||out:nl()
+||'&#10;'
 (: all :)
 ||"all() -> ["
-||out:nl()
+||'&#10;'
 || string-join(
   (
     for $tc in $case/*:test-set/*:test-case
     return
     "   '"||$tc/@name||"'"
   )
-  ,","||out:nl())
+  ,","||'&#10;')
 || "]."
-||out:nl()
+||'&#10;'
 (: environments :)
 || string-join(
   for $env in $case/*:test-set/*:environment union $globalEnvs
   return local:print-environment($env)
-  ,";"||out:nl())
+  ,";"||'&#10;')
 || "."
-||out:nl()
+||'&#10;'
 (: test cases :)
 || string-join(
   for $tc in $case/*:test-set/*:test-case
   return local:print-testcase($tc)
-  ,"."||out:nl())
+  ,"."||'&#10;')
 ||"."
-||out:nl()
+||'&#10;'
 return
 file:write-text("/git/zadean/xqerl/test/"||$usname||"_SUITE.erl", $mod, "utf-8")
 )

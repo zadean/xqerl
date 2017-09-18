@@ -134,57 +134,47 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         test
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         test\n      ",
+   case xqerl_test:string_value(Res) of
              "test" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-normalizedstring-002'(_Config) ->
    Qry = "xs:normalizedString('&#x9;')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-          
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n          \n      ",
+   case xqerl_test:string_value(Res) of
              " " -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-normalizedstring-002b'(_Config) ->
    Qry = "xs:normalizedString('	')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-          
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n          \n      ",
+   case xqerl_test:string_value(Res) of
              " " -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-normalizedstring-003'(_Config) ->
    Qry = "xs:normalizedString(5)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         5
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         5\n      ",
+   case xqerl_test:string_value(Res) of
              "5" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-normalizedstring-004'(_Config) ->
    Qry = "\"&#x9;\" castable as xs:normalizedString",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-normalizedstring-005'(_Config) ->
@@ -193,9 +183,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-normalizedstring-006'(_Config) ->
@@ -204,8 +192,6 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

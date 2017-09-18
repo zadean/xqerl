@@ -146,12 +146,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                0
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                0\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -163,12 +158,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                0
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                0\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -180,12 +170,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                1
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                1\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -197,12 +182,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                1
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                1\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -214,12 +194,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                2
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                2\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -231,12 +206,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                2
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                2\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -248,12 +218,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                1
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                1\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -265,12 +230,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                1
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                1\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -282,12 +242,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                1
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                1\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -299,12 +254,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                0
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                0\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -316,12 +266,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                0
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                0\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -333,12 +278,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                1
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                1\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -350,12 +290,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                2
-                xs:integer
-            
-        ",
+   Exp = "\n            \n                2\n                xs:integer\n            \n        ",
  case  begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),

@@ -511,85 +511,11 @@ environment('atomicns') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <employee>
-   <empnum>E1</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E1</empnum>
-   <pnum>P3</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P4</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee>
-   <empnum>E1</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E1</empnum>
-   <pnum>P3</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P4</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>"++"</x>)")) == "true" of
+   Exp = "\n         <employee>\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E1</empnum>\n   <pnum>P3</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P4</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee>\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E1</empnum>\n   <pnum>P3</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P4</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<employee>
-   <empnum>E1</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E1</empnum>
-   <pnum>P3</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P4</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>" of
+              case ResXml == "<employee>\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E1</empnum>\n   <pnum>P3</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P4</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -600,21 +526,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2 4 6 8 10 12 14 16 18 20 22 24
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         2 4 6 8 10 12 14 16 18 20 22 24\n      ",
+   case xqerl_test:string_value(Res) of
              "2 4 6 8 10 12 14 16 18 20 22 24" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc3'(_Config) ->
    Qry = "((1 to 25)[25])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         25
-      ",
+   Exp = "\n         25\n      ",
  Tst = xqerl:run("25"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -627,85 +549,11 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <employee>
-   <empnum>E1</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E1</empnum>
-   <pnum>P3</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P4</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee>
-   <empnum>E1</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E1</empnum>
-   <pnum>P3</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P4</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>"++"</x>)")) == "true" of
+   Exp = "\n         <employee>\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E1</empnum>\n   <pnum>P3</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P4</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee>\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E1</empnum>\n   <pnum>P3</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P4</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<employee>
-   <empnum>E1</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E1</empnum>
-   <pnum>P3</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P4</pnum>
-   <hours>40</hours>
-  </employee><employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>" of
+              case ResXml == "<employee>\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E1</empnum>\n   <pnum>P3</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P4</pnum>\n   <hours>40</hours>\n  </employee><employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -717,25 +565,11 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>"++"</x>)")) == "true" of
+   Exp = "\n         <employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<employee>
-   <empnum>E4</empnum>
-   <pnum>P5</pnum>
-   <hours>80</hours>
-  </employee>" of
+              case ResXml == "<employee>\n   <empnum>E4</empnum>\n   <pnum>P5</pnum>\n   <hours>80</hours>\n  </employee>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -746,45 +580,37 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25\n      ",
+   case xqerl_test:string_value(Res) of
              "10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc7'(_Config) ->
    Qry = "((1 to 25)[. lt 10])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2 3 4 5 6 7 8 9
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2 3 4 5 6 7 8 9\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2 3 4 5 6 7 8 9" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc8'(_Config) ->
    Qry = "((1 to 25)[. le 10])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2 3 4 5 6 7 8 9 10
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2 3 4 5 6 7 8 9 10\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2 3 4 5 6 7 8 9 10" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc9'(_Config) ->
    Qry = "((1 to 25)[. eq 10])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         10
-      ",
+   Exp = "\n         10\n      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -796,21 +622,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2 3 4 5 6 7 8 9 11
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2 3 4 5 6 7 8 9 11\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2 3 4 5 6 7 8 9 11" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc11'(_Config) ->
    Qry = "((1 to 11)[(. eq 10) and (. mod 5 eq 0)])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         10
-      ",
+   Exp = "\n         10\n      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -822,21 +644,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         5 10
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         5 10\n      ",
+   case xqerl_test:string_value(Res) of
              "5 10" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc13'(_Config) ->
    Qry = "((1,2,4,5,6,7,8,9,10,11)[(. div 2 eq 5)])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         10
-      ",
+   Exp = "\n         10\n      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -848,9 +666,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         5
-      ",
+   Exp = "\n         5\n      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -862,9 +678,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         8
-      ",
+   Exp = "\n         8\n      ",
  Tst = xqerl:run("8"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -876,9 +690,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         8
-      ",
+   Exp = "\n         8\n      ",
  Tst = xqerl:run("8"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -890,21 +702,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         6 7
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         6 7\n      ",
+   case xqerl_test:string_value(Res) of
              "6 7" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc18'(_Config) ->
    Qry = "((1,2,3,4,5,6,7,8,9,10,11)[(xs:string(.) eq \"3\")])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         3
-      ",
+   Exp = "\n         3\n      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -916,48 +724,37 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         6 7 8 9 10 11
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         6 7 8 9 10 11\n      ",
+   case xqerl_test:string_value(Res) of
              "6 7 8 9 10 11" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc20'(_Config) ->
    Qry = "((1,2,3,4,5,6,7,8,9,10,11)[(. gt 1) and (. gt 2)][(. gt 5) and (. gt 6)])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         7 8 9 10 11
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         7 8 9 10 11\n      ",
+   case xqerl_test:string_value(Res) of
              "7 8 9 10 11" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc21'(_Config) ->
    Qry = "((1,2,3,4,5,6,7,8,9,10,11)[fn:true()])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2 3 4 5 6 7 8 9 10 11
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2 3 4 5 6 7 8 9 10 11\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2 3 4 5 6 7 8 9 10 11" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'filterexpressionhc22'(_Config) ->
    Qry = "fn:count(((1,2,3,4,5,6,7,8,9,10,11)[fn:false()]))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -969,9 +766,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FilterExpr-2'(_Config) ->
@@ -980,9 +775,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FilterExpr-3'(_Config) ->
@@ -991,9 +784,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FilterExpr-4'(_Config) ->
@@ -1002,9 +793,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FilterExpr-5'(_Config) ->
@@ -1013,9 +802,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FilterExpr-6'(_Config) ->
@@ -1024,9 +811,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-7'(_Config) ->
@@ -1035,9 +820,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-8'(_Config) ->
@@ -1046,9 +829,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-9'(_Config) ->
@@ -1057,9 +838,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-10'(_Config) ->
@@ -1068,9 +847,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-11'(_Config) ->
@@ -1079,9 +856,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-12'(_Config) ->
@@ -1090,9 +865,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-13'(_Config) ->
@@ -1101,9 +874,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-14'(_Config) ->
@@ -1112,9 +883,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-15'(_Config) ->
@@ -1123,9 +892,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-16'(_Config) ->
@@ -1134,9 +901,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-17'(_Config) ->
@@ -1145,9 +910,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-18'(_Config) ->
@@ -1156,9 +919,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-19'(_Config) ->
@@ -1167,9 +928,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-20'(_Config) ->
@@ -1178,9 +937,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-21'(_Config) ->
@@ -1189,9 +946,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-22'(_Config) ->
@@ -1200,9 +955,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-23'(_Config) ->
@@ -1211,9 +964,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-24'(_Config) ->
@@ -1222,9 +973,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-25'(_Config) ->
@@ -1233,9 +982,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-26'(_Config) ->
@@ -1244,9 +991,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-27'(_Config) ->
@@ -1255,9 +1000,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-28'(_Config) ->
@@ -1266,9 +1009,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-29'(_Config) ->
@@ -1277,9 +1018,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-30'(_Config) ->
@@ -1288,12 +1027,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-31'(_Config) ->
@@ -1302,9 +1036,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-32'(_Config) ->
@@ -1313,9 +1045,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-33'(_Config) ->
@@ -1324,9 +1054,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-34'(_Config) ->
@@ -1335,9 +1063,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-35'(_Config) ->
@@ -1346,9 +1072,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-36'(_Config) ->
@@ -1357,9 +1081,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
+   Exp = "\n         1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1371,9 +1093,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-38'(_Config) ->
@@ -1382,9 +1102,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'K-FilterExpr-39'(_Config) ->
@@ -1393,9 +1111,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-40'(_Config) ->
@@ -1404,9 +1120,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'K-FilterExpr-41'(_Config) ->
@@ -1415,9 +1129,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-42'(_Config) ->
@@ -1426,9 +1138,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-43'(_Config) ->
@@ -1437,9 +1147,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-44'(_Config) ->
@@ -1448,9 +1156,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-45'(_Config) ->
@@ -1459,9 +1165,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-46'(_Config) ->
@@ -1470,9 +1174,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-47'(_Config) ->
@@ -1481,9 +1183,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-48'(_Config) ->
@@ -1492,9 +1192,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-49'(_Config) ->
@@ -1503,12 +1201,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-50'(_Config) ->
@@ -1517,9 +1210,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-51'(_Config) ->
@@ -1528,12 +1219,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0050") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-52'(_Config) ->
@@ -1542,12 +1228,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0050") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-53'(_Config) ->
@@ -1556,9 +1237,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-FilterExpr-54'(_Config) ->
@@ -1567,12 +1246,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-55'(_Config) ->
@@ -1581,12 +1255,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-56'(_Config) ->
@@ -1595,12 +1264,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-57'(_Config) ->
@@ -1609,12 +1273,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-58'(_Config) ->
@@ -1623,12 +1282,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-59'(_Config) ->
@@ -1637,12 +1291,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-60'(_Config) ->
@@ -1651,9 +1300,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-61'(_Config) ->
@@ -1662,9 +1309,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-62'(_Config) ->
@@ -1673,9 +1318,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-63'(_Config) ->
@@ -1684,9 +1327,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-64'(_Config) ->
@@ -1695,9 +1336,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-65'(_Config) ->
@@ -1706,9 +1345,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-66'(_Config) ->
@@ -1717,9 +1354,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
+   Exp = "\n         0\n      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1731,9 +1366,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1745,9 +1378,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1759,9 +1390,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-70'(_Config) ->
@@ -1770,9 +1399,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-71'(_Config) ->
@@ -1781,9 +1408,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-72'(_Config) ->
@@ -1792,9 +1417,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-73'(_Config) ->
@@ -1803,9 +1426,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1817,21 +1438,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         2\n      ",
+   case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-FilterExpr-75'(_Config) ->
    Qry = "2 eq (0, 1, \"2\")[last()]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-FilterExpr-76'(_Config) ->
@@ -1840,12 +1457,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-77'(_Config) ->
@@ -1854,12 +1466,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-78'(_Config) ->
@@ -1868,9 +1475,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
+   Exp = "\n         0\n      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1882,9 +1487,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
+   Exp = "\n         1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1896,9 +1499,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1910,9 +1511,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-82'(_Config) ->
@@ -1921,12 +1520,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1938,12 +1532,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-84'(_Config) ->
@@ -1952,13 +1541,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-85'(_Config) ->
@@ -1967,13 +1550,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-86'(_Config) ->
@@ -1982,9 +1559,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-87'(_Config) ->
@@ -1993,9 +1568,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-88'(_Config) ->
@@ -2004,12 +1577,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FilterExpr-89'(_Config) ->
@@ -2018,9 +1586,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FilterExpr-90'(_Config) ->
@@ -2029,9 +1595,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         3
-      ",
+   Exp = "\n         3\n      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -2043,9 +1607,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'K-FilterExpr-92'(_Config) ->
@@ -2054,9 +1616,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'K-FilterExpr-93'(_Config) ->
@@ -2065,9 +1625,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'K-FilterExpr-94'(_Config) ->
@@ -2076,9 +1634,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'K2-FilterExpr-1'(_Config) ->
@@ -2087,10 +1643,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <e>100</e>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e>100</e>"++"</x>)")) == "true" of
+   Exp = "\n         <e>100</e>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e>100</e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<e>100</e>" of
@@ -2104,10 +1658,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <e>5</e>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e>5</e>"++"</x>)")) == "true" of
+   Exp = "\n         <e>5</e>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e>5</e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<e>5</e>" of
@@ -2121,9 +1673,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-FilterExpr-4'(_Config) ->
@@ -2132,12 +1682,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-FilterExpr-5'(_Config) ->
@@ -2146,13 +1691,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            <child type=\"\"/>1 2 3
-            
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<child type=\"\"/>1 2 3"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
+   Exp = "\n         \n            <child type=\"\"/>1 2 3\n            \n         \n      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<child type=\"\"/>1 2 3"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-FilterExpr-6'(_Config) ->
    Qry = "let $d := document { <root><child type=\"\"/></root> } return $d//*[let $i := @type return $d//*[$i]]",
@@ -2160,10 +1700,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <child type=\"\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<child type=\"\"/>"++"</x>)")) == "true" of
+   Exp = "\n         <child type=\"\"/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<child type=\"\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<child type=\"\"/>" of
@@ -2177,10 +1715,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <?y?>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?y?>"++"</x>)")) == "true" of
+   Exp = "\n         <?y?>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?y?>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<?y?>" of
@@ -2194,9 +1730,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0050" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0050'}) end.
 'predicates-1'(_Config) ->
@@ -2206,10 +1740,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2224,12 +1756,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -2242,10 +1769,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2260,10 +1785,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2278,10 +1801,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2296,12 +1817,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -2314,12 +1830,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -2332,10 +1843,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <string>A String Function</string>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<string>A String Function</string>"++"</x>)")) == "true" of
+   Exp = "\n         <string>A String Function</string>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<string>A String Function</string>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<string>A String Function</string>" of
@@ -2350,10 +1859,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2368,10 +1875,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <decimal attr=\"12678967.543233\">12678967.543233</decimal>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<decimal attr=\"12678967.543233\">12678967.543233</decimal>"++"</x>)")) == "true" of
+   Exp = "\n         <decimal attr=\"12678967.543233\">12678967.543233</decimal>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<decimal attr=\"12678967.543233\">12678967.543233</decimal>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<decimal attr=\"12678967.543233\">12678967.543233</decimal>" of
@@ -2386,10 +1891,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <float>1267.43233E12</float>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<float>1267.43233E12</float>"++"</x>)")) == "true" of
+   Exp = "\n         <float>1267.43233E12</float>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<float>1267.43233E12</float>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<float>1267.43233E12</float>" of
@@ -2404,10 +1907,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <double>1267.43233E12</double>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<double>1267.43233E12</double>"++"</x>)")) == "true" of
+   Exp = "\n         <double>1267.43233E12</double>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<double>1267.43233E12</double>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<double>1267.43233E12</double>" of
@@ -2422,10 +1923,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <boolean>true</boolean>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<boolean>true</boolean>"++"</x>)")) == "true" of
+   Exp = "\n         <boolean>true</boolean>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<boolean>true</boolean>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<boolean>true</boolean>" of
@@ -2440,10 +1939,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <date>2000-01-01+05:00</date>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<date>2000-01-01+05:00</date>"++"</x>)")) == "true" of
+   Exp = "\n         <date>2000-01-01+05:00</date>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<date>2000-01-01+05:00</date>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<date>2000-01-01+05:00</date>" of
@@ -2458,25 +1955,11 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <employee name=\"Jane Doe 11\" gender=\"female\">
-   <empnum>E4</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 11\" gender=\"female\">
-   <empnum>E4</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee>"++"</x>)")) == "true" of
+   Exp = "\n         <employee name=\"Jane Doe 11\" gender=\"female\">\n   <empnum>E4</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 11\" gender=\"female\">\n   <empnum>E4</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<employee name=\"Jane Doe 11\" gender=\"female\">
-   <empnum>E4</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee>" of
+              case ResXml == "<employee name=\"Jane Doe 11\" gender=\"female\">\n   <empnum>E4</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -2488,10 +1971,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <day>Tuesday</day>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<day>Tuesday</day>"++"</x>)")) == "true" of
+   Exp = "\n         <day>Tuesday</day>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<day>Tuesday</day>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<day>Tuesday</day>" of
@@ -2506,10 +1987,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>12</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>12</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>12</hours>" of
@@ -2524,10 +2003,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>12</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>12</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>12</hours>" of
@@ -2542,10 +2019,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>80</hours><hours>80</hours><hours>80</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>80</hours><hours>80</hours><hours>80</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>80</hours><hours>80</hours><hours>80</hours>" of
@@ -2560,10 +2035,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>80</hours><hours>80</hours><hours>80</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>80</hours><hours>80</hours><hours>80</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>80</hours><hours>80</hours><hours>80</hours>" of
@@ -2578,10 +2051,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>12</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>12</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>12</hours>" of
@@ -2596,61 +2067,11 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <employee name=\"Jane Doe 7\" gender=\"female\">
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee name=\"John Doe 8\" gender=\"male\">
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee name=\"Jane Doe 9\" gender=\"female\">
-   <empnum>E3</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee><employee name=\"John Doe 10\" gender=\"male\">
-   <empnum>E3</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 7\" gender=\"female\">
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee name=\"John Doe 8\" gender=\"male\">
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee name=\"Jane Doe 9\" gender=\"female\">
-   <empnum>E3</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee><employee name=\"John Doe 10\" gender=\"male\">
-   <empnum>E3</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee>"++"</x>)")) == "true" of
+   Exp = "\n         <employee name=\"Jane Doe 7\" gender=\"female\">\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee name=\"John Doe 8\" gender=\"male\">\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee name=\"Jane Doe 9\" gender=\"female\">\n   <empnum>E3</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee><employee name=\"John Doe 10\" gender=\"male\">\n   <empnum>E3</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 7\" gender=\"female\">\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee name=\"John Doe 8\" gender=\"male\">\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee name=\"Jane Doe 9\" gender=\"female\">\n   <empnum>E3</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee><employee name=\"John Doe 10\" gender=\"male\">\n   <empnum>E3</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<employee name=\"Jane Doe 7\" gender=\"female\">
-   <empnum>E2</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  </employee><employee name=\"John Doe 8\" gender=\"male\">
-   <empnum>E2</empnum>
-   <pnum>P2</pnum>
-   <hours>80</hours>
-  </employee><employee name=\"Jane Doe 9\" gender=\"female\">
-   <empnum>E3</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee><employee name=\"John Doe 10\" gender=\"male\">
-   <empnum>E3</empnum>
-   <pnum>P2</pnum>
-   <hours>20</hours>
-  </employee>" of
+              case ResXml == "<employee name=\"Jane Doe 7\" gender=\"female\">\n   <empnum>E2</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee><employee name=\"John Doe 8\" gender=\"male\">\n   <empnum>E2</empnum>\n   <pnum>P2</pnum>\n   <hours>80</hours>\n  </employee><employee name=\"Jane Doe 9\" gender=\"female\">\n   <empnum>E3</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee><employee name=\"John Doe 10\" gender=\"male\">\n   <empnum>E3</empnum>\n   <pnum>P2</pnum>\n   <hours>20</hours>\n  </employee>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -2662,10 +2083,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>12</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>12</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>12</hours>" of
@@ -2680,10 +2099,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>12</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>12</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>12</hours>" of
@@ -2698,10 +2115,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>80</hours><hours>80</hours><hours>80</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>80</hours><hours>80</hours><hours>80</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>80</hours><hours>80</hours><hours>80</hours>" of
@@ -2716,10 +2131,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <hours>80</hours><hours>80</hours><hours>80</hours>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
+   Exp = "\n         <hours>80</hours><hours>80</hours><hours>80</hours>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<hours>80</hours><hours>80</hours><hours>80</hours>" of
@@ -2733,9 +2146,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'predicates-30'(_Config) ->
@@ -2745,12 +2156,10 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         E1 P1 E1 P3
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         E1 P1 E1 P3\n      ",
+   case xqerl_test:string_value(Res) of
              "E1 P1 E1 P3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'predicates-31'(_Config) ->
    Qry = "for $x in /works/employee[fn:position() mod 2 eq 1][fn:position() lt 5] return (fn:data($x/empnum), fn:data($x/pnum))",
    Env = xqerl_test:handle_environment(environment('works-mod')),
@@ -2758,12 +2167,10 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         E1 P1 E1 P3 E1 P5 E2 P1
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         E1 P1 E1 P3 E1 P5 E2 P1\n      ",
+   case xqerl_test:string_value(Res) of
              "E1 P1 E1 P3 E1 P5 E2 P1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'predicatesns-1'(_Config) ->
    Qry = "fn:count((//integer[fn:true()]))",
    Env = xqerl_test:handle_environment(environment('atomicns')),
@@ -2771,9 +2178,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
+   Exp = "\n         1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -2786,12 +2191,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -2804,10 +2204,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2822,10 +2220,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2840,10 +2236,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2858,12 +2252,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -2876,12 +2265,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            0
-            
-         
-      ",
+   Exp = "\n         \n            0\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -2894,10 +2278,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <string>A String Function</string>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<string>A String Function</string>"++"</x>)")) == "true" of
+   Exp = "\n         <string>A String Function</string>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<string>A String Function</string>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<string>A String Function</string>" of
@@ -2912,10 +2294,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <integer>12678967543233</integer>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
+   Exp = "\n         <integer>12678967543233</integer>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<integer>12678967543233</integer>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<integer>12678967543233</integer>" of
@@ -2930,10 +2310,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <decimal attr=\"12678967.543233\">12678967.543233</decimal>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<decimal attr=\"12678967.543233\">12678967.543233</decimal>"++"</x>)")) == "true" of
+   Exp = "\n         <decimal attr=\"12678967.543233\">12678967.543233</decimal>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<decimal attr=\"12678967.543233\">12678967.543233</decimal>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<decimal attr=\"12678967.543233\">12678967.543233</decimal>" of
@@ -2948,10 +2326,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <float>1267.43233E12</float>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<float>1267.43233E12</float>"++"</x>)")) == "true" of
+   Exp = "\n         <float>1267.43233E12</float>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<float>1267.43233E12</float>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<float>1267.43233E12</float>" of
@@ -2966,10 +2342,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <double>1267.43233E12</double>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<double>1267.43233E12</double>"++"</x>)")) == "true" of
+   Exp = "\n         <double>1267.43233E12</double>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<double>1267.43233E12</double>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<double>1267.43233E12</double>" of
@@ -2984,10 +2358,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <boolean>true</boolean>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<boolean>true</boolean>"++"</x>)")) == "true" of
+   Exp = "\n         <boolean>true</boolean>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<boolean>true</boolean>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<boolean>true</boolean>" of
@@ -3002,10 +2374,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <date>2000-01-01+05:00</date>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<date>2000-01-01+05:00</date>"++"</x>)")) == "true" of
+   Exp = "\n         <date>2000-01-01+05:00</date>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<date>2000-01-01+05:00</date>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<date>2000-01-01+05:00</date>" of
@@ -3019,22 +2389,18 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         c
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         c\n      ",
+   case xqerl_test:string_value(Res) of
              "c" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-Predicates-2'(_Config) ->
    Qry = "declare variable $myvar := <elem> <a/> <b/> <c/></elem>; $myvar/*[last()]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <c/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<c/>"++"</x>)")) == "true" of
+   Exp = "\n         <c/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<c/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<c/>" of
@@ -3048,10 +2414,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <b/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b/>"++"</x>)")) == "true" of
+   Exp = "\n         <b/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<b/>" of
@@ -3065,10 +2429,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/>"++"</x>)")) == "true" of
+   Exp = "\n         <a/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a/>" of
@@ -3082,10 +2444,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/>"++"</x>)")) == "true" of
+   Exp = "\n         <a/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a/>" of
@@ -3099,10 +2459,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <b attr=\"f\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b attr=\"f\"/>"++"</x>)")) == "true" of
+   Exp = "\n         <b attr=\"f\"/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b attr=\"f\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<b attr=\"f\"/>" of
@@ -3116,10 +2474,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <r xml:lang=\"ene\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<r xml:lang=\"ene\"/>"++"</x>)")) == "true" of
+   Exp = "\n         <r xml:lang=\"ene\"/>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<r xml:lang=\"ene\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<r xml:lang=\"ene\"/>" of
@@ -3133,10 +2489,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <e arg=\"\">result</e>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e arg=\"\">result</e>"++"</x>)")) == "true" of
+   Exp = "\n         <e arg=\"\">result</e>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e arg=\"\">result</e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<e arg=\"\">result</e>" of
@@ -3150,121 +2504,98 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         result
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         result\n      ",
+   case xqerl_test:string_value(Res) of
              "result" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-filterexpr-001'(_Config) ->
-   Qry = "
-      	declare function local:nan() { xs:float(\"NaN\") }; 
-      	(1 to 10)[not(position() < xs:float(\"NaN\"))]
-      ",
+   Qry = "\n      	declare function local:nan() { xs:float(\"NaN\") }; \n      	(1 to 10)[not(position() < xs:float(\"NaN\"))]\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2 3 4 5 6 7 8 9 10
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2 3 4 5 6 7 8 9 10\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2 3 4 5 6 7 8 9 10" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-001'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else () }; ( local:generate(0), 1, local:generate(0) )[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1\n      ",
+   case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-002'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then (1, 2, 3) else $arg }; ( local:generate(()), for $x in local:generate(0) return $x + 2 )[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         3
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         3\n      ",
+   case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-003'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 0 else () }; ( local:generate(()), for $x in local:generate(0) return $x + 2 )[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         2\n      ",
+   case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-004'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then ( 1, 2, 3 ) else ( $arg ) }; ( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         2\n      ",
+   case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-005'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 1 else $arg }; ( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         2\n      ",
+   case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-006'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else ('d' ) }; ( if (local:generate(1) = 'd') then () else 1, for $x in local:generate(0) return fn:lower-case($x))[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         a
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         a\n      ",
+   case xqerl_test:string_value(Res) of
              "a" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-007'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer? { $arg }; ( if (local:generate(0) = 0) then () else 1, for $x in local:generate(0) return -$x)[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0\n      ",
+   case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-008'(_Config) ->
    Qry = "( (<a><b>cheese</b></a>)/b )[1]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <b>cheese</b>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b>cheese</b>"++"</x>)")) == "true" of
+   Exp = "\n         <b>cheese</b>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b>cheese</b>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<b>cheese</b>" of
@@ -3278,21 +2609,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         3
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         3\n      ",
+   case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-first-in-sequence-010'(_Config) ->
    Qry = "declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; boolean(local:generate(0)[1])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-first-in-sequence-011'(_Config) ->
@@ -3301,9 +2628,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-first-in-sequence-012'(_Config) ->
@@ -3312,21 +2637,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         3
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         3\n      ",
+   case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-filter-001'(_Config) ->
    Qry = "let $x := exists((1 to 10)[. mod 2 = 0]) return (1 to 100)[position() mod 2 = 0 and position() mod 3 = 0 and $x]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         6 12 18 24 30 36 42 48 54 60 66 72 78 84 90 96
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         6 12 18 24 30 36 42 48 54 60 66 72 78 84 90 96\n      ",
+   case xqerl_test:string_value(Res) of
              "6 12 18 24 30 36 42 48 54 60 66 72 78 84 90 96" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

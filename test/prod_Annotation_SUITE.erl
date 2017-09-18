@@ -217,21 +217,13 @@ environment('math') ->
 {modules, []}
 ].
 'annotation-1'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         declare %eg:sequential function local:foo() {
-            \"bar\"
-         };
-         local:foo()
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         declare %eg:sequential function local:foo() {\n            \"bar\"\n         };\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         bar
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
+   Exp = "\n         bar\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "bar" of
@@ -240,19 +232,13 @@ environment('math') ->
               end
 end.
 'annotation-2'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         declare %eg:sequential variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         declare %eg:sequential variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         bar
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
+   Exp = "\n         bar\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "bar" of
@@ -261,18 +247,13 @@ end.
               end
 end.
 'annotation-3'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         %eg:sequential function () { \"bar\" } ()
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         %eg:sequential function () { \"bar\" } ()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         bar
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
+   Exp = "\n         bar\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "bar" of
@@ -281,23 +262,13 @@ end.
               end
 end.
 'annotation-4'(_Config) ->
-   Qry = "
-         declare namespace java = \"http://example.com\";
-
-         declare %java:variable(\"java.lang.Integer.MAX_VALUE\") variable $max := 0;
-
-         declare %java:method(\"java.lang.Math.sin\") function local:sin($arg) { 0 }; 
-
-         local:sin($max)
-      ",
+   Qry = "\n         declare namespace java = \"http://example.com\";\n\n         declare %java:variable(\"java.lang.Integer.MAX_VALUE\") variable $max := 0;\n\n         declare %java:method(\"java.lang.Math.sin\") function local:sin($arg) { 0 }; \n\n         local:sin($max)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -306,23 +277,13 @@ end.
               end
 end.
 'annotation-5'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:integer(1234) variable $foo := 0;
-
-         declare %eg:integer(1234) function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:integer(1234) variable $foo := 0;\n\n         declare %eg:integer(1234) function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -331,23 +292,13 @@ end.
               end
 end.
 'annotation-6'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:integer(12.34) variable $foo := 0;
-
-         declare %eg:integer(12.34) function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:integer(12.34) variable $foo := 0;\n\n         declare %eg:integer(12.34) function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -356,23 +307,13 @@ end.
               end
 end.
 'annotation-7'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:integer(12e34) variable $foo := 0;
-
-         declare %eg:integer(12e34) function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:integer(12e34) variable $foo := 0;\n\n         declare %eg:integer(12e34) function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -381,40 +322,22 @@ end.
               end
 end.
 'annotation-8'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:integer(1+2) function local:foo() { 0 }; 
-
-         local:foo()
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:integer(1+2) function local:foo() { 0 }; \n\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'annotation-9'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:many(12e34,\"abc\",1234) variable $foo := 0;
-
-         declare %eg:many(\"xyz\", 987, 12.3) function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:many(12e34,\"abc\",1234) variable $foo := 0;\n\n         declare %eg:many(\"xyz\", 987, 12.3) function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -423,21 +346,13 @@ end.
               end
 end.
 'annotation-10'(_Config) ->
-   Qry = "
-         declare %Q{http://example.com}bar variable $foo := 0;
-
-         declare %Q{http://example.com}bar function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare %Q{http://example.com}bar variable $foo := 0;\n\n         declare %Q{http://example.com}bar function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -446,23 +361,13 @@ end.
               end
 end.
 'annotation-11'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:one %eg:two %eg:three variable $foo := 0;
-
-         declare %eg:one %eg:two %eg:three function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:one %eg:two %eg:three variable $foo := 0;\n\n         declare %eg:one %eg:two %eg:three function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -471,23 +376,13 @@ end.
               end
 end.
 'annotation-12'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:one%eg:two%eg:three(1)%eg:four variable $foo := 0;
-
-         declare %eg:one%eg:two%eg:three(1)%eg:four function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:one%eg:two%eg:three(1)%eg:four variable $foo := 0;\n\n         declare %eg:one%eg:two%eg:three(1)%eg:four function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -496,35 +391,13 @@ end.
               end
 end.
 'annotation-13'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare 
-            %eg:one
-            %eg:two
-            (: Lorem ipsum dolor sit amet. :)
-            %eg:three(1)
-            %Q{http://example.com}four
-            variable $foo := 0;
-
-         declare 
-            %eg:one
-            %eg:two
-            (: Lorem ipsum dolor sit amet. :)
-            %eg:three(1)
-            %Q{http://example.com}four
-            function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare \n            %eg:one\n            %eg:two\n            (: Lorem ipsum dolor sit amet. :)\n            %eg:three(1)\n            %Q{http://example.com}four\n            variable $foo := 0;\n\n         declare \n            %eg:one\n            %eg:two\n            (: Lorem ipsum dolor sit amet. :)\n            %eg:three(1)\n            %Q{http://example.com}four\n            function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -533,23 +406,13 @@ end.
               end
 end.
 'annotation-14'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-
-         declare %eg:one(1, 2, 3) %eg:two(\"a\", \"b\") %eg:three(1.234) variable $foo := 0;
-
-         declare  %eg:one(1, 2, 3) %eg:two(\"a\", \"b\") %eg:three(1.234) function local:foo($arg) { $arg }; 
-
-         local:foo($foo)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n\n         declare %eg:one(1, 2, 3) %eg:two(\"a\", \"b\") %eg:three(1.234) variable $foo := 0;\n\n         declare  %eg:one(1, 2, 3) %eg:two(\"a\", \"b\") %eg:three(1.234) function local:foo($arg) { $arg }; \n\n         local:foo($foo)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
+   Exp = "\n         0\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"0"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "0" of
@@ -558,246 +421,151 @@ end.
               end
 end.
 'annotation-15'(_Config) ->
-   Qry = "
-         declare %xml:x function local:foo() {
-            \"bar\"
-         };
-         local:foo()
-      ",
+   Qry = "\n         declare %xml:x function local:foo() {\n            \"bar\"\n         };\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-16'(_Config) ->
-   Qry = "
-         declare %Q{http://www.w3.org/XML/1998/namespace}x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %Q{http://www.w3.org/XML/1998/namespace}x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-17'(_Config) ->
-   Qry = "
-         declare %xs:x function local:foo() {
-            \"bar\"
-         };
-         local:foo()
-      ",
+   Qry = "\n         declare %xs:x function local:foo() {\n            \"bar\"\n         };\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-18'(_Config) ->
-   Qry = "
-         declare %Q{http://www.w3.org/2001/XMLSchema}x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %Q{http://www.w3.org/2001/XMLSchema}x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-19'(_Config) ->
-   Qry = "
-         declare %xsi:x function local:foo() {
-            \"bar\"
-         };
-         local:foo()
-      ",
+   Qry = "\n         declare %xsi:x function local:foo() {\n            \"bar\"\n         };\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-20'(_Config) ->
-   Qry = "
-         declare %Q{http://www.w3.org/2001/XMLSchema-instance}x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %Q{http://www.w3.org/2001/XMLSchema-instance}x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-21'(_Config) ->
-   Qry = "
-         declare %fn:x function local:foo() {
-            \"bar\"
-         };
-         local:foo()
-      ",
+   Qry = "\n         declare %fn:x function local:foo() {\n            \"bar\"\n         };\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-22'(_Config) ->
-   Qry = "
-         declare %Q{http://www.w3.org/2005/xpath-functions}x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %Q{http://www.w3.org/2005/xpath-functions}x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-23'(_Config) ->
-   Qry = "
-         declare %x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-24'(_Config) ->
-   Qry = "
-         declare namespace math = \"http://www.w3.org/2005/xpath-functions/math\";
-         declare %math:x function local:foo() {
-            \"bar\"
-         };
-         local:foo()
-      ",
+   Qry = "\n         declare namespace math = \"http://www.w3.org/2005/xpath-functions/math\";\n         declare %math:x function local:foo() {\n            \"bar\"\n         };\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-25'(_Config) ->
-   Qry = "
-         declare %Q{http://www.w3.org/2005/xpath-functions/math}x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %Q{http://www.w3.org/2005/xpath-functions/math}x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-26'(_Config) ->
-   Qry = "
-         declare namespace opts = \"http://www.w3.org/2012/xquery\";
-         declare %opts:x function local:foo() {
-            \"bar\"
-         };
-         local:foo()
-      ",
+   Qry = "\n         declare namespace opts = \"http://www.w3.org/2012/xquery\";\n         declare %opts:x function local:foo() {\n            \"bar\"\n         };\n         local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-27'(_Config) ->
-   Qry = "
-         declare %Q{http://www.w3.org/2012/xquery}x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %Q{http://www.w3.org/2012/xquery}x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-28'(_Config) ->
-   Qry = "
-         declare default function namespace \"http://example.com\";
-         declare %x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare default function namespace \"http://example.com\";\n         declare %x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-29'(_Config) ->
-   Qry = "
-         declare %local:x variable $foo := \"bar\";
-         $foo
-      ",
+   Qry = "\n         declare %local:x variable $foo := \"bar\";\n         $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"bar\"
-      ",
+   Exp = "\n         \"bar\"\n      ",
  Tst = xqerl:run("\"bar\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'annotation-30'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         %eg:sequential(\"abc\", 3) function () { \"bar\" } ()
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         %eg:sequential(\"abc\", 3) function () { \"bar\" } ()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         bar
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
+   Exp = "\n         bar\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "bar" of
@@ -806,18 +574,13 @@ end.
               end
 end.
 'annotation-31'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         % Q{http://example.com}sequential(\"abc\", 3) function () { \"bar\" } ()
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         % Q{http://example.com}sequential(\"abc\", 3) function () { \"bar\" } ()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         bar
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
+   Exp = "\n         bar\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "bar" of
@@ -826,18 +589,13 @@ end.
               end
 end.
 'annotation-32'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         %eg:sequential(\"abc\", 3) %eg:memo-function function () { \"bar\" } ()
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         %eg:sequential(\"abc\", 3) %eg:memo-function function () { \"bar\" } ()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         bar
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
+   Exp = "\n         bar\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"bar"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "bar" of
@@ -846,24 +604,16 @@ end.
               end
 end.
 'annotation-33'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         %eg:sequential(true())  function () { \"bar\" } ()
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         %eg:sequential(true())  function () { \"bar\" } ()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'annotation-assertion-1'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x function(*)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -872,10 +622,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-2'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x(\"foo\") function(*)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x(\"foo\") function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -884,10 +631,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-3'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x(1234) function(*)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x(1234) function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -896,10 +640,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-4'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x(12.34) function(*)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x(12.34) function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -908,10 +649,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-5'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x(12e34) function(*)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x(12e34) function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -920,10 +658,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-6'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x(\"abc\", 12e34, 567) function(*)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x(\"abc\", 12e34, 567) function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -932,9 +667,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-7'(_Config) ->
-   Qry = "
-         () instance of %Q{http://example.com}x function(*)
-      ",
+   Qry = "\n         () instance of %Q{http://example.com}x function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -943,9 +676,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-8'(_Config) ->
-   Qry = "
-         () instance of %Q{http://example.com}x function(*)
-      ",
+   Qry = "\n         () instance of %Q{http://example.com}x function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -954,10 +685,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-9'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x %eg:y%eg:z %eg:w(1) function(*)
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x %eg:y%eg:z %eg:w(1) function(*)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -966,10 +694,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-10'(_Config) ->
-   Qry = "
-         declare namespace eg = \"http://example.com\";
-         () instance of %eg:x function(xs:integer) as xs:string
-      ",
+   Qry = "\n         declare namespace eg = \"http://example.com\";\n         () instance of %eg:x function(xs:integer) as xs:string\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -978,9 +703,7 @@ end.
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'annotation-assertion-11'(_Config) ->
-   Qry = "
-         () instance of %xml:x function(*) 
-      ",
+   Qry = "\n         () instance of %xml:x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -989,9 +712,7 @@ end.
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-assertion-12'(_Config) ->
-   Qry = "
-         () instance of %Q{http://www.w3.org/XML/1998/namespace}x function(*) 
-      ",
+   Qry = "\n         () instance of %Q{http://www.w3.org/XML/1998/namespace}x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -1000,9 +721,7 @@ end.
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-assertion-13'(_Config) ->
-   Qry = "
-         () instance of %xs:x function(*) 
-      ",
+   Qry = "\n         () instance of %xs:x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -1011,9 +730,7 @@ end.
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-assertion-14'(_Config) ->
-   Qry = "
-         () instance of %Q{http://www.w3.org/2001/XMLSchema}x function(*) 
-      ",
+   Qry = "\n         () instance of %Q{http://www.w3.org/2001/XMLSchema}x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -1022,9 +739,7 @@ end.
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-assertion-15'(_Config) ->
-   Qry = "
-         () instance of %xsi:x function(*) 
-      ",
+   Qry = "\n         () instance of %xsi:x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -1033,9 +748,7 @@ end.
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-assertion-16'(_Config) ->
-   Qry = "
-         () instance of %fn:x function(*) 
-      ",
+   Qry = "\n         () instance of %fn:x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -1044,10 +757,7 @@ end.
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-assertion-17'(_Config) ->
-   Qry = "
-         declare namespace math = \"http://www.w3.org/2005/xpath-functions/math\";
-         () instance of %math:x function(*) 
-      ",
+   Qry = "\n         declare namespace math = \"http://www.w3.org/2005/xpath-functions/math\";\n         () instance of %math:x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
@@ -1056,10 +766,7 @@ end.
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'annotation-assertion-18'(_Config) ->
-   Qry = "
-         declare namespace opts = \"http://www.w3.org/2012/xquery\";
-         () instance of %opts:x function(*) 
-      ",
+   Qry = "\n         declare namespace opts = \"http://www.w3.org/2012/xquery\";\n         () instance of %opts:x function(*) \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),

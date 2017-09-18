@@ -171,9 +171,7 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'path002'(_Config) ->
@@ -183,13 +181,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path003'(_Config) ->
    Qry = "fn:path((//*:all-of)[1])",
@@ -198,13 +191,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path004'(_Config) ->
    Qry = "fn:path(//*[@name=\"fn-absintg1args-1\"])",
@@ -213,13 +201,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[4]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[4]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[4]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[4]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path005'(_Config) ->
    Qry = "fn:path((//@idref)[1])",
@@ -228,13 +211,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}link[1]/@idref
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}link[1]/@idref" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}link[1]/@idref\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}link[1]/@idref" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path006'(_Config) ->
    Qry = "fn:path((//*:source)[3]/@xml:id)",
@@ -243,13 +221,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}environment[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}source[1]/@Q{http://www.w3.org/XML/1998/namespace}id
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}environment[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}source[1]/@Q{http://www.w3.org/XML/1998/namespace}id" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}environment[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}source[1]/@Q{http://www.w3.org/XML/1998/namespace}id\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}environment[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}source[1]/@Q{http://www.w3.org/XML/1998/namespace}id" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path007'(_Config) ->
    Qry = "fn:path((//comment())[2])",
@@ -258,13 +231,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[2]/Q{http://www.w3.org/2010/09/qt-fots-catalog}description[1]/comment()[1]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[2]/Q{http://www.w3.org/2010/09/qt-fots-catalog}description[1]/comment()[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[2]/Q{http://www.w3.org/2010/09/qt-fots-catalog}description[1]/comment()[1]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[2]/Q{http://www.w3.org/2010/09/qt-fots-catalog}description[1]/comment()[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path008'(_Config) ->
    Qry = "fn:path(//text()[.='2147483647'][1])",
@@ -273,13 +241,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}assert-eq[1]/text()[1]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}assert-eq[1]/text()[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}assert-eq[1]/text()[1]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[3]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}assert-eq[1]/text()[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path009'(_Config) ->
    Qry = "fn:path(//processing-instruction()[1])",
@@ -288,13 +251,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /processing-instruction(xml-stylesheet)[1]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/processing-instruction(xml-stylesheet)[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /processing-instruction(xml-stylesheet)[1]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/processing-instruction(xml-stylesheet)[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path010'(_Config) ->
    Qry = "fn:path(//p)",
@@ -303,13 +261,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{}p[1]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{}p[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{}p[1]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{}p[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path011'(_Config) ->
    {skip,"XP30+"}.
@@ -318,21 +271,16 @@ environment('pathdata') ->
 'path013'(_Config) ->
    {skip,"XP30+"}.
 'path014'(_Config) ->
-   Qry = "
-        import module namespace copy=\"http://www.w3.org/QT3/copy\";
-        fn:path(copy:copy((//employee)[1])/pnum)
-      ",
+   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        fn:path(copy:copy((//employee)[1])/pnum)\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         Q{http://www.w3.org/2005/xpath-functions}root()/Q{}pnum[1]
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         Q{http://www.w3.org/2005/xpath-functions}root()/Q{}pnum[1]\n      ",
+   case xqerl_test:string_value(Res) of
              "Q{http://www.w3.org/2005/xpath-functions}root()/Q{}pnum[1]" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'path015'(_Config) ->
    Qry = "fn:path(/)",
    Env = xqerl_test:handle_environment(environment('pathdata')),
@@ -340,13 +288,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path016'(_Config) ->
    Qry = "fn:path(attribute name {\"fred\"})",
@@ -354,13 +297,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            Q{http://www.w3.org/2005/xpath-functions}root()
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            Q{http://www.w3.org/2005/xpath-functions}root()\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path017'(_Config) ->
    Qry = "fn:path(text{\"fred\"})",
@@ -368,13 +306,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            Q{http://www.w3.org/2005/xpath-functions}root()
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            Q{http://www.w3.org/2005/xpath-functions}root()\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path018'(_Config) ->
    Qry = "fn:path(<a b=\"c\"/>/@b)",
@@ -382,13 +315,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            Q{http://www.w3.org/2005/xpath-functions}root()/@b
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()/@b" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            Q{http://www.w3.org/2005/xpath-functions}root()/@b\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()/@b" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path019'(_Config) ->
    Qry = "fn:path(<a><b/><b/></a>/(b[2]))",
@@ -396,13 +324,8 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            Q{http://www.w3.org/2005/xpath-functions}root()/Q{}b[2]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()/Q{}b[2]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            Q{http://www.w3.org/2005/xpath-functions}root()/Q{}b[2]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "Q{http://www.w3.org/2005/xpath-functions}root()/Q{}b[2]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'path020'(_Config) ->
    Qry = "(//*:all-of)[1] ! fn:path()",
@@ -411,11 +334,6 @@ environment('pathdata') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]
-            xs:string
-         
-      ",
- case xqerl_types:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
+   Exp = "\n         \n            /Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]\n            xs:string\n         \n      ",
+ case xqerl_test:string_value(Res) == "/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]" andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.

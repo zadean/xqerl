@@ -148,12 +148,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-      ",
+   Exp = "\n         1, 4, 9, 16, 25, 36, 49, 64, 81, 100\n      ",
  Tst = xqerl:run("1, 4, 9, 16, 25, 36, 49, 64, 81, 100"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-2'(_Config) ->
@@ -162,12 +160,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         3, 4, 5
-      ",
+   Exp = "\n         3, 4, 5\n      ",
  Tst = xqerl:run("3, 4, 5"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-3'(_Config) ->
@@ -176,12 +172,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1, 2, 3
-      ",
+   Exp = "\n         1, 2, 3\n      ",
  Tst = xqerl:run("1, 2, 3"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-4'(_Config) ->
@@ -190,12 +184,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         false(), false(), true()
-      ",
+   Exp = "\n         false(), false(), true()\n      ",
  Tst = xqerl:run("false(), false(), true()"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-5'(_Config) ->
@@ -204,12 +196,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         4, 5, 6
-      ",
+   Exp = "\n         4, 5, 6\n      ",
  Tst = xqerl:run("4, 5, 6"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-6'(_Config) ->
@@ -219,12 +209,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"John Doe 2\", \"Jane Doe 1\", \"John Doe 2\"
-      ",
+   Exp = "\n         \"John Doe 2\", \"Jane Doe 1\", \"John Doe 2\"\n      ",
  Tst = xqerl:run("\"John Doe 2\", \"Jane Doe 1\", \"John Doe 2\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-7'(_Config) ->
@@ -234,9 +222,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         20
-      ",
+   Exp = "\n         20\n      ",
  Tst = xqerl:run("20"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -249,9 +235,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         -18
-      ",
+   Exp = "\n         -18\n      ",
  Tst = xqerl:run("-18"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -263,9 +247,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         -3
-      ",
+   Exp = "\n         -3\n      ",
  Tst = xqerl:run("-3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -278,12 +260,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5
-      ",
+   Exp = "\n         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5\n      ",
  Tst = xqerl:run("1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-11'(_Config) ->
@@ -293,12 +273,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5
-      ",
+   Exp = "\n         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5\n      ",
  Tst = xqerl:run("1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-12'(_Config) ->
@@ -308,12 +286,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 to 15
-      ",
+   Exp = "\n         1 to 15\n      ",
  Tst = xqerl:run("1 to 15"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'bang-13'(_Config) ->
@@ -323,9 +299,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"Jane Doe 3\"
-      ",
+   Exp = "\n         \"Jane Doe 3\"\n      ",
  Tst = xqerl:run("\"Jane Doe 3\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -338,9 +312,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
+   Exp = "\n         1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),

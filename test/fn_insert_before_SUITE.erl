@@ -206,12 +206,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"z\", \"a\", \"b\", \"c\"
-      ",
+   Exp = "\n         \"z\", \"a\", \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"z\", \"a\", \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-002'(_Config) ->
@@ -220,12 +218,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-003'(_Config) ->
@@ -234,12 +230,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-004'(_Config) ->
@@ -248,12 +242,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", \" \", \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", \" \", \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", \" \", \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-005'(_Config) ->
@@ -262,12 +254,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", \"www.example.com\", \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", \"www.example.com\", \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", \"www.example.com\", \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-006'(_Config) ->
@@ -276,12 +266,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", 100, \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", 100, \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", 100, \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-007'(_Config) ->
@@ -290,12 +278,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", 1.1, \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", 1.1, \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", 1.1, \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-008'(_Config) ->
@@ -304,12 +290,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", 1.1, \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", 1.1, \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", 1.1, \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-009'(_Config) ->
@@ -318,12 +302,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", xs:float('NaN'), \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", xs:float('NaN'), \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", xs:float('NaN'), \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-010'(_Config) ->
@@ -332,12 +314,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", 0, \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", 0, \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", 0, \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-011'(_Config) ->
@@ -346,12 +326,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", xs:float('-INF'), \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", xs:float('-INF'), \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", xs:float('-INF'), \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-012'(_Config) ->
@@ -360,12 +338,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", xs:double('NaN'),  \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", xs:double('NaN'),  \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", xs:double('NaN'),  \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-013'(_Config) ->
@@ -374,12 +350,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", xs:double('INF'), \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", xs:double('INF'), \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", xs:double('INF'), \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-014'(_Config) ->
@@ -388,12 +362,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", true(), \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", true(), \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", true(), \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-015'(_Config) ->
@@ -402,12 +374,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", false(), \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", false(), \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", false(), \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-016'(_Config) ->
@@ -416,12 +386,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", true(), \"b\", \"c\"
-      ",
+   Exp = "\n         \"a\", true(), \"b\", \"c\"\n      ",
  Tst = xqerl:run("\"a\", true(), \"b\", \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-017'(_Config) ->
@@ -430,12 +398,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", false(),  \"b\",  \"c\"
-      ",
+   Exp = "\n         \"a\", false(),  \"b\",  \"c\"\n      ",
  Tst = xqerl:run("\"a\", false(),  \"b\",  \"c\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-018'(_Config) ->
@@ -444,12 +410,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", \"b\", \"c\", xs:date('1993-03-31')
-      ",
+   Exp = "\n         \"a\", \"b\", \"c\", xs:date('1993-03-31')\n      ",
  Tst = xqerl:run("\"a\", \"b\", \"c\", xs:date('1993-03-31')"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-019'(_Config) ->
@@ -458,12 +422,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", \"b\", \"c\", xs:dateTime('1972-12-31T00:00:00')
-      ",
+   Exp = "\n         \"a\", \"b\", \"c\", xs:dateTime('1972-12-31T00:00:00')\n      ",
  Tst = xqerl:run("\"a\", \"b\", \"c\", xs:dateTime('1972-12-31T00:00:00')"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-insert-before-mix-args-020'(_Config) ->
@@ -472,12 +434,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"a\", \"b\", \"c\", xs:time('12:30:00')
-      ",
+   Exp = "\n         \"a\", \"b\", \"c\", xs:time('12:30:00')\n      ",
  Tst = xqerl:run("\"a\", \"b\", \"c\", xs:time('12:30:00')"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-1'(_Config) ->
@@ -486,9 +446,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SeqInsertBeforeFunc-2'(_Config) ->
@@ -497,9 +455,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SeqInsertBeforeFunc-3'(_Config) ->
@@ -508,9 +464,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SeqInsertBeforeFunc-4'(_Config) ->
@@ -519,9 +473,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-SeqInsertBeforeFunc-5'(_Config) ->
@@ -530,9 +482,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-6'(_Config) ->
@@ -541,9 +491,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-7'(_Config) ->
@@ -552,9 +500,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-8'(_Config) ->
@@ -563,9 +509,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-9'(_Config) ->
@@ -574,9 +518,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-10'(_Config) ->
@@ -585,9 +527,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-11'(_Config) ->
@@ -596,9 +536,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-12'(_Config) ->
@@ -607,9 +545,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-13'(_Config) ->
@@ -618,9 +554,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-14'(_Config) ->
@@ -629,9 +563,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-15'(_Config) ->
@@ -640,9 +572,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-16'(_Config) ->
@@ -651,12 +581,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-SeqInsertBeforeFunc-17'(_Config) ->
@@ -665,9 +590,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-18'(_Config) ->
@@ -676,9 +599,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-19'(_Config) ->
@@ -687,9 +608,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-20'(_Config) ->
@@ -698,9 +617,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqInsertBeforeFunc-21'(_Config) ->
@@ -709,9 +626,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-fn-insert-before-001'(_Config) ->
@@ -720,23 +635,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2 3 4 20 21 22 23 24 25 26 27 28 29 30 5 6 7 8 9 10
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2 3 4 20 21 22 23 24 25 26 27 28 29 30 5 6 7 8 9 10\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2 3 4 20 21 22 23 24 25 26 27 28 29 30 5 6 7 8 9 10" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-fn-insert-before-002'(_Config) ->
-   Qry = "
-        insert-before((1 to 10,(20 to 30)[. mod 2 = 0],30 to 40),12,\"blah\")
-      ",
+   Qry = "\n        insert-before((1 to 10,(20 to 30)[. mod 2 = 0],30 to 40),12,\"blah\")\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2 3 4 5 6 7 8 9 10 20 blah 22 24 26 28 30 30 31 32 33 34 35 36 37 38 39 40
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2 3 4 5 6 7 8 9 10 20 blah 22 24 26 28 30 30 31 32 33 34 35 36 37 38 39 40\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2 3 4 5 6 7 8 9 10 20 blah 22 24 26 28 30 30 31 32 33 34 35 36 37 38 39 40" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

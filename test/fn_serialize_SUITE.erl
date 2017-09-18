@@ -159,28 +159,13 @@ environment('math') ->
 'serialize-xml-007a'(_Config) ->
    {skip,"Validation Environment"}.
 'serialize-xml-008'(_Config) ->
-   Qry = "
-          let $params := 
-              <output:serialization-parameters
-                   xmlns:output=\"http://www.w3.org/2010/xslt-xquery-serialization\">
-                <output:method value=\"xml\"/>   
-                <output:indent value=\"yes\"/>
-                <output:suppress-indentation value=\"p\"/>
-              </output:serialization-parameters>
-          return serialize(., $params)
-        ",
+   Qry = "\n          let $params := \n              <output:serialization-parameters\n                   xmlns:output=\"http://www.w3.org/2010/xslt-xquery-serialization\">\n                <output:method value=\"xml\"/>   \n                <output:indent value=\"yes\"/>\n                <output:suppress-indentation value=\"p\"/>\n              </output:serialization-parameters>\n          return serialize(., $params)\n        ",
    Env = xqerl_test:handle_environment(environment('')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                matches($result,'\\n\\s+<title>')
-                matches($result,'\\n\\s+<p>')
-                not(matches($result,'\\n\\s+<code>'))
-            
-        ",
+   Exp = "\n            \n                matches($result,'\\n\\s+<title>')\n                matches($result,'\\n\\s+<p>')\n                not(matches($result,'\\n\\s+<code>'))\n            \n        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"matches($result,'\\n\\s+<title>')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"matches($result,'\\n\\s+<p>')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"not(matches($result,'\\n\\s+<code>'))",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'serialize-xml-009'(_Config) ->
@@ -191,9 +176,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-        ",
+   Exp = "\n            \n        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SENR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'SENR0001'}) end.
 'serialize-xml-011'(_Config) ->

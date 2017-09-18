@@ -198,50 +198,38 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This is a charac
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This is a charac\n      ",
+   case xqerl_test:string_value(Res) of
              "This is a charac" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space1args-2'(_Config) ->
    Qry = "fn:normalize-space(\"This is a ch\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This is a ch
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This is a ch\n      ",
+   case xqerl_test:string_value(Res) of
              "This is a ch" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space1args-3'(_Config) ->
    Qry = "fn:normalize-space(\"This is a charac\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This is a charac
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This is a charac\n      ",
+   case xqerl_test:string_value(Res) of
              "This is a charac" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space1args-4'(_Config) ->
    Qry = "normalize-space(())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            xs:string
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            xs:string\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
@@ -261,24 +249,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         Hello, How are you?
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         Hello, How are you?\n      ",
+   case xqerl_test:string_value(Res) of
              "Hello, How are you?" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-1'(_Config) ->
    Qry = "fn:normalize-space(\" The wealthy curled darlings of our nation. \")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         The wealthy curled darlings of our nation.
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         The wealthy curled darlings of our nation.\n      ",
+   case xqerl_test:string_value(Res) of
              "The wealthy curled darlings of our nation." -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-2'(_Config) ->
    Qry = "fn:normalize-space()",
    Env = xqerl_test:handle_environment(environment('empty')),
@@ -286,9 +270,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'fn-normalize-space-3'(_Config) ->
@@ -297,94 +279,68 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This text should contains no tabs
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This text should contains no tabs\n      ",
+   case xqerl_test:string_value(Res) of
              "This text should contains no tabs" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-4'(_Config) ->
-   Qry = "fn:normalize-space(\"This text should contains
-no newline characters.\")",
+   Qry = "fn:normalize-space(\"This text should contains\nno newline characters.\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This text should contains no newline characters.
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This text should contains no newline characters.\n      ",
+   case xqerl_test:string_value(Res) of
              "This text should contains no newline characters." -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-5'(_Config) ->
    Qry = "fn:normalize-space(\"This	text	should	contains	no	tab	characters.\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This text should contains no tab characters.
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This text should contains no tab characters.\n      ",
+   case xqerl_test:string_value(Res) of
              "This text should contains no tab characters." -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-6'(_Config) ->
-   Qry = "fn:normalize-space(\"This
-text
-should
-contains
-no
-newline
-characters.\")",
+   Qry = "fn:normalize-space(\"This\ntext\nshould\ncontains\nno\nnewline\ncharacters.\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This text should contains no newline characters.
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This text should contains no newline characters.\n      ",
+   case xqerl_test:string_value(Res) of
              "This text should contains no newline characters." -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-7'(_Config) ->
-   Qry = "fn:normalize-space(\"This text	should contains no tabs or
-newline characters.\")",
+   Qry = "fn:normalize-space(\"This text	should contains no tabs or\nnewline characters.\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This text should contains no tabs or newline characters.
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This text should contains no tabs or newline characters.\n      ",
+   case xqerl_test:string_value(Res) of
              "This text should contains no tabs or newline characters." -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-8'(_Config) ->
-   Qry = "fn:normalize-space(\"This	 text	 should	 contains
- no tabs or newline characters.\")",
+   Qry = "fn:normalize-space(\"This	 text	 should	 contains\n no tabs or newline characters.\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         This text should contains no tabs or newline characters.
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         This text should contains no tabs or newline characters.\n      ",
+   case xqerl_test:string_value(Res) of
              "This text should contains no tabs or newline characters." -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-9'(_Config) ->
    Qry = "fn:normalize-space(\"    \")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -395,13 +351,8 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -412,13 +363,8 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -429,13 +375,8 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -446,50 +387,32 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-normalize-space-14'(_Config) ->
-   Qry = "fn:normalize-space(\"
-\")",
+   Qry = "fn:normalize-space(\"\n\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-normalize-space-15'(_Config) ->
-   Qry = "fn:normalize-space(\"
-
-\")",
+   Qry = "fn:normalize-space(\"\n\n\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -500,49 +423,32 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-normalize-space-17'(_Config) ->
-   Qry = "fn:normalize-space(\"   
- \")",
+   Qry = "fn:normalize-space(\"   \n \")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-normalize-space-18'(_Config) ->
-   Qry = "fn:normalize-space(\"	
-\")",
+   Qry = "fn:normalize-space(\"	\n\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -553,36 +459,30 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         12345
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         12345\n      ",
+   case xqerl_test:string_value(Res) of
              "12345" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-20'(_Config) ->
    Qry = "fn:normalize-space(fn:string(\" ABC \"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         ABC
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         ABC\n      ",
+   case xqerl_test:string_value(Res) of
              "ABC" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-21'(_Config) ->
    Qry = "fn:normalize-space(fn:normalize-space(\" ABC\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         ABC
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         ABC\n      ",
+   case xqerl_test:string_value(Res) of
              "ABC" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-normalize-space-23'(_Config) ->
    {skip,"Validation Environment"}.
 'fn-normalize-space-24'(_Config) ->
@@ -597,9 +497,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-NormalizeSpaceFunc-2'(_Config) ->
@@ -608,12 +506,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-NormalizeSpaceFunc-3'(_Config) ->
@@ -622,9 +515,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-NormalizeSpaceFunc-4'(_Config) ->
@@ -633,9 +524,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-NormalizeSpaceFunc-5'(_Config) ->
@@ -644,9 +533,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-NormalizeSpaceFunc-6'(_Config) ->
@@ -655,9 +542,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-NormalizeSpaceFunc-7'(_Config) ->
@@ -666,9 +551,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-NormalizeSpaceFunc-8'(_Config) ->
@@ -677,9 +560,7 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-NormalizeSpaceFunc-9'(_Config) ->
@@ -688,11 +569,6 @@ newline characters.\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            
-         
-      ",
+   Exp = "\n         \n            \n            \n         \n      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.

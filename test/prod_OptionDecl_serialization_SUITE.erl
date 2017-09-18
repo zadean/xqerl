@@ -193,25 +193,13 @@ environment('user-defined-types') ->
 {modules, []}
 ].
 'Serialization-001'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:cdata-section-elements \"\";
-         declare option output:doctype-public \"none\";
-         declare option output:doctype-system \"none\";
-         declare option output:indent \"no\";
-         declare option output:method \"xml\";
-         declare option output:suppress-indentation \"\";
-         declare option output:undeclare-prefixes \"no\";
-         declare option output:use-character-maps \"\";
-         <result>ok</result>
-        ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:cdata-section-elements \"\";\n         declare option output:doctype-public \"none\";\n         declare option output:doctype-system \"none\";\n         declare option output:indent \"no\";\n         declare option output:method \"xml\";\n         declare option output:suppress-indentation \"\";\n         declare option output:undeclare-prefixes \"no\";\n         declare option output:use-character-maps \"\";\n         <result>ok</result>\n        ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -220,18 +208,13 @@ environment('user-defined-types') ->
               end
 end.
 'Serialization-002'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:indent \"yes\";
-         <result>ok</result>
-        ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:indent \"yes\";\n         <result>ok</result>\n        ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -240,17 +223,12 @@ end.
               end
 end.
 'Serialization-003'(_Config) ->
-   Qry = "
-         import module namespace test=\"http://www.w3.org/TestModules/test\";
-         <result>{test:ok()}</result>
-      ",
+   Qry = "\n         import module namespace test=\"http://www.w3.org/TestModules/test\";\n         <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0108" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0108'}) end.
 'Serialization-004'(_Config) ->
@@ -258,38 +236,22 @@ end.
 'Serialization-005'(_Config) ->
    {skip,"serialization"}.
 'Serialization-006'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:parameter-document \"Serialization/serialization-parameters.xml\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:parameter-document \"Serialization/serialization-parameters.xml\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           <result>ok</result>     
- 
-           
-           
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0119") of true -> {comment, "any-of"};
+   Exp = "\n        \n           <result>ok</result>     \n \n           \n           \n         \n      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0119") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-007'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:parameter-document \"Serialization/serialization-parameters.xml\";
-         declare option output:indent \"yes\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:parameter-document \"Serialization/serialization-parameters.xml\";\n         declare option output:indent \"yes\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>     
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>     \n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -298,370 +260,166 @@ end.
               end
 end.
 'Serialization-008'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:byte-order-mark \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:byte-order-mark \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-009'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:doctype-public \"&#xc381;\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:doctype-public \"&#xc381;\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-010'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:cdata-section-elements \"::INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:cdata-section-elements \"::INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-011'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:doctype-system \"mustnotincludebothanapostrophe&#x27;andquotationmark&#x22;\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:doctype-system \"mustnotincludebothanapostrophe&#x27;andquotationmark&#x22;\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-012'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:encoding \"onlyasciiallowedlessthan&#x7f;\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:encoding \"onlyasciiallowedlessthan&#x7f;\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SESU0007\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SESU0007") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-013'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:escape-uri-attributes \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:escape-uri-attributes \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-014'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:include-content-type \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:include-content-type \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-015'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:indent \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:indent \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-016'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         (: the charset parameter of the media type MUST NOT be specified explicitly in the value of the media-type parameter. :)
-         declare option output:media-type \"text/html; charset=ISO-8859-4\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         (: the charset parameter of the media type MUST NOT be specified explicitly in the value of the media-type parameter. :)\n         declare option output:media-type \"text/html; charset=ISO-8859-4\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-017'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         (: An expanded QName with a null namespace URI, and the local part of the name equal to one of xml, xhtml, html or text, or having a non-null namespace URI :)
-         declare option output:method \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         (: An expanded QName with a null namespace URI, and the local part of the name equal to one of xml, xhtml, html or text, or having a non-null namespace URI :)\n         declare option output:method \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-018'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:normalization-form \"__NOT_SUPPORTED__\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:normalization-form \"__NOT_SUPPORTED__\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SESU0011\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SESU0011") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-019'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:omit-xml-declaration \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:omit-xml-declaration \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-020'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:standalone \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:standalone \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-021'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:suppress-indentation \"::INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:suppress-indentation \"::INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-022'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:undeclare-prefixes \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:undeclare-prefixes \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-023'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:use-character-maps \"INVALID_VALUE\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:use-character-maps \"INVALID_VALUE\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0016\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0016") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-024'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         (: An unsupported xml version which matches the VersionNum of XML Recommendation XML10 :)
-         declare option output:version \"1.14159265\";
-         <result>ok</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         (: An unsupported xml version which matches the VersionNum of XML Recommendation XML10 :)\n         declare option output:version \"1.14159265\";\n         <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SESU0013\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SESU0013") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-025'(_Config) ->
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:method \"html\";
-         (: control characters not allowed in html :)
-         <result>ok&#x7f;</result>
-      ",
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";\n         declare option output:method \"html\";\n         (: control characters not allowed in html :)\n         <result>ok&#x7f;</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-           
-           <result>ok</result>     
-
-           
-           
-         
-      ",
- case (   ct:fail(["<assert-serialization-error xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" code=\"SEPM0014\"/>", Res])) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P1 -> "deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
+   Exp = "\n        \n           \n           <result>ok</result>     \n\n           \n           \n         \n      ",
+ case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SEPM0014") orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<result>ok</result>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'Serialization-026'(_Config) ->
    {skip,"serialization"}.

@@ -277,30 +277,26 @@ environment('math') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = [10,32,32,32,32,32,32,32,32,32,98,223,1682,12365,63744,10,32,32,32,32,32,32],
-   case xqerl_types:string_value(Res) of
+   case xqerl_test:string_value(Res) of
              [98,223,1682,12365,63744] -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string1args-2'(_Config) ->
    Qry = "codepoints-to-string(())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string1args-3'(_Config) ->
    Qry = "codepoints-to-string('hello')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-codepoints-to-string1args-4'(_Config) ->
@@ -309,9 +305,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-codepoints-to-string-1'(_Config) ->
@@ -320,9 +314,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'fn-codepoints-to-string-2'(_Config) ->
@@ -331,9 +323,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'fn-codepoints-to-string-3'(_Config) ->
@@ -342,144 +332,120 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1\n      ",
+   case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-4'(_Config) ->
    Qry = "fn:codepoints-to-string(97)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         a
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         a\n      ",
+   case xqerl_test:string_value(Res) of
              "a" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-5'(_Config) ->
    Qry = "fn:codepoints-to-string((49,97))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1a
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1a\n      ",
+   case xqerl_test:string_value(Res) of
              "1a" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-6'(_Config) ->
    Qry = "fn:codepoints-to-string((35, 42, 94, 36))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         #*^$
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         #*^$\n      ",
+   case xqerl_test:string_value(Res) of
              "#*^$" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-7'(_Config) ->
    Qry = "fn:codepoints-to-string((99,111,100,101,112,111,105,110,116,115,45,116,111,45,115,116,114,105,110,103))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         codepoints-to-string
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         codepoints-to-string\n      ",
+   case xqerl_test:string_value(Res) of
              "codepoints-to-string" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-8'(_Config) ->
    Qry = "xs:string(fn:codepoints-to-string((65,32,83,116,114,105,110,103)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         A String
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         A String\n      ",
+   case xqerl_test:string_value(Res) of
              "A String" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-9'(_Config) ->
    Qry = "fn:upper-case(fn:codepoints-to-string((65,32,83,84,82,73,78,71)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         A STRING
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         A STRING\n      ",
+   case xqerl_test:string_value(Res) of
              "A STRING" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-10'(_Config) ->
    Qry = "fn:lower-case(fn:codepoints-to-string((97,32,115,116,114,105,110,103)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         a string
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         a string\n      ",
+   case xqerl_test:string_value(Res) of
              "a string" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-11'(_Config) ->
    Qry = "fn:codepoints-to-string(xs:integer(97))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         a
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         a\n      ",
+   case xqerl_test:string_value(Res) of
              "a" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-12'(_Config) ->
    Qry = "fn:codepoints-to-string(xs:integer(fn:avg((65,32,83,116,114,105,110,103))))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         [
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         [\n      ",
+   case xqerl_test:string_value(Res) of
              "[" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-13'(_Config) ->
    Qry = "fn:concat(fn:codepoints-to-string((49,97)),\"1a\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1a1a
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1a1a\n      ",
+   case xqerl_test:string_value(Res) of
              "1a1a" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-codepoints-to-string-14'(_Config) ->
    Qry = "fn:string-to-codepoints(fn:codepoints-to-string((49,97)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         49, 97
-      ",
+   Exp = "\n         49, 97\n      ",
  Tst = xqerl:run("49, 97"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-codepoints-to-string-15'(_Config) ->
@@ -488,9 +454,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -502,21 +466,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1aab
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1aab\n      ",
+   case xqerl_test:string_value(Res) of
              "1aab" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-CodepointToStringFunc-1'(_Config) ->
    Qry = "codepoints-to-string()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-CodepointToStringFunc-2'(_Config) ->
@@ -525,9 +485,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-CodepointToStringFunc-3'(_Config) ->
@@ -536,9 +494,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-4'(_Config) ->
@@ -547,9 +503,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-5'(_Config) ->
@@ -558,9 +512,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-6'(_Config) ->
@@ -569,9 +521,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-7'(_Config) ->
@@ -580,9 +530,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-8'(_Config) ->
@@ -591,13 +539,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            &#x8;
-            
-         
-      ",
- case (xqerl_types:string_value(Res) == "&#x8;") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001") of true -> {comment, "any-of"};
+   Exp = "\n         \n            &#x8;\n            \n         \n      ",
+ case (xqerl_test:string_value(Res) == "&#x8;") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CodepointToStringFunc-9'(_Config) ->
    Qry = "codepoints-to-string(9) eq \"	\"",
@@ -605,21 +548,16 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-10'(_Config) ->
-   Qry = "codepoints-to-string(10) eq \"
-\"",
+   Qry = "codepoints-to-string(10) eq \"\n\"",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-11'(_Config) ->
@@ -628,9 +566,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-11b'(_Config) ->
@@ -641,9 +577,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-12b'(_Config) ->
@@ -654,9 +588,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-14'(_Config) ->
@@ -665,12 +597,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            14
-            
-         
-      ",
+   Exp = "\n         \n            14\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("14"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -682,12 +609,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            31
-            
-         
-      ",
+   Exp = "\n         \n            31\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("31"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -699,9 +621,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-17'(_Config) ->
@@ -710,9 +630,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-18'(_Config) ->
@@ -721,9 +639,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-19'(_Config) ->
@@ -732,9 +648,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-20'(_Config) ->
@@ -743,9 +657,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-21'(_Config) ->
@@ -754,9 +666,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-22'(_Config) ->
@@ -765,9 +675,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-23'(_Config) ->
@@ -776,9 +684,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-24'(_Config) ->
@@ -787,9 +693,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-25'(_Config) ->
@@ -798,9 +702,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'K-CodepointToStringFunc-26'(_Config) ->
@@ -809,9 +711,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-27'(_Config) ->
@@ -820,9 +720,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-28'(_Config) ->
@@ -831,9 +729,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CodepointToStringFunc-29'(_Config) ->
@@ -842,68 +738,43 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-001'(_Config) ->
-   Qry = "
-        declare function local:test($test as xs:integer) as xs:integer? { 
-          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
-        }; 
-        fn:codepoints-to-string( local:test(1) to 32 )",
+   Qry = "\n        declare function local:test($test as xs:integer) as xs:integer? { \n          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () \n        }; \n        fn:codepoints-to-string( local:test(1) to 32 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-002'(_Config) ->
-   Qry = "
-        declare function local:test($test as xs:integer) as xs:integer? { 
-          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
-        }; 
-        fn:codepoints-to-string( local:test(2) to 32 )",
+   Qry = "\n        declare function local:test($test as xs:integer) as xs:integer? { \n          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () \n        }; \n        fn:codepoints-to-string( local:test(2) to 32 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-003'(_Config) ->
-   Qry = "
-      declare function local:test($test as xs:integer) as xs:integer? { 
-        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 )else if ($test = 4) then ( 16 ) else () 
-      }; 
-      fn:codepoints-to-string( local:test(3) to 32 )",
+   Qry = "\n      declare function local:test($test as xs:integer) as xs:integer? { \n        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 )else if ($test = 4) then ( 16 ) else () \n      }; \n      fn:codepoints-to-string( local:test(3) to 32 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-004'(_Config) ->
-   Qry = "declare function local:test($test as xs:integer) as xs:integer? { 
-        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
-      }; 
-      fn:codepoints-to-string( local:test(4) to 32 )",
+   Qry = "declare function local:test($test as xs:integer) as xs:integer? { \n        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () \n      }; \n      fn:codepoints-to-string( local:test(4) to 32 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-005'(_Config) ->
@@ -912,9 +783,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-006'(_Config) ->
@@ -923,9 +792,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-007'(_Config) ->
@@ -934,9 +801,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-008'(_Config) ->
@@ -945,9 +810,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-009'(_Config) ->
@@ -956,9 +819,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-010'(_Config) ->
@@ -967,9 +828,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-codepoints-to-string-011'(_Config) ->
@@ -978,9 +837,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-012'(_Config) ->
@@ -989,9 +846,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-013'(_Config) ->
@@ -1000,9 +855,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-codepoints-to-string-014'(_Config) ->
@@ -1011,9 +864,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-codepoints-to-string-015'(_Config) ->
@@ -1022,9 +873,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-codepoints-to-string-016'(_Config) ->
@@ -1033,9 +882,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-codepoints-to-string-017'(_Config) ->
@@ -1044,48 +891,40 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true\n      ",
+   case xqerl_test:string_value(Res) of
              "true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-codepoints-to-string-018'(_Config) ->
    Qry = "if(5 < exactly-one((1 to 10)[. div 2 = 5])) then codepoints-to-string(32 to exactly-one((1 to 100)[. div 2 = 40])) else ()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-          !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOP
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n          !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOP\n      ",
+   case xqerl_test:string_value(Res) of
              " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOP" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-codepoints-to-string-019'(_Config) ->
    Qry = "for $x in 65 to 75 return string-length(codepoints-to-string($x to $x+10))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         11 11 11 11 11 11 11 11 11 11 11
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         11 11 11 11 11 11 11 11 11 11 11\n      ",
+   case xqerl_test:string_value(Res) of
              "11 11 11 11 11 11 11 11 11 11 11" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-codepoints-to-string-020'(_Config) ->
    Qry = "for $x in 65 to 75 return boolean(codepoints-to-string($x[. mod 2 = 0] to ($x+9)[. mod 2 = 0]))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         false false false false false false false false false false false
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         false false false false false false false false false false false\n      ",
+   case xqerl_test:string_value(Res) of
              "false false false false false false false false false false false" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-codepoints-to-string-021'(_Config) ->
    {skip," range "}.
 'cbcl-codepoints-to-string-022'(_Config) ->
@@ -1094,9 +933,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-023'(_Config) ->
@@ -1105,9 +942,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-024'(_Config) ->
@@ -1116,9 +951,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'cbcl-codepoints-to-string-025'(_Config) ->
@@ -1127,12 +960,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         '	
-'
-      ",
- Tst = xqerl:run("'	
-'"),
+   Exp = "\n         '	\n'\n      ",
+ Tst = xqerl:run("'	\n'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -1143,21 +972,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-codepoints-to-string-027'(_Config) ->
    Qry = "for $x in (13), $y in (13,9,10) return codepoints-to-string($x to $y)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-           
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n           \n      ",
+   case xqerl_test:string_value(Res) of
              "  " -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

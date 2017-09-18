@@ -154,9 +154,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'cbcl-anyURI-002'(_Config) ->
@@ -165,36 +163,30 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         odd-scheme+1.://www.example.org/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         odd-scheme+1.://www.example.org/\n      ",
+   case xqerl_test:string_value(Res) of
              "odd-scheme+1.://www.example.org/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-003'(_Config) ->
    Qry = "xs:anyURI(\"http://%0Ad%E2%9C%90%F0%98%9A%A0/\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://%0Ad%E2%9C%90%F0%98%9A%A0/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-004'(_Config) ->
    Qry = "xs:anyURI(\"http://!$&amp;'()*+,;=/\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://!$&'()*+,;=/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://!$&'()*+,;=/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://!$&'()*+,;=/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-004b'(_Config) ->
    {skip,"XP20+"}.
 'cbcl-anyURI-005'(_Config) ->
@@ -203,24 +195,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/%0Ad%E2%9C%90%F0%98%9A%A0/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-006'(_Config) ->
    Qry = "xs:anyURI(\"http://www.example.org/!/$/&amp;/'/(/)/*/+/,/;/=/\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/!/$/&/'/(/)/*/+/,/;/=/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/!/$/&/'/(/)/*/+/,/;/=/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/!/$/&/'/(/)/*/+/,/;/=/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-006b'(_Config) ->
    {skip,"XP20+"}.
 'cbcl-anyURI-007'(_Config) ->
@@ -229,36 +217,30 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/:/@/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/:/@/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/:/@/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-008'(_Config) ->
    Qry = "xs:anyURI(\"http://www.example.org/?%0Ad%E2%9C%90%F0%98%9A%A0/\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/?%0Ad%E2%9C%90%F0%98%9A%A0/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/?%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/?%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-009'(_Config) ->
    Qry = "xs:anyURI(\"http://www.example.org/?!$&amp;'()*+,;=\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/?!$&'()*+,;=
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/?!$&'()*+,;=\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/?!$&'()*+,;=" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-009b'(_Config) ->
    {skip,"XP20+"}.
 'cbcl-anyURI-010'(_Config) ->
@@ -267,36 +249,30 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/?:@
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/?:@\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/?:@" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-011'(_Config) ->
    Qry = "xs:anyURI(\"http://www.example.org/#%0Ad%E2%9C%90%F0%98%9A%A0/\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/#%0Ad%E2%9C%90%F0%98%9A%A0/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/#%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/#%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-012'(_Config) ->
    Qry = "xs:anyURI(\"http://www.example.org/#!$&amp;'()*+,;=\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/#!$&'()*+,;=
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/#!$&'()*+,;=\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/#!$&'()*+,;=" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-anyURI-012b'(_Config) ->
    {skip,"XP20+"}.
 'cbcl-anyURI-013'(_Config) ->
@@ -305,9 +281,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/#:@
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/#:@\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/#:@" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

@@ -141,10 +141,8 @@ environment('report1') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <instrument>electrocautery</instrument>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<instrument>electrocautery</instrument>"++"</x>)")) == "true" of
+   Exp = "\n         <instrument>electrocautery</instrument>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<instrument>electrocautery</instrument>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<instrument>electrocautery</instrument>" of
@@ -159,10 +157,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>"++"</x>)")) == "true" of
+   Exp = "\n         <instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>" of
@@ -177,10 +173,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <instrument>Hasson trocar</instrument><instrument>trocar</instrument>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<instrument>Hasson trocar</instrument><instrument>trocar</instrument>"++"</x>)")) == "true" of
+   Exp = "\n         <instrument>Hasson trocar</instrument><instrument>trocar</instrument>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<instrument>Hasson trocar</instrument><instrument>trocar</instrument>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<instrument>Hasson trocar</instrument><instrument>trocar</instrument>" of
@@ -195,12 +189,10 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'seq-queries-results-q5'(_Config) ->
    Qry = "<critical_sequence> { let $proc := //section[section.title=\"Procedure\"][1], $i1 := ($proc//incision)[1], $i2 := ($proc//incision)[2] for $n in $proc//node() except $i1//node() where $n >> $i1 and $n << $i2 return $n } </critical_sequence>",
    Env = xqerl_test:handle_environment(environment('report1')),
@@ -208,28 +200,11 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <critical_sequence>
-      The fascia was identified and
-      <action>#2 0 Maxon stay sutures were placed on each side of the midline.
-      </action>#2 0 Maxon stay sutures were placed on each side of the midline.
-      
-      </critical_sequence>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<critical_sequence>
-      The fascia was identified and
-      <action>#2 0 Maxon stay sutures were placed on each side of the midline.
-      </action>#2 0 Maxon stay sutures were placed on each side of the midline.
-      
-      </critical_sequence>"++"</x>)")) == "true" of
+   Exp = "\n         <critical_sequence>\n      The fascia was identified and\n      <action>#2 0 Maxon stay sutures were placed on each side of the midline.\n      </action>#2 0 Maxon stay sutures were placed on each side of the midline.\n      \n      </critical_sequence>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<critical_sequence>\n      The fascia was identified and\n      <action>#2 0 Maxon stay sutures were placed on each side of the midline.\n      </action>#2 0 Maxon stay sutures were placed on each side of the midline.\n      \n      </critical_sequence>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<critical_sequence>
-      The fascia was identified and
-      <action>#2 0 Maxon stay sutures were placed on each side of the midline.
-      </action>#2 0 Maxon stay sutures were placed on each side of the midline.
-      
-      </critical_sequence>" of
+              case ResXml == "<critical_sequence>\n      The fascia was identified and\n      <action>#2 0 Maxon stay sutures were placed on each side of the midline.\n      </action>#2 0 Maxon stay sutures were placed on each side of the midline.\n      \n      </critical_sequence>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end

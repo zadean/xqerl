@@ -192,13 +192,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -209,13 +204,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -226,13 +216,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -243,13 +228,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -260,13 +240,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -277,13 +252,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -294,13 +264,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -311,25 +276,18 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AAAAA
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AAAAA\n      ",
+   case xqerl_test:string_value(Res) of
              "AAAAA" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-substring-before-9'(_Config) ->
    Qry = "fn:substring-before(\"AAAAABBBBB\",\" \")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -340,13 +298,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -357,9 +310,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-substring-before-12'(_Config) ->
@@ -368,9 +319,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-substring-before-13'(_Config) ->
@@ -379,13 +328,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -396,13 +340,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -413,13 +352,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -430,13 +364,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -447,13 +376,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -464,13 +388,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -481,13 +400,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -498,13 +412,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"1\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"1\""),
+   Exp = "\n         \n            \"1\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"1\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
@@ -515,27 +424,19 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            \"\"
-            1
-         
-      ",
- case xqerl_seq2:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
+   Exp = "\n         \n            \"\"\n            1\n         \n      ",
+ case xqerl_test:size(Res) == 1 andalso  begin Tst1 = xqerl:run("\"\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
   ResVal1 == TstVal1 end of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-substring-before-22'(_Config) ->
-   Qry = "substring-before(\"banana\", \"a\",
-         \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
+   Qry = "substring-before(\"banana\", \"a\",\n         \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"b\"
-      ",
+   Exp = "\n         \"b\"\n      ",
  Tst = xqerl:run("\"b\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -556,9 +457,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"b\"
-      ",
+   Exp = "\n         \"b\"\n      ",
  Tst = xqerl:run("\"b\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -584,9 +483,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SubstringBeforeFunc-2'(_Config) ->
@@ -595,45 +492,34 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SubstringBeforeFunc-3'(_Config) ->
-   Qry = "substring-before((), (), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\",
-         \"wrong param\")",
+   Qry = "substring-before((), (), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\",\n         \"wrong param\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SubstringBeforeFunc-4'(_Config) ->
-   Qry = "substring-before(\"a string\", \"a string\",
-         \"http://www.example.com/COLLATION/NOT/SUPPORTED\")",
+   Qry = "substring-before(\"a string\", \"a string\",\n         \"http://www.example.com/COLLATION/NOT/SUPPORTED\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'K-SubstringBeforeFunc-5'(_Config) ->
-   Qry = "substring-before(\"foo\", \"oo\",
-         \"http://www.w3.org/2005/xpath-functions/collation/codepoint\") eq \"f\"",
+   Qry = "substring-before(\"foo\", \"oo\",\n         \"http://www.w3.org/2005/xpath-functions/collation/codepoint\") eq \"f\"",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SubstringBeforeFunc-6'(_Config) ->
@@ -642,9 +528,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SubstringBeforeFunc-7'(_Config) ->
@@ -653,9 +537,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SubstringBeforeFunc-8'(_Config) ->
@@ -664,9 +546,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SubstringBeforeFunc-9'(_Config) ->
@@ -675,9 +555,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SubstringBeforeFunc-10'(_Config) ->
@@ -686,21 +564,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-substring-before-001'(_Config) ->
-   Qry = "
-        fn:boolean(fn:substring-before('input', '', 'http://www.w3.org/2005/xpath-functions/collation/codepoint'))
-      ",
+   Qry = "\n        fn:boolean(fn:substring-before('input', '', 'http://www.w3.org/2005/xpath-functions/collation/codepoint'))\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.

@@ -117,14 +117,11 @@ environment('math') ->
 {modules, []}
 ].
 'static-context-1'(_Config) ->
-   Qry = "declare namespace test = 'http://www.example.com'; 
-        <a/> instance of element(*, test:unknownType)",
+   Qry = "declare namespace test = 'http://www.example.com'; \n        <a/> instance of element(*, test:unknownType)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.

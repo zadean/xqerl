@@ -214,12 +214,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            false(), false(), true(), true(), false()
-        ",
+   Exp = "\n            false(), false(), true(), true(), false()\n        ",
  Tst = xqerl:run("false(), false(), true(), true(), false()"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-002'(_Config) ->
@@ -228,12 +226,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            false(), false(), true(), true(), false()
-        ",
+   Exp = "\n            false(), false(), true(), true(), false()\n        ",
  Tst = xqerl:run("false(), false(), true(), true(), false()"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-003'(_Config) ->
@@ -242,12 +238,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                false(), false(), true(), true(), false()
-        ",
+   Exp = "\n                false(), false(), true(), true(), false()\n        ",
  Tst = xqerl:run("false(), false(), true(), true(), false()"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-004'(_Config) ->
@@ -256,12 +250,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                'aa-AA', 'bb-BB', 'cc-cc', 'dd-dd', 'ee-EE'
-        ",
+   Exp = "\n                'aa-AA', 'bb-BB', 'cc-cc', 'dd-dd', 'ee-EE'\n        ",
  Tst = xqerl:run("'aa-AA', 'bb-BB', 'cc-cc', 'dd-dd', 'ee-EE'"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-005'(_Config) ->
@@ -270,44 +262,34 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                2, 4, 6, 8, 10
-        ",
+   Exp = "\n                2, 4, 6, 8, 10\n        ",
  Tst = xqerl:run("2, 4, 6, 8, 10"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-006'(_Config) ->
-   Qry = " 
-            let $millenium := year-from-date(current-date()) idiv 1000 
-            return for-each-pair(1 to 5, 2 to 6, function($a as xs:integer, $b as xs:integer) as xs:integer{$a + $b + $millenium})",
+   Qry = " \n            let $millenium := year-from-date(current-date()) idiv 1000 \n            return for-each-pair(1 to 5, 2 to 6, function($a as xs:integer, $b as xs:integer) as xs:integer{$a + $b + $millenium})",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                5, 7, 9, 11, 13
-        ",
+   Exp = "\n                5, 7, 9, 11, 13\n        ",
  Tst = xqerl:run("5, 7, 9, 11, 13"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-007'(_Config) ->
-   Qry = " 
-            let $millenium := year-from-date(current-date()) idiv 1000 
-            return for-each-pair((\"a\", \"ab\", \"abc\", \"\"), (\"\", \"\", \"\", \"\"), function($a, $b) as xs:integer* {1 to (string-length($a) + string-length($b))})",
+   Qry = " \n            let $millenium := year-from-date(current-date()) idiv 1000 \n            return for-each-pair((\"a\", \"ab\", \"abc\", \"\"), (\"\", \"\", \"\", \"\"), function($a, $b) as xs:integer* {1 to (string-length($a) + string-length($b))})",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                1, 1, 2, 1, 2, 3
-        ",
+   Exp = "\n                1, 1, 2, 1, 2, 3\n        ",
  Tst = xqerl:run("1, 1, 2, 1, 2, 3"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-008'(_Config) ->
@@ -316,12 +298,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                3, 5, 7, 9
-        ",
+   Exp = "\n                3, 5, 7, 9\n        ",
  Tst = xqerl:run("3, 5, 7, 9"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'for-each-pair-901'(_Config) ->
@@ -330,9 +310,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                
-        ",
+   Exp = "\n                \n        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'for-each-pair-902'(_Config) ->
@@ -341,9 +319,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-                
-        ",
+   Exp = "\n                \n        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-001'(_Config) ->
@@ -352,9 +328,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-for-each-pair-002'(_Config) ->
@@ -363,9 +337,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-for-each-pair-003'(_Config) ->
@@ -374,9 +346,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-for-each-pair-004'(_Config) ->
@@ -385,9 +355,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-for-each-pair-005'(_Config) ->
@@ -396,9 +364,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-for-each-pair-006'(_Config) ->
@@ -407,9 +373,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-for-each-pair-007'(_Config) ->
@@ -418,12 +382,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  
-	
-      ",
+   Exp = "\n	\n	  \n	  \n	\n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-008'(_Config) ->
@@ -432,52 +391,25 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-for-each-pair-009'(_Config) ->
-   Qry = "( fn:for-each-pair( (), (), if ( fn:current-dateTime() eq
-                                 fn:dateTime( fn:current-date(),
-                                              fn:current-time() ))
-                            then fn:concat#2
-                            else () ),
-              fn:for-each-pair( (), (), if ( fn:current-dateTime() eq
-                                fn:dateTime( fn:current-date(),
-                                             fn:current-time() ))
-                            then ()
-                            else fn:concat#2 ) )",
+   Qry = "( fn:for-each-pair( (), (), if ( fn:current-dateTime() eq\n                                 fn:dateTime( fn:current-date(),\n                                              fn:current-time() ))\n                            then fn:concat#2\n                            else () ),\n              fn:for-each-pair( (), (), if ( fn:current-dateTime() eq\n                                fn:dateTime( fn:current-date(),\n                                             fn:current-time() ))\n                            then ()\n                            else fn:concat#2 ) )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-010'(_Config) ->
-   Qry = "fn:for-each-pair( (), (), if ( fn:current-dateTime() eq
-                          fn:dateTime( fn:current-date(),
-                                       fn:current-time() ))
-                          then fn:concat#2
-                          else () )",
+   Qry = "fn:for-each-pair( (), (), if ( fn:current-dateTime() eq\n                          fn:dateTime( fn:current-date(),\n                                       fn:current-time() ))\n                          then fn:concat#2\n                          else () )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-011'(_Config) ->
@@ -486,13 +418,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-012'(_Config) ->
@@ -501,13 +427,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-013'(_Config) ->
@@ -525,13 +445,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-014'(_Config) ->
@@ -540,13 +454,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-015'(_Config) ->
@@ -555,13 +463,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-016'(_Config) ->
@@ -570,24 +472,11 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-	      
-	      
-	      
-	    
-      ",
+   Exp = "\n	    \n	      \n	      \n	      \n	    \n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-017'(_Config) ->
-   Qry = "fn:for-each-pair((//node(), 1, \"string\", 3.14, 2.7e0, fn:exists#1),
-                          (//node(), 1, \"string\", 3.14, 2.7e0, fn:exists#1), function($a, $b)
-                          { if ($a instance of function(*))
-                            then $b instance of function(*)
-                            else if ($b instance of function(*))
-                            then false()
-                            else deep-equal($a, $b)
-                          } )",
+   Qry = "fn:for-each-pair((//node(), 1, \"string\", 3.14, 2.7e0, fn:exists#1),\n                          (//node(), 1, \"string\", 3.14, 2.7e0, fn:exists#1), function($a, $b)\n                          { if ($a instance of function(*))\n                            then $b instance of function(*)\n                            else if ($b instance of function(*))\n                            then false()\n                            else deep-equal($a, $b)\n                          } )",
    Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/for-each-pair/fn-for-each-pair-013.xml",".",""}]},
 {schemas, []},
 {collections, []},
@@ -601,26 +490,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	true true true true true true true true true true
- 	
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n	true true true true true true true true true true\n 	\n      ",
+   case xqerl_test:string_value(Res) of
              "true true true true true true true true true true" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-for-each-pair-018'(_Config) ->
    Qry = "fn:for-each-pair( (), fn:error(), concat#2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  
-	  
-	
-      ",
+   Exp = "\n	\n	  \n	  \n	  \n	\n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-019'(_Config) ->
@@ -629,13 +509,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  
-	  
-	
-      ",
+   Exp = "\n	\n	  \n	  \n	  \n	\n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-020'(_Config) ->
@@ -644,12 +518,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  
-	
-      ",
+   Exp = "\n	\n	  \n	  \n	\n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-021'(_Config) ->
@@ -658,9 +527,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	  
-      ",
+   Exp = "\n	  \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOER0000'}) end.
 'fn-for-each-pair-022'(_Config) ->
@@ -669,13 +536,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  
-	  
-	  
-	
-      ",
+   Exp = "\n	\n	  \n	  \n	  \n	\n      ",
  case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-023'(_Config) ->
@@ -684,13 +545,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  1
-	  
-	
-      ",
- case (xqerl_types:string_value(Res) == "1") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") of true -> {comment, "any-of"};
+   Exp = "\n	\n	  1\n	  \n	\n      ",
+ case (xqerl_test:string_value(Res) == "1") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-024'(_Config) ->
    Qry = "fn:for-each-pair( 1, (1, fn:error()), function($arg1, $arg2) { ($arg1, $arg2) })",
@@ -698,13 +554,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-	  1 1
-	  
-	
-      ",
- case (xqerl_types:string_value(Res) == "1 1") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") of true -> {comment, "any-of"};
+   Exp = "\n	\n	  1 1\n	  \n	\n      ",
+ case (xqerl_test:string_value(Res) == "1 1") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-for-each-pair-025'(_Config) ->
    Qry = "fn:for-each-pair( 1 to 3, 1 to 3, function($arg1, $arg2) { ($arg1 + $arg2) })",
@@ -712,45 +563,37 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	2 4 6
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n	2 4 6\n      ",
+   case xqerl_test:string_value(Res) of
              "2 4 6" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-for-each-pair-026'(_Config) ->
    Qry = "fn:for-each-pair( (true(), false(), true()), 1 to 3, function($arg1, $arg2) { if ($arg1) then $arg2 else () })",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	1 3
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n	1 3\n      ",
+   case xqerl_test:string_value(Res) of
              "1 3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-for-each-pair-027'(_Config) ->
    Qry = "fn:for-each-pair( 1 to 3, 1 to 3, function($arg1, $arg2) { ($arg1, $arg2) })",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	1 1 2 2 3 3
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n	1 1 2 2 3 3\n      ",
+   case xqerl_test:string_value(Res) of
              "1 1 2 2 3 3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-for-each-pair-028'(_Config) ->
    Qry = "fn:for-each-pair( (\"1\", \"2\"), (1, 2), function($arg1 as xs:integer, $arg2 as xs:integer) { $arg1 + $arg2 } )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-029'(_Config) ->
@@ -759,9 +602,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-030'(_Config) ->
@@ -770,44 +611,25 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-031'(_Config) ->
-   Qry = "( fn:for-each-pair( (\"a\"), (\"b\"), if ( fn:current-dateTime() eq
-                                 fn:dateTime( fn:current-date(),
-                                              fn:current-time() ))
-                            then fn:concat#2
-                            else () ),
-              fn:for-each-pair( \"a\", \"b\", if ( fn:current-dateTime() eq
-                                fn:dateTime( fn:current-date(),
-                                             fn:current-time() ))
-                            then ()
-                            else fn:concat#2 ) )",
+   Qry = "( fn:for-each-pair( (\"a\"), (\"b\"), if ( fn:current-dateTime() eq\n                                 fn:dateTime( fn:current-date(),\n                                              fn:current-time() ))\n                            then fn:concat#2\n                            else () ),\n              fn:for-each-pair( \"a\", \"b\", if ( fn:current-dateTime() eq\n                                fn:dateTime( fn:current-date(),\n                                             fn:current-time() ))\n                            then ()\n                            else fn:concat#2 ) )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-      ",
+   Exp = "\n	\n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-032'(_Config) ->
-   Qry = "fn:for-each-pair( \"a\", \"b\", if ( fn:current-dateTime() eq
-                          fn:dateTime( fn:current-date(),
-                                       fn:current-time() ))
-                          then fn:concat#2
-                          else () )",
+   Qry = "fn:for-each-pair( \"a\", \"b\", if ( fn:current-dateTime() eq\n                          fn:dateTime( fn:current-date(),\n                                       fn:current-time() ))\n                          then fn:concat#2\n                          else () )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-      ",
+   Exp = "\n	\n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-033'(_Config) ->
@@ -816,9 +638,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-      ",
+   Exp = "\n	\n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-034'(_Config) ->
@@ -827,9 +647,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-      ",
+   Exp = "\n	\n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-035'(_Config) ->
@@ -847,9 +665,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-      ",
+   Exp = "\n	\n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-036'(_Config) ->
@@ -858,9 +674,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-      ",
+   Exp = "\n	\n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-for-each-pair-037'(_Config) ->
@@ -869,8 +683,6 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	
-      ",
+   Exp = "\n	\n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.

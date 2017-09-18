@@ -168,177 +168,147 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         this is a characte
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         this is a characte\n      ",
+   case xqerl_test:string_value(Res) of
              "this is a characte" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case1args-2'(_Config) ->
    Qry = "fn:lower-case(xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         this is a characte
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         this is a characte\n      ",
+   case xqerl_test:string_value(Res) of
              "this is a characte" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case1args-3'(_Config) ->
    Qry = "fn:lower-case(xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         this is a characte
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         this is a characte\n      ",
+   case xqerl_test:string_value(Res) of
              "this is a characte" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-1'(_Config) ->
    Qry = "fn:lower-case(\"ABc!D\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abc!d
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abc!d\n      ",
+   case xqerl_test:string_value(Res) of
              "abc!d" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-2'(_Config) ->
    Qry = "fn:count(fn:lower-case(()))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1\n      ",
+   case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-3'(_Config) ->
    Qry = "fn:lower-case(\"12345\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         12345
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         12345\n      ",
+   case xqerl_test:string_value(Res) of
              "12345" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-4'(_Config) ->
    Qry = "fn:lower-case(\"12345abcd\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         12345abcd
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         12345abcd\n      ",
+   case xqerl_test:string_value(Res) of
              "12345abcd" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-5'(_Config) ->
    Qry = "fn:lower-case(\"ABCD\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abcd
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abcd\n      ",
+   case xqerl_test:string_value(Res) of
              "abcd" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-6'(_Config) ->
    Qry = "fn:lower-case(\"abcde\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abcde
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abcde\n      ",
+   case xqerl_test:string_value(Res) of
              "abcde" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-7'(_Config) ->
    Qry = "fn:lower-case(\"ABCDEabcde\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abcdeabcde
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abcdeabcde\n      ",
+   case xqerl_test:string_value(Res) of
              "abcdeabcde" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-8'(_Config) ->
    Qry = "fn:count(fn:lower-case(\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1\n      ",
+   case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-9'(_Config) ->
    Qry = "fn:lower-case(upper-case(\"AbcDH\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abcdh
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abcdh\n      ",
+   case xqerl_test:string_value(Res) of
              "abcdh" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-10'(_Config) ->
    Qry = "fn:lower-case(\"*****\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         *****
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         *****\n      ",
+   case xqerl_test:string_value(Res) of
              "*****" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-11'(_Config) ->
    Qry = "fn:lower-case(lower-case(\"zzzzz\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         zzzzz
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         zzzzz\n      ",
+   case xqerl_test:string_value(Res) of
              "zzzzz" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-12'(_Config) ->
    Qry = "fn:boolean(fn:lower-case(\"abcde\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-lower-case-13'(_Config) ->
@@ -347,21 +317,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abcdefghi
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abcdefghi\n      ",
+   case xqerl_test:string_value(Res) of
              "abcdefghi" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-14'(_Config) ->
    Qry = "fn:not(fn:lower-case(\"abcde\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-lower-case-15'(_Config) ->
@@ -370,33 +336,27 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         %$#@!
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         %$#@!\n      ",
+   case xqerl_test:string_value(Res) of
              "%$#@!" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-16'(_Config) ->
    Qry = "fn:lower-case(\"lower-case\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         lower-case
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         lower-case\n      ",
+   case xqerl_test:string_value(Res) of
              "lower-case" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-lower-case-17'(_Config) ->
    Qry = "fn:lower-case(\"abc\") and fn:lower-case(\"abc\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-LowerCaseFunc-1'(_Config) ->
@@ -405,9 +365,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-LowerCaseFunc-2'(_Config) ->
@@ -416,9 +374,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-LowerCaseFunc-3'(_Config) ->
@@ -427,9 +383,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-LowerCaseFunc-4'(_Config) ->
@@ -438,8 +392,6 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

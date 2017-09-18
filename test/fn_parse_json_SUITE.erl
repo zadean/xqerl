@@ -282,12 +282,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{}
-      ",
+   Exp = "\n         map{}\n      ",
  Tst = xqerl:run("map{}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-002'(_Config) ->
@@ -296,12 +294,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=12e0}
-      ",
+   Exp = "\n         map{\"abc\":=12e0}\n      ",
  Tst = xqerl:run("map{\"abc\":=12e0}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-003'(_Config) ->
@@ -310,12 +306,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=12e0}
-      ",
+   Exp = "\n         map{\"abc\":=12e0}\n      ",
  Tst = xqerl:run("map{\"abc\":=12e0}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-004'(_Config) ->
@@ -324,12 +318,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=-1.2e0}
-      ",
+   Exp = "\n         map{\"abc\":=-1.2e0}\n      ",
  Tst = xqerl:run("map{\"abc\":=-1.2e0}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-005'(_Config) ->
@@ -338,12 +330,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=true()}
-      ",
+   Exp = "\n         map{\"abc\":=true()}\n      ",
  Tst = xqerl:run("map{\"abc\":=true()}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-006'(_Config) ->
@@ -352,12 +342,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=false()}
-      ",
+   Exp = "\n         map{\"abc\":=false()}\n      ",
  Tst = xqerl:run("map{\"abc\":=false()}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-007'(_Config) ->
@@ -366,12 +354,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=()}
-      ",
+   Exp = "\n         map{\"abc\":=()}\n      ",
  Tst = xqerl:run("map{\"abc\":=()}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-008'(_Config) ->
@@ -380,12 +366,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=true(),\"xyz\":=false()}
-      ",
+   Exp = "\n         map{\"abc\":=true(),\"xyz\":=false()}\n      ",
  Tst = xqerl:run("map{\"abc\":=true(),\"xyz\":=false()}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-009'(_Config) ->
@@ -394,28 +378,22 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=true(),\"xyz\":=false()}
-      ",
+   Exp = "\n         map{\"abc\":=true(),\"xyz\":=false()}\n      ",
  Tst = xqerl:run("map{\"abc\":=true(),\"xyz\":=false()}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-010'(_Config) ->
-   Qry = "parse-json('    {   \"abc\"   :   true    ,
-            \"xyz\"   :   false   
-            }   ')",
+   Qry = "parse-json('    {   \"abc\"   :   true    ,\n            \"xyz\"   :   false   \n            }   ')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map{\"abc\":=true(),\"xyz\":=false()}
-      ",
+   Exp = "\n         map{\"abc\":=true(),\"xyz\":=false()}\n      ",
  Tst = xqerl:run("map{\"abc\":=true(),\"xyz\":=false()}"),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-parse-json-011'(_Config) ->
@@ -424,15 +402,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            map(*)
-            1
-            map:size($result) eq 0
-            map:collation($result) eq \"http://saxon.sf.net/json/array-collation\"
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:collation($result) eq \"http://saxon.sf.net/json/array-collation\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n         \n            map(*)\n            1\n            map:size($result) eq 0\n            map:collation($result) eq \"http://saxon.sf.net/json/array-collation\"\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:collation($result) eq \"http://saxon.sf.net/json/array-collation\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-012'(_Config) ->
    Qry = "parse-json(\"[12345]\")",
@@ -440,15 +411,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            map(*)
-            1
-            map:contains($result, 1)
-            map:get($result, 1) eq 12345
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:get($result, 1) eq 12345",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n         \n            map(*)\n            1\n            map:contains($result, 1)\n            map:get($result, 1) eq 12345\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:get($result, 1) eq 12345",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-013'(_Config) ->
    Qry = "parse-json('[\"abcd\"]')",
@@ -456,15 +420,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            map(*)
-            1
-            map:contains($result, 1)
-            $result(1) eq \"abcd\"
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq \"abcd\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n         \n            map(*)\n            1\n            map:contains($result, 1)\n            $result(1) eq \"abcd\"\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq \"abcd\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-014'(_Config) ->
    Qry = "parse-json(\"[true]\")",
@@ -472,15 +429,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-            map(*)
-            1
-            map:contains($result, 1)
-            $result(1) eq true()
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq true()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n        \n            map(*)\n            1\n            map:contains($result, 1)\n            $result(1) eq true()\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq true()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-015'(_Config) ->
    Qry = "parse-json(\"[false]\")",
@@ -488,15 +438,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            map(*)
-            1
-            map:contains($result, 1)
-            $result(1) eq false()
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq false()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n         \n            map(*)\n            1\n            map:contains($result, 1)\n            $result(1) eq false()\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq false()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-016'(_Config) ->
    Qry = "parse-json(\"[null]\")",
@@ -504,15 +447,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            map(*)
-            1
-            map:contains($result, 1)
-            empty($result(1))
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(1))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n         \n            map(*)\n            1\n            map:contains($result, 1)\n            empty($result(1))\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(1))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-017'(_Config) ->
    Qry = "parse-json('[1,2,3, \"abc\", \"def\", true, false, null]')",
@@ -520,41 +456,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-            map(*)
-            1
-            every $i in 1 to 8 satisfies map:contains($result, $i)
-            every $i in (0, 9, 10) satisfies not(map:contains($result, $i))
-            $result(1) eq 1
-            $result(5) eq \"def\"
-            $result(7) eq false()
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in 1 to 8 satisfies map:contains($result, $i)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in (0, 9, 10) satisfies not(map:contains($result, $i))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(5) eq \"def\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(7) eq false()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n        \n            map(*)\n            1\n            every $i in 1 to 8 satisfies map:contains($result, $i)\n            every $i in (0, 9, 10) satisfies not(map:contains($result, $i))\n            $result(1) eq 1\n            $result(5) eq \"def\"\n            $result(7) eq false()\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in 1 to 8 satisfies map:contains($result, $i)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in (0, 9, 10) satisfies not(map:contains($result, $i))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(5) eq \"def\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(7) eq false()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-018'(_Config) ->
-   Qry = "parse-json('
-        [   1,     2,  3, 
-        \"abc\",  \"def\",   true, 
-        false,  null ]
-        ')",
+   Qry = "parse-json('\n        [   1,     2,  3, \n        \"abc\",  \"def\",   true, \n        false,  null ]\n        ')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            map(*)
-            1
-            every $i in 1 to 8 satisfies map:contains($result, $i)
-            every $i in (0, 9, 10) satisfies not(map:contains($result, $i))
-            $result(1) eq 1
-            $result(5) eq \"def\"
-            $result(7) eq false()
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in 1 to 8 satisfies map:contains($result, $i)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in (0, 9, 10) satisfies not(map:contains($result, $i))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(5) eq \"def\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(7) eq false()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
+   Exp = "\n         \n            map(*)\n            1\n            every $i in 1 to 8 satisfies map:contains($result, $i)\n            every $i in (0, 9, 10) satisfies not(map:contains($result, $i))\n            $result(1) eq 1\n            $result(5) eq \"def\"\n            $result(7) eq false()\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in 1 to 8 satisfies map:contains($result, $i)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"every $i in (0, 9, 10) satisfies not(map:contains($result, $i))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(5) eq \"def\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(7) eq false()",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-019'(_Config) ->
    Qry = "parse-json(\"[[[],[]]]\")",
@@ -562,16 +474,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-            map(xs:integer, map(xs:integer, map(*)))
-            1
-            map:size($result) eq 1
-            map:size($result(1)) eq 2
-            map:size($result(1)(2)) eq 0
-         
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result(1)) eq 2",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result(1)(2)) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_seq2:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(xs:integer, map(xs:integer, map(*)))' of true -> {comment, "any-of"};
+   Exp = "\n        \n            map(xs:integer, map(xs:integer, map(*)))\n            1\n            map:size($result) eq 1\n            map:size($result(1)) eq 2\n            map:size($result(1)(2)) eq 0\n         \n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result(1)) eq 2",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result(1)(2)) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(xs:integer, map(xs:integer, map(*)))' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-020'(_Config) ->
    Qry = "parse-json('[1, 2, [], [1], [1,2], [1,2,3]]')",
@@ -579,12 +483,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "        
-         
-            map:size($result) = 6
-            $result(6)(3) = 3
-         
-      ",
+   Exp = "        \n         \n            map:size($result) = 6\n            $result(6)(3) = 3\n         \n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) = 6",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(6)(3) = 3",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-021'(_Config) ->
@@ -593,10 +492,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map:size($result) = 2
-         $result(2)(\"y\") = 6
-      ",
+   Exp = "\n         map:size($result) = 2\n         $result(2)(\"y\") = 6\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) = 2",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(2)(\"y\") = 6",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-022'(_Config) ->
@@ -605,10 +501,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         map:size($result) = 2
-         $result(\"y\")(2) = 9
-      ",
+   Exp = "\n         map:size($result) = 2\n         $result(\"y\")(2) = 9\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) = 2",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(\"y\")(2) = 9",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-023'(_Config) ->
@@ -617,10 +510,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = 0.123e0
-         $result(1) instance of xs:double
-      ",
+   Exp = "\n         $result(1) = 0.123e0\n         $result(1) instance of xs:double\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = 0.123e0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:double",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-024'(_Config) ->
@@ -629,10 +519,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = -0.123e0
-         $result(1) instance of xs:double
-      ",
+   Exp = "\n         $result(1) = -0.123e0\n         $result(1) instance of xs:double\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = -0.123e0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:double",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-025'(_Config) ->
@@ -641,10 +528,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = -0.123e2
-         $result(1) instance of xs:double
-      ",
+   Exp = "\n         $result(1) = -0.123e2\n         $result(1) instance of xs:double\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = -0.123e2",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:double",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-026'(_Config) ->
@@ -653,10 +537,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = -0.123e+2
-         $result(1) instance of xs:double
-      ",
+   Exp = "\n         $result(1) = -0.123e+2\n         $result(1) instance of xs:double\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = -0.123e+2",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:double",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-027'(_Config) ->
@@ -665,10 +546,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = -0.123e-2
-         $result(1) instance of xs:double
-      ",
+   Exp = "\n         $result(1) = -0.123e-2\n         $result(1) instance of xs:double\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = -0.123e-2",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:double",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-028'(_Config) ->
@@ -677,10 +555,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = \"\\\"
-         $result(1) instance of xs:string
-      ",
+   Exp = "\n         $result(1) = \"\\\"\n         $result(1) instance of xs:string\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = \"\\\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-029'(_Config) ->
@@ -689,10 +564,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = '\"'
-         $result(1) instance of xs:string
-      ",
+   Exp = "\n         $result(1) = '\"'\n         $result(1) instance of xs:string\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = '\"'",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-030'(_Config) ->
@@ -701,10 +573,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = ''
-         $result(1) instance of xs:string
-      ",
+   Exp = "\n         $result(1) = ''\n         $result(1) instance of xs:string\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = ''",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-031'(_Config) ->
@@ -713,13 +582,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = '
-'
-         $result(1) instance of xs:string
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = '
-'",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
+   Exp = "\n         $result(1) = '\n'\n         $result(1) instance of xs:string\n      ",
+ case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = '\n'",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-032'(_Config) ->
    Qry = "parse-json('[\"\\/\"]')",
@@ -727,10 +591,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = '/'
-         $result(1) instance of xs:string
-      ",
+   Exp = "\n         $result(1) = '/'\n         $result(1) instance of xs:string\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = '/'",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-033'(_Config) ->
@@ -739,10 +600,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = 'aa0aa'
-         $result(1) instance of xs:string
-      ",
+   Exp = "\n         $result(1) = 'aa0aa'\n         $result(1) instance of xs:string\n      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) = 'aa0aa'",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(1) instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-parse-json-034'(_Config) ->
@@ -760,9 +618,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = '\\r'
-      ",
+   Exp = "\n         $result(1) = '\\r'\n      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""$result(1) = '\\r'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -773,9 +629,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = ''
-      ",
+   Exp = "\n         $result(1) = ''\n      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""$result(1) = ''",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -786,9 +640,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         $result(1) = '\\u0000'
-      ",
+   Exp = "\n         $result(1) = '\\u0000'\n      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""$result(1) = '\\u0000'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -799,9 +651,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-parse-json-039'(_Config) ->
@@ -810,9 +660,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-parse-json-040'(_Config) ->
@@ -821,9 +669,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-parse-json-041'(_Config) ->
@@ -832,12 +678,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-          93.7e0
-          xs:double
-        
-      ",
+   Exp = "\n        \n          93.7e0\n          xs:double\n        \n      ",
  case  begin Tst1 = xqerl:run("93.7e0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -849,12 +690,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-          'abcd\\n'
-          xs:string
-        
-      ",
+   Exp = "\n        \n          'abcd\\n'\n          xs:string\n        \n      ",
  case  begin Tst1 = xqerl:run("'abcd\\n'"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -866,10 +702,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_seq2:size(Res) of 1 -> {comment, "Count correct"};
+   Exp = "\n         1\n      ",
+   case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-parse-json-102'(_Config) ->
    Qry = "parse-json(unparsed-text('parse-json/data002.json'))",
@@ -877,10 +711,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_seq2:size(Res) of 1 -> {comment, "Count correct"};
+   Exp = "\n         1\n      ",
+   case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-parse-json-103'(_Config) ->
    Qry = "parse-json(unparsed-text('parse-json/data003.json'))",
@@ -888,10 +720,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_seq2:size(Res) of 1 -> {comment, "Count correct"};
+   Exp = "\n         1\n      ",
+   case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-parse-json-104'(_Config) ->
    Qry = "parse-json(unparsed-text('parse-json/data004.json'))",
@@ -899,10 +729,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_seq2:size(Res) of 1 -> {comment, "Count correct"};
+   Exp = "\n         1\n      ",
+   case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-parse-json-105'(_Config) ->
    Qry = "parse-json(unparsed-text('parse-json/data005.json'))",
@@ -910,10 +738,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
-   case xqerl_seq2:size(Res) of 1 -> {comment, "Count correct"};
+   Exp = "\n         1\n      ",
+   case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-parse-json-901'(_Config) ->
    Qry = "parse-json('[-0.123e-2[')",
@@ -921,9 +747,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-902'(_Config) ->
@@ -932,9 +756,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-903'(_Config) ->
@@ -943,9 +765,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-904'(_Config) ->
@@ -954,9 +774,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-905'(_Config) ->
@@ -965,9 +783,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-906'(_Config) ->
@@ -976,9 +792,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-907'(_Config) ->
@@ -987,9 +801,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-908'(_Config) ->
@@ -998,9 +810,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-909'(_Config) ->
@@ -1009,9 +819,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-910'(_Config) ->
@@ -1020,9 +828,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-911'(_Config) ->
@@ -1031,9 +837,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-912'(_Config) ->
@@ -1042,9 +846,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-913'(_Config) ->
@@ -1053,9 +855,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-914'(_Config) ->
@@ -1064,9 +864,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-915'(_Config) ->
@@ -1075,9 +873,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-916'(_Config) ->
@@ -1086,9 +882,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-917'(_Config) ->
@@ -1097,9 +891,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-918'(_Config) ->
@@ -1108,9 +900,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-919'(_Config) ->
@@ -1119,9 +909,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-920'(_Config) ->
@@ -1130,9 +918,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-921'(_Config) ->
@@ -1141,9 +927,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-922'(_Config) ->
@@ -1152,9 +936,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-923'(_Config) ->
@@ -1163,9 +945,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-924'(_Config) ->
@@ -1174,9 +954,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-925'(_Config) ->
@@ -1185,9 +963,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-926'(_Config) ->
@@ -1196,9 +972,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-927'(_Config) ->
@@ -1207,9 +981,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-928'(_Config) ->
@@ -1218,9 +990,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-929'(_Config) ->
@@ -1229,9 +999,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-930'(_Config) ->
@@ -1240,9 +1008,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-931'(_Config) ->
@@ -1251,9 +1017,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-932'(_Config) ->
@@ -1262,9 +1026,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-933'(_Config) ->
@@ -1273,9 +1035,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.
 'fn-parse-json-934'(_Config) ->
@@ -1284,8 +1044,6 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0001'}) end.

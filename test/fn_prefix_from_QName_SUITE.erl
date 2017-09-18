@@ -168,9 +168,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-prefix-from-qname-2'(_Config) ->
@@ -179,9 +177,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-prefix-from-qname-3'(_Config) ->
@@ -190,24 +186,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0\n      ",
+   case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-4'(_Config) ->
    Qry = "fn:string-length(xs:string(fn:prefix-from-QName(xs:QName(\"name\"))))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0\n      ",
+   case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-5'(_Config) ->
    Qry = "xs:string(fn:prefix-from-QName(xs:QName(\"foo:name\")))",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -223,12 +215,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         foo
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         foo\n      ",
+   case xqerl_test:string_value(Res) of
              "foo" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-6'(_Config) ->
    Qry = "fn:string(fn:prefix-from-QName(xs:QName(\"foo:name\")))",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -244,33 +234,27 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         foo
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         foo\n      ",
+   case xqerl_test:string_value(Res) of
              "foo" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-7'(_Config) ->
    Qry = "fn:count(fn:prefix-from-QName(()))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0\n      ",
+   case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-8'(_Config) ->
    Qry = "fn:prefix-from-QName(xs:QName(\"foo:bar\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FONS0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FONS0004'}) end.
 'fn-prefix-from-qname-9'(_Config) ->
@@ -288,12 +272,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         FOO
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         FOO\n      ",
+   case xqerl_test:string_value(Res) of
              "FOO" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-10'(_Config) ->
    Qry = "fn:lower-case(fn:prefix-from-QName(xs:QName(\"FOO:bar\")))",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -309,12 +291,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         foo
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         foo\n      ",
+   case xqerl_test:string_value(Res) of
              "foo" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-11'(_Config) ->
    Qry = "fn:concat(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\":bar\")",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -330,12 +310,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         foo:bar
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         foo:bar\n      ",
+   case xqerl_test:string_value(Res) of
              "foo:bar" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-12'(_Config) ->
    Qry = "fn:substring-before(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"oo\")",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -351,12 +329,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         f
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         f\n      ",
+   case xqerl_test:string_value(Res) of
              "f" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-13'(_Config) ->
    Qry = "fn:substring-after(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"f\")",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -372,12 +348,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         oo
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         oo\n      ",
+   case xqerl_test:string_value(Res) of
              "oo" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-14'(_Config) ->
    Qry = "fn:string-length(fn:prefix-from-QName(xs:QName(\"foo:bar\")))",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -393,12 +367,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         3
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         3\n      ",
+   case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-15'(_Config) ->
    Qry = "fn:substring(fn:prefix-from-QName(xs:QName(\"foo:bar\")),2)",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -414,12 +386,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         oo
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         oo\n      ",
+   case xqerl_test:string_value(Res) of
              "oo" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-16'(_Config) ->
    Qry = "fn:string-join((fn:prefix-from-QName(xs:QName(\"foo:bar\")),\":bar\"),\"\")",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -435,12 +405,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         foo:bar
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         foo:bar\n      ",
+   case xqerl_test:string_value(Res) of
              "foo:bar" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-prefix-from-qname-17'(_Config) ->
    Qry = "fn:starts-with(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"f\")",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -456,9 +424,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-prefix-from-qname-18'(_Config) ->
@@ -476,9 +442,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-prefix-from-qname-19'(_Config) ->
@@ -496,9 +460,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-prefix-from-qname-20'(_Config) ->
@@ -517,21 +479,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         foo
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         foo\n      ",
+   case xqerl_test:string_value(Res) of
              "foo" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-PrefixFromQName-1'(_Config) ->
    Qry = "prefix-from-QName()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-PrefixFromQName-2'(_Config) ->
@@ -540,9 +498,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-PrefixFromQName-3'(_Config) ->
@@ -551,9 +507,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-PrefixFromQName-4'(_Config) ->
@@ -562,8 +516,6 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

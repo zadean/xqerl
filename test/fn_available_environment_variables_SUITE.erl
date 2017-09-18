@@ -142,23 +142,16 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-002'(_Config) ->
-   Qry = "not(fn:empty(fn:function-lookup(
-	  fn:QName('http://www.w3.org/2005/xpath-functions',
-	  'available-environment-variables'), 0)))
-      ",
+   Qry = "not(fn:empty(fn:function-lookup(\n	  fn:QName('http://www.w3.org/2005/xpath-functions',\n	  'available-environment-variables'), 0)))\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-003'(_Config) ->
@@ -167,9 +160,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-available-environment-variables-004'(_Config) ->
@@ -178,124 +169,69 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-available-environment-variables-005'(_Config) ->
-   Qry = "let $all := fn:available-environment-variables()
-	  return empty($all) or ($all[1] ne \"\")
-      ",
+   Qry = "let $all := fn:available-environment-variables()\n	  return empty($all) or ($all[1] ne \"\")\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-006'(_Config) ->
-   Qry = "
-	   (for $e in fn:available-environment-variables()
-	   return fn:environment-variable($e) instance of xs:string) = (false())
-      ",
+   Qry = "\n	   (for $e in fn:available-environment-variables()\n	   return fn:environment-variable($e) instance of xs:string) = (false())\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-007'(_Config) ->
-   Qry = "
-	  let $all := fn:available-environment-variables(), 
-	      $n := count(fn:available-environment-variables())
-	  return
-	      count(
-		  for $e in $all return fn:environment-variable($e)
-	      ) eq $n
-      ",
+   Qry = "\n	  let $all := fn:available-environment-variables(), \n	      $n := count(fn:available-environment-variables())\n	  return\n	      count(\n		  for $e in $all return fn:environment-variable($e)\n	      ) eq $n\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-008'(_Config) ->
-   Qry = "
-	  let $all := fn:available-environment-variables()
-	  return count($all) eq count(distinct-values($all))
-      ",
+   Qry = "\n	  let $all := fn:available-environment-variables()\n	  return count($all) eq count(distinct-values($all))\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-009'(_Config) ->
-   Qry = "
-          
-	  let $first := <all>{
-		  for $e in fn:available-environment-variables()
-		  order by $e
-		  return <v name=\"$i\">{ fn:environment-variable($e) }</v>
-	      }</all>,
-	      $second := <all>{
-		  for $e in fn:available-environment-variables()
-		  order by $e
-		  return <v name=\"$i\">{ fn:environment-variable($e) }</v>
-	      }</all>
-	  return deep-equal($first, $second)
-	  
-      ",
+   Qry = "\n          \n	  let $first := <all>{\n		  for $e in fn:available-environment-variables()\n		  order by $e\n		  return <v name=\"$i\">{ fn:environment-variable($e) }</v>\n	      }</all>,\n	      $second := <all>{\n		  for $e in fn:available-environment-variables()\n		  order by $e\n		  return <v name=\"$i\">{ fn:environment-variable($e) }</v>\n	      }</all>\n	  return deep-equal($first, $second)\n	  \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-010'(_Config) ->
-   Qry = "
-	  let $all := fn:available-environment-variables()
-	  return if (fn:empty($all)) then true()
-	  else fn:empty(fn:environment-variable(fn:string-join($all)))
-      ",
+   Qry = "\n	  let $all := fn:available-environment-variables()\n	  return if (fn:empty($all)) then true()\n	  else fn:empty(fn:environment-variable(fn:string-join($all)))\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-available-environment-variables-011'(_Config) ->
-   Qry = "
-	  let $all := fn:available-environment-variables()
-	  return if (fn:empty($all)) then true()
-	  else if ($all = \"QTTEST\")
-	  then fn:environment-variable(\"QTTEST\") eq \"42\"
-	  else false()
-      ",
+   Qry = "\n	  let $all := fn:available-environment-variables()\n	  return if (fn:empty($all)) then true()\n	  else if ($all = \"QTTEST\")\n	  then fn:environment-variable(\"QTTEST\") eq \"42\"\n	  else false()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

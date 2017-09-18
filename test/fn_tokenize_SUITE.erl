@@ -226,9 +226,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'fn-tokenize-2'(_Config) ->
@@ -237,9 +235,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0001'}) end.
 'fn-tokenize-3'(_Config) ->
@@ -248,36 +244,30 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         The cat sat on the mat
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         The cat sat on the mat\n      ",
+   case xqerl_test:string_value(Res) of
              "The cat sat on the mat" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-tokenize-4'(_Config) ->
    Qry = "fn:tokenize(\"1, 15, 24, 50\", \",\\s*\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 15 24 50
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 15 24 50\n      ",
+   case xqerl_test:string_value(Res) of
              "1 15 24 50" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-tokenize-5'(_Config) ->
    Qry = "fn:tokenize(\"Some unparsed <br> HTML <BR> text\", \"\\s*<br>\\s*\", \"i\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"Some unparsed\", \"HTML\", \"text\"
-      ",
+   Exp = "\n         \"Some unparsed\", \"HTML\", \"text\"\n      ",
  Tst = xqerl:run("\"Some unparsed\", \"HTML\", \"text\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-6'(_Config) ->
@@ -286,12 +276,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"Some unparsed\", \"HTML <BR> text\"
-      ",
+   Exp = "\n         \"Some unparsed\", \"HTML <BR> text\"\n      ",
  Tst = xqerl:run("\"Some unparsed\", \"HTML <BR> text\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-7'(_Config) ->
@@ -300,9 +288,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
+   Exp = "\n         0\n      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -314,9 +300,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
+   Exp = "\n         0\n      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -328,36 +312,30 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         #r#c#d#r#
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         #r#c#d#r#\n      ",
+   case xqerl_test:string_value(Res) of
              "#r#c#d#r#" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-tokenize-10'(_Config) ->
    Qry = "fn:tokenize(\"abracadabra\", \"ww\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abracadabra
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abracadabra\n      ",
+   case xqerl_test:string_value(Res) of
              "abracadabra" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-tokenize-11'(_Config) ->
    Qry = "fn:tokenize(\"abracadabra\", \"^a\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"\", \"bracadabra\"
-      ",
+   Exp = "\n         \"\", \"bracadabra\"\n      ",
  Tst = xqerl:run("\"\", \"bracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-12'(_Config) ->
@@ -366,12 +344,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-13'(_Config) ->
@@ -380,12 +356,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-14'(_Config) ->
@@ -394,12 +368,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-15'(_Config) ->
@@ -408,12 +380,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-16'(_Config) ->
@@ -422,12 +392,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-17'(_Config) ->
@@ -436,12 +404,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-18'(_Config) ->
@@ -450,12 +416,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-19'(_Config) ->
@@ -464,12 +428,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-20'(_Config) ->
@@ -478,12 +440,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-21'(_Config) ->
@@ -492,12 +452,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-22'(_Config) ->
@@ -506,12 +464,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-23'(_Config) ->
@@ -520,12 +476,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-24'(_Config) ->
@@ -534,12 +488,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-25'(_Config) ->
@@ -548,12 +500,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-26'(_Config) ->
@@ -562,27 +512,22 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-27'(_Config) ->
-   Qry = "fn:tokenize(\"abracadabra
-abracadabra\", \"\\n\")",
+   Qry = "fn:tokenize(\"abracadabra\nabracadabra\", \"\\n\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabra\", \"abracadabra\"
-      ",
+   Exp = "\n         \"abracadabra\", \"abracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabra\", \"abracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-28'(_Config) ->
@@ -591,12 +536,10 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabr\", \"bracadabra\"
-      ",
+   Exp = "\n         \"abracadabr\", \"bracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabr\", \"bracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-29'(_Config) ->
@@ -605,12 +548,10 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabr\", \"bracadabr\", \"bracadabra\"
-      ",
+   Exp = "\n         \"abracadabr\", \"bracadabr\", \"bracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabr\", \"bracadabr\", \"bracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-30'(_Config) ->
@@ -619,12 +560,10 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abracadabr\", \"bracadabr\", \"bracadabra\"
-      ",
+   Exp = "\n         \"abracadabr\", \"bracadabr\", \"bracadabra\"\n      ",
  Tst = xqerl:run("\"abracadabr\", \"bracadabr\", \"bracadabra\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-31'(_Config) ->
@@ -633,12 +572,10 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"abc\", \"def\", \"gh\", \"ijk\"
-      ",
+   Exp = "\n         \"abc\", \"def\", \"gh\", \"ijk\"\n      ",
  Tst = xqerl:run("\"abc\", \"def\", \"gh\", \"ijk\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-32'(_Config) ->
@@ -647,12 +584,10 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"\", \"BR\", \"CAD\", \"BRA\"
-      ",
+   Exp = "\n         \"\", \"BR\", \"CAD\", \"BRA\"\n      ",
  Tst = xqerl:run("\"\", \"BR\", \"CAD\", \"BRA\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-33'(_Config) ->
@@ -661,12 +596,10 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         \"\", \"RACAD\", \"RA\"
-      ",
+   Exp = "\n         \"\", \"RACAD\", \"RA\"\n      ",
  Tst = xqerl:run("\"\", \"RACAD\", \"RA\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-34'(_Config) ->
@@ -675,9 +608,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    concat('Mary', codepoints-to-string(13), 'Jones')
-      ",
+   Exp = "\n	    concat('Mary', codepoints-to-string(13), 'Jones')\n      ",
  Tst = xqerl:run("concat('Mary', codepoints-to-string(13), 'Jones')"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -689,12 +620,10 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    \"Mar\", \"ones\"
-      ",
+   Exp = "\n	    \"Mar\", \"ones\"\n      ",
  Tst = xqerl:run("\"Mar\", \"ones\""),
-  ResVal = xqerl_types:string_value(Res),
-  TstVal = xqerl_types:string_value(Tst),
+  ResVal = xqerl_test:string_value(Res),
+  TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-tokenize-36'(_Config) ->
@@ -703,9 +632,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-      ",
+   Exp = "\n	    \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'fn-tokenize-37'(_Config) ->
@@ -714,9 +641,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-      ",
+   Exp = "\n	    \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'fn-tokenize-38'(_Config) ->
@@ -725,9 +650,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-	    
-      ",
+   Exp = "\n	    \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'K-TokenizeFunc-1'(_Config) ->
@@ -736,9 +659,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-TokenizeFunc-2'(_Config) ->
@@ -747,9 +668,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-TokenizeFunc-3'(_Config) ->
@@ -758,9 +677,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0001'}) end.
 'K-TokenizeFunc-4'(_Config) ->
@@ -769,9 +686,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0001'}) end.
 'K-TokenizeFunc-5'(_Config) ->
@@ -780,9 +695,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-TokenizeFunc-1'(_Config) ->
@@ -791,9 +704,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-TokenizeFunc-2'(_Config) ->
@@ -802,9 +713,7 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-TokenizeFunc-3'(_Config) ->
@@ -813,98 +722,76 @@ abracadabra\", \"\\n\")",
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         r
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         r\n      ",
+   case xqerl_test:string_value(Res) of
              "r" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-TokenizeFunc-4'(_Config) ->
    Qry = "fn:tokenize((\"abracadabra\", current-time())[1] treat as xs:string, \"(ab)|(a)\")[last() - 3]",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         c
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         c\n      ",
+   case xqerl_test:string_value(Res) of
              "c" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-TokenizeFunc-5'(_Config) ->
    Qry = "deep-equal(fn:tokenize(\"The cat sat on the mat\", \"\\s+\"), (\"The\", \"cat\", \"sat\", \"on\", \"the\", \"mat\")), count(fn:tokenize(\"The cat sat on the mat\", \"\\s+\")), count(fn:tokenize(\" The cat sat on the mat \", \"\\s+\")), fn:tokenize(\"The cat sat on the mat\", \"\\s+\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         true 6 8 The cat sat on the mat
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         true 6 8 The cat sat on the mat\n      ",
+   case xqerl_test:string_value(Res) of
              "true 6 8 The cat sat on the mat" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-TokenizeFunc-6'(_Config) ->
    Qry = "replace('APXterms6', '\\w{3}\\d*([^TKR0-9]+).*$', '$1')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         terms
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         terms\n      ",
+   case xqerl_test:string_value(Res) of
              "terms" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-TokenizeFunc-7'(_Config) ->
    Qry = "count(tokenize(\"a b\", \" \")), count(tokenize(\"a b\", \"\\s\")), string-join(tokenize(\"a b\", \" \"), '|'), string-join(tokenize(\"a b\", \"\\s\"), '|'), tokenize(\"a b\", \" \"), tokenize(\"a b\", \"\\s\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2 2 a|b a|b a b a b
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         2 2 a|b a|b a b a b\n      ",
+   case xqerl_test:string_value(Res) of
              "2 2 a|b a|b a b a b" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-fn-tokenize-001'(_Config) ->
-   Qry = "
-      for $x in xs:string(zero-or-one((1 to 10)[. mod 2 = -1])) return tokenize($x,',')
-      ",
+   Qry = "\n      for $x in xs:string(zero-or-one((1 to 10)[. mod 2 = -1])) return tokenize($x,',')\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-fn-tokenize-002'(_Config) ->
-   Qry = "
-      tokenize(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),','),'[')
-      ",
+   Qry = "\n      tokenize(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),','),'[')\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0002'}) end.
 'cbcl-fn-tokenize-003'(_Config) ->
-   Qry = "
-      tokenize(string-join(for $x in (1 to 10)[. mod 2 < 0] return string($x),','),',')
-      ",
+   Qry = "\n      tokenize(string-join(for $x in (1 to 10)[. mod 2 < 0] return string($x),','),',')\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

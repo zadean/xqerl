@@ -64,7 +64,7 @@
       <description> Evaluation of a prolog with construction declaration set to "preserve" and used with computed delement. </description>
       <created by="Carmelo Montanez" on="2006-01-27"/>
       <test>
-        declare construction strip; 
+        declare construction preserve; 
         let $anElement := element anElement {"someContent"} 
         return $anElement instance of element(*,xs:anyType)</test>
       <result>
@@ -79,7 +79,7 @@
       <test><![CDATA[
         declare construction strip; 
         let $anElement := <anElement>some content</anElement> 
-        return $anElement instance of element(*,xs:anyType)]]>
+        return $anElement instance of element(*,xs:untyped)]]>
       </test>
       <result>
          <assert-true/>
@@ -92,7 +92,7 @@
       <test>
         declare construction strip; 
         let $anElement := element anElement {"someContent"} 
-        return $anElement instance of element(*,xs:anyType)
+        return $anElement instance of element(*,xs:untyped)
       </test>
       <result>
          <assert-true/>

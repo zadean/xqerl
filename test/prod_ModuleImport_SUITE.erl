@@ -463,23 +463,17 @@ environment('user-defined-types') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'modules-simple'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        <result>{test1:ok()}</result>",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        <result>{test1:ok()}</result>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -488,32 +482,22 @@ environment('user-defined-types') ->
               end
 end.
 'modules-bad-ns'(_Config) ->
-   Qry = "
-        import module namespace test2=\"http://www.w3.org/TestModules/test2\";
-        <result>{test2:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test2=\"http://www.w3.org/TestModules/test2\";\n        <result>{test2:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0059'}) end.
 'module-URIs-1'(_Config) ->
-   Qry = "
-        import module namespace test=\"  http://www.w3.org/TestModules/test \";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"  http://www.w3.org/TestModules/test \";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -522,18 +506,13 @@ end.
               end
 end.
 'module-URIs-2'(_Config) ->
-   Qry = "
-        import module namespace test=\"&#x20;&#x9;&#xA;&#xD;http://www.w3.org/TestModules/test&#x20;&#x9;&#xA;&#xD;\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"&#x20;&#x9;&#xA;&#xD;http://www.w3.org/TestModules/test&#x20;&#x9;&#xA;&#xD;\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -542,18 +521,13 @@ end.
               end
 end.
 'module-URIs-3'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/Test&#x20;&#x20;&#x20;&#x20;Modules/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/Test&#x20;&#x20;&#x20;&#x20;Modules/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -562,32 +536,22 @@ end.
               end
 end.
 'module-URIs-4'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/TestModules/test/../../TestModules/./test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/TestModules/test/../../TestModules/./test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0059'}) end.
 'module-URIs-7'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/TestModules./test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/TestModules./test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -596,18 +560,13 @@ end.
               end
 end.
 'module-URIs-8'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/.TestModules/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/.TestModules/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -616,18 +575,13 @@ end.
               end
 end.
 'module-URIs-9'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/TestModules../test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/TestModules../test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -636,18 +590,13 @@ end.
               end
 end.
 'module-URIs-10'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/..TestModules/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/..TestModules/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -656,18 +605,13 @@ end.
               end
 end.
 'module-URIs-11'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/TestModules/&#xd0a4;/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/TestModules/&#xd0a4;/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -676,18 +620,13 @@ end.
               end
 end.
 'module-URIs-12'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/TestModules/&#x3c;&#x3d;&#x3e;&#x40;/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/TestModules/&#x3c;&#x3d;&#x3e;&#x40;/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -696,18 +635,13 @@ end.
               end
 end.
 'module-URIs-13'(_Config) ->
-   Qry = "
-        import module namespace test=\"urn:example:animal:ferret:nose\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"urn:example:animal:ferret:nose\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -716,18 +650,13 @@ end.
               end
 end.
 'module-URIs-14'(_Config) ->
-   Qry = "
-        import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -736,18 +665,13 @@ end.
               end
 end.
 'module-URIs-15'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/TestModules/test?hello=world\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/TestModules/test?hello=world\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -756,18 +680,13 @@ end.
               end
 end.
 'module-URIs-16'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org/TestModules/test#world\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org/TestModules/test#world\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -776,18 +695,13 @@ end.
               end
 end.
 'module-URIs-17'(_Config) ->
-   Qry = "
-        import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A?hello=world&amp;q#world\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A?hello=world&amp;q#world\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -796,18 +710,13 @@ end.
               end
 end.
 'module-URIs-18'(_Config) ->
-   Qry = "
-        import module namespace test=\"#1\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"#1\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -816,18 +725,13 @@ end.
               end
 end.
 'module-URIs-19'(_Config) ->
-   Qry = "
-        import module namespace test=\"http:test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http:test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -836,18 +740,13 @@ end.
               end
 end.
 'module-URIs-20'(_Config) ->
-   Qry = "
-        import module namespace test=\"ftp://user@www.w3.org/TestModules/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"ftp://user@www.w3.org/TestModules/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -856,18 +755,13 @@ end.
               end
 end.
 'module-URIs-21'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -876,18 +770,13 @@ end.
               end
 end.
 'module-URIs-22'(_Config) ->
-   Qry = "
-        import module namespace test=\"http://www.w3.org:7334/TestModules/test\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"http://www.w3.org:7334/TestModules/test\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -896,18 +785,13 @@ end.
               end
 end.
 'module-URIs-23'(_Config) ->
-   Qry = "
-        import module namespace test=\"mailto:jane.doe@w3c.org\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"mailto:jane.doe@w3c.org\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -916,18 +800,13 @@ end.
               end
 end.
 'module-URIs-24'(_Config) ->
-   Qry = "
-        import module namespace test=\"fax:+1-234-567-890\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"fax:+1-234-567-890\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -936,18 +815,13 @@ end.
               end
 end.
 'module-URIs-25'(_Config) ->
-   Qry = "
-        import module namespace test=\"ldap://[2001:db8::7]/c=GB?objectClass?one\";
-        <result>{test:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test=\"ldap://[2001:db8::7]/c=GB?objectClass?one\";\n        <result>{test:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -956,47 +830,31 @@ end.
               end
 end.
 'modules-none'(_Config) ->
-   Qry = "
-        import module namespace none=\"http://www.w3.org/TestModules/none\" at \"empty-lib.xq\"; 
-        \"abc\"
-      ",
+   Qry = "\n        import module namespace none=\"http://www.w3.org/TestModules/none\" at \"empty-lib.xq\"; \n        \"abc\"\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0059'}) end.
 'modules-two-import'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        import module namespace test2=\"http://www.w3.org/TestModules/test1\"; 
-        <result>{test1:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        import module namespace test2=\"http://www.w3.org/TestModules/test1\"; \n        <result>{test1:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0047" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0047'}) end.
 'modules-two-import-ok'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        <result>{test1:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        <result>{test1:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <result>ok</result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
+   Exp = "\n         <result>ok</result>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>ok</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<result>ok</result>" of
@@ -1005,119 +863,77 @@ end.
               end
 end.
 'modules-collide-var-001'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        <result>{test1:ok()}</result>",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        <result>{test1:ok()}</result>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'modules-collide-var-002'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        declare variable $test1:flag := 1; 
-        <result>{test1:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        declare variable $test1:flag := 1; \n        <result>{test1:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'modules-collide-fn-001'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        <result>{test1:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        <result>{test1:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0034" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0034'}) end.
 'modules-collide-fn-002'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        declare function test1:ok () { \"ok\" }; 
-        <result>{test1:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        declare function test1:ok () { \"ok\" }; \n        <result>{test1:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0034" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0034'}) end.
 'modules-emptyns'(_Config) ->
-   Qry = "
-        import module namespace test1= \"\"; 
-        <result>ok</result>
-      ",
+   Qry = "\n        import module namespace test1= \"\"; \n        <result>ok</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0088" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0088'}) end.
 'modules-circular'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        <result>{test1:ok()}</result>
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        <result>{test1:ok()}</result>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         ok
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         ok\n      ",
+   case xqerl_test:string_value(Res) of
              "ok" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'modules-1'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
-        <foo:anElement>some Content</foo:anElement>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \n        <foo:anElement>some Content</foo:anElement>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'modules-2'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
-        declare namespace foo = \"http://example.org\"; 
-        <foo:anElement>some Content</foo:anElement>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \n        declare namespace foo = \"http://example.org\"; \n        <foo:anElement>some Content</foo:anElement>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <foo:anElement xmlns:foo=\"http://example.org\">some Content</foo:anElement>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<foo:anElement xmlns:foo=\"http://example.org\">some Content</foo:anElement>"++"</x>)")) == "true" of
+   Exp = "\n         <foo:anElement xmlns:foo=\"http://example.org\">some Content</foo:anElement>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<foo:anElement xmlns:foo=\"http://example.org\">some Content</foo:anElement>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<foo:anElement xmlns:foo=\"http://example.org\">some Content</foo:anElement>" of
@@ -1126,257 +942,175 @@ end.
               end
 end.
 'modules-3'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
-        let $var := $test1:flag + 1 return $var
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \n        let $var := $test1:flag + 1 return $var\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'modules-4'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
-        let $var := $defs:var1+ 1 return $var
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \n        let $var := $defs:var1+ 1 return $var\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-5'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
-        let $var := $defs:var2 + 1 return $var
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \n        let $var := $defs:var2 + 1 return $var\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         4
-      ",
+   Exp = "\n         4\n      ",
  Tst = xqerl:run("4"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-6'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        declare namespace foo = \"http://example.org\"; 
-        declare variable $foo:flag := 3; 
-        let $var := $test1:flag + $foo:flag 
-        return $var",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        declare namespace foo = \"http://example.org\"; \n        declare variable $foo:flag := 3; \n        let $var := $test1:flag + $foo:flag \n        return $var",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         4
-      ",
+   Exp = "\n         4\n      ",
  Tst = xqerl:run("4"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-7'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        let $var := fn:concat(xs:string($test1:flag),xs:string(test1:ok())) 
-        return $var",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        let $var := fn:concat(xs:string($test1:flag),xs:string(test1:ok())) \n        return $var",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1ok
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1ok\n      ",
+   case xqerl_test:string_value(Res) of
              "1ok" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'modules-8'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        declare namespace foo = \"http://example.org\"; 
-        declare function foo:ok () { \"ok\" }; 
-        let $var := fn:concat(test1:ok(),foo:ok()) 
-        return $var",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        declare namespace foo = \"http://example.org\"; \n        declare function foo:ok () { \"ok\" }; \n        let $var := fn:concat(test1:ok(),foo:ok()) \n        return $var",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         okok
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         okok\n      ",
+   case xqerl_test:string_value(Res) of
              "okok" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'modules-9'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        fn:upper-case(test1:ok())",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        fn:upper-case(test1:ok())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         OK
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         OK\n      ",
+   case xqerl_test:string_value(Res) of
              "OK" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'modules-10'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        fn:lower-case(test1:ok())
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        fn:lower-case(test1:ok())\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         ok
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         ok\n      ",
+   case xqerl_test:string_value(Res) of
              "ok" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'modules-11'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        fn:string-length(test1:ok())",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        fn:string-length(test1:ok())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-12'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\";
-        $test1:flag + $test1:flag
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\";\n        $test1:flag + $test1:flag\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-13'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        $test1:flag - $test1:flag
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        $test1:flag - $test1:flag\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
+   Exp = "\n         0\n      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-14'(_Config) ->
-   Qry = "
-        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
-        xs:integer($test1:flag)
-      ",
+   Qry = "\n        import module namespace test1=\"http://www.w3.org/TestModules/test1\"; \n        xs:integer($test1:flag)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1
-      ",
+   Exp = "\n         1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-15'(_Config) ->
-   Qry = "
-        import module namespace test2=\"http://www.w3.org/TestModules/test2\"; 
-        \"aaa\"
-      ",
+   Qry = "\n        import module namespace test2=\"http://www.w3.org/TestModules/test2\"; \n        \"aaa\"\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0088" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0088'}) end.
 'modules-16'(_Config) ->
-   Qry = "
-        import module namespace xml=\"http://www.w3.org/TestModules/test1\"; 
-        xs:string($xml:flag)
-      ",
+   Qry = "\n        import module namespace xml=\"http://www.w3.org/TestModules/test1\"; \n        xs:string($xml:flag)\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0070" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0070'}) end.
 'modules-17'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/diffns\"; 
-        \"abc\"
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/diffns\"; \n        \"abc\"\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0048" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0048'}) end.
 'modules-18'(_Config) ->
-   Qry = "
-        import module namespace mod1=\"http://www.w3.org/TestModules/module1\"; 
-        import module namespace mod2=\"http://www.w3.org/TestModules/module2\"; 
-        mod1:x(),mod2:y()",
+   Qry = "\n        import module namespace mod1=\"http://www.w3.org/TestModules/module1\"; \n        import module namespace mod2=\"http://www.w3.org/TestModules/module2\"; \n        mod1:x(),mod2:y()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         x y x y
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         x y x y\n      ",
+   case xqerl_test:string_value(Res) of
              "x y x y" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'modules-19'(_Config) ->
    {skip,"schemaImport"}.
 'modules-20'(_Config) ->
@@ -1398,31 +1132,21 @@ end.
 'modules-28'(_Config) ->
    {skip,"XQ10"}.
 'modules-28a'(_Config) ->
-   Qry = "
-        import module namespace defs1 = \"http://www.w3.org/TestModules/defs1\"; 
-        $defs1:var
-      ",
+   Qry = "\n        import module namespace defs1 = \"http://www.w3.org/TestModules/defs1\"; \n        $defs1:var\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        
-      ",
+   Exp = "\n        \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'modules-29'(_Config) ->
-   Qry = "
-        import module namespace xmlns=\"http://www.w3.org/TestModules/test\"; 
-        xmlns:ok ()
-      ",
+   Qry = "\n        import module namespace xmlns=\"http://www.w3.org/TestModules/test\"; \n        xmlns:ok ()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0070" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0070'}) end.
 'K-ModuleImport-1'(_Config) ->
@@ -1431,9 +1155,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0088" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0088'}) end.
 'K-ModuleImport-2'(_Config) ->
@@ -1442,9 +1164,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0088" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0088'}) end.
 'K-ModuleImport-3'(_Config) ->
@@ -1453,9 +1173,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ModuleImport-1'(_Config) ->
@@ -1464,9 +1182,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'errata6-001'(_Config) ->
@@ -1486,67 +1202,48 @@ end.
 'errata8-001'(_Config) ->
    {skip,"XQ10"}.
 'errata8-001a'(_Config) ->
-   Qry = "
-        import module namespace errata8_1a=\"http://www.w3.org/TestModules/errata8_1a\"; 
-        errata8_1a:fun()
-      ",
+   Qry = "\n        import module namespace errata8_1a=\"http://www.w3.org/TestModules/errata8_1a\"; \n        errata8_1a:fun()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'errata8-002'(_Config) ->
    {skip,"XQ10"}.
 'errata8-002a'(_Config) ->
-   Qry = "
-        import module namespace errata8_2a=\"http://www.w3.org/TestModules/errata8_2a\"; 
-        errata8_2a:fun()",
+   Qry = "\n        import module namespace errata8_2a=\"http://www.w3.org/TestModules/errata8_2a\"; \n        errata8_2a:fun()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         10
-      ",
+   Exp = "\n         10\n      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'errata8-003'(_Config) ->
-   Qry = "
-        import module namespace errata8_3a=\"http://www.w3.org/TestModules/errata8_3a\"; 
-        errata8_3a:fun()
-      ",
+   Qry = "\n        import module namespace errata8_3a=\"http://www.w3.org/TestModules/errata8_3a\"; \n        errata8_3a:fun()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         10
-      ",
+   Exp = "\n         10\n      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'modules-pub-priv-1'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        <a>{defs:g(42)}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        <a>{defs:g(42)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>65</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>65</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>65</a>" of
@@ -1555,32 +1252,22 @@ end.
               end
 end.
 'modules-pub-priv-2'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        defs:f()
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        defs:f()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'modules-pub-priv-3'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        <a>{defs:g($defs:one)}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        <a>{defs:g($defs:one)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>24</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>24</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>24</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>24</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>24</a>" of
@@ -1589,34 +1276,22 @@ end.
               end
 end.
 'modules-pub-priv-4'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        <a>{defs:g($defs:two)}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        <a>{defs:g($defs:two)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'modules-pub-priv-5'(_Config) ->
-   Qry = "
-        declare %public function local:inc($i as xs:integer) {
-            $i + 1
-        };
-        <a>{local:inc(1)}</a>
-      ",
+   Qry = "\n        declare %public function local:inc($i as xs:integer) {\n            $i + 1\n        };\n        <a>{local:inc(1)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1625,20 +1300,13 @@ end.
               end
 end.
 'modules-pub-priv-6'(_Config) ->
-   Qry = "
-        declare %private function local:inc($i as xs:integer) {
-            $i + 1
-        };
-        <a>{local:inc(1)}</a>
-      ",
+   Qry = "\n        declare %private function local:inc($i as xs:integer) {\n            $i + 1\n        };\n        <a>{local:inc(1)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1647,18 +1315,13 @@ end.
               end
 end.
 'modules-pub-priv-7'(_Config) ->
-   Qry = "
-        declare %public variable $i := 1;
-        <a>{$i+1}</a>
-      ",
+   Qry = "\n        declare %public variable $i := 1;\n        <a>{$i+1}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1667,18 +1330,13 @@ end.
               end
 end.
 'modules-pub-priv-8'(_Config) ->
-   Qry = "
-        declare %private variable $i := 1;
-        <a>{$i+1}</a>
-      ",
+   Qry = "\n        declare %private variable $i := 1;\n        <a>{$i+1}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1687,24 +1345,13 @@ end.
               end
 end.
 'modules-pub-priv-9'(_Config) ->
-   Qry = "
-        declare %public function local:inc($i as xs:integer) {
-            $i + 1
-        };
-        
-        declare function local:test() {
-            local:inc(1)
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        declare %public function local:inc($i as xs:integer) {\n            $i + 1\n        };\n        \n        declare function local:test() {\n            local:inc(1)\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1713,24 +1360,13 @@ end.
               end
 end.
 'modules-pub-priv-10'(_Config) ->
-   Qry = "
-        declare %private function local:inc($i as xs:integer) {
-            $i + 1
-        };
-        
-        declare function local:test() {
-            local:inc(1)
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        declare %private function local:inc($i as xs:integer) {\n            $i + 1\n        };\n        \n        declare function local:test() {\n            local:inc(1)\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1739,22 +1375,13 @@ end.
               end
 end.
 'modules-pub-priv-11'(_Config) ->
-   Qry = "
-        declare %public variable $i := 1;
-        
-        declare function local:test() {
-            $i + 1
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        declare %public variable $i := 1;\n        \n        declare function local:test() {\n            $i + 1\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1763,22 +1390,13 @@ end.
               end
 end.
 'modules-pub-priv-12'(_Config) ->
-   Qry = "
-        declare %private variable $i := 1;
-        
-        declare function local:test() {
-           $i + 1
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        declare %private variable $i := 1;\n        \n        declare function local:test() {\n           $i + 1\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1787,21 +1405,13 @@ end.
               end
 end.
 'modules-pub-priv-13'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        declare function local:test() {
-            defs:g(42)
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        declare function local:test() {\n            defs:g(42)\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>65</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>65</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>65</a>" of
@@ -1810,38 +1420,22 @@ end.
               end
 end.
 'modules-pub-priv-14'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        declare function local:test() {
-            defs:f()
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        declare function local:test() {\n            defs:f()\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'modules-pub-priv-15'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        declare function local:test() {
-            $defs:one
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        declare function local:test() {\n            $defs:one\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>1</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>1</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>1</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>1</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>1</a>" of
@@ -1850,40 +1444,22 @@ end.
               end
 end.
 'modules-pub-priv-16'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        declare function local:test() {
-            $defs:two
-        };
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        declare function local:test() {\n            $defs:two\n        };\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'modules-pub-priv-17'(_Config) ->
-   Qry = "
-        declare %public function local:inc($i as xs:integer) {
-            $i + 1
-        };
-        
-        declare variable $test := local:inc(1);
-
-        <a>{$test}</a>
-      ",
+   Qry = "\n        declare %public function local:inc($i as xs:integer) {\n            $i + 1\n        };\n        \n        declare variable $test := local:inc(1);\n\n        <a>{$test}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1892,23 +1468,13 @@ end.
               end
 end.
 'modules-pub-priv-18'(_Config) ->
-   Qry = "
-        declare %private function local:inc($i as xs:integer) {
-            $i + 1
-        };
-        
-        declare variable $test := local:inc(1);
-
-        <a>{$test}</a>
-      ",
+   Qry = "\n        declare %private function local:inc($i as xs:integer) {\n            $i + 1\n        };\n        \n        declare variable $test := local:inc(1);\n\n        <a>{$test}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1917,21 +1483,13 @@ end.
               end
 end.
 'modules-pub-priv-19'(_Config) ->
-   Qry = "
-        declare %public variable $i := 1;
-        
-	declare variable $test := $i + 1;
-
-        <a>{$test}</a>
-      ",
+   Qry = "\n        declare %public variable $i := 1;\n        \n	declare variable $test := $i + 1;\n\n        <a>{$test}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1940,21 +1498,13 @@ end.
               end
 end.
 'modules-pub-priv-20'(_Config) ->
-   Qry = "
-        declare %private variable $i := 1;
-        
-        declare variable $test := $i + 1;
-
-        <a>{$test}</a>
-      ",
+   Qry = "\n        declare %private variable $i := 1;\n        \n        declare variable $test := $i + 1;\n\n        <a>{$test}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>2</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>2</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>2</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>2</a>" of
@@ -1963,21 +1513,13 @@ end.
               end
 end.
 'modules-pub-priv-21'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-
-        declare variable $test := defs:g(42);
-
-        <a>{$test}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n\n        declare variable $test := defs:g(42);\n\n        <a>{$test}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>65</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>65</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>65</a>" of
@@ -1986,38 +1528,22 @@ end.
               end
 end.
 'modules-pub-priv-22'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-
-        declare variable $test := defs:f();
-
-        <a>{$test}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n\n        declare variable $test := defs:f();\n\n        <a>{$test}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'modules-pub-priv-23'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-
-        declare variable $test := $defs:one;
-
-        <a>{$test}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n\n        declare variable $test := $defs:one;\n\n        <a>{$test}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>1</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>1</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>1</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>1</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>1</a>" of
@@ -2026,36 +1552,22 @@ end.
               end
 end.
 'modules-pub-priv-24'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-
-        declare variable $test := $defs:two;
-
-        <a>{local:test()}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n\n        declare variable $test := $defs:two;\n\n        <a>{local:test()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'modules-pub-priv-25'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-
-        <a>{defs:h(42)}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n\n        <a>{defs:h(42)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>65</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>65</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>65</a>" of
@@ -2064,19 +1576,13 @@ end.
               end
 end.
 'modules-pub-priv-26'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-
-        <a>{$defs:ninety}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n\n        <a>{$defs:ninety}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>90</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>90</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>90</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>90</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>90</a>" of
@@ -2085,18 +1591,13 @@ end.
               end
 end.
 'modules-pub-priv-27'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv3\"; 
-        <a>{defs:f(42)}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv3\"; \n        <a>{defs:f(42)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            <a>65</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
+   Exp = "\n            <a>65</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>65</a>" of
@@ -2105,160 +1606,103 @@ end.
               end
 end.
 'modules-pub-priv-28'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv2\"; 
-        <a>{defs:fails()}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv2\"; \n        <a>{defs:fails()}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'modules-pub-priv-29'(_Config) ->
-   Qry = "
-        declare %private %public function local:foo() { () };
-        local:foo()
-      ",
+   Qry = "\n        declare %private %public function local:foo() { () };\n        local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0106" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0106'}) end.
 'modules-pub-priv-30'(_Config) ->
-   Qry = "
-        declare namespace xq=\"http://www.w3.org/2012/xquery\";
-        declare %private %xq:public function local:foo() { () };
-        local:foo()
-      ",
+   Qry = "\n        declare namespace xq=\"http://www.w3.org/2012/xquery\";\n        declare %private %xq:public function local:foo() { () };\n        local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0106" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0106'}) end.
 'modules-pub-priv-31'(_Config) ->
-   Qry = "
-        declare %public %public function local:foo() { () };
-        local:foo()
-      ",
+   Qry = "\n        declare %public %public function local:foo() { () };\n        local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0106" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0106'}) end.
 'modules-pub-priv-32'(_Config) ->
-   Qry = "
-        declare %private %private function local:foo() { () };
-        local:foo()
-      ",
+   Qry = "\n        declare %private %private function local:foo() { () };\n        local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0106" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0106'}) end.
 'modules-pub-priv-33'(_Config) ->
-   Qry = "
-        declare %private %public variable $foo := ();
-        $foo
-      ",
+   Qry = "\n        declare %private %public variable $foo := ();\n        $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0116" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0116'}) end.
 'modules-pub-priv-34'(_Config) ->
-   Qry = "
-        declare namespace xq=\"http://www.w3.org/2012/xquery\";
-        declare %private %xq:public variable $foo := ();
-        $foo
-      ",
+   Qry = "\n        declare namespace xq=\"http://www.w3.org/2012/xquery\";\n        declare %private %xq:public variable $foo := ();\n        $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0116" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0116'}) end.
 'modules-pub-priv-35'(_Config) ->
-   Qry = "
-        declare %private %private variable $foo := ();
-        $foo
-      ",
+   Qry = "\n        declare %private %private variable $foo := ();\n        $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0116" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0116'}) end.
 'modules-pub-priv-36'(_Config) ->
-   Qry = "
-        declare %public %public variable $foo := ();
-        $foo
-      ",
+   Qry = "\n        declare %public %public variable $foo := ();\n        $foo\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0116" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0116'}) end.
 'modules-pub-priv-37'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        defs:f#0()
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        defs:f#0()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-      ",
+   Exp = "\n            \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'modules-pub-priv-38'(_Config) ->
-   Qry = "
-        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
-        <a>{defs:g#1(42)}</a>
-      ",
+   Qry = "\n        import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; \n        <a>{defs:g#1(42)}</a>\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-          <a>65</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
+   Exp = "\n          <a>65</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>65</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>65</a>" of
@@ -2269,34 +1713,22 @@ end.
 'cbcl-module-001'(_Config) ->
    {skip,"Validation Environment"}.
 'cbcl-module-002'(_Config) ->
-   Qry = "
-      	import module namespace lib=\"http://www.xqsharp.com/test/baseuri-lib\"; 
-      	declare base-uri \"http://www.example.org/wrong/\"; 
-      	base-uri($lib:node/node())
-      ",
+   Qry = "\n      	import module namespace lib=\"http://www.xqsharp.com/test/baseuri-lib\"; \n      	declare base-uri \"http://www.example.org/wrong/\"; \n      	base-uri($lib:node/node())\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.org/correct/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.org/correct/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.org/correct/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-module-003'(_Config) ->
-   Qry = "
-      	import module namespace foo=\"http://www.xqsharp.com/test/variabledeclaration\"; 
-      	import module namespace bar=\"http://www.xqsharp.com/test/variablereference\"; 
-      	bar:test()
-      ",
+   Qry = "\n      	import module namespace foo=\"http://www.xqsharp.com/test/variabledeclaration\"; \n      	import module namespace bar=\"http://www.xqsharp.com/test/variablereference\"; \n      	bar:test()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'cbcl-module-004'(_Config) ->

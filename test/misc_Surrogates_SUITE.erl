@@ -184,9 +184,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         7
-      ",
+   Exp = "\n         7\n      ",
  Tst = xqerl:run("7"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -198,12 +196,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         def
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         def\n      ",
+   case xqerl_test:string_value(Res) of
              "def" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates03'(_Config) ->
    Qry = "substring(\"abc&#x1D156;def\", 4)",
    Qry1 = Qry,
@@ -211,33 +207,29 @@ environment('math') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = [10,32,32,32,32,32,32,32,32,32,119126,100,101,102,10,32,32,32,32,32,32],
-   case xqerl_types:string_value(Res) of
+   case xqerl_test:string_value(Res) of
              [119126,100,101,102] -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates04'(_Config) ->
    Qry = "translate(\"abc&#x1D156;def\", \"&#x1D156;\", \"#\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abc#def
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abc#def\n      ",
+   case xqerl_test:string_value(Res) of
              "abc#def" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates05'(_Config) ->
    Qry = "translate(\"abc&#x1D156;def\", \"&#x1D156;de\", \"#DE\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abc#DEf
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abc#DEf\n      ",
+   case xqerl_test:string_value(Res) of
              "abc#DEf" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates06'(_Config) ->
    Qry = "translate(\"abc&#x1D156;def\", \"def\", \"&#x1D156;EF\")",
    Qry1 = Qry,
@@ -245,21 +237,19 @@ environment('math') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = [10,32,32,32,32,32,32,32,32,32,97,98,99,119126,119126,69,70,10,32,32,32,32,32,32],
-   case xqerl_types:string_value(Res) of
+   case xqerl_test:string_value(Res) of
              [97,98,99,119126,119126,69,70] -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates07'(_Config) ->
    Qry = "string-to-codepoints(\"abc&#x1D156;def\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         97 98 99 119126 100 101 102
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         97 98 99 119126 100 101 102\n      ",
+   case xqerl_test:string_value(Res) of
              "97 98 99 119126 100 101 102" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates08'(_Config) ->
    Qry = "codepoints-to-string((97, 98, 99, 119126, 100, 101, 102))",
    Qry1 = Qry,
@@ -267,21 +257,19 @@ environment('math') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = [10,32,32,32,32,32,32,32,32,32,97,98,99,119126,100,101,102,10,32,32,32,32,32,32],
-   case xqerl_types:string_value(Res) of
+   case xqerl_test:string_value(Res) of
              [97,98,99,119126,100,101,102] -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates09'(_Config) ->
    Qry = "substring-before(\"abc&#x1D156;def\", \"&#x1D156;\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abc
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abc\n      ",
+   case xqerl_test:string_value(Res) of
              "abc" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates10'(_Config) ->
    Qry = "substring-before(\"abc&#x1D156;def\", \"f\")",
    Qry1 = Qry,
@@ -289,30 +277,26 @@ environment('math') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = [10,32,32,32,32,32,32,32,32,32,97,98,99,119126,100,101,10,32,32,32,32,32,32],
-   case xqerl_types:string_value(Res) of
+   case xqerl_test:string_value(Res) of
              [97,98,99,119126,100,101] -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates11'(_Config) ->
    Qry = "substring-after(\"abc&#x1D156;def\", \"&#x1D156;\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         def
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         def\n      ",
+   case xqerl_test:string_value(Res) of
              "def" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates12'(_Config) ->
    Qry = "matches(\"abc&#x1D157;def\", \"abc[&#x1D156;-&#x1D158;]def\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'surrogates13'(_Config) ->
@@ -321,9 +305,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'surrogates14'(_Config) ->
@@ -333,30 +315,26 @@ environment('math') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = [10,32,32,32,32,32,32,32,32,32,97,98,99,119135,100,101,102,10,32,32,32,32,32,32],
-   case xqerl_types:string_value(Res) of
+   case xqerl_test:string_value(Res) of
              [97,98,99,119135,100,101,102] -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates15'(_Config) ->
    Qry = "replace(\"abc&#x1D157;def\", \"[^a-f]\", \"###\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         abc###def
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         abc###def\n      ",
+   case xqerl_test:string_value(Res) of
              "abc###def" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates16'(_Config) ->
    Qry = "string-to-codepoints(substring(\"&#x10FC00;A\", 2, 1))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         65
-      ",
+   Exp = "\n         65\n      ",
  Tst = xqerl:run("65"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -383,9 +361,9 @@ environment('math') ->
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
    Exp = [10,32,32,32,32,32,32,32,32,32,97,98,99,119126,100,101,102,10,32,32,32,32,32,32],
-   case xqerl_types:string_value(Res) of
+   case xqerl_test:string_value(Res) of
              [97,98,99,119126,100,101,102] -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'surrogates09a'(_Config) ->
    {skip,"XP20+"}.
 'surrogates10a'(_Config) ->

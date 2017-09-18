@@ -156,9 +156,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-static-base-2'(_Config) ->
@@ -167,156 +165,130 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         ftp://ftp.is.co.za/rfc/somefile.txt
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         ftp://ftp.is.co.za/rfc/somefile.txt\n      ",
+   case xqerl_test:string_value(Res) of
              "ftp://ftp.is.co.za/rfc/somefile.txt" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-3'(_Config) ->
    Qry = "declare base-uri \"mailto:John.Doe@example.com\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         mailto:John.Doe@example.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         mailto:John.Doe@example.com\n      ",
+   case xqerl_test:string_value(Res) of
              "mailto:John.Doe@example.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-4'(_Config) ->
    Qry = "declare base-uri \"news:comp.infosystems.www.servers.unix\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         news:comp.infosystems.www.servers.unix
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         news:comp.infosystems.www.servers.unix\n      ",
+   case xqerl_test:string_value(Res) of
              "news:comp.infosystems.www.servers.unix" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-5'(_Config) ->
    Qry = "declare base-uri \"telnet://192.0.2.16:80/\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         telnet://192.0.2.16:80/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         telnet://192.0.2.16:80/\n      ",
+   case xqerl_test:string_value(Res) of
              "telnet://192.0.2.16:80/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-6'(_Config) ->
    Qry = "declare base-uri \"tel:+1-816-555-1212\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         tel:+1-816-555-1212
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         tel:+1-816-555-1212\n      ",
+   case xqerl_test:string_value(Res) of
              "tel:+1-816-555-1212" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-7'(_Config) ->
    Qry = "declare base-uri \"urn:oasis:names:specification:docbook:dtd:xml:4.1.2\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         urn:oasis:names:specification:docbook:dtd:xml:4.1.2
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         urn:oasis:names:specification:docbook:dtd:xml:4.1.2\n      ",
+   case xqerl_test:string_value(Res) of
              "urn:oasis:names:specification:docbook:dtd:xml:4.1.2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-8'(_Config) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:upper-case(fn:string(fn:static-base-uri()))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         HTTP://WWW.EXAMPLE.COM
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         HTTP://WWW.EXAMPLE.COM\n      ",
+   case xqerl_test:string_value(Res) of
              "HTTP://WWW.EXAMPLE.COM" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-9'(_Config) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:lower-case(fn:string(fn:static-base-uri()))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-10'(_Config) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:concat(fn:string(fn:static-base-uri()),\"another string\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.comanother string
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.comanother string\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.comanother string" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-11'(_Config) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:string-join((fn:string(fn:static-base-uri()),\"another string\"),\"\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.comanother string
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.comanother string\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.comanother string" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-12'(_Config) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:string-length(fn:string(fn:static-base-uri()))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         22
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         22\n      ",
+   case xqerl_test:string_value(Res) of
              "22" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-13'(_Config) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:substring-before(fn:string(fn:static-base-uri()),\":\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http\n      ",
+   case xqerl_test:string_value(Res) of
              "http" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-14'(_Config) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:substring-after(fn:string(fn:static-base-uri()),\":\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         //www.example.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         //www.example.com\n      ",
+   case xqerl_test:string_value(Res) of
              "//www.example.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-static-base-15'(_Config) ->
    Qry = "static-base-uri()",
    Env = xqerl_test:handle_environment([{sources, []},
@@ -332,21 +304,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-StaticBaseURIFunc-1'(_Config) ->
    Qry = "static-base-uri(.)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-StaticBaseURIFunc-2'(_Config) ->
@@ -355,9 +323,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-StaticBaseURIFunc-3'(_Config) ->
@@ -366,8 +332,6 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

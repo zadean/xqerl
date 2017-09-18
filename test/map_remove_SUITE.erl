@@ -146,9 +146,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            map:size($result) eq 0
-        ",
+   Exp = "\n            map:size($result) eq 0\n        ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""map:size($result) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -159,9 +157,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            map:size($result) eq 0
-        ",
+   Exp = "\n            map:size($result) eq 0\n        ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""map:size($result) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -172,9 +168,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            map:size($result) eq 0
-        ",
+   Exp = "\n            map:size($result) eq 0\n        ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""map:size($result) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -185,12 +179,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                map:size($result) eq 1
-                map:contains($result, \"a\")
-            
-        ",
+   Exp = "\n            \n                map:size($result) eq 1\n                map:contains($result, \"a\")\n            \n        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, \"a\")",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-remove-006'(_Config) ->
@@ -199,12 +188,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                map:size($result) eq 1
-                map:contains($result, \"a\")
-            
-        ",
+   Exp = "\n            \n                map:size($result) eq 1\n                map:contains($result, \"a\")\n            \n        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, \"a\")",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-remove-007'(_Config) ->
@@ -213,13 +197,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                map:keys($result) = \"a\"
-                map:keys($result) = \"b\"
-                map:size($result) = 2
-            
-        ",
+   Exp = "\n            \n                map:keys($result) = \"a\"\n                map:keys($result) = \"b\"\n                map:size($result) = 2\n            \n        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:keys($result) = \"a\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:keys($result) = \"b\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) = 2",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-remove-008'(_Config) ->
@@ -228,13 +206,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                map:size($result) = 1
-                map(xs:integer, xs:integer)
-                map:contains($result, 13)
-            
-        ",
+   Exp = "\n            \n                map:size($result) = 1\n                map(xs:integer, xs:integer)\n                map:contains($result, 13)\n            \n        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) = 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 13)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_types:type(Res) == 'map(xs:integer, xs:integer)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-remove-009'(_Config) ->
@@ -243,13 +215,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                map:size($result) = 1
-                map(xs:string, xs:integer)
-                map:contains($result, \"a\")
-            
-        ",
+   Exp = "\n            \n                map:size($result) = 1\n                map(xs:string, xs:integer)\n                map:contains($result, \"a\")\n            \n        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) = 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, \"a\")",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_types:type(Res) == 'map(xs:string, xs:integer)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-remove-010'(_Config) ->
@@ -258,9 +224,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            map(xs:string, xs:integer)
-        ",
+   Exp = "\n            map(xs:string, xs:integer)\n        ",
    case xqerl_types:type(Res) of
            'map(xs:string, xs:integer)' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -270,9 +234,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            map(xs:string, xs:integer)
-        ",
+   Exp = "\n            map(xs:string, xs:integer)\n        ",
    case xqerl_types:type(Res) of
            'map(xs:string, xs:integer)' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -282,14 +244,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-                map:contains($result, 1)
-                map:contains($result, 500000)
-                map:size($result) = 499999
-                not(map:contains($result, 123456))
-            
-        ",
+   Exp = "\n            \n                map:contains($result, 1)\n                map:contains($result, 500000)\n                map:size($result) = 499999\n                not(map:contains($result, 123456))\n            \n        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 1)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:contains($result, 500000)",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) = 499999",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"not(map:contains($result, 123456))",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-remove-013'(_Config) ->
@@ -298,9 +253,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-        ",
+   Exp = "\n            \n        ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'map-remove-014'(_Config) ->

@@ -178,69 +178,57 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http%3A%2F%2Fwww.example.com%2F00%2FWeather%2FCA%2FLos%2520Angeles%23ocean
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http%3A%2F%2Fwww.example.com%2F00%2FWeather%2FCA%2FLos%2520Angeles%23ocean\n      ",
+   case xqerl_test:string_value(Res) of
              "http%3A%2F%2Fwww.example.com%2F00%2FWeather%2FCA%2FLos%2520Angeles%23ocean" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri1args-2'(_Config) ->
    Qry = "encode-for-uri(\"~bébé\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         ~b%C3%A9b%C3%A9
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         ~b%C3%A9b%C3%A9\n      ",
+   case xqerl_test:string_value(Res) of
              "~b%C3%A9b%C3%A9" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri1args-3'(_Config) ->
    Qry = "encode-for-uri(\"100% organic\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         100%25%20organic
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         100%25%20organic\n      ",
+   case xqerl_test:string_value(Res) of
              "100%25%20organic" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri1args-4'(_Config) ->
    Qry = "encode-for-uri('')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri1args-5'(_Config) ->
    Qry = "encode-for-uri(())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri1args-6'(_Config) ->
    Qry = "encode-for-uri(12)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-encode-for-uri1args-7'(_Config) ->
@@ -249,9 +237,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-encode-for-uri-1'(_Config) ->
@@ -260,201 +246,167 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         example\n      ",
+   case xqerl_test:string_value(Res) of
              "example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-2'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples#example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%23example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%23example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%23example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-3'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples-example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples-example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples-example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples-example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-4'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples_example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples_example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples_example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples_example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-5'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples.example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples.example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples.example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples.example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-6'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples!example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%21example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%21example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%21example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-7'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples~example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples~example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples~example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples~example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-8'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples*example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%2Aexample
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%2Aexample\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%2Aexample" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-9'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples'example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%27example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%27example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%27example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-10'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples(example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%28example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%28example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%28example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-11'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples)example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%29example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%29example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%29example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-12'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples0123456789example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples0123456789example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples0123456789example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples0123456789example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-13'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%20example
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%20example\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%20example" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-14'(_Config) ->
    Qry = "(fn:encode-for-uri(\"examples/example\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         examples%2Fexample
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         examples%2Fexample\n      ",
+   case xqerl_test:string_value(Res) of
              "examples%2Fexample" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-15'(_Config) ->
    Qry = "(fn:encode-for-uri(\"http:examples\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http%3Aexamples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http%3Aexamples\n      ",
+   case xqerl_test:string_value(Res) of
              "http%3Aexamples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-encode-for-uri-16'(_Config) ->
    Qry = "(fn:encode-for-uri(\"http%20examples\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http%2520examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http%2520examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http%2520examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-EncodeURIfunc-1'(_Config) ->
    Qry = "encode-for-uri()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-EncodeURIfunc-2'(_Config) ->
@@ -463,9 +415,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-EncodeURIfunc-3'(_Config) ->
@@ -474,9 +424,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-EncodeURIfunc-4'(_Config) ->
@@ -485,9 +433,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-EncodeURIfunc-5'(_Config) ->
@@ -496,9 +442,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-EncodeURIfunc-6'(_Config) ->
@@ -507,9 +451,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         some%20string
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         some%20string\n      ",
+   case xqerl_test:string_value(Res) of
              "some%20string" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

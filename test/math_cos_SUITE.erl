@@ -139,9 +139,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            
-        ",
+   Exp = "\n            \n        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'math-cos-002'(_Config) ->
@@ -151,9 +149,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            1.0e0
-        ",
+   Exp = "\n            1.0e0\n        ",
  Tst = xqerl:run("1.0e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -166,9 +162,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            1.0e0
-        ",
+   Exp = "\n            1.0e0\n        ",
  Tst = xqerl:run("1.0e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -181,9 +175,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            abs($result) lt 1e-15
-        ",
+   Exp = "\n            abs($result) lt 1e-15\n        ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""abs($result) lt 1e-15",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -195,9 +187,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            abs($result) lt 1e-15
-        ",
+   Exp = "\n            abs($result) lt 1e-15\n        ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""abs($result) lt 1e-15",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -209,9 +199,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            -1.0e0
-        ",
+   Exp = "\n            -1.0e0\n        ",
  Tst = xqerl:run("-1.0e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -224,12 +212,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            NaN
-        ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n            NaN\n        ",
+   case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'math-cos-008'(_Config) ->
    Qry = "math:cos(xs:double('INF'))",
    Env = xqerl_test:handle_environment(environment('math')),
@@ -237,12 +223,10 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            NaN
-        ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n            NaN\n        ",
+   case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'math-cos-009'(_Config) ->
    Qry = "math:cos(xs:double('-INF'))",
    Env = xqerl_test:handle_environment(environment('math')),
@@ -250,9 +234,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-            NaN
-        ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n            NaN\n        ",
+   case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

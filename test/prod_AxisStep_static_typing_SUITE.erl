@@ -181,9 +181,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes002'(_Config) ->
@@ -193,9 +191,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes003'(_Config) ->
@@ -205,9 +201,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes004'(_Config) ->
@@ -217,9 +211,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes005'(_Config) ->
@@ -229,9 +221,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes006'(_Config) ->
@@ -241,9 +231,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes007'(_Config) ->
@@ -253,9 +241,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes008'(_Config) ->
@@ -265,9 +251,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes009'(_Config) ->
@@ -277,9 +261,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes010'(_Config) ->
@@ -289,9 +271,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes011'(_Config) ->
@@ -301,9 +281,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes012'(_Config) ->
@@ -313,9 +291,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes013'(_Config) ->
@@ -325,9 +301,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes014'(_Config) ->
@@ -337,9 +311,7 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.
 'ST-Axes015'(_Config) ->
@@ -349,8 +321,6 @@ environment('Tree1Text') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0005'}) end.

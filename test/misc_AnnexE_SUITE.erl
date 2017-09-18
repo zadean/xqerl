@@ -136,48 +136,37 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         some data
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         some data\n      ",
+   case xqerl_test:string_value(Res) of
              "some data" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'annex-2'(_Config) ->
    Qry = "declare namespace eg = \"http://example.org\"; declare function eg:if-absent ( $node as node()?, $value as xs:anyAtomicType) as xs:anyAtomicType* { if ($node) then fn:data($node) else $value }; let $arg1 := <element1>some data</element1> let $arg2 as xs:anyAtomicType := 1 return eg:if-absent($arg1,$arg2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         some data
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         some data\n      ",
+   case xqerl_test:string_value(Res) of
              "some data" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'annex-3'(_Config) ->
    Qry = "declare namespace eg = \"http://example.org\"; declare function eg:value-union ( $arg1 as xs:anyAtomicType*, $arg2 as xs:anyAtomicType*) as xs:anyAtomicType* { fn:distinct-values(($arg1, $arg2)) }; let $arg1 as xs:anyAtomicType := 1 let $arg2 as xs:anyAtomicType := 2 return eg:value-union($arg1,$arg2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         1 2
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         1 2\n      ",
+   case xqerl_test:string_value(Res) of
              "1 2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'annex-4'(_Config) ->
    Qry = "declare namespace eg = \"http://example.org\"; declare function eg:value-intersect ( $arg1 as xs:anyAtomicType*, $arg2 as xs:anyAtomicType* ) as xs:anyAtomicType* { fn:distinct-values($arg1[.=$arg2]) }; let $arg1 as xs:anyAtomicType := 1 let $arg2 as xs:anyAtomicType := 1 return eg:value-intersect($arg1,$arg2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            1
-            
-         
-      ",
+   Exp = "\n         \n            1\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -189,12 +178,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            1
-            
-         
-      ",
+   Exp = "\n         \n            1\n            \n         \n      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -206,9 +190,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         2
-      ",
+   Exp = "\n         2\n      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -220,22 +202,18 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         A StringA StringA String
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         A StringA StringA String\n      ",
+   case xqerl_test:string_value(Res) of
              "A StringA StringA String" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'annex-8'(_Config) ->
    Qry = "declare namespace eg = \"http://example.org\"; declare function eg:distinct-nodes-stable ($arg as node()*) as node()* { for $a at $apos in $arg let $before_a := fn:subsequence($arg, 1, $apos - 1) where every $ba in $before_a satisfies not($ba is $a) return $a }; let $arg1 := (<element1>some data 1</element1>,<element2>some data 2</element2>) return eg:distinct-nodes-stable($arg1)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <element1>some data 1</element1><element2>some data 2</element2>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<element1>some data 1</element1><element2>some data 2</element2>"++"</x>)")) == "true" of
+   Exp = "\n         <element1>some data 1</element1><element2>some data 2</element2>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<element1>some data 1</element1><element2>some data 2</element2>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<element1>some data 1</element1><element2>some data 2</element2>" of

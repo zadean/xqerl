@@ -198,9 +198,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
+   Exp = "\n         0\n      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -212,21 +210,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-3'(_Config) ->
    Qry = "fn:resolve-uri(\":\",\"http://www.example.com/\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0002'}) end.
 'fn-resolve-uri-4'(_Config) ->
@@ -235,9 +229,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0002'}) end.
 'fn-resolve-uri-5'(_Config) ->
@@ -246,237 +238,197 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-6'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"examples\",\"http://www.examples.com/\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-7'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"examples\",xs:string(\"http://www.examples.com/\")))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-8'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:string(\"examples\"),fn:string(\"http://www.examples.com/\")))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-9'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:upper-case(\"examples\"),fn:upper-case(\"http://www.examples.com/\")))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         HTTP://WWW.EXAMPLES.COM/EXAMPLES
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         HTTP://WWW.EXAMPLES.COM/EXAMPLES\n      ",
+   case xqerl_test:string_value(Res) of
              "HTTP://WWW.EXAMPLES.COM/EXAMPLES" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-10'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:lower-case(\"EXAMPLES\"),fn:lower-case(\"HTTP://www.examples.com/\")))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-11'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"examples\",fn:substring(\"1234http://www.examples.com/\",5)))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-12'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"examples\",fn:string-join(('http://www.example','.com/'),'')))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-13'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"examples\",fn:concat(\"http://www.example\",\".com/\")))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-14'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"examples\",fn:substring-before(\"http://www.example.com/123\",\"123\")))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-15'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"examples\",fn:substring-after(\"123http://www.example.com/\",\"123\")))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com/examples
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com/examples\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-16'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:string(\"http://www.examples.com/\"),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com/
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com/\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com/" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-17'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:upper-case(\"http://www.examples.com\"),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         HTTP://WWW.EXAMPLES.COM
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         HTTP://WWW.EXAMPLES.COM\n      ",
+   case xqerl_test:string_value(Res) of
              "HTTP://WWW.EXAMPLES.COM" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-18'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:lower-case(\"http://www.examples.com\"),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-19'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:substring(\"123http://www.examples.com\",4),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-20'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:string-join((\"http://www.examples\",\".com\"),''),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-21'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:concat(\"http://www.examples\",\".com\"),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.examples.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.examples.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-22'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:substring-before(\"http://www.example.com123\",\"123\"),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-23'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(fn:substring-after(\"123http://www.example.com\",\"123\"),\"\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-24'(_Config) ->
    Qry = "fn:string(fn:resolve-uri(\"a.html\",\"b.html\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0002'}) end.
 'fn-resolve-uri-25'(_Config) ->
@@ -485,21 +437,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com/a.html
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com/a.html\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com/a.html" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-26'(_Config) ->
    Qry = "resolve-uri(\"b.html\", \"http://www.example.com/a.html#fragment\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0002'}) end.
 'fn-resolve-uri-27'(_Config) ->
@@ -508,21 +456,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         http://www.example.com/b.html
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         http://www.example.com/b.html\n      ",
+   case xqerl_test:string_value(Res) of
              "http://www.example.com/b.html" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-28'(_Config) ->
    Qry = "resolve-uri(\"b.html\", \"urn:isbn:01234567890X\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0002'}) end.
 'fn-resolve-uri-29'(_Config) ->
@@ -531,38 +475,26 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         urn:isbn:01234567890X
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         urn:isbn:01234567890X\n      ",
+   case xqerl_test:string_value(Res) of
              "urn:isbn:01234567890X" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-resolve-uri-30'(_Config) ->
-   Qry = "
-         resolve-uri(codepoints-to-string(231)||\".html\", \"http://www.example.com/\"||codepoints-to-string(224)||\".html\")
-         = (\"http://www.example.com/\"||codepoints-to-string(231)||\".html\")
-      ",
+   Qry = "\n         resolve-uri(codepoints-to-string(231)||\".html\", \"http://www.example.com/\"||codepoints-to-string(224)||\".html\")\n         = (\"http://www.example.com/\"||codepoints-to-string(231)||\".html\")\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-resolve-uri-31'(_Config) ->
-   Qry = "
-         resolve-uri(\"%C3%A0.html\", \"http://www.example.com/%C3%A7.html\")
-         = \"http://www.example.com/%C3%A0.html\"
-      ",
+   Qry = "\n         resolve-uri(\"%C3%A0.html\", \"http://www.example.com/%C3%A7.html\")\n         = \"http://www.example.com/%C3%A0.html\"\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-resolve-uri-32'(_Config) ->
@@ -571,14 +503,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-           http://www.example.com/this doc.html
-           http://www.example.com/this%20doc.html
-           
-         
-      ",
- case (xqerl_types:string_value(Res) == "http://www.example.com/this doc.html") orelse (xqerl_types:string_value(Res) == "http://www.example.com/this%20doc.html") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002") of true -> {comment, "any-of"};
+   Exp = "\n         \n           http://www.example.com/this doc.html\n           http://www.example.com/this%20doc.html\n           \n         \n      ",
+ case (xqerl_test:string_value(Res) == "http://www.example.com/this doc.html") orelse (xqerl_test:string_value(Res) == "http://www.example.com/this%20doc.html") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-ResolveURIFunc-1'(_Config) ->
    Qry = "resolve-uri()",
@@ -586,9 +512,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-ResolveURIFunc-2'(_Config) ->
@@ -597,9 +521,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-ResolveURIFunc-3'(_Config) ->
@@ -608,9 +530,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ResolveURIFunc-4'(_Config) ->
@@ -619,9 +539,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ResolveURIFunc-5'(_Config) ->
@@ -630,9 +548,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ResolveURIFunc-6'(_Config) ->
@@ -641,21 +557,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-fn-resolve-uri-001'(_Config) ->
-   Qry = "
-        boolean(resolve-uri(string-join(for $x in 1 to 10 return \"blah\",\"z\"),\"http://localhost/\"))
-      ",
+   Qry = "\n        boolean(resolve-uri(string-join(for $x in 1 to 10 return \"blah\",\"z\"),\"http://localhost/\"))\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

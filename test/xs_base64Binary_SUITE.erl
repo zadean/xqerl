@@ -194,358 +194,297 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-002'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"00\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AA==
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AA==\n      ",
+   case xqerl_test:string_value(Res) of
              "AA==" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-003'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"01\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AQ==
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AQ==\n      ",
+   case xqerl_test:string_value(Res) of
              "AQ==" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-004'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"ff\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         /w==
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         /w==\n      ",
+   case xqerl_test:string_value(Res) of
              "/w==" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-005'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"0000\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AAA=
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AAA=\n      ",
+   case xqerl_test:string_value(Res) of
              "AAA=" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-006'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"00ff\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AP8=
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AP8=\n      ",
+   case xqerl_test:string_value(Res) of
              "AP8=" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-007'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"80c0\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         gMA=
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         gMA=\n      ",
+   case xqerl_test:string_value(Res) of
              "gMA=" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-008'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"aabbcc\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         qrvM
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         qrvM\n      ",
+   case xqerl_test:string_value(Res) of
              "qrvM" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-009'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"010203\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AQID
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AQID\n      ",
+   case xqerl_test:string_value(Res) of
              "AQID" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-010'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"01020304\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AQIDBA==
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AQIDBA==\n      ",
+   case xqerl_test:string_value(Res) of
              "AQIDBA==" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-011'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"0102030405\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AQIDBAU=
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AQIDBAU=\n      ",
+   case xqerl_test:string_value(Res) of
              "AQIDBAU=" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-012'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"010203040506\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AQIDBAUG
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AQIDBAUG\n      ",
+   case xqerl_test:string_value(Res) of
              "AQIDBAUG" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-013'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"01020304050607\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AQIDBAUGBw==
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AQIDBAUGBw==\n      ",
+   case xqerl_test:string_value(Res) of
              "AQIDBAUGBw==" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-014'(_Config) ->
    Qry = "xs:base64Binary(xs:hexBinary(\"0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AQIDBAUGBwgJCgsMDQ4PEBESExMUFRYXGBkaGxwdHyAhIiMkJSYnKCkqKywtLi8=
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AQIDBAUGBwgJCgsMDQ4PEBESExMUFRYXGBkaGxwdHyAhIiMkJSYnKCkqKywtLi8=\n      ",
+   case xqerl_test:string_value(Res) of
              "AQIDBAUGBwgJCgsMDQ4PEBESExMUFRYXGBkaGxwdHyAhIiMkJSYnKCkqKywtLi8=" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-101'(_Config) ->
    Qry = "xs:base64Binary(\"\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         \n      ",
+   case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-102'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AA==\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         00
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         00\n      ",
+   case xqerl_test:string_value(Res) of
              "00" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-103'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AQ==\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         01
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         01\n      ",
+   case xqerl_test:string_value(Res) of
              "01" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-104'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"/w==\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         FF
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         FF\n      ",
+   case xqerl_test:string_value(Res) of
              "FF" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-105'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AAA=\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0000
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0000\n      ",
+   case xqerl_test:string_value(Res) of
              "0000" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-106'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AP8=\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         00FF
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         00FF\n      ",
+   case xqerl_test:string_value(Res) of
              "00FF" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-107'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"gMA=\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         80C0
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         80C0\n      ",
+   case xqerl_test:string_value(Res) of
              "80C0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-108'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"qrvM\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         AABBCC
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         AABBCC\n      ",
+   case xqerl_test:string_value(Res) of
              "AABBCC" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-109'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AQID\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         010203
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         010203\n      ",
+   case xqerl_test:string_value(Res) of
              "010203" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-110'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AQIDBA==\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         01020304
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         01020304\n      ",
+   case xqerl_test:string_value(Res) of
              "01020304" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-111'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AQIDBAU=\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0102030405
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0102030405\n      ",
+   case xqerl_test:string_value(Res) of
              "0102030405" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-112'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AQIDBAUG\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         010203040506
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         010203040506\n      ",
+   case xqerl_test:string_value(Res) of
              "010203040506" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-113'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AQIDBAUGBw==\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         01020304050607
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         01020304050607\n      ",
+   case xqerl_test:string_value(Res) of
              "01020304050607" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-114'(_Config) ->
    Qry = "xs:hexBinary(xs:base64Binary(\"AQIDBAUGBwgJCgsMDQ4PEBESExMUFRYXGBkaGxwdHyAhIiMkJSYnKCkqKywtLi8=\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F\n      ",
+   case xqerl_test:string_value(Res) of
              "0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-115'(_Config) ->
-   Qry = "xs:hexBinary(xs:base64Binary(\" AQIDBAUG BwgJCgsM DQ4PEBES ExMUFRYX 
- GBkaGxwdH yAhIiMkJ SYnKCkqK y w t L i 8 = \"))",
+   Qry = "xs:hexBinary(xs:base64Binary(\" AQIDBAUG BwgJCgsM DQ4PEBES ExMUFRYX \n GBkaGxwdH yAhIiMkJ SYnKCkqK y w t L i 8 = \"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F\n      ",
+   case xqerl_test:string_value(Res) of
              "0102030405060708090A0B0C0D0E0F10111213131415161718191A1B1C1D1F202122232425262728292A2B2C2D2E2F" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base64-901'(_Config) ->
    Qry = "xs:base64Binary(\"AQI\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'base64-902'(_Config) ->
@@ -554,9 +493,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'base64-903'(_Config) ->
@@ -565,9 +502,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'base64-904'(_Config) ->
@@ -576,9 +511,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'base64-905'(_Config) ->
@@ -587,9 +520,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'base64-906'(_Config) ->
@@ -598,9 +529,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'base64-907'(_Config) ->
@@ -609,9 +538,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'cbcl-base64binary-001'(_Config) ->
@@ -620,9 +547,7 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         0
-      ",
-   case xqerl_types:string_value(Res) of
+   Exp = "\n         0\n      ",
+   case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_types:string_value(Res),Exp}) end.
+             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

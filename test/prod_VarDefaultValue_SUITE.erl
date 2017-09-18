@@ -204,10 +204,8 @@ environment('hats') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a>0</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>0</a>"++"</x>)")) == "true" of
+   Exp = "\n         <a>0</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>0</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>0</a>" of
@@ -230,9 +228,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         5
-      ",
+   Exp = "\n         5\n      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -244,10 +240,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a>0</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>0</a>"++"</x>)")) == "true" of
+   Exp = "\n         <a>0</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>0</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>0</a>" of
@@ -270,10 +264,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a>5</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>5</a>"++"</x>)")) == "true" of
+   Exp = "\n         <a>5</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>5</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>5</a>" of
@@ -296,9 +288,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'extvardef-003'(_Config) ->
@@ -307,10 +297,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a>3</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>3</a>"++"</x>)")) == "true" of
+   Exp = "\n         <a>3</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>3</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>3</a>" of
@@ -333,10 +321,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a>15</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>15</a>"++"</x>)")) == "true" of
+   Exp = "\n         <a>15</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>15</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>15</a>" of
@@ -359,10 +345,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <a>42</a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>42</a>"++"</x>)")) == "true" of
+   Exp = "\n         <a>42</a>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a>42</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<a>42</a>" of
@@ -376,9 +360,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'extvardef-005'(_Config) ->
@@ -387,24 +369,17 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'extvardef-006'(_Config) ->
-   Qry = "
-         declare variable $var as xs:integer := 17; 
-         declare variable $ext as element(a) external := <a>{$var}</a>; 
-         <out>{$ext}</out>",
+   Qry = "\n         declare variable $var as xs:integer := 17; \n         declare variable $ext as element(a) external := <a>{$var}</a>; \n         <out>{$ext}</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <out><a>17</a></out>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><a>17</a></out>"++"</x>)")) == "true" of
+   Exp = "\n         <out><a>17</a></out>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><a>17</a></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<out><a>17</a></out>" of
@@ -413,11 +388,7 @@ end.
               end
 end.
 'extvardef-006a'(_Config) ->
-   Qry = "
-        declare variable $var as xs:integer := 17; 
-        declare variable $ext as xs:integer external := $var; 
-        <out>{$ext}</out>
-      ",
+   Qry = "\n        declare variable $var as xs:integer := 17; \n        declare variable $ext as xs:integer external := $var; \n        <out>{$ext}</out>\n      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -431,10 +402,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         <out>862</out>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P -> "deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>862</out>"++"</x>)")) == "true" of
+   Exp = "\n         <out>862</out>\n      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>862</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
               case ResXml == "<out>862</out>" of
@@ -443,11 +412,7 @@ end.
               end
 end.
 'extvardef-006b'(_Config) ->
-   Qry = "
-        declare variable $var as xs:integer := 17; 
-        declare variable $ext as xs:integer external := <a>{$var}</a>; 
-        <out>{$ext}</out>
-      ",
+   Qry = "\n        declare variable $var as xs:integer := 17; \n        declare variable $ext as xs:integer external := <a>{$var}</a>; \n        <out>{$ext}</out>\n      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -461,26 +426,16 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-            
-            <out>862</out>
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "deep-equal(<x></x>"; P2 -> "deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<out>862</out>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
+   Exp = "\n         \n            \n            <out>862</out>\n         \n      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<out>862</out>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardef-007'(_Config) ->
-   Qry = "
-        declare variable $ext as xs:date external := current-date() + xs:dayTimeDuration('P30D'); 
-        $ext gt xs:date('2008-12-30')
-      ",
+   Qry = "\n        declare variable $ext as xs:date external := current-date() + xs:dayTimeDuration('P30D'); \n        $ext gt xs:date('2008-12-30')\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'extvardef-008'(_Config) ->
@@ -489,9 +444,7 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'extvardef-009'(_Config) ->
@@ -500,116 +453,65 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-           result
-           
-         
-      ",
- case (xqerl_types:string_value(Res) == "result") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
+   Exp = "\n         \n           result\n           \n         \n      ",
+ case (xqerl_test:string_value(Res) == "result") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardef-010'(_Config) ->
-   Qry = "
-        declare variable $a := 1;
-        declare variable $x external := $a + $b;
-        declare variable $b external := 2;
-        $x
-      ",
+   Qry = "\n        declare variable $a := 1;\n        declare variable $x external := $a + $b;\n        declare variable $b external := 2;\n        $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        3
-      ",
+   Exp = "\n        3\n      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-010a'(_Config) ->
-   Qry = "
-        declare variable $a external := 6 + local:foo();
-        declare variable $b external := 12;
-        declare function local:foo() { $b + 10 };
-        $a
-      ",
+   Qry = "\n        declare variable $a external := 6 + local:foo();\n        declare variable $b external := 12;\n        declare function local:foo() { $b + 10 };\n        $a\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        28
-      ",
+   Exp = "\n        28\n      ",
  Tst = xqerl:run("28"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-011'(_Config) ->
-   Qry = "
-        declare variable $a := $x;
-        declare variable $x external := $a + 2;
-        $x
-      ",
+   Qry = "\n        declare variable $a := $x;\n        declare variable $x external := $a + 2;\n        $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'extvardef-011a'(_Config) ->
-   Qry = "
-        declare variable $x external := 3 + local:foo();
-        declare variable $b external := 2 + local:foo();
-
-        declare function local:foo()
-        {
-         $b
-         };
-
-         $x
-      ",
+   Qry = "\n        declare variable $x external := 3 + local:foo();\n        declare variable $b external := 2 + local:foo();\n\n        declare function local:foo()\n        {\n         $b\n         };\n\n         $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'extvardef-012'(_Config) ->
-   Qry = "
-        declare function local:aaa() { 1 };
-        declare variable $x external := local:bbb() + local:aaa();
-        declare function local:bbb() { 2 };
-        $x 
-      ",
+   Qry = "\n        declare function local:aaa() { 1 };\n        declare variable $x external := local:bbb() + local:aaa();\n        declare function local:bbb() { 2 };\n        $x \n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        3
-      ",
+   Exp = "\n        3\n      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-013'(_Config) ->
-   Qry = "
-        declare variable $y external;
-        declare variable $z external := 10;
-        declare function local:aaa() { $z };
-        declare variable $x external := local:bbb() + local:aaa() + 2;
-        declare function local:bbb() { $y };
-        $x 
-      ",
+   Qry = "\n        declare variable $y external;\n        declare variable $z external := 10;\n        declare function local:aaa() { $z };\n        declare variable $x external := local:bbb() + local:aaa() + 2;\n        declare function local:bbb() { $y };\n        $x \n      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -623,188 +525,122 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        28
-      ",
+   Exp = "\n        28\n      ",
  Tst = xqerl:run("28"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-014'(_Config) ->
-   Qry = "
-        declare variable $x external := /works/employee[@name eq \"Jane Doe 1\"];
-        fn:count($x)
-      ",
+   Qry = "\n        declare variable $x external := /works/employee[@name eq \"Jane Doe 1\"];\n        fn:count($x)\n      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        1
-      ",
+   Exp = "\n        1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-015'(_Config) ->
-   Qry = "
-        declare variable $y := /works/employee;
-        declare context item := $y[9];
-        declare variable $x external := fn:position();
-        $x
-      ",
+   Qry = "\n        declare variable $y := /works/employee;\n        declare context item := $y[9];\n        declare variable $x external := fn:position();\n        $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'extvardef-016a'(_Config) ->
-   Qry = "
-        declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);
-        declare context item := $y[3];
-        declare variable $x external := fn:position();
-        $x
-      ",
+   Qry = "\n        declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);\n        declare context item := $y[3];\n        declare variable $x external := fn:position();\n        $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        1
-      ",
+   Exp = "\n        1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-016b'(_Config) ->
-   Qry = "
-        declare variable $y := <root><a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a></root>;
-        declare context item := $y;
-        declare variable $x external := fn:last();
-        $x
-      ",
+   Qry = "\n        declare variable $y := <root><a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a></root>;\n        declare context item := $y;\n        declare variable $x external := fn:last();\n        $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        1
-      ",
+   Exp = "\n        1\n      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-017'(_Config) ->
-   Qry = "
-        declare variable $x as xs:decimal external := xs:integer(10);
-        $x
-      ",
+   Qry = "\n        declare variable $x as xs:decimal external := xs:integer(10);\n        $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        10
-      ",
+   Exp = "\n        10\n      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-018'(_Config) ->
-   Qry = "
-        declare variable $x external := $a + 10;
-        $x
-      ",
+   Qry = "\n        declare variable $x external := $a + 10;\n        $x\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-         
-      ",
+   Exp = "\n         \n      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'extvardef-019'(_Config) ->
-   Qry = "
-        declare variable $x external := 10;
-        declare variable $y external := 18 + $x;
-        $y
-      ",
+   Qry = "\n        declare variable $x external := 10;\n        declare variable $y external := 18 + $x;\n        $y\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        28
-      ",
+   Exp = "\n        28\n      ",
  Tst = xqerl:run("28"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-020'(_Config) ->
-   Qry = "
-        declare variable $x external := 5;
-        declare variable $a := $x + 2;
-        declare function local:foo() {$x +$a};
-        declare variable $y external := 11 + local:foo() + $x;
-        $y
-      ",
+   Qry = "\n        declare variable $x external := 5;\n        declare variable $a := $x + 2;\n        declare function local:foo() {$x +$a};\n        declare variable $y external := 11 + local:foo() + $x;\n        $y\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        28
-      ",
+   Exp = "\n        28\n      ",
  Tst = xqerl:run("28"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-021'(_Config) ->
-   Qry = "
-        declare variable $x as xs:integer external := xs:int(5);
-        declare variable $y as xs:decimal external := $x;
-        $y instance of xs:decimal
-      ",
+   Qry = "\n        declare variable $x as xs:integer external := xs:int(5);\n        declare variable $y as xs:decimal external := $x;\n        $y instance of xs:decimal\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        fn:true()
-      ",
+   Exp = "\n        fn:true()\n      ",
  Tst = xqerl:run("fn:true()"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'extvardef-022'(_Config) ->
-   Qry = "
-        declare function local:foo() {
-          $x
-        };
-        declare variable $x external := 5;
-        local:foo()
-      ",
+   Qry = "\n        declare function local:foo() {\n          $x\n        };\n        declare variable $x external := 5;\n        local:foo()\n      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "
-        5
-      ",
+   Exp = "\n        5\n      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
