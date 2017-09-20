@@ -1327,7 +1327,12 @@ Left  2000  '[' ']' '?'.
 % [152]    DirPIContents     ::=      (Char* - (Char* '?>' Char*))  /* ws: explicit */
 %% done in scanner
 % [153]    CDataSection      ::=      "<![CDATA[" CDataSectionContents "]]>" /* ws: explicit */
-'CDataSection'           -> '<![CDATA[' 'CDataSectionContents' ']]>' : #xqTextNode{cdata = true, expr = [#xqAtomicValue{type = 'xs:string', value = '$2'}]}.
+'CDataSection'           -> '<![CDATA[' 'CDataSectionContents' ']]>' : if '$2' == [] ->
+                                                                              #xqTextNode{cdata = true, expr = []};
+                                                                           true ->
+                                                                              #xqTextNode{cdata = true, 
+                                                                                          expr = [#xqAtomicValue{type = 'xs:string', value = '$2'}]}
+                                                                        end.
 % [154]    CDataSectionContents    ::=      (Char* - (Char* ']]>' Char*)) /* ws: explicit */
 %% done in scanner
 'CDataSectionContents'   -> 'cdata-contents' : value_of('$1').
@@ -1740,8 +1745,11 @@ qname(other, {qname,_,default,Ln}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix([]),
    {qname,Ns,[],Ln};
 qname(other, {qname,Ns,Px,Ln}) ->
-   %Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-   {qname,Ns,Px,Ln}.
+   try xqerl_context:get_statically_known_namespace_from_prefix(Px) of
+      Ns1 -> {qname,Ns1,Px,Ln}
+   catch _:_ -> 
+      {qname,Ns,Px,Ln}
+   end.
 
 get_qname_local_name({qname,_,_,Nm}) ->
   Nm.
@@ -1823,11 +1831,16 @@ as_list(L) ->
 
 dir_att(QName, Value) ->
    if QName#qname.prefix == "xmlns"  ->
+         xqerl_context:add_statically_known_namespace(ns_value(Value), QName#qname.local_name),
          #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = QName#qname.local_name}};
       QName#qname.local_name == "xmlns" andalso QName#qname.prefix == default ->
          case at_value(Value) of 
-            "" -> #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = []}};
-            _ -> #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = []}} 
+            "" -> 
+               xqerl_context:add_statically_known_namespace('no-namespace', []),
+               #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = []}};
+            _ -> 
+               xqerl_context:add_statically_known_namespace(ns_value(Value), []),
+               #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = []}} 
          end;
       true ->
          #xqAttributeNode{identity = next_node_id(), 
@@ -1838,3 +1851,4 @@ dir_att(QName, Value) ->
                                     end}
    end.
   
+

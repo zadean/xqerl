@@ -1044,9 +1044,8 @@ general_compare(Op,List1,List2) when is_list(List2) ->
 
 general_compare(Op,List1,List2) ->
    AList1 = atomize_list(List1),
-   %?dbg("general_compare List1", List1),
-   %?dbg("general_compare AList1", AList1),
    AList2 = atomize_list(List2),
+   %?dbg("general_compare AList1", AList1),
    %?dbg("general_compare AList2", AList2),
    Bool = lists:any(fun(V1) ->
                           lists:any(fun(V2) ->
@@ -1113,10 +1112,10 @@ value_compare(Op,Val1,Val2) ->
 
 atomize_list(Seq) ->
    ?seq:val_map(fun(#xqAtomicValue{} = V) ->
-                           V;
-                        (#xqNode{} = N) ->
-                           ?seq:singleton_value(xqerl_node:atomize_nodes(N))
-                     end, Seq).
+                      V;
+                   (#xqNode{} = N) ->
+                      ?seq:singleton_value(xqerl_node:atomize_nodes(N))
+                end, Seq).
 
 
 

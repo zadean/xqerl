@@ -229,7 +229,8 @@ zip_with(Ctx, Fun,{_,Size1,_} = Seq1,{_,Size2,_} = Seq2) when is_function(Fun) -
                              Loop({NewIter1,NewIter2},NewSeq)
                           catch 
                              _:#xqError{} = E -> throw(E);
-                             _:_ ->
+                             _:E ->
+                                ?dbg(?LINE,E),
                                 xqerl_error:error('XPTY0004')
                           end
                     end

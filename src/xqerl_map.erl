@@ -40,40 +40,42 @@
 -export(['remove'/3]).
 -export(['size'/2]).
 
--'module-namespace'({"http://www.w3.org/2005/xpath-functions/map","math"}).
--namespaces([{"xqerl_fn", "fn"}, {"xqerl_xs", "xs"},{"http://www.w3.org/2005/xpath-functions/map","math"}]).
+-'module-namespace'({"http://www.w3.org/2005/xpath-functions/map","map"}).
+-namespaces([{"http://www.w3.org/2005/xpath-functions", "fn"}, {"xqerl_xs", "xs"},{"http://www.w3.org/2005/xpath-functions/map","map"}]).
 
 -variables([]).
 
 -functions([
-{{qname, "xqerl_map", "map", "contains"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "contains"},{xqSeqType, 'xs:boolean', one}, [], 
  {'contains', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, "xqerl_map", "map", "entry"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "entry"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'entry', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}]},
-{{qname, "xqerl_map", "map", "find"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "find"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'find', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, "xqerl_map", "map", "for-each"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "for-each"},{xqSeqType, item, zero_or_many}, [], 
  {'for-each', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "xqerl_map", "map", "get"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "get"},{xqSeqType, item, zero_or_many}, [], 
  {'get', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, "xqerl_map", "map", "keys"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "keys"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'keys', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]},
-{{qname, "xqerl_map", "map", "merge"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "merge"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'merge', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},zero_or_many}]},
-{{qname, "xqerl_map", "map", "merge"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "merge"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'merge', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},zero_or_many},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]},
-{{qname, "xqerl_map", "map", "put"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "put"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'put', 4}, 3,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}]},
-{{qname, "xqerl_map", "map", "remove"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "remove"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'remove', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "xqerl_map", "map", "size"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "size"},{xqSeqType, 'xs:integer', one}, [], 
  {'size', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]}]).
 
 
 
 %% Tests whether a supplied map contains an entry for a given key 
+'contains'(_Ctx,Map,Key) when is_map(Map) ->
+   ?sin(#xqAtomicValue{type = 'xs:boolean', value = maps:is_key(xqerl_operators:key_val(Key), Map)});
 'contains'(_Ctx,Map,Key) ->
-   ?sin(#xqAtomicValue{type = 'xs:boolean', value = maps:is_key(xqerl_operators:key_val(Key), Map)}).
+   'contains'(_Ctx,?val(Map),Key).
 
 %% Returns a map that contains a single entry (a key-value pair). 
 'entry'(_Ctx,Key0,Value0) -> 
@@ -86,10 +88,12 @@
    #array{data = lists:reverse(L)}.
 
 %% Applies a supplied function to every entry in a map, returning the concatenation of the results. 
-'for-each'(_Ctx,Map,Action) -> 
+'for-each'(_Ctx,Map,Action) when is_map(Map) ->
    lists:map(fun({K,V}) ->
                    Action(K,V)
-             end, maps:values(?val(Map))).
+             end, maps:values(?val(Map)));
+'for-each'(_Ctx,Map,Action) ->
+   'for-each'(_Ctx,?val(Map),Action).
 
 %% Returns the value associated with a supplied key in a given map. 
 'get'(_Ctx,Map,Key) -> 

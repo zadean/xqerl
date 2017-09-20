@@ -827,7 +827,7 @@ scan_token(Str = "namespace" ++ T, A) ->
       '(' ->
          {{'namespace', ?L, 'namespace'}, T};
       _ ->
-         scan_name(Str)
+         qname_if_path("namespace", T, lookback(A))
    end;
 scan_token("intersect" ++ T, A) -> qname_if_path("intersect", T, lookback(A));
 scan_token("collation" ++ T, A) -> qname_if_path("collation", T, lookback(A));
@@ -1338,7 +1338,10 @@ scan_token(Str = "in" ++ T, A) ->
                {{'in',1,'in'}, T};
             'empty' ->
                {{'in',1,'in'}, T};
-            _LB ->
+            ')' ->
+               {{'in',1,'in'}, T};
+            LB ->
+               ?dbg("in scanner",A),
                case lookforward_is_var(T) orelse lookforward_is_paren(T) of
                   true ->
                      {{'in',1,'in'}, T};
@@ -2039,7 +2042,8 @@ scan_hex_char_ref([H|T], Acc) when H >= $A, H =< $F  ->
 scan_hex_char_ref([H|T], Acc) when H == $; ->
    Hex = lists:reverse(Acc),
    CP = list_to_integer(Hex, 16),
-   if CP > 16#10FFFF ->
+   if CP > 16#10FFFF;
+      CP < 1 ->
          xqerl_error:error('XQST0090');
       true ->
          {{'CharRef', ?L, CP}, T}

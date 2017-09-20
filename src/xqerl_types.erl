@@ -221,7 +221,7 @@ as_seq(#xqAtomicValue{} = Av, SeqType) ->
    as_seq(?seq:singleton(Av), SeqType);
 as_seq(#xqNode{} = Av, SeqType) ->
    as_seq(?seq:singleton(Av), SeqType);
-as_seq(Vals, #xqSeqType{type = function}) when is_function(Vals) ->
+as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = function},occur = one}) when is_function(Vals) ->
    Vals;
 as_seq(#array{} = Vals, #xqSeqType{type = {array,_,_,any,any}}) ->
    Vals;
@@ -262,6 +262,31 @@ as_seq(Vals, #xqSeqType{type = {map,_,_,any,any}, occur = Occ}) ->
          xqerl_error:error('XPTY0004')
    end;
 %%    ?seq:singleton(Vals);
+as_seq(Seq, 
+       #xqSeqType{type = #xqFunTest{kind = function, name = Name, type = RetType, params = Params}}) ->
+   B = lists:all(
+         fun(#xqFunction{type = FRetType, params = FParams}) ->
+               %NameCheck = has_name(FName, Name),
+               %?dbg(?LINE, {NameCheck, FName, Name}),
+               TypeCheck = type_check(RetType,FRetType) orelse type_check(FRetType,RetType),
+               ?dbg(?LINE, {TypeCheck, FRetType, RetType}),
+               ParamCheck = if Name == undefined;
+                               FParams == [] -> % anon fun has no param types
+                                  true;
+                               true ->
+                                  param_check(Params,FParams)
+                            end,
+               ?dbg(?LINE, {ParamCheck, FParams, Params}),
+               %NameCheck andalso 
+               TypeCheck andalso ParamCheck;
+            (X) ->
+               ?dbg(?LINE,X), 
+               xqerl_error:error('XPTY0004')
+       end, ?seq:to_list(Seq)),
+   if B == false -> xqerl_error:error('XPTY0004');
+      true -> Seq
+   end;
+    
 as_seq(Seq, #xqSeqType{type = #xqKindTest{kind = Type, name = #qname{prefix = "*",local_name = "*"}}}) ->
    case ?seq:is_sequence(Seq) of
       true ->
@@ -331,6 +356,9 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
       true ->
          if Type == 'item' ->
                Seq;
+            Type == 'xs:numeric' ->
+               ?dbg(?LINE,{Type,AType}),
+               cast_as_seq(Seq,TargetSeqType#xqSeqType{type = 'xs:double'});
             AType == 'xs:anySimpleType' andalso Type == 'xs:anyAtomicType' ->
                Seq;
             Type == 'xs:anyAtomicType' ->
@@ -549,6 +577,8 @@ kind_test_match(#xqSeqType{type = #xqKindTest{kind = Kind1,
 %%    type  = item :: atom(),
 %%    occur = one  :: one | zero_or_one | zero_or_many | one_or_many
 %% }).
+seq_type_val_match(T, T) -> 
+   nocast;
 seq_type_val_match(#xqSeqType{type = 'xs:error', occur = zero_or_one}, #xqSeqType{type = 'empty-sequence'}) -> % xs:error is an empty-sequence
    nocast;
 seq_type_val_match(#xqSeqType{type = 'empty-sequence'}, #xqSeqType{type = 'empty-sequence'}) ->
@@ -559,21 +589,38 @@ seq_type_val_match(#xqSeqType{type = _Type, occur = one_or_many}, #xqSeqType{typ
    false;
 seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_one}, #xqSeqType{type = 'empty-sequence'}) ->
    nocast;
-seq_type_val_match(#xqSeqType{type = TType, occur = one}, #xqSeqType{type = AType, occur = one}) when TType == AType ->
+seq_type_val_match(#xqSeqType{type = TType, occur = one}, #xqSeqType{type = AType, occur = one}) when TType == AType;
+                                                                                                      TType == 'item' ->
    nocast;
 seq_type_val_match(#xqSeqType{type = #xqKindTest{kind = TType} , occur = one}, #xqSeqType{type = AType, occur = one}) when TType == AType ->
+   true;
+seq_type_val_match(#xqSeqType{type = #xqKindTest{kind = TType} , occur = one}, #xqSeqType{type = #xqKindTest{kind = AType}, occur = one}) when TType == AType ->
+   true;
+seq_type_val_match(#xqSeqType{type = #xqKindTest{kind = TType} , occur = one}, #xqSeqType{type = _AType, occur = one}) when TType == 'item' ->
    nocast;
-seq_type_val_match(#xqSeqType{type = TType, occur = zero_or_one}, #xqSeqType{type = AType, occur = one}) when TType == AType ->
+seq_type_val_match(#xqSeqType{type = TType, occur = zero_or_one}, #xqSeqType{type = AType, occur = one}) when TType == AType;
+                                                                                                              TType == 'item' ->
    nocast;
-seq_type_val_match(#xqSeqType{type = TType, occur = one_or_many}, #xqSeqType{type = AType, occur = one}) when TType == AType ->
+seq_type_val_match(#xqSeqType{type = TType, occur = one_or_many}, #xqSeqType{type = AType, occur = one}) when TType == AType;
+                                                                                                              TType == 'item' ->
    nocast;
-seq_type_val_match(#xqSeqType{type = TType, occur = one_or_many}, #xqSeqType{type = AType, occur = one_or_many}) when TType == AType ->
+seq_type_val_match(#xqSeqType{type = TType, occur = one_or_many}, #xqSeqType{type = AType, occur = one_or_many}) when TType == AType;
+                                                                                                                      TType == 'item' ->
    nocast;
-seq_type_val_match(#xqSeqType{type = TType, occur = zero_or_many}, #xqSeqType{type = AType}) when TType == AType ->
+seq_type_val_match(#xqSeqType{type = TType, occur = zero_or_many}, #xqSeqType{type = AType}) when TType == AType;
+                                                                                                  TType == 'item' ->
    nocast;
 seq_type_val_match(#xqSeqType{type = _Type, occur = one}, #xqSeqType{occur = one}) ->
    true;
+seq_type_val_match(#xqSeqType{type = _Type, occur = one}, #xqSeqType{occur = zero_or_many}) ->
+   true;
+seq_type_val_match(#xqSeqType{type = _Type, occur = one}, #xqSeqType{occur = zero_or_one}) ->
+   true;
 seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_one}, #xqSeqType{occur = one}) ->
+   true;
+seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_one}, #xqSeqType{occur = zero_or_one}) ->
+   true;
+seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_one}, #xqSeqType{occur = zero_or_many}) ->
    true;
 seq_type_val_match(#xqSeqType{type = _Type, occur = one_or_many}, #xqSeqType{occur = one}) ->
    true;
@@ -581,7 +628,8 @@ seq_type_val_match(#xqSeqType{type = _Type, occur = one_or_many}, #xqSeqType{occ
    true;
 seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_many}, _V) ->
    true;
-seq_type_val_match(_, _) ->   
+seq_type_val_match(A, B) ->
+   ?dbg(?LINE,{A,B}),
    false.
 
 promote(At,Type) ->
@@ -593,12 +641,35 @@ promote(At,Type) ->
          xqerl_error:error('FORG0006')
    end.
 
+% params subtype, type
 % subtype substitution allowed when true (don't cast the value, keep original type')
 % instance of returns true with this function
 subtype_of(T, T) -> true;
 
+subtype_of(#xqFunTest{} = F1, #xqFunTest{} = F2) ->
+   fun_check(F1,F2);
+
 subtype_of(T, #xqKindTest{kind = T}) -> true;
 subtype_of(T, #xqFunTest{kind = T}) -> true;
+subtype_of(T, #xqFunTest{kind = T}) -> true;
+
+subtype_of(_, #xqKindTest{kind = item}) -> true;
+
+subtype_of(#xqKindTest{kind = node}, #xqKindTest{kind = node}) -> true;
+subtype_of(#xqKindTest{kind = 'document-node'}, #xqKindTest{kind = node}) -> true;
+subtype_of(#xqKindTest{kind = element}, #xqKindTest{kind = node}) -> true;
+subtype_of(#xqKindTest{kind = comment}, #xqKindTest{kind = node}) -> true;
+subtype_of(#xqKindTest{kind = text}, #xqKindTest{kind = node}) -> true;
+subtype_of(#xqKindTest{kind = attribute}, #xqKindTest{kind = node}) -> true;
+subtype_of(#xqKindTest{kind = namespace}, #xqKindTest{kind = node}) -> true;
+subtype_of(#xqKindTest{kind = 'processing-instruction'}, #xqKindTest{kind = node}) -> true;
+
+subtype_of(#xqKindTest{kind = element, name = N1}, #xqKindTest{kind = element, name = N2}) -> 
+   has_name(N1, N2);
+subtype_of(#xqKindTest{kind = attribute, name = N1}, #xqKindTest{kind = attribute, name = N2}) -> 
+   has_name(N1, N2);
+subtype_of(#xqKindTest{kind = 'processing-instruction', name = N1}, #xqKindTest{kind = 'processing-instruction', name = N2}) -> 
+   has_name(N1, N2);
 
 subtype_of('empty-sequence', _) -> true;
 subtype_of(_, item) -> true;
@@ -622,7 +693,7 @@ subtype_of('xs:yearMonthDuration' , 'xs:duration') -> true;
 subtype_of('xs:normalizedString'  , 'xs:string') -> true;
 
 %subtype_of('xs:anyURI'            , 'xs:string') -> true;
-subtype_of('xs:untypedAtomic'     , 'xs:string') -> true;
+%subtype_of('xs:untypedAtomic'     , 'xs:string') -> true;
 
 subtype_of('xs:token'             , 'xs:normalizedString') -> true;
 subtype_of('xs:token'             , 'xs:string') -> true;
@@ -865,6 +936,8 @@ instance_of( #xqNode{} = Seq, TargetSeqType ) ->
 instance_of( #xqAtomicValue{} = Seq, TargetSeqType ) ->
    instance_of( ?seq:singleton(Seq), TargetSeqType);
 instance_of( Seq0, TargetSeqType ) ->
+   %?dbg(?LINE,Seq0),
+   %?dbg(?LINE,TargetSeqType),
    Seq = case ?seq:is_sequence(Seq0) of
             true ->
                Seq0;
@@ -879,6 +952,27 @@ instance_of( Seq0, TargetSeqType ) ->
          ?true;
       true ->
          case TargetSeqType#xqSeqType.type of
+            #xqFunTest{kind = function, name = Name, type = RetType, params = Params}  ->
+               B = lists:all(
+                     fun(#xqFunction{name = FName, type = FRetType, params = FParams}) ->
+                           %NameCheck = has_name(FName, Name),
+                           %?dbg(?LINE, {NameCheck, FName, Name}),
+                           TypeCheck = type_check(FRetType,RetType),
+                           ?dbg(?LINE, {TypeCheck, FRetType, RetType}),
+                           ParamCheck = if Name == undefined -> % anon fun has no param types
+                                              true;
+                                           true ->
+                                              param_check(FParams, Params)
+                                        end,
+                           ?dbg(?LINE, {ParamCheck, FParams, Params}),
+                           %NameCheck andalso 
+                           TypeCheck andalso ParamCheck;
+                        (_) ->
+                           false
+                   end, ?seq:to_list(Seq)),
+               if B == false -> ?false;
+                  true -> ?true
+               end;
             #xqKindTest{kind = 'document-node', test = #xqKindTest{name = #qname{namespace = Ns,local_name = Ln}}}  ->
                B = lists:all(fun(#xqNode{frag_id = F, identity = Id}) ->
                                    ChildIds = xqerl_node:get_node_children(#xqNode{frag_id = F, identity = Id}),
@@ -898,6 +992,30 @@ instance_of( Seq0, TargetSeqType ) ->
                if B == false -> ?false;
                   true -> ?true
                end;
+            #xqKindTest{kind = element, type = ETy, name = #qname{} = Name}  ->
+               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
+                                   derives_from( ATy, ETy );
+                                (#xqNode{frag_id = F, identity = Id}) ->
+                                   Doc = xqerl_context:get_available_document(F),
+                                   Node = xqerl_node:get_node({Id,Doc}),
+                                   NodeType = xqerl_node:get_node_type(Node),
+                                   element == NodeType andalso has_name(Node, Name)
+                             end, ?seq:to_list(Seq)),
+               if B == false -> ?false;
+                  true -> ?true
+               end;
+            #xqKindTest{kind = attribute, type = ETy, name = #qname{} = Name}  ->
+               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
+                                   derives_from( ATy, ETy );
+                                (#xqNode{frag_id = F, identity = Id}) ->
+                                   Doc = xqerl_context:get_available_document(F),
+                                   Node = xqerl_node:get_node({Id,Doc}),
+                                   NodeType = xqerl_node:get_node_type(Node),
+                                   attribute == NodeType andalso has_name(Node, Name)
+                   end, ?seq:to_list(Seq)),
+               if B == false -> ?false;
+                  true -> ?true
+               end;
             #xqKindTest{kind = Kind, type = ETy, name = undefined}  ->
                B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
                                    derives_from( ATy, ETy );
@@ -910,12 +1028,14 @@ instance_of( Seq0, TargetSeqType ) ->
                if B == false -> ?false;
                   true -> ?true
                end;
-            #xqKindTest{kind = element, type = ETy, name = #qname{} = Name}  ->
+            #xqKindTest{kind = Kind, type = ETy, name = #qname{} = Name}  ->
                B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
                                    derives_from( ATy, ETy );
                                 (#xqNode{frag_id = F, identity = Id}) ->
                                    Doc = xqerl_context:get_available_document(F),
                                    Node = xqerl_node:get_node({Id,Doc}),
+                                   NodeType = xqerl_node:get_node_type(Node),
+                                   Kind == NodeType andalso 
                                    case has_name(Node, Name) of
                                       true ->
                                          #xqSeqType{type = ExTy} = ETy,
@@ -923,18 +1043,6 @@ instance_of( Seq0, TargetSeqType ) ->
                                       _ ->
                                          false
                                    end
-                             end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            #xqKindTest{kind = Kind, type = ETy, name = #qname{namespace = Ns,local_name = Ln}}  ->
-               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
-                                   derives_from( ATy, ETy );
-                                (#xqNode{frag_id = F, identity = Id}) ->
-                                   Doc = xqerl_context:get_available_document(F),
-                                   NodeType = xqerl_node:get_node_type({Id,Doc}),
-                                   #qname{namespace = Ns1,local_name = Ln1} = xqerl_node:get_node_name({Id,Doc}),
-                                   Kind == NodeType andalso Ns == Ns1 andalso Ln == Ln1
                    end, ?seq:to_list(Seq)),
                if B == false -> ?false;
                   true -> ?true
@@ -985,6 +1093,9 @@ instance_of( Seq0, TargetSeqType ) ->
                   true -> ?true
                end;
             T ->
+?dbg(?LINE,Seq0),
+?dbg(?LINE,TargetSeqType),
+?dbg(?LINE,seq_type_val_match(TargetSeqType, SeqType)),
                case is_known_type(T) of
                   true ->
                      B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
@@ -993,6 +1104,8 @@ instance_of( Seq0, TargetSeqType ) ->
                                          Doc = xqerl_context:get_available_document(F),
                                          T == 'node' orelse 
                                           T == xqerl_node:get_node_type({Id,Doc});
+                                      (#xqFunction{}) ->
+                                         false;
                                       (Fx) when is_function(Fx) ->
                                          false
                          end, ?seq:to_list(Seq)),
@@ -1012,6 +1125,52 @@ construct_as(At,#xqSeqType{type = 'xs:error'}) ->
    xqerl_xs:xs_error([], At);
 construct_as(At,#xqSeqType{type = _Type}) ->
    At.
+
+type_check(#xqSeqType{}, undefined) -> true;
+type_check(#xqSeqType{}, any) -> true;
+type_check(undefined, #xqSeqType{}) -> true;
+type_check(any, #xqSeqType{}) -> true;
+type_check(#xqSeqType{type = Type} = T1, #xqSeqType{type = TargetType} = T2) ->
+   case seq_type_val_match(T1, T2) of
+      nocast -> true;
+      true ->
+         %?dbg(?LINE,{TargetType, Type}),
+         subtype_of(TargetType, Type);
+      _ ->
+         %?dbg(?LINE,{TargetType,Type}),
+         false
+   end;
+type_check(T1, T2) ->
+   ?dbg(?LINE,{T1,T2}),
+   false.
+
+param_check(_, undefined) -> true;
+param_check(_, any) -> true;
+param_check(undefined, _) -> true;
+param_check(any, _) -> true;
+param_check(L1, L2) when length(L1) == length(L2) ->
+   lists:all(fun({A,B}) ->
+                   type_check(A,B)
+             end, lists:zip(L1, L2));
+param_check(T1, T2) ->
+   ?dbg(?LINE,{T1,T2}),
+   false.
+
+fun_check(#xqFunTest{kind = function, name = Name1, type = RetType1, params = Params1},
+          #xqFunTest{kind = function, name = Name2, type = RetType2, params = Params2}) ->
+   NameCheck = has_name(Name2,Name1),
+   %?dbg(?LINE, {NameCheck, Name1, Name2}),
+   TypeCheck = type_check(RetType2, RetType1),
+   %?dbg(?LINE, {TypeCheck, RetType2, RetType1}),
+   ParamCheck = param_check(Params2, Params1),
+   %?dbg(?LINE, {ParamCheck, Params2, Params1}),
+   NameCheck andalso TypeCheck andalso ParamCheck;
+
+fun_check(#xqFunTest{}=A,#xqFunTest{}=B) ->
+   ?dbg(?LINE, {A,B}),
+   false.
+
+
 
 
 cast_as( At, [] ) -> 
@@ -3061,13 +3220,17 @@ is_known_type(_)                           -> false.
 
 
 
+has_name(undefined, _) ->
+   true;
 has_name(_, undefined) ->
    true;
+has_name(#qname{} = Name, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
+   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+   (Loc == "*" orelse Loc == Name#qname.local_name);
 has_name(#xqElementNode{name = _Name}, #qname{namespace = undefined,prefix = Px}) when Px =/= "*" ->
    % non-expandable QName
    xqerl_error:error('XPST0081');
 has_name(#xqElementNode{name = Name}, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
-   %?dbg("Name,Ns,Px,Loc",{Name,Ns,Px,Loc}),
    (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
    (Loc == "*" orelse Loc == Name#qname.local_name);
 has_name(#xqAttributeNode{name = _Name}, undefined) ->

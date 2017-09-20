@@ -9,12 +9,17 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
+-export([trun/1]). 
+
 -export([run/1]). 
 -export([run/2]). 
 -export([compile/1]). 
 -export([compile_main/1]). 
 
 compile(FileName) ->
+   % saving the docs between runs to not have to reparse
+   Docs = erlang:get('available-documents'),
+   erlang:erase(),
    {ok, Bin} = file:read_file(FileName),
    Str = binary_to_list(Bin),
    Str2 = xqerl_scanner:remove_all_comments(Str),
@@ -34,7 +39,8 @@ compile(FileName) ->
          ?dbg("Mod error",Other),
          Other
    end,
-   erlang:erase(xquery_id),
+   erlang:erase(),
+   erlang:put('available-documents', Docs),
    ok.   
 
 run(Str) -> run(Str, []).
@@ -177,3 +183,24 @@ compile_main(Str) ->
    print_erl(B),
    erlang:erase(),
    ok.   
+
+trun(Str) ->
+   % saving the docs between runs to not have to reparse
+   Docs = erlang:get('available-documents'),
+   erlang:erase(),
+   catch code:purge(xqerl_main),
+   catch code:delete(xqerl_main),
+      Str2 = strip_comments(Str),
+%      ?dbg("Str2",Str2),
+      Tokens = scan_tokens(Str2),
+%      ?dbg("Tokens",Tokens),
+      _ = erlang:put(xquery_id, xqerl_context:init(self())),
+      Tree = parse_tokens(Tokens),
+      ?dbg("Tree",Tree),
+      Abstract = xqerl_abs:scan_mod(Tree),
+%      ?dbg("Abstract",Abstract),
+      B = compile_abstract(Abstract),
+%      print_erl(B),
+      erlang:erase(),
+      erlang:put('available-documents', Docs),
+      xqerl_main:main([]).

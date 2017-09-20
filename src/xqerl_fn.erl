@@ -883,7 +883,7 @@ get_groups(String,[{Start,End}],Cnt) ->
    [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                 prefix = "fn",
                                 local_name = "group"},
-                  expr = [#xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"},
+                  expr = [#xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"},
                                            expr = ?atint(Cnt)},
                           if End == 0 ->
                                 [];
@@ -898,14 +898,14 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
    if NStart =< Pos1 orelse (NStart == Pos1 andalso NEnd > 0) -> % overlap
          End1 = NStart - Start,
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End1))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"}, expr = ?atint(Cnt)},
+         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
          [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                       prefix = "fn",
                                       local_name = "group"},
                         expr = [Att1,Txt1,get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)]}];
       true -> % no overlap
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', local_name = "nr"}, expr = ?atint(Cnt)},
+         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
          [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                       prefix = "fn",
                                       local_name = "group"},
@@ -1714,6 +1714,8 @@ pct_encode3([H|T]) ->
 'function-arity'(_Ctx,Arg1) when is_function(Arg1) ->
    {_,A} = erlang:fun_info(Arg1,arity),
    ?atint(A - 1);
+'function-arity'(_Ctx,#xqFunction{arity = A}) ->
+   ?atint(A);
 'function-arity'(_Ctx,Arg1) ->
    case ?seq:singleton_value(Arg1) of
       Fx when is_function(Fx) ->
@@ -1729,12 +1731,12 @@ pct_encode3([H|T]) ->
    Arity1 = xqerl_types:value(Arity),
    Funs = xqerl_context:get_statically_known_functions(),
    %?dbg("Funs", Funs),
-   Ns2 = mask_static_mod_ns(case Ns of
+   Ns2 = case Ns of
             undefined ->
                xqerl_context:get_statically_known_namespace_from_prefix(Px);
             _ ->
                Ns
-         end),
+         end,
    NsA = list_to_atom(Ns2),
    %?dbg("Funs", NsA),
    %Name1 = #qname{namespace = Ns2, prefix = Px, local_name = Ln},
@@ -1747,7 +1749,7 @@ pct_encode3([H|T]) ->
                                  %?dbg("Ln", {element(5, F) , Arity1}),
                                  if element(2, FQ) == Ns2 andalso element(4, FQ) == Ln ->
                                        if element(5, F) == Arity1;
-                                          Ln == "concat" andalso NsA == xqerl_fn andalso Arity1 > 1 ->
+                                          Ln == "concat" andalso NsA == 'http://www.w3.org/2005/xpath-functions' andalso Arity1 > 1 ->
                                              true;
                                           true ->
                                              false
@@ -1766,15 +1768,16 @@ pct_encode3([H|T]) ->
    if Fun == [] ->
          ?seq:empty();
       true ->
+         NsB = list_to_atom(mask_static_mod_ns(Ns2)),
          Loc = element(4, Fun),
          case tuple_size(Loc) of
             2 -> % local call
-               M = NsA,
+               M = NsB,
                F = element(1, Loc),
                A = element(2, Loc),
                ?seq:singleton(fun M:F/A);
             3 -> % module call
-               M = NsA,
+               M = NsB,
                F = element(2, Loc),
                A = element(3, Loc),
                ?seq:singleton(fun M:F/A)
@@ -1805,6 +1808,9 @@ unmask_static_mod_ns(T) -> T.
    {_,N} = erlang:fun_info(Arg1,name),
    {_,M} = erlang:fun_info(Arg1,module),
    {_,T} = erlang:fun_info(Arg1,type),
+   %?dbg("N",N),
+   %?dbg("M",M),
+   %?dbg("T",T),
    if T == local ->
          ?seq:empty();
       true ->
@@ -1817,7 +1823,8 @@ unmask_static_mod_ns(T) -> T.
                                        true;
                                     {N,_} ->
                                        true;
-                                    _ ->
+                                    _X ->
+                                       %?dbg("X",X),
                                        false
                                  end
                               end, Funs) of
@@ -1928,7 +1935,8 @@ unmask_static_mod_ns(T) -> T.
    'id'(Ctx,Refs,Ci).
 
 'id'(Ctx,Refs,Node) -> 
-   %?dbg("Norm", Norm ),
+   %?dbg("Refs", Refs ),
+   %?dbg("Node", Node ),
    RefToks = ?seq:val_map(fun(Val) ->
                                 'tokenize'(Ctx, 'normalize-space'(Ctx, ?seq:singleton(Val)))
                           end, Refs),
@@ -1949,9 +1957,10 @@ unmask_static_mod_ns(T) -> T.
                                        if Ty == 'xs:ID' ->
                                              Str = xqerl_types:value(At),
                                              %?dbg("Str",Str),
-                                             Match = ?seq:singleton_value(xqerl_operators:general_compare('=',
-                                                                                                          #xqAtomicValue{type = 'xs:string', value = Str},
-                                                                                                          RefToks)),
+                                             Match = ?seq:singleton_value(
+                                                       xqerl_operators:general_compare('=',
+                                                                                       #xqAtomicValue{type = 'xs:string', value = Str},
+                                                                                       RefToks)),
                                              %?dbg("Match",Match),
                                              ?bool(Match == #xqAtomicValue{type = 'xs:boolean', value = true});
                                           true ->
@@ -1965,14 +1974,17 @@ unmask_static_mod_ns(T) -> T.
       %?dbg("id Root", Root),
       %?dbg("id Desc", Desc),
       %?dbg("id Atts", Atts),
-      Elems = xqerl_step:reverse(Ctx,Atts, parent, [],[]),
+      Elems = xqerl_step:reverse(Ctx,Atts, parent, #xqKindTest{kind = element},[]),
       Elems
    catch 
       _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPDY0050"}} ->
             xqerl_error:error('FODC0001');
+      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPTY0020"}} ->
+            xqerl_error:error('XPTY0004');
       _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPTY0019"}} ->
             xqerl_error:error('XPTY0004');
       _:E ->
+         ?dbg(?LINE,E),
          throw(E)
    end.
 
@@ -2140,8 +2152,15 @@ unmask_static_mod_ns(T) -> T.
       true ->
          Arg;
       _ ->
-         #qname{local_name = L} = xqerl_types:value(Arg),
-         #xqAtomicValue{type = 'xs:NCName', value = L}
+         QName = xqerl_types:value(Arg),
+         case QName of
+            #qname{local_name = L} ->
+               ?atm('xs:NCName',L);
+            [] ->
+               ?atm('xs:NCName',"");
+            undefined ->
+               ?atm('xs:NCName',"")
+         end
    end.
 
 %% Converts a string to lower case. 
@@ -2447,6 +2466,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
 
 %% Returns the namespace URI part of the supplied QName. 
 'namespace-uri-from-QName'(_Ctx,Arg1) ->
+   %?dbg(?LINE,Arg1),
    case ?seq:is_empty(Arg1) of 
       true ->
          Arg1;
@@ -2458,6 +2478,8 @@ compare_convert_seq([H|T], Acc, SeqType) ->
             #qname{namespace = Uri} ->
                ?atm('xs:anyURI',Uri);
             [] ->
+               ?atm('xs:anyURI',"");
+            undefined ->
                ?atm('xs:anyURI',"")
          end
    end.   
@@ -2503,7 +2525,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
 'node-name'(Ctx, Arg1) ->
    case ?seq:is_empty(Arg1) of
       true ->
-         ?str("");
+         ?seq:empty();
       _ ->
          'node-name'(Ctx, ?seq:singleton_value(Arg1))
    end.

@@ -650,7 +650,8 @@ scan_options(Options,library) ->
                      (_) ->
                         true
                   end, Options),
-   if Ok ->
+   if Ok;
+      Options == [] ->
          scan_options(Options);
       true ->
          xqerl_error:error('XQST0108')
@@ -1004,7 +1005,7 @@ expr_do(Ctx, #xqFunction{id = _Id,
                          annotations = Annotations, 
                          arity = _Arity,
                          params = Params,
-                         body = Expr}) ->
+                         body = Expr} = F) ->
    _ = lists:foreach(fun({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery",local_name = "private"},_LiteralList}}) ->
                            xqerl_error:error('XQST0125');
                         ({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery",local_name = "public"},_LiteralList}}) ->
@@ -1023,7 +1024,7 @@ expr_do(Ctx, #xqFunction{id = _Id,
                          %as_seq check
                          {{var,?L, VarName}, NewMap}
                     end, Ctx1, Params),
-   Fx = {'fun',?L,
+   Body = {'fun',?L,
     {clauses,
      [{clause,?L,[{var,?L, NextCtxVar}|ParamList],[],
        [expr_do(Ctx2, Expr)]
@@ -1031,8 +1032,7 @@ expr_do(Ctx, #xqFunction{id = _Id,
     }
    },
    %?dbg("ParamList",Fx),
-   Fx
-   ;
+   abs_function(Ctx, F, Body) ;
 expr_do(Ctx, {'function-ref', #qname{} = Name, Arity} ) ->
    get_function_ref({Name, Arity},Ctx);
 %TODO fix the context item
@@ -1130,7 +1130,9 @@ expr_do(Ctx, {'or',Expr1,Expr2}) ->
 % instance of / castable
 expr_do(Ctx, {instance_of,Expr1,Expr2}) ->
    %?dbg("instance_of abs",{Ctx, Expr2}),
-   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,instance_of}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)]};
+   E1 = expr_do(Ctx, Expr1),
+   E2 = expr_do(Ctx, Expr2),
+   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,instance_of}},[E1,E2]};
 
 expr_do(_Ctx, {castable_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "NOTATION"}}}) -> % namespace sensitive
    xqerl_error:error('XPST0080');
@@ -1327,7 +1329,8 @@ expr_do(Ctx, {'partial-function-call', {name, Name}, {arity, Arity}, {args, Args
                                             end
                                       end, PlaceHolders, Args),
    InFun = get_function_ref({Name,Arity,NewArgs}, Ctx1),
-   {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}|PlaceHolders],[], [InFun] }]}};
+   Body = {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}|PlaceHolders],[], [InFun] }]}},
+   abs_function(Ctx, #xqFunction{name = Name,arity = Arity}, Body) ;
 
 % list 
 expr_do(Ctx, {expr,[#xqAtomicValue{} = Sing]}) ->
@@ -2042,7 +2045,7 @@ step_expr_do(Ctx, #xqPostfixStep{predicates = Preds}, SourceVarName) ->
                                                     end, NewArgs),
                                  NextCtxVar2 = next_ctx_var_name(),
                                  NextVar2 = next_var_name(),
-                                 {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,node_map}},
+                                 {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,map}},
                                   [{var,?L,CtxVar},                                      
                                    {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar2}],[], 
                                                        [{match,?L,{var,?L,NextVar2},
@@ -2052,11 +2055,6 @@ step_expr_do(Ctx, #xqPostfixStep{predicates = Preds}, SourceVarName) ->
                                                         {call,?L,{var,?L,NextVar2},[{var,?L,NextCtxVar2}|ArgAbs]}
                                                         ]
                                                        }]}},
-                                  %if is_atom(SourceVarName) ->
-                                  %      {var,?L,SourceVarName};
-                                  %   true ->
-                                  %      SourceVarName
-                                  %end
                                   Abs
                                   ]}
                           end, SourceVarName, Preds),
@@ -3308,12 +3306,23 @@ abs_element_node(Ctx, #xqElementNode{name = N, expr = E1, type = Type}) ->
           true ->
              [E1]
        end,
-  Namespaces = lists:filtermap(fun(#xqNamespaceNode{name = #qname{prefix = P1,namespace = N1}}) ->
-                                  {true, {P1,N1}};
-                               (_) ->
-                                  false
-                            end, E),
-  NsAbs = lists:foldr(
+   Namespaces = lists:filtermap(fun(#xqNamespaceNode{name = #qname{prefix = "",namespace = ""}}) ->
+                                      {true, {"",""}};
+                                   (#xqNamespaceNode{name = #qname{prefix = _,namespace = ""}}) ->
+                                      xqerl_error:error('XQST0085');
+                                   (#xqNamespaceNode{name = #qname{prefix = P1,namespace = N1}}) ->
+                                      {true, {P1,N1}};
+                                   (_) ->
+                                      false
+                                end, E),
+   Prefixes = [P||{P,_}<-Namespaces],
+   Dups = lists:sort(Prefixes) =/= lists:usort(Prefixes),
+   if Dups ->
+         xqerl_error:error('XQST0071');
+      true ->
+         ok
+   end,
+   NsAbs = lists:foldr(
             fun({P1,N1},Abs) ->
                   {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,add_inscope_namespace}},
                    [Abs,atom_or_string(P1),atom_or_string(N1)]}
@@ -3356,7 +3365,7 @@ abs_element_node(Ctx, #xqElementNode{name = N, expr = E1, type = Type}) ->
      atom_or_string(undefined), % path_index
      if E == [undefined] -> empty_seq();
         true ->
-           Strip = maybe_strip_boundry_space(Ctx,E),
+           Strip = maybe_strip_boundry_space(Ctx1,E),
            Flattened = flatten_node_expr(Strip),
            Flat = lists:map(fun(Ex) ->
                                   expr_do(Ctx1,Ex)
@@ -3368,9 +3377,13 @@ abs_element_node(Ctx, #xqElementNode{name = N, expr = E1, type = Type}) ->
            {block,?L,
             [
              {match,?L,{var,?L,NextCtxVar},NsAbs},
-              lists:foldr(fun(X, Abs) ->
-                         {cons,?L,X, Abs} 
-                   end, {nil,?L}, Flat)
+             if length(Flat) == 1 ->
+                   hd(Flat);
+                true ->
+                    lists:foldr(fun(X, Abs) ->
+                               {cons,?L,X, Abs} 
+                         end, {nil,?L}, Flat)
+             end
              ]}
      end
     ]}.
@@ -3405,7 +3418,9 @@ flatten_node_cons({expr, Expr}) ->
          lists:flatmap(fun({'node-cons',NC}) ->
                              [NC];
                           (#xqAtomicValue{} = A) ->
-                             [#xqTextNode{expr = A}];
+                             [A];
+%%                           (#xqAtomicValue{} = A) ->
+%%                              [#xqTextNode{expr = A}];
                           (Other) ->
                              alist(Other)
                        end, Expr)};
@@ -3470,14 +3485,15 @@ abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
 %%       path_index   = undefined :: [integer()],
 %%       expr         = undefined :: term()
 %%    }).
-abs_text_node(Ctx, #xqTextNode{expr = E}) ->
+abs_text_node(Ctx, #xqTextNode{expr = E, cdata = C}) ->
    ?dbg(?LINE,E),
+   ?dbg(?LINE,C),
    {tuple,?L,
     [
      atom_or_string(xqTextNode),
      atom_or_string(undefined),
      atom_or_string(undefined),
-     atom_or_string(false),
+     atom_or_string(C),
      atom_or_string(undefined),
      case is_list(E) of
         true ->
@@ -3607,6 +3623,7 @@ abs_namespace_node(Ctx, #xqNamespaceNode{name = Name}) ->
 abs_fun_test(Ctx,#xqFunTest{kind = Kind, annotations = Annos, name = Name, params = Params, type = Type}) ->
    {tuple,?L,
     [
+     atom_or_string(xqFunTest),
      atom_or_string(Kind),
      if Annos == [] ->
            {nil,?L};
@@ -3713,14 +3730,19 @@ abs_kind_test(Ctx,#xqKindTest{kind = K, name = Q, type = T, test = Ts}) ->
 
 abs_function(Ctx,
              #xqFunction{annotations = _A,
-                         name = #qname{namespace = Ns, prefix = Px} = N,
+                         name = N,
                          arity = Ar,
                          params = Params,
                          type = Type}, BodyAbs) ->
-   N1 = if Ns == 'no-namespace' orelse Px == [] ->
-              N#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = "fn"};
+   N1 = if N == undefined ->
+              undefined;
            true ->
-              N
+              #qname{namespace = Ns, prefix = Px} = N,
+               if Ns == 'no-namespace' orelse Px == [] ->
+                     N#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = "fn"};
+                  true ->
+                     N
+               end
         end,
    {tuple, ?L, 
     [atom_or_string(xqFunction),
@@ -3744,7 +3766,9 @@ abs_function(Ctx,
 %% }).
 
 abs_param_list(Ctx, List) ->
-   lists:foldr(fun(St,Acc) ->
+   lists:foldr(fun(#xqSeqType{} = St,Acc) ->
+                     {cons,?L,abs_seq_type(Ctx, St) ,Acc};
+                  (#xqVar{type = #xqSeqType{} = St},Acc) ->
                      {cons,?L,abs_seq_type(Ctx, St) ,Acc}
                end, {nil,?L}, List).
    
@@ -3786,6 +3810,7 @@ atom_or_string(AS) ->
    end.
 
 empty_seq() ->
+   %{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,'empty'}},[]}.
    {nil,?L}.
 
 get_context_variable_name(Ctx) ->
@@ -3866,6 +3891,7 @@ get_variable_tuple(List) when is_list(List) ->
 
 % prefix,namespaces,current
 namespace_from_prefix("default",Ns,N) -> namespace_from_prefix([],Ns,N);
+namespace_from_prefix(default,Ns,N) -> namespace_from_prefix([],Ns,N);
 namespace_from_prefix(Px,Ns,N) ->
    %?dbg("abs_qname",{Px, Ns, N}),
    case proplists:get_value(Px, Ns, N) of
@@ -3912,15 +3938,15 @@ maybe_strip_boundry_space(Ctx,Expr0) ->
    Pol = maps:get('boundary-space', Ctx),
    Expr1 = alist(Expr0),
    Expr2 = concat_string_content(Expr1),
-   case Expr2 of
-      [#xqAtomicValue{}] -> % single atomic 
-         Expr2;
-      _ ->
+%%    case Expr2 of
+%%       [#xqAtomicValue{}] -> % single atomic 
+%%          Expr2;
+%%       _ ->
          if Pol == strip ->
                strip_boundry_space(Expr2);
             true ->
                Expr2
-         end
+%%          end
    end.
 
 resolve_qname(#qname{namespace = Ns, prefix = undefined, local_name = Ln}, Ctx) ->
