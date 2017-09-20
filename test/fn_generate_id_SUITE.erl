@@ -180,7 +180,12 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            xs:string\n            \"\"\n         \n      ",
+   Exp = "
+         
+            xs:string
+            \"\"
+         
+      ",
  case  begin Tst2 = xqerl:run("\"\""),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
@@ -193,7 +198,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -205,7 +212,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -217,7 +226,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -229,7 +240,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -241,7 +254,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -253,7 +268,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -267,7 +284,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'generate-id-009'(_Config) ->
@@ -277,83 +296,114 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'generate-id-010'(_Config) ->
-   Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) \n            return count($nodes) eq count(distinct-values($nodes/generate-id()))",
+   Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
+            return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'generate-id-011'(_Config) ->
    {skip,"XP20+"}.
 'generate-id-012'(_Config) ->
-   Qry = "let $nodes := collection()\n            return count($nodes) eq count(distinct-values($nodes/generate-id()))",
+   Qry = "let $nodes := collection()
+            return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    Env = xqerl_test:handle_environment(environment('collection')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'generate-id-013'(_Config) ->
-   Qry = "let $nodes := collection()//*\n            return count($nodes) eq count(distinct-values($nodes/generate-id()))",
+   Qry = "let $nodes := collection()//*
+            return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    Env = xqerl_test:handle_environment(environment('collection')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'generate-id-014'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        generate-id(copy:copy(/*))\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        generate-id(copy:copy(/*))
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'generate-id-015'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        generate-id(copy:copy((//@*)[1]))\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        generate-id(copy:copy((//@*)[1]))
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         matches($result, '^[A-Za-z][A-Za-z0-9]*$')\n      ",
+   Exp = "
+         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'generate-id-016'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        generate-id(copy:copy(/*)) eq generate-id(/*)\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        generate-id(copy:copy(/*)) eq generate-id(/*)
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'generate-id-017'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'generate-id-018'(_Config) ->
@@ -365,7 +415,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'generate-id-902'(_Config) ->
@@ -375,7 +427,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'generate-id-903'(_Config) ->
@@ -385,7 +439,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'generate-id-904'(_Config) ->
@@ -395,7 +451,9 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'generate-id-905'(_Config) ->
@@ -405,6 +463,8 @@ environment('collection') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.

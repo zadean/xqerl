@@ -212,7 +212,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -222,7 +224,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -232,7 +236,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -242,7 +248,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -252,7 +260,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -262,7 +272,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT4H33M\n      ",
+   Exp = "
+         PT4H33M
+      ",
    case xqerl_test:string_value(Res) of
              "PT4H33M" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -272,7 +284,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-3'(_Config) ->
@@ -281,7 +295,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-4'(_Config) ->
@@ -290,7 +306,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-5'(_Config) ->
@@ -299,7 +317,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-6'(_Config) ->
@@ -308,7 +328,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         NaN\n      ",
+   Exp = "
+         NaN
+      ",
    case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -318,7 +340,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P6DT8H16M\n      ",
+   Exp = "
+         P6DT8H16M
+      ",
    case xqerl_test:string_value(Res) of
              "P6DT8H16M" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -328,7 +352,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -P20DT2H2M\n      ",
+   Exp = "
+         -P20DT2H2M
+      ",
    case xqerl_test:string_value(Res) of
              "-P20DT2H2M" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -338,7 +364,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-10'(_Config) ->
@@ -347,7 +375,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-11'(_Config) ->
@@ -356,7 +386,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -366,7 +398,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-13'(_Config) ->
@@ -375,7 +409,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-14'(_Config) ->
@@ -384,7 +420,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-15'(_Config) ->
@@ -393,7 +431,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-16'(_Config) ->
@@ -402,7 +442,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-multiply-dayTimeDuration-17'(_Config) ->
@@ -411,7 +453,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -421,7 +465,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -431,7 +477,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DayTimeDurationMultiply-2'(_Config) ->
@@ -440,7 +488,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DayTimeDurationMultiply-3'(_Config) ->
@@ -449,7 +499,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DayTimeDurationMultiply-4'(_Config) ->
@@ -458,7 +510,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DayTimeDurationMultiply-5'(_Config) ->
@@ -467,7 +521,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DayTimeDurationMultiply-6'(_Config) ->
@@ -476,7 +532,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DayTimeDurationMultiply-7'(_Config) ->
@@ -485,7 +543,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'K-DayTimeDurationMultiply-8'(_Config) ->
@@ -494,7 +554,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'K-DayTimeDurationMultiply-9'(_Config) ->
@@ -503,7 +565,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'cbcl-multiply-dayTimeDuration-001'(_Config) ->
@@ -512,7 +576,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -522,7 +588,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P2D\n      ",
+   Exp = "
+         P2D
+      ",
    case xqerl_test:string_value(Res) of
              "P2D" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -532,7 +600,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'cbcl-multiply-dayTimeDuration-004'(_Config) ->
@@ -541,7 +611,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -551,7 +623,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P2D\n      ",
+   Exp = "
+         P2D
+      ",
    case xqerl_test:string_value(Res) of
              "P2D" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -561,82 +635,116 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'cbcl-times-001'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };\n        local:f(false()) * 2",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };
+        local:f(false()) * 2",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P2M\n      ",
+   Exp = "
+         P2M
+      ",
    case xqerl_test:string_value(Res) of
              "P2M" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-times-002'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };\n        local:f(true()) * 2",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };
+        local:f(true()) * 2",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'cbcl-times-003'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };\n        local:f(false()) * 2",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };
+        local:f(false()) * 2",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P2D\n      ",
+   Exp = "
+         P2D
+      ",
    case xqerl_test:string_value(Res) of
              "P2D" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-times-004'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };\n        local:f(true()) * 2",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };
+        local:f(true()) * 2",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'cbcl-times-005'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };\n        2 * local:f(false())",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };
+        2 * local:f(false())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P2M\n      ",
+   Exp = "
+         P2M
+      ",
    case xqerl_test:string_value(Res) of
              "P2M" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-times-006'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };\n        2 * local:f(true())",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:yearMonthDuration(\"P1M\") };
+        2 * local:f(true())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'cbcl-times-007'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };\n        2 * local:f(false())",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };
+        2 * local:f(false())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P2D\n      ",
+   Exp = "
+         P2D
+      ",
    case xqerl_test:string_value(Res) of
              "P2D" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-times-008'(_Config) ->
-   Qry = "\n        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };\n        2 * local:f(true())",
+   Qry = "
+        declare function local:f($x) { if ($x) then xs:duration(\"P1M\") else xs:dayTimeDuration(\"P1D\") };
+        2 * local:f(true())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.

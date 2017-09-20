@@ -208,7 +208,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-2'(_Config) ->
@@ -217,7 +219,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-3'(_Config) ->
@@ -226,7 +230,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-4'(_Config) ->
@@ -235,7 +241,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-5'(_Config) ->
@@ -244,7 +252,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-6'(_Config) ->
@@ -253,7 +263,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-7'(_Config) ->
@@ -262,7 +274,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-8'(_Config) ->
@@ -271,7 +285,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-9'(_Config) ->
@@ -280,7 +296,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than2args-10'(_Config) ->
@@ -289,7 +307,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-1'(_Config) ->
@@ -298,7 +318,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-2'(_Config) ->
@@ -307,7 +329,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-3'(_Config) ->
@@ -316,7 +340,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-4'(_Config) ->
@@ -325,7 +351,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-5'(_Config) ->
@@ -334,7 +362,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-6'(_Config) ->
@@ -343,7 +373,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-7'(_Config) ->
@@ -352,7 +384,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-8'(_Config) ->
@@ -361,7 +395,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-9'(_Config) ->
@@ -370,7 +406,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-10'(_Config) ->
@@ -379,7 +417,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-11'(_Config) ->
@@ -388,7 +428,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-12'(_Config) ->
@@ -397,7 +439,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-13'(_Config) ->
@@ -406,7 +450,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-time-greater-than-14'(_Config) ->
@@ -415,7 +461,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'K-TimeGT-1'(_Config) ->
@@ -424,7 +472,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-TimeGT-2'(_Config) ->
@@ -433,7 +483,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-TimeGT-3'(_Config) ->
@@ -442,7 +494,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-TimeGT-4'(_Config) ->
@@ -451,7 +505,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-TimeGT-5'(_Config) ->
@@ -460,7 +516,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-TimeGT-6'(_Config) ->
@@ -469,16 +527,23 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-001'(_Config) ->
-   Qry = "\n        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };\n        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };\n        not(local:time(12, 59, 30) gt xs:time(\"12:32:05\"))",
+   Qry = "
+        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };
+        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };
+        not(local:time(12, 59, 30) gt xs:time(\"12:32:05\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-002'(_Config) ->
@@ -487,7 +552,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-003'(_Config) ->
@@ -496,34 +563,49 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-004'(_Config) ->
-   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))\n            then xs:time(\"00:00:00\") gt xs:time(\"00:00:00+01:00\")\n            else xs:time(\"00:00:00+01:01\") gt xs:time(\"00:00:00\")",
+   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time(\"00:00:00\") gt xs:time(\"00:00:00+01:00\")
+            else xs:time(\"00:00:00+01:01\") gt xs:time(\"00:00:00\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-005'(_Config) ->
-   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))\n            then xs:time(\"00:00:01+01:00\") gt xs:time(\"00:00:00\")\n            else xs:time(\"00:00:00\") gt xs:time(\"00:00:00+01:01\")",
+   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time(\"00:00:01+01:00\") gt xs:time(\"00:00:00\")
+            else xs:time(\"00:00:00\") gt xs:time(\"00:00:00+01:01\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-006'(_Config) ->
-   Qry = "\n        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };\n        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };\n        not(local:time(12, 59, 30) le xs:time(\"12:32:05\"))",
+   Qry = "
+        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };
+        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };
+        not(local:time(12, 59, 30) le xs:time(\"12:32:05\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-007'(_Config) ->
@@ -532,7 +614,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-008'(_Config) ->
@@ -541,60 +625,86 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-009'(_Config) ->
-   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))\n            then xs:time(\"00:00:00\") le xs:time(\"00:00:00+01:00\")\n            else xs:time(\"00:00:00+01:01\") le xs:time(\"00:00:00\")",
+   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time(\"00:00:00\") le xs:time(\"00:00:00+01:00\")
+            else xs:time(\"00:00:00+01:01\") le xs:time(\"00:00:00\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-010'(_Config) ->
-   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))\n            then xs:time(\"00:00:01+01:00\") le xs:time(\"00:00:00\")\n            else xs:time(\"00:00:00\") le xs:time(\"00:00:00+01:01\")",
+   Qry = "if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time(\"00:00:01+01:00\") le xs:time(\"00:00:00\")
+            else xs:time(\"00:00:00\") le xs:time(\"00:00:00+01:01\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-011'(_Config) ->
-   Qry = "\n        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };\n        exists(local:time(xs:time(\"23:58:00\"), fn:true()) gt xs:time(\"23:58:00\"))",
+   Qry = "
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        exists(local:time(xs:time(\"23:58:00\"), fn:true()) gt xs:time(\"23:58:00\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-012'(_Config) ->
-   Qry = "\n        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };\n        local:time(xs:time(\"23:58:00\"), fn:false()) gt xs:time(\"23:58:00\")",
+   Qry = "
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        local:time(xs:time(\"23:58:00\"), fn:false()) gt xs:time(\"23:58:00\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-013'(_Config) ->
-   Qry = "\n        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };\n        exists(local:time(xs:time(\"23:58:00\"), fn:true()) le xs:time(\"23:58:00\"))",
+   Qry = "
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        exists(local:time(xs:time(\"23:58:00\"), fn:true()) le xs:time(\"23:58:00\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-time-greater-than-014'(_Config) ->
-   Qry = "\n        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };\n        local:time(xs:time(\"23:58:00\"), fn:false()) le xs:time(\"23:58:00\")",
+   Qry = "
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        local:time(xs:time(\"23:58:00\"), fn:false()) le xs:time(\"23:58:00\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

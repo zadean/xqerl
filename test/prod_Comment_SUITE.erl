@@ -225,12 +225,21 @@ environment('TreeEmpty') ->
 {modules, []}
 ].
 'XQueryComment001'(_Config) ->
-   Qry = "(: Name: XQueryComment001 :)\n(: Description: Simple use case for XQuery comments :)\n\n\n(: This is a comment :)\n<result/>\n\n",
+   Qry = "(: Name: XQueryComment001 :)
+(: Description: Simple use case for XQuery comments :)
+
+
+(: This is a comment :)
+<result/>
+
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -240,13 +249,23 @@ environment('TreeEmpty') ->
               end
 end.
 'XQueryComment002'(_Config) ->
-   Qry = "(: Name: XQueryComment002 :)\n(: Description: Simple use case for XQuery comments :)\n\n\n\n\n(: This is a comment :)\n(//fs:Folder)[1]/fs:File[1]/fs:FileName\n",
+   Qry = "(: Name: XQueryComment002 :)
+(: Description: Simple use case for XQuery comments :)
+
+
+
+
+(: This is a comment :)
+(//fs:Folder)[1]/fs:File[1]/fs:FileName
+",
    Env = xqerl_test:handle_environment(environment('fsx_NS')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName>\n      ",
+   Exp = "
+         <fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -256,12 +275,20 @@ end.
               end
 end.
 'XQueryComment003'(_Config) ->
-   Qry = "(: Name: XQueryComment003 :)\n(: Description: Simple use case for XQuery comment containing '-' :)\n\n\n(:This is a comment-:)\n<result/>\n",
+   Qry = "(: Name: XQueryComment003 :)
+(: Description: Simple use case for XQuery comment containing '-' :)
+
+
+(:This is a comment-:)
+<result/>
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -271,12 +298,20 @@ end.
               end
 end.
 'XQueryComment004'(_Config) ->
-   Qry = "(: Name: XQueryComment004 :)\n(: Description: Empty comment :)\n\n\n(::)\n<result/>\n",
+   Qry = "(: Name: XQueryComment004 :)
+(: Description: Empty comment :)
+
+
+(::)
+<result/>
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -286,12 +321,20 @@ end.
               end
 end.
 'XQueryComment005'(_Config) ->
-   Qry = "(: Name: XQueryComment004 :)\n(: Description: Comment containing only '-' :)\n\n\n(:-:)\n<result/>\n",
+   Qry = "(: Name: XQueryComment004 :)
+(: Description: Comment containing only '-' :)
+
+
+(:-:)
+<result/>
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -301,12 +344,20 @@ end.
               end
 end.
 'XQueryComment006'(_Config) ->
-   Qry = "(: Name: XQueryComment006 :)\n(: Description: Comment containing ':' :)\n\n\n(: this is a comment ::)\n<result/>\n",
+   Qry = "(: Name: XQueryComment006 :)
+(: Description: Comment containing ':' :)
+
+
+(: this is a comment ::)
+<result/>
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -316,12 +367,20 @@ end.
               end
 end.
 'XQueryComment007'(_Config) ->
-   Qry = "(: Name: XQueryComment007 :)\n(: Description: Comment containing ')' :)\n\n\n(: this is a comment ):)\n<result/>\n",
+   Qry = "(: Name: XQueryComment007 :)
+(: Description: Comment containing ')' :)
+
+
+(: this is a comment ):)
+<result/>
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -331,12 +390,20 @@ end.
               end
 end.
 'XQueryComment008'(_Config) ->
-   Qry = "(: Name: XQueryComment008 :)\n(: Description: Simple example of embedded comments :)\n\n\n(: this is a comment (: this is an embedded comment :):)\n<result/>\n",
+   Qry = "(: Name: XQueryComment008 :)
+(: Description: Simple example of embedded comments :)
+
+
+(: this is a comment (: this is an embedded comment :):)
+<result/>
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -346,45 +413,84 @@ end.
               end
 end.
 'XQueryComment009'(_Config) ->
-   Qry = "(: Name: XQueryComment009 :)\n(: Description: Comments inside a conditional expression :)\n\n\n\nif (:test (: yada (: neato :) :) :) (/fs:MyComputer) \n   then (: yada :) \"true\"\n   else \"false\"\n",
+   Qry = "(: Name: XQueryComment009 :)
+(: Description: Comments inside a conditional expression :)
+
+
+
+if (:test (: yada (: neato :) :) :) (/fs:MyComputer) 
+   then (: yada :) \"true\"
+   else \"false\"
+",
    Env = xqerl_test:handle_environment(environment('fsx_NS')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true\n      ",
+   Exp = "
+         true
+      ",
    case xqerl_test:string_value(Res) of
              "true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'XQueryComment010'(_Config) ->
-   Qry = "\n(: Name: XQueryComment010 :)\n(: Description: Comments inside a conditional expression :)\nif (: comment :) \n  ( //fs:Folder[1]/fs:FolderName/text() = \"Folder00000000000\" ) \nthen (: this is the then case :) ( true() )\nelse (: this is the else case :) ( false() )\n\n",
+   Qry = "
+(: Name: XQueryComment010 :)
+(: Description: Comments inside a conditional expression :)
+if (: comment :) 
+  ( //fs:Folder[1]/fs:FolderName/text() = \"Folder00000000000\" ) 
+then (: this is the then case :) ( true() )
+else (: this is the else case :) ( false() )
+
+",
    Env = xqerl_test:handle_environment(environment('fsx_NS')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'XQueryComment011'(_Config) ->
-   Qry = "(: Name: XQueryComment011 :)\n(: Description: Comments inside a conditional expression :)\n\n\n\nif (:test:)(:t2:)(:t3:) (/fs:MyComputer) \n   then \"true\"\n   else \"false\"\n\n",
+   Qry = "(: Name: XQueryComment011 :)
+(: Description: Comments inside a conditional expression :)
+
+
+
+if (:test:)(:t2:)(:t3:) (/fs:MyComputer) 
+   then \"true\"
+   else \"false\"
+
+",
    Env = xqerl_test:handle_environment(environment('fsx_NS')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true\n      ",
+   Exp = "
+         true
+      ",
    case xqerl_test:string_value(Res) of
              "true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'XQueryComment012'(_Config) ->
-   Qry = "(: Name: XQueryComment012 :)\n(: Description: Comments that looks like a function call :)\n\n\n/south(: test :)\n\n",
+   Qry = "(: Name: XQueryComment012 :)
+(: Description: Comments that looks like a function call :)
+
+
+/south(: test :)
+
+",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <south mark=\"s0\" />\n      ",
+   Exp = "
+         <south mark=\"s0\" />
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<south mark=\"s0\" />"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -394,79 +500,137 @@ end.
               end
 end.
 'XQueryComment013'(_Config) ->
-   Qry = "(: Name: XQueryComment013 :)\n(: Description: Comments inside a sequence expression :)\n\n\n(1, 2, (: comment :) 3, 4)\n\n",
+   Qry = "(: Name: XQueryComment013 :)
+(: Description: Comments inside a sequence expression :)
+
+
+(1, 2, (: comment :) 3, 4)
+
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3 4\n      ",
+   Exp = "
+         1 2 3 4
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3 4" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'XQueryComment014'(_Config) ->
-   Qry = "(: Name: XQueryComment014 :)\n(: Description: Comments inside a cast expression :)\n\n\n\"10\" cast as (: type comment :) xs:integer ?\n\n",
+   Qry = "(: Name: XQueryComment014 :)
+(: Description: Comments inside a cast expression :)
+
+
+\"10\" cast as (: type comment :) xs:integer ?
+
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         10\n      ",
+   Exp = "
+         10
+      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'XQueryComment015'(_Config) ->
-   Qry = "(: Name: XQueryComment015 :)\n(: Description: Incorrect comment syntax :)\n\n\n(! Wrong syntax :)\n<empty/>",
+   Qry = "(: Name: XQueryComment015 :)
+(: Description: Incorrect comment syntax :)
+
+
+(! Wrong syntax :)
+<empty/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'XQueryComment016'(_Config) ->
-   Qry = "(: Name: XQueryComment016 :)\n(: Description: Invalid comment :)\n\n\n(:)\n<empty/>",
+   Qry = "(: Name: XQueryComment016 :)
+(: Description: Invalid comment :)
+
+
+(:)
+<empty/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'XQueryComment017'(_Config) ->
-   Qry = "(: Name: XQueryComment017 :)\n(: Description: Invalid comment :)\n\n\n(:: )\n<empty/>",
+   Qry = "(: Name: XQueryComment017 :)
+(: Description: Invalid comment :)
+
+
+(:: )
+<empty/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'XQueryComment018'(_Config) ->
-   Qry = "(: Name: XQueryComment018 :)\n(: Description: Invalid comment :)\n\n\n-- Wrong comment format\n<empty/>",
+   Qry = "(: Name: XQueryComment018 :)
+(: Description: Invalid comment :)
+
+
+-- Wrong comment format
+<empty/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'XQueryComment019'(_Config) ->
-   Qry = "(: Name: XQueryComment019 :)\n(: Description: Old style comment syntax :)\n\n\n{-- Wrong comment format --}\n<empty/>",
+   Qry = "(: Name: XQueryComment019 :)
+(: Description: Old style comment syntax :)
+
+
+{-- Wrong comment format --}
+<empty/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'XQueryComment020'(_Config) ->
-   Qry = "(: Name: XQueryComment020 :)\n(: Description: Comment containing an enclosed expression :)\n\n\n(: { \"comment\" } :)\n<result/>",
+   Qry = "(: Name: XQueryComment020 :)
+(: Description: Comment containing an enclosed expression :)
+
+
+(: { \"comment\" } :)
+<result/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result/>\n      ",
+   Exp = "
+         <result/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -476,210 +640,413 @@ end.
               end
 end.
 'K-XQueryComment-1'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-1                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `(3(: comment inbetween :)- 1) eq 2`. :)\n(:*******************************************************:)\n(3(: comment inbetween :)- 1) eq 2",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-1                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `(3(: comment inbetween :)- 1) eq 2`. :)
+(:*******************************************************:)
+(3(: comment inbetween :)- 1) eq 2",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-2'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-2                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `1 (: a (: nested :) comment :) eq 1`. :)\n(:*******************************************************:)\n1 (: a (: nested :) comment :) eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-2                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `1 (: a (: nested :) comment :) eq 1`. :)
+(:*******************************************************:)
+1 (: a (: nested :) comment :) eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-3'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-3                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `1 (: comment (: inside :) comment :) eq 1`. :)\n(:*******************************************************:)\n1 (: comment (: inside :) comment :) eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-3                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `1 (: comment (: inside :) comment :) eq 1`. :)
+(:*******************************************************:)
+1 (: comment (: inside :) comment :) eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-4'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-4                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: Comparison of two string literals, whose content reminds of comments. :)\n(:*******************************************************:)\n\"reminds of a comment :)\" eq\n          \"reminds of a comment :)\"",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-4                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: Comparison of two string literals, whose content reminds of comments. :)
+(:*******************************************************:)
+\"reminds of a comment :)\" eq
+          \"reminds of a comment :)\"",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-5'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-5                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `5 instance (: strange place for a comment :) of item()`. :)\n(:*******************************************************:)\n5 instance (: strange place for a comment :) of item()",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-5                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `5 instance (: strange place for a comment :) of item()`. :)
+(:*******************************************************:)
+5 instance (: strange place for a comment :) of item()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-6'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-6                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `1 (: simple comment :) eq 1`. :)\n(:*******************************************************:)\n1 (: simple comment :) eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-6                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `1 (: simple comment :) eq 1`. :)
+(:*******************************************************:)
+1 (: simple comment :) eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-7'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-7                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `1 (: comment (: inside :) NEW LINE comment :) eq 1`. :)\n(:*******************************************************:)\n1 (: comment (: inside :)\n            NEW LINE comment :) eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-7                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `1 (: comment (: inside :) NEW LINE comment :) eq 1`. :)
+(:*******************************************************:)
+1 (: comment (: inside :)
+            NEW LINE comment :) eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-8'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-8                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `(: \"recursive comments must be balanced, this one is not :)\" :)`. :)\n(:*******************************************************:)\n(: \"recursive comments must be \n   balanced, this one is not :)\" :)",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-8                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `(: \"recursive comments must be balanced, this one is not :)\" :)`. :)
+(:*******************************************************:)
+(: \"recursive comments must be 
+   balanced, this one is not :)\" :)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-XQueryComment-9'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-9                               :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: An empty comment inbetween the 'eq' operator and a number literal. :)\n(:*******************************************************:)\n1 eq (::)1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-9                               :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: An empty comment inbetween the 'eq' operator and a number literal. :)
+(:*******************************************************:)
+1 eq (::)1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-10'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-10                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: An empty comment at the very beginning of an expression. :)\n(:*******************************************************:)\n(::) 1 eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-10                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: An empty comment at the very beginning of an expression. :)
+(:*******************************************************:)
+(::) 1 eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-11'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-11                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: An empty comment after a function's paranteses. :)\n(:*******************************************************:)\ntrue()(::)",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-11                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: An empty comment after a function's paranteses. :)
+(:*******************************************************:)
+true()(::)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-12'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-12                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A for loop with a comment inbetween.         :)\n(:*******************************************************:)\nfor (: set up loop :) $i in 3 return $i eq 3",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-12                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A for loop with a comment inbetween.         :)
+(:*******************************************************:)
+for (: set up loop :) $i in 3 return $i eq 3",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-13'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-13                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test whose essence is: `if((: comment inbetween :)) then 1 else 1`. :)\n(:*******************************************************:)\nif((: comment inbetween :)) then 1 else 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-13                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test whose essence is: `if((: comment inbetween :)) then 1 else 1`. :)
+(:*******************************************************:)
+if((: comment inbetween :)) then 1 else 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-XQueryComment-14'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-14                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A syntactically invalid comment that never ends. :)\n(:*******************************************************:)\n1(: this comment does not end:",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-14                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A syntactically invalid comment that never ends. :)
+(:*******************************************************:)
+1(: this comment does not end:",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-XQueryComment-15'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-15                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A comment inside a comment that isn't terminated. :)\n(:*******************************************************:)\n1(: content (: this comment does not end :)",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-15                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A comment inside a comment that isn't terminated. :)
+(:*******************************************************:)
+1(: content (: this comment does not end :)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-XQueryComment-16'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-16                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A comment inside a comment that does not start properly. :)\n(:*******************************************************:)\n1(: content this comment does not start properly :) :)",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-16                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A comment inside a comment that does not start properly. :)
+(:*******************************************************:)
+1(: content this comment does not start properly :) :)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-XQueryComment-17'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-17                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: Colons and paranteses appearing freely in comment content. :)\n(:*******************************************************:)\n1(: ((( : )) ))ladl:  :(): ()()(dahsi ()()( dad: ) :) eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-17                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: Colons and paranteses appearing freely in comment content. :)
+(:*******************************************************:)
+1(: ((( : )) ))ladl:  :(): ()()(dahsi ()()( dad: ) :) eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-18'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-18                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: Three comments appearing serially inside a comment. :)\n(:*******************************************************:)\n1(: (:one comment:) content (:another comment:) content (:a third:):)\n            eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-18                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: Three comments appearing serially inside a comment. :)
+(:*******************************************************:)
+1(: (:one comment:) content (:another comment:) content (:a third:):)
+            eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-19'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-19                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A test stressing many nested comments.       :)\n(:*******************************************************:)\n1(:(:(:(:(:(:(:(::):):):):):):):) eq 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-19                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A test stressing many nested comments.       :)
+(:*******************************************************:)
+1(:(:(:(:(:(:(:(::):):):):):):):) eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-XQueryComment-20'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K-XQueryComment-20                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:22+01:00                       :)\n(: Purpose: A syntactically invalid comment that doesn't properly start. :)\n(:*******************************************************:)\n: :) 1",
+   Qry = "(:*******************************************************:)
+(: Test: K-XQueryComment-20                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:22+01:00                       :)
+(: Purpose: A syntactically invalid comment that doesn't properly start. :)
+(:*******************************************************:)
+: :) 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-XQueryComment-1'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K2-XQueryComment-1                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:21+01:00                       :)\n(: Purpose: An invalid comment after a name test.        :)\n(:*******************************************************:)\nlet $i := <e>\n                                            <b/>\n                                            <b/>\n                                            <b/>\n                                        </e>\n                              return $i/b(:  ",
+   Qry = "(:*******************************************************:)
+(: Test: K2-XQueryComment-1                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:21+01:00                       :)
+(: Purpose: An invalid comment after a name test.        :)
+(:*******************************************************:)
+let $i := <e>
+                                            <b/>
+                                            <b/>
+                                            <b/>
+                                        </e>
+                              return $i/b(:  ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-XQueryComment-2'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K2-XQueryComment-2                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:21+01:00                       :)\n(: Purpose: An invalid comment after a name test(#2).    :)\n(:*******************************************************:)\nlet $i := <e>\n                                            <b/>\n                                            <b/>\n                                            <b/>\n                                        </e>\n                              return $i/b(: some : content (:some content  ",
+   Qry = "(:*******************************************************:)
+(: Test: K2-XQueryComment-2                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:21+01:00                       :)
+(: Purpose: An invalid comment after a name test(#2).    :)
+(:*******************************************************:)
+let $i := <e>
+                                            <b/>
+                                            <b/>
+                                            <b/>
+                                        </e>
+                              return $i/b(: some : content (:some content  ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-XQueryComment-3'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K2-XQueryComment-3                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:21+01:00                       :)\n(: Purpose: Have a computed comment constructor as a last step. :)\n(:*******************************************************:)\nlet $i := <e>\n                                            <b/>\n                                            <b/>\n                                            <b/>\n                                        </e>\n                                        return $i/b/comment(: some : content (:some content:):){\"content\"}  ",
+   Qry = "(:*******************************************************:)
+(: Test: K2-XQueryComment-3                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:21+01:00                       :)
+(: Purpose: Have a computed comment constructor as a last step. :)
+(:*******************************************************:)
+let $i := <e>
+                                            <b/>
+                                            <b/>
+                                            <b/>
+                                        </e>
+                                        return $i/b/comment(: some : content (:some content:):){\"content\"}  ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <!--content--><!--content--><!--content-->\n      ",
+   Exp = "
+         <!--content--><!--content--><!--content-->
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!--content--><!--content--><!--content-->"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -689,12 +1056,25 @@ end.
               end
 end.
 'K2-XQueryComment-4'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K2-XQueryComment-4                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:21+01:00                       :)\n(: Purpose: Have a direct comment constructor as a last step. :)\n(:*******************************************************:)\nlet $i := <e>\n                                            <b/>\n                                            <b/>\n                                            <b/>\n                                        </e>\n                                        return $i/(: some : content (:some content:):)<!--content-->  ",
+   Qry = "(:*******************************************************:)
+(: Test: K2-XQueryComment-4                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:21+01:00                       :)
+(: Purpose: Have a direct comment constructor as a last step. :)
+(:*******************************************************:)
+let $i := <e>
+                                            <b/>
+                                            <b/>
+                                            <b/>
+                                        </e>
+                                        return $i/(: some : content (:some content:):)<!--content-->  ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <!--content-->\n      ",
+   Exp = "
+         <!--content-->
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!--content-->"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -704,12 +1084,25 @@ end.
               end
 end.
 'K2-XQueryComment-5'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K2-XQueryComment-5                              :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:21+01:00                       :)\n(: Purpose: Have a direct comment constructor as a last step(#2). :)\n(:*******************************************************:)\nlet $i := <e>\n                                            <b/>\n                                            <b/>\n                                            <b/>\n                                        </e>\n                                        return $i/b/(: some : content (:some content:):)<!--content-->  ",
+   Qry = "(:*******************************************************:)
+(: Test: K2-XQueryComment-5                              :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:21+01:00                       :)
+(: Purpose: Have a direct comment constructor as a last step(#2). :)
+(:*******************************************************:)
+let $i := <e>
+                                            <b/>
+                                            <b/>
+                                            <b/>
+                                        </e>
+                                        return $i/b/(: some : content (:some content:):)<!--content-->  ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <!--content--><!--content--><!--content-->\n      ",
+   Exp = "
+         <!--content--><!--content--><!--content-->
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!--content--><!--content--><!--content-->"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 

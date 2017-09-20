@@ -294,7 +294,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'fn-base-uri-2'(_Config) ->
@@ -303,7 +305,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-base-uri-3'(_Config) ->
@@ -312,7 +316,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -324,7 +330,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-5'(_Config) ->
@@ -333,7 +341,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-6'(_Config) ->
@@ -342,7 +352,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-7'(_Config) ->
@@ -351,7 +363,12 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            0\n         \n      ",
+   Exp = "
+         
+            1
+            0
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -366,7 +383,12 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            0\n         \n      ",
+   Exp = "
+         
+            1
+            0
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -381,7 +403,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/examples\n      ",
+   Exp = "
+         http://example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -391,7 +415,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com\n      ",
+   Exp = "
+         http://www.example.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -401,7 +427,12 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            0\n            1\n         \n      ",
+   Exp = "
+         
+            0
+            1
+         
+      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -411,12 +442,15 @@ environment('TopMany') ->
   ResVal2 == TstVal2 end) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-base-uri-12'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n            fn:string(fn:base-uri(document {<aDocument>some content</aDocument>}))",
+   Qry = "declare base-uri \"http://example.org\"; 
+            fn:string(fn:base-uri(document {<aDocument>some content</aDocument>}))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.org\n      ",
+   Exp = "
+         http://example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -426,7 +460,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.org\n      ",
+   Exp = "
+         http://example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -436,7 +472,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-15'(_Config) ->
@@ -445,7 +483,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-16'(_Config) ->
@@ -454,64 +494,88 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-17'(_Config) ->
-   Qry = "\n         declare base-uri \"http://example.org\"; \n         fn:base-uri(processing-instruction {\"PItarget\"} {\"PIcontent\"})",
+   Qry = "
+         declare base-uri \"http://example.org\"; 
+         fn:base-uri(processing-instruction {\"PItarget\"} {\"PIcontent\"})",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-18'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n        let $var := <anElement>With some contexnt</anElement> \n        return fn:string(fn:base-uri($var))",
+   Qry = "declare base-uri \"http://example.org\"; 
+        let $var := <anElement>With some contexnt</anElement> 
+        return fn:string(fn:base-uri($var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.org\n      ",
+   Exp = "
+         http://example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-base-uri-19'(_Config) ->
-   Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> \n        return fn:string(fn:base-uri($var))",
+   Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
+        return fn:string(fn:base-uri($var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.examples.com\n      ",
+   Exp = "
+         http://www.examples.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-base-uri-20'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n        let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> \n        return fn:string(fn:base-uri($var))",
+   Qry = "declare base-uri \"http://example.org\"; 
+        let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
+        return fn:string(fn:base-uri($var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.examples.com\n      ",
+   Exp = "
+         http://www.examples.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-base-uri-21'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n        let $var := <!-- A Comment --> return fn:base-uri($var)",
+   Qry = "declare base-uri \"http://example.org\"; 
+        let $var := <!-- A Comment --> return fn:base-uri($var)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-22'(_Config) ->
-   Qry = "declare namespace eg = \"http://example.org\"; \n        declare function eg:noContextFunction() { fn:base-uri(.) }; \n        eg:noContextFunction()",
+   Qry = "declare namespace eg = \"http://example.org\"; 
+        declare function eg:noContextFunction() { fn:base-uri(.) }; 
+        eg:noContextFunction()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'fn-base-uri-23'(_Config) ->
@@ -520,7 +584,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/examples\n      ",
+   Exp = "
+         http://example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -530,7 +596,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-25'(_Config) ->
@@ -539,7 +607,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-26'(_Config) ->
@@ -548,7 +618,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-27'(_Config) ->
@@ -557,7 +629,12 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            0\n         \n      ",
+   Exp = "
+         
+            1
+            0
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -572,7 +649,12 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            0\n         \n      ",
+   Exp = "
+         
+            1
+            0
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -587,7 +669,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/examples\n      ",
+   Exp = "
+         http://example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -597,7 +681,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com\n      ",
+   Exp = "
+         http://www.example.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -607,7 +693,12 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            0\n            1\n         \n      ",
+   Exp = "
+         
+            0
+            1
+         
+      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -617,12 +708,15 @@ environment('TopMany') ->
   ResVal2 == TstVal2 end) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-base-uri-32'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n            fn:string((document {<aDocument>some content</aDocument>})/base-uri())",
+   Qry = "declare base-uri \"http://example.org\"; 
+            fn:string((document {<aDocument>some content</aDocument>})/base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.org\n      ",
+   Exp = "
+         http://example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -632,7 +726,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.org\n      ",
+   Exp = "
+         http://example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -642,7 +738,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-35'(_Config) ->
@@ -651,7 +749,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-36'(_Config) ->
@@ -660,64 +760,88 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-37'(_Config) ->
-   Qry = "\n         declare base-uri \"http://example.org\"; \n         (processing-instruction {\"PItarget\"} {\"PIcontent\"})/base-uri()",
+   Qry = "
+         declare base-uri \"http://example.org\"; 
+         (processing-instruction {\"PItarget\"} {\"PIcontent\"})/base-uri()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-38'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n        let $var := <anElement>With some contexnt</anElement> \n        return fn:string(($var)/base-uri())",
+   Qry = "declare base-uri \"http://example.org\"; 
+        let $var := <anElement>With some contexnt</anElement> 
+        return fn:string(($var)/base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.org\n      ",
+   Exp = "
+         http://example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-base-uri-39'(_Config) ->
-   Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> \n        return fn:string(($var)/base-uri())",
+   Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
+        return fn:string(($var)/base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.examples.com\n      ",
+   Exp = "
+         http://www.examples.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-base-uri-40'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n        let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> \n        return fn:string(($var)/base-uri())",
+   Qry = "declare base-uri \"http://example.org\"; 
+        let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
+        return fn:string(($var)/base-uri())",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.examples.com\n      ",
+   Exp = "
+         http://www.examples.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.examples.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-base-uri-41'(_Config) ->
-   Qry = "declare base-uri \"http://example.org\"; \n        let $var := <!-- A Comment --> return ($var)/base-uri()",
+   Qry = "declare base-uri \"http://example.org\"; 
+        let $var := <!-- A Comment --> return ($var)/base-uri()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-base-uri-42'(_Config) ->
-   Qry = "declare namespace eg = \"http://example.org\"; \n        declare function eg:noContextFunction() { fn:base-uri() }; \n        eg:noContextFunction()",
+   Qry = "declare namespace eg = \"http://example.org\"; 
+        declare function eg:noContextFunction() { fn:base-uri() }; 
+        eg:noContextFunction()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'fn-base-uri-43'(_Config) ->
@@ -726,7 +850,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/examples\n      ",
+   Exp = "
+         http://example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -736,7 +862,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-BaseURIFunc-2'(_Config) ->
@@ -745,7 +873,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-1'(_Config) ->
@@ -754,7 +884,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-2'(_Config) ->
@@ -763,7 +895,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-3'(_Config) ->
@@ -772,7 +906,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-4'(_Config) ->
@@ -781,7 +917,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-5'(_Config) ->
@@ -790,7 +928,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-6'(_Config) ->
@@ -799,7 +939,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-7'(_Config) ->
@@ -808,7 +950,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-8'(_Config) ->
@@ -817,16 +961,21 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-9'(_Config) ->
-   Qry = "let $i := <e xml:base=\"http://www.example.com/\"><?target data?></e> \n        return base-uri($i/processing-instruction()[1])",
+   Qry = "let $i := <e xml:base=\"http://www.example.com/\"><?target data?></e> 
+        return base-uri($i/processing-instruction()[1])",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/\n      ",
+   Exp = "
+         http://www.example.com/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -836,7 +985,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/\n      ",
+   Exp = "
+         http://www.example.com/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -846,7 +997,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/\n      ",
+   Exp = "
+         http://www.example.com/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -856,7 +1009,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/\n      ",
+   Exp = "
+         http://www.example.com/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -866,7 +1021,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-14'(_Config) ->
@@ -875,7 +1032,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-15'(_Config) ->
@@ -884,7 +1043,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-16'(_Config) ->
@@ -893,7 +1054,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-17'(_Config) ->
@@ -902,7 +1065,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-18'(_Config) ->
@@ -911,7 +1076,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com\n      ",
+   Exp = "
+         http://www.example.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -921,7 +1088,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/xml\n      ",
+   Exp = "
+         http://www.example.com/xml
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -931,18 +1100,26 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/xml\n      ",
+   Exp = "
+         http://www.example.com/xml
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-BaseURIFunc-21'(_Config) ->
-   Qry = "for $i in (1, base-uri(.), 3) return \n        typeswitch($i) \n        case xs:anyURI return \"xs:anyURI\" \n        case xs:integer return \"xs:integer\" \n        default return \"FAILURE\"",
+   Qry = "for $i in (1, base-uri(.), 3) return 
+        typeswitch($i) 
+        case xs:anyURI return \"xs:anyURI\" 
+        case xs:integer return \"xs:integer\" 
+        default return \"FAILURE\"",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:integer xs:anyURI xs:integer\n      ",
+   Exp = "
+         xs:integer xs:anyURI xs:integer
+      ",
    case xqerl_test:string_value(Res) of
              "xs:integer xs:anyURI xs:integer" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -952,7 +1129,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-23'(_Config) ->
@@ -961,7 +1140,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-24'(_Config) ->
@@ -970,7 +1151,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-25'(_Config) ->
@@ -979,7 +1162,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-26'(_Config) ->
@@ -988,7 +1173,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-27'(_Config) ->
@@ -997,7 +1184,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/BASEURI\n      ",
+   Exp = "
+         http://example.com/BASEURI
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/BASEURI" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1007,7 +1196,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         Base URI: http://example.com/ Document URI:\n      ",
+   Exp = "
+         Base URI: http://example.com/ Document URI:
+      ",
    case xqerl_test:string_value(Res) of
              "Base URI: http://example.com/ Document URI:" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1017,7 +1208,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-BaseURIFunc-30'(_Config) ->
@@ -1026,7 +1219,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/examples\n      ",
+   Exp = "
+         http://example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1036,7 +1231,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/examples\n      ",
+   Exp = "
+         http://example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1046,7 +1243,9 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/examples\n      ",
+   Exp = "
+         http://example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1056,47 +1255,72 @@ environment('TopMany') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com/DEF/file.test\n      ",
+   Exp = "
+         http://example.com/DEF/file.test
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com/DEF/file.test" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-base-uri-001'(_Config) ->
-   Qry = "\n      	let $d := document { <root xml:base=\"http://www.w3.org/\"><implicit-base><child /></implicit-base><explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base></root> } \n      	return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> return fn:base-uri(($y/explicit-base)[1])\n      ",
+   Qry = "
+      	let $d := document { <root xml:base=\"http://www.w3.org/\"><implicit-base><child /></implicit-base><explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base></root> } 
+      	return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> return fn:base-uri(($y/explicit-base)[1])
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.w3.org/TR/xquery\n      ",
+   Exp = "
+         http://www.w3.org/TR/xquery
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/TR/xquery" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-base-uri-002'(_Config) ->
-   Qry = "\n      let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } \n      return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> \n      return fn:base-uri(($y/explicit-base/child)[1])\n      ",
+   Qry = "
+      let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
+      return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> 
+      return fn:base-uri(($y/explicit-base/child)[1])
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.w3.org/TR/xquery\n      ",
+   Exp = "
+         http://www.w3.org/TR/xquery
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/TR/xquery" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-base-uri-003'(_Config) ->
-   Qry = "\n      let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } \n      return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> \n      return fn:base-uri(($y/implicit-base)[1])\n      ",
+   Qry = "
+      let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
+      return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> 
+      return fn:base-uri(($y/implicit-base)[1])
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org\n      ",
+   Exp = "
+         http://www.example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-base-uri-004'(_Config) ->
-   Qry = "\n      let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } \n      return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> \n      return fn:base-uri(($y/implicit-base/child)[1])\n      ",
+   Qry = "
+      let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
+      return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> 
+      return fn:base-uri(($y/implicit-base/child)[1])
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org\n      ",
+   Exp = "
+         http://www.example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

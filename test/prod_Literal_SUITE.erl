@@ -468,7 +468,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         test\n      ",
+   Exp = "
+         test
+      ",
    case xqerl_test:string_value(Res) of
              "test" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -478,29 +480,41 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         test\n      ",
+   Exp = "
+         test
+      ",
    case xqerl_test:string_value(Res) of
              "test" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'Literals003'(_Config) ->
-   Qry = "\"line1\nline2\"",
+   Qry = "\"line1
+line2\"",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         line1\nline2\n      ",
+   Exp = "
+         line1
+line2
+      ",
    case xqerl_test:string_value(Res) of
-             "line1\nline2" -> {comment, "assert-string-value"};
+             "line1
+line2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'Literals004'(_Config) ->
-   Qry = "'line1\nline2'",
+   Qry = "'line1
+line2'",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         line1\nline2\n      ",
+   Exp = "
+         line1
+line2
+      ",
    case xqerl_test:string_value(Res) of
-             "line1\nline2" -> {comment, "assert-string-value"};
+             "line1
+line2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'Literals005'(_Config) ->
    Qry = "<result>{ (\"test1\", \"test2\") }</result>",
@@ -508,7 +522,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result>test1 test2</result>\n      ",
+   Exp = "
+         <result>test1 test2</result>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>test1 test2</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -523,7 +539,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals007'(_Config) ->
@@ -532,7 +550,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals008'(_Config) ->
@@ -541,7 +561,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals009'(_Config) ->
@@ -550,7 +572,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals010'(_Config) ->
@@ -559,7 +583,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         65535032\n      ",
+   Exp = "
+         65535032
+      ",
  Tst = xqerl:run("65535032"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -571,7 +597,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -65535032\n      ",
+   Exp = "
+         -65535032
+      ",
  Tst = xqerl:run("-65535032"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -583,7 +611,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         65535032.0023\n      ",
+   Exp = "
+         65535032.0023
+      ",
    case xqerl_test:string_value(Res) of
              "65535032.0023" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -593,7 +623,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.65535032\n      ",
+   Exp = "
+         0.65535032
+      ",
    case xqerl_test:string_value(Res) of
              "0.65535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -603,7 +635,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -0.65535032\n      ",
+   Exp = "
+         -0.65535032
+      ",
    case xqerl_test:string_value(Res) of
              "-0.65535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -613,7 +647,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.65535032\n      ",
+   Exp = "
+         0.65535032
+      ",
    case xqerl_test:string_value(Res) of
              "0.65535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -623,7 +659,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         6.5535032E9\n      ",
+   Exp = "
+         6.5535032E9
+      ",
    case xqerl_test:string_value(Res) of
              "6.5535032E9" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -633,7 +671,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         6.5535032E6\n      ",
+   Exp = "
+         6.5535032E6
+      ",
    case xqerl_test:string_value(Res) of
              "6.5535032E6" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -643,7 +683,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         65.535032\n      ",
+   Exp = "
+         65.535032
+      ",
    case xqerl_test:string_value(Res) of
              "65.535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -653,7 +695,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -65.535032\n      ",
+   Exp = "
+         -65.535032
+      ",
    case xqerl_test:string_value(Res) of
              "-65.535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -663,7 +707,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         65.535032\n      ",
+   Exp = "
+         65.535032
+      ",
    case xqerl_test:string_value(Res) of
              "65.535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -673,7 +719,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         655.35032\n      ",
+   Exp = "
+         655.35032
+      ",
    case xqerl_test:string_value(Res) of
              "655.35032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -683,7 +731,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.0065535032\n      ",
+   Exp = "
+         0.0065535032
+      ",
    case xqerl_test:string_value(Res) of
              "0.0065535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -693,7 +743,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -0.0065535032\n      ",
+   Exp = "
+         -0.0065535032
+      ",
    case xqerl_test:string_value(Res) of
              "-0.0065535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -703,7 +755,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.0065535032\n      ",
+   Exp = "
+         0.0065535032
+      ",
    case xqerl_test:string_value(Res) of
              "0.0065535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -713,7 +767,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -6.5535032E6\n      ",
+   Exp = "
+         -6.5535032E6
+      ",
    case xqerl_test:string_value(Res) of
              "-6.5535032E6" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -723,7 +779,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -655.35032\n      ",
+   Exp = "
+         -655.35032
+      ",
    case xqerl_test:string_value(Res) of
              "-655.35032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -733,7 +791,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         6.5535032E9\n      ",
+   Exp = "
+         6.5535032E9
+      ",
    case xqerl_test:string_value(Res) of
              "6.5535032E9" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -743,7 +803,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         6.5535032E6\n      ",
+   Exp = "
+         6.5535032E6
+      ",
    case xqerl_test:string_value(Res) of
              "6.5535032E6" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -753,7 +815,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         65.535032\n      ",
+   Exp = "
+         65.535032
+      ",
    case xqerl_test:string_value(Res) of
              "65.535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -763,7 +827,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -65.535032\n      ",
+   Exp = "
+         -65.535032
+      ",
    case xqerl_test:string_value(Res) of
              "-65.535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -773,7 +839,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         65.535032\n      ",
+   Exp = "
+         65.535032
+      ",
    case xqerl_test:string_value(Res) of
              "65.535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -783,7 +851,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         655.35032\n      ",
+   Exp = "
+         655.35032
+      ",
    case xqerl_test:string_value(Res) of
              "655.35032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -793,7 +863,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.0065535032\n      ",
+   Exp = "
+         0.0065535032
+      ",
    case xqerl_test:string_value(Res) of
              "0.0065535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -803,7 +875,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -0.0065535032\n      ",
+   Exp = "
+         -0.0065535032
+      ",
    case xqerl_test:string_value(Res) of
              "-0.0065535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -813,7 +887,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.0065535032\n      ",
+   Exp = "
+         0.0065535032
+      ",
    case xqerl_test:string_value(Res) of
              "0.0065535032" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -823,7 +899,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals037'(_Config) ->
@@ -832,7 +910,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals038'(_Config) ->
@@ -841,7 +921,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals039'(_Config) ->
@@ -850,7 +932,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals040'(_Config) ->
@@ -859,7 +943,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals041'(_Config) ->
@@ -868,7 +954,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals042'(_Config) ->
@@ -877,7 +965,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals043'(_Config) ->
@@ -886,7 +976,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals044'(_Config) ->
@@ -895,7 +987,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals045'(_Config) ->
@@ -904,7 +998,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals046'(_Config) ->
@@ -913,7 +1009,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals047'(_Config) ->
@@ -922,7 +1020,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals048'(_Config) ->
@@ -931,7 +1031,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals049'(_Config) ->
@@ -940,7 +1042,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals050'(_Config) ->
@@ -949,7 +1053,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals051'(_Config) ->
@@ -958,7 +1064,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals052'(_Config) ->
@@ -967,7 +1075,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals053'(_Config) ->
@@ -976,7 +1086,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals054'(_Config) ->
@@ -985,7 +1097,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals055'(_Config) ->
@@ -994,7 +1108,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'Literals056'(_Config) ->
@@ -1003,7 +1119,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         &\n      ",
+   Exp = "
+         &
+      ",
    case xqerl_test:string_value(Res) of
              "&" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1015,7 +1133,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"\n      ",
+   Exp = "
+         \"
+      ",
    case xqerl_test:string_value(Res) of
              "\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1027,7 +1147,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         '\n      ",
+   Exp = "
+         '
+      ",
    case xqerl_test:string_value(Res) of
              "'" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1039,7 +1161,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <\n      ",
+   Exp = "
+         <
+      ",
    case xqerl_test:string_value(Res) of
              "<" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1051,7 +1175,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         >\n      ",
+   Exp = "
+         >
+      ",
    case xqerl_test:string_value(Res) of
              ">" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1075,7 +1201,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \"\n      ",
+   Exp = "
+            \"
+      ",
    case xqerl_test:string_value(Res) of
              "\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1085,7 +1213,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '\n      ",
+   Exp = "
+            '
+      ",
    case xqerl_test:string_value(Res) of
              "'" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1095,7 +1225,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            He said, \"I don't like it.\"\n      ",
+   Exp = "
+            He said, \"I don't like it.\"
+      ",
    case xqerl_test:string_value(Res) of
              "He said, \"I don't like it.\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1105,7 +1237,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            He said, \"I don't like it.\"\n      ",
+   Exp = "
+            He said, \"I don't like it.\"
+      ",
    case xqerl_test:string_value(Res) of
              "He said, \"I don't like it.\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1115,7 +1249,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <test>He said, \"I don't like it.\"</test>\n      ",
+   Exp = "
+         <test>He said, \"I don't like it.\"</test>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<test>He said, \"I don't like it.\"</test>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1130,7 +1266,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <test check=\"He said, &quot;I don't like it.&quot;\"/>\n      ",
+   Exp = "
+         <test check=\"He said, &quot;I don't like it.&quot;\"/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<test check=\"He said, &quot;I don't like it.&quot;\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1145,7 +1283,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            He said, \"I don't like it.\"\n      ",
+   Exp = "
+            He said, \"I don't like it.\"
+      ",
    case xqerl_test:string_value(Res) of
              "He said, \"I don't like it.\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1155,7 +1295,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            He said, \"I don't like it.\"\n      ",
+   Exp = "
+            He said, \"I don't like it.\"
+      ",
    case xqerl_test:string_value(Res) of
              "He said, \"I don't like it.\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1165,7 +1307,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-2'(_Config) ->
@@ -1174,7 +1318,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-3'(_Config) ->
@@ -1183,7 +1329,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-4'(_Config) ->
@@ -1192,7 +1340,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-5'(_Config) ->
@@ -1201,7 +1351,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-6'(_Config) ->
@@ -1210,7 +1362,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-7'(_Config) ->
@@ -1219,7 +1373,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-8'(_Config) ->
@@ -1228,7 +1384,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-9'(_Config) ->
@@ -1237,7 +1395,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-10'(_Config) ->
@@ -1246,7 +1406,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-11'(_Config) ->
@@ -1255,7 +1417,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-12'(_Config) ->
@@ -1264,7 +1428,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-13'(_Config) ->
@@ -1273,7 +1439,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-14'(_Config) ->
@@ -1282,7 +1450,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-15'(_Config) ->
@@ -1291,7 +1461,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-16'(_Config) ->
@@ -1300,7 +1472,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-17'(_Config) ->
@@ -1309,7 +1483,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-18'(_Config) ->
@@ -1318,7 +1494,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-19'(_Config) ->
@@ -1327,7 +1505,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-20'(_Config) ->
@@ -1336,7 +1516,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-21'(_Config) ->
@@ -1345,7 +1527,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-22'(_Config) ->
@@ -1354,7 +1538,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-23'(_Config) ->
@@ -1363,7 +1549,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-24'(_Config) ->
@@ -1372,7 +1560,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-25'(_Config) ->
@@ -1381,7 +1571,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-26'(_Config) ->
@@ -1390,7 +1582,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-27'(_Config) ->
@@ -1399,7 +1593,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-28'(_Config) ->
@@ -1408,7 +1604,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-29'(_Config) ->
@@ -1417,7 +1615,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-30'(_Config) ->
@@ -1426,7 +1626,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-31'(_Config) ->
@@ -1435,7 +1637,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-31a'(_Config) ->
@@ -1446,7 +1650,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-33'(_Config) ->
@@ -1455,7 +1661,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-34'(_Config) ->
@@ -1464,7 +1672,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-35'(_Config) ->
@@ -1473,7 +1683,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-36'(_Config) ->
@@ -1482,7 +1694,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-37'(_Config) ->
@@ -1491,7 +1705,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-38'(_Config) ->
@@ -1500,7 +1716,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-39'(_Config) ->
@@ -1509,7 +1727,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-40'(_Config) ->
@@ -1518,7 +1738,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-41'(_Config) ->
@@ -1527,7 +1749,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-42'(_Config) ->
@@ -1536,7 +1760,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-43'(_Config) ->
@@ -1545,7 +1771,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-44'(_Config) ->
@@ -1554,7 +1782,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-45'(_Config) ->
@@ -1563,7 +1793,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-46'(_Config) ->
@@ -1572,7 +1804,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-47'(_Config) ->
@@ -1581,7 +1815,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-47a'(_Config) ->
@@ -1592,7 +1828,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-Literals-49'(_Config) ->
@@ -1601,7 +1839,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-Literals-50'(_Config) ->
@@ -1610,7 +1850,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-1'(_Config) ->
@@ -1619,7 +1861,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.
 'K2-Literals-2'(_Config) ->
@@ -1628,7 +1872,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-3'(_Config) ->
@@ -1637,7 +1883,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -\n      ",
+   Exp = "
+         -
+      ",
    case xqerl_test:string_value(Res) of
              "-" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1647,7 +1895,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n            \n         \n      ",
+   Exp = "
+         
+            999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1659,7 +1912,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            -999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n            \n         \n      ",
+   Exp = "
+         
+            -999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1671,7 +1929,13 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.1\n            1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\n            \n         \n      ",
+   Exp = "
+         
+            999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.1
+            1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+            
+         
+      ",
  case ( begin Tst2 = xqerl:run("1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
@@ -1683,7 +1947,13 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            0\n            0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001\n            \n         \n      ",
+   Exp = "
+         
+            0
+            0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1695,7 +1965,13 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n            INF\n            \n            \n        \n      ",
+   Exp = "
+        
+            INF
+            
+            
+        
+      ",
  case (xqerl_test:string_value(Res) == "INF") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-Literals-9'(_Config) ->
@@ -1704,7 +1980,13 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n            -INF\n            \n            \n        \n      ",
+   Exp = "
+        
+            -INF
+            
+            
+        
+      ",
  case (xqerl_test:string_value(Res) == "-INF") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-Literals-10'(_Config) ->
@@ -1713,7 +1995,13 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n            0\n            \n            \n        \n      ",
+   Exp = "
+        
+            0
+            
+            
+        
+      ",
  case (xqerl_test:string_value(Res) == "0") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-Literals-11'(_Config) ->
@@ -1722,7 +2010,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          -0\n          -0\n        \n      ",
+   Exp = "
+        
+          -0
+          -0
+        
+      ",
  case  begin Tst1 = xqerl:run("-0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1734,7 +2027,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n          0\n          0\n        \n      ",
+   Exp = "
+         
+          0
+          0
+        
+      ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1746,7 +2044,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n          0\n          0\n        \n      ",
+   Exp = "
+         
+          0
+          0
+        
+      ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1758,7 +2061,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n          0\n          0\n        \n      ",
+   Exp = "
+         
+          0
+          0
+        
+      ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1770,7 +2078,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n          0\n          0\n        \n      ",
+   Exp = "
+         
+          0
+          0
+        
+      ",
  case  begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1782,7 +2095,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.
 'K2-Literals-17'(_Config) ->
@@ -1791,7 +2106,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.
 'K2-Literals-18'(_Config) ->
@@ -1800,7 +2117,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.
 'K2-Literals-19'(_Config) ->
@@ -1809,7 +2128,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.
 'K2-Literals-20'(_Config) ->
@@ -1818,7 +2139,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-21'(_Config) ->
@@ -1827,7 +2150,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-22'(_Config) ->
@@ -1836,7 +2161,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-23'(_Config) ->
@@ -1845,7 +2172,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-24'(_Config) ->
@@ -1854,7 +2183,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-25'(_Config) ->
@@ -1863,7 +2194,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-26'(_Config) ->
@@ -1872,7 +2205,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-27'(_Config) ->
@@ -1881,17 +2216,34 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-28'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K2-Literals-28                                  :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:21+01:00                       :)\n(: Purpose: Ensure that EOLs are normalized in string literals. :)\n(:*******************************************************:)\n\"a\n\n\n \nstring literal \n\"",
+   Qry = "(:*******************************************************:)
+(: Test: K2-Literals-28                                  :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:21+01:00                       :)
+(: Purpose: Ensure that EOLs are normalized in string literals. :)
+(:*******************************************************:)
+\"a
+
+
+ 
+string literal 
+\"",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints($result), \n            (97, 10, 10, 10, 32, 10, 115, 116, 114, 105, 110, 103, 32, 108, 105, 116, 101, 114, 97, 108, 32, 10))\n      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints($result), \n            (97, 10, 10, 10, 32, 10, 115, 116, 114, 105, 110, 103, 32, 108, 105, 116, 101, 114, 97, 108, 32, 10))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
+   Exp = "
+         deep-equal(string-to-codepoints($result), 
+            (97, 10, 10, 10, 32, 10, 115, 116, 114, 105, 110, 103, 32, 108, 105, 116, 101, 114, 97, 108, 32, 10))
+      ",
+   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints($result), 
+            (97, 10, 10, 10, 32, 10, 115, 116, 114, 105, 110, 103, 32, 108, 105, 116, 101, 114, 97, 108, 32, 10))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
@@ -1901,7 +2253,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-30'(_Config) ->
@@ -1910,7 +2264,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.5\n      ",
+   Exp = "
+         0.5
+      ",
    case xqerl_test:string_value(Res) of
              "0.5" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1920,7 +2276,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-32'(_Config) ->
@@ -1929,7 +2287,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         465\n      ",
+   Exp = "
+         465
+      ",
  Tst = xqerl:run("465"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1941,7 +2301,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-34'(_Config) ->
@@ -1950,7 +2312,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-Literals-35'(_Config) ->
@@ -1959,7 +2323,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            true()\n            \n         \n      ",
+   Exp = "
+         
+            true()
+            
+         
+      ",
  case (   (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"true()",Options)) == {xqAtomicValue,'xs:boolean',true})) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError') of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-Literals-36'(_Config) ->
@@ -1968,7 +2337,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            true()\n            \n         \n      ",
+   Exp = "
+         
+            true()
+            
+         
+      ",
  case (   (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"true()",Options)) == {xqAtomicValue,'xs:boolean',true})) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError') of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-Literals-37'(_Config) ->
@@ -1977,7 +2351,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-Literals-38'(_Config) ->
@@ -1986,18 +2362,38 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-Literals-39'(_Config) ->
-   Qry = "(:*******************************************************:)\n(: Test: K2-Literals-39                                  :)\n(: Written by: Frans Englich                             :)\n(: Date: 2007-11-22T11:31:21+01:00                       :)\n(: Purpose: Ensure that EOLs are normalized in string literals, using single quotes. :)\n(:*******************************************************:)\n'a  \nstring literal '",
+   Qry = "(:*******************************************************:)
+(: Test: K2-Literals-39                                  :)
+(: Written by: Frans Englich                             :)
+(: Date: 2007-11-22T11:31:21+01:00                       :)
+(: Purpose: Ensure that EOLs are normalized in string literals, using single quotes. :)
+(:*******************************************************:)
+'a  \nstring literal '",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a \n\n\n \nstring literal \n\n      ",
+   Exp = "
+         a 
+
+
+ 
+string literal 
+
+      ",
    case xqerl_test:string_value(Res) of
-             "a \n\n\n \nstring literal \n" -> {comment, "assert-string-value"};
+             "a 
+
+
+ 
+string literal 
+" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-literals-001'(_Config) ->
    Qry = "'&#x100000000x'",
@@ -2005,7 +2401,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'cbcl-literals-002'(_Config) ->
@@ -2014,7 +2412,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'cbcl-literals-003'(_Config) ->
@@ -2023,7 +2423,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'cbcl-literals-004'(_Config) ->
@@ -2032,7 +2434,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.
 'cbcl-literals-005'(_Config) ->
@@ -2041,7 +2445,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'cbcl-literals-006'(_Config) ->
@@ -2050,7 +2456,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'cbcl-literals-007'(_Config) ->
@@ -2059,7 +2467,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'cbcl-literals-008'(_Config) ->
@@ -2068,6 +2478,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.

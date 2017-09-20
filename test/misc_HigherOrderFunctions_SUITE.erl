@@ -130,7 +130,7 @@
 -export(['xqhof17'/1]).
 -export(['xqhof18'/1]).
 -export(['xqhof19'/1]).
-suite() ->[{timetrap,{seconds,5}}].
+suite() ->[{timetrap,{seconds,10}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
 , try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/HigherOrderFunctions/module-hof-003.xq") catch _:_ -> ok end
@@ -379,36 +379,50 @@ environment('user-defined-types') ->
 {modules, []}
 ].
 'hof-001'(_Config) ->
-   Qry = "\n        declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n        let $f := local:f#1 return $f(2)",
+   Qry = "
+        declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+        let $f := local:f#1 return $f(2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-002'(_Config) ->
-   Qry = "\n      	declare function local:f() as xs:integer { 42 }; \n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	let $f := local:f#0 return $f()\n      ",
+   Qry = "
+      	declare function local:f() as xs:integer { 42 }; 
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	let $f := local:f#0 return $f()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         42\n      ",
+   Exp = "
+         42
+      ",
  Tst = xqerl:run("42"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-003'(_Config) ->
-   Qry = "\n        import module namespace m=\"http://example.com/hof-003\"; \n        let $f := m:f#1 return $f(17)",
+   Qry = "
+        import module namespace m=\"http://example.com/hof-003\"; 
+        let $f := m:f#1 return $f(17)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         18\n      ",
+   Exp = "
+         18
+      ",
  Tst = xqerl:run("18"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -420,7 +434,9 @@ environment('user-defined-types') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -432,29 +448,42 @@ environment('user-defined-types') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abcdefgh\n      ",
+   Exp = "
+         abcdefgh
+      ",
    case xqerl_test:string_value(Res) of
              "abcdefgh" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-006'(_Config) ->
-   Qry = "\n      declare default function namespace \"http://example.com/hof-006\"; \n      declare function g($x as xs:integer) as xs:integer { $x + 1 }; \n      let $f := g#1 return $f(21)\n      ",
+   Qry = "
+      declare default function namespace \"http://example.com/hof-006\"; 
+      declare function g($x as xs:integer) as xs:integer { $x + 1 }; 
+      let $f := g#1 return $f(21)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         22\n      ",
+   Exp = "
+         22
+      ",
  Tst = xqerl:run("22"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-007'(_Config) ->
-   Qry = "\n      declare default function namespace \"http://www.w3.org/2001/XMLSchema\"; \n      let $f := date#1 return $f('2008-01-31')\n      ",
+   Qry = "
+      declare default function namespace \"http://www.w3.org/2001/XMLSchema\"; 
+      let $f := date#1 return $f('2008-01-31')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2008-01-31\n      ",
+   Exp = "
+         2008-01-31
+      ",
    case xqerl_test:string_value(Res) of
              "2008-01-31" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -464,187 +493,282 @@ environment('user-defined-types') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2008-01-31\n      ",
+   Exp = "
+         2008-01-31
+      ",
    case xqerl_test:string_value(Res) of
              "2008-01-31" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-009'(_Config) ->
    {skip,"schemaImport"}.
 'hof-010'(_Config) ->
-   Qry = "\n      declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      let $f as function(*) := local:f#1 return $f(2)\n      ",
+   Qry = "
+      declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      let $f as function(*) := local:f#1 return $f(2)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-011'(_Config) ->
-   Qry = "\n      declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; \n      let $f as function(xs:integer) as xs:integer := local:f#1 \n      return $f(2)\n      ",
+   Qry = "
+      declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; 
+      let $f as function(xs:integer) as xs:integer := local:f#1 
+      return $f(2)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         5\n      ",
+   Exp = "
+         5
+      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-012'(_Config) ->
-   Qry = "\n      declare function local:f($x as xs:integer, $y as xs:long) as xs:integer { $x + $y }; \n      let $f as function(xs:integer, xs:long) as xs:integer := local:f#2 \n      return $f(2, xs:long(5))\n      ",
+   Qry = "
+      declare function local:f($x as xs:integer, $y as xs:long) as xs:integer { $x + $y }; 
+      let $f as function(xs:integer, xs:long) as xs:integer := local:f#2 
+      return $f(2, xs:long(5))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         7\n      ",
+   Exp = "
+         7
+      ",
  Tst = xqerl:run("7"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-013'(_Config) ->
-   Qry = "\n      declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; \n      declare function local:g($x as xs:integer) as xs:integer { $x + 4 }; \n      declare function local:h($x as xs:integer) as xs:integer { $x + 5 }; \n      let $f as (function(xs:integer) as xs:integer)* := (local:f#1, local:g#1, local:h#1) return $f[3](2)[1]\n      ",
+   Qry = "
+      declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; 
+      declare function local:g($x as xs:integer) as xs:integer { $x + 4 }; 
+      declare function local:h($x as xs:integer) as xs:integer { $x + 5 }; 
+      let $f as (function(xs:integer) as xs:integer)* := (local:f#1, local:g#1, local:h#1) return $f[3](2)[1]
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         7\n      ",
+   Exp = "
+         7
+      ",
  Tst = xqerl:run("7"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-014'(_Config) ->
-   Qry = "\n      declare function local:case($x as xs:boolean) as function(*) \n      	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; \n      local:case(true())(\"Mike\"), local:case(false())(\"Mike\")\n      ",
+   Qry = "
+      declare function local:case($x as xs:boolean) as function(*) 
+      	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; 
+      local:case(true())(\"Mike\"), local:case(false())(\"Mike\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MIKE mike\n      ",
+   Exp = "
+         MIKE mike
+      ",
    case xqerl_test:string_value(Res) of
              "MIKE mike" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-015'(_Config) ->
-   Qry = "\n      declare function local:case($x as xs:boolean) as function(xs:string?) as xs:string \n      	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; \n      local:case(true())(\"Mike\"), local:case(false())(\"Mike\")",
+   Qry = "
+      declare function local:case($x as xs:boolean) as function(xs:string?) as xs:string 
+      	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; 
+      local:case(true())(\"Mike\"), local:case(false())(\"Mike\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MIKE mike\n      ",
+   Exp = "
+         MIKE mike
+      ",
    case xqerl_test:string_value(Res) of
              "MIKE mike" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-016'(_Config) ->
-   Qry = "\n      declare function local:case($x as function(*), $y as xs:string) as xs:string { $x($y) }; \n      local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")\n      ",
+   Qry = "
+      declare function local:case($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
+      local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MIKE mike\n      ",
+   Exp = "
+         MIKE mike
+      ",
    case xqerl_test:string_value(Res) of
              "MIKE mike" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-017'(_Config) ->
-   Qry = "\n      declare function local:case($x as function(xs:string?) as xs:string, $y as xs:string) as xs:string { $x($y) }; \n      local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")\n      ",
+   Qry = "
+      declare function local:case($x as function(xs:string?) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
+      local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MIKE mike\n      ",
+   Exp = "
+         MIKE mike
+      ",
    case xqerl_test:string_value(Res) of
              "MIKE mike" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-018'(_Config) ->
-   Qry = "\n      declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string \n      	{ $x($y) }; \n      declare function local:rot13($x as xs:string) as xs:string \n      	{ translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\") }; \n      local:scramble(local:rot13#1, \"mike\")\n      ",
+   Qry = "
+      declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string 
+      	{ $x($y) }; 
+      declare function local:rot13($x as xs:string) as xs:string 
+      	{ translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\") }; 
+      local:scramble(local:rot13#1, \"mike\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         zvxr\n      ",
+   Exp = "
+         zvxr
+      ",
    case xqerl_test:string_value(Res) of
              "zvxr" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-019'(_Config) ->
-   Qry = "\n      declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; \n      declare function local:rot13($x as xs:string) as xs:string { translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\") }; \n      local:scramble(local:rot13#1, \"mike\")\n      ",
+   Qry = "
+      declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
+      declare function local:rot13($x as xs:string) as xs:string { translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\") }; 
+      local:scramble(local:rot13#1, \"mike\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         zvxr\n      ",
+   Exp = "
+         zvxr
+      ",
    case xqerl_test:string_value(Res) of
              "zvxr" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-020'(_Config) ->
-   Qry = "\n      declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; \n      local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")\n      ",
+   Qry = "
+      declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
+      local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         wbua\n      ",
+   Exp = "
+         wbua
+      ",
    case xqerl_test:string_value(Res) of
              "wbua" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-021'(_Config) ->
-   Qry = "\n      declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; \n      local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")\n      ",
+   Qry = "
+      declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
+      local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         wbua\n      ",
+   Exp = "
+         wbua
+      ",
    case xqerl_test:string_value(Res) of
              "wbua" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-022'(_Config) ->
-   Qry = "\n      declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; \n      let $n := function-name(local:scramble#2) \n      return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity(local:scramble#2))\n      ",
+   Qry = "
+      declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
+      let $n := function-name(local:scramble#2) 
+      return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity(local:scramble#2))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         scramble http://www.w3.org/2005/xquery-local-functions 2\n      ",
+   Exp = "
+         scramble http://www.w3.org/2005/xquery-local-functions 2
+      ",
    case xqerl_test:string_value(Res) of
              "scramble http://www.w3.org/2005/xquery-local-functions 2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-023'(_Config) ->
-   Qry = "\n        let $f := fn:function-name#1, $n := function-name($f) \n        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
+   Qry = "
+        let $f := fn:function-name#1, $n := function-name($f) 
+        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         function-name http://www.w3.org/2005/xpath-functions 1\n      ",
+   Exp = "
+         function-name http://www.w3.org/2005/xpath-functions 1
+      ",
    case xqerl_test:string_value(Res) of
              "function-name http://www.w3.org/2005/xpath-functions 1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-024'(_Config) ->
-   Qry = "\n        let $f := xs:dateTime#1, $n := function-name($f) \n        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
+   Qry = "
+        let $f := xs:dateTime#1, $n := function-name($f) 
+        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         dateTime http://www.w3.org/2001/XMLSchema 1\n      ",
+   Exp = "
+         dateTime http://www.w3.org/2001/XMLSchema 1
+      ",
    case xqerl_test:string_value(Res) of
              "dateTime http://www.w3.org/2001/XMLSchema 1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-025'(_Config) ->
-   Qry = "let $f := concat#123456, $n := function-name($f) \n        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
+   Qry = "let $f := concat#123456, $n := function-name($f) 
+        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         concat http://www.w3.org/2005/xpath-functions 123456\n      ",
+   Exp = "
+         concat http://www.w3.org/2005/xpath-functions 123456
+      ",
    case xqerl_test:string_value(Res) of
              "concat http://www.w3.org/2005/xpath-functions 123456" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-026'(_Config) ->
-   Qry = "\n        let $f := function($x as xs:string) as xs:string { upper-case($x) } \n        let $n := function-name($f) \n        return <a loc=\"{local-name-from-QName($n)}\" uri=\"{namespace-uri-from-QName($n)}\"\n        			arity=\"{function-arity($f)}\" eloc=\"{empty(local-name-from-QName($n))}\" euri=\"{empty(namespace-uri-from-QName($n))}\"/>\n      ",
+   Qry = "
+        let $f := function($x as xs:string) as xs:string { upper-case($x) } 
+        let $n := function-name($f) 
+        return <a loc=\"{local-name-from-QName($n)}\" uri=\"{namespace-uri-from-QName($n)}\"
+        			arity=\"{function-arity($f)}\" eloc=\"{empty(local-name-from-QName($n))}\" euri=\"{empty(namespace-uri-from-QName($n))}\"/>
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <a uri=\"\" loc=\"\" euri=\"true\" eloc=\"true\" arity=\"1\"/>\n      ",
+   Exp = "
+         <a uri=\"\" loc=\"\" euri=\"true\" eloc=\"true\" arity=\"1\"/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a uri=\"\" loc=\"\" euri=\"true\" eloc=\"true\" arity=\"1\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -654,52 +778,80 @@ environment('user-defined-types') ->
               end
 end.
 'hof-027'(_Config) ->
-   Qry = "\n        let $f := fn:contains(?, \"e\") \n        return for $s in (\"Mike\", \"John\", \"Dave\", \"Mary\", \"Jane\") return $f($s)",
+   Qry = "
+        let $f := fn:contains(?, \"e\") 
+        return for $s in (\"Mike\", \"John\", \"Dave\", \"Mary\", \"Jane\") return $f($s)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true false true false true\n      ",
+   Exp = "
+         true false true false true
+      ",
    case xqerl_test:string_value(Res) of
              "true false true false true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-028'(_Config) ->
-   Qry = "\n      declare function local:splitter() as (function(xs:string) as xs:string*) { function($x as xs:string) { tokenize($x, '\\s') } }; \n      string-join(local:splitter()(\"A nice cup of tea\"), '|')\n      ",
+   Qry = "
+      declare function local:splitter() as (function(xs:string) as xs:string*) { function($x as xs:string) { tokenize($x, '\\s') } }; 
+      string-join(local:splitter()(\"A nice cup of tea\"), '|')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         A|nice|cup|of|tea\n      ",
+   Exp = "
+         A|nice|cup|of|tea
+      ",
    case xqerl_test:string_value(Res) of
              "A|nice|cup|of|tea" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-029'(_Config) ->
-   Qry = "\n      declare function local:splitter() as (function(xs:string) as xs:string+)? \n      { function($x as xs:string) { for $i in tokenize($x, '\\s') return upper-case($i)} }; \n      string-join(local:splitter()(\"A nice cup of tea\"), '|')\n      ",
+   Qry = "
+      declare function local:splitter() as (function(xs:string) as xs:string+)? 
+      { function($x as xs:string) { for $i in tokenize($x, '\\s') return upper-case($i)} }; 
+      string-join(local:splitter()(\"A nice cup of tea\"), '|')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         A|NICE|CUP|OF|TEA\n      ",
+   Exp = "
+         A|NICE|CUP|OF|TEA
+      ",
    case xqerl_test:string_value(Res) of
              "A|NICE|CUP|OF|TEA" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-030'(_Config) ->
-   Qry = "\n      declare variable $sep as xs:string := \"\\s\"; \n      declare function local:splitter() as (function(xs:string) as xs:string*)? \n      	{ function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; \n      string-join(local:splitter()(\"A nice cup of tea\"), '|')\n      ",
+   Qry = "
+      declare variable $sep as xs:string := \"\\s\"; 
+      declare function local:splitter() as (function(xs:string) as xs:string*)? 
+      	{ function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; 
+      string-join(local:splitter()(\"A nice cup of tea\"), '|')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         A|NICE|CUP|OF|TEA\n      ",
+   Exp = "
+         A|NICE|CUP|OF|TEA
+      ",
    case xqerl_test:string_value(Res) of
              "A|NICE|CUP|OF|TEA" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-031'(_Config) ->
-   Qry = "\n      declare function local:splitter($sep as xs:string) as (function(xs:string) as xs:string*) \n      	{ function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; \n      string-join(local:splitter(\"\\s\")(\"A nice cup of tea\"), '|')\n      ",
+   Qry = "
+      declare function local:splitter($sep as xs:string) as (function(xs:string) as xs:string*) 
+      	{ function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; 
+      string-join(local:splitter(\"\\s\")(\"A nice cup of tea\"), '|')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         A|NICE|CUP|OF|TEA\n      ",
+   Exp = "
+         A|NICE|CUP|OF|TEA
+      ",
    case xqerl_test:string_value(Res) of
              "A|NICE|CUP|OF|TEA" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -709,7 +861,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MIKE\n      ",
+   Exp = "
+         MIKE
+      ",
    case xqerl_test:string_value(Res) of
              "MIKE" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -719,7 +873,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         upper-case\n      ",
+   Exp = "
+         upper-case
+      ",
    case xqerl_test:string_value(Res) of
              "upper-case" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -729,7 +885,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         upper-case\n      ",
+   Exp = "
+         upper-case
+      ",
    case xqerl_test:string_value(Res) of
              "upper-case" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -739,7 +897,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         upper-case\n      ",
+   Exp = "
+         upper-case
+      ",
    case xqerl_test:string_value(Res) of
              "upper-case" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -749,109 +909,193 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3 17\n      ",
+   Exp = "
+         3 17
+      ",
    case xqerl_test:string_value(Res) of
              "3 17" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-037'(_Config) ->
-   Qry = "\n        declare function local:f($x as xs:long, $y as xs:NCName) as element(e) { \n            <e x=\"{$x}\" y=\"{$y}\"/> \n        }; \n        local:f#2 instance of function(*), \n        local:f#2 instance of function(xs:long, xs:NCName) as element(e), \n        local:f#2 instance of function(xs:anyAtomicType?, xs:anyAtomicType?) as element(e), \n        local:f#2 instance of function(item()*, item()*) as element(e)\n      ",
+   Qry = "
+        declare function local:f($x as xs:long, $y as xs:NCName) as element(e) { 
+            <e x=\"{$x}\" y=\"{$y}\"/> 
+        }; 
+        local:f#2 instance of function(*), 
+        local:f#2 instance of function(xs:long, xs:NCName) as element(e), 
+        local:f#2 instance of function(xs:anyAtomicType?, xs:anyAtomicType?) as element(e), 
+        local:f#2 instance of function(item()*, item()*) as element(e)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true true false false\n      ",
+   Exp = "
+         true true false false
+      ",
    case xqerl_test:string_value(Res) of
              "true true false false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-038'(_Config) ->
-   Qry = "\n        declare function local:f($x as xs:long?, $y as xs:NCName?) as element(e) { \n            <e x=\"{$x}\" y=\"{$y}\"/> \n        }; \n        local:f#2 instance of function(xs:int?, xs:NCName?) as element(e), \n        local:f#2 instance of function(xs:long?) as element(e), \n        local:f#2 instance of function(xs:long?, xs:NCName?, item()*) as element(e), \n        local:f#2 instance of function(xs:long, xs:anyAtomicType?) as element(e), \n        local:f#2 instance of function(item()+, item()+) as element(e)\n      ",
+   Qry = "
+        declare function local:f($x as xs:long?, $y as xs:NCName?) as element(e) { 
+            <e x=\"{$x}\" y=\"{$y}\"/> 
+        }; 
+        local:f#2 instance of function(xs:int?, xs:NCName?) as element(e), 
+        local:f#2 instance of function(xs:long?) as element(e), 
+        local:f#2 instance of function(xs:long?, xs:NCName?, item()*) as element(e), 
+        local:f#2 instance of function(xs:long, xs:anyAtomicType?) as element(e), 
+        local:f#2 instance of function(item()+, item()+) as element(e)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true false false false false\n      ",
+   Exp = "
+         true false false false false
+      ",
    case xqerl_test:string_value(Res) of
              "true false false false false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-039'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:long, $y as xs:NCName) as element(e)? { <e x=\"{$x}\" y=\"{$y}\"/> }; \n      	local:f#2 instance of function(xs:long, xs:NCName) as element()?, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element()*, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType?)*, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType?)?, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?\n      ",
+   Qry = "
+      	declare function local:f($x as xs:long, $y as xs:NCName) as element(e)? { <e x=\"{$x}\" y=\"{$y}\"/> }; 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType?)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType?)?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true true true true true false\n      ",
+   Exp = "
+         true true true true true false
+      ",
    case xqerl_test:string_value(Res) of
              "true true true true true false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-040'(_Config) ->
-   Qry = "\n      declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; \n      let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) \n      return string-join(local:apply($ops, 'Michael Kay'), '~')\n      ",
+   Qry = "
+      declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; 
+      let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) 
+      return string-join(local:apply($ops, 'Michael Kay'), '~')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MICHAEL KAY~michael kay~Michail Kay~Michael\n      ",
+   Exp = "
+         MICHAEL KAY~michael kay~Michail Kay~Michael
+      ",
    case xqerl_test:string_value(Res) of
              "MICHAEL KAY~michael kay~Michail Kay~Michael" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-041'(_Config) ->
-   Qry = "\n      declare function local:ops() as (function(xs:string) as xs:string)*\n      	{ (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; \n      string-join(for $f in local:ops() return $f('Michael Kay'), '~')\n      ",
+   Qry = "
+      declare function local:ops() as (function(xs:string) as xs:string)*
+      	{ (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; 
+      string-join(for $f in local:ops() return $f('Michael Kay'), '~')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MICHAEL KAY~michael kay~Michail Kay~Michael\n      ",
+   Exp = "
+         MICHAEL KAY~michael kay~Michail Kay~Michael
+      ",
    case xqerl_test:string_value(Res) of
              "MICHAEL KAY~michael kay~Michail Kay~Michael" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-042'(_Config) ->
-   Qry = "\n        declare function local:lower-case($x as xs:string) as xs:string { concat(\"'\", fn:lower-case($x), \"'\") }; \n        declare function local:ops() as (function(xs:string) as xs:string)* \n        	{ (upper-case#1, local:lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; \n        string-join(for $f in local:ops() return $f(<a name=\"Michael Kay\"/>/@name), '~')\n      ",
+   Qry = "
+        declare function local:lower-case($x as xs:string) as xs:string { concat(\"'\", fn:lower-case($x), \"'\") }; 
+        declare function local:ops() as (function(xs:string) as xs:string)* 
+        	{ (upper-case#1, local:lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; 
+        string-join(for $f in local:ops() return $f(<a name=\"Michael Kay\"/>/@name), '~')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MICHAEL KAY~'michael kay'~Michail Kay~Michael\n      ",
+   Exp = "
+         MICHAEL KAY~'michael kay'~Michail Kay~Michael
+      ",
    case xqerl_test:string_value(Res) of
              "MICHAEL KAY~'michael kay'~Michail Kay~Michael" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-043'(_Config) ->
-   Qry = "\n      declare function local:round($x as xs:double) as xs:double \n      	{ fn:floor($x) }; \n      declare function local:ops() as (function(xs:double) as xs:double)* \n      	{ (abs#1, local:round#1, function($x){$x+1}, round-half-to-even(?, 2)) }; \n      string-join(for $f in local:ops() return string($f(xs:untypedAtomic('123.456'))), '~')\n      ",
+   Qry = "
+      declare function local:round($x as xs:double) as xs:double 
+      	{ fn:floor($x) }; 
+      declare function local:ops() as (function(xs:double) as xs:double)* 
+      	{ (abs#1, local:round#1, function($x){$x+1}, round-half-to-even(?, 2)) }; 
+      string-join(for $f in local:ops() return string($f(xs:untypedAtomic('123.456'))), '~')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         123.456~123~124.456~123.46\n      ",
+   Exp = "
+         123.456~123~124.456~123.46
+      ",
    case xqerl_test:string_value(Res) of
              "123.456~123~124.456~123.46" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-044'(_Config) ->
-   Qry = "\n      declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; \n      declare function local:ops() as (function(xs:double) as xs:double)* \n      	{ (abs#1, local:round#1, function($x as xs:double){$x+1}, round-half-to-even(?, 2)) }; \n      string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')\n      ",
+   Qry = "
+      declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
+      declare function local:ops() as (function(xs:double) as xs:double)* 
+      	{ (abs#1, local:round#1, function($x as xs:double){$x+1}, round-half-to-even(?, 2)) }; 
+      string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         123.456~123~124.456~123.46\n      ",
+   Exp = "
+         123.456~123~124.456~123.46
+      ",
    case xqerl_test:string_value(Res) of
              "123.456~123~124.456~123.46" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-045'(_Config) ->
-   Qry = "\n      declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; \n      declare variable $roundToCeiling := local:round(?, ceiling#1); $roundToCeiling(12.4)",
+   Qry = "
+      declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; 
+      declare variable $roundToCeiling := local:round(?, ceiling#1); $roundToCeiling(12.4)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         13\n      ",
+   Exp = "
+         13
+      ",
  Tst = xqerl:run("13"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-046'(_Config) ->
-   Qry = "\n        declare function local:splitter($x as xs:string) as (function() as xs:string*)* { \n            for $sep in ('\\s', ',', '!') \n            return function() { for $i in tokenize($x, $sep) return upper-case($i) } \n        }; \n        <out>{ \n            for $f as function(*) in local:splitter(\"How nice! Thank you, I enjoyed that.\") \n            return <tokens>{ for $t in $f() \n                             return <t>{$t}</t> \n                   }</tokens> \n       }</out>\n    ",
+   Qry = "
+        declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
+            for $sep in ('\\s', ',', '!') 
+            return function() { for $i in tokenize($x, $sep) return upper-case($i) } 
+        }; 
+        <out>{ 
+            for $f as function(*) in local:splitter(\"How nice! Thank you, I enjoyed that.\") 
+            return <tokens>{ for $t in $f() 
+                             return <t>{$t}</t> 
+                   }</tokens> 
+       }</out>
+    ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out><tokens><t>HOW</t><t>NICE!</t><t>THANK</t><t>YOU,</t><t>I</t><t>ENJOYED</t><t>THAT.</t></tokens><tokens><t>HOW NICE! THANK YOU</t><t> I ENJOYED THAT.</t></tokens><tokens><t>HOW NICE</t><t> THANK YOU, I ENJOYED THAT.</t></tokens></out>\n      ",
+   Exp = "
+         <out><tokens><t>HOW</t><t>NICE!</t><t>THANK</t><t>YOU,</t><t>I</t><t>ENJOYED</t><t>THAT.</t></tokens><tokens><t>HOW NICE! THANK YOU</t><t> I ENJOYED THAT.</t></tokens><tokens><t>HOW NICE</t><t> THANK YOU, I ENJOYED THAT.</t></tokens></out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><tokens><t>HOW</t><t>NICE!</t><t>THANK</t><t>YOU,</t><t>I</t><t>ENJOYED</t><t>THAT.</t></tokens><tokens><t>HOW NICE! THANK YOU</t><t> I ENJOYED THAT.</t></tokens><tokens><t>HOW NICE</t><t> THANK YOU, I ENJOYED THAT.</t></tokens></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -861,12 +1105,26 @@ end.
               end
 end.
 'hof-047'(_Config) ->
-   Qry = "\n        declare function local:splitter($x as xs:string) as (function() as xs:string*)* { \n            for $sep in ('\\s', ',', '!') return function() { \n                for $i in tokenize($x, $sep) return \n                    let $f := function(){ concat($sep, ':', upper-case($i)) } \n                    return $f() } \n        }; \n        <out>{ \n            for $f as function(*) in local:splitter(\"How nice! Thank you, I enjoyed that.\") \n            return <tokens>{ for $t in $f() \n                             return <t>{$t}</t> }</tokens> \n        }</out>\n     ",
+   Qry = "
+        declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
+            for $sep in ('\\s', ',', '!') return function() { 
+                for $i in tokenize($x, $sep) return 
+                    let $f := function(){ concat($sep, ':', upper-case($i)) } 
+                    return $f() } 
+        }; 
+        <out>{ 
+            for $f as function(*) in local:splitter(\"How nice! Thank you, I enjoyed that.\") 
+            return <tokens>{ for $t in $f() 
+                             return <t>{$t}</t> }</tokens> 
+        }</out>
+     ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out><tokens><t>\\s:HOW</t><t>\\s:NICE!</t><t>\\s:THANK</t><t>\\s:YOU,</t><t>\\s:I</t><t>\\s:ENJOYED</t><t>\\s:THAT.</t></tokens><tokens><t>,:HOW NICE! THANK YOU</t><t>,: I ENJOYED THAT.</t></tokens><tokens><t>!:HOW NICE</t><t>!: THANK YOU, I ENJOYED THAT.</t></tokens></out>\n      ",
+   Exp = "
+         <out><tokens><t>\\s:HOW</t><t>\\s:NICE!</t><t>\\s:THANK</t><t>\\s:YOU,</t><t>\\s:I</t><t>\\s:ENJOYED</t><t>\\s:THAT.</t></tokens><tokens><t>,:HOW NICE! THANK YOU</t><t>,: I ENJOYED THAT.</t></tokens><tokens><t>!:HOW NICE</t><t>!: THANK YOU, I ENJOYED THAT.</t></tokens></out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><tokens><t>\\s:HOW</t><t>\\s:NICE!</t><t>\\s:THANK</t><t>\\s:YOU,</t><t>\\s:I</t><t>\\s:ENJOYED</t><t>\\s:THAT.</t></tokens><tokens><t>,:HOW NICE! THANK YOU</t><t>,: I ENJOYED THAT.</t></tokens><tokens><t>!:HOW NICE</t><t>!: THANK YOU, I ENJOYED THAT.</t></tokens></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -876,24 +1134,36 @@ end.
               end
 end.
 'hof-048'(_Config) ->
-   Qry = "\n        declare function local:do() as xs:integer { (local:f#1)(5) }; \n        declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n        local:do()",
+   Qry = "
+        declare function local:do() as xs:integer { (local:f#1)(5) }; 
+        declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+        local:do()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         6\n      ",
+   Exp = "
+         6
+      ",
  Tst = xqerl:run("6"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'hof-049'(_Config) ->
-   Qry = "\n        declare function local:tf($i as xs:integer) as function () as xs:boolean { \n            if ($i) then true#0 else false#0 \n        }; \n        <out>{(local:tf(0)(), local:tf(1)())}</out>\n      ",
+   Qry = "
+        declare function local:tf($i as xs:integer) as function () as xs:boolean { 
+            if ($i) then true#0 else false#0 
+        }; 
+        <out>{(local:tf(0)(), local:tf(1)())}</out>
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>false true</out>\n      ",
+   Exp = "
+         <out>false true</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>false true</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -908,7 +1178,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>the</out>\n      ",
+   Exp = "
+         <out>the</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>the</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -918,12 +1190,17 @@ end.
               end
 end.
 'hof-051'(_Config) ->
-   Qry = "\n        let $f := function($a as xs:string, $b as xs:string) { \n            starts-with($a, $b) and ends-with($a, $b)}(?, 'a') \n        return <out>{$f('abracadabra')}</out>",
+   Qry = "
+        let $f := function($a as xs:string, $b as xs:string) { 
+            starts-with($a, $b) and ends-with($a, $b)}(?, 'a') 
+        return <out>{$f('abracadabra')}</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>true</out>\n      ",
+   Exp = "
+         <out>true</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>true</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -938,7 +1215,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>[*]</out>\n      ",
+   Exp = "
+         <out>[*]</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>[*]</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -948,103 +1227,169 @@ end.
               end
 end.
 'hof-053'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:long, $y as xs:NCName) as element(e, xs:anyAtomicType) { <e x=\"{$x}\" y=\"{$y}\"/> }; \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(), \n      	local:f#2 instance of function(xs:long, xs:NCName) as element()+, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element()?, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element()*, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType?)*, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType?)?, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType)*, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType)?, \n      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?\n      ",
+   Qry = "
+      	declare function local:f($x as xs:long, $y as xs:NCName) as element(e, xs:anyAtomicType) { <e x=\"{$x}\" y=\"{$y}\"/> }; 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(), 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()+, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType?)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType?)?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType)?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true true true true true true true true true false\n      ",
+   Exp = "
+         true true true true true true true true true false
+      ",
    case xqerl_test:string_value(Res) of
              "true true true true true true true true true false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'hof-901'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	let $f := local:g#1 return $f(2)",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	let $f := local:g#1 return $f(2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'hof-902'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	let $f := local:f#3 return $f(2)\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	let $f := local:f#3 return $f(2)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'hof-903'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	let $f := xs:date#2 return $f('2008-03-01')\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	let $f := xs:date#2 return $f('2008-03-01')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'hof-904'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	let $f := concat#1 return $f('2008-03-01')\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	let $f := concat#1 return $f('2008-03-01')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'hof-905'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	string(local:f#1)\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	string(local:f#1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0014" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0014'}) end.
 'hof-906'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	exists(data(local:f#1))\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	exists(data(local:f#1))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0013" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0013'}) end.
 'hof-907'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	deep-equal((1,2,3,4,local:f#1), (1,2,3,4,local:f#1))\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	deep-equal((1,2,3,4,local:f#1), (1,2,3,4,local:f#1))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0015" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0015'}) end.
 'hof-908'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	local:f#1 eq 3\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	local:f#1 eq 3
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0013" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0013'}) end.
 'hof-909'(_Config) ->
-   Qry = "\n      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; \n      	number(local:f#1)\n      ",
+   Qry = "
+      	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+      	number(local:f#1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0013" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0013'}) end.
 'hof-910'(_Config) ->
-   Qry = "\n        declare function local:f($x as xs:integer) as xs:integer {\n            $x + 1\n        };\n        let $f as function(xs:integer) := local:f#1\n        return $f(3)\n      ",
+   Qry = "
+        declare function local:f($x as xs:integer) as xs:integer {
+            $x + 1
+        };
+        let $f as function(xs:integer) := local:f#1
+        return $f(3)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'hof-911'(_Config) ->
@@ -1053,34 +1398,56 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0018" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0018'}) end.
 'hof-912'(_Config) ->
-   Qry = "\n        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* \n        { for $f in $fns return $f($s) };\n        let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, \n            substring-before(?, ' ', ?)) \n        return string-join(local:apply($ops, 'Michael Kay'), '~')",
+   Qry = "
+        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
+        { for $f in $fns return $f($s) };
+        let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, 
+            substring-before(?, ' ', ?)) 
+        return string-join(local:apply($ops, 'Michael Kay'), '~')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'hof-913'(_Config) ->
-   Qry = "\n        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* \n        { for $f in $fns return $f($s) }; \n        let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, \n            string-length#1) \n        return string-join(local:apply($ops, 'Michael Kay'), '~')",
+   Qry = "
+        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
+        { for $f in $fns return $f($s) }; 
+        let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, 
+            string-length#1) 
+        return string-join(local:apply($ops, 'Michael Kay'), '~')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'hof-914'(_Config) ->
-   Qry = "\n        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* \n        { for $f in $fns return $f($s) }; \n        let $ops := (upper-case#1, lower-case#1, function($x as xs:double){string($x)}) \n        return string-join(local:apply($ops, 'Michael Kay'), '~')",
+   Qry = "
+        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
+        { for $f in $fns return $f($s) }; 
+        let $ops := (upper-case#1, lower-case#1, function($x as xs:double){string($x)}) 
+        return string-join(local:apply($ops, 'Michael Kay'), '~')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'hof-915'(_Config) ->
@@ -1089,7 +1456,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'hof-916'(_Config) ->
@@ -1098,7 +1467,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'hof-917'(_Config) ->
@@ -1107,25 +1478,41 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'hof-918'(_Config) ->
-   Qry = "\n        declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double \n        { $algorithm($x) }; \n        declare variable $roundToCeiling := local:round(?, upper-case#1); \n        $roundToCeiling(12.4)\n      ",
+   Qry = "
+        declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double 
+        { $algorithm($x) }; 
+        declare variable $roundToCeiling := local:round(?, upper-case#1); 
+        $roundToCeiling(12.4)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'hof-919'(_Config) ->
-   Qry = "\n      declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; \n      declare function local:ops() as (function(xs:double) as xs:double)* \n      	{ (abs#1, local:round#1, function($x as xs:float){$x+1}, round-half-to-even(?, 2)) }; \n      string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')\n      ",
+   Qry = "
+      declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
+      declare function local:ops() as (function(xs:double) as xs:double)* 
+      	{ (abs#1, local:round#1, function($x as xs:float){$x+1}, round-half-to-even(?, 2)) }; 
+      string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'function-item-1'(_Config) ->
@@ -1134,7 +1521,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'function-item-2'(_Config) ->
@@ -1143,7 +1532,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abcdefghij\n      ",
+   Exp = "
+         abcdefghij
+      ",
    case xqerl_test:string_value(Res) of
              "abcdefghij" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1153,7 +1544,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'function-item-4'(_Config) ->
@@ -1162,7 +1555,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0013" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0013'}) end.
 'function-item-5'(_Config) ->
@@ -1171,7 +1566,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0105" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQTY0105'}) end.
 'function-item-6'(_Config) ->
@@ -1180,7 +1577,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0013" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0013'}) end.
 'function-item-7'(_Config) ->
@@ -1189,7 +1588,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        92, true(), \"lala\"\n      ",
+   Exp = "
+        92, true(), \"lala\"
+      ",
  Tst = xqerl:run("92, true(), \"lala\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -1201,7 +1602,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        xs:QName(\"fn:function-name\")\n      ",
+   Exp = "
+        xs:QName(\"fn:function-name\")
+      ",
  Tst = xqerl:run("xs:QName(\"fn:function-name\")"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1213,7 +1616,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        0\n      ",
+   Exp = "
+        0
+      ",
    case xqerl_test:size(Res) of 0 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'function-item-10'(_Config) ->
@@ -1222,7 +1627,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'function-item-11'(_Config) ->
@@ -1231,7 +1638,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        92, true(), fn:QName(\"\",\"foo\"), 5000\n      ",
+   Exp = "
+        92, true(), fn:QName(\"\",\"foo\"), 5000
+      ",
  Tst = xqerl:run("92, true(), fn:QName(\"\",\"foo\"), 5000"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -1243,7 +1652,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'function-item-13'(_Config) ->
@@ -1252,7 +1663,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'function-item-14'(_Config) ->
@@ -1261,7 +1674,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'function-item-15'(_Config) ->
@@ -1270,7 +1685,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'function-item-16'(_Config) ->
@@ -1279,7 +1696,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'function-item-17'(_Config) ->
@@ -1288,7 +1707,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'inline-function-1'(_Config) ->
@@ -1297,7 +1718,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'inline-function-2'(_Config) ->
@@ -1306,7 +1729,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        0\n      ",
+   Exp = "
+        0
+      ",
    case xqerl_test:size(Res) of 0 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'inline-function-3'(_Config) ->
@@ -1315,7 +1740,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        5\n      ",
+   Exp = "
+        5
+      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1327,7 +1754,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        8\n      ",
+   Exp = "
+        8
+      ",
  Tst = xqerl:run("8"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1339,7 +1768,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        11\n      ",
+   Exp = "
+        11
+      ",
  Tst = xqerl:run("11"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1351,7 +1782,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'inline-function-7'(_Config) ->
@@ -1360,7 +1793,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'inline-function-8'(_Config) ->
@@ -1369,7 +1804,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'inline-function-9'(_Config) ->
@@ -1378,7 +1815,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'inline-function-10'(_Config) ->
@@ -1387,7 +1826,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'inline-function-11'(_Config) ->
@@ -1396,7 +1837,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \"lala\", \"gibbon\"\n      ",
+   Exp = "
+        \"lala\", \"gibbon\"
+      ",
  Tst = xqerl:run("\"lala\", \"gibbon\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -1408,7 +1851,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'inline-function-11a'(_Config) ->
@@ -1417,7 +1862,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \"lala\", \"monkey\"\n      ",
+   Exp = "
+        \"lala\", \"monkey\"
+      ",
  Tst = xqerl:run("\"lala\", \"monkey\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -1429,7 +1876,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0039" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0039'}) end.
 'inline-function-13'(_Config) ->
@@ -1438,7 +1887,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0039" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0039'}) end.
 'inline-function-14'(_Config) ->
@@ -1447,100 +1898,472 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \"lala\", \"gibbon\", \"monkey\"\n      ",
+   Exp = "
+        \"lala\", \"gibbon\", \"monkey\"
+      ",
  Tst = xqerl:run("\"lala\", \"gibbon\", \"monkey\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'inline-function-15'(_Config) ->
-   Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $Q{http://local/}foo) { \n              \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
+   Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $Q{http://local/}foo) { 
+              \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0039" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0039'}) end.
 'inline-function-16'(_Config) ->
-   Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $fn:foo) { \n               \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
+   Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $fn:foo) { 
+               \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \"lala\", \"gibbon\", \"monkey\"\n      ",
+   Exp = "
+        \"lala\", \"gibbon\", \"monkey\"
+      ",
  Tst = xqerl:run("\"lala\", \"gibbon\", \"monkey\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof1'(_Config) ->
-   Qry = "\ndeclare namespace map = \"http://snelson.org.uk/functions/map\";\n\ndeclare function map:key($pair as function() as item()+) as item()\n{\n  $pair()[1]\n};\n\ndeclare function map:value($pair as function() as item()+) as item()*\n{\n  subsequence($pair(), 2)\n};\n\ndeclare function map:contains($map as (function() as item()+)*, $key as item())\n  as xs:boolean\n{\n  map:process($map, $key, function($a) { true() }, false(),\n    function($a) { () })\n};\n\ndeclare function map:get($map as (function() as item()+)*, $key as item())\n  as item()*\n{\n  map:process($map, $key, map:value#1, (), function($a) { () })\n};\n\ndeclare function map:process(\n  $map as (function() as item()+)*,\n  $key as item(),\n  $found as function(function() as item()+) as item()*,\n  $notfound as item()*,\n  $unused as function((function() as item()+)*) as item()*\n) as item()*\n{\n  if(empty($map)) then $notfound\n  else\n\n  let $length := count($map)\n  let $middle := $length idiv 2 + 1\n  let $pair := $map[$middle]\n  let $pair_key := $pair()[1]\n  return\n    if($pair_key eq $key) then (\n      $unused(subsequence($map, 1, $middle - 1)),\n      $found($pair),\n      $unused(subsequence($map, $middle + 1))\n    )\n    else if($pair_key gt $key) then (\n      map:process(subsequence($map, 1, $middle - 1), $key,\n        $found, $notfound, $unused),\n      $unused(subsequence($map, $middle))\n    )\n    else (\n      $unused(subsequence($map, 1, $middle)),\n      map:process(subsequence($map, $middle + 1), $key,\n        $found, $notfound, $unused)\n    )\n};\n\ndeclare function map:pair($key as item(), $value as item()*)\n  as function() as item()+\n{\n  function() { $key, $value }\n};\n\ndeclare function map:put(\n  $map as (function() as item()+)*,\n  $key as item(),\n  $value as item()*\n) as (function() as item()+)+\n{\n  let $pair := map:pair($key, $value)\n  return\n    map:process($map, $key, function($a) { $pair }, $pair,\n      function($a) { $a })\n};\n\nstring-join(let $map := map:put(map:put(map:put(map:put(map:put(map:put((),\n  \"a\", \"aardvark\"),\n  \"z\", \"zebra\"),\n  \"e\", (\"elephant\", \"eagle\")),\n  \"o\", \"osterich\"),\n  \"t\", \"terrapin\"),\n  \"a\", \"antelope\")\nreturn (\n  map:get($map, \"o\"),\n\n  for $m in $map\n  return concat(\"key: \", map:key($m), \", value: (\",\n    string-join(map:value($m), \", \"), \")\"))\n, \"\n\")\n",
+   Qry = "
+declare namespace map = \"http://snelson.org.uk/functions/map\";
+
+declare function map:key($pair as function() as item()+) as item()
+{
+  $pair()[1]
+};
+
+declare function map:value($pair as function() as item()+) as item()*
+{
+  subsequence($pair(), 2)
+};
+
+declare function map:contains($map as (function() as item()+)*, $key as item())
+  as xs:boolean
+{
+  map:process($map, $key, function($a) { true() }, false(),
+    function($a) { () })
+};
+
+declare function map:get($map as (function() as item()+)*, $key as item())
+  as item()*
+{
+  map:process($map, $key, map:value#1, (), function($a) { () })
+};
+
+declare function map:process(
+  $map as (function() as item()+)*,
+  $key as item(),
+  $found as function(function() as item()+) as item()*,
+  $notfound as item()*,
+  $unused as function((function() as item()+)*) as item()*
+) as item()*
+{
+  if(empty($map)) then $notfound
+  else
+
+  let $length := count($map)
+  let $middle := $length idiv 2 + 1
+  let $pair := $map[$middle]
+  let $pair_key := $pair()[1]
+  return
+    if($pair_key eq $key) then (
+      $unused(subsequence($map, 1, $middle - 1)),
+      $found($pair),
+      $unused(subsequence($map, $middle + 1))
+    )
+    else if($pair_key gt $key) then (
+      map:process(subsequence($map, 1, $middle - 1), $key,
+        $found, $notfound, $unused),
+      $unused(subsequence($map, $middle))
+    )
+    else (
+      $unused(subsequence($map, 1, $middle)),
+      map:process(subsequence($map, $middle + 1), $key,
+        $found, $notfound, $unused)
+    )
+};
+
+declare function map:pair($key as item(), $value as item()*)
+  as function() as item()+
+{
+  function() { $key, $value }
+};
+
+declare function map:put(
+  $map as (function() as item()+)*,
+  $key as item(),
+  $value as item()*
+) as (function() as item()+)+
+{
+  let $pair := map:pair($key, $value)
+  return
+    map:process($map, $key, function($a) { $pair }, $pair,
+      function($a) { $a })
+};
+
+string-join(let $map := map:put(map:put(map:put(map:put(map:put(map:put((),
+  \"a\", \"aardvark\"),
+  \"z\", \"zebra\"),
+  \"e\", (\"elephant\", \"eagle\")),
+  \"o\", \"osterich\"),
+  \"t\", \"terrapin\"),
+  \"a\", \"antelope\")
+return (
+  map:get($map, \"o\"),
+
+  for $m in $map
+  return concat(\"key: \", map:key($m), \", value: (\",
+    string-join(map:value($m), \", \"), \")\"))
+, \"
+\")
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"osterich\nkey: a, value: (antelope)\nkey: e, value: (elephant, eagle)\nkey: o, value: (osterich)\nkey: t, value: (terrapin)\nkey: z, value: (zebra)\"\n      ",
- Tst = xqerl:run("\"osterich\nkey: a, value: (antelope)\nkey: e, value: (elephant, eagle)\nkey: o, value: (osterich)\nkey: t, value: (terrapin)\nkey: z, value: (zebra)\""),
+   Exp = "
+         \"osterich
+key: a, value: (antelope)
+key: e, value: (elephant, eagle)
+key: o, value: (osterich)
+key: t, value: (terrapin)
+key: z, value: (zebra)\"
+      ",
+ Tst = xqerl:run("\"osterich
+key: a, value: (antelope)
+key: e, value: (elephant, eagle)
+key: o, value: (osterich)
+key: t, value: (terrapin)
+key: z, value: (zebra)\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof2'(_Config) ->
-   Qry = "\n         import module namespace func = \"http://snelson.org.uk/functions/functional\";\n         \n         let $f := func:curry(concat#5)\n         return $f(\"foo\")(\" bar\")(\" baz\")(\" what's\")(\" next?\")\n      ",
+   Qry = "
+         import module namespace func = \"http://snelson.org.uk/functions/functional\";
+         
+         let $f := func:curry(concat#5)
+         return $f(\"foo\")(\" bar\")(\" baz\")(\" what's\")(\" next?\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"foo bar baz what's next?\"\n      ",
+   Exp = "
+         \"foo bar baz what's next?\"
+      ",
  Tst = xqerl:run("\"foo bar baz what's next?\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof3'(_Config) ->
-   Qry = "\nimport module namespace func = \"http://snelson.org.uk/functions/functional\";\n\ndeclare function local:fib2_aux($result as xs:integer, $next as xs:integer, $n) as xs:integer*\n{\n  if($n eq 0) then () else (\n  $result, local:fib2_aux($next, $next + $result, $n - 1))\n};\n\ndeclare function local:fib2($n) as xs:integer*\n{\n  local:fib2_aux(0, 1, $n)\n};\n\ndeclare function local:map-pairs($f,$a,$b)\n{\n  for-each-pair($a,$b,$f)\n};\n\nstring-join(\nfor $a in subsequence(\n\nlet $interleave := func:curry(local:map-pairs#3)(function($a, $b) { $a, $b })\nlet $enumerate := $interleave(0 to 49)\nreturn\n$enumerate(local:fib2(50))\n\n, 1, 100)\nreturn string($a)\n, \"\n\")\n      ",
+   Qry = "
+import module namespace func = \"http://snelson.org.uk/functions/functional\";
+
+declare function local:fib2_aux($result as xs:integer, $next as xs:integer, $n) as xs:integer*
+{
+  if($n eq 0) then () else (
+  $result, local:fib2_aux($next, $next + $result, $n - 1))
+};
+
+declare function local:fib2($n) as xs:integer*
+{
+  local:fib2_aux(0, 1, $n)
+};
+
+declare function local:map-pairs($f,$a,$b)
+{
+  for-each-pair($a,$b,$f)
+};
+
+string-join(
+for $a in subsequence(
+
+let $interleave := func:curry(local:map-pairs#3)(function($a, $b) { $a, $b })
+let $enumerate := $interleave(0 to 49)
+return
+$enumerate(local:fib2(50))
+
+, 1, 100)
+return string($a)
+, \"
+\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"0\n0\n1\n1\n2\n1\n3\n2\n4\n3\n5\n5\n6\n8\n7\n13\n8\n21\n9\n34\n10\n55\n11\n89\n12\n144\n13\n233\n14\n377\n15\n610\n16\n987\n17\n1597\n18\n2584\n19\n4181\n20\n6765\n21\n10946\n22\n17711\n23\n28657\n24\n46368\n25\n75025\n26\n121393\n27\n196418\n28\n317811\n29\n514229\n30\n832040\n31\n1346269\n32\n2178309\n33\n3524578\n34\n5702887\n35\n9227465\n36\n14930352\n37\n24157817\n38\n39088169\n39\n63245986\n40\n102334155\n41\n165580141\n42\n267914296\n43\n433494437\n44\n701408733\n45\n1134903170\n46\n1836311903\n47\n2971215073\n48\n4807526976\n49\n7778742049\"\n      ",
- Tst = xqerl:run("\"0\n0\n1\n1\n2\n1\n3\n2\n4\n3\n5\n5\n6\n8\n7\n13\n8\n21\n9\n34\n10\n55\n11\n89\n12\n144\n13\n233\n14\n377\n15\n610\n16\n987\n17\n1597\n18\n2584\n19\n4181\n20\n6765\n21\n10946\n22\n17711\n23\n28657\n24\n46368\n25\n75025\n26\n121393\n27\n196418\n28\n317811\n29\n514229\n30\n832040\n31\n1346269\n32\n2178309\n33\n3524578\n34\n5702887\n35\n9227465\n36\n14930352\n37\n24157817\n38\n39088169\n39\n63245986\n40\n102334155\n41\n165580141\n42\n267914296\n43\n433494437\n44\n701408733\n45\n1134903170\n46\n1836311903\n47\n2971215073\n48\n4807526976\n49\n7778742049\""),
+   Exp = "
+         \"0
+0
+1
+1
+2
+1
+3
+2
+4
+3
+5
+5
+6
+8
+7
+13
+8
+21
+9
+34
+10
+55
+11
+89
+12
+144
+13
+233
+14
+377
+15
+610
+16
+987
+17
+1597
+18
+2584
+19
+4181
+20
+6765
+21
+10946
+22
+17711
+23
+28657
+24
+46368
+25
+75025
+26
+121393
+27
+196418
+28
+317811
+29
+514229
+30
+832040
+31
+1346269
+32
+2178309
+33
+3524578
+34
+5702887
+35
+9227465
+36
+14930352
+37
+24157817
+38
+39088169
+39
+63245986
+40
+102334155
+41
+165580141
+42
+267914296
+43
+433494437
+44
+701408733
+45
+1134903170
+46
+1836311903
+47
+2971215073
+48
+4807526976
+49
+7778742049\"
+      ",
+ Tst = xqerl:run("\"0
+0
+1
+1
+2
+1
+3
+2
+4
+3
+5
+5
+6
+8
+7
+13
+8
+21
+9
+34
+10
+55
+11
+89
+12
+144
+13
+233
+14
+377
+15
+610
+16
+987
+17
+1597
+18
+2584
+19
+4181
+20
+6765
+21
+10946
+22
+17711
+23
+28657
+24
+46368
+25
+75025
+26
+121393
+27
+196418
+28
+317811
+29
+514229
+30
+832040
+31
+1346269
+32
+2178309
+33
+3524578
+34
+5702887
+35
+9227465
+36
+14930352
+37
+24157817
+38
+39088169
+39
+63245986
+40
+102334155
+41
+165580141
+42
+267914296
+43
+433494437
+44
+701408733
+45
+1134903170
+46
+1836311903
+47
+2971215073
+48
+4807526976
+49
+7778742049\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof4'(_Config) ->
-   Qry = "\n         declare function local:hof($s, $f as function(*)) {\n           $f($s[1], $s[2])\n         };\n         \n         local:hof(('1', '2'), concat#2)\n      ",
+   Qry = "
+         declare function local:hof($s, $f as function(*)) {
+           $f($s[1], $s[2])
+         };
+         
+         local:hof(('1', '2'), concat#2)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"12\"\n      ",
+   Exp = "
+         \"12\"
+      ",
  Tst = xqerl:run("\"12\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof5'(_Config) ->
-   Qry = "\n         let $a := string-join(?, \"\")\n         return $a((\"foo\", \"bar\", \"baz\"))\n      ",
+   Qry = "
+         let $a := string-join(?, \"\")
+         return $a((\"foo\", \"bar\", \"baz\"))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"foobarbaz\"\n      ",
+   Exp = "
+         \"foobarbaz\"
+      ",
  Tst = xqerl:run("\"foobarbaz\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof6'(_Config) ->
-   Qry = "\n         declare function local:curry($f as function(item()*, item()*) as item()*) as function(item()*) as function(item()*) as item()*\n         {\n           function($a) { $f($a, ?) }\n         };\n         \n         local:curry(substring-after#2)(\"foobar\")(\"foo\")\n      ",
+   Qry = "
+         declare function local:curry($f as function(item()*, item()*) as item()*) as function(item()*) as function(item()*) as item()*
+         {
+           function($a) { $f($a, ?) }
+         };
+         
+         local:curry(substring-after#2)(\"foobar\")(\"foo\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"bar\"\n      ",
+   Exp = "
+         \"bar\"
+      ",
  Tst = xqerl:run("\"bar\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1552,7 +2375,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'xqhof8'(_Config) ->
@@ -1561,7 +2386,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'xqhof9'(_Config) ->
@@ -1570,16 +2397,23 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'xqhof10'(_Config) ->
-   Qry = "\n         for $f in (concat(\"one \", ?, \" three\"), substring-before(\"one two three\", ?), matches(?, \"t.*o\"), xs:NCName(?))\n         return $f(\"two\")\n      ",
+   Qry = "
+         for $f in (concat(\"one \", ?, \" three\"), substring-before(\"one two three\", ?), matches(?, \"t.*o\"), xs:NCName(?))
+         return $f(\"two\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \"one two three\", \"one \", true(), xs:NCName(\"two\")\n      ",
+   Exp = "
+        \"one two three\", \"one \", true(), xs:NCName(\"two\")
+      ",
  Tst = xqerl:run("\"one two three\", \"one \", true(), xs:NCName(\"two\")"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -1591,7 +2425,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'xqhof12'(_Config) ->
@@ -1600,76 +2436,138 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'xqhof13'(_Config) ->
-   Qry = "\n         let $f := function($a) { node-name(.), $a }\n         return <a/>/$f(5)\n      \n      ",
+   Qry = "
+         let $f := function($a) { node-name(.), $a }
+         return <a/>/$f(5)
+      
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'xqhof14'(_Config) ->
-   Qry = "\n         let $f := name#0\n         return <a/>/$f()\n      \n      ",
+   Qry = "
+         let $f := name#0
+         return <a/>/$f()
+      
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'xqhof15'(_Config) ->
-   Qry = "\n         let $f := <b/>/name#0\n         return <a/>/$f()\n      \n      ",
+   Qry = "
+         let $f := <b/>/name#0
+         return <a/>/$f()
+      
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"b\"\n      ",
+   Exp = "
+         \"b\"
+      ",
  Tst = xqerl:run("\"b\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof16'(_Config) ->
-   Qry = "\n         declare base-uri \"main\";\n         import module namespace lib = \"lib\";\n         \n         lib:getfun()(),\n         fn:static-base-uri#0(),\n         fn:static-base-uri()\n      ",
+   Qry = "
+         declare base-uri \"main\";
+         import module namespace lib = \"lib\";
+         
+         lib:getfun()(),
+         fn:static-base-uri#0(),
+         fn:static-base-uri()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            fn:ends-with($result[1], \"lib\")\n            fn:ends-with($result[2], \"main\")\n            fn:ends-with($result[3], \"main\")\n         \n      ",
+   Exp = "
+         
+            fn:ends-with($result[1], \"lib\")
+            fn:ends-with($result[2], \"main\")
+            fn:ends-with($result[3], \"main\")
+         
+      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"fn:ends-with($result[1], \"lib\")",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"fn:ends-with($result[2], \"main\")",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"fn:ends-with($result[3], \"main\")",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'xqhof17'(_Config) ->
-   Qry = "\n         import module namespace lib = \"lib\";\n         \n         <main/>/lib:getfun2()(),\n         <main/>/name#0(),\n         <main/>/name()\n      ",
+   Qry = "
+         import module namespace lib = \"lib\";
+         
+         <main/>/lib:getfun2()(),
+         <main/>/name#0(),
+         <main/>/name()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"lib\", \"main\", \"main\"\n      ",
+   Exp = "
+         \"lib\", \"main\", \"main\"
+      ",
  Tst = xqerl:run("\"lib\", \"main\", \"main\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'xqhof18'(_Config) ->
-   Qry = "\n         declare base-uri \"main\";\n         import module namespace lib = \"lib\";\n         \n         lib:getfun3()(xs:QName(\"fn:static-base-uri\"),0)(),\n         function-lookup#2(xs:QName(\"fn:static-base-uri\"),0)(),\n         function-lookup(xs:QName(\"fn:static-base-uri\"),0)()\n      ",
+   Qry = "
+         declare base-uri \"main\";
+         import module namespace lib = \"lib\";
+         
+         lib:getfun3()(xs:QName(\"fn:static-base-uri\"),0)(),
+         function-lookup#2(xs:QName(\"fn:static-base-uri\"),0)(),
+         function-lookup(xs:QName(\"fn:static-base-uri\"),0)()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            fn:ends-with($result[1], \"lib\")\n            fn:ends-with($result[2], \"main\")\n            fn:ends-with($result[3], \"main\")\n         \n      ",
+   Exp = "
+         
+            fn:ends-with($result[1], \"lib\")
+            fn:ends-with($result[2], \"main\")
+            fn:ends-with($result[3], \"main\")
+         
+      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"fn:ends-with($result[1], \"lib\")",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"fn:ends-with($result[2], \"main\")",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"fn:ends-with($result[3], \"main\")",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'xqhof19'(_Config) ->
-   Qry = "\n         import module namespace lib = \"lib\";\n         \n         <main/>/lib:getfun3()(xs:QName(\"fn:name\"),0)(),\n         <main/>/function-lookup#2(xs:QName(\"fn:name\"),0)(),\n         <main/>/function-lookup(xs:QName(\"fn:name\"),0)()\n      ",
+   Qry = "
+         import module namespace lib = \"lib\";
+         
+         <main/>/lib:getfun3()(xs:QName(\"fn:name\"),0)(),
+         <main/>/function-lookup#2(xs:QName(\"fn:name\"),0)(),
+         <main/>/function-lookup(xs:QName(\"fn:name\"),0)()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"lib\", \"main\", \"main\"\n      ",
+   Exp = "
+         \"lib\", \"main\", \"main\"
+      ",
  Tst = xqerl:run("\"lib\", \"main\", \"main\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),

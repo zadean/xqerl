@@ -428,7 +428,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -438,7 +440,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -448,7 +452,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a string\n      ",
+   Exp = "
+         a string
+      ",
    case xqerl_test:string_value(Res) of
              "a string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -458,7 +464,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a string\n      ",
+   Exp = "
+         a string
+      ",
    case xqerl_test:string_value(Res) of
              "a string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -468,7 +476,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a string, isn't it?\n      ",
+   Exp = "
+         This is a string, isn't it?
+      ",
    case xqerl_test:string_value(Res) of
              "This is a string, isn't it?" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -478,7 +488,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a \"String\"\n      ",
+   Exp = "
+         This is a \"String\"
+      ",
    case xqerl_test:string_value(Res) of
              "This is a \"String\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -488,7 +500,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a \" or a ' delimits a string literal\n      ",
+   Exp = "
+         a \" or a ' delimits a string literal
+      ",
    case xqerl_test:string_value(Res) of
              "a \" or a ' delimits a string literal" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -498,7 +512,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a \" or a ' delimits a string literal\n      ",
+   Exp = "
+         a \" or a ' delimits a string literal
+      ",
    case xqerl_test:string_value(Res) of
              "a \" or a ' delimits a string literal" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -508,7 +524,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <bold>A sample element.</bold>\n      ",
+   Exp = "
+         <bold>A sample element.</bold>
+      ",
    case xqerl_test:string_value(Res) of
              "<bold>A sample element.</bold>" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -518,7 +536,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -530,7 +550,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -542,7 +564,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1\n      ",
+   Exp = "
+         -1
+      ",
  Tst = xqerl:run("-1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -554,7 +578,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -566,7 +592,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.23\n      ",
+   Exp = "
+         1.23
+      ",
    case xqerl_test:string_value(Res) of
              "1.23" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -576,7 +604,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1.23\n      ",
+   Exp = "
+         -1.23
+      ",
    case xqerl_test:string_value(Res) of
              "-1.23" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -586,7 +616,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         120000\n      ",
+   Exp = "
+         120000
+      ",
  Tst = xqerl:run("120000"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -598,7 +630,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -120000\n      ",
+   Exp = "
+         -120000
+      ",
  Tst = xqerl:run("-120000"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -610,7 +644,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -622,7 +658,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0.00001\n      ",
+   Exp = "
+         0.00001
+      ",
    case xqerl_test:string_value(Res) of
              "0.00001" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -632,7 +670,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         9.999999999999999\n      ",
+   Exp = "
+         9.999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "9.999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -642,7 +682,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -10000000\n      ",
+   Exp = "
+         -10000000
+      ",
  Tst = xqerl:run("-10000000"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -654,7 +696,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3 4 5 6 7 8 9 10\n      ",
+   Exp = "
+         1 2 3 4 5 6 7 8 9 10
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3 4 5 6 7 8 9 10" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -664,7 +708,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         NaN\n      ",
+   Exp = "
+         NaN
+      ",
    case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -674,7 +720,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         INF\n      ",
+   Exp = "
+         INF
+      ",
    case xqerl_test:string_value(Res) of
              "INF" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -684,7 +732,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -INF\n      ",
+   Exp = "
+         -INF
+      ",
    case xqerl_test:string_value(Res) of
              "-INF" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -694,7 +744,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'VarDecl027'(_Config) ->
@@ -703,7 +755,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'VarDecl028'(_Config) ->
@@ -712,7 +766,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'VarDecl029'(_Config) ->
@@ -721,7 +777,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'VarDecl030'(_Config) ->
@@ -730,7 +788,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'VarDecl031'(_Config) ->
@@ -739,7 +799,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4\n      ",
+   Exp = "
+         4
+      ",
  Tst = xqerl:run("4"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -751,7 +813,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4\n      ",
+   Exp = "
+         4
+      ",
  Tst = xqerl:run("4"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -763,7 +827,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -775,7 +841,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.5\n      ",
+   Exp = "
+         1.5
+      ",
    case xqerl_test:string_value(Res) of
              "1.5" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -785,7 +853,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -797,7 +867,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -809,7 +881,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1.7976931348623157E308\n      ",
+   Exp = "
+         -1.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "-1.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -819,7 +893,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1.7976931348623157E308\n      ",
+   Exp = "
+         -1.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "-1.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -829,7 +905,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999\n      ",
+   Exp = "
+         -999999999999999999
+      ",
  Tst = xqerl:run("-999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -841,7 +919,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999\n      ",
+   Exp = "
+         -999999999999999999
+      ",
  Tst = xqerl:run("-999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -853,7 +933,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999\n      ",
+   Exp = "
+         999999999999999999
+      ",
  Tst = xqerl:run("999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -865,7 +947,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999\n      ",
+   Exp = "
+         999999999999999999
+      ",
  Tst = xqerl:run("999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -877,7 +961,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3.4028235E38\n      ",
+   Exp = "
+         -3.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "-3.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -887,7 +973,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3.4028235E38\n      ",
+   Exp = "
+         -3.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "-3.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -897,7 +985,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1970-01-01Z\n      ",
+   Exp = "
+         1970-01-01Z
+      ",
    case xqerl_test:string_value(Res) of
              "1970-01-01Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -907,7 +997,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1970-02-01Z\n      ",
+   Exp = "
+         1970-02-01Z
+      ",
    case xqerl_test:string_value(Res) of
              "1970-02-01Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -917,7 +1009,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         08:03:35Z\n      ",
+   Exp = "
+         08:03:35Z
+      ",
    case xqerl_test:string_value(Res) of
              "08:03:35Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -927,7 +1021,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         08:03:35Z\n      ",
+   Exp = "
+         08:03:35Z
+      ",
    case xqerl_test:string_value(Res) of
              "08:03:35Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -937,7 +1033,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2030-12-31T23:59:59Z\n      ",
+   Exp = "
+         2030-12-31T23:59:59Z
+      ",
    case xqerl_test:string_value(Res) of
              "2030-12-31T23:59:59Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -947,7 +1045,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3\n      ",
+   Exp = "
+         1 2 3
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -957,7 +1057,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a xyz\n      ",
+   Exp = "
+         a xyz
+      ",
    case xqerl_test:string_value(Res) of
              "a xyz" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -967,7 +1069,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a www.example.com\n      ",
+   Exp = "
+         a www.example.com
+      ",
    case xqerl_test:string_value(Res) of
              "a www.example.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -977,7 +1081,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         INF NaN\n      ",
+   Exp = "
+         INF NaN
+      ",
    case xqerl_test:string_value(Res) of
              "INF NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -987,7 +1093,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true false 0\n      ",
+   Exp = "
+         true false 0
+      ",
    case xqerl_test:string_value(Res) of
              "true false 0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -997,7 +1105,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1993-03-31 true abc\n      ",
+   Exp = "
+         1993-03-31 true abc
+      ",
    case xqerl_test:string_value(Res) of
              "1993-03-31 true abc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1007,7 +1117,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         12:30:00   2.000000000000002\n      ",
+   Exp = "
+         12:30:00   2.000000000000002
+      ",
    case xqerl_test:string_value(Res) of
              "12:30:00   2.000000000000002" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1017,7 +1129,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2 0\n      ",
+   Exp = "
+         2 0
+      ",
    case xqerl_test:string_value(Res) of
              "2 0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1027,7 +1141,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 2 1 2 3 123  \n      ",
+   Exp = "
+         1 2 2 1 2 3 123  
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 2 1 2 3 123  " -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1038,7 +1154,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>1\n      ",
+   Exp = "
+         <price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>1
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>1"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1054,7 +1172,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1065,7 +1185,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <!-- this file is a copy of bib.xml; just adds a few comments and PI nodes for testing --><!-- Comment 1 --><!-- Comment 2 -->\n      ",
+   Exp = "
+         <!-- this file is a copy of bib.xml; just adds a few comments and PI nodes for testing --><!-- Comment 1 --><!-- Comment 2 -->
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!-- this file is a copy of bib.xml; just adds a few comments and PI nodes for testing --><!-- Comment 1 --><!-- Comment 2 -->"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1081,7 +1203,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <?PI1 Processing Instruction 1?><?PI2 Processing Instruction 2?>\n      ",
+   Exp = "
+         <?PI1 Processing Instruction 1?><?PI2 Processing Instruction 2?>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?PI1 Processing Instruction 1?><?PI2 Processing Instruction 2?>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1091,12 +1215,18 @@ end.
               end
 end.
 'VarDecl063'(_Config) ->
-   Qry = "\n        declare variable $x := $y + 3;\n        declare variable $y := 17;\n        $x + 5\n      ",
+   Qry = "
+        declare variable $x := $y + 3;
+        declare variable $y := 17;
+        $x + 5
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         25\n      ",
+   Exp = "
+         25
+      ",
  Tst = xqerl:run("25"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1105,12 +1235,19 @@ end.
 'vardeclerr'(_Config) ->
    {skip,"XQ10"}.
 'vardeclerr-1'(_Config) ->
-   Qry = "\n      declare namespace foo = \"http://www..oracle.com/xquery/test\"; \n      declare variable $var1 as xs:integer := foo:price(xs:integer(2)); \n      declare function foo:price ($b as xs:integer) as xs:integer { $var1 + 1 }; \n      declare variable $input-context1 external; \n      $var1",
+   Qry = "
+      declare namespace foo = \"http://www..oracle.com/xquery/test\"; 
+      declare variable $var1 as xs:integer := foo:price(xs:integer(2)); 
+      declare function foo:price ($b as xs:integer) as xs:integer { $var1 + 1 }; 
+      declare variable $input-context1 external; 
+      $var1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'internalvar-2'(_Config) ->
@@ -1119,29 +1256,43 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-InternalVariablesWithout-1'(_Config) ->
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-1a'(_Config) ->
-   Qry = "\n        declare variable $local:myVar := local:myFunction();\n        declare function local:myFunction() { local:myFunction(), 1, $local:myVar };\n        $local:myVar\n      ",
+   Qry = "
+        declare variable $local:myVar := local:myFunction();
+        declare function local:myFunction() { local:myFunction(), 1, $local:myVar };
+        $local:myVar
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-2'(_Config) ->
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-2a'(_Config) ->
-   Qry = "\n        declare variable $local:myVar := local:myFunction();\n        declare function local:myFunction() { $local:myVar, 1, local:myFunction() };\n        $local:myVar\n      ",
+   Qry = "
+        declare variable $local:myVar := local:myFunction();
+        declare function local:myFunction() { $local:myVar, 1, local:myFunction() };
+        $local:myVar
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-3'(_Config) ->
@@ -1152,7 +1303,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-4'(_Config) ->
@@ -1163,7 +1316,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-5'(_Config) ->
@@ -1174,7 +1329,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-6'(_Config) ->
@@ -1185,7 +1342,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-7'(_Config) ->
@@ -1196,7 +1355,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-8'(_Config) ->
@@ -1207,7 +1368,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-9'(_Config) ->
@@ -1218,7 +1381,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K2-InternalVariablesWithout-10'(_Config) ->
@@ -1227,7 +1392,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         6\n      ",
+   Exp = "
+         6
+      ",
  Tst = xqerl:run("6"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1239,7 +1406,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1251,7 +1423,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-InternalVariablesWithout-13'(_Config) ->
@@ -1260,7 +1434,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-InternalVariablesWithout-14'(_Config) ->
@@ -1269,7 +1445,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-InternalVariablesWithout-15'(_Config) ->
@@ -1278,7 +1456,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'vardeclwithtype-1'(_Config) ->
@@ -1287,7 +1467,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abc\n      ",
+   Exp = "
+         abc
+      ",
    case xqerl_test:string_value(Res) of
              "abc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1297,7 +1479,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         100\n      ",
+   Exp = "
+         100
+      ",
  Tst = xqerl:run("100"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1309,7 +1493,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         100\n      ",
+   Exp = "
+         100
+      ",
  Tst = xqerl:run("100"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1321,7 +1507,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'vardeclwithtype-5'(_Config) ->
@@ -1330,7 +1518,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'vardeclwithtype-6'(_Config) ->
@@ -1339,7 +1529,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.25E11\n      ",
+   Exp = "
+         1.25E11
+      ",
    case xqerl_test:string_value(Res) of
              "1.25E11" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1349,7 +1541,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.26743233E15\n      ",
+   Exp = "
+         1.26743233E15
+      ",
    case xqerl_test:string_value(Res) of
              "1.26743233E15" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1359,7 +1553,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.com\n      ",
+   Exp = "
+         http://example.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1369,7 +1565,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1999-11-28T09:00:00Z\n      ",
+   Exp = "
+         1999-11-28T09:00:00Z
+      ",
    case xqerl_test:string_value(Res) of
              "1999-11-28T09:00:00Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1379,7 +1577,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         11:12:00Z\n      ",
+   Exp = "
+         11:12:00Z
+      ",
    case xqerl_test:string_value(Res) of
              "11:12:00Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1389,7 +1589,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1999-11-28Z\n      ",
+   Exp = "
+         1999-11-28Z
+      ",
    case xqerl_test:string_value(Res) of
              "1999-11-28Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1399,7 +1601,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'vardeclwithtype-13'(_Config) ->
@@ -1408,7 +1612,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'vardeclwithtype-14'(_Config) ->
@@ -1417,7 +1623,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         11\n      ",
+   Exp = "
+         11
+      ",
  Tst = xqerl:run("11"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1426,12 +1634,17 @@ end.
 'vardeclwithtype-15a'(_Config) ->
    {skip,"XQ10"}.
 'vardeclwithtype-15b'(_Config) ->
-   Qry = "\n      declare variable $var as xs:integer := $e +1; \n      declare variable $e as xs:integer := 10;  \n      $var",
+   Qry = "
+      declare variable $var as xs:integer := $e +1; 
+      declare variable $e as xs:integer := 10;  
+      $var",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         11\n      ",
+   Exp = "
+         11
+      ",
  Tst = xqerl:run("11"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1443,7 +1656,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         10\n      ",
+   Exp = "
+         10
+      ",
  Tst = xqerl:run("10"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1455,7 +1670,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         20\n      ",
+   Exp = "
+         20
+      ",
  Tst = xqerl:run("20"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1467,7 +1684,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'vardeclwithtype-19'(_Config) ->
@@ -1476,7 +1695,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1488,7 +1709,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1500,7 +1723,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'vardeclwithtype-22'(_Config) ->
@@ -1509,7 +1734,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'internalvar-1'(_Config) ->
@@ -1518,7 +1745,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-InternalVariablesWith-1'(_Config) ->
@@ -1527,7 +1756,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-InternalVariablesWith-2'(_Config) ->
@@ -1536,7 +1767,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-InternalVariablesWith-3'(_Config) ->
@@ -1545,7 +1778,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-InternalVariablesWith-4'(_Config) ->
@@ -1554,7 +1789,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-InternalVariablesWith-5'(_Config) ->
@@ -1563,7 +1803,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-InternalVariablesWith-6a'(_Config) ->
@@ -1574,7 +1816,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-InternalVariablesWith-7'(_Config) ->
@@ -1583,7 +1827,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-InternalVariablesWith-8'(_Config) ->
@@ -1592,7 +1838,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-InternalVariablesWith-9a'(_Config) ->
@@ -1603,7 +1851,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1615,7 +1865,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-InternalVariablesWith-11'(_Config) ->
@@ -1624,7 +1879,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-InternalVariablesWith-12'(_Config) ->
@@ -1633,7 +1890,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-InternalVariablesWith-13'(_Config) ->
@@ -1642,7 +1901,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-InternalVariablesWith-14'(_Config) ->
@@ -1651,7 +1912,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-InternalVariablesWith-15a'(_Config) ->
@@ -1662,18 +1925,28 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-InternalVariablesWith-16'(_Config) ->
    {skip,"XQ10"}.
 'K-InternalVariablesWith-16a'(_Config) ->
-   Qry = "\n      declare variable $var := local:func1(); \n      declare function local:func1() { local:func2() }; \n      declare function local:func2() { local:func3() }; \n      declare function local:func3() { local:func4() }; \n      declare function local:func4() { $var }; \n      boolean($var)",
+   Qry = "
+      declare variable $var := local:func1(); 
+      declare function local:func1() { local:func2() }; 
+      declare function local:func2() { local:func3() }; 
+      declare function local:func3() { local:func4() }; 
+      declare function local:func4() { $var }; 
+      boolean($var)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K-InternalVariablesWith-17'(_Config) ->
@@ -1684,7 +1957,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K-InternalVariablesWith-18'(_Config) ->
@@ -1695,7 +1970,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K-InternalVariablesWith-19'(_Config) ->
@@ -1706,7 +1983,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K-InternalVariablesWith-20'(_Config) ->
@@ -1717,7 +1996,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'K-InternalVariablesWith-21'(_Config) ->
@@ -1726,7 +2007,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-InternalVariablesWith-1'(_Config) ->
@@ -1735,6 +2018,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.

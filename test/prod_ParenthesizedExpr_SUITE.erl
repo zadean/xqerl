@@ -180,7 +180,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         9\n      ",
+   Exp = "
+         9
+      ",
  Tst = xqerl:run("9"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -192,7 +194,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         7\n      ",
+   Exp = "
+         7
+      ",
  Tst = xqerl:run("7"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -204,7 +208,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -7\n      ",
+   Exp = "
+         -7
+      ",
  Tst = xqerl:run("-7"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -216,7 +222,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -228,7 +236,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4\n      ",
+   Exp = "
+         4
+      ",
  Tst = xqerl:run("4"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -240,7 +250,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -252,7 +264,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4\n      ",
+   Exp = "
+         4
+      ",
  Tst = xqerl:run("4"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -264,7 +278,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -276,7 +292,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'Parenexpr-10'(_Config) ->
@@ -285,7 +303,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'Parenexpr-11'(_Config) ->
@@ -294,7 +314,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -306,7 +328,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 3\n      ",
+   Exp = "
+         1 3
+      ",
    case xqerl_test:string_value(Res) of
              "1 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -316,7 +340,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -328,7 +354,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3 4 5\n      ",
+   Exp = "
+         1 2 3 4 5
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3 4 5" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -339,7 +367,9 @@ environment('DupNode') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><child1><a>text</a><!--comment--><?pi content?></child1><a>text</a>text<!--comment--><?pi content?><child2><a>text</a><!--comment--><?pi content?></child2><a>text</a>text<!--comment--><?pi content?></elem>\n      ",
+   Exp = "
+         <elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><child1><a>text</a><!--comment--><?pi content?></child1><a>text</a>text<!--comment--><?pi content?><child2><a>text</a><!--comment--><?pi content?></child2><a>text</a>text<!--comment--><?pi content?></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><child1><a>text</a><!--comment--><?pi content?></child1><a>text</a>text<!--comment--><?pi content?><child2><a>text</a><!--comment--><?pi content?></child2><a>text</a>text<!--comment--><?pi content?></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -355,7 +385,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><child1><a>text</a><!--comment--><?pi content?></child1><a>text</a>text<?pi content?><child2><a>text</a><!--comment--><?pi content?></child2><a>text</a>text<?pi content?></elem>\n      ",
+   Exp = "
+         <elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><child1><a>text</a><!--comment--><?pi content?></child1><a>text</a>text<?pi content?><child2><a>text</a><!--comment--><?pi content?></child2><a>text</a>text<?pi content?></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><child1><a>text</a><!--comment--><?pi content?></child1><a>text</a>text<?pi content?><child2><a>text</a><!--comment--><?pi content?></child2><a>text</a>text<?pi content?></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -370,7 +402,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem/>\n      ",
+   Exp = "
+         <elem/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -385,7 +419,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem attr=\"1\"><child/><child/></elem>\n      ",
+   Exp = "
+         <elem attr=\"1\"><child/><child/></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem attr=\"1\"><child/><child/></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -401,7 +437,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         name($result/*) = \"far-north\"\n      ",
+   Exp = "
+         name($result/*) = \"far-north\"
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""name($result/*) = \"far-north\"",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -413,7 +451,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem><west mark=\"w0\"/><center mark=\"c0\"><the1child/></center><east mark=\"e0\">Text in east</east></elem>\n      ",
+   Exp = "
+         <elem><west mark=\"w0\"/><center mark=\"c0\"><the1child/></center><east mark=\"e0\">Text in east</east></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem><west mark=\"w0\"/><center mark=\"c0\"><the1child/></center><east mark=\"e0\">Text in east</east></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 

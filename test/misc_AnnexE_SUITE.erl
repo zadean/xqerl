@@ -136,7 +136,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         some data\n      ",
+   Exp = "
+         some data
+      ",
    case xqerl_test:string_value(Res) of
              "some data" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -146,7 +148,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         some data\n      ",
+   Exp = "
+         some data
+      ",
    case xqerl_test:string_value(Res) of
              "some data" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -156,7 +160,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2\n      ",
+   Exp = "
+         1 2
+      ",
    case xqerl_test:string_value(Res) of
              "1 2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -166,7 +172,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -178,7 +189,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -190,7 +206,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -202,7 +220,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         A StringA StringA String\n      ",
+   Exp = "
+         A StringA StringA String
+      ",
    case xqerl_test:string_value(Res) of
              "A StringA StringA String" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -212,7 +232,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <element1>some data 1</element1><element2>some data 2</element2>\n      ",
+   Exp = "
+         <element1>some data 1</element1><element2>some data 2</element2>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<element1>some data 1</element1><element2>some data 2</element2>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 

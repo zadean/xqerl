@@ -1251,7 +1251,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-002'(_Config) ->
@@ -1261,7 +1263,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      root\n    ",
+   Exp = "
+      root
+    ",
    case xqerl_test:string_value(Res) of
              "root" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1271,7 +1275,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-004'(_Config) ->
@@ -1281,7 +1287,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      root\n    ",
+   Exp = "
+      root
+    ",
    case xqerl_test:string_value(Res) of
              "root" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1291,7 +1299,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-006'(_Config) ->
@@ -1301,7 +1311,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      false\n    ",
+   Exp = "
+      false
+    ",
    case xqerl_test:string_value(Res) of
              "false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1311,7 +1323,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-008'(_Config) ->
@@ -1321,7 +1335,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      false\n    ",
+   Exp = "
+      false
+    ",
    case xqerl_test:string_value(Res) of
              "false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1331,7 +1347,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-010'(_Config) ->
@@ -1341,7 +1359,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1351,7 +1371,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-012'(_Config) ->
@@ -1360,7 +1382,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1370,7 +1394,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-014'(_Config) ->
@@ -1380,7 +1406,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1390,7 +1418,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-016'(_Config) ->
@@ -1400,7 +1430,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1410,7 +1442,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-018'(_Config) ->
@@ -1420,7 +1454,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml\n    ",
+   Exp = "
+      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1430,7 +1466,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-020'(_Config) ->
@@ -1440,7 +1478,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml\n    ",
+   Exp = "
+      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1450,7 +1490,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-022'(_Config) ->
@@ -1460,7 +1502,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml\n    ",
+   Exp = "
+      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1470,7 +1514,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-024'(_Config) ->
@@ -1480,7 +1526,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml\n    ",
+   Exp = "
+      http://www.w3.org/fots/fn/function-lookup/function-lookup.xml
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1490,7 +1538,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-026'(_Config) ->
@@ -1499,7 +1549,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOER0000'}) end.
 'fn-function-lookup-027'(_Config) ->
@@ -1508,7 +1560,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-028'(_Config) ->
@@ -1517,7 +1571,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XXXX0000" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XXXX0000'}) end.
 'fn-function-lookup-029'(_Config) ->
@@ -1526,7 +1582,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-030'(_Config) ->
@@ -1535,7 +1593,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XXXX0000" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XXXX0000'}) end.
 'fn-function-lookup-031'(_Config) ->
@@ -1544,7 +1604,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-032'(_Config) ->
@@ -1553,7 +1615,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XXXX0000" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XXXX0000'}) end.
 'fn-function-lookup-033'(_Config) ->
@@ -1562,7 +1626,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-034'(_Config) ->
@@ -1571,7 +1637,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1581,7 +1649,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-036'(_Config) ->
@@ -1590,7 +1660,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1600,7 +1672,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-038'(_Config) ->
@@ -1609,7 +1683,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1619,7 +1695,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-040'(_Config) ->
@@ -1628,7 +1706,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1638,7 +1718,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-042'(_Config) ->
@@ -1647,7 +1729,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1657,7 +1741,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-044'(_Config) ->
@@ -1666,7 +1752,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1676,7 +1764,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-046'(_Config) ->
@@ -1685,7 +1775,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1695,7 +1787,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-048'(_Config) ->
@@ -1704,7 +1798,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1714,7 +1810,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-050'(_Config) ->
@@ -1724,7 +1822,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1734,7 +1834,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-052'(_Config) ->
@@ -1743,7 +1845,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1753,7 +1857,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-054'(_Config) ->
@@ -1762,7 +1868,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1772,7 +1880,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-056'(_Config) ->
@@ -1781,7 +1891,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1791,7 +1903,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-058'(_Config) ->
@@ -1800,7 +1914,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1810,7 +1926,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-060'(_Config) ->
@@ -1819,7 +1937,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1829,7 +1949,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-062'(_Config) ->
@@ -1838,7 +1960,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3.141592653589793\n    ",
+   Exp = "
+      3.141592653589793
+    ",
    case xqerl_test:string_value(Res) of
              "3.141592653589793" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1848,7 +1972,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-064'(_Config) ->
@@ -1857,7 +1983,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      abs($result - 2.71828182845) lt 1e-10\n    ",
+   Exp = "
+      abs($result - 2.71828182845) lt 1e-10
+    ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""abs($result - 2.71828182845) lt 1e-10",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -1868,7 +1996,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-066'(_Config) ->
@@ -1877,7 +2007,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      10\n    ",
+   Exp = "
+      10
+    ",
    case xqerl_test:string_value(Res) of
              "10" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1887,7 +2019,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-068'(_Config) ->
@@ -1896,7 +2030,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1906,7 +2042,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-070'(_Config) ->
@@ -1915,7 +2053,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1925,7 +2065,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-072'(_Config) ->
@@ -1934,7 +2076,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1944,7 +2088,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-074'(_Config) ->
@@ -1953,7 +2099,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1963,7 +2111,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-076'(_Config) ->
@@ -1972,7 +2122,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0.8414709848078965\n    ",
+   Exp = "
+      0.8414709848078965
+    ",
    case xqerl_test:string_value(Res) of
              "0.8414709848078965" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1982,7 +2134,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-078'(_Config) ->
@@ -1991,7 +2145,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0.5403023058681398\n    ",
+   Exp = "
+      0.5403023058681398
+    ",
    case xqerl_test:string_value(Res) of
              "0.5403023058681398" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2001,7 +2157,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-080'(_Config) ->
@@ -2010,7 +2168,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1.5574077246549023\n    ",
+   Exp = "
+      1.5574077246549023
+    ",
    case xqerl_test:string_value(Res) of
              "1.5574077246549023" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2020,7 +2180,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-082'(_Config) ->
@@ -2029,7 +2191,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1.5707963267948966\n    ",
+   Exp = "
+      1.5707963267948966
+    ",
    case xqerl_test:string_value(Res) of
              "1.5707963267948966" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2039,7 +2203,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-084'(_Config) ->
@@ -2048,7 +2214,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2058,7 +2226,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-086'(_Config) ->
@@ -2067,7 +2237,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0.7853981633974483\n    ",
+   Exp = "
+      0.7853981633974483
+    ",
    case xqerl_test:string_value(Res) of
              "0.7853981633974483" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2077,7 +2249,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-088'(_Config) ->
@@ -2086,7 +2260,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0.7853981633974483\n    ",
+   Exp = "
+      0.7853981633974483
+    ",
    case xqerl_test:string_value(Res) of
              "0.7853981633974483" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2096,7 +2272,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-090'(_Config) ->
@@ -2105,7 +2283,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      AB\n    ",
+   Exp = "
+      AB
+    ",
    case xqerl_test:string_value(Res) of
              "AB" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2115,7 +2295,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-092'(_Config) ->
@@ -2124,7 +2306,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      65\n    ",
+   Exp = "
+      65
+    ",
    case xqerl_test:string_value(Res) of
              "65" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2134,7 +2318,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-094'(_Config) ->
@@ -2143,7 +2329,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2153,7 +2341,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-096'(_Config) ->
@@ -2162,7 +2352,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2172,7 +2364,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-098'(_Config) ->
@@ -2181,7 +2375,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-099'(_Config) ->
@@ -2190,7 +2386,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-100'(_Config) ->
@@ -2199,7 +2397,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      abcdef\n    ",
+   Exp = "
+      abcdef
+    ",
    case xqerl_test:string_value(Res) of
              "abcdef" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2209,7 +2409,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-102'(_Config) ->
@@ -2218,7 +2420,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      abcdef\n    ",
+   Exp = "
+      abcdef
+    ",
    case xqerl_test:string_value(Res) of
              "abcdef" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2228,7 +2432,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-104'(_Config) ->
@@ -2237,7 +2443,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      abc-def\n    ",
+   Exp = "
+      abc-def
+    ",
    case xqerl_test:string_value(Res) of
              "abc-def" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2247,7 +2455,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-106'(_Config) ->
@@ -2256,7 +2466,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      tring\n    ",
+   Exp = "
+      tring
+    ",
    case xqerl_test:string_value(Res) of
              "tring" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2266,7 +2478,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-108'(_Config) ->
@@ -2275,7 +2489,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      s\n    ",
+   Exp = "
+      s
+    ",
    case xqerl_test:string_value(Res) of
              "s" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2285,7 +2501,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-110'(_Config) ->
@@ -2295,7 +2513,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2305,7 +2525,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-112'(_Config) ->
@@ -2314,7 +2536,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      6\n    ",
+   Exp = "
+      6
+    ",
    case xqerl_test:string_value(Res) of
              "6" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2324,7 +2548,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-114'(_Config) ->
@@ -2334,7 +2560,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2344,7 +2572,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-116'(_Config) ->
@@ -2353,7 +2583,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      string\n    ",
+   Exp = "
+      string
+    ",
    case xqerl_test:string_value(Res) of
              "string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2363,7 +2595,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-118'(_Config) ->
@@ -2372,7 +2606,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      string\n    ",
+   Exp = "
+      string
+    ",
    case xqerl_test:string_value(Res) of
              "string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2382,7 +2618,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-120'(_Config) ->
@@ -2391,7 +2629,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      string\n    ",
+   Exp = "
+      string
+    ",
    case xqerl_test:string_value(Res) of
              "string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2401,7 +2641,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-122'(_Config) ->
@@ -2410,7 +2652,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      STRING\n    ",
+   Exp = "
+      STRING
+    ",
    case xqerl_test:string_value(Res) of
              "STRING" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2420,7 +2664,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-124'(_Config) ->
@@ -2429,7 +2675,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      string\n    ",
+   Exp = "
+      string
+    ",
    case xqerl_test:string_value(Res) of
              "string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2439,7 +2687,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-126'(_Config) ->
@@ -2448,7 +2698,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      strong\n    ",
+   Exp = "
+      strong
+    ",
    case xqerl_test:string_value(Res) of
              "strong" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2458,7 +2710,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-128'(_Config) ->
@@ -2467,7 +2721,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-129'(_Config) ->
@@ -2476,7 +2732,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-130'(_Config) ->
@@ -2485,7 +2743,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-131'(_Config) ->
@@ -2494,7 +2754,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-132'(_Config) ->
@@ -2503,7 +2765,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-133'(_Config) ->
@@ -2512,7 +2776,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-134'(_Config) ->
@@ -2521,7 +2787,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-135'(_Config) ->
@@ -2530,7 +2798,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-136'(_Config) ->
@@ -2539,7 +2809,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-137'(_Config) ->
@@ -2548,7 +2820,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-138'(_Config) ->
@@ -2557,7 +2831,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-139'(_Config) ->
@@ -2566,7 +2842,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-140'(_Config) ->
@@ -2575,7 +2853,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      str\n    ",
+   Exp = "
+      str
+    ",
    case xqerl_test:string_value(Res) of
              "str" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2585,7 +2865,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-142'(_Config) ->
@@ -2594,7 +2876,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      str\n    ",
+   Exp = "
+      str
+    ",
    case xqerl_test:string_value(Res) of
              "str" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2604,7 +2888,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-144'(_Config) ->
@@ -2613,7 +2899,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ing\n    ",
+   Exp = "
+      ing
+    ",
    case xqerl_test:string_value(Res) of
              "ing" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2623,7 +2911,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-146'(_Config) ->
@@ -2632,7 +2922,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ing\n    ",
+   Exp = "
+      ing
+    ",
    case xqerl_test:string_value(Res) of
              "ing" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2642,7 +2934,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-148'(_Config) ->
@@ -2651,7 +2945,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-149'(_Config) ->
@@ -2660,7 +2956,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-150'(_Config) ->
@@ -2669,7 +2967,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-151'(_Config) ->
@@ -2678,7 +2978,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-152'(_Config) ->
@@ -2687,7 +2989,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      strong\n    ",
+   Exp = "
+      strong
+    ",
    case xqerl_test:string_value(Res) of
              "strong" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2697,7 +3001,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-154'(_Config) ->
@@ -2706,7 +3012,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      strong\n    ",
+   Exp = "
+      strong
+    ",
    case xqerl_test:string_value(Res) of
              "strong" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2716,7 +3024,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-156'(_Config) ->
@@ -2725,7 +3035,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      str ng\n    ",
+   Exp = "
+      str ng
+    ",
    case xqerl_test:string_value(Res) of
              "str ng" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2735,7 +3047,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-158'(_Config) ->
@@ -2744,7 +3058,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      str ng\n    ",
+   Exp = "
+      str ng
+    ",
    case xqerl_test:string_value(Res) of
              "str ng" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2754,7 +3070,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-160'(_Config) ->
@@ -2763,7 +3081,9 @@ environment('function-lookup') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      <fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>\n    ",
+   Exp = "
+      <fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>
+    ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2778,7 +3098,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-162'(_Config) ->
@@ -2787,7 +3109,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      <fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>\n    ",
+   Exp = "
+      <fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>
+    ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2802,7 +3126,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-164'(_Config) ->
@@ -2811,7 +3137,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:anyURI\n    ",
+   Exp = "
+      xs:anyURI
+    ",
    case xqerl_types:type(Res) of
            'xs:anyURI' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -2821,7 +3149,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-166'(_Config) ->
@@ -2830,7 +3160,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.w3.org/2005/xpath-functions\n    ",
+   Exp = "
+      http://www.w3.org/2005/xpath-functions
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/2005/xpath-functions" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2840,7 +3172,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-168'(_Config) ->
@@ -2849,7 +3183,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      %20\n    ",
+   Exp = "
+      %20
+    ",
    case xqerl_test:string_value(Res) of
              "%20" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2859,7 +3195,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-170'(_Config) ->
@@ -2868,7 +3206,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.example.com/\n    ",
+   Exp = "
+      http://www.example.com/
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2878,7 +3218,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-172'(_Config) ->
@@ -2887,7 +3229,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.example.com/\n    ",
+   Exp = "
+      http://www.example.com/
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2897,7 +3241,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-174'(_Config) ->
@@ -2906,7 +3252,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-175'(_Config) ->
@@ -2915,7 +3263,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-176'(_Config) ->
@@ -2924,7 +3274,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-177'(_Config) ->
@@ -2933,7 +3285,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-178'(_Config) ->
@@ -2942,7 +3296,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-179'(_Config) ->
@@ -2951,7 +3307,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-180'(_Config) ->
@@ -2960,7 +3318,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-181'(_Config) ->
@@ -2969,7 +3329,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-182'(_Config) ->
@@ -2978,7 +3340,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      21\n    ",
+   Exp = "
+      21
+    ",
    case xqerl_test:string_value(Res) of
              "21" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2988,7 +3352,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-184'(_Config) ->
@@ -2997,7 +3363,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3\n    ",
+   Exp = "
+      3
+    ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3007,7 +3375,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-186'(_Config) ->
@@ -3016,7 +3386,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3\n    ",
+   Exp = "
+      3
+    ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3026,7 +3398,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-188'(_Config) ->
@@ -3035,7 +3409,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      10\n    ",
+   Exp = "
+      10
+    ",
    case xqerl_test:string_value(Res) of
              "10" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3045,7 +3421,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-190'(_Config) ->
@@ -3054,7 +3432,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3064,7 +3444,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-192'(_Config) ->
@@ -3073,7 +3455,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      12.5\n    ",
+   Exp = "
+      12.5
+    ",
    case xqerl_test:string_value(Res) of
              "12.5" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3083,7 +3467,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-194'(_Config) ->
@@ -3092,7 +3478,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2012-01-01T00:00:00Z\n    ",
+   Exp = "
+      2012-01-01T00:00:00Z
+    ",
    case xqerl_test:string_value(Res) of
              "2012-01-01T00:00:00Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3102,7 +3490,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-196'(_Config) ->
@@ -3111,7 +3501,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2012\n    ",
+   Exp = "
+      2012
+    ",
    case xqerl_test:string_value(Res) of
              "2012" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3121,7 +3513,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-198'(_Config) ->
@@ -3130,7 +3524,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      4\n    ",
+   Exp = "
+      4
+    ",
    case xqerl_test:string_value(Res) of
              "4" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3140,7 +3536,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-200'(_Config) ->
@@ -3149,7 +3547,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3\n    ",
+   Exp = "
+      3
+    ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3159,7 +3559,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-202'(_Config) ->
@@ -3168,7 +3570,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2\n    ",
+   Exp = "
+      2
+    ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3178,7 +3582,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-204'(_Config) ->
@@ -3187,7 +3593,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3197,7 +3605,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-206'(_Config) ->
@@ -3206,7 +3616,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3216,7 +3628,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-208'(_Config) ->
@@ -3225,7 +3639,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      PT0S\n    ",
+   Exp = "
+      PT0S
+    ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3235,7 +3651,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-210'(_Config) ->
@@ -3244,7 +3662,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2012\n    ",
+   Exp = "
+      2012
+    ",
    case xqerl_test:string_value(Res) of
              "2012" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3254,7 +3674,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-212'(_Config) ->
@@ -3263,7 +3685,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2\n    ",
+   Exp = "
+      2
+    ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3273,7 +3697,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-214'(_Config) ->
@@ -3282,7 +3708,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3292,7 +3720,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-216'(_Config) ->
@@ -3301,7 +3731,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      PT0S\n    ",
+   Exp = "
+      PT0S
+    ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3311,7 +3743,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-218'(_Config) ->
@@ -3320,7 +3754,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2\n    ",
+   Exp = "
+      2
+    ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3330,7 +3766,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-220'(_Config) ->
@@ -3339,7 +3777,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3349,7 +3789,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-222'(_Config) ->
@@ -3358,7 +3800,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0\n    ",
+   Exp = "
+      0
+    ",
    case xqerl_test:string_value(Res) of
              "0" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3368,7 +3812,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-224'(_Config) ->
@@ -3377,7 +3823,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      PT0S\n    ",
+   Exp = "
+      PT0S
+    ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3387,7 +3835,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-226'(_Config) ->
@@ -3396,7 +3846,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:dateTime\n    ",
+   Exp = "
+      xs:dateTime
+    ",
    case xqerl_types:type(Res) of
            'xs:dateTime' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -3406,7 +3858,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-228'(_Config) ->
@@ -3415,7 +3869,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1969-12-31T14:00:00-10:00\n    ",
+   Exp = "
+      1969-12-31T14:00:00-10:00
+    ",
    case xqerl_test:string_value(Res) of
              "1969-12-31T14:00:00-10:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3425,7 +3881,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-230'(_Config) ->
@@ -3434,7 +3892,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:date\n    ",
+   Exp = "
+      xs:date
+    ",
    case xqerl_types:type(Res) of
            'xs:date' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -3444,7 +3904,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-232'(_Config) ->
@@ -3453,7 +3915,10 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1969-12-31-10:00\n\n    ",
+   Exp = "
+      1969-12-31-10:00
+
+    ",
    case xqerl_test:string_value(Res) of
              "1969-12-31-10:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3463,7 +3928,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-234'(_Config) ->
@@ -3472,7 +3939,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:time\n    ",
+   Exp = "
+      xs:time
+    ",
    case xqerl_types:type(Res) of
            'xs:time' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -3482,7 +3951,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-236'(_Config) ->
@@ -3491,7 +3962,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      14:00:00-10:00\n    ",
+   Exp = "
+      14:00:00-10:00
+    ",
    case xqerl_test:string_value(Res) of
              "14:00:00-10:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3501,7 +3974,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-238'(_Config) ->
@@ -3510,7 +3985,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string\n    ",
+   Exp = "
+      xs:string
+    ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -3520,7 +3997,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-240'(_Config) ->
@@ -3529,7 +4008,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2012\n    ",
+   Exp = "
+      2012
+    ",
    case xqerl_test:string_value(Res) of
              "2012" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3539,7 +4020,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-242'(_Config) ->
@@ -3548,7 +4031,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string\n    ",
+   Exp = "
+      xs:string
+    ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -3558,7 +4043,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-244'(_Config) ->
@@ -3567,7 +4054,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2012\n    ",
+   Exp = "
+      2012
+    ",
    case xqerl_test:string_value(Res) of
              "2012" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3577,7 +4066,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-246'(_Config) ->
@@ -3586,7 +4077,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string\n    ",
+   Exp = "
+      xs:string
+    ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -3596,7 +4089,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-248'(_Config) ->
@@ -3605,7 +4100,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      00\n    ",
+   Exp = "
+      00
+    ",
    case xqerl_test:string_value(Res) of
              "00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3615,7 +4112,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-250'(_Config) ->
@@ -3625,7 +4124,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ns:local\n    ",
+   Exp = "
+      ns:local
+    ",
    case xqerl_test:string_value(Res) of
              "ns:local" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3635,7 +4136,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-252'(_Config) ->
@@ -3644,7 +4147,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ns:local\n    ",
+   Exp = "
+      ns:local
+    ",
    case xqerl_test:string_value(Res) of
              "ns:local" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3654,7 +4159,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-254'(_Config) ->
@@ -3663,7 +4170,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      foo\n    ",
+   Exp = "
+      foo
+    ",
    case xqerl_test:string_value(Res) of
              "foo" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3673,7 +4182,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-256'(_Config) ->
@@ -3682,7 +4193,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      bar\n    ",
+   Exp = "
+      bar
+    ",
    case xqerl_test:string_value(Res) of
              "bar" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3692,7 +4205,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-258'(_Config) ->
@@ -3701,7 +4216,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.example.org\n    ",
+   Exp = "
+      http://www.example.org
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3711,7 +4228,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-260'(_Config) ->
@@ -3721,7 +4240,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.example.org/\n    ",
+   Exp = "
+      http://www.example.org/
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3731,7 +4252,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-262'(_Config) ->
@@ -3741,7 +4264,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xml\n    ",
+   Exp = "
+      xml
+    ",
    case xqerl_test:string_value(Res) of
              "xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3751,7 +4276,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-264'(_Config) ->
@@ -3761,7 +4288,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      root\n    ",
+   Exp = "
+      root
+    ",
    case xqerl_test:string_value(Res) of
              "root" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3771,7 +4300,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-266'(_Config) ->
@@ -3781,7 +4312,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      root\n    ",
+   Exp = "
+      root
+    ",
    case xqerl_test:string_value(Res) of
              "root" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3791,7 +4324,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-268'(_Config) ->
@@ -3801,7 +4336,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      root\n    ",
+   Exp = "
+      root
+    ",
    case xqerl_test:string_value(Res) of
              "root" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3811,7 +4348,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-270'(_Config) ->
@@ -3821,7 +4360,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      root\n    ",
+   Exp = "
+      root
+    ",
    case xqerl_test:string_value(Res) of
              "root" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3831,7 +4372,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-272'(_Config) ->
@@ -3841,7 +4384,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.example.org/\n    ",
+   Exp = "
+      http://www.example.org/
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3851,7 +4396,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-274'(_Config) ->
@@ -3861,7 +4408,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.example.org/\n    ",
+   Exp = "
+      http://www.example.org/
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3871,7 +4420,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-276'(_Config) ->
@@ -3881,7 +4432,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-277'(_Config) ->
@@ -3890,7 +4443,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-278'(_Config) ->
@@ -3900,7 +4455,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-279'(_Config) ->
@@ -3909,7 +4466,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-280'(_Config) ->
@@ -3919,7 +4478,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      document-node()\n    ",
+   Exp = "
+      document-node()
+    ",
    case xqerl_types:type(Res) of
            'document-node' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -3929,7 +4490,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-282'(_Config) ->
@@ -3938,7 +4501,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-283'(_Config) ->
@@ -3947,7 +4512,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-284'(_Config) ->
@@ -3957,7 +4524,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      /\n    ",
+   Exp = "
+      /
+    ",
    case xqerl_test:string_value(Res) of
              "/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3967,7 +4536,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-286'(_Config) ->
@@ -3977,7 +4548,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      /\n    ",
+   Exp = "
+      /
+    ",
    case xqerl_test:string_value(Res) of
              "/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -3987,7 +4560,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-288'(_Config) ->
@@ -3997,7 +4572,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-289'(_Config) ->
@@ -4006,7 +4583,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-290'(_Config) ->
@@ -4016,7 +4595,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-291'(_Config) ->
@@ -4025,7 +4606,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-292'(_Config) ->
@@ -4034,7 +4617,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-293'(_Config) ->
@@ -4043,7 +4628,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-294'(_Config) ->
@@ -4052,7 +4639,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-295'(_Config) ->
@@ -4061,7 +4650,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-296'(_Config) ->
@@ -4070,7 +4661,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-297'(_Config) ->
@@ -4079,7 +4672,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-298'(_Config) ->
@@ -4088,7 +4683,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-299'(_Config) ->
@@ -4097,7 +4694,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-300'(_Config) ->
@@ -4106,7 +4705,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4116,7 +4717,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-302'(_Config) ->
@@ -4125,7 +4728,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      true\n    ",
+   Exp = "
+      true
+    ",
    case xqerl_test:string_value(Res) of
              "true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4135,7 +4740,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-304'(_Config) ->
@@ -4144,7 +4751,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1 a b c 2 3\n    ",
+   Exp = "
+      1 a b c 2 3
+    ",
    case xqerl_test:string_value(Res) of
              "1 a b c 2 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4154,7 +4763,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-306'(_Config) ->
@@ -4163,7 +4774,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      a c\n    ",
+   Exp = "
+      a c
+    ",
    case xqerl_test:string_value(Res) of
              "a c" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4173,7 +4786,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-308'(_Config) ->
@@ -4182,7 +4797,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3 2 1\n    ",
+   Exp = "
+      3 2 1
+    ",
    case xqerl_test:string_value(Res) of
              "3 2 1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4192,7 +4809,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-310'(_Config) ->
@@ -4201,7 +4820,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      true\n    ",
+   Exp = "
+      true
+    ",
    case xqerl_test:string_value(Res) of
              "true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4211,7 +4832,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-312'(_Config) ->
@@ -4220,7 +4843,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4230,7 +4855,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-314'(_Config) ->
@@ -4239,7 +4866,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4249,7 +4878,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-316'(_Config) ->
@@ -4258,7 +4889,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4268,7 +4901,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-318'(_Config) ->
@@ -4277,7 +4912,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4287,7 +4924,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-320'(_Config) ->
@@ -4296,7 +4935,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2\n    ",
+   Exp = "
+      2
+    ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4306,7 +4947,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-322'(_Config) ->
@@ -4315,7 +4958,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2\n    ",
+   Exp = "
+      2
+    ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4325,7 +4970,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-324'(_Config) ->
@@ -4334,7 +4981,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-325'(_Config) ->
@@ -4343,7 +4992,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-326'(_Config) ->
@@ -4352,7 +5003,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-327'(_Config) ->
@@ -4361,7 +5014,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-328'(_Config) ->
@@ -4370,7 +5025,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4380,7 +5037,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-330'(_Config) ->
@@ -4389,7 +5048,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4399,7 +5060,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-332'(_Config) ->
@@ -4408,7 +5071,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4418,7 +5083,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-334'(_Config) ->
@@ -4427,7 +5094,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2\n    ",
+   Exp = "
+      2
+    ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4437,7 +5106,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-336'(_Config) ->
@@ -4446,7 +5117,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2\n    ",
+   Exp = "
+      2
+    ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4456,7 +5129,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-338'(_Config) ->
@@ -4465,7 +5140,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3\n    ",
+   Exp = "
+      3
+    ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4475,7 +5152,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-340'(_Config) ->
@@ -4484,7 +5163,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3\n    ",
+   Exp = "
+      3
+    ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4494,7 +5175,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-342'(_Config) ->
@@ -4503,7 +5186,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4513,7 +5198,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-344'(_Config) ->
@@ -4522,7 +5209,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4532,7 +5221,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-346'(_Config) ->
@@ -4541,7 +5232,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3\n    ",
+   Exp = "
+      3
+    ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4551,7 +5244,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-348'(_Config) ->
@@ -4560,7 +5255,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3\n    ",
+   Exp = "
+      3
+    ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -4570,7 +5267,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-350'(_Config) ->
@@ -4580,7 +5279,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-351'(_Config) ->
@@ -4589,7 +5290,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-352'(_Config) ->
@@ -4599,7 +5302,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-353'(_Config) ->
@@ -4608,7 +5313,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-354'(_Config) ->
@@ -4618,7 +5325,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-355'(_Config) ->
@@ -4627,7 +5336,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-356'(_Config) ->
@@ -4637,7 +5348,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-357'(_Config) ->
@@ -4646,7 +5359,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-358'(_Config) ->
@@ -4656,7 +5371,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-359'(_Config) ->
@@ -4665,7 +5382,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-360'(_Config) ->
@@ -4675,7 +5394,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-361'(_Config) ->
@@ -4684,7 +5405,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-362'(_Config) ->
@@ -4694,7 +5417,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string\n    ",
+   Exp = "
+      xs:string
+    ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4704,7 +5429,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-364'(_Config) ->
@@ -4714,7 +5441,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n	xs:string\n	\"\"\n      \n    ",
+   Exp = "
+      
+	xs:string
+	\"\"
+      
+    ",
  case  begin Tst2 = xqerl:run("\"\""),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
@@ -4726,7 +5458,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-366'(_Config) ->
@@ -4736,7 +5470,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      document-node()\n    ",
+   Exp = "
+      document-node()
+    ",
    case xqerl_types:type(Res) of
            'document-node' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4746,7 +5482,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-368'(_Config) ->
@@ -4756,7 +5494,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-369'(_Config) ->
@@ -4765,7 +5505,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-370'(_Config) ->
@@ -4775,7 +5517,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      node()+\n    ",
+   Exp = "
+      node()+
+    ",
    case xqerl_types:type(Res) of
            'node+' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4785,7 +5529,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-372'(_Config) ->
@@ -4795,7 +5541,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      node()+\n    ",
+   Exp = "
+      node()+
+    ",
    case xqerl_types:type(Res) of
            'node+' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4805,7 +5553,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-374'(_Config) ->
@@ -4815,7 +5565,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:anyURI+\n    ",
+   Exp = "
+      xs:anyURI+
+    ",
    case xqerl_types:type(Res) of
            'xs:anyURI+' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4825,7 +5577,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-376'(_Config) ->
@@ -4835,7 +5589,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:anyURI+\n    ",
+   Exp = "
+      xs:anyURI+
+    ",
    case xqerl_types:type(Res) of
            'xs:anyURI+' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4845,7 +5601,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-378'(_Config) ->
@@ -4855,7 +5613,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string\n    ",
+   Exp = "
+      xs:string
+    ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4865,7 +5625,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-380'(_Config) ->
@@ -4875,7 +5637,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string\n    ",
+   Exp = "
+      xs:string
+    ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4885,7 +5649,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-382'(_Config) ->
@@ -4895,7 +5661,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string+\n    ",
+   Exp = "
+      xs:string+
+    ",
    case xqerl_types:type(Res) of
            'xs:string+' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4905,7 +5673,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-384'(_Config) ->
@@ -4915,7 +5685,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string+\n    ",
+   Exp = "
+      xs:string+
+    ",
    case xqerl_types:type(Res) of
            'xs:string+' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -4925,7 +5697,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-386'(_Config) ->
@@ -4935,7 +5709,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-387'(_Config) ->
@@ -4944,7 +5720,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-388'(_Config) ->
@@ -4954,7 +5732,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-389'(_Config) ->
@@ -4963,7 +5743,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-390'(_Config) ->
@@ -4972,7 +5754,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-391'(_Config) ->
@@ -4981,7 +5765,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-392'(_Config) ->
@@ -4990,7 +5776,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:string*\n    ",
+   Exp = "
+      xs:string*
+    ",
    case xqerl_types:type(Res) of
            'xs:string*' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5000,7 +5788,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-394'(_Config) ->
@@ -5009,7 +5799,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      node()\n    ",
+   Exp = "
+      node()
+    ",
    case xqerl_types:type(Res) of
            'node' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5019,7 +5811,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-396'(_Config) ->
@@ -5028,7 +5822,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      node()\n    ",
+   Exp = "
+      node()
+    ",
    case xqerl_types:type(Res) of
            'node' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5038,7 +5834,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-398'(_Config) ->
@@ -5047,7 +5845,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1 true\n    ",
+   Exp = "
+      1 true
+    ",
    case xqerl_test:string_value(Res) of
              "1 true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5057,7 +5857,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-400'(_Config) ->
@@ -5066,7 +5868,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1 false\n    ",
+   Exp = "
+      1 false
+    ",
    case xqerl_test:string_value(Res) of
              "1 false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5076,7 +5880,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-402'(_Config) ->
@@ -5085,7 +5891,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1 2 3\n    ",
+   Exp = "
+      1 2 3
+    ",
    case xqerl_test:string_value(Res) of
              "1 2 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5095,7 +5903,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-404'(_Config) ->
@@ -5104,7 +5914,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      3 3 3\n    ",
+   Exp = "
+      3 3 3
+    ",
    case xqerl_test:string_value(Res) of
              "3 3 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5114,7 +5926,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-406'(_Config) ->
@@ -5123,7 +5937,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:dateTime\n    ",
+   Exp = "
+      xs:dateTime
+    ",
    case xqerl_types:type(Res) of
            'xs:dateTime' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5133,7 +5949,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-408'(_Config) ->
@@ -5142,7 +5960,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:date\n    ",
+   Exp = "
+      xs:date
+    ",
    case xqerl_types:type(Res) of
            'xs:date' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5152,7 +5972,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-410'(_Config) ->
@@ -5161,7 +5983,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:time\n    ",
+   Exp = "
+      xs:time
+    ",
    case xqerl_types:type(Res) of
            'xs:time' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5171,7 +5995,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-412'(_Config) ->
@@ -5180,7 +6006,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:dayTimeDuration\n    ",
+   Exp = "
+      xs:dayTimeDuration
+    ",
    case xqerl_types:type(Res) of
            'xs:dayTimeDuration' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5190,7 +6018,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-414'(_Config) ->
@@ -5199,7 +6029,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.w3.org/2005/xpath-functions/collation/codepoint\n    ",
+   Exp = "
+      http://www.w3.org/2005/xpath-functions/collation/codepoint
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/2005/xpath-functions/collation/codepoint" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5209,7 +6041,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-416'(_Config) ->
@@ -5227,7 +6061,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:anyURI?\n    ",
+   Exp = "
+      xs:anyURI?
+    ",
    case xqerl_types:type(Res) of
            'xs:anyURI?' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -5237,7 +6073,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-418'(_Config) ->
@@ -5246,7 +6084,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-419'(_Config) ->
@@ -5255,7 +6095,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-420'(_Config) ->
@@ -5264,7 +6106,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      fn:QName('http://www.w3.org/2005/xpath-functions', 'fn:abs')\n    ",
+   Exp = "
+      fn:QName('http://www.w3.org/2005/xpath-functions', 'fn:abs')
+    ",
  Tst = xqerl:run("fn:QName('http://www.w3.org/2005/xpath-functions', 'fn:abs')"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -5276,7 +6120,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-422'(_Config) ->
@@ -5285,7 +6131,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5295,7 +6143,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-424'(_Config) ->
@@ -5304,7 +6154,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      (23, 29)\n    ",
+   Exp = "
+      (23, 29)
+    ",
  Tst = xqerl:run("(23, 29)"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -5316,7 +6168,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-426'(_Config) ->
@@ -5325,7 +6179,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      (2, 4, 6, 8, 10)\n    ",
+   Exp = "
+      (2, 4, 6, 8, 10)
+    ",
  Tst = xqerl:run("(2, 4, 6, 8, 10)"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -5337,7 +6193,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-428'(_Config) ->
@@ -5346,7 +6204,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      .1.2.3.4.5\n    ",
+   Exp = "
+      .1.2.3.4.5
+    ",
    case xqerl_test:string_value(Res) of
              ".1.2.3.4.5" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5356,7 +6216,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-430'(_Config) ->
@@ -5365,7 +6227,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1.2.3.4.5.\n    ",
+   Exp = "
+      1.2.3.4.5.
+    ",
    case xqerl_test:string_value(Res) of
              "1.2.3.4.5." -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5375,7 +6239,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-432'(_Config) ->
@@ -5384,7 +6250,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      (\"ax\", \"by\", \"cz\")\n    ",
+   Exp = "
+      (\"ax\", \"by\", \"cz\")
+    ",
  Tst = xqerl:run("(\"ax\", \"by\", \"cz\")"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -5396,7 +6264,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-434'(_Config) ->
@@ -5405,7 +6275,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      string\n    ",
+   Exp = "
+      string
+    ",
    case xqerl_test:string_value(Res) of
              "string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5415,7 +6287,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-436'(_Config) ->
@@ -5424,7 +6298,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1970-01-02T04:05:06Z\n    ",
+   Exp = "
+      1970-01-02T04:05:06Z
+    ",
    case xqerl_test:string_value(Res) of
              "1970-01-02T04:05:06Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5434,7 +6310,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-438'(_Config) ->
@@ -5443,7 +6321,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1970-01-02Z\n    ",
+   Exp = "
+      1970-01-02Z
+    ",
    case xqerl_test:string_value(Res) of
              "1970-01-02Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5453,7 +6333,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-440'(_Config) ->
@@ -5462,7 +6344,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      01:02:03Z\n    ",
+   Exp = "
+      01:02:03Z
+    ",
    case xqerl_test:string_value(Res) of
              "01:02:03Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5472,7 +6356,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-442'(_Config) ->
@@ -5481,7 +6367,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      P5Y2M10DT15H\n    ",
+   Exp = "
+      P5Y2M10DT15H
+    ",
    case xqerl_test:string_value(Res) of
              "P5Y2M10DT15H" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5491,7 +6379,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-444'(_Config) ->
@@ -5500,7 +6390,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      P1Y\n    ",
+   Exp = "
+      P1Y
+    ",
    case xqerl_test:string_value(Res) of
              "P1Y" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5510,7 +6402,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-446'(_Config) ->
@@ -5519,7 +6413,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      PT15H\n    ",
+   Exp = "
+      PT15H
+    ",
    case xqerl_test:string_value(Res) of
              "PT15H" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5529,7 +6425,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-448'(_Config) ->
@@ -5538,7 +6436,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5548,7 +6448,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-450'(_Config) ->
@@ -5557,7 +6459,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5567,7 +6471,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-452'(_Config) ->
@@ -5576,7 +6482,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5586,7 +6494,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-454'(_Config) ->
@@ -5595,7 +6505,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5605,7 +6517,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-456'(_Config) ->
@@ -5614,7 +6528,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      -1\n    ",
+   Exp = "
+      -1
+    ",
    case xqerl_test:string_value(Res) of
              "-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5624,7 +6540,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-458'(_Config) ->
@@ -5633,7 +6551,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      -1\n    ",
+   Exp = "
+      -1
+    ",
    case xqerl_test:string_value(Res) of
              "-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5643,7 +6563,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-460'(_Config) ->
@@ -5652,7 +6574,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5662,7 +6586,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-462'(_Config) ->
@@ -5671,7 +6597,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5681,7 +6609,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-464'(_Config) ->
@@ -5690,7 +6620,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5700,7 +6632,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-466'(_Config) ->
@@ -5709,7 +6643,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5719,7 +6655,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-468'(_Config) ->
@@ -5728,7 +6666,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5738,7 +6678,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-470'(_Config) ->
@@ -5747,7 +6689,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5757,7 +6701,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-472'(_Config) ->
@@ -5766,7 +6712,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5776,7 +6724,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-474'(_Config) ->
@@ -5785,7 +6735,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5795,7 +6747,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-476'(_Config) ->
@@ -5804,7 +6758,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5814,7 +6770,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-478'(_Config) ->
@@ -5823,7 +6781,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5833,7 +6793,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-480'(_Config) ->
@@ -5842,7 +6804,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      1\n    ",
+   Exp = "
+      1
+    ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5852,7 +6816,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-482'(_Config) ->
@@ -5861,7 +6827,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2001-10Z\n    ",
+   Exp = "
+      2001-10Z
+    ",
    case xqerl_test:string_value(Res) of
              "2001-10Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5871,7 +6839,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-484'(_Config) ->
@@ -5880,7 +6850,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2012Z\n    ",
+   Exp = "
+      2012Z
+    ",
    case xqerl_test:string_value(Res) of
              "2012Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5890,7 +6862,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-486'(_Config) ->
@@ -5899,7 +6873,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      --11-01Z\n    ",
+   Exp = "
+      --11-01Z
+    ",
    case xqerl_test:string_value(Res) of
              "--11-01Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5909,7 +6885,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-488'(_Config) ->
@@ -5918,7 +6896,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ---01Z\n    ",
+   Exp = "
+      ---01Z
+    ",
    case xqerl_test:string_value(Res) of
              "---01Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5928,7 +6908,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-490'(_Config) ->
@@ -5937,7 +6919,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      --11Z\n    ",
+   Exp = "
+      --11Z
+    ",
    case xqerl_test:string_value(Res) of
              "--11Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5947,7 +6931,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-492'(_Config) ->
@@ -5956,7 +6942,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      string\n    ",
+   Exp = "
+      string
+    ",
    case xqerl_test:string_value(Res) of
              "string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5966,16 +6954,21 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-494'(_Config) ->
-   Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'normalizedString'), 1)('normalized\nstring')",
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'normalizedString'), 1)('normalized
+string')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      normalized string\n    ",
+   Exp = "
+      normalized string
+    ",
    case xqerl_test:string_value(Res) of
              "normalized string" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -5985,7 +6978,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-496'(_Config) ->
@@ -5994,7 +6989,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      token\n    ",
+   Exp = "
+      token
+    ",
    case xqerl_test:string_value(Res) of
              "token" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6004,7 +7001,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-498'(_Config) ->
@@ -6013,7 +7012,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      en\n    ",
+   Exp = "
+      en
+    ",
    case xqerl_test:string_value(Res) of
              "en" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6023,7 +7024,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-500'(_Config) ->
@@ -6032,7 +7035,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      NMTOKEN\n    ",
+   Exp = "
+      NMTOKEN
+    ",
    case xqerl_test:string_value(Res) of
              "NMTOKEN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6042,7 +7047,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-502'(_Config) ->
@@ -6051,7 +7058,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      Name\n    ",
+   Exp = "
+      Name
+    ",
    case xqerl_test:string_value(Res) of
              "Name" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6061,7 +7070,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-504'(_Config) ->
@@ -6070,7 +7081,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      NCName\n    ",
+   Exp = "
+      NCName
+    ",
    case xqerl_test:string_value(Res) of
              "NCName" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6080,7 +7093,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-506'(_Config) ->
@@ -6089,7 +7104,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ID\n    ",
+   Exp = "
+      ID
+    ",
    case xqerl_test:string_value(Res) of
              "ID" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6099,7 +7116,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-508'(_Config) ->
@@ -6108,7 +7127,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      IDREF\n    ",
+   Exp = "
+      IDREF
+    ",
    case xqerl_test:string_value(Res) of
              "IDREF" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6118,7 +7139,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-510'(_Config) ->
@@ -6127,7 +7150,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ENTITY\n    ",
+   Exp = "
+      ENTITY
+    ",
    case xqerl_test:string_value(Res) of
              "ENTITY" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6137,7 +7162,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-512'(_Config) ->
@@ -6146,7 +7173,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      true\n    ",
+   Exp = "
+      true
+    ",
    case xqerl_test:string_value(Res) of
              "true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6156,7 +7185,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-514'(_Config) ->
@@ -6165,7 +7196,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      D74D35D35D35\n    ",
+   Exp = "
+      D74D35D35D35
+    ",
    case xqerl_test:string_value(Res) of
              "D74D35D35D35" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6175,7 +7208,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-516'(_Config) ->
@@ -6184,7 +7219,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      0FB7\n    ",
+   Exp = "
+      0FB7
+    ",
    case xqerl_test:string_value(Res) of
              "0FB7" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6194,7 +7231,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-518'(_Config) ->
@@ -6203,7 +7242,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      http://www.example.org/\n    ",
+   Exp = "
+      http://www.example.org/
+    ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6213,7 +7254,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-520'(_Config) ->
@@ -6222,7 +7265,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      fn:QName\n    ",
+   Exp = "
+      fn:QName
+    ",
    case xqerl_test:string_value(Res) of
              "fn:QName" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6232,17 +7277,23 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      xs:boolean\n    ",
+   Exp = "
+      xs:boolean
+    ",
    case xqerl_types:type(Res) of
            'xs:boolean' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-522'(_Config) ->
-   Qry = "\n      let $f := function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTimeStamp'), 1)\n      return if (exists($f)) then year-from-dateTime($f('2012-05-25T11:42:00+01:00')) else 2012",
+   Qry = "
+      let $f := function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTimeStamp'), 1)
+      return if (exists($f)) then year-from-dateTime($f('2012-05-25T11:42:00+01:00')) else 2012",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      2012\n    ",
+   Exp = "
+      2012
+    ",
  Tst = xqerl:run("2012"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -6254,7 +7305,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-524'(_Config) ->
@@ -6263,7 +7316,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ID1 ID2 ID3\n    ",
+   Exp = "
+      ID1 ID2 ID3
+    ",
    case xqerl_test:string_value(Res) of
              "ID1 ID2 ID3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6273,7 +7328,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-526'(_Config) ->
@@ -6282,7 +7339,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      NMTOKEN1 NMTOKEN2 NMTOKEN3\n    ",
+   Exp = "
+      NMTOKEN1 NMTOKEN2 NMTOKEN3
+    ",
    case xqerl_test:string_value(Res) of
              "NMTOKEN1 NMTOKEN2 NMTOKEN3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6292,7 +7351,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-528'(_Config) ->
@@ -6301,7 +7362,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      ENTITY1 ENTITY2 ENTITY3\n    ",
+   Exp = "
+      ENTITY1 ENTITY2 ENTITY3
+    ",
    case xqerl_test:string_value(Res) of
              "ENTITY1 ENTITY2 ENTITY3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6311,7 +7374,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-530'(_Config) ->
@@ -6320,7 +7385,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-601'(_Config) ->
@@ -6329,7 +7396,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -6341,7 +7410,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abc\n      ",
+   Exp = "
+         abc
+      ",
    case xqerl_test:string_value(Res) of
              "abc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -6351,7 +7422,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -6363,80 +7436,119 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:time(\"12:30:00Z\")\n      ",
+   Exp = "
+         xs:time(\"12:30:00Z\")
+      ",
  Tst = xqerl:run("xs:time(\"12:30:00Z\")"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-605'(_Config) ->
-   Qry = "\n        xquery version \"3.0\";\n      	declare function local:square($i as xs:integer) as xs:integer { $i*$i };\n        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(13)\n      ",
+   Qry = "
+        xquery version \"3.0\";
+      	declare function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(13)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         169\n      ",
+   Exp = "
+         169
+      ",
  Tst = xqerl:run("169"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-606'(_Config) ->
-   Qry = "\n        xquery version \"3.0\";\n      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };\n        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(13)\n      ",
+   Qry = "
+        xquery version \"3.0\";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(13)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         169\n      ",
+   Exp = "
+         169
+      ",
  Tst = xqerl:run("169"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-function-lookup-607'(_Config) ->
-   Qry = "\n        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"cube\"), 1)\n      ",
+   Qry = "
+        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"cube\"), 1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-608'(_Config) ->
-   Qry = "\n        function-lookup(QName(\"\", \"round\"), 2)\n      ",
+   Qry = "
+        function-lookup(QName(\"\", \"round\"), 2)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-function-lookup-609'(_Config) ->
-   Qry = "\n        function-lookup(QName(\"http://www.w3.org/2005/xpath-functions\", \"round\"), 2) ! \n                   (function-name(.) ! (namespace-uri-from-QName(.), local-name-from-QName(.)), function-arity(.))\n      ",
+   Qry = "
+        function-lookup(QName(\"http://www.w3.org/2005/xpath-functions\", \"round\"), 2) ! 
+                   (function-name(.) ! (namespace-uri-from-QName(.), local-name-from-QName(.)), function-arity(.))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.w3.org/2005/xpath-functions round 2\n      ",
+   Exp = "
+         http://www.w3.org/2005/xpath-functions round 2
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.w3.org/2005/xpath-functions round 2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-function-lookup-610'(_Config) ->
-   Qry = "\n        xquery version \"3.0\";\n      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };\n        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(13, 12)\n      ",
+   Qry = "
+        xquery version \"3.0\";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(13, 12)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-611'(_Config) ->
-   Qry = "\n        xquery version \"3.0\";\n      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };\n        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(\"banana\")\n      ",
+   Qry = "
+        xquery version \"3.0\";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"square\"), 1)(\"banana\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-612'(_Config) ->
@@ -6445,35 +7557,60 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.235\n      ",
+   Exp = "
+         1.235
+      ",
    case xqerl_test:string_value(Res) of
              "1.235" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-function-lookup-613'(_Config) ->
-   Qry = "\n        declare variable $n external := xs:QName('local:return-v');\n        declare variable $v := function-lookup($n, 0)();\n        declare function local:return-v() {$v + 1};\n        $v\n      ",
+   Qry = "
+        declare variable $n external := xs:QName('local:return-v');
+        declare variable $v := function-lookup($n, 0)();
+        declare function local:return-v() {$v + 1};
+        $v
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'fn-function-lookup-614'(_Config) ->
-   Qry = "\n        let $f := function-lookup(QName(\"http://exslt.org/dates-and-times\", \"month-abbreviation\"), 1)\n        return if (exists($f)) then $f(\"2012-02-28\") else \"not-available\"\n      ",
+   Qry = "
+        let $f := function-lookup(QName(\"http://exslt.org/dates-and-times\", \"month-abbreviation\"), 1)
+        return if (exists($f)) then $f(\"2012-02-28\") else \"not-available\"
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           not-available\n           Feb\n           \n      ",
+   Exp = "
+         
+           not-available
+           Feb
+           
+      ",
  case (xqerl_test:string_value(Res) == "not-available") orelse (xqerl_test:string_value(Res) == "Feb") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-function-lookup-615'(_Config) ->
-   Qry = "\n        let $f := function-lookup(QName(\"http://exist-db.org/xquery/datetime\", \"days-in-month\"), 1)\n        return if (exists($f)) then $f(xs:date(\"2012-02-28\")) else \"not-available\"\n      ",
+   Qry = "
+        let $f := function-lookup(QName(\"http://exist-db.org/xquery/datetime\", \"days-in-month\"), 1)
+        return if (exists($f)) then $f(xs:date(\"2012-02-28\")) else \"not-available\"
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           not-available\n           29\n           \n      ",
+   Exp = "
+         
+           not-available
+           29
+           
+      ",
  case (xqerl_test:string_value(Res) == "not-available") orelse (xqerl_test:string_value(Res) == "29") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-function-lookup-701'(_Config) ->
@@ -6482,7 +7619,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-lookup-702'(_Config) ->
@@ -6491,7 +7630,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-lookup-703'(_Config) ->
@@ -6500,7 +7641,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-lookup-704'(_Config) ->
@@ -6509,7 +7652,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-lookup-705'(_Config) ->
@@ -6518,7 +7663,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-lookup-706'(_Config) ->
@@ -6527,7 +7674,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-lookup-707'(_Config) ->
@@ -6536,7 +7685,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-708'(_Config) ->
@@ -6545,7 +7696,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-709'(_Config) ->
@@ -6554,7 +7707,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-710'(_Config) ->
@@ -6563,43 +7718,75 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-711'(_Config) ->
-   Qry = "fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),\n                               if ( fn:current-dateTime() eq\n                                    fn:dateTime( fn:current-date(),\n                                                 fn:current-time() ))\n                               then ()\n                               else 1 )",
+   Qry = "fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
+                               if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then ()
+                               else 1 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-712'(_Config) ->
-   Qry = "( fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),\n                                 if (current-date() eq xs:date('1900-01-01'))\n                                 then ()\n                                 else 1 ),\n              fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),\n                                 if (current-date() eq xs:date('1900-01-01'))\n                                 then 1\n                                 else () ) )",
+   Qry = "( fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
+                                 if (current-date() eq xs:date('1900-01-01'))
+                                 then ()
+                                 else 1 ),
+              fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
+                                 if (current-date() eq xs:date('1900-01-01'))
+                                 then 1
+                                 else () ) )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  \n      ",
+   Exp = "
+	  
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-713'(_Config) ->
-   Qry = "fn:function-lookup((if ( fn:current-dateTime() eq\n                                    fn:dateTime( fn:current-date(),\n                                                 fn:current-time() ))\n                                then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')\n                                else ()),\n                               1)",
+   Qry = "fn:function-lookup((if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                                then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
+                                else ()),
+                               1)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-714'(_Config) ->
-   Qry = "( fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))\n                                  then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')\n                                  else ()), 1),\n              fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))\n                                  then ()\n                                  else fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1))",
+   Qry = "( fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
+                                  then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
+                                  else ()), 1),
+              fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
+                                  then ()
+                                  else fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  \n      ",
+   Exp = "
+	  
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-lookup-715'(_Config) ->
@@ -6608,7 +7795,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         function(*)\n      ",
+   Exp = "
+         function(*)
+      ",
    case xqerl_types:type(Res) of
            'function(*)' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.

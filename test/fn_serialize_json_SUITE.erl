@@ -200,8 +200,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         translate($result,' 	\n', '') = '{}'\n         \n      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""translate($result,' 	\n', '') = '{}'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
+   Exp = "
+         translate($result,' 	
+', '') = '{}'
+         
+      ",
+   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""translate($result,' 	
+', '') = '{}'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
@@ -211,8 +216,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         translate($result,' 	\n', '') = 'null'\n       ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""translate($result,' 	\n', '') = 'null'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
+   Exp = "
+         translate($result,' 	
+', '') = 'null'
+       ",
+   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""translate($result,' 	
+', '') = 'null'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
@@ -222,7 +231,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         number($result) = 12.5\n       ",
+   Exp = "
+         number($result) = 12.5
+       ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""number($result) = 12.5",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -233,7 +244,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true\n       ",
+   Exp = "
+         true
+       ",
    case xqerl_test:string_value(Res) of
              "true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -243,7 +256,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         false\n       ",
+   Exp = "
+         false
+       ",
    case xqerl_test:string_value(Res) of
              "false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -253,77 +268,117 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         translate($result,' 	\n', '') = '{\"abc\":23}'\n      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""translate($result,' 	\n', '') = '{\"abc\":23}'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
+   Exp = "
+         translate($result,' 	
+', '') = '{\"abc\":23}'
+      ",
+   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""translate($result,' 	
+', '') = '{\"abc\":23}'",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'fn-serialize-json-007'(_Config) ->
-   Qry = "let $r := serialize-json(map{'abc':=23, 'xyz':=49}, map{\"spec\":=\"RFC4627\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(map{'abc':=23, 'xyz':=49}, map{\"spec\":=\"RFC4627\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           starts-with($result, '{')\n           contains($result, '\"abc\":23')\n           contains($result, '\"xyz\":49')\n           ends-with($result, '}')\n           xs:string\n           1\n           parse-json($result)(\"abc\") = 23\n         \n      ",
+   Exp = "
+         
+           starts-with($result, '{')
+           contains($result, '\"abc\":23')
+           contains($result, '\"xyz\":49')
+           ends-with($result, '}')
+           xs:string
+           1
+           parse-json($result)(\"abc\") = 23
+         
+      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"starts-with($result, '{')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"contains($result, '\"abc\":23')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"contains($result, '\"xyz\":49')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"ends-with($result, '}')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"parse-json($result)(\"abc\") = 23",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-serialize-json-008'(_Config) ->
-   Qry = "let $r := serialize-json(parse-json('[1, 2, 3, \"four\", true, false, null]'), map{\"spec\":=\"RFC4627\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(parse-json('[1, 2, 3, \"four\", true, false, null]'), map{\"spec\":=\"RFC4627\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [1,2,3,\"four\",true,false,null]\n      ",
+   Exp = "
+         [1,2,3,\"four\",true,false,null]
+      ",
    case xqerl_test:string_value(Res) of
              "[1,2,3,\"four\",true,false,null]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-009'(_Config) ->
-   Qry = "let $r := serialize-json((1, 2, 3, \"four\", true(), false()), map{\"spec\":=\"RFC4627\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((1, 2, 3, \"four\", true(), false()), map{\"spec\":=\"RFC4627\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [1,2,3,\"four\",true,false]\n      ",
+   Exp = "
+         [1,2,3,\"four\",true,false]
+      ",
    case xqerl_test:string_value(Res) of
              "[1,2,3,\"four\",true,false]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-010'(_Config) ->
-   Qry = "let $r := serialize-json(parse-json('[[1, 2], [3, 4], [5, 6], [7], [], [null]]'))\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(parse-json('[[1, 2], [3, 4], [5, 6], [7], [], [null]]'))
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [[1,2],[3,4],[5,6],[7],[],[null]]\n      ",
+   Exp = "
+         [[1,2],[3,4],[5,6],[7],[],[null]]
+      ",
    case xqerl_test:string_value(Res) of
              "[[1,2],[3,4],[5,6],[7],[],[null]]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-011'(_Config) ->
-   Qry = "let $r := serialize-json(map{\"abc\":=(1 to 10)}, map{\"spec\":=\"RFC4627\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(map{\"abc\":=(1 to 10)}, map{\"spec\":=\"RFC4627\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         {\"abc\":[1,2,3,4,5,6,7,8,9,10]}\n      ",
+   Exp = "
+         {\"abc\":[1,2,3,4,5,6,7,8,9,10]}
+      ",
    case xqerl_test:string_value(Res) of
              "{\"abc\":[1,2,3,4,5,6,7,8,9,10]}" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-012'(_Config) ->
-   Qry = "let $r := serialize-json((map{\"abc\":=1},map{\"def\":=2},map{\"ghi\":=3}))\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((map{\"abc\":=1},map{\"def\":=2},map{\"ghi\":=3}))
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [{\"abc\":1},{\"def\":2},{\"ghi\":3}]\n      ",
+   Exp = "
+         [{\"abc\":1},{\"def\":2},{\"ghi\":3}]
+      ",
    case xqerl_test:string_value(Res) of
              "[{\"abc\":1},{\"def\":2},{\"ghi\":3}]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-013'(_Config) ->
-   Qry = "let $r := serialize-json((map{\"abc\":=map{\"abc\":=1}},map{\"def\":=map{\"def\":=2}},map{\"ghi\":=map{\"ghi\":=3}}), map{\"spec\":=\"RFC4627\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((map{\"abc\":=map{\"abc\":=1}},map{\"def\":=map{\"def\":=2}},map{\"ghi\":=map{\"ghi\":=3}}), map{\"spec\":=\"RFC4627\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]\n      ",
+   Exp = "
+         [{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]
+      ",
    case xqerl_test:string_value(Res) of
              "[{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -333,36 +388,53 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"\\uD834\\uDD1E\"\n      ",
+   Exp = "
+         \"\\uD834\\uDD1E\"
+      ",
    case xqerl_test:string_value(Res) of
              "\"\\uD834\\uDD1E\"" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-015'(_Config) ->
-   Qry = "let $r := serialize-json('\n', map{\"spec\":=\"ECMA-262\"})\n            return translate(normalize-space($r), 'abcdef', 'ABCDEF')",
+   Qry = "let $r := serialize-json('
+', map{\"spec\":=\"ECMA-262\"})
+            return translate(normalize-space($r), 'abcdef', 'ABCDEF')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \"\\n\"\n            \"\\u0010\"\n         \n      ",
+   Exp = "
+         
+            \"\\n\"
+            \"\\u0010\"
+         
+      ",
  case (xqerl_test:string_value(Res) == "\"\\n\"") orelse (xqerl_test:string_value(Res) == "\"\\u0010\"") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-serialize-json-016'(_Config) ->
-   Qry = "serialize-json((map{\"abc\":=map{\"abc\":=1}},map{\"def\":=map{\"def\":=2}},map{\"ghi\":=map{\"ghi\":=3}}),\n        map{\"indent\":=false()})",
+   Qry = "serialize-json((map{\"abc\":=map{\"abc\":=1}},map{\"def\":=map{\"def\":=2}},map{\"ghi\":=map{\"ghi\":=3}}),
+        map{\"indent\":=false()})",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]\n      ",
+   Exp = "
+         [{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]
+      ",
    case xqerl_test:string_value(Res) of
              "[{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-017'(_Config) ->
-   Qry = "let $r := serialize-json((map{\"abc\":=map{\"abc\":=1}},map{\"def\":=map{\"def\":=2}},map{\"ghi\":=map{\"ghi\":=3}}),\n              map{\"indent\":=true(), \"spec\":=\"RFC4627\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((map{\"abc\":=map{\"abc\":=1}},map{\"def\":=map{\"def\":=2}},map{\"ghi\":=map{\"ghi\":=3}}),
+              map{\"indent\":=true(), \"spec\":=\"RFC4627\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]\n      ",
+   Exp = "
+         [{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]
+      ",
    case xqerl_test:string_value(Res) of
              "[{\"abc\":{\"abc\":1}},{\"def\":{\"def\":2}},{\"ghi\":{\"ghi\":3}}]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -372,7 +444,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         $result eq xs:double('12.34')\n         $result instance of xs:double\n        \n      ",
+   Exp = "
+        
+         $result eq xs:double('12.34')
+         $result instance of xs:double
+        
+      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result eq xs:double('12.34')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result instance of xs:double",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-serialize-json-019'(_Config) ->
@@ -381,7 +458,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         $result eq 12.34e-30\n         $result instance of xs:double\n        \n      ",
+   Exp = "
+        
+         $result eq 12.34e-30
+         $result instance of xs:double
+        
+      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result eq 12.34e-30",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result instance of xs:double",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-serialize-json-020'(_Config) ->
@@ -390,7 +472,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         $result eq '\"abc\\\"def\"'\n         $result instance of xs:string\n        \n      ",
+   Exp = "
+        
+         $result eq '\"abc\\\"def\"'
+         $result instance of xs:string
+        
+      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result eq '\"abc\\\"def\"'",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-serialize-json-021'(_Config) ->
@@ -399,61 +486,88 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         $result eq '\"abc\\\\def\"'\n         $result instance of xs:string\n        \n      ",
+   Exp = "
+        
+         $result eq '\"abc\\\\def\"'
+         $result instance of xs:string
+        
+      ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result eq '\"abc\\\\def\"'",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result instance of xs:string",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fn-serialize-json-022'(_Config) ->
-   Qry = "let $r := serialize-json((number('NaN'), number('INF'), number('-INF')))\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((number('NaN'), number('INF'), number('-INF')))
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        [\"NaN\",\"INF\",\"-INF\"]\n      ",
+   Exp = "
+        [\"NaN\",\"INF\",\"-INF\"]
+      ",
    case xqerl_test:string_value(Res) of
              "[\"NaN\",\"INF\",\"-INF\"]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-023'(_Config) ->
-   Qry = "let $r := serialize-json((0,0,xs:untypedAtomic(\"abcd\")))\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((0,0,xs:untypedAtomic(\"abcd\")))
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        [0,0,\"abcd\"]\n      ",
+   Exp = "
+        [0,0,\"abcd\"]
+      ",
    case xqerl_test:string_value(Res) of
              "[0,0,\"abcd\"]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-024'(_Config) ->
-   Qry = "let $r := serialize-json(map{1:=\"a\",2:=\"b\",4:=\"d\",10:=\"j\",7:=\"g\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(map{1:=\"a\",2:=\"b\",4:=\"d\",10:=\"j\",7:=\"g\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        [\"a\",\"b\",null,\"d\",null,null,\"g\",null,null,\"j\"]\n      ",
+   Exp = "
+        [\"a\",\"b\",null,\"d\",null,null,\"g\",null,null,\"j\"]
+      ",
    case xqerl_test:string_value(Res) of
              "[\"a\",\"b\",null,\"d\",null,null,\"g\",null,null,\"j\"]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-100'(_Config) ->
-   Qry = "let $r := serialize-json((0,0,xs:date('2011-04-06')), map{\"fallback\":=function($v){string($v)}})\n        return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((0,0,xs:date('2011-04-06')), map{\"fallback\":=function($v){string($v)}})
+        return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        [0,0,\"2011-04-06\"]\n      ",
+   Exp = "
+        [0,0,\"2011-04-06\"]
+      ",
    case xqerl_test:string_value(Res) of
              "[0,0,\"2011-04-06\"]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-101'(_Config) ->
-   Qry = "let $r := serialize-json(map{\"a\":=xs:date('2011-04-06')}, map{\"fallback\":=function($v){string($v)}})\n        return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(map{\"a\":=xs:date('2011-04-06')}, map{\"fallback\":=function($v){string($v)}})
+        return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        {\"a\":\"2011-04-06\"}\n      ",
+   Exp = "
+        {\"a\":\"2011-04-06\"}
+      ",
    case xqerl_test:string_value(Res) of
              "{\"a\":\"2011-04-06\"}" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-102'(_Config) ->
-   Qry = "let $r := serialize-json(map{\"a\":=doc($uri)}, map{\"fallback\":=function($v){serialize($v)}})\n        return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(map{\"a\":=doc($uri)}, map{\"fallback\":=function($v){serialize($v)}})
+        return translate($r,' 	
+', '')",
    Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/serialize-json/doc001.xml","","http://www.w3.org/fots/serialize-json/doc001.xml"}]},
 {schemas, []},
 {collections, []},
@@ -467,27 +581,41 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        {\"a\":\"<?xmlversion=\\\"1.0\\\"encoding=\\\"UTF-8\\\"?><a>text</a>\"}\n      ",
+   Exp = "
+        {\"a\":\"<?xmlversion=\\\"1.0\\\"encoding=\\\"UTF-8\\\"?><a>text</a>\"}
+      ",
    case xqerl_test:string_value(Res) of
              "{\"a\":\"<?xmlversion=\\\"1.0\\\"encoding=\\\"UTF-8\\\"?><a>text</a>\"}" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-103'(_Config) ->
-   Qry = "let $r := serialize-json((0,0,map{true():=\"gogogo\"}), map{\"fallback\":=function($v){if ($v instance of map(xs:boolean, item()*)) then \"a-boolean-map\" else $v}})\n        return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((0,0,map{true():=\"gogogo\"}), map{\"fallback\":=function($v){if ($v instance of map(xs:boolean, item()*)) then \"a-boolean-map\" else $v}})
+        return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        [0,0,\"a-boolean-map\"]\n      ",
+   Exp = "
+        [0,0,\"a-boolean-map\"]
+      ",
    case xqerl_test:string_value(Res) of
              "[0,0,\"a-boolean-map\"]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-serialize-json-104'(_Config) ->
-   Qry = "let $r := serialize-json((0,0,map{false():=map{false():=\"ok\"}}), \n           map{\"fallback\":=function($v){\n                 if ($v instance of map(xs:boolean, item()*)) \n                 then map:new(for $k in map:keys($v) return map:entry(string($k), map:get($v, $k)))  \n                 else $v}})\n        return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json((0,0,map{false():=map{false():=\"ok\"}}), 
+           map{\"fallback\":=function($v){
+                 if ($v instance of map(xs:boolean, item()*)) 
+                 then map:new(for $k in map:keys($v) return map:entry(string($k), map:get($v, $k)))  
+                 else $v}})
+        return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        [0,0,{\"false\":{\"false\":\"ok\"}}]\n      ",
+   Exp = "
+        [0,0,{\"false\":{\"false\":\"ok\"}}]
+      ",
    case xqerl_test:string_value(Res) of
              "[0,0,{\"false\":{\"false\":\"ok\"}}]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -497,7 +625,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-902'(_Config) ->
@@ -506,7 +636,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-903'(_Config) ->
@@ -515,7 +647,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-904'(_Config) ->
@@ -524,7 +658,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-905'(_Config) ->
@@ -533,7 +669,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-906'(_Config) ->
@@ -542,7 +680,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-907'(_Config) ->
@@ -551,7 +691,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-908'(_Config) ->
@@ -560,25 +702,35 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-909'(_Config) ->
-   Qry = "let $r := serialize-json(map{1:=\"a\",2:=\"b\",4:=\"d\",10:=\"j\",7:=\"g\",-1:=\"$$$\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(map{1:=\"a\",2:=\"b\",4:=\"d\",10:=\"j\",7:=\"g\",-1:=\"$$$\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-910'(_Config) ->
-   Qry = "let $r := serialize-json(map{1:=\"a\",2:=\"b\",4:=\"d\",10:=\"j\",7:=\"g\",0:=\"$$$\"})\n            return translate($r,' 	\n', '')",
+   Qry = "let $r := serialize-json(map{1:=\"a\",2:=\"b\",4:=\"d\",10:=\"j\",7:=\"g\",0:=\"$$$\"})
+            return translate($r,' 	
+', '')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.
 'fn-serialize-json-911'(_Config) ->
@@ -587,6 +739,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOJS0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOJS0002'}) end.

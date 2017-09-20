@@ -174,7 +174,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0065" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0065'}) end.
 'orderDecl-2'(_Config) ->
@@ -183,7 +185,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <b>1</b><c>2</c>\n      ",
+   Exp = "
+         <b>1</b><c>2</c>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b>1</b><c>2</c>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -198,7 +202,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <a>1</a><b>2</b>\n            <b>2</b><a>1</a>\n         \n      ",
+   Exp = "
+         
+            <a>1</a><b>2</b>
+            <b>2</b><a>1</a>
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<a>1</a><b>2</b>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<b>2</b><a>1</a>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'orderDecl-4'(_Config) ->
@@ -208,11 +217,22 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>"++"</x>)")) == "true" of
+   Exp = "
+         <overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>" of
+              case ResXml == "<overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -224,11 +244,22 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>"++"</x>)")) == "true" of
+   Exp = "
+         <overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>" of
+              case ResXml == "<overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -240,11 +271,25 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>"++"</x>)")) == "true" of
+   Exp = "
+         <employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>" of
+              case ResXml == "<employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -256,11 +301,25 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>"++"</x>)")) == "true" of
+   Exp = "
+         <employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>" of
+              case ResXml == "<employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -272,7 +331,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>\n      ",
+   Exp = "
+         <hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -288,7 +349,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>\n      ",
+   Exp = "
+         <hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -304,7 +367,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>\n      ",
+   Exp = "
+         <hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -320,7 +385,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>\n      ",
+   Exp = "
+         <hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -336,7 +403,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>\n      ",
+   Exp = "
+         <hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -352,7 +421,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>\n      ",
+   Exp = "
+         <hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -368,7 +439,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <hours>20</hours><hours>40</hours>\n            <hours>40</hours><hours>20</hours>\n         \n      ",
+   Exp = "
+         
+            <hours>20</hours><hours>40</hours>
+            <hours>40</hours><hours>20</hours>
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<hours>20</hours><hours>40</hours>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<hours>40</hours><hours>20</hours>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'orderDecl-15'(_Config) ->
@@ -378,7 +454,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <day>Monday</day><day>Tuesday</day>\n      ",
+   Exp = "
+         <day>Monday</day><day>Tuesday</day>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<day>Monday</day><day>Tuesday</day>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -394,7 +472,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <day>Monday</day><day>Tuesday</day>\n            <day>Tuesday</day><day>Monday</day>\n         \n      ",
+   Exp = "
+         
+            <day>Monday</day><day>Tuesday</day>
+            <day>Tuesday</day><day>Monday</day>
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<day>Monday</day><day>Tuesday</day>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<day>Tuesday</day><day>Monday</day>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'orderDecl-17'(_Config) ->
@@ -404,7 +487,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <day>Monday</day><day>Tuesday</day>\n      ",
+   Exp = "
+         <day>Monday</day><day>Tuesday</day>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<day>Monday</day><day>Tuesday</day>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -420,7 +505,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <day>Monday</day><day>Tuesday</day>\n            <day>Tuesday</day><day>Monday</day>\n         \n      ",
+   Exp = "
+         
+            <day>Monday</day><day>Tuesday</day>
+            <day>Tuesday</day><day>Monday</day>
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<day>Monday</day><day>Tuesday</day>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<day>Tuesday</day><day>Monday</day>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'orderDecl-20'(_Config) ->
@@ -430,7 +520,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <day>Monday</day><day>Tuesday</day>\n      ",
+   Exp = "
+         <day>Monday</day><day>Tuesday</day>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<day>Monday</day><day>Tuesday</day>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -446,11 +538,22 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>"++"</x>)")) == "true" of
+   Exp = "
+         <overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<overtime>\n     <day>Monday</day>\n     <day>Tuesday</day>\n   </overtime>" of
+              case ResXml == "<overtime>
+     <day>Monday</day>
+     <day>Tuesday</day>
+   </overtime>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -462,7 +565,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <day>Tuesday</day>\n            \n         \n      ",
+   Exp = "
+         
+            <day>Tuesday</day>
+            
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<day>Tuesday</day>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0010") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'orderDecl-23'(_Config) ->
@@ -472,7 +580,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <day>Monday</day><day>Tuesday</day>\n      ",
+   Exp = "
+         <day>Monday</day><day>Tuesday</day>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<day>Monday</day><day>Tuesday</day>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -487,7 +597,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DefaultOrderingProlog-2'(_Config) ->
@@ -496,7 +608,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DefaultOrderingProlog-3'(_Config) ->
@@ -505,7 +619,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0065" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0065'}) end.
 'K2-DefaultOrderingProlog-1'(_Config) ->
@@ -514,7 +630,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-DefaultOrderingProlog-2'(_Config) ->
@@ -523,6 +641,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.

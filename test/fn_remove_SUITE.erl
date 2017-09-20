@@ -216,7 +216,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"b\", \"c\"\n      ",
+   Exp = "
+         \"b\", \"c\"
+      ",
  Tst = xqerl:run("\"b\", \"c\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -228,7 +230,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"a\", \"b\", \"c\"\n      ",
+   Exp = "
+         \"a\", \"b\", \"c\"
+      ",
  Tst = xqerl:run("\"a\", \"b\", \"c\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -240,7 +244,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"a\", \"b\", true()\n      ",
+   Exp = "
+         \"a\", \"b\", true()
+      ",
  Tst = xqerl:run("\"a\", \"b\", true()"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -252,7 +258,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"xyz\", \"b\"\n      ",
+   Exp = "
+         \"xyz\", \"b\"
+      ",
  Tst = xqerl:run("\"xyz\", \"b\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -264,7 +272,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"www.example.com\", \"\", \"b\"\n      ",
+   Exp = "
+         \"www.example.com\", \"\", \"b\"
+      ",
  Tst = xqerl:run("\"www.example.com\", \"\", \"b\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -276,7 +286,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"www.example.com\", \"a\", \"\",  \"b\"\n      ",
+   Exp = "
+         \"www.example.com\", \"a\", \"\",  \"b\"
+      ",
  Tst = xqerl:run("\"www.example.com\", \"a\", \"\",  \"b\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -288,7 +300,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"www.example.com\", \"a\", \"\",  \"b\"\n      ",
+   Exp = "
+         \"www.example.com\", \"a\", \"\",  \"b\"
+      ",
  Tst = xqerl:run("\"www.example.com\", \"a\", \"\",  \"b\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -300,7 +314,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"abc\"\n      ",
+   Exp = "
+         \"abc\"
+      ",
  Tst = xqerl:run("\"abc\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -312,7 +328,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.01, 12\n      ",
+   Exp = "
+         1.01, 12
+      ",
  Tst = xqerl:run("1.01, 12"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -324,7 +342,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.01\n      ",
+   Exp = "
+         1.01
+      ",
  Tst = xqerl:run("1.01"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -336,7 +356,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:float('NaN'), 2\n      ",
+   Exp = "
+         xs:float('NaN'), 2
+      ",
  Tst = xqerl:run("xs:float('NaN'), 2"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -348,7 +370,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:float(\"-INF\"), \"abc\"\n      ",
+   Exp = "
+         xs:float(\"-INF\"), \"abc\"
+      ",
  Tst = xqerl:run("xs:float(\"-INF\"), \"abc\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -360,7 +384,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:float(\"INF\"), true()\n      ",
+   Exp = "
+         xs:float(\"INF\"), true()
+      ",
  Tst = xqerl:run("xs:float(\"INF\"), true()"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -372,7 +398,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:double(\"INF\"), 3\n      ",
+   Exp = "
+         xs:double(\"INF\"), 3
+      ",
  Tst = xqerl:run("xs:double(\"INF\"), 3"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -384,7 +412,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:double(\"NaN\"), \"a\"\n      ",
+   Exp = "
+         xs:double(\"NaN\"), \"a\"
+      ",
  Tst = xqerl:run("xs:double(\"NaN\"), \"a\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -396,7 +426,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true(), xs:double(\"-INF\")\n      ",
+   Exp = "
+         true(), xs:double(\"-INF\")
+      ",
  Tst = xqerl:run("true(), xs:double(\"-INF\")"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -408,7 +440,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-remove-mix-args-018'(_Config) ->
@@ -417,7 +451,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true(), xs:date('1993-03-31'), \"a\"\n      ",
+   Exp = "
+         true(), xs:date('1993-03-31'), \"a\"
+      ",
  Tst = xqerl:run("true(), xs:date('1993-03-31'), \"a\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -429,7 +465,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:dateTime(\"1972-12-31T00:00:00\"), false()\n      ",
+   Exp = "
+         xs:dateTime(\"1972-12-31T00:00:00\"), false()
+      ",
  Tst = xqerl:run("xs:dateTime(\"1972-12-31T00:00:00\"), false()"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -441,7 +479,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:time(\"12:30:00\"), 2\n      ",
+   Exp = "
+         xs:time(\"12:30:00\"), 2
+      ",
  Tst = xqerl:run("xs:time(\"12:30:00\"), 2"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -453,7 +493,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SeqRemoveFunc-2'(_Config) ->
@@ -462,7 +504,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-SeqRemoveFunc-3'(_Config) ->
@@ -471,7 +515,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-4'(_Config) ->
@@ -480,7 +526,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-5'(_Config) ->
@@ -489,7 +537,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-SeqRemoveFunc-6'(_Config) ->
@@ -498,7 +551,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-7'(_Config) ->
@@ -507,7 +562,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-8'(_Config) ->
@@ -516,7 +573,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-9'(_Config) ->
@@ -525,7 +584,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-10'(_Config) ->
@@ -534,7 +595,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-11'(_Config) ->
@@ -543,7 +606,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-12'(_Config) ->
@@ -552,7 +617,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"four\"\n      ",
+   Exp = "
+         \"four\"
+      ",
  Tst = xqerl:run("\"four\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -564,7 +631,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-SeqRemoveFunc-14'(_Config) ->
@@ -573,7 +645,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-SeqRemoveFunc-15'(_Config) ->
@@ -582,7 +659,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-SeqRemoveFunc-16'(_Config) ->
@@ -591,7 +673,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-SeqRemoveFunc-17'(_Config) ->
@@ -600,7 +684,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-SeqRemoveFunc-18'(_Config) ->
@@ -609,7 +695,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-SeqRemoveFunc-19'(_Config) ->
@@ -618,7 +706,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-20'(_Config) ->
@@ -627,7 +717,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-SeqRemoveFunc-21'(_Config) ->
@@ -636,7 +728,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -648,7 +742,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -660,7 +756,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -672,7 +770,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-fn-remove-001'(_Config) ->
@@ -681,7 +781,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3 5 6 7 8 9 10\n      ",
+   Exp = "
+         1 2 3 5 6 7 8 9 10
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3 5 6 7 8 9 10" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -691,7 +793,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3 5 6 7 8 9 10\n      ",
+   Exp = "
+         1 2 3 5 6 7 8 9 10
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3 5 6 7 8 9 10" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -701,17 +805,23 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2 4 6 10\n      ",
+   Exp = "
+         2 4 6 10
+      ",
    case xqerl_test:string_value(Res) of
              "2 4 6 10" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-fn-remove-004'(_Config) ->
-   Qry = "\n        remove(((1 to 10)[. mod 2 = 0],\"blah\",(1 to 10)[. mod 2 = 0]),4)\n      ",
+   Qry = "
+        remove(((1 to 10)[. mod 2 = 0],\"blah\",(1 to 10)[. mod 2 = 0]),4)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2 4 6 10 blah 2 4 6 8 10\n      ",
+   Exp = "
+         2 4 6 10 blah 2 4 6 8 10
+      ",
    case xqerl_test:string_value(Res) of
              "2 4 6 10 blah 2 4 6 8 10" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

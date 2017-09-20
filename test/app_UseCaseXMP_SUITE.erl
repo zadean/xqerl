@@ -180,13 +180,20 @@ environment('prices') ->
 {modules, []}
 ].
 'xmp-queries-results-q1'(_Config) ->
-   Qry = "\n      	<bib> { \n      		for $b in /bib/book \n      		where $b/publisher = \"Addison-Wesley\" and $b/@year > 1991 \n      		return <book year=\"{ $b/@year }\">{ $b/title }</book> } \n      	</bib>",
+   Qry = "
+      	<bib> { 
+      		for $b in /bib/book 
+      		where $b/publisher = \"Addison-Wesley\" and $b/@year > 1991 
+      		return <book year=\"{ $b/@year }\">{ $b/title }</book> } 
+      	</bib>",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <bib><book year=\"1994\"><title>TCP/IP Illustrated</title></book><book year=\"1992\"><title>Advanced Programming in the Unix environment</title></book></bib>\n      ",
+   Exp = "
+         <bib><book year=\"1994\"><title>TCP/IP Illustrated</title></book><book year=\"1992\"><title>Advanced Programming in the Unix environment</title></book></bib>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<bib><book year=\"1994\"><title>TCP/IP Illustrated</title></book><book year=\"1992\"><title>Advanced Programming in the Unix environment</title></book></bib>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -196,13 +203,19 @@ environment('prices') ->
               end
 end.
 'xmp-queries-results-q2'(_Config) ->
-   Qry = "\n      	<results> { \n      		for $b in /bib/book, $t in $b/title, $a in $b/author \n      		return <result> { $t } { $a } </result> } \n      	</results>",
+   Qry = "
+      	<results> { 
+      		for $b in /bib/book, $t in $b/title, $a in $b/author 
+      		return <result> { $t } { $a } </result> } 
+      	</results>",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author></result><result><title>Data on the Web</title><author><last>Buneman</last><first>Peter</first></author></result><result><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></result></results>\n      ",
+   Exp = "
+         <results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author></result><result><title>Data on the Web</title><author><last>Buneman</last><first>Peter</first></author></result><result><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></result></results>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author></result><result><title>Data on the Web</title><author><last>Buneman</last><first>Peter</first></author></result><result><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></result></results>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -212,13 +225,20 @@ end.
               end
 end.
 'xmp-queries-results-q3'(_Config) ->
-   Qry = "\n      	<results> { \n      		for $b in /bib/book \n      		return <result> { $b/title } { $b/author } </result> } \n      	</results>\n      ",
+   Qry = "
+      	<results> { 
+      		for $b in /bib/book 
+      		return <result> { $b/title } { $b/author } </result> } 
+      	</results>
+      ",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></result><result><title>The Economics of Technology and Content for Digital TV</title></result></results>\n      ",
+   Exp = "
+         <results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></result><result><title>The Economics of Technology and Content for Digital TV</title></result></results>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<results><result><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></result><result><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></result><result><title>The Economics of Technology and Content for Digital TV</title></result></results>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -228,13 +248,27 @@ end.
               end
 end.
 'xmp-queries-results-q4'(_Config) ->
-   Qry = "\n      	<results> { \n      		let $a := //author \n      		for $last in distinct-values($a/last), $first in distinct-values($a[last=$last]/first) \n      		order by $last, $first \n      		return <result> \n      				<author> <last>{ $last }</last> <first>{ $first }</first> </author> \n      				{ for $b in /bib/book \n      					where some $ba in $b/author satisfies ($ba/last = $last and $ba/first=$first) \n      					return $b/title } \n      			   </result> } \n      	</results>\n      ",
+   Qry = "
+      	<results> { 
+      		let $a := //author 
+      		for $last in distinct-values($a/last), $first in distinct-values($a[last=$last]/first) 
+      		order by $last, $first 
+      		return <result> 
+      				<author> <last>{ $last }</last> <first>{ $first }</first> </author> 
+      				{ for $b in /bib/book 
+      					where some $ba in $b/author satisfies ($ba/last = $last and $ba/first=$first) 
+      					return $b/title } 
+      			   </result> } 
+      	</results>
+      ",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <results><result><author><last>Abiteboul</last><first>Serge</first></author><title>Data on the Web</title></result><result><author><last>Buneman</last><first>Peter</first></author><title>Data on the Web</title></result><result><author><last>Stevens</last><first>W.</first></author><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></result><result><author><last>Suciu</last><first>Dan</first></author><title>Data on the Web</title></result></results>\n      ",
+   Exp = "
+         <results><result><author><last>Abiteboul</last><first>Serge</first></author><title>Data on the Web</title></result><result><author><last>Buneman</last><first>Peter</first></author><title>Data on the Web</title></result><result><author><last>Stevens</last><first>W.</first></author><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></result><result><author><last>Suciu</last><first>Dan</first></author><title>Data on the Web</title></result></results>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<results><result><author><last>Abiteboul</last><first>Serge</first></author><title>Data on the Web</title></result><result><author><last>Buneman</last><first>Peter</first></author><title>Data on the Web</title></result><result><author><last>Stevens</last><first>W.</first></author><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></result><result><author><last>Suciu</last><first>Dan</first></author><title>Data on the Web</title></result></results>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -244,13 +278,19 @@ end.
               end
 end.
 'xmp-queries-results-q5'(_Config) ->
-   Qry = "<books-with-prices> { \n        for $b in $bib//book, $a in $reviews//entry \n        where $b/title = $a/title \n        return <book-with-prices> { $b/title } <price-bstore2>{ $a/price/text() }</price-bstore2> <price-bstore1>{ $b/price/text() }</price-bstore1> </book-with-prices> } </books-with-prices>\n      ",
+   Qry = "<books-with-prices> { 
+        for $b in $bib//book, $a in $reviews//entry 
+        where $b/title = $a/title 
+        return <book-with-prices> { $b/title } <price-bstore2>{ $a/price/text() }</price-bstore2> <price-bstore1>{ $b/price/text() }</price-bstore1> </book-with-prices> } </books-with-prices>
+      ",
    Env = xqerl_test:handle_environment(environment('bib-and-reviews')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <books-with-prices><book-with-prices><title>TCP/IP Illustrated</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Advanced Programming in the Unix environment</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Data on the Web</title><price-bstore2>34.95</price-bstore2><price-bstore1>39.95</price-bstore1></book-with-prices></books-with-prices>\n      ",
+   Exp = "
+         <books-with-prices><book-with-prices><title>TCP/IP Illustrated</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Advanced Programming in the Unix environment</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Data on the Web</title><price-bstore2>34.95</price-bstore2><price-bstore1>39.95</price-bstore1></book-with-prices></books-with-prices>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<books-with-prices><book-with-prices><title>TCP/IP Illustrated</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Advanced Programming in the Unix environment</title><price-bstore2>65.95</price-bstore2><price-bstore1>65.95</price-bstore1></book-with-prices><book-with-prices><title>Data on the Web</title><price-bstore2>34.95</price-bstore2><price-bstore1>39.95</price-bstore1></book-with-prices></books-with-prices>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -260,13 +300,25 @@ end.
               end
 end.
 'xmp-queries-results-q6'(_Config) ->
-   Qry = "\n      	<bib> { \n      		for $b in //book \n      		where count($b/author) > 0 \n      		return <book> \n      			{ $b/title } \n      			{ for $a in $b/author[position()<=2] return $a } \n      			{ if (count($b/author) > 2) then <et-al/> else () } \n      			</book> } \n      	</bib>\n      ",
+   Qry = "
+      	<bib> { 
+      		for $b in //book 
+      		where count($b/author) > 0 
+      		return <book> 
+      			{ $b/title } 
+      			{ for $a in $b/author[position()<=2] return $a } 
+      			{ if (count($b/author) > 2) then <et-al/> else () } 
+      			</book> } 
+      	</bib>
+      ",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><et-al/></book></bib>\n      ",
+   Exp = "
+         <bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><et-al/></book></bib>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><et-al/></book></bib>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -276,13 +328,22 @@ end.
               end
 end.
 'xmp-queries-results-q7'(_Config) ->
-   Qry = "\n      	<bib> { \n      		for $b in //book \n      		where $b/publisher = \"Addison-Wesley\" and $b/@year > 1991 \n      		order by exactly-one($b/title) \n      		return <book> { $b/@year } { $b/title } </book> } \n      	</bib>\n      ",
+   Qry = "
+      	<bib> { 
+      		for $b in //book 
+      		where $b/publisher = \"Addison-Wesley\" and $b/@year > 1991 
+      		order by exactly-one($b/title) 
+      		return <book> { $b/@year } { $b/title } </book> } 
+      	</bib>
+      ",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <bib><book year=\"1992\"><title>Advanced Programming in the Unix environment</title></book><book year=\"1994\"><title>TCP/IP Illustrated</title></book></bib>\n      ",
+   Exp = "
+         <bib><book year=\"1992\"><title>Advanced Programming in the Unix environment</title></book><book year=\"1994\"><title>TCP/IP Illustrated</title></book></bib>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<bib><book year=\"1992\"><title>Advanced Programming in the Unix environment</title></book><book year=\"1994\"><title>TCP/IP Illustrated</title></book></bib>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -292,13 +353,20 @@ end.
               end
 end.
 'xmp-queries-results-q8'(_Config) ->
-   Qry = "\n      	for $b in //book \n      	let $e := $b/*[contains(string(.), \"Suciu\") and ends-with(local-name(.), \"or\")] \n      	where exists($e) \n      	return <book> { $b/title } { $e } </book>\n      ",
+   Qry = "
+      	for $b in //book 
+      	let $e := $b/*[contains(string(.), \"Suciu\") and ends-with(local-name(.), \"or\")] 
+      	where exists($e) 
+      	return <book> { $b/title } { $e } </book>
+      ",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <book><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></book>\n      ",
+   Exp = "
+         <book><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></book>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<book><title>Data on the Web</title><author><last>Suciu</last><first>Dan</first></author></book>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -308,13 +376,21 @@ end.
               end
 end.
 'xmp-queries-results-q9'(_Config) ->
-   Qry = "\n      	<results> { \n      		for $t in //(chapter | section)/title \n      		where contains(exactly-one($t/text()), \"XML\") \n      		return $t } \n      	</results>\n      ",
+   Qry = "
+      	<results> { 
+      		for $t in //(chapter | section)/title 
+      		where contains(exactly-one($t/text()), \"XML\") 
+      		return $t } 
+      	</results>
+      ",
    Env = xqerl_test:handle_environment(environment('books')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <results><title>XML</title><title>XML and Semistructured Data</title></results>\n      ",
+   Exp = "
+         <results><title>XML</title><title>XML and Semistructured Data</title></results>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<results><title>XML</title><title>XML and Semistructured Data</title></results>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -324,13 +400,22 @@ end.
               end
 end.
 'xmp-queries-results-q10'(_Config) ->
-   Qry = "\n      	<results> { \n      		let $doc := (/) \n      		for $t in distinct-values($doc//book/title) \n      		let $p := $doc//book[title = $t]/price \n      		return <minprice title=\"{ $t }\"> <price>{ min($p) }</price> </minprice> } \n      	</results>\n      ",
+   Qry = "
+      	<results> { 
+      		let $doc := (/) 
+      		for $t in distinct-values($doc//book/title) 
+      		let $p := $doc//book[title = $t]/price 
+      		return <minprice title=\"{ $t }\"> <price>{ min($p) }</price> </minprice> } 
+      	</results>
+      ",
    Env = xqerl_test:handle_environment(environment('prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <results><minprice title=\"Advanced Programming in the Unix environment\"><price>65.95</price></minprice><minprice title=\"TCP/IP Illustrated\"><price>65.95</price></minprice><minprice title=\"Data on the Web\"><price>34.95</price></minprice></results>\n      ",
+   Exp = "
+         <results><minprice title=\"Advanced Programming in the Unix environment\"><price>65.95</price></minprice><minprice title=\"TCP/IP Illustrated\"><price>65.95</price></minprice><minprice title=\"Data on the Web\"><price>34.95</price></minprice></results>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<results><minprice title=\"Advanced Programming in the Unix environment\"><price>65.95</price></minprice><minprice title=\"TCP/IP Illustrated\"><price>65.95</price></minprice><minprice title=\"Data on the Web\"><price>34.95</price></minprice></results>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -340,13 +425,23 @@ end.
               end
 end.
 'xmp-queries-results-q11'(_Config) ->
-   Qry = "\n      	<bib> { \n      		for $b in //book[author] \n      		return <book> \n      			{ $b/title } { $b/author } </book> } \n      			{ for $b in //book[editor] \n      				return <reference> { $b/title } {$b/editor/affiliation} </reference> } \n      	</bib>\n      ",
+   Qry = "
+      	<bib> { 
+      		for $b in //book[author] 
+      		return <book> 
+      			{ $b/title } { $b/author } </book> } 
+      			{ for $b in //book[editor] 
+      				return <reference> { $b/title } {$b/editor/affiliation} </reference> } 
+      	</bib>
+      ",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></book><reference><title>The Economics of Technology and Content for Digital TV</title><affiliation>CITI</affiliation></reference></bib>\n      ",
+   Exp = "
+         <bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></book><reference><title>The Economics of Technology and Content for Digital TV</title><affiliation>CITI</affiliation></reference></bib>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<bib><book><title>TCP/IP Illustrated</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Advanced Programming in the Unix environment</title><author><last>Stevens</last><first>W.</first></author></book><book><title>Data on the Web</title><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author></book><reference><title>The Economics of Technology and Content for Digital TV</title><affiliation>CITI</affiliation></reference></bib>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -356,13 +451,29 @@ end.
               end
 end.
 'xmp-queries-results-q12'(_Config) ->
-   Qry = "\n      	<bib> { \n      		for $book1 in //book, $book2 in //book \n      		let $aut1 := \n      			for $a in $book1/author \n      			order by exactly-one($a/last), exactly-one($a/first) \n      			return $a \n      		let $aut2 := \n      			for $a in $book2/author \n      			order by exactly-one($a/last), exactly-one($a/first) \n      			return $a \n      		where $book1 << $book2 and not($book1/title = $book2/title) and deep-equal($aut1, $aut2) \n      		return <book-pair> { $book1/title } { $book2/title } </book-pair> } \n      	</bib>\n      ",
+   Qry = "
+      	<bib> { 
+      		for $book1 in //book, $book2 in //book 
+      		let $aut1 := 
+      			for $a in $book1/author 
+      			order by exactly-one($a/last), exactly-one($a/first) 
+      			return $a 
+      		let $aut2 := 
+      			for $a in $book2/author 
+      			order by exactly-one($a/last), exactly-one($a/first) 
+      			return $a 
+      		where $book1 << $book2 and not($book1/title = $book2/title) and deep-equal($aut1, $aut2) 
+      		return <book-pair> { $book1/title } { $book2/title } </book-pair> } 
+      	</bib>
+      ",
    Env = xqerl_test:handle_environment(environment('bib')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <bib><book-pair><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></book-pair></bib>\n      ",
+   Exp = "
+         <bib><book-pair><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></book-pair></bib>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<bib><book-pair><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title></book-pair></bib>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 

@@ -712,7 +712,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            ABC\n            \n         \n      ",
+   Exp = "
+         
+            ABC
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "ABC") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0016") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'combined-errors-2'(_Config) ->
@@ -726,8 +731,21 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>\n            \n         \n      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<employee name=\"Jane Doe 1\" gender=\"female\">\n   <empnum>E1</empnum>\n   <pnum>P1</pnum>\n   <hours>40</hours>\n  </employee>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0010") of true -> {comment, "any-of"};
+   Exp = "
+         
+            <employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>
+            
+         
+      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<employee name=\"Jane Doe 1\" gender=\"female\">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0010") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-1'(_Config) ->
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\"; 1 eq 1",
@@ -735,7 +753,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0009") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-2'(_Config) ->
@@ -744,7 +767,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0009") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-3'(_Config) ->
@@ -753,7 +781,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0009") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-4'(_Config) ->
@@ -762,7 +795,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0009") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-5'(_Config) ->
@@ -771,7 +809,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0009") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-6'(_Config) ->
@@ -780,7 +823,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0009") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-7'(_Config) ->
@@ -789,7 +837,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-CombinedErrorCodes-9'(_Config) ->
@@ -798,7 +848,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0030") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0075") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-10'(_Config) ->
@@ -807,7 +862,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0030") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0075") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-11'(_Config) ->
@@ -816,7 +876,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0030") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0075") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-12'(_Config) ->
@@ -825,7 +890,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0030") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0075") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-13'(_Config) ->
@@ -834,7 +904,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0075") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-14'(_Config) ->
@@ -843,7 +918,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0075") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-CombinedErrorCodes-15'(_Config) ->
@@ -852,7 +932,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0075") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'FOAR0001_1'(_Config) ->
@@ -861,7 +946,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_2'(_Config) ->
@@ -870,7 +957,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_3'(_Config) ->
@@ -879,7 +968,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_4'(_Config) ->
@@ -888,7 +979,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_5'(_Config) ->
@@ -897,7 +990,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_6'(_Config) ->
@@ -906,7 +1001,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_7'(_Config) ->
@@ -915,7 +1012,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_8'(_Config) ->
@@ -924,7 +1023,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0001_9'(_Config) ->
@@ -933,7 +1034,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0001'}) end.
 'FOAR0002_1'(_Config) ->
@@ -942,7 +1045,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n           \n           INF\n        \n      ",
+   Exp = "
+        
+           
+           INF
+        
+      ",
  case (xqerl_test:string_value(Res) == "INF") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'FOAR0002_3'(_Config) ->
@@ -951,7 +1059,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0002'}) end.
 'FOAR0002_4'(_Config) ->
@@ -960,7 +1070,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOAR0002'}) end.
 'FOAR0002-5'(_Config) ->
@@ -969,7 +1081,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'FOCA0001_1'(_Config) ->
@@ -978,8 +1095,23 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           \n           \n             xs:decimal\n             \n             string-length(string($result)) = (308, 309)\n             starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')\n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n             <assert-type>xs:decimal</assert-type>\n             <!-- allow for the fact that the xs:double is approximate -->\n             <assert>string-length(string($result)) = (308, 309)</assert>\n             <assert>starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')</assert>\n           </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0001") of true -> {comment, "any-of"};
+   Exp = "
+         
+           
+           
+             xs:decimal
+             
+             string-length(string($result)) = (308, 309)
+             starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+             <assert-type>xs:decimal</assert-type>
+             <!-- allow for the fact that the xs:double is approximate -->
+             <assert>string-length(string($result)) = (308, 309)</assert>
+             <assert>starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')</assert>
+           </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0001") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'FOCA0002_1'(_Config) ->
    Qry = "xs:float('INF') cast as xs:integer",
@@ -987,7 +1119,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_2'(_Config) ->
@@ -996,7 +1130,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_3'(_Config) ->
@@ -1005,7 +1141,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_4'(_Config) ->
@@ -1014,7 +1152,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_5'(_Config) ->
@@ -1023,7 +1163,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_6'(_Config) ->
@@ -1032,7 +1174,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_7'(_Config) ->
@@ -1041,7 +1185,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_8'(_Config) ->
@@ -1050,7 +1196,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0002_9'(_Config) ->
@@ -1059,7 +1207,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0002'}) end.
 'FOCA0003_1'(_Config) ->
@@ -1068,8 +1218,23 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           \n           \n             xs:integer\n             \n             string-length(string($result)) = (308, 309)\n             starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')\n           \n           \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n             <assert-type>xs:integer</assert-type>\n             <!-- allow for the fact that the xs:double is approximate -->\n             <assert>string-length(string($result)) = (308, 309)</assert>\n             <assert>starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')</assert>\n           </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+           
+           
+             xs:integer
+             
+             string-length(string($result)) = (308, 309)
+             starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')
+           
+           
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+             <assert-type>xs:integer</assert-type>
+             <!-- allow for the fact that the xs:double is approximate -->
+             <assert>string-length(string($result)) = (308, 309)</assert>
+             <assert>starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')</assert>
+           </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'FOCA0005_1'(_Config) ->
    Qry = "xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')",
@@ -1077,7 +1242,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'FOCA0005_2'(_Config) ->
@@ -1086,7 +1253,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'FOCA0005_3'(_Config) ->
@@ -1095,7 +1264,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'FOCA0005_4'(_Config) ->
@@ -1104,7 +1275,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'FOCH0001'(_Config) ->
@@ -1113,7 +1286,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0001'}) end.
 'FOCH0002_1'(_Config) ->
@@ -1122,7 +1297,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_10'(_Config) ->
@@ -1131,7 +1308,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_2'(_Config) ->
@@ -1140,7 +1319,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_3'(_Config) ->
@@ -1149,7 +1330,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_4'(_Config) ->
@@ -1158,7 +1341,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_5'(_Config) ->
@@ -1167,7 +1352,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_6'(_Config) ->
@@ -1176,7 +1363,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_7'(_Config) ->
@@ -1185,7 +1374,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_8'(_Config) ->
@@ -1194,7 +1385,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FOCH0002_9'(_Config) ->
@@ -1203,7 +1396,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCH0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCH0002'}) end.
 'FODC0001_1'(_Config) ->
@@ -1212,7 +1407,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'FODC0001_2'(_Config) ->
@@ -1221,7 +1418,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'FODC0002_1'(_Config) ->
@@ -1230,7 +1429,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'FODC0002_2'(_Config) ->
@@ -1239,7 +1440,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'FODC0002_3'(_Config) ->
@@ -1248,7 +1451,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'FODC0002_4'(_Config) ->
@@ -1257,7 +1462,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'FODC0004'(_Config) ->
@@ -1266,7 +1473,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0004'}) end.
 'FODC0005-1'(_Config) ->
@@ -1275,7 +1484,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0005'}) end.
 'FODC0005-2'(_Config) ->
@@ -1284,7 +1495,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           \n           \n         \n      ",
+   Exp = "
+         
+           
+           
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',false}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'FODT0001-1'(_Config) ->
@@ -1293,7 +1509,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-10'(_Config) ->
@@ -1302,7 +1520,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-11'(_Config) ->
@@ -1311,7 +1531,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-12'(_Config) ->
@@ -1320,7 +1542,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-2'(_Config) ->
@@ -1329,7 +1553,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-3'(_Config) ->
@@ -1338,7 +1564,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-4'(_Config) ->
@@ -1347,7 +1575,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-5'(_Config) ->
@@ -1356,7 +1586,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-6'(_Config) ->
@@ -1365,7 +1597,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-7'(_Config) ->
@@ -1374,7 +1608,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-8'(_Config) ->
@@ -1383,7 +1619,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0001-9'(_Config) ->
@@ -1392,7 +1630,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0001'}) end.
 'FODT0002-1'(_Config) ->
@@ -1401,7 +1641,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0002-2'(_Config) ->
@@ -1410,7 +1652,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0002-3'(_Config) ->
@@ -1419,7 +1663,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0002-4'(_Config) ->
@@ -1428,7 +1674,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0002-6'(_Config) ->
@@ -1437,7 +1685,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0002-7'(_Config) ->
@@ -1446,7 +1696,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0002-8'(_Config) ->
@@ -1455,7 +1707,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0002-9'(_Config) ->
@@ -1464,7 +1718,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'FODT0003-1'(_Config) ->
@@ -1473,7 +1729,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0003'}) end.
 'FODT0003-2'(_Config) ->
@@ -1482,7 +1740,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0003'}) end.
 'FOER0000'(_Config) ->
@@ -1491,7 +1751,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOER0000'}) end.
 'FONS0004-1'(_Config) ->
@@ -1500,7 +1762,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FONS0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FONS0004'}) end.
 'FONS0004-2'(_Config) ->
@@ -1509,7 +1773,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FONS0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FONS0004'}) end.
 'FORG0001'(_Config) ->
@@ -1518,7 +1784,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0001'}) end.
 'FORG0002'(_Config) ->
@@ -1527,7 +1795,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0002'}) end.
 'FORG0003'(_Config) ->
@@ -1536,7 +1806,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0003'}) end.
 'FORG0004'(_Config) ->
@@ -1545,7 +1817,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0004'}) end.
 'FORG0005'(_Config) ->
@@ -1554,7 +1828,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0005'}) end.
 'FORG0006_01'(_Config) ->
@@ -1563,7 +1839,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'FORG0006_02'(_Config) ->
@@ -1572,7 +1853,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'FORG0006_03'(_Config) ->
@@ -1581,7 +1864,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'FORG0006_04'(_Config) ->
@@ -1590,7 +1875,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'FORG0006_05'(_Config) ->
@@ -1599,7 +1886,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0006'}) end.
 'FORG0008'(_Config) ->
@@ -1608,7 +1897,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0008'}) end.
 'FORG0009'(_Config) ->
@@ -1617,7 +1908,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORG0002'}) end.
 'FOTY0012'(_Config) ->
@@ -1628,7 +1921,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'XPDY0002_02'(_Config) ->
@@ -1637,7 +1932,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'XPDY0050'(_Config) ->
@@ -1646,7 +1943,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0050" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0050'}) end.
 'XPTY0004_01'(_Config) ->
@@ -1655,7 +1954,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0018'(_Config) ->
@@ -1664,7 +1965,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0018" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0018'}) end.
 'XPTY0019_1'(_Config) ->
@@ -1673,7 +1976,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0019'}) end.
 'XPTY0019_2'(_Config) ->
@@ -1682,7 +1987,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0019'}) end.
 'XPTY0019_3'(_Config) ->
@@ -1691,7 +1998,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0019'}) end.
 'XPTY0004_02'(_Config) ->
@@ -1700,7 +2009,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_03'(_Config) ->
@@ -1709,7 +2020,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_04'(_Config) ->
@@ -1718,7 +2031,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_05'(_Config) ->
@@ -1727,7 +2042,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_06'(_Config) ->
@@ -1736,7 +2053,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_07'(_Config) ->
@@ -1745,7 +2064,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_08'(_Config) ->
@@ -1754,7 +2075,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_09'(_Config) ->
@@ -1763,7 +2086,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_10'(_Config) ->
@@ -1772,7 +2097,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_11'(_Config) ->
@@ -1781,7 +2108,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_12'(_Config) ->
@@ -1790,7 +2119,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_13'(_Config) ->
@@ -1799,7 +2130,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_14'(_Config) ->
@@ -1808,7 +2141,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_15'(_Config) ->
@@ -1817,7 +2152,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_16'(_Config) ->
@@ -1826,7 +2163,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_17'(_Config) ->
@@ -1835,7 +2174,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_18'(_Config) ->
@@ -1844,7 +2185,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_19'(_Config) ->
@@ -1853,7 +2196,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_20'(_Config) ->
@@ -1862,7 +2207,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_21'(_Config) ->
@@ -1871,7 +2218,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_22'(_Config) ->
@@ -1880,7 +2229,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_23'(_Config) ->
@@ -1889,7 +2240,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_24'(_Config) ->
@@ -1898,7 +2251,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_25'(_Config) ->
@@ -1907,7 +2262,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_26'(_Config) ->
@@ -1916,7 +2273,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_27'(_Config) ->
@@ -1925,7 +2284,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_28'(_Config) ->
@@ -1934,7 +2295,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_29'(_Config) ->
@@ -1943,7 +2306,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_30'(_Config) ->
@@ -1952,7 +2317,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_31'(_Config) ->
@@ -1961,7 +2328,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_32'(_Config) ->
@@ -1970,7 +2339,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_33'(_Config) ->
@@ -1979,7 +2350,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_34'(_Config) ->
@@ -1988,7 +2361,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_35'(_Config) ->
@@ -1997,7 +2372,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_37'(_Config) ->
@@ -2006,7 +2383,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_38'(_Config) ->
@@ -2015,7 +2394,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_39'(_Config) ->
@@ -2024,7 +2405,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_40'(_Config) ->
@@ -2033,7 +2416,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_41'(_Config) ->
@@ -2042,7 +2427,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XPTY0004_42'(_Config) ->
@@ -2051,7 +2441,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_43'(_Config) ->
@@ -2060,7 +2452,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_44'(_Config) ->
@@ -2069,7 +2463,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_45'(_Config) ->
@@ -2080,7 +2476,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_47'(_Config) ->
@@ -2089,7 +2487,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'XPTY0004_48'(_Config) ->
@@ -2098,7 +2498,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1 3 2\n            \n         \n      ",
+   Exp = "
+         
+            1 3 2
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "1 3 2") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XPTY0020'(_Config) ->
@@ -2107,7 +2512,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0020" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0020'}) end.
 'XQDY0025_1'(_Config) ->
@@ -2116,7 +2523,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0025" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0025'}) end.
 'XQDY0025_2'(_Config) ->
@@ -2125,7 +2534,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0025" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0025'}) end.
 'XQDY0025_3'(_Config) ->
@@ -2134,7 +2545,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0025" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0025'}) end.
 'XQDY0025_4'(_Config) ->
@@ -2143,7 +2556,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0025" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0025'}) end.
 'XQDY0026'(_Config) ->
@@ -2152,7 +2567,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0026" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0026'}) end.
 'XQDY0027'(_Config) ->
@@ -2163,7 +2580,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0041" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0041'}) end.
 'XQDY0044_1'(_Config) ->
@@ -2172,7 +2591,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0044" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0044'}) end.
 'XQDY0061'(_Config) ->
@@ -2183,7 +2604,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0064" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0064'}) end.
 'XQDY0072'(_Config) ->
@@ -2192,7 +2615,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0072" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0072'}) end.
 'XQDY0074_1'(_Config) ->
@@ -2201,7 +2626,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0074" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0074'}) end.
 'XQDY0074_2'(_Config) ->
@@ -2210,7 +2637,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0074" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0074'}) end.
 'XQDY0074_3'(_Config) ->
@@ -2219,7 +2648,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0074" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0074'}) end.
 'XQDY0074_4'(_Config) ->
@@ -2228,7 +2659,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0074" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0074'}) end.
 'XQDY0084'(_Config) ->
@@ -2239,7 +2672,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           \n           <e xml:id=\"ab c d\"/>\n           \n      ",
+   Exp = "
+         
+           
+           <e xml:id=\"ab c d\"/>
+           
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<e xml:id=\"ab c d\"/>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0091") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQDY0092'(_Config) ->
@@ -2248,7 +2686,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  <a xml:space=\"space\"/>\n	\n      ",
+   Exp = "
+	
+	  
+	  <a xml:space=\"space\"/>
+	
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<a xml:space=\"space\"/>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0092") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0022_1'(_Config) ->
@@ -2257,7 +2700,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0022" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0022'}) end.
 'XQST0022_2'(_Config) ->
@@ -2266,7 +2711,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0022" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0022'}) end.
 'XQST0031'(_Config) ->
@@ -2275,7 +2722,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0031" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0031'}) end.
 'XQST0032'(_Config) ->
@@ -2284,7 +2733,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0032" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0032'}) end.
 'XQST0033'(_Config) ->
@@ -2293,7 +2744,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0033" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0033'}) end.
 'XQST0034'(_Config) ->
@@ -2302,7 +2755,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0034" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0034'}) end.
 'XQST0036_1'(_Config) ->
@@ -2325,7 +2780,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0038" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0038'}) end.
 'XQST0038_3'(_Config) ->
@@ -2334,7 +2791,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0038" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0038'}) end.
 'XQST0039'(_Config) ->
@@ -2343,7 +2802,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0039" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0039'}) end.
 'XQST0040'(_Config) ->
@@ -2352,7 +2813,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0040" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0040'}) end.
 'XQST0045-1'(_Config) ->
@@ -2361,7 +2824,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'XQST0045-2'(_Config) ->
@@ -2370,7 +2835,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'XQST0045-3'(_Config) ->
@@ -2379,7 +2846,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'XQST0045-4'(_Config) ->
@@ -2388,7 +2857,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0045'}) end.
 'XQST0046_01'(_Config) ->
@@ -2397,7 +2868,13 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	  %gg\n	\n      ",
+   Exp = "
+	
+	  
+	  
+	  %gg
+	
+      ",
  case (xqerl_test:string_value(Res) == "%gg") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0001") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_02'(_Config) ->
@@ -2406,7 +2883,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_03'(_Config) ->
@@ -2415,7 +2897,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_04'(_Config) ->
@@ -2424,7 +2911,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_05'(_Config) ->
@@ -2433,7 +2925,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_06'(_Config) ->
@@ -2442,7 +2939,16 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	  \n	  \n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	  
+	  
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0038") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_07'(_Config) ->
@@ -2451,7 +2957,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_08'(_Config) ->
@@ -2460,7 +2971,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0046'}) end.
 'XQST0046_09'(_Config) ->
@@ -2469,7 +2982,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_10'(_Config) ->
@@ -2478,7 +2996,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_11'(_Config) ->
@@ -2487,7 +3010,12 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_12'(_Config) ->
@@ -2496,7 +3024,16 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	  \n	  \n	  \n	  aaa\n	\n      ",
+   Exp = "
+	
+	  
+	  
+	  
+	  
+	  
+	  aaa
+	
+      ",
  case (xqerl_test:string_value(Res) == "aaa") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0038") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XQST0046_13'(_Config) ->
@@ -2505,7 +3042,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0046'}) end.
 'XQST0046_14'(_Config) ->
@@ -2514,7 +3053,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0046'}) end.
 'XQST0047'(_Config) ->
@@ -2523,7 +3064,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0047" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0047'}) end.
 'XQST0048'(_Config) ->
@@ -2532,7 +3075,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0048" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0048'}) end.
 'XQST0049'(_Config) ->
@@ -2541,7 +3086,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'XQST0054'(_Config) ->
@@ -2552,7 +3099,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0055" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0055'}) end.
 'XQST0057'(_Config) ->
@@ -2561,7 +3110,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0057" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0057'}) end.
 'XQST0058'(_Config) ->
@@ -2574,7 +3125,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0059'}) end.
 'XQST0059_3'(_Config) ->
@@ -2585,7 +3138,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0059'}) end.
 'XQST0059_5'(_Config) ->
@@ -2594,7 +3149,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0059" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0059'}) end.
 'XQST0059_6'(_Config) ->
@@ -2605,7 +3162,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0060" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0060'}) end.
 'XQST0065'(_Config) ->
@@ -2614,7 +3173,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0065" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0065'}) end.
 'XQST0066_1'(_Config) ->
@@ -2623,7 +3184,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0066" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0066'}) end.
 'XQST0066_3'(_Config) ->
@@ -2632,7 +3195,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0066" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0066'}) end.
 'XQST0067'(_Config) ->
@@ -2641,7 +3206,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0067" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0067'}) end.
 'XQST0068'(_Config) ->
@@ -2650,7 +3217,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0068" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0068'}) end.
 'XQST0069'(_Config) ->
@@ -2659,7 +3228,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0069" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0069'}) end.
 'XQST0070_1'(_Config) ->
@@ -2668,7 +3239,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0070" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0070'}) end.
 'XQST0070_2'(_Config) ->
@@ -2677,7 +3250,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0070" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0070'}) end.
 'XQST0070_3'(_Config) ->
@@ -2686,7 +3261,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0070" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0070'}) end.
 'XQST0070_4'(_Config) ->
@@ -2695,7 +3272,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0070" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0070'}) end.
 'XQST0071_1'(_Config) ->
@@ -2704,7 +3283,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0071" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0071'}) end.
 'XQST0071_2'(_Config) ->
@@ -2713,7 +3294,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0071" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0071'}) end.
 'XQST0076'(_Config) ->
@@ -2722,7 +3305,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0076" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0076'}) end.
 'XQST0079'(_Config) ->
@@ -2731,7 +3316,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0079" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0079'}) end.
 'XQST0085'(_Config) ->
@@ -2742,7 +3329,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0087" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0087'}) end.
 'XQST0088_1'(_Config) ->
@@ -2751,7 +3340,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0088" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0088'}) end.
 'XQST0088_2'(_Config) ->
@@ -2760,7 +3351,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0088" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0088'}) end.
 'XQST0089'(_Config) ->
@@ -2769,7 +3362,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0089" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0089'}) end.
 'XQST0090'(_Config) ->
@@ -2778,18 +3373,25 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0090" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0090'}) end.
 'XQST0093'(_Config) ->
    {skip,"XQ10"}.
 'XQST0093a'(_Config) ->
-   Qry = "\n      	import module namespace foo=\"http://www.example.org/foo\"; \n      	$foo:variable2\n      ",
+   Qry = "
+      	import module namespace foo=\"http://www.example.org/foo\"; 
+      	$foo:variable2
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -2801,7 +3403,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0024" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQTY0024'}) end.
 'XQTY0024_2'(_Config) ->
@@ -2810,7 +3414,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0024" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQTY0024'}) end.
 'XQTY0024_3'(_Config) ->
@@ -2819,7 +3425,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0024" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQTY0024'}) end.
 'XQTY0024_4'(_Config) ->
@@ -2828,7 +3436,9 @@ environment('xqdy0084') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQTY0024" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQTY0024'}) end.
 'XQTY0030'(_Config) ->
@@ -2840,20 +3450,32 @@ environment('xqdy0084') ->
 'XQTY0086_3'(_Config) ->
    {skip,"Validation Environment"}.
 'XQST0125_1'(_Config) ->
-   Qry = "\n        let $f := %public function($arg as xs:integer) as xs:integer \n                          { $arg + 1 }\n        return $f(1)\n      ",
+   Qry = "
+        let $f := %public function($arg as xs:integer) as xs:integer 
+                          { $arg + 1 }
+        return $f(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0125" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0125'}) end.
 'XQST0125_2'(_Config) ->
-   Qry = "\n        let $f := %private function($arg as xs:integer) as xs:integer \n                           { $arg + 1 }\n        return $f(1)\n      ",
+   Qry = "
+        let $f := %private function($arg as xs:integer) as xs:integer 
+                           { $arg + 1 }
+        return $f(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0125" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0125'}) end.

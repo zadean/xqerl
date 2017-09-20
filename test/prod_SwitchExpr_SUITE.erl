@@ -159,12 +159,20 @@ environment('math') ->
 {modules, []}
 ].
 'switch-001'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $animal as xs:string := \"Cat\"; \n        <out>{ switch ($animal) \n            case \"Cow\" return \"Moo\" \n            case \"Cat\" return \"Meow\" \n            case \"Duck\" return \"Quack\" \n            default return \"What's that odd noise?\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $animal as xs:string := \"Cat\"; 
+        <out>{ switch ($animal) 
+            case \"Cow\" return \"Moo\" 
+            case \"Cat\" return \"Meow\" 
+            case \"Duck\" return \"Quack\" 
+            default return \"What's that odd noise?\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Meow</out>            \n      ",
+   Exp = "
+         <out>Meow</out>            
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Meow</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -174,12 +182,20 @@ environment('math') ->
               end
 end.
 'switch-002'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $animal as xs:string := \"Dog\"; \n        <out>{ switch ($animal) \n            case \"Cow\" return \"Moo\"\n            case \"Cat\" return \"Meow\" \n            case \"Duck\" return \"Quack\" \n            default return \"What's that odd noise?\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $animal as xs:string := \"Dog\"; 
+        <out>{ switch ($animal) 
+            case \"Cow\" return \"Moo\"
+            case \"Cat\" return \"Meow\" 
+            case \"Duck\" return \"Quack\" 
+            default return \"What's that odd noise?\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>What's that odd noise?</out>\n      ",
+   Exp = "
+         <out>What's that odd noise?</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>What's that odd noise?</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -189,12 +205,21 @@ end.
               end
 end.
 'switch-003'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $animal as xs:string := \"!?!?\"; \n        <out>{ switch (upper-case($animal)) \n            case \"COW\" return \"Moo\"\n            case \"CAT\" return \"Meow\" \n            case \"DUCK\" return \"Quack\" \n            case lower-case($animal) return \"Oink\" \n            default return \"What's that odd noise?\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $animal as xs:string := \"!?!?\"; 
+        <out>{ switch (upper-case($animal)) 
+            case \"COW\" return \"Moo\"
+            case \"CAT\" return \"Meow\" 
+            case \"DUCK\" return \"Quack\" 
+            case lower-case($animal) return \"Oink\" 
+            default return \"What's that odd noise?\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Oink</out>\n      ",
+   Exp = "
+         <out>Oink</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Oink</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -204,12 +229,21 @@ end.
               end
 end.
 'switch-004'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $animal as xs:string := \"goose\"; \n        <out>{ switch (upper-case($animal)) \n            case \"COW\" return \"Moo\" \n            case \"CAT\" return \"Meow\" \n            case \"DUCK\" case \"GOOSE\" return \"Quack\" \n            case \"PIG\" case \"SWINE\" return \"Oink\" \n            default return \"What's that odd noise?\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $animal as xs:string := \"goose\"; 
+        <out>{ switch (upper-case($animal)) 
+            case \"COW\" return \"Moo\" 
+            case \"CAT\" return \"Meow\" 
+            case \"DUCK\" case \"GOOSE\" return \"Quack\" 
+            case \"PIG\" case \"SWINE\" return \"Oink\" 
+            default return \"What's that odd noise?\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Quack</out>\n      ",
+   Exp = "
+         <out>Quack</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Quack</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -219,12 +253,21 @@ end.
               end
 end.
 'switch-005'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $animal as xs:string := \"duck\"; \n        <out>{ switch (upper-case($animal)) \n            case \"COW\" return \"Moo\" \n            case \"CAT\" return \"Meow\" \n            case \"DUCK\" case \"GOOSE\" return \"Quack\" \n            case \"PIG\" case \"SWINE\" return \"Oink\" \n            default return \"What's that odd noise?\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $animal as xs:string := \"duck\"; 
+        <out>{ switch (upper-case($animal)) 
+            case \"COW\" return \"Moo\" 
+            case \"CAT\" return \"Meow\" 
+            case \"DUCK\" case \"GOOSE\" return \"Quack\" 
+            case \"PIG\" case \"SWINE\" return \"Oink\" 
+            default return \"What's that odd noise?\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Quack</out>\n      ",
+   Exp = "
+         <out>Quack</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Quack</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -234,12 +277,19 @@ end.
               end
 end.
 'switch-006'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $number as xs:decimal := 42; \n        <out>{ switch ($number) case 21 return \"Moo\" \n            case current-time() return \"Meow\" \n            case 42 return \"Quack\" \n            default return 3.14159 }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $number as xs:decimal := 42; 
+        <out>{ switch ($number) case 21 return \"Moo\" 
+            case current-time() return \"Meow\" 
+            case 42 return \"Quack\" 
+            default return 3.14159 }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Quack</out>\n      ",
+   Exp = "
+         <out>Quack</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Quack</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -249,12 +299,21 @@ end.
               end
 end.
 'switch-007'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := <a>42</a>; \n        <out>{ switch ($in) \n            case 42 return \"Moo\" \n            case \"42\" return \"Meow\" \n            case 42e0 return \"Quack\" \n            case \"42e0\" return \"Oink\" \n            default return \"Expletive deleted\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := <a>42</a>; 
+        <out>{ switch ($in) 
+            case 42 return \"Moo\" 
+            case \"42\" return \"Meow\" 
+            case 42e0 return \"Quack\" 
+            case \"42e0\" return \"Oink\" 
+            default return \"Expletive deleted\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Meow</out>\n      ",
+   Exp = "
+         <out>Meow</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Meow</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -264,12 +323,21 @@ end.
               end
 end.
 'switch-008'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := \"42\"; \n        <out>{ switch ($in) \n            case 42 return \"Moo\" \n            case <a>42</a> return \"Meow\" \n            case 42e0 return \"Quack\" \n            case \"42e0\" return \"Oink\" \n            default return \"Expletive deleted\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := \"42\"; 
+        <out>{ switch ($in) 
+            case 42 return \"Moo\" 
+            case <a>42</a> return \"Meow\" 
+            case 42e0 return \"Quack\" 
+            case \"42e0\" return \"Oink\" 
+            default return \"Expletive deleted\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Meow</out>\n      ",
+   Exp = "
+         <out>Meow</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Meow</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -279,12 +347,22 @@ end.
               end
 end.
 'switch-009'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := (); \n        <out>{ switch ($in) \n            case 42 return \"Moo\" \n            case <a>42</a> return \"Meow\" \n            case 42e0 return \"Quack\" \n            case \"42e0\" return \"Oink\" \n            case () return \"Woof\" \n            default return \"Expletive deleted\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := (); 
+        <out>{ switch ($in) 
+            case 42 return \"Moo\" 
+            case <a>42</a> return \"Meow\" 
+            case 42e0 return \"Quack\" 
+            case \"42e0\" return \"Oink\" 
+            case () return \"Woof\" 
+            default return \"Expletive deleted\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Woof</out>\n      ",
+   Exp = "
+         <out>Woof</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Woof</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -294,12 +372,22 @@ end.
               end
 end.
 'switch-010'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 21; \n        <out>{ switch ($in) \n            case 42 return \"Moo\" \n            case <a>42</a> return \"Meow\" \n            case 42e0 return \"Quack\" \n            case \"42e0\" return \"Oink\" \n            case () return \"Woof\" \n            default return \"Expletive deleted\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 21; 
+        <out>{ switch ($in) 
+            case 42 return \"Moo\" 
+            case <a>42</a> return \"Meow\" 
+            case 42e0 return \"Quack\" 
+            case \"42e0\" return \"Oink\" 
+            case () return \"Woof\" 
+            default return \"Expletive deleted\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Expletive deleted</out>\n      ",
+   Exp = "
+         <out>Expletive deleted</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Expletive deleted</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -309,12 +397,22 @@ end.
               end
 end.
 'switch-011'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := xs:double('NaN'); \n        <out>{ switch ($in) \n            case 42 return \"Moo\" \n            case <a>42</a> return \"Meow\" \n            case 42e0 return \"Quack\" \n            case \"42e0\" return \"Oink\" \n            case xs:float('NaN') return \"Woof\" \n            default return \"Expletive deleted\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := xs:double('NaN'); 
+        <out>{ switch ($in) 
+            case 42 return \"Moo\" 
+            case <a>42</a> return \"Meow\" 
+            case 42e0 return \"Quack\" 
+            case \"42e0\" return \"Oink\" 
+            case xs:float('NaN') return \"Woof\" 
+            default return \"Expletive deleted\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Woof</out>\n      ",
+   Exp = "
+         <out>Woof</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Woof</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -324,12 +422,21 @@ end.
               end
 end.
 'switch-012'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 25; \n        declare variable $zero := 0; \n        <out>{ switch ($in) \n            case 42 return $in div $zero \n            case 25 return \"Baa\" \n            case 39 return $in div $zero \n            default return \"Woof\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 25; 
+        declare variable $zero := 0; 
+        <out>{ switch ($in) 
+            case 42 return $in div $zero 
+            case 25 return \"Baa\" 
+            case 39 return $in div $zero 
+            default return \"Woof\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Baa</out>\n      ",
+   Exp = "
+         <out>Baa</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Baa</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -339,12 +446,21 @@ end.
               end
 end.
 'switch-013'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 25; \n        declare variable $zero := 0; \n        <out>{ switch ($in) \n            case 42 return \"Quack\" \n            case 25 return \"Baa\" \n            case $in div $zero return \"Neigh\" \n            default return \"Woof\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 25; 
+        declare variable $zero := 0; 
+        <out>{ switch ($in) 
+            case 42 return \"Quack\" 
+            case 25 return \"Baa\" 
+            case $in div $zero return \"Neigh\" 
+            default return \"Woof\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>Baa</out>\n      ",
+   Exp = "
+         <out>Baa</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>Baa</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -354,83 +470,159 @@ end.
               end
 end.
 'switch-901'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch (1 to $in) \n            case 1 return \"Moo\" \n            case 2 return \"Meow\" \n            case 3 return \"Quack\" \n            case 4 return \"Oink\" \n            default return \"Baa\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch (1 to $in) 
+            case 1 return \"Moo\" 
+            case 2 return \"Meow\" 
+            case 3 return \"Quack\" 
+            case 4 return \"Oink\" 
+            default return \"Baa\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'switch-902'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch ($in) \n            case 1 return \"Moo\" \n            case 5 return \"Meow\" \n            case 3 return \"Quack\" \n            case ($in to 4) return \"Oink\" \n            default return \"Baa\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch ($in) 
+            case 1 return \"Moo\" 
+            case 5 return \"Meow\" 
+            case 3 return \"Quack\" 
+            case ($in to 4) return \"Oink\" 
+            default return \"Baa\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'switch-903'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch ($in) default return \"Baa\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch ($in) default return \"Baa\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'switch-904'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch ($in) \n            case 1 return \"Moo\" \n            case 5 return \"Meow\" \n            case 3 return \"Quack\" \n            case ($in to 4) return \"Oink\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch ($in) 
+            case 1 return \"Moo\" 
+            case 5 return \"Meow\" 
+            case 3 return \"Quack\" 
+            case ($in to 4) return \"Oink\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'switch-905'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch ($in) \n            case 1 return \"Moo\" \n            case 5 return \"Meow\" return \"Quack\" \n            case ($in to 4) return \"Oink\" \n            default return \"Baa\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch ($in) 
+            case 1 return \"Moo\" 
+            case 5 return \"Meow\" return \"Quack\" 
+            case ($in to 4) return \"Oink\" 
+            default return \"Baa\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'switch-906'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch ($in) \n            case 1 return \"Moo\", \"Boo\" \n            case 5 return \"Meow\" \n            case 7 return \"Quack\" \n            case 4 return \"Oink\" \n            default return \"Baa\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch ($in) 
+            case 1 return \"Moo\", \"Boo\" 
+            case 5 return \"Meow\" 
+            case 7 return \"Quack\" 
+            case 4 return \"Oink\" 
+            default return \"Baa\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'switch-907'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch $in \n            case 1 return \"Moo\", \"Boo\" \n            case 5 return \"Meow\" \n            case 7 return \"Quack\" \n            case 4 return \"Oink\" \n            default return \"Baa\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch $in 
+            case 1 return \"Moo\", \"Boo\" 
+            case 5 return \"Meow\" 
+            case 7 return \"Quack\" 
+            case 4 return \"Oink\" 
+            default return \"Baa\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n         \n      ",
+   Exp = "
+         
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'switch-908'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch ($in) { \n            case 1 return \"Moo\", \"Boo\" \n            case 5 return \"Meow\" \n            case 7 return \"Quack\" \n            case 4 return \"Oink\" \n            default return \"Baa\" } }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch ($in) { 
+            case 1 return \"Moo\", \"Boo\" 
+            case 5 return \"Meow\" 
+            case 7 return \"Quack\" 
+            case 4 return \"Oink\" 
+            default return \"Baa\" } }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'switch-909'(_Config) ->
-   Qry = "xquery version \"3.0\"; \n        declare variable $in := 2; \n        <out>{ switch ($in) \n            case 1: return \"Moo\", \"Boo\" \n            case 5: return \"Meow\" \n            case 7: return \"Quack\" \n            case 4: return \"Oink\" \n            default: return \"Baa\" }</out>",
+   Qry = "xquery version \"3.0\"; 
+        declare variable $in := 2; 
+        <out>{ switch ($in) 
+            case 1: return \"Moo\", \"Boo\" 
+            case 5: return \"Meow\" 
+            case 7: return \"Quack\" 
+            case 4: return \"Oink\" 
+            default: return \"Baa\" }</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.

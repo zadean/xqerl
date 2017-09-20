@@ -138,7 +138,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         aaa\n      ",
+   Exp = "
+         aaa
+      ",
    case xqerl_test:string_value(Res) of
              "aaa" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -148,7 +150,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'K-OptionDeclarationProlog-1'(_Config) ->
@@ -159,16 +163,27 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n           \n           \n      ",
+   Exp = "
+         
+            
+           
+           
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0123") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-OptionDeclarationProlog-2'(_Config) ->
-   Qry = "declare(::)option(::)local:opt(::)\"option value\"(::); \n        declare(::)option(::)local:opt(::)\"option value\"(::); \n        declare(::)option(::)local:opt(::)\"option value\"(::); \n        declare(::)option(::)local:opt(::)\"option value\"(::); \n        declare(::)option(::)local:opt(::)\"option value\";1(::)eq(::)1",
+   Qry = "declare(::)option(::)local:opt(::)\"option value\"(::); 
+        declare(::)option(::)local:opt(::)\"option value\"(::); 
+        declare(::)option(::)local:opt(::)\"option value\"(::); 
+        declare(::)option(::)local:opt(::)\"option value\"(::); 
+        declare(::)option(::)local:opt(::)\"option value\";1(::)eq(::)1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-OptionDeclarationProlog-3'(_Config) ->
@@ -177,7 +192,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-OptionDeclarationProlog-4'(_Config) ->
@@ -186,7 +203,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-OptionDeclarationProlog-5'(_Config) ->
@@ -195,7 +214,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'K-OptionDeclarationProlog-6'(_Config) ->
@@ -204,6 +225,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.

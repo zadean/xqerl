@@ -166,7 +166,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-arity-002'(_Config) ->
@@ -175,7 +177,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-arity-003'(_Config) ->
@@ -184,7 +188,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-arity-004'(_Config) ->
@@ -193,7 +199,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-function-arity-005'(_Config) ->
@@ -202,7 +210,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-function-arity-006'(_Config) ->
@@ -211,7 +221,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-007'(_Config) ->
@@ -220,7 +232,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-008'(_Config) ->
@@ -229,7 +243,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-009'(_Config) ->
@@ -238,43 +254,71 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-010'(_Config) ->
-   Qry = "fn:function-arity( if ( fn:current-dateTime() eq\n                                    fn:dateTime( fn:current-date(),\n                                                 fn:current-time() ))\n                               then fn:dateTime#2\n                               else 1 )",
+   Qry = "fn:function-arity( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then fn:dateTime#2
+                               else 1 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-011'(_Config) ->
-   Qry = "( fn:function-arity( if (current-date() eq xs:date('1900-01-01'))\n                                 then fn:dateTime#2\n                                 else 1 ),\n              fn:function-arity( if (current-date() eq xs:date('1900-01-01'))\n                                 then 1\n                                 else fn:dateTime#2 ) )",
+   Qry = "( fn:function-arity( if (current-date() eq xs:date('1900-01-01'))
+                                 then fn:dateTime#2
+                                 else 1 ),
+              fn:function-arity( if (current-date() eq xs:date('1900-01-01'))
+                                 then 1
+                                 else fn:dateTime#2 ) )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  \n      ",
+   Exp = "
+	  
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-012'(_Config) ->
-   Qry = "fn:function-arity( if ( fn:current-dateTime() eq\n                                    fn:dateTime( fn:current-date(),\n                                                 fn:current-time() ))\n                               then fn:dateTime#2\n                               else () )",
+   Qry = "fn:function-arity( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then fn:dateTime#2
+                               else () )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-013'(_Config) ->
-   Qry = "( fn:function-arity( if (current-date() eq xs:date('1900-01-01'))\n                                 then fn:dateTime#2\n                                 else () ),\n              fn:function-arity( if (current-date() eq xs:date('1900-01-01'))\n                                 then ()\n                                 else fn:dateTime#2 ) )",
+   Qry = "( fn:function-arity( if (current-date() eq xs:date('1900-01-01'))
+                                 then fn:dateTime#2
+                                 else () ),
+              fn:function-arity( if (current-date() eq xs:date('1900-01-01'))
+                                 then ()
+                                 else fn:dateTime#2 ) )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  \n      ",
+   Exp = "
+	  
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-function-arity-014'(_Config) ->
@@ -283,7 +327,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:integer\n      ",
+   Exp = "
+         xs:integer
+      ",
    case xqerl_types:type(Res) of
            'xs:integer' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -293,7 +339,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  2\n      ",
+   Exp = "
+	  2
+      ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -303,7 +351,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  99\n      ",
+   Exp = "
+	  99
+      ",
    case xqerl_test:string_value(Res) of
              "99" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -313,7 +363,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  340282366920938463463374607431768211456\n	\n      ",
+   Exp = "
+	
+	  
+	  340282366920938463463374607431768211456
+	
+      ",
  case (xqerl_test:string_value(Res) == "340282366920938463463374607431768211456") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOAR0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-function-arity-018'(_Config) ->
@@ -322,27 +377,35 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  1\n      ",
+   Exp = "
+	  1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-function-arity-019'(_Config) ->
-   Qry = "fn:function-arity( function($arg1, $arg2)\n                               { subsequence($arg1, $arg2, 1) } )",
+   Qry = "fn:function-arity( function($arg1, $arg2)
+                               { subsequence($arg1, $arg2, 1) } )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  2\n      ",
+   Exp = "
+	  2
+      ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-function-arity-020'(_Config) ->
-   Qry = "let $initial := fn:substring(?, 1, 1) \n            return fn:function-arity( $initial )",
+   Qry = "let $initial := fn:substring(?, 1, 1) 
+            return fn:function-arity( $initial )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  1\n      ",
+   Exp = "
+	  1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -353,27 +416,47 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  1\n      ",
+   Exp = "
+	  1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-function-arity-022'(_Config) ->
-   Qry = "\n	declare function local:add($arg1, $arg2, $arg3)\n        {\n           $arg1 + $arg2 + $arg3\n        };\n\n	fn:function-arity( local:add#3 )\n      ",
+   Qry = "
+	declare function local:add($arg1, $arg2, $arg3)
+        {
+           $arg1 + $arg2 + $arg3
+        };
+
+	fn:function-arity( local:add#3 )
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  3\n      ",
+   Exp = "
+	  3
+      ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-function-arity-023'(_Config) ->
-   Qry = "\n	declare function local:add($arg1, $arg2, $arg3)\n        {\n           $arg1 + $arg2 + $arg3\n        };\n\n	fn:function-arity( local:add(1, 2, ?) )\n      ",
+   Qry = "
+	declare function local:add($arg1, $arg2, $arg3)
+        {
+           $arg1 + $arg2 + $arg3
+        };
+
+	fn:function-arity( local:add(1, 2, ?) )
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  1\n      ",
+   Exp = "
+	  1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

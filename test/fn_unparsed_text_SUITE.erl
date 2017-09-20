@@ -269,7 +269,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-002'(_Config) ->
@@ -278,7 +280,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-003'(_Config) ->
@@ -287,7 +291,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-004'(_Config) ->
@@ -296,7 +302,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-005'(_Config) ->
@@ -305,7 +313,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-006'(_Config) ->
@@ -314,62 +324,109 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-007'(_Config) ->
-   Qry = "fn:unparsed-text( if ( fn:current-dateTime() eq\n                                   fn:dateTime( fn:current-date(),\n                                                fn:current-time() ))\n                              then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"\n                              else 1 )",
+   Qry = "fn:unparsed-text( if ( fn:current-dateTime() eq
+                                   fn:dateTime( fn:current-date(),
+                                                fn:current-time() ))
+                              then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"
+                              else 1 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-008'(_Config) ->
-   Qry = "( fn:unparsed-text( if (current-date() eq xs:date('1900-01-01'))\n                                then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"\n                                else 1 ),\n              fn:unparsed-text( if (current-date() eq xs:date('1900-01-01'))\n                                then 1\n                                else \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\") )",
+   Qry = "( fn:unparsed-text( if (current-date() eq xs:date('1900-01-01'))
+                                then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"
+                                else 1 ),
+              fn:unparsed-text( if (current-date() eq xs:date('1900-01-01'))
+                                then 1
+                                else \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\") )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-009'(_Config) ->
-   Qry = "fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                              if ( fn:current-dateTime() eq\n                                   fn:dateTime( fn:current-date(),\n                                                fn:current-time() ))\n                               then \"utf-8\"\n                               else 1 )",
+   Qry = "fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                              if ( fn:current-dateTime() eq
+                                   fn:dateTime( fn:current-date(),
+                                                fn:current-time() ))
+                               then \"utf-8\"
+                               else 1 )",
    Env = xqerl_test:handle_environment(environment('unparsed-text')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-010'(_Config) ->
-   Qry = "( fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                                if (current-date() eq xs:date('1900-01-01'))\n                                then \"utf-8\"\n                                else 1 ),\n              fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                                if (current-date() eq xs:date('1900-01-01'))\n                                then 1\n                                else \"utf-8\") )",
+   Qry = "( fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                                if (current-date() eq xs:date('1900-01-01'))
+                                then \"utf-8\"
+                                else 1 ),
+              fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                                if (current-date() eq xs:date('1900-01-01'))
+                                then 1
+                                else \"utf-8\") )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-011'(_Config) ->
-   Qry = "fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                              if ( fn:current-dateTime() eq\n                                   fn:dateTime( fn:current-date(),\n                                                fn:current-time() ))\n                               then \"utf-8\"\n                               else () )",
+   Qry = "fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                              if ( fn:current-dateTime() eq
+                                   fn:dateTime( fn:current-date(),
+                                                fn:current-time() ))
+                               then \"utf-8\"
+                               else () )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-012'(_Config) ->
-   Qry = "( fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                                if (current-date() eq xs:date('1900-01-01'))\n                                then \"utf-8\"\n                                else () ),\n              fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                                if (current-date() eq xs:date('1900-01-01'))\n                                then ()\n                                else \"utf-8\") )",
+   Qry = "( fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                                if (current-date() eq xs:date('1900-01-01'))
+                                then \"utf-8\"
+                                else () ),
+              fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                                if (current-date() eq xs:date('1900-01-01'))
+                                then ()
+                                else \"utf-8\") )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-013'(_Config) ->
@@ -378,7 +435,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-014'(_Config) ->
@@ -387,7 +446,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-015'(_Config) ->
@@ -396,7 +457,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-016'(_Config) ->
@@ -405,7 +468,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-017'(_Config) ->
@@ -414,7 +479,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-018'(_Config) ->
@@ -423,7 +490,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-019'(_Config) ->
@@ -432,7 +501,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-020'(_Config) ->
@@ -441,7 +512,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-021'(_Config) ->
@@ -450,7 +523,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-022'(_Config) ->
@@ -459,7 +534,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-023'(_Config) ->
@@ -477,7 +554,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0001'}) end.
 'fn-unparsed-text-024'(_Config) ->
@@ -495,7 +574,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0001'}) end.
 'fn-unparsed-text-025'(_Config) ->
@@ -513,7 +594,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-026'(_Config) ->
@@ -531,7 +614,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-027'(_Config) ->
@@ -541,7 +626,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -552,7 +639,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -563,7 +652,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-030'(_Config) ->
@@ -573,7 +664,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-031'(_Config) ->
@@ -583,7 +676,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -594,7 +689,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -613,7 +710,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-034'(_Config) ->
@@ -631,7 +730,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1170'}) end.
 'fn-unparsed-text-035'(_Config) ->
@@ -641,7 +742,12 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n	    \n         \n      ",
+   Exp = "
+         
+            1
+	    
+         
+      ",
  case (xqerl_test:string_value(Res) == "1") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1170") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-unparsed-text-036'(_Config) ->
@@ -651,7 +757,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1190" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1190'}) end.
 'fn-unparsed-text-037'(_Config) ->
@@ -661,7 +769,12 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n	      \n	      \n	      \n      ",
+   Exp = "
+        
+	      
+	      
+	      
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1200") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1190") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-unparsed-text-038'(_Config) ->
@@ -671,7 +784,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1190" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1190'}) end.
 'fn-unparsed-text-039'(_Config) ->
@@ -681,7 +796,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n      ",
+   Exp = "
+	     
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1190" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOUT1190'}) end.
 'fn-unparsed-text-040'(_Config) ->
@@ -691,9 +808,11 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     <?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world\n\n      ",
+   Exp = "
+	     <?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world\n
+      ",
    case xqerl_test:string_value(Res) of
-             "<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world\n" -> {comment, "assert-string-value"};
+             "<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world\n" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-unparsed-text-041'(_Config) ->
    Qry = "fn:unparsed-text(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\")",
@@ -702,7 +821,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -713,7 +834,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -724,7 +847,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -735,7 +860,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     hello world\n      ",
+   Exp = "
+	     hello world
+      ",
    case xqerl_test:string_value(Res) of
              "hello world" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -746,7 +873,12 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n	        hello world\n	        \n	     \n      ",
+   Exp = "
+	     
+	        hello world
+	        
+	     
+      ",
  case (xqerl_test:string_value(Res) == "hello world") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1190") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-unparsed-text-046'(_Config) ->
@@ -756,7 +888,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     <?xml version=\"1.0\" encoding=\"utf-8\"?><text>hello world</text>\n      ",
+   Exp = "
+	     <?xml version=\"1.0\" encoding=\"utf-8\"?><text>hello world</text>
+      ",
    case xqerl_test:string_value(Res) of
              "<?xml version=\"1.0\" encoding=\"utf-8\"?><text>hello world</text>" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -767,7 +901,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     <?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world</text>\n      ",
+   Exp = "
+	     <?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world</text>
+      ",
    case xqerl_test:string_value(Res) of
              "<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world</text>" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -778,7 +914,12 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     \n	        <?xml version=\"1.0\" encoding=\"iso-8859-1\"?><text>hello world</text>\n	        \n	     \n      ",
+   Exp = "
+	     
+	        <?xml version=\"1.0\" encoding=\"iso-8859-1\"?><text>hello world</text>
+	        
+	     
+      ",
  case (xqerl_test:string_value(Res) == "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><text>hello world</text>") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOUT1190") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-unparsed-text-049'(_Config) ->
@@ -788,7 +929,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     400\n      ",
+   Exp = "
+	     400
+      ",
    case xqerl_test:string_value(Res) of
              "400" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -799,7 +942,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     400\n      ",
+   Exp = "
+	     400
+      ",
    case xqerl_test:string_value(Res) of
              "400" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -810,7 +955,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     400\n      ",
+   Exp = "
+	     400
+      ",
    case xqerl_test:string_value(Res) of
              "400" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -821,7 +968,9 @@ environment('unparsed-text-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	     400\n      ",
+   Exp = "
+	     400
+      ",
    case xqerl_test:string_value(Res) of
              "400" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

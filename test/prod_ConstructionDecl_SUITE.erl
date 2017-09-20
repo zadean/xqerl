@@ -167,192 +167,311 @@ environment('math') ->
 {modules, []}
 ].
 'constprolog-1'(_Config) ->
-   Qry = "\n        declare construction strip; \n        declare construction strip; \n        \"abc\"",
+   Qry = "
+        declare construction strip; 
+        declare construction strip; 
+        \"abc\"",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0067" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0067'}) end.
 'constprolog-2'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := <anElement>some content</anElement> \n        return $anElement instance of element(*,xs:untyped)\n      ",
+   Qry = "
+        declare construction strip; 
+        let $anElement := <anElement>some content</anElement> 
+        return $anElement instance of element(*,xs:untyped)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-3'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := element anElement {\"someContent\"} \n        return $anElement instance of element(*,xs:untyped)\n      ",
+   Qry = "
+        declare construction strip; 
+        let $anElement := element anElement {\"someContent\"} 
+        return $anElement instance of element(*,xs:untyped)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-4'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := <anElement>some content</anElement> \n        return $anElement instance of element(*,xs:anyType)",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := <anElement>some content</anElement> 
+        return $anElement instance of element(*,xs:anyType)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-5'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := element anElement {\"someContent\"} \n        return $anElement instance of element(*,xs:anyType)",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := element anElement {\"someContent\"} 
+        return $anElement instance of element(*,xs:anyType)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-6'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := <anElement>some content</anElement> \n        return $anElement instance of element(*,xs:untyped)\n      ",
+   Qry = "
+        declare construction strip; 
+        let $anElement := <anElement>some content</anElement> 
+        return $anElement instance of element(*,xs:untyped)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-7'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := element anElement {\"someContent\"} \n        return $anElement instance of element(*,xs:untyped)\n      ",
+   Qry = "
+        declare construction strip; 
+        let $anElement := element anElement {\"someContent\"} 
+        return $anElement instance of element(*,xs:untyped)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-8'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := <someElement>some content</someElement> \n        return fn:not($anElement instance of element(*,xs:untyped))",
+   Qry = "
+        declare construction strip; 
+        let $anElement := <someElement>some content</someElement> 
+        return fn:not($anElement instance of element(*,xs:untyped))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-9'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := element someElement{\"some content\"} \n        return fn:not($anElement instance of element(*,xs:untyped))",
+   Qry = "
+        declare construction strip; 
+        let $anElement := element someElement{\"some content\"} 
+        return fn:not($anElement instance of element(*,xs:untyped))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-10'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := <someElement>some content</someElement> \n        return fn:not($anElement instance of element(*,xs:anyType))\n      ",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := <someElement>some content</someElement> 
+        return fn:not($anElement instance of element(*,xs:anyType))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-11'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := element someElement{\"some content\"} \n        return fn:not($anElement instance of element(*,xs:anyType))\n      ",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := element someElement{\"some content\"} 
+        return fn:not($anElement instance of element(*,xs:anyType))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-12'(_Config) ->
-   Qry = "\n        declare construction strip; \n        fn:not(<someElement>some content</someElement> instance of element(*,xs:untyped))\n      ",
+   Qry = "
+        declare construction strip; 
+        fn:not(<someElement>some content</someElement> instance of element(*,xs:untyped))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-13'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        fn:not(element someElement{\"some content\"} instance of element(*,xs:anyType))\n      ",
+   Qry = "
+        declare construction preserve; 
+        fn:not(element someElement{\"some content\"} instance of element(*,xs:anyType))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-14'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $var := <anElement>Some content</anElement> \n        return ($var instance of element(*,xs:untyped)) and fn:true()\n      ",
+   Qry = "
+        declare construction strip; 
+        let $var := <anElement>Some content</anElement> 
+        return ($var instance of element(*,xs:untyped)) and fn:true()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-15'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := element someElement{\"some content\"} \n        return ($anElement instance of element(*,xs:untyped)) and fn:true()\n      ",
+   Qry = "
+        declare construction strip; 
+        let $anElement := element someElement{\"some content\"} 
+        return ($anElement instance of element(*,xs:untyped)) and fn:true()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-16'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := <someElement>content</someElement> \n        return ($anElement instance of element(*,xs:anyType)) and fn:true()\n      ",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := <someElement>content</someElement> 
+        return ($anElement instance of element(*,xs:anyType)) and fn:true()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-17'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := element someElement{\"some content\"} \n        return ($anElement instance of element(*,xs:anyType)) and fn:true()\n      ",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := element someElement{\"some content\"} 
+        return ($anElement instance of element(*,xs:anyType)) and fn:true()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-18'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $var := <anElement>Some content</anElement> \n        return ($var instance of element(*,xs:untyped)) or fn:false()\n      ",
+   Qry = "
+        declare construction strip; 
+        let $var := <anElement>Some content</anElement> 
+        return ($var instance of element(*,xs:untyped)) or fn:false()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-19'(_Config) ->
-   Qry = "\n        declare construction strip; \n        let $anElement := element someElement{\"some content\"} \n        return ($anElement instance of element(*,xs:untyped)) or fn:false()\n      ",
+   Qry = "
+        declare construction strip; 
+        let $anElement := element someElement{\"some content\"} 
+        return ($anElement instance of element(*,xs:untyped)) or fn:false()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-20'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := <someElement>content</someElement> \n        return ($anElement instance of element(*,xs:anyType)) or fn:false()\n      ",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := <someElement>content</someElement> 
+        return ($anElement instance of element(*,xs:anyType)) or fn:false()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'constprolog-21'(_Config) ->
-   Qry = "\n        declare construction preserve; \n        let $anElement := element someElement{\"some content\"} \n        return ($anElement instance of element(*,xs:anyType)) or fn:false()\n      ",
+   Qry = "
+        declare construction preserve; 
+        let $anElement := element someElement{\"some content\"} 
+        return ($anElement instance of element(*,xs:anyType)) or fn:false()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConstructionProlog-1'(_Config) ->
@@ -361,7 +480,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConstructionProlog-2'(_Config) ->
@@ -370,7 +491,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-ConstructionProlog-3'(_Config) ->
@@ -379,7 +502,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConstructionProlog-4'(_Config) ->
@@ -388,7 +513,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0067" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0067'}) end.
 'K2-ConstructionProlog-1'(_Config) ->
@@ -397,6 +524,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.

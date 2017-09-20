@@ -258,7 +258,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -2147483648\n      ",
+   Exp = "
+         -2147483648
+      ",
  Tst = xqerl:run("-2147483648"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -270,7 +272,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1873914410\n      ",
+   Exp = "
+         -1873914410
+      ",
  Tst = xqerl:run("-1873914410"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -282,7 +286,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2147483647\n      ",
+   Exp = "
+         2147483647
+      ",
  Tst = xqerl:run("2147483647"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -294,7 +300,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999\n      ",
+   Exp = "
+         -999999999999999999
+      ",
  Tst = xqerl:run("-999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -306,7 +314,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         830993497117024304\n      ",
+   Exp = "
+         830993497117024304
+      ",
  Tst = xqerl:run("830993497117024304"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -318,7 +328,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999\n      ",
+   Exp = "
+         999999999999999999
+      ",
  Tst = xqerl:run("999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -330,7 +342,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999\n      ",
+   Exp = "
+         -999999999999999999
+      ",
  Tst = xqerl:run("-999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -342,7 +356,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         617375191608514839\n      ",
+   Exp = "
+         617375191608514839
+      ",
  Tst = xqerl:run("617375191608514839"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -354,7 +370,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999\n      ",
+   Exp = "
+         999999999999999999
+      ",
  Tst = xqerl:run("999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -366,7 +384,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1.7976931348623157E308\n      ",
+   Exp = "
+         -1.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "-1.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -376,7 +396,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -388,7 +410,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.7976931348623157E308\n      ",
+   Exp = "
+         1.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "1.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -398,7 +422,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3.4028235E38\n      ",
+   Exp = "
+         -3.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "-3.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -408,7 +434,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -420,7 +448,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3.4028235E38\n      ",
+   Exp = "
+         3.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "3.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -430,7 +460,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -92233720368547758\n      ",
+   Exp = "
+         -92233720368547758
+      ",
  Tst = xqerl:run("-92233720368547758"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -442,7 +474,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -47175562203048468\n      ",
+   Exp = "
+         -47175562203048468
+      ",
  Tst = xqerl:run("-47175562203048468"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -454,7 +488,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         92233720368547758\n      ",
+   Exp = "
+         92233720368547758
+      ",
  Tst = xqerl:run("92233720368547758"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -466,7 +502,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -478,7 +516,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         44633\n      ",
+   Exp = "
+         44633
+      ",
  Tst = xqerl:run("44633"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -490,7 +530,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         65535\n      ",
+   Exp = "
+         65535
+      ",
  Tst = xqerl:run("65535"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -502,7 +544,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999\n      ",
+   Exp = "
+         -999999999999999999
+      ",
  Tst = xqerl:run("-999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -514,7 +558,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -297014075999096793\n      ",
+   Exp = "
+         -297014075999096793
+      ",
  Tst = xqerl:run("-297014075999096793"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -526,7 +572,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1\n      ",
+   Exp = "
+         -1
+      ",
  Tst = xqerl:run("-1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -538,7 +586,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -550,7 +600,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         52704602390610033\n      ",
+   Exp = "
+         52704602390610033
+      ",
  Tst = xqerl:run("52704602390610033"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -562,7 +614,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999\n      ",
+   Exp = "
+         999999999999999999
+      ",
  Tst = xqerl:run("999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -574,7 +628,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -586,7 +642,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         130747108607674654\n      ",
+   Exp = "
+         130747108607674654
+      ",
  Tst = xqerl:run("130747108607674654"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -598,7 +656,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         184467440737095516\n      ",
+   Exp = "
+         184467440737095516
+      ",
  Tst = xqerl:run("184467440737095516"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -610,7 +670,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999\n      ",
+   Exp = "
+         -999999999999999999
+      ",
  Tst = xqerl:run("-999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -622,7 +684,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -475688437271870490\n      ",
+   Exp = "
+         -475688437271870490
+      ",
  Tst = xqerl:run("-475688437271870490"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -634,7 +698,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -646,7 +712,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -658,7 +726,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         303884545991464527\n      ",
+   Exp = "
+         303884545991464527
+      ",
  Tst = xqerl:run("303884545991464527"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -670,7 +740,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999\n      ",
+   Exp = "
+         999999999999999999
+      ",
  Tst = xqerl:run("999999999999999999"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -682,7 +754,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -32768\n      ",
+   Exp = "
+         -32768
+      ",
  Tst = xqerl:run("-32768"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -694,7 +768,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -5324\n      ",
+   Exp = "
+         -5324
+      ",
  Tst = xqerl:run("-5324"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -706,7 +782,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         32767\n      ",
+   Exp = "
+         32767
+      ",
  Tst = xqerl:run("32767"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -720,7 +798,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-DataFunc-3'(_Config) ->
@@ -729,7 +809,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-DataFunc-4'(_Config) ->
@@ -738,7 +820,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-DataFunc-1'(_Config) ->
@@ -747,7 +831,9 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -759,36 +845,57 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-DataFunc-3'(_Config) ->
-   Qry = "\n         let $x := <e><f>1</f></e>\n         return $x/data()\n         \n      ",
+   Qry = "
+         let $x := <e><f>1</f></e>
+         return $x/data()
+         
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          1\n          xs:untypedAtomic\n          \n      ",
+   Exp = "
+        
+          1
+          xs:untypedAtomic
+          
+      ",
  case xqerl_test:string_value(Res) == "1" andalso xqerl_types:type(Res) == 'xs:untypedAtomic' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'K2-DataFunc-4'(_Config) ->
-   Qry = "\n         data()\n         \n      ",
+   Qry = "
+         data()
+         
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-DataFunc-5'(_Config) ->
-   Qry = "\n         (1, data#0)[data()]\n         \n      ",
+   Qry = "
+         (1, data#0)[data()]
+         
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0013" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0013'}) end.
 'K2-DataFunc-6'(_Config) ->
@@ -805,7 +912,12 @@ environment('complexData') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'cbcl-data-002'(_Config) ->

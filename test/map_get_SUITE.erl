@@ -184,7 +184,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            Wednesday\n        ",
+   Exp = "
+            Wednesday
+        ",
    case xqerl_test:string_value(Res) of
              "Wednesday" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -194,7 +196,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-003'(_Config) ->
@@ -203,7 +207,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-004'(_Config) ->
@@ -212,7 +218,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-005'(_Config) ->
@@ -221,7 +229,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            bar\n        ",
+   Exp = "
+            bar
+        ",
    case xqerl_test:string_value(Res) of
              "bar" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -231,7 +241,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            bar\n        ",
+   Exp = "
+            bar
+        ",
    case xqerl_test:string_value(Res) of
              "bar" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -241,7 +253,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            bar\n        ",
+   Exp = "
+            bar
+        ",
    case xqerl_test:string_value(Res) of
              "bar" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -251,7 +265,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-009'(_Config) ->
@@ -260,7 +276,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-010'(_Config) ->
@@ -269,7 +287,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n             Wednesday\n        ",
+   Exp = "
+             Wednesday
+        ",
    case xqerl_test:string_value(Res) of
              "Wednesday" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -279,7 +299,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            Wednesday\n        ",
+   Exp = "
+            Wednesday
+        ",
    case xqerl_test:string_value(Res) of
              "Wednesday" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -289,7 +311,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            Wednesday\n        ",
+   Exp = "
+            Wednesday
+        ",
    case xqerl_test:string_value(Res) of
              "Wednesday" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -299,7 +323,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            Wednesday\n        ",
+   Exp = "
+            Wednesday
+        ",
    case xqerl_test:string_value(Res) of
              "Wednesday" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -309,7 +335,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-015'(_Config) ->
@@ -318,16 +346,24 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-016'(_Config) ->
-   Qry = "map:get(\n                map:new(((for $i in 1 to 1000 return map:entry($i, $i*$i)),\n                         (for $i in 2000 to 3000 return map:entry($i, $i+30)),\n                         (for $i in 2500 to 3500 return map:entry($i, $i+30)))),\n                         3260)",
+   Qry = "map:get(
+                map:new(((for $i in 1 to 1000 return map:entry($i, $i*$i)),
+                         (for $i in 2000 to 3000 return map:entry($i, $i+30)),
+                         (for $i in 2500 to 3500 return map:entry($i, $i+30)))),
+                         3260)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            3290\n        ",
+   Exp = "
+            3290
+        ",
  Tst = xqerl:run("3290"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -339,7 +375,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            Wednesday\n        ",
+   Exp = "
+            Wednesday
+        ",
    case xqerl_test:string_value(Res) of
              "Wednesday" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -349,7 +387,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            Wednesday\n        ",
+   Exp = "
+            Wednesday
+        ",
    case xqerl_test:string_value(Res) of
              "Wednesday" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -359,7 +399,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-020'(_Config) ->
@@ -368,16 +410,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-021'(_Config) ->
-   Qry = "map:get(map:new(map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"}, \n            \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"), \"TH\")",
+   Qry = "map:get(map:new(map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"}, 
+            \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"), \"TH\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-get-022'(_Config) ->
@@ -389,12 +436,20 @@ environment('math') ->
 'map-get-025'(_Config) ->
    {skip,"Collation Environment"}.
 'map-get-100'(_Config) ->
-   Qry = "fn:map(\n            map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"},\n            (\"we\", \"th\"))",
+   Qry = "fn:map(
+            map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"},
+            (\"we\", \"th\"))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                2\n                $result[1] eq \"Wednesday\"\n                $result[2] eq \"Thursday\"\n            \n        ",
+   Exp = "
+            
+                2
+                $result[1] eq \"Wednesday\"
+                $result[2] eq \"Thursday\"
+            
+        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result[1] eq \"Wednesday\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result[2] eq \"Thursday\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 2 of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-get-901'(_Config) ->
@@ -403,7 +458,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'map-get-902'(_Config) ->
@@ -412,7 +469,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'map-get-903'(_Config) ->
@@ -421,7 +480,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'map-get-904'(_Config) ->
@@ -430,7 +491,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'map-get-905'(_Config) ->
@@ -439,7 +502,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'map-get-906'(_Config) ->
@@ -448,6 +513,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.

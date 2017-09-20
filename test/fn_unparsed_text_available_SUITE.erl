@@ -267,7 +267,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-available-002'(_Config) ->
@@ -276,7 +278,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-available-003'(_Config) ->
@@ -285,7 +289,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-004'(_Config) ->
@@ -294,7 +300,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-005'(_Config) ->
@@ -303,7 +311,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-available-006'(_Config) ->
@@ -312,62 +322,114 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-unparsed-text-available-007'(_Config) ->
-   Qry = "fn:unparsed-text-available( \n              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(), fn:current-time() ))\n              then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"\n              else 1 )",
+   Qry = "fn:unparsed-text-available( 
+              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(), fn:current-time() ))
+              then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"
+              else 1 )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-available-008'(_Config) ->
-   Qry = "( fn:unparsed-text-available(\n                if (current-date() eq xs:date('1900-01-01'))\n                then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"\n                else 1 ),\n              fn:unparsed-text-available( \n                if (current-date() eq xs:date('1900-01-01'))\n                then 1\n                else \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\") )",
+   Qry = "( fn:unparsed-text-available(
+                if (current-date() eq xs:date('1900-01-01'))
+                then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"
+                else 1 ),
+              fn:unparsed-text-available( 
+                if (current-date() eq xs:date('1900-01-01'))
+                then 1
+                else \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\") )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-available-009'(_Config) ->
-   Qry = "fn:unparsed-text-available( \n              \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(),\n                                                         fn:current-time() ))\n              then \"utf-8\"\n              else 1 )",
+   Qry = "fn:unparsed-text-available( 
+              \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(),
+                                                         fn:current-time() ))
+              then \"utf-8\"
+              else 1 )",
    Env = xqerl_test:handle_environment(environment('unparsed-text-available')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-available-010'(_Config) ->
-   Qry = "( fn:unparsed-text-available( \n                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                if (current-date() eq xs:date('1900-01-01'))\n                then \"utf-8\"\n                else 1 ),\n              fn:unparsed-text-available( \n                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                if (current-date() eq xs:date('1900-01-01'))\n                then 1\n                else \"utf-8\") )",
+   Qry = "( fn:unparsed-text-available( 
+                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                if (current-date() eq xs:date('1900-01-01'))
+                then \"utf-8\"
+                else 1 ),
+              fn:unparsed-text-available( 
+                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                if (current-date() eq xs:date('1900-01-01'))
+                then 1
+                else \"utf-8\") )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-available-011'(_Config) ->
-   Qry = "fn:unparsed-text-available( \n              \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(),\n                                                         fn:current-time() ))\n              then \"utf-8\"\n              else () )",
+   Qry = "fn:unparsed-text-available( 
+              \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(),
+                                                         fn:current-time() ))
+              then \"utf-8\"
+              else () )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-available-012'(_Config) ->
-   Qry = "( fn:unparsed-text-available( \n                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                if (current-date() eq xs:date('1900-01-01'))\n                then \"utf-8\"\n                else () ),\n              fn:unparsed-text-available( \n                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",\n                if (current-date() eq xs:date('1900-01-01'))\n                then ()\n                else \"utf-8\") )",
+   Qry = "( fn:unparsed-text-available( 
+                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                if (current-date() eq xs:date('1900-01-01'))
+                then \"utf-8\"
+                else () ),
+              fn:unparsed-text-available( 
+                \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
+                if (current-date() eq xs:date('1900-01-01'))
+                then ()
+                else \"utf-8\") )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-unparsed-text-available-013'(_Config) ->
@@ -376,7 +438,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-014'(_Config) ->
@@ -385,7 +449,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-015'(_Config) ->
@@ -394,7 +460,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-016'(_Config) ->
@@ -403,7 +471,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-017'(_Config) ->
@@ -412,7 +482,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-018'(_Config) ->
@@ -421,7 +493,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-019'(_Config) ->
@@ -430,7 +504,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-020'(_Config) ->
@@ -439,7 +515,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-021'(_Config) ->
@@ -448,7 +526,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-022'(_Config) ->
@@ -457,7 +537,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-023'(_Config) ->
@@ -475,7 +557,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0001'}) end.
 'fn-unparsed-text-available-024'(_Config) ->
@@ -493,7 +577,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0001'}) end.
 'fn-unparsed-text-available-025'(_Config) ->
@@ -511,7 +597,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-026'(_Config) ->
@@ -529,7 +617,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-027'(_Config) ->
@@ -539,7 +629,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-028'(_Config) ->
@@ -549,7 +641,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-029'(_Config) ->
@@ -559,7 +653,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-030'(_Config) ->
@@ -569,7 +665,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-031'(_Config) ->
@@ -579,7 +677,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-032'(_Config) ->
@@ -589,7 +689,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-033'(_Config) ->
@@ -607,7 +709,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-034'(_Config) ->
@@ -625,7 +729,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-035'(_Config) ->
@@ -635,7 +741,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-036'(_Config) ->
@@ -645,7 +753,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-037'(_Config) ->
@@ -655,7 +765,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-038'(_Config) ->
@@ -665,7 +777,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-039'(_Config) ->
@@ -675,7 +789,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-040'(_Config) ->
@@ -685,7 +801,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-041'(_Config) ->
@@ -695,7 +813,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-042'(_Config) ->
@@ -705,7 +825,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-043'(_Config) ->
@@ -715,7 +837,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-044'(_Config) ->
@@ -725,7 +849,12 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',false}) orelse (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-unparsed-text-available-045'(_Config) ->
@@ -735,7 +864,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-046'(_Config) ->
@@ -745,7 +876,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-047'(_Config) ->
@@ -755,7 +888,12 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n	  \n	  \n	\n      ",
+   Exp = "
+	
+	  
+	  
+	
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',false}) orelse (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-unparsed-text-available-048'(_Config) ->
@@ -765,7 +903,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-049'(_Config) ->
@@ -775,7 +915,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-050'(_Config) ->
@@ -785,7 +927,9 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-unparsed-text-available-051'(_Config) ->
@@ -795,6 +939,8 @@ environment('unparsed-text-available-with-base-uri-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

@@ -216,7 +216,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'version_declaration-020'(_Config) ->
@@ -225,7 +227,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-VersionProlog-3'(_Config) ->
@@ -236,7 +240,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'version_declaration-022-v1'(_Config) ->
@@ -247,7 +253,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'version_declaration-023-v1'(_Config) ->
@@ -258,7 +266,12 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          \n            \n            \n          \n      ",
+   Exp = "
+          
+            
+            
+          
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError') of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'version_declaration-002'(_Config) ->
@@ -267,7 +280,12 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          \n             <bib/>\n             \n          \n      ",
+   Exp = "
+          
+             <bib/>
+             
+          
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<bib/>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError') of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'version_declaration-001'(_Config) ->
@@ -276,7 +294,12 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          \n            1 2\n            \n          \n      ",
+   Exp = "
+          
+            1 2
+            
+          
+      ",
  case (xqerl_test:string_value(Res) == "1 2") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError') of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'version_declaration-007'(_Config) ->
@@ -285,7 +308,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0031" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0031'}) end.
 'version_declaration-008'(_Config) ->
@@ -294,7 +319,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0031" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0031'}) end.
 'version_declaration-021'(_Config) ->
@@ -303,7 +330,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0031" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0031'}) end.
 'VersionDecl-v1-processor-and-v3-query'(_Config) ->
@@ -314,7 +343,12 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            <bib/>\n         \n      ",
+   Exp = "
+         
+            
+            <bib/>
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<bib/>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0031") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'version_declaration-010'(_Config) ->
@@ -325,7 +359,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0087" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0087'}) end.
 'K-VersionProlog-3'(_Config) ->
@@ -336,7 +372,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0087" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0087'}) end.
 'K-VersionProlog-4'(_Config) ->
@@ -347,7 +385,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0087" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0087'}) end.
 'K-VersionProlog-2'(_Config) ->
@@ -358,7 +398,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'prolog-version-4'(_Config) ->
@@ -369,7 +411,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2\n      ",
+   Exp = "
+         1 2
+      ",
    case xqerl_test:string_value(Res) of
              "1 2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -381,7 +425,9 @@ environment('bib2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          <bib/>\n      ",
+   Exp = "
+          <bib/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<bib/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -393,13 +439,21 @@ end.
 'prolog-version-6'(_Config) ->
    {skip,"XQ10"}.
 'prolog-version-6-v3'(_Config) ->
-   Qry = "\n        xquery version '3.0'; \n        declare boundary-space preserve; \n        declare default order empty greatest; \n        declare namespace ns = \"http://www.example.org/\"; \n        for $b in//book stable order by xs:decimal($b/price[1]) empty greatest \n        return $b/title",
+   Qry = "
+        xquery version '3.0'; 
+        declare boundary-space preserve; 
+        declare default order empty greatest; 
+        declare namespace ns = \"http://www.example.org/\"; 
+        for $b in//book stable order by xs:decimal($b/price[1]) empty greatest 
+        return $b/title",
    Env = xqerl_test:handle_environment(environment('bib2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>\n      ",
+   Exp = "
+         <title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -411,13 +465,21 @@ end.
 'prolog-version-7'(_Config) ->
    {skip,"XQ10"}.
 'prolog-version-7-v3'(_Config) ->
-   Qry = "\n        xquery version \"3.0\"; \n        declare boundary-space preserve; \n        declare default order empty greatest; \n        declare namespace ns = \"http://www.example.org/\"; \n        for $b in //book stable order by xs:decimal($b/price[1]) empty greatest \n        return $b/title",
+   Qry = "
+        xquery version \"3.0\"; 
+        declare boundary-space preserve; 
+        declare default order empty greatest; 
+        declare namespace ns = \"http://www.example.org/\"; 
+        for $b in //book stable order by xs:decimal($b/price[1]) empty greatest 
+        return $b/title",
    Env = xqerl_test:handle_environment(environment('bib2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>\n      ",
+   Exp = "
+         <title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -436,7 +498,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2\n      ",
+   Exp = "
+         1 2
+      ",
    case xqerl_test:string_value(Res) of
              "1 2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -448,19 +512,36 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2\n      ",
+   Exp = "
+         1 2
+      ",
    case xqerl_test:string_value(Res) of
              "1 2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-VersionProlog-5'(_Config) ->
    {skip,"XQ10"}.
 'K-VersionProlog-5-v3'(_Config) ->
-   Qry = "\n        xquery version \"3.0\" encoding \"ISO-8859-1\"; \n        declare boundary-space preserve; \n        declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; \n        declare base-uri \"http://example.com/\"; \n        declare construction strip; \n        declare ordering ordered; \n        declare default order empty greatest; \n        declare copy-namespaces no-preserve, no-inherit; \n        declare namespace ex = \"http://example.com/a/Namespace\"; \n        declare default element namespace \"http://example.com/\"; \n        declare default function namespace \"http://example.com/\"; \n        declare option fn:x-notRecognized \"option content\"; \n        1 eq 1",
+   Qry = "
+        xquery version \"3.0\" encoding \"ISO-8859-1\"; 
+        declare boundary-space preserve; 
+        declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 
+        declare base-uri \"http://example.com/\"; 
+        declare construction strip; 
+        declare ordering ordered; 
+        declare default order empty greatest; 
+        declare copy-namespaces no-preserve, no-inherit; 
+        declare namespace ex = \"http://example.com/a/Namespace\"; 
+        declare default element namespace \"http://example.com/\"; 
+        declare default function namespace \"http://example.com/\"; 
+        declare option fn:x-notRecognized \"option content\"; 
+        1 eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'version_declaration-023-v3'(_Config) ->
@@ -469,7 +550,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-VersionProlog-1'(_Config) ->
@@ -478,7 +561,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-VersionProlog-2'(_Config) ->
@@ -487,7 +572,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-VersionProlog-4'(_Config) ->
@@ -496,7 +583,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-VersionProlog-5'(_Config) ->
@@ -505,6 +594,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.

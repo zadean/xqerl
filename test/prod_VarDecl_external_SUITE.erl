@@ -343,7 +343,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            abc\n            \n         \n      ",
+   Exp = "
+         
+            abc
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "abc") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-2'(_Config) ->
@@ -361,7 +366,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2006-02-07+05:00\n            \n         \n      ",
+   Exp = "
+         
+            2006-02-07+05:00
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "2006-02-07+05:00") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-3'(_Config) ->
@@ -379,7 +389,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2\n            \n         \n      ",
+   Exp = "
+         
+            2
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -400,7 +415,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            120\n            \n         \n      ",
+   Exp = "
+         
+            120
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("120"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -421,7 +441,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -442,7 +467,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1.25E11\n            \n         \n      ",
+   Exp = "
+         
+            1.25E11
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "1.25E11") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-7'(_Config) ->
@@ -460,7 +490,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            12678967.543233\n            \n         \n      ",
+   Exp = "
+         
+            12678967.543233
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "12678967.543233") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-8'(_Config) ->
@@ -478,7 +513,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            4\n            \n         \n      ",
+   Exp = "
+         
+            4
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("4"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -499,7 +539,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2\n            \n         \n      ",
+   Exp = "
+         
+            2
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -520,7 +565,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2\n            \n         \n      ",
+   Exp = "
+         
+            2
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -541,7 +591,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            16\n            \n         \n      ",
+   Exp = "
+         
+            16
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("16"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -562,7 +617,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2\n            \n         \n      ",
+   Exp = "
+         
+            2
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -583,7 +643,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            5\n            \n         \n      ",
+   Exp = "
+         
+            5
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("5"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -604,7 +669,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2\n            \n         \n      ",
+   Exp = "
+         
+            2
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -625,7 +695,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -646,7 +721,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',false}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-17'(_Config) ->
@@ -664,7 +744,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-18'(_Config) ->
@@ -682,7 +767,13 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2.333333333333333333\n            2.333333333333\n            \n         \n      ",
+   Exp = "
+         
+            2.333333333333333333
+            2.333333333333
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "2.333333333333333333") orelse (xqerl_test:string_value(Res) == "2.333333333333") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-19'(_Config) ->
@@ -700,7 +791,9 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'extvardeclwithouttype-20'(_Config) ->
@@ -718,7 +811,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            THIS STRING SHOULD BE ALL IN UPPER CASE\n            \n         \n      ",
+   Exp = "
+         
+            THIS STRING SHOULD BE ALL IN UPPER CASE
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "THIS STRING SHOULD BE ALL IN UPPER CASE") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-21'(_Config) ->
@@ -736,7 +834,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            this string should all be in lower case\n            \n         \n      ",
+   Exp = "
+         
+            this string should all be in lower case
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "this string should all be in lower case") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-22'(_Config) ->
@@ -754,7 +857,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',false}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0006") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithouttype-23'(_Config) ->
@@ -763,7 +871,9 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWithout-1'(_Config) ->
@@ -772,7 +882,9 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWithout-2'(_Config) ->
@@ -781,34 +893,50 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWithout-3'(_Config) ->
-   Qry = "\n        declare default element namespace \"\"; \n        declare namespace prefix = \"\"; \n        declare variable $prefix:input-context external; 1",
+   Qry = "
+        declare default element namespace \"\"; 
+        declare namespace prefix = \"\"; 
+        declare variable $prefix:input-context external; 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'K2-ExternalVariablesWithout-4'(_Config) ->
-   Qry = "\n        \n        declare variable $exampleComThisVarIsNotRecognized external; $exampleComThisVarIsNotRecognized",
+   Qry = "
+        
+        declare variable $exampleComThisVarIsNotRecognized external; $exampleComThisVarIsNotRecognized",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWithout-5'(_Config) ->
-   Qry = "\n        declare namespace e = \"http://example.com/ANamespace\"; \n        declare variable $e:exampleComThisVarIsNotRecognized external; \n        $e:exampleComThisVarIsNotRecognized",
+   Qry = "
+        declare namespace e = \"http://example.com/ANamespace\"; 
+        declare variable $e:exampleComThisVarIsNotRecognized external; 
+        $e:exampleComThisVarIsNotRecognized",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWithout-6'(_Config) ->
@@ -817,7 +945,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -829,7 +962,12 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -841,7 +979,9 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -853,7 +993,9 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-ExternalVariablesWithout-10'(_Config) ->
@@ -862,7 +1004,9 @@ environment('CPPGlobals') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <r>true true<e><a/></e><e><a/></e></r>\n      ",
+   Exp = "
+         <r>true true<e><a/></e><e><a/></e></r>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<r>true true<e><a/></e><e><a/></e></r>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -877,7 +1021,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         false false false\n      ",
+   Exp = "
+         false false false
+      ",
    case xqerl_test:string_value(Res) of
              "false false false" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -887,7 +1033,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <r><e name1=\"\" name2=\"\" name3=\"\"/><e name1=\"\" name2=\"\" name3=\"\"/></r>\n      ",
+   Exp = "
+         <r><e name1=\"\" name2=\"\" name3=\"\"/><e name1=\"\" name2=\"\" name3=\"\"/></r>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<r><e name1=\"\" name2=\"\" name3=\"\"/><e name1=\"\" name2=\"\" name3=\"\"/></r>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -902,7 +1050,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true SUCCESS\n      ",
+   Exp = "
+         true SUCCESS
+      ",
    case xqerl_test:string_value(Res) of
              "true SUCCESS" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -912,7 +1062,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ExternalVariablesWithout-15'(_Config) ->
@@ -921,7 +1073,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ExternalVariablesWithout-16'(_Config) ->
@@ -930,7 +1084,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWithout-17'(_Config) ->
@@ -939,7 +1095,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWithout-18'(_Config) ->
@@ -950,7 +1108,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -962,16 +1122,22 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWithout-20'(_Config) ->
-   Qry = "\n        declare variable $global := count(*); \n        <e/>/($global, $global)",
+   Qry = "
+        declare variable $global := count(*); 
+        <e/>/($global, $global)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWithout-21'(_Config) ->
@@ -981,7 +1147,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 1 1\n      ",
+   Exp = "
+         1 1 1
+      ",
    case xqerl_test:string_value(Res) of
              "1 1 1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -992,7 +1160,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1013,7 +1183,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abc\n      ",
+   Exp = "
+         abc
+      ",
    case xqerl_test:string_value(Res) of
              "abc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1032,7 +1204,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2000-01-01+05:00\n      ",
+   Exp = "
+         2000-01-01+05:00
+      ",
    case xqerl_test:string_value(Res) of
              "2000-01-01+05:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1051,7 +1225,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1072,7 +1248,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         120\n      ",
+   Exp = "
+         120
+      ",
  Tst = xqerl:run("120"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1093,7 +1271,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true\n      ",
+   Exp = "
+         true
+      ",
    case xqerl_test:string_value(Res) of
              "true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1112,7 +1292,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1.2674323E15\n            1.2674324E15\n         \n      ",
+   Exp = "
+         
+            1.2674323E15
+            1.2674324E15
+         
+      ",
  case (xqerl_test:string_value(Res) == "1.2674323E15") orelse (xqerl_test:string_value(Res) == "1.2674324E15") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithtype-7'(_Config) ->
@@ -1130,7 +1315,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         12678967.543233\n      ",
+   Exp = "
+         12678967.543233
+      ",
    case xqerl_test:string_value(Res) of
              "12678967.543233" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1149,7 +1336,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4\n      ",
+   Exp = "
+         4
+      ",
  Tst = xqerl:run("4"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1170,7 +1359,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1191,7 +1382,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1212,7 +1405,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         16\n      ",
+   Exp = "
+         16
+      ",
  Tst = xqerl:run("16"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1233,7 +1428,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1254,7 +1451,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         5\n      ",
+   Exp = "
+         5
+      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1275,7 +1474,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1296,7 +1497,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1317,7 +1520,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'extvardeclwithtype-17'(_Config) ->
@@ -1335,7 +1540,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'extvardeclwithtype-18'(_Config) ->
@@ -1353,7 +1560,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            2.3333333\n            2.33333\n         \n      ",
+   Exp = "
+         
+            2.3333333
+            2.33333
+         
+      ",
  case (xqerl_test:string_value(Res) == "2.3333333") orelse (xqerl_test:string_value(Res) == "2.33333") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'extvardeclwithtype-19'(_Config) ->
@@ -1371,7 +1583,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'extvardeclwithtype-20'(_Config) ->
@@ -1389,7 +1603,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         THIS STRING SHOULD BE ALL IN UPPER CASE\n      ",
+   Exp = "
+         THIS STRING SHOULD BE ALL IN UPPER CASE
+      ",
    case xqerl_test:string_value(Res) of
              "THIS STRING SHOULD BE ALL IN UPPER CASE" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1408,7 +1624,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         this string should all be in lower case\n      ",
+   Exp = "
+         this string should all be in lower case
+      ",
    case xqerl_test:string_value(Res) of
              "this string should all be in lower case" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1427,18 +1645,115 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'extvardeclwithtype-23'(_Config) ->
-   Qry = "(: \n    This query opens a C++ GCC-XML output file, and outputs a report describing the use\n    of globals variables.\n:)\ndeclare variable $inputDocument := (/);\n\n(: Determines whether the type by ID @p typeId is a complex type such as QString. :)\ndeclare function local:isComplexType($typeID as xs:string) as xs:boolean\n{\n    (: We're being a bit crude here and only checks whether it's a class. We\n       actually should check whether it has non-synthesized,\n        constructors, I believe. :)\n    \n    exists($inputDocument/xml/Class[@id = $typeID])\n    or\n    (: We also want const-qualified variables. :)\n    exists($inputDocument/xml/Class[@id = $inputDocument/xml/CvQualifiedType[@id = $typeID]/@type])\n};\n\ndeclare function local:isPrimitive($typeId as xs:string) as xs:boolean\n{\n    exists($inputDocument/xml/FundamentalType[@id = $typeId])\n};\n\n(: Returns a string for human consumption that describes\n   the location of @p block. :)\ndeclare function local:location($block as element()) as xs:string\n{\n    concat($inputDocument/xml/File[@id = $block/@file]/@name, \" at line \", $block/@line)\n};\n\ndeclare function local:report() as element()+\n{\n            let $complexVariables as element(Variable)* := $inputDocument/xml/Variable[local:isComplexType(@type)]\n            return if(exists($complexVariables)) (: Is the length larger than zero? :)\n\n                   then (<p xmlns=\"http://www.w3.org/1999/xhtml/\">The following global, complex variables were found:</p>,\n                         <ol xmlns=\"http://www.w3.org/1999/xhtml/\">\n                            {\n                                (: For each Variable in $complexVariables... :)\n                                $complexVariables/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>\n                            }\n                         </ol>)\n\n                   else <p xmlns=\"http://www.w3.org/1999/xhtml/\">No global variables that are of complex types were found.</p>\n\n            ,\n\n            (: List primitive, mutable types. :)\n            let $primitiveVariables as element(Variable)+ := $inputDocument/xml/Variable[local:isPrimitive(@type)]\n            return if(exists($primitiveVariables))\n\n                   then (<p xmlns=\"http://www.w3.org/1999/xhtml/\">The following mutable primitives were found:</p>,\n                         <ol xmlns=\"http://www.w3.org/1999/xhtml/\">\n                            {\n                                (: For each Variable in $complexVariables... :)\n                                $primitiveVariables/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>\n                            }\n                         </ol>)\n\n                   else <p xmlns=\"http://www.w3.org/1999/xhtml/\">No global variables that are of complex types were found.</p>\n};\n\n<html xmlns=\"http://www.w3.org/1999/xhtml/\" xml:lang=\"en\" lang=\"en\">\n    <head>\n        <title>Global variables report for {\"Globals.cpp\"}</title>\n    </head>\n    <style type=\"text/css\">\n        .details\n        {{\n            text-align: center;\n            font-size: 80%;\n            color: gray\n        }}\n        .variableName\n        {{\n            font-family: courier\n        }}\n    </style>\n\n    <body>\n        {\n            (: We don't want simple types that are const, but all other types.\n               One could frown upon const integers and say enums should be used instead, but\n               let's be gentle. :)\n\n            local:report()\n        }\n\n        <p class=\"details\">This report was generated on</p>\n    </body>\n\n</html>\n",
+   Qry = "(: 
+    This query opens a C++ GCC-XML output file, and outputs a report describing the use
+    of globals variables.
+:)
+declare variable $inputDocument := (/);
+
+(: Determines whether the type by ID @p typeId is a complex type such as QString. :)
+declare function local:isComplexType($typeID as xs:string) as xs:boolean
+{
+    (: We're being a bit crude here and only checks whether it's a class. We
+       actually should check whether it has non-synthesized,
+        constructors, I believe. :)
+    
+    exists($inputDocument/xml/Class[@id = $typeID])
+    or
+    (: We also want const-qualified variables. :)
+    exists($inputDocument/xml/Class[@id = $inputDocument/xml/CvQualifiedType[@id = $typeID]/@type])
+};
+
+declare function local:isPrimitive($typeId as xs:string) as xs:boolean
+{
+    exists($inputDocument/xml/FundamentalType[@id = $typeId])
+};
+
+(: Returns a string for human consumption that describes
+   the location of @p block. :)
+declare function local:location($block as element()) as xs:string
+{
+    concat($inputDocument/xml/File[@id = $block/@file]/@name, \" at line \", $block/@line)
+};
+
+declare function local:report() as element()+
+{
+            let $complexVariables as element(Variable)* := $inputDocument/xml/Variable[local:isComplexType(@type)]
+            return if(exists($complexVariables)) (: Is the length larger than zero? :)
+
+                   then (<p xmlns=\"http://www.w3.org/1999/xhtml/\">The following global, complex variables were found:</p>,
+                         <ol xmlns=\"http://www.w3.org/1999/xhtml/\">
+                            {
+                                (: For each Variable in $complexVariables... :)
+                                $complexVariables/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>
+                            }
+                         </ol>)
+
+                   else <p xmlns=\"http://www.w3.org/1999/xhtml/\">No global variables that are of complex types were found.</p>
+
+            ,
+
+            (: List primitive, mutable types. :)
+            let $primitiveVariables as element(Variable)+ := $inputDocument/xml/Variable[local:isPrimitive(@type)]
+            return if(exists($primitiveVariables))
+
+                   then (<p xmlns=\"http://www.w3.org/1999/xhtml/\">The following mutable primitives were found:</p>,
+                         <ol xmlns=\"http://www.w3.org/1999/xhtml/\">
+                            {
+                                (: For each Variable in $complexVariables... :)
+                                $primitiveVariables/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>
+                            }
+                         </ol>)
+
+                   else <p xmlns=\"http://www.w3.org/1999/xhtml/\">No global variables that are of complex types were found.</p>
+};
+
+<html xmlns=\"http://www.w3.org/1999/xhtml/\" xml:lang=\"en\" lang=\"en\">
+    <head>
+        <title>Global variables report for {\"Globals.cpp\"}</title>
+    </head>
+    <style type=\"text/css\">
+        .details
+        {{
+            text-align: center;
+            font-size: 80%;
+            color: gray
+        }}
+        .variableName
+        {{
+            font-family: courier
+        }}
+    </style>
+
+    <body>
+        {
+            (: We don't want simple types that are const, but all other types.
+               One could frown upon const integers and say enums should be used instead, but
+               let's be gentle. :)
+
+            local:report()
+        }
+
+        <p class=\"details\">This report was generated on</p>
+    </body>
+
+</html>
+",
    Env = xqerl_test:handle_environment(environment('CPPGlobals')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<html xmlns=\"http://www.w3.org/1999/xhtml/\" xml:lang=\"en\" lang=\"en\"><head><title>Global variables report for Globals.cpp</title></head><style type=\"text/css\">\n        .details\n        {\n            text-align: center;\n            font-size: 80%;\n            color: gray\n        }\n        .variableName\n        {\n            font-family: courier\n        }\n    </style><body><p>The following global, complex variables were found:</p><ol><li><span class=\"variableName\">constComplex2</span> in globals.cpp at line 17</li><li><span class=\"variableName\">constComplex1</span> in globals.cpp at line 16</li><li><span class=\"variableName\">mutableComplex2</span> in globals.cpp at line 15</li><li><span class=\"variableName\">mutableComplex1</span> in globals.cpp at line 14</li></ol><p>The following mutable primitives were found:</p><ol><li><span class=\"variableName\">mutablePrimitive2</span> in globals.cpp at line 2</li><li><span class=\"variableName\">mutablePrimitive1</span> in globals.cpp at line 1</li></ol><p class=\"details\">This report was generated on</p></body></html>"++"</x>)")) of "true" -> {comment, "assert-xml"};
+   Exp = "
+         
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<html xmlns=\"http://www.w3.org/1999/xhtml/\" xml:lang=\"en\" lang=\"en\"><head><title>Global variables report for Globals.cpp</title></head><style type=\"text/css\">\n        .details\n        {\n            text-align: center;\n            font-size: 80%;\n            color: gray\n        }\n        .variableName\n        {\n            font-family: courier\n        }\n    </style><body><p>The following global, complex variables were found:</p><ol><li><span class=\"variableName\">constComplex2</span> in globals.cpp at line 17</li><li><span class=\"variableName\">constComplex1</span> in globals.cpp at line 16</li><li><span class=\"variableName\">mutableComplex2</span> in globals.cpp at line 15</li><li><span class=\"variableName\">mutableComplex1</span> in globals.cpp at line 14</li></ol><p>The following mutable primitives were found:</p><ol><li><span class=\"variableName\">mutablePrimitive2</span> in globals.cpp at line 2</li><li><span class=\"variableName\">mutablePrimitive1</span> in globals.cpp at line 1</li></ol><p class=\"details\">This report was generated on</p></body></html>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
                  true -> {comment, "assert-xml"};
@@ -1451,7 +1766,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-2'(_Config) ->
@@ -1460,7 +1777,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-3'(_Config) ->
@@ -1469,7 +1788,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-4'(_Config) ->
@@ -1478,7 +1799,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-5'(_Config) ->
@@ -1487,7 +1810,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-6'(_Config) ->
@@ -1496,7 +1821,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-7'(_Config) ->
@@ -1505,7 +1832,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWith-8'(_Config) ->
@@ -1514,7 +1843,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ExternalVariablesWith-9'(_Config) ->
@@ -1523,7 +1854,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1535,7 +1871,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1547,7 +1888,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ExternalVariablesWith-12'(_Config) ->
@@ -1556,7 +1899,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-13'(_Config) ->
@@ -1565,7 +1910,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-14'(_Config) ->
@@ -1574,7 +1921,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-15'(_Config) ->
@@ -1583,7 +1932,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-16'(_Config) ->
@@ -1592,7 +1943,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-17'(_Config) ->
@@ -1601,7 +1954,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-18'(_Config) ->
@@ -1610,7 +1965,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-19'(_Config) ->
@@ -1619,7 +1976,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ExternalVariablesWith-20'(_Config) ->
@@ -1629,7 +1988,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-21'(_Config) ->
@@ -1639,7 +2000,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0049" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0049'}) end.
 'K2-ExternalVariablesWith-22'(_Config) ->
@@ -1652,7 +2015,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1664,7 +2029,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ExternalVariablesWith-25'(_Config) ->
@@ -1673,7 +2040,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ExternalVariablesWith-26'(_Config) ->
@@ -1682,7 +2051,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ExternalVariablesWith-27'(_Config) ->
@@ -1691,6 +2062,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.

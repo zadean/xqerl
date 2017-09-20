@@ -161,7 +161,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         15\n      ",
+   Exp = "
+         15
+      ",
  Tst = xqerl:run("15"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -174,7 +176,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         210\n      ",
+   Exp = "
+         210
+      ",
  Tst = xqerl:run("210"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -187,7 +191,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fold-left-004'(_Config) ->
@@ -197,7 +203,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fold-left-005'(_Config) ->
@@ -207,7 +215,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         5, 4, 3, 2, 1\n      ",
+   Exp = "
+         5, 4, 3, 2, 1
+      ",
  Tst = xqerl:run("5, 4, 3, 2, 1"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -220,7 +230,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         '.1.2.3.4.5'\n      ",
+   Exp = "
+         '.1.2.3.4.5'
+      ",
  Tst = xqerl:run("'.1.2.3.4.5'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -233,27 +245,64 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         $f($f($f($f($f($zero, 1), 2), 3), 4), 5)\n      ",
+   Exp = "
+         $f($f($f($f($f($zero, 1), 2), 3), 4), 5)
+      ",
    case xqerl_test:string_value(Res) of
              "$f($f($f($f($f($zero, 1), 2), 3), 4), 5)" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fold-left-008'(_Config) ->
-   Qry = "\n            let $hours := function ($emp as element(employee)) as xs:integer { sum($emp/hours/xs:integer(.)) },\n                $highest := function ($f as function(item()) as xs:anyAtomicType, $seq as item()*)  {           \n                    fold-left($seq, (), function($highestSoFar as item()*, $this as item()*) as item()* {\n                          if (empty($highestSoFar))\n                          then $this\n                          else let $thisValue := $f($this),\n                                   $highestValue := $f($highestSoFar[1])\n                               return if ($thisValue gt $highestValue)\n                                      then $this\n                                      else if ($thisValue eq $highestValue)\n                                           then ($highestSoFar, $this)\n                                           else $highestSoFar\n                       })\n            }\n            \n            return $highest($hours, /works/employee) \n        ",
+   Qry = "
+            let $hours := function ($emp as element(employee)) as xs:integer { sum($emp/hours/xs:integer(.)) },
+                $highest := function ($f as function(item()) as xs:anyAtomicType, $seq as item()*)  {           
+                    fold-left($seq, (), function($highestSoFar as item()*, $this as item()*) as item()* {
+                          if (empty($highestSoFar))
+                          then $this
+                          else let $thisValue := $f($this),
+                                   $highestValue := $f($highestSoFar[1])
+                               return if ($thisValue gt $highestValue)
+                                      then $this
+                                      else if ($thisValue eq $highestValue)
+                                           then ($highestSoFar, $this)
+                                           else $highestSoFar
+                       })
+            }
+            
+            return $highest($hours, /works/employee) 
+        ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n            1\n            element(employee)\n            $result/@name = \"John Doe 2\"\n        \n       ",
+   Exp = "
+        
+            1
+            element(employee)
+            $result/@name = \"John Doe 2\"
+        
+       ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result/@name = \"John Doe 2\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'element(employee)' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'fold-left-009'(_Config) ->
-   Qry = "\n            declare function local:distinct-nodes-stable($seq as node()*) { \n                fold-left( $seq, (), function($foundSoFar as node()*, $this as node()) as node()* {\n                if ($foundSoFar intersect $this)\n                then $foundSoFar\n                else ($foundSoFar, $this) })\n            }; \n            let $nodes := (<a/>, <b/>, <c/>, <d/>, <e/>, <f/>) \n            let $perm := ($nodes[1], $nodes[2], $nodes[4], $nodes[1], $nodes[2], $nodes[3], $nodes[2], $nodes[1]) \n            return local:distinct-nodes-stable($perm)/local-name()\n      ",
+   Qry = "
+            declare function local:distinct-nodes-stable($seq as node()*) { 
+                fold-left( $seq, (), function($foundSoFar as node()*, $this as node()) as node()* {
+                if ($foundSoFar intersect $this)
+                then $foundSoFar
+                else ($foundSoFar, $this) })
+            }; 
+            let $nodes := (<a/>, <b/>, <c/>, <d/>, <e/>, <f/>) 
+            let $perm := ($nodes[1], $nodes[2], $nodes[4], $nodes[1], $nodes[2], $nodes[3], $nodes[2], $nodes[1]) 
+            return local:distinct-nodes-stable($perm)/local-name()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a b d c\n      ",
+   Exp = "
+         a b d c
+      ",
    case xqerl_test:string_value(Res) of
              "a b d c" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -264,7 +313,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fold-left-011'(_Config) ->
@@ -274,7 +325,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fold-left-012'(_Config) ->
@@ -284,7 +337,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fold-left-013'(_Config) ->
@@ -294,7 +349,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fold-left-014'(_Config) ->
@@ -304,7 +361,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fold-left-015'(_Config) ->
@@ -314,20 +373,46 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            1, 1, 2\n        ",
+   Exp = "
+            1, 1, 2
+        ",
  Tst = xqerl:run("1, 1, 2"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fold-left-016'(_Config) ->
-   Qry = "\nlet $html := <html>\n  <body>\n	<div id=\"main\">\n	  <p class=\"para\">Hello World!</p>	\n	</div>\n	<p class=\"para\">Goodbye!</p>	\n  </body>\n</html>\nlet $css-selectors := <selectors>\n  <id>main</id>\n  <class>para</class>\n</selectors>/*\nlet $interpreter  := function($ctx, $selector){\n  typeswitch($selector)\n    case $a as element(id) return $ctx//*[@id = $a/text()]\n    case $a as element(class) return $ctx//*[@class = $a/text()]\n  default return ()\n}\nlet $result := fold-left($css-selectors, $html, $interpreter)\nreturn\n  $result/text()\n	 ",
+   Qry = "
+let $html := <html>
+  <body>
+	<div id=\"main\">
+	  <p class=\"para\">Hello World!</p>	
+	</div>
+	<p class=\"para\">Goodbye!</p>	
+  </body>
+</html>
+let $css-selectors := <selectors>
+  <id>main</id>
+  <class>para</class>
+</selectors>/*
+let $interpreter  := function($ctx, $selector){
+  typeswitch($selector)
+    case $a as element(id) return $ctx//*[@id = $a/text()]
+    case $a as element(class) return $ctx//*[@class = $a/text()]
+  default return ()
+}
+let $result := fold-left($css-selectors, $html, $interpreter)
+return
+  $result/text()
+	 ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            Hello World!\n        ",
+   Exp = "
+            Hello World!
+        ",
    case xqerl_test:string_value(Res) of
              "Hello World!" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -338,18 +423,42 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            (((((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)+11)+12)+13)\n        ",
+   Exp = "
+            (((((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)+11)+12)+13)
+        ",
    case xqerl_test:string_value(Res) of
              "(((((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)+11)+12)+13)" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fold-left-018'(_Config) ->
-   Qry = "\nlet $text := \"Peter Piper picked a peck of pickled peppers A peck of pickled peppers Peter Piper picked\"\nlet $tokens := tokenize($text, '\\s')\nlet $counter := function($result, $word){\n  let $word-count := $result[@value = $word]\n  return\n    if(empty($word-count)) then\n      ($result, <word value=\"{$word}\" count=\"1\" />)\n    else\n    (\n      $result except $word-count,\n      <word value=\"{$word-count/@value}\" count=\"{number($word-count/@count) + 1}\" />\n    )\n}\nlet $words := fold-left($tokens, (), $counter)\nreturn (\n  number($words[@value=\"Peter\"]/@count),\n  number($words[@value=\"Piper\"]/@count),\n  number($words[@value=\"pickled\"]/@count)\n)\n",
+   Qry = "
+let $text := \"Peter Piper picked a peck of pickled peppers A peck of pickled peppers Peter Piper picked\"
+let $tokens := tokenize($text, '\\s')
+let $counter := function($result, $word){
+  let $word-count := $result[@value = $word]
+  return
+    if(empty($word-count)) then
+      ($result, <word value=\"{$word}\" count=\"1\" />)
+    else
+    (
+      $result except $word-count,
+      <word value=\"{$word-count/@value}\" count=\"{number($word-count/@count) + 1}\" />
+    )
+}
+let $words := fold-left($tokens, (), $counter)
+return (
+  number($words[@value=\"Peter\"]/@count),
+  number($words[@value=\"Piper\"]/@count),
+  number($words[@value=\"pickled\"]/@count)
+)
+",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            2, 2, 2\n        ",
+   Exp = "
+            2, 2, 2
+        ",
  Tst = xqerl:run("2, 2, 2"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -362,7 +471,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            8.625\n        ",
+   Exp = "
+            8.625
+        ",
    case xqerl_test:string_value(Res) of
              "8.625" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -373,7 +484,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            1000000\n        ",
+   Exp = "
+            1000000
+        ",
    case xqerl_test:string_value(Res) of
              "1000000" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

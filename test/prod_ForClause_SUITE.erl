@@ -536,7 +536,9 @@ environment('SpecialTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         test test1 test2\n      ",
+   Exp = "
+         test test1 test2
+      ",
    case xqerl_test:string_value(Res) of
              "test test1 test2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -547,7 +549,9 @@ environment('SpecialTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'ForExpr003'(_Config) ->
@@ -557,7 +561,9 @@ environment('SpecialTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <FolderName name=\"Folder00000000047\"/>\n      ",
+   Exp = "
+         <FolderName name=\"Folder00000000047\"/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FolderName name=\"Folder00000000047\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -573,7 +579,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <file creator=\"Mani\" creation_date=\"08/06/00\" />\n      ",
+   Exp = "
+         <file creator=\"Mani\" creation_date=\"08/06/00\" />
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<file creator=\"Mani\" creation_date=\"08/06/00\" />"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -589,7 +597,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         so00000000001\n      ",
+   Exp = "
+         so00000000001
+      ",
    case xqerl_test:string_value(Res) of
              "so00000000001" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -600,7 +610,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <fragment-result><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"97\">File00000000062</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"97\">File00000000062</file></Folder></fragment-result>\n      ",
+   Exp = "
+         <fragment-result><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"97\">File00000000062</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"97\">File00000000062</file></Folder></fragment-result>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<fragment-result><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"97\">File00000000062</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"97\">File00000000062</file></Folder></fragment-result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -616,7 +628,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <FolderName>Folder00000000000</FolderName>\n      ",
+   Exp = "
+         <FolderName>Folder00000000000</FolderName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FolderName>Folder00000000000</FolderName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -632,7 +646,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <FolderName>Folder00000000000</FolderName>\n      ",
+   Exp = "
+         <FolderName>Folder00000000000</FolderName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FolderName>Folder00000000000</FolderName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -647,7 +663,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'ForExpr010'(_Config) ->
@@ -657,7 +675,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>\n      ",
+   Exp = "
+         <File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -673,7 +693,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>\n      ",
+   Exp = "
+         <File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -689,18 +711,25 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100\n      ",
+   Exp = "
+         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'ForExpr013'(_Config) ->
-   Qry = "\n        for $fileName in //File/FileName, \n            $folderName in //Folder[contains(description, 'fren')]/FolderName \n        return ($folderName, $fileName)",
+   Qry = "
+        for $fileName in //File/FileName, 
+            $folderName in //Folder[contains(description, 'fren')]/FolderName 
+        return ($folderName, $fileName)",
    Env = xqerl_test:handle_environment(environment('fsx')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FolderName>Folder00000000026</FolderName><FileName>File00000000000</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000001</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000002</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000003</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000004</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000005</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000006</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000007</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000008</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000009</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000010</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000011</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000012</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000013</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000014</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000015</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000016</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000017</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000018</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000019</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000020</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000021</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000022</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000023</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000024</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000025</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000026</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000027</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000028</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000029</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000030</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000031</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000032</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000033</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000034</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000035</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000036</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000037</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000038</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000039</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000040</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000041</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000042</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000043</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000044</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000045</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000046</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000047</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000048</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000049</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000050</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000051</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000052</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000053</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000054</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000055</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000056</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000057</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000058</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000059</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000060</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000061</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000062</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000063</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000064</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000065</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000066</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000067</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000068</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000069</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000070</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000071</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000072</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000073</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000074</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000075</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000076</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000077</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000078</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000079</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000080</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000081</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000082</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000083</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000084</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000085</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000086</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000087</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000088</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000089</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000090</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000091</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000092</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000093</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000094</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000095</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000096</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000097</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000098</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000099</FileName><FolderName>Folder00000000026</FolderName><FileName>File00000000100</FileName>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -715,7 +744,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExpr015'(_Config) ->
@@ -725,7 +756,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100\n      ",
+   Exp = "
+         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -736,7 +769,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000031</FileName><FileName>File00000000032</FileName><FileName>File00000000033</FileName><FileName>File00000000034</FileName><FileName>File00000000035</FileName><FileName>File00000000036</FileName><FileName>File00000000037</FileName><FileName>File00000000038</FileName><FileName>File00000000039</FileName><FileName>File00000000040</FileName><FileName>File00000000041</FileName><FileName>File00000000042</FileName><FileName>File00000000043</FileName><FileName>File00000000044</FileName><FileName>File00000000045</FileName><FileName>File00000000046</FileName><FileName>File00000000047</FileName><FileName>File00000000048</FileName><FileName>File00000000049</FileName><FileName>File00000000050</FileName><FileName>File00000000051</FileName><FileName>File00000000052</FileName><FileName>File00000000053</FileName><FileName>File00000000054</FileName><FileName>File00000000055</FileName><FileName>File00000000056</FileName><FileName>File00000000057</FileName><FileName>File00000000058</FileName><FileName>File00000000059</FileName><FileName>File00000000060</FileName><FileName>File00000000061</FileName><FileName>File00000000062</FileName><FileName>File00000000063</FileName><FileName>File00000000064</FileName><FileName>File00000000065</FileName><FileName>File00000000066</FileName><FileName>File00000000067</FileName><FileName>File00000000068</FileName><FileName>File00000000069</FileName><FileName>File00000000070</FileName><FileName>File00000000071</FileName><FileName>File00000000072</FileName><FileName>File00000000073</FileName><FileName>File00000000074</FileName><FileName>File00000000075</FileName><FileName>File00000000076</FileName><FileName>File00000000077</FileName><FileName>File00000000078</FileName><FileName>File00000000079</FileName><FileName>File00000000082</FileName><FileName>File00000000083</FileName><FileName>File00000000084</FileName><FileName>File00000000087</FileName><FileName>File00000000088</FileName><FileName>File00000000089</FileName><FileName>File00000000090</FileName><FileName>File00000000091</FileName><FileName>File00000000095</FileName><FileName>File00000000096</FileName><FileName>File00000000097</FileName><FileName>File00000000098</FileName><FileName>File00000000099</FileName><FileName>File00000000100</FileName>\n      ",
+   Exp = "
+         <FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000031</FileName><FileName>File00000000032</FileName><FileName>File00000000033</FileName><FileName>File00000000034</FileName><FileName>File00000000035</FileName><FileName>File00000000036</FileName><FileName>File00000000037</FileName><FileName>File00000000038</FileName><FileName>File00000000039</FileName><FileName>File00000000040</FileName><FileName>File00000000041</FileName><FileName>File00000000042</FileName><FileName>File00000000043</FileName><FileName>File00000000044</FileName><FileName>File00000000045</FileName><FileName>File00000000046</FileName><FileName>File00000000047</FileName><FileName>File00000000048</FileName><FileName>File00000000049</FileName><FileName>File00000000050</FileName><FileName>File00000000051</FileName><FileName>File00000000052</FileName><FileName>File00000000053</FileName><FileName>File00000000054</FileName><FileName>File00000000055</FileName><FileName>File00000000056</FileName><FileName>File00000000057</FileName><FileName>File00000000058</FileName><FileName>File00000000059</FileName><FileName>File00000000060</FileName><FileName>File00000000061</FileName><FileName>File00000000062</FileName><FileName>File00000000063</FileName><FileName>File00000000064</FileName><FileName>File00000000065</FileName><FileName>File00000000066</FileName><FileName>File00000000067</FileName><FileName>File00000000068</FileName><FileName>File00000000069</FileName><FileName>File00000000070</FileName><FileName>File00000000071</FileName><FileName>File00000000072</FileName><FileName>File00000000073</FileName><FileName>File00000000074</FileName><FileName>File00000000075</FileName><FileName>File00000000076</FileName><FileName>File00000000077</FileName><FileName>File00000000078</FileName><FileName>File00000000079</FileName><FileName>File00000000082</FileName><FileName>File00000000083</FileName><FileName>File00000000084</FileName><FileName>File00000000087</FileName><FileName>File00000000088</FileName><FileName>File00000000089</FileName><FileName>File00000000090</FileName><FileName>File00000000091</FileName><FileName>File00000000095</FileName><FileName>File00000000096</FileName><FileName>File00000000097</FileName><FileName>File00000000098</FileName><FileName>File00000000099</FileName><FileName>File00000000100</FileName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000031</FileName><FileName>File00000000032</FileName><FileName>File00000000033</FileName><FileName>File00000000034</FileName><FileName>File00000000035</FileName><FileName>File00000000036</FileName><FileName>File00000000037</FileName><FileName>File00000000038</FileName><FileName>File00000000039</FileName><FileName>File00000000040</FileName><FileName>File00000000041</FileName><FileName>File00000000042</FileName><FileName>File00000000043</FileName><FileName>File00000000044</FileName><FileName>File00000000045</FileName><FileName>File00000000046</FileName><FileName>File00000000047</FileName><FileName>File00000000048</FileName><FileName>File00000000049</FileName><FileName>File00000000050</FileName><FileName>File00000000051</FileName><FileName>File00000000052</FileName><FileName>File00000000053</FileName><FileName>File00000000054</FileName><FileName>File00000000055</FileName><FileName>File00000000056</FileName><FileName>File00000000057</FileName><FileName>File00000000058</FileName><FileName>File00000000059</FileName><FileName>File00000000060</FileName><FileName>File00000000061</FileName><FileName>File00000000062</FileName><FileName>File00000000063</FileName><FileName>File00000000064</FileName><FileName>File00000000065</FileName><FileName>File00000000066</FileName><FileName>File00000000067</FileName><FileName>File00000000068</FileName><FileName>File00000000069</FileName><FileName>File00000000070</FileName><FileName>File00000000071</FileName><FileName>File00000000072</FileName><FileName>File00000000073</FileName><FileName>File00000000074</FileName><FileName>File00000000075</FileName><FileName>File00000000076</FileName><FileName>File00000000077</FileName><FileName>File00000000078</FileName><FileName>File00000000079</FileName><FileName>File00000000082</FileName><FileName>File00000000083</FileName><FileName>File00000000084</FileName><FileName>File00000000087</FileName><FileName>File00000000088</FileName><FileName>File00000000089</FileName><FileName>File00000000090</FileName><FileName>File00000000091</FileName><FileName>File00000000095</FileName><FileName>File00000000096</FileName><FileName>File00000000097</FileName><FileName>File00000000098</FileName><FileName>File00000000099</FileName><FileName>File00000000100</FileName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -752,7 +787,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExpr018'(_Config) ->
@@ -762,7 +799,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExpr019'(_Config) ->
@@ -772,7 +811,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExpr020'(_Config) ->
@@ -782,7 +823,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExpr021'(_Config) ->
@@ -792,7 +835,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 3 1 4 2 3 2 4\n      ",
+   Exp = "
+         1 3 1 4 2 3 2 4
+      ",
    case xqerl_test:string_value(Res) of
              "1 3 1 4 2 3 2 4" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -803,7 +848,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 1 File00000000001 2 File00000000002 3 File00000000003 4 File00000000004 5 File00000000005 6 File00000000006 7 File00000000007 8 File00000000008 9 File00000000009 10 File00000000010 11 File00000000011 12 File00000000012 13 File00000000013 14 File00000000014 15 File00000000015 16 File00000000016 17 File00000000017 18 File00000000018 19 File00000000019 20 File00000000020 21 File00000000021 22 File00000000022 23 File00000000023 24 File00000000024 25 File00000000025 26 File00000000026 27 File00000000027 28 File00000000028 29 File00000000029 30 File00000000030 31\n      ",
+   Exp = "
+         File00000000000 1 File00000000001 2 File00000000002 3 File00000000003 4 File00000000004 5 File00000000005 6 File00000000006 7 File00000000007 8 File00000000008 9 File00000000009 10 File00000000010 11 File00000000011 12 File00000000012 13 File00000000013 14 File00000000014 15 File00000000015 16 File00000000016 17 File00000000017 18 File00000000018 19 File00000000019 20 File00000000020 21 File00000000021 22 File00000000022 23 File00000000023 24 File00000000024 25 File00000000025 26 File00000000026 27 File00000000027 28 File00000000028 29 File00000000029 30 File00000000030 31
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 1 File00000000001 2 File00000000002 3 File00000000003 4 File00000000004 5 File00000000005 6 File00000000006 7 File00000000007 8 File00000000008 9 File00000000009 10 File00000000010 11 File00000000011 12 File00000000012 13 File00000000013 14 File00000000014 15 File00000000015 16 File00000000016 17 File00000000017 18 File00000000018 19 File00000000019 20 File00000000020 21 File00000000021 22 File00000000022 23 File00000000023 24 File00000000024 25 File00000000025 26 File00000000026 27 File00000000027 28 File00000000028 29 File00000000029 30 File00000000030 31" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -814,7 +861,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 1 2 File00000000001 2 3 File00000000002 3 4 File00000000003 4 5 File00000000004 5 6 File00000000005 6 7 File00000000006 7 8 File00000000007 8 9 File00000000008 9 10 File00000000009 10 11 File00000000010 11 12 File00000000011 12 13 File00000000012 13 14 File00000000013 14 15 File00000000014 15 16 File00000000015 16 17 File00000000016 17 18 File00000000017 18 19 File00000000018 19 20 File00000000019 20 21 File00000000020 21 22 File00000000021 22 23 File00000000022 23 24 File00000000023 24 25 File00000000024 25 26 File00000000025 26 27 File00000000026 27 28 File00000000027 28 29 File00000000028 29 30 File00000000029 30 31 File00000000030 31 32\n      ",
+   Exp = "
+         File00000000000 1 2 File00000000001 2 3 File00000000002 3 4 File00000000003 4 5 File00000000004 5 6 File00000000005 6 7 File00000000006 7 8 File00000000007 8 9 File00000000008 9 10 File00000000009 10 11 File00000000010 11 12 File00000000011 12 13 File00000000012 13 14 File00000000013 14 15 File00000000014 15 16 File00000000015 16 17 File00000000016 17 18 File00000000017 18 19 File00000000018 19 20 File00000000019 20 21 File00000000020 21 22 File00000000021 22 23 File00000000022 23 24 File00000000023 24 25 File00000000024 25 26 File00000000025 26 27 File00000000026 27 28 File00000000027 28 29 File00000000028 29 30 File00000000029 30 31 File00000000030 31 32
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 1 2 File00000000001 2 3 File00000000002 3 4 File00000000003 4 5 File00000000004 5 6 File00000000005 6 7 File00000000006 7 8 File00000000007 8 9 File00000000008 9 10 File00000000009 10 11 File00000000010 11 12 File00000000011 12 13 File00000000012 13 14 File00000000013 14 15 File00000000014 15 16 File00000000015 16 17 File00000000016 17 18 File00000000017 18 19 File00000000018 19 20 File00000000019 20 21 File00000000020 21 22 File00000000021 22 23 File00000000022 23 24 File00000000023 24 25 File00000000024 25 26 File00000000025 26 27 File00000000026 27 28 File00000000027 28 29 File00000000028 29 30 File00000000029 30 31 File00000000030 31 32" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -825,7 +874,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0089" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0089'}) end.
 'ForExpr025'(_Config) ->
@@ -835,7 +886,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName>\n      ",
+   Exp = "
+         <FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -851,7 +904,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExpr027'(_Config) ->
@@ -861,7 +916,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExpr028'(_Config) ->
@@ -871,7 +928,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <one/><two/><three/>\n      ",
+   Exp = "
+         <one/><two/><three/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<one/><two/><three/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -886,7 +945,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4 4 4 4\n      ",
+   Exp = "
+         4 4 4 4
+      ",
    case xqerl_test:string_value(Res) of
              "4 4 4 4" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -896,7 +957,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4 4 4 4\n      ",
+   Exp = "
+         4 4 4 4
+      ",
    case xqerl_test:string_value(Res) of
              "4 4 4 4" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -906,7 +969,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0089" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0089'}) end.
 'K-ForExprWithout-1'(_Config) ->
@@ -915,7 +980,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-ForExprWithout-2'(_Config) ->
@@ -924,7 +991,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-ForExprWithout-3'(_Config) ->
@@ -933,7 +1002,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-ForExprWithout-4'(_Config) ->
@@ -942,7 +1013,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-ForExprWithout-5'(_Config) ->
@@ -951,7 +1024,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-6'(_Config) ->
@@ -960,7 +1035,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-7'(_Config) ->
@@ -969,7 +1046,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-8'(_Config) ->
@@ -978,7 +1057,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-9'(_Config) ->
@@ -987,7 +1068,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-10'(_Config) ->
@@ -996,7 +1079,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-11'(_Config) ->
@@ -1005,7 +1090,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-12'(_Config) ->
@@ -1014,7 +1101,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-13'(_Config) ->
@@ -1023,7 +1112,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-14'(_Config) ->
@@ -1032,7 +1123,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-15'(_Config) ->
@@ -1041,7 +1134,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-16'(_Config) ->
@@ -1050,7 +1145,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-17'(_Config) ->
@@ -1059,7 +1156,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-18'(_Config) ->
@@ -1068,7 +1167,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-ForExprWithout-19'(_Config) ->
@@ -1077,7 +1181,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-ForExprWithout-20'(_Config) ->
@@ -1086,7 +1195,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-ForExprWithout-21'(_Config) ->
@@ -1095,7 +1209,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-ForExprWithout-22'(_Config) ->
@@ -1104,7 +1223,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-23'(_Config) ->
@@ -1113,7 +1234,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-24'(_Config) ->
@@ -1122,7 +1245,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-25'(_Config) ->
@@ -1131,7 +1256,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-26'(_Config) ->
@@ -1140,7 +1267,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-27'(_Config) ->
@@ -1149,7 +1278,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'K-ForExprWithout-28'(_Config) ->
@@ -1158,7 +1289,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-29'(_Config) ->
@@ -1167,7 +1300,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-30'(_Config) ->
@@ -1176,7 +1311,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'K-ForExprWithout-31'(_Config) ->
@@ -1185,7 +1322,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-32'(_Config) ->
@@ -1194,7 +1333,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-33'(_Config) ->
@@ -1203,7 +1344,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'K-ForExprWithout-34'(_Config) ->
@@ -1212,7 +1355,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-35'(_Config) ->
@@ -1221,7 +1366,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-36'(_Config) ->
@@ -1230,7 +1377,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-37'(_Config) ->
@@ -1239,7 +1388,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-38'(_Config) ->
@@ -1248,7 +1399,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-39'(_Config) ->
@@ -1257,7 +1410,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-40'(_Config) ->
@@ -1266,7 +1421,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-41'(_Config) ->
@@ -1275,7 +1432,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-42'(_Config) ->
@@ -1284,7 +1443,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-43'(_Config) ->
@@ -1293,7 +1454,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-44'(_Config) ->
@@ -1302,7 +1465,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-45'(_Config) ->
@@ -1311,7 +1476,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0008'}) end.
 'K-ForExprWithout-46'(_Config) ->
@@ -1320,7 +1487,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-ForExprWithout-47'(_Config) ->
@@ -1329,7 +1498,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-ForExprWithout-48'(_Config) ->
@@ -1338,7 +1509,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-49'(_Config) ->
@@ -1347,7 +1520,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-50'(_Config) ->
@@ -1356,7 +1531,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-51'(_Config) ->
@@ -1365,16 +1542,24 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-52'(_Config) ->
-   Qry = "\n        declare variable $i := false(); \n        declare variable $t := false(); \n        deep-equal( for $i in (true(), true()), $t in (true(), true()) \n                    return ($i, $t), (true(), true(), true(), true(), true(), true(), true(), true()))",
+   Qry = "
+        declare variable $i := false(); 
+        declare variable $t := false(); 
+        deep-equal( for $i in (true(), true()), $t in (true(), true()) 
+                    return ($i, $t), (true(), true(), true(), true(), true(), true(), true(), true()))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-53'(_Config) ->
@@ -1383,7 +1568,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-54'(_Config) ->
@@ -1392,7 +1579,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-55'(_Config) ->
@@ -1401,7 +1590,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ForExprWithout-56'(_Config) ->
@@ -1410,7 +1601,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-ForExprWithout-1'(_Config) ->
@@ -1419,16 +1612,22 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-ForExprWithout-2'(_Config) ->
-   Qry = "\n        declare function local:myFunc() { for $i in (1, 2, 3) return position() }; \n        local:myFunc()",
+   Qry = "
+        declare function local:myFunc() { for $i in (1, 2, 3) return position() }; 
+        local:myFunc()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ForExprWithout-3'(_Config) ->
@@ -1437,7 +1636,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1449,7 +1653,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ForExprWithout-5'(_Config) ->
@@ -1458,7 +1664,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1470,7 +1681,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result>1788-05-05</result>\n      ",
+   Exp = "
+         <result>1788-05-05</result>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result>1788-05-05</result>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1485,7 +1698,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ForExprWithout-8'(_Config) ->
@@ -1494,7 +1709,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <name>First</name>\n      ",
+   Exp = "
+         <name>First</name>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<name>First</name>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1509,17 +1726,30 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 1 4 1 7 1 1 1 4 1 8 1 1 1 4 1 9 1 1 1 5 2 7 2 1 1 5 2 8 2 1 1 5 2 9 2 1 1 6 3 7 3 1 1 6 3 8 3 1 1 6 3 9 3 2 2 4 1 7 1 2 2 4 1 8 1 2 2 4 1 9 1 2 2 5 2 7 2 2 2 5 2 8 2 2 2 5 2 9 2 2 2 6 3 7 3 2 2 6 3 8 3 2 2 6 3 9 3 3 3 4 1 7 1 3 3 4 1 8 1 3 3 4 1 9 1 3 3 5 2 7 2 3 3 5 2 8 2 3 3 5 2 9 2 3 3 6 3 7 3 3 3 6 3 8 3 3 3 6 3 9 3\n      ",
+   Exp = "
+         1 1 4 1 7 1 1 1 4 1 8 1 1 1 4 1 9 1 1 1 5 2 7 2 1 1 5 2 8 2 1 1 5 2 9 2 1 1 6 3 7 3 1 1 6 3 8 3 1 1 6 3 9 3 2 2 4 1 7 1 2 2 4 1 8 1 2 2 4 1 9 1 2 2 5 2 7 2 2 2 5 2 8 2 2 2 5 2 9 2 2 2 6 3 7 3 2 2 6 3 8 3 2 2 6 3 9 3 3 3 4 1 7 1 3 3 4 1 8 1 3 3 4 1 9 1 3 3 5 2 7 2 3 3 5 2 8 2 3 3 5 2 9 2 3 3 6 3 7 3 3 3 6 3 8 3 3 3 6 3 9 3
+      ",
    case xqerl_test:string_value(Res) of
              "1 1 4 1 7 1 1 1 4 1 8 1 1 1 4 1 9 1 1 1 5 2 7 2 1 1 5 2 8 2 1 1 5 2 9 2 1 1 6 3 7 3 1 1 6 3 8 3 1 1 6 3 9 3 2 2 4 1 7 1 2 2 4 1 8 1 2 2 4 1 9 1 2 2 5 2 7 2 2 2 5 2 8 2 2 2 5 2 9 2 2 2 6 3 7 3 2 2 6 3 8 3 2 2 6 3 9 3 3 3 4 1 7 1 3 3 4 1 8 1 3 3 4 1 9 1 3 3 5 2 7 2 3 3 5 2 8 2 3 3 5 2 9 2 3 3 6 3 7 3 3 3 6 3 8 3 3 3 6 3 9 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-ForExprWithout-10'(_Config) ->
-   Qry = "\n        for $a in (3, 2, 1) \n        for $b in (6, 5, 4) \n        let $c := $a + $b \n        let $d := $a - $b \n        let $e := () stable order by $a ascending, $b descending, $d empty greatest, $e empty least, $c descending empty greatest, $d ascending empty greatest, $e descending empty least, $b ascending empty least \n        return $a",
+   Qry = "
+        for $a in (3, 2, 1) 
+        for $b in (6, 5, 4) 
+        let $c := $a + $b 
+        let $d := $a - $b 
+        let $e := () stable order by $a ascending, $b descending, $d empty greatest, $e empty least, $c descending empty greatest, $d ascending empty greatest, $e descending empty least, $b ascending empty least 
+        return $a",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1 1 1 2 2 2 3 3 3\n            \n         \n      ",
+   Exp = "
+         
+            1 1 1 2 2 2 3 3 3
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "1 1 1 2 2 2 3 3 3") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-ForExprWithout-11'(_Config) ->
@@ -1528,7 +1758,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         5 5 5 5\n      ",
+   Exp = "
+         5 5 5 5
+      ",
    case xqerl_test:string_value(Res) of
              "5 5 5 5" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1538,7 +1770,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3 2 1 1\n      ",
+   Exp = "
+         3 2 1 1
+      ",
    case xqerl_test:string_value(Res) of
              "3 2 1 1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1548,7 +1782,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e/>\n      ",
+   Exp = "
+         <e/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1563,7 +1799,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e/>\n      ",
+   Exp = "
+         <e/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1578,7 +1816,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1590,7 +1830,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1602,7 +1844,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1614,7 +1858,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1626,7 +1872,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1638,7 +1886,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1650,7 +1900,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1662,7 +1914,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1674,7 +1928,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1686,7 +1942,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1698,7 +1956,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1710,7 +1970,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1722,7 +1984,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1734,7 +1998,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1746,7 +2012,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1758,7 +2026,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1770,7 +2040,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1782,7 +2054,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1794,7 +2068,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1806,7 +2082,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1818,7 +2096,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1830,7 +2110,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1842,7 +2124,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1854,7 +2138,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1866,7 +2152,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1878,7 +2166,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ForExprWithout-41'(_Config) ->
@@ -1887,7 +2177,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-ForExprWithout-42'(_Config) ->
@@ -1896,7 +2188,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1908,7 +2202,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1920,7 +2216,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1932,7 +2230,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1945,7 +2248,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>\n      ",
+   Exp = "
+         <FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1961,7 +2266,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030\n      ",
+   Exp = "
+         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1972,7 +2279,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <?FileSystem scale='0'?><?FileSystem maxDepth='64'?>\n      ",
+   Exp = "
+         <?FileSystem scale='0'?><?FileSystem maxDepth='64'?>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?FileSystem scale='0'?><?FileSystem maxDepth='64'?>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1988,7 +2297,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <!-- This is an official fsx file -->\n      ",
+   Exp = "
+         <!-- This is an official fsx file -->
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!-- This is an official fsx file -->"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2004,7 +2315,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2\n      ",
+   Exp = "
+         1 2
+      ",
    case xqerl_test:string_value(Res) of
              "1 2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2015,7 +2328,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType007'(_Config) ->
@@ -2025,7 +2340,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExprType008'(_Config) ->
@@ -2035,7 +2352,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExprType009'(_Config) ->
@@ -2049,7 +2368,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'ForExprType013'(_Config) ->
@@ -2063,7 +2384,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3\n      ",
+   Exp = "
+         1 2 3
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2074,7 +2397,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3\n      ",
+   Exp = "
+         1 2 3
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2085,7 +2410,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType018'(_Config) ->
@@ -2095,7 +2422,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>\n      ",
+   Exp = "
+         <FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2111,7 +2440,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030\n      ",
+   Exp = "
+         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2122,7 +2453,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030\n      ",
+   Exp = "
+         File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2133,7 +2466,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -2146,62 +2481,100 @@ end.
 'ForExprType024'(_Config) ->
    {skip,"Validation Environment"}.
 'ForExprType028'(_Config) ->
-   Qry = "\n        for $test as xs:integer in ( xs:byte(\"1\"), xs:long(\"10000\"), xs:negativeInteger(\"-10\"), \n                        xs:short(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) \n        return $test\n      ",
+   Qry = "
+        for $test as xs:integer in ( xs:byte(\"1\"), xs:long(\"10000\"), xs:negativeInteger(\"-10\"), 
+                        xs:short(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) 
+        return $test
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 10000 -10 100 100 100\n      ",
+   Exp = "
+         1 10000 -10 100 100 100
+      ",
    case xqerl_test:string_value(Res) of
              "1 10000 -10 100 100 100" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'ForExprType029'(_Config) ->
-   Qry = "\n        for $test as xs:decimal in ( xs:integer(\"100\"), xs:short(\"1\"), xs:int(\"10000\"), \n                xs:nonPositiveInteger(\"-10\"), xs:unsignedShort(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) \n        return $test\n      ",
+   Qry = "
+        for $test as xs:decimal in ( xs:integer(\"100\"), xs:short(\"1\"), xs:int(\"10000\"), 
+                xs:nonPositiveInteger(\"-10\"), xs:unsignedShort(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) 
+        return $test
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         100 1 10000 -10 100 100 100\n      ",
+   Exp = "
+         100 1 10000 -10 100 100 100
+      ",
    case xqerl_test:string_value(Res) of
              "100 1 10000 -10 100 100 100" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'ForExprType030'(_Config) ->
-   Qry = "\n        for $test as xs:normalizedString in ( xs:language(\"en-US\"), xs:NCName(\"foobar\"), \n            xs:NMTOKEN(\"token1\"), xs:ENTITY(\"entity1\") ) \n        return $test\n      ",
+   Qry = "
+        for $test as xs:normalizedString in ( xs:language(\"en-US\"), xs:NCName(\"foobar\"), 
+            xs:NMTOKEN(\"token1\"), xs:ENTITY(\"entity1\") ) 
+        return $test
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         en-US foobar token1 entity1\n      ",
+   Exp = "
+         en-US foobar token1 entity1
+      ",
    case xqerl_test:string_value(Res) of
              "en-US foobar token1 entity1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'ForExprType031'(_Config) ->
-   Qry = "\n        for $test as xs:anyAtomicType in ( xs:duration(\"P0Y1347M0D\"), xs:dateTime(\"1999-05-31T13:20:00-05:00\"), \n                    xs:time(\"13:00:00-05:00\"), xs:date(\"1999-05-10Z\"), xs:gYearMonth(\"2002-03\"), xs:gYear(\"1999\"), \n                    xs:gMonthDay(\"--05-10\"), xs:gDay(\"---10\"), xs:gMonth(\"--05\") ) \n        return $test\n      ",
+   Qry = "
+        for $test as xs:anyAtomicType in ( xs:duration(\"P0Y1347M0D\"), xs:dateTime(\"1999-05-31T13:20:00-05:00\"), 
+                    xs:time(\"13:00:00-05:00\"), xs:date(\"1999-05-10Z\"), xs:gYearMonth(\"2002-03\"), xs:gYear(\"1999\"), 
+                    xs:gMonthDay(\"--05-10\"), xs:gDay(\"---10\"), xs:gMonth(\"--05\") ) 
+        return $test
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         P112Y3M 1999-05-31T13:20:00-05:00 13:00:00-05:00 1999-05-10Z 2002-03 1999 --05-10 ---10 --05\n      ",
+   Exp = "
+         P112Y3M 1999-05-31T13:20:00-05:00 13:00:00-05:00 1999-05-10Z 2002-03 1999 --05-10 ---10 --05
+      ",
    case xqerl_test:string_value(Res) of
              "P112Y3M 1999-05-31T13:20:00-05:00 13:00:00-05:00 1999-05-10Z 2002-03 1999 --05-10 ---10 --05" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'ForExprType032'(_Config) ->
-   Qry = "\n        for $test as xs:anyAtomicType in ( xs:boolean(\"true\"), xs:base64Binary(\"abcd\"), xs:hexBinary(\"1234\"),\n                     xs:float(\"5.7\"), xs:double(\"7.5\"), xs:anyURI(\"http://foo\") ) \n        return $test\n      ",
+   Qry = "
+        for $test as xs:anyAtomicType in ( xs:boolean(\"true\"), xs:base64Binary(\"abcd\"), xs:hexBinary(\"1234\"),
+                     xs:float(\"5.7\"), xs:double(\"7.5\"), xs:anyURI(\"http://foo\") ) 
+        return $test
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true abcd 1234 5.7 7.5 http://foo\n      ",
+   Exp = "
+         true abcd 1234 5.7 7.5 http://foo
+      ",
    case xqerl_test:string_value(Res) of
              "true abcd 1234 5.7 7.5 http://foo" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'ForExprType033'(_Config) ->
-   Qry = "\n        for $test as xs:anyAtomicType in ( xs:unsignedByte(\"10\"), xs:short(\"20\"), xs:positiveInteger(\"30\"), \n                xs:nonPositiveInteger(\"-40\"), xs:decimal(\"5.5\"), xs:ENTITY(\"entity1\"), xs:NCName(\"foobar\"), \n                xs:language(\"en-US\"), xs:string(\"foobar\"), xs:hexBinary(\"ffff\"), xs:gYear(\"1999\") ) \n        return $test\n      ",
+   Qry = "
+        for $test as xs:anyAtomicType in ( xs:unsignedByte(\"10\"), xs:short(\"20\"), xs:positiveInteger(\"30\"), 
+                xs:nonPositiveInteger(\"-40\"), xs:decimal(\"5.5\"), xs:ENTITY(\"entity1\"), xs:NCName(\"foobar\"), 
+                xs:language(\"en-US\"), xs:string(\"foobar\"), xs:hexBinary(\"ffff\"), xs:gYear(\"1999\") ) 
+        return $test
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         10 20 30 -40 5.5 entity1 foobar en-US foobar FFFF 1999\n      ",
+   Exp = "
+         10 20 30 -40 5.5 entity1 foobar en-US foobar FFFF 1999
+      ",
    case xqerl_test:string_value(Res) of
              "10 20 30 -40 5.5 entity1 foobar en-US foobar FFFF 1999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2211,7 +2584,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 0.3\n      ",
+   Exp = "
+         1 0.3
+      ",
    case xqerl_test:string_value(Res) of
              "1 0.3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2221,7 +2596,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 string 100 0.3\n      ",
+   Exp = "
+         1 string 100 0.3
+      ",
    case xqerl_test:string_value(Res) of
              "1 string 100 0.3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -2234,24 +2611,34 @@ end.
 'ForExprType047'(_Config) ->
    {skip,"Validation Environment"}.
 'ForExprType054'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as item() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as item() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000 File00000000001 File00000000002\n      ",
+   Exp = "
+         File00000000000 File00000000001 File00000000002
+      ",
    case xqerl_test:string_value(Res) of
              "File00000000000 File00000000001 File00000000002" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'ForExprType055'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as node() in (//fs:Folder)[1]/fs:File return $test/fs:FileName\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as node() in (//fs:Folder)[1]/fs:File return $test/fs:FileName
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>\n      ",
+   Exp = "
+         <fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2261,13 +2648,18 @@ end.
               end
 end.
 'ForExprType056'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as document-node() in (/) return ($test//fs:Folder)[1]/fs:FolderName\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as document-node() in (/) return ($test//fs:Folder)[1]/fs:FolderName
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <fs:FolderName xmlns:fs=\"http://www.example.com/filesystem\">Folder00000000000</fs:FolderName>\n      ",
+   Exp = "
+         <fs:FolderName xmlns:fs=\"http://www.example.com/filesystem\">Folder00000000000</fs:FolderName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<fs:FolderName xmlns:fs=\"http://www.example.com/filesystem\">Folder00000000000</fs:FolderName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2277,13 +2669,18 @@ end.
               end
 end.
 'ForExprType057'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         File00000000000File00000000001File00000000002\n      ",
+   Exp = "
+         File00000000000File00000000001File00000000002
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"File00000000000File00000000001File00000000002"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2293,13 +2690,18 @@ end.
               end
 end.
 'ForExprType058'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as comment() in (//fs:Folder)[1]/comment() return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as comment() in (//fs:Folder)[1]/comment() return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <!-- This is a comment for File00000000000 --><!-- This is a comment for File00000000001 --><!-- This is a comment for File00000000002 -->\n      ",
+   Exp = "
+         <!-- This is a comment for File00000000000 --><!-- This is a comment for File00000000001 --><!-- This is a comment for File00000000002 -->
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!-- This is a comment for File00000000000 --><!-- This is a comment for File00000000001 --><!-- This is a comment for File00000000002 -->"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2309,13 +2711,18 @@ end.
               end
 end.
 'ForExprType059'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <?filesystem compressionUtil='foozip.exe'?>\n      ",
+   Exp = "
+         <?filesystem compressionUtil='foozip.exe'?>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?filesystem compressionUtil='foozip.exe'?>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2331,7 +2738,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <?filesystem compressionUtil='foozip.exe'?>\n      ",
+   Exp = "
+         <?filesystem compressionUtil='foozip.exe'?>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?filesystem compressionUtil='foozip.exe'?>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2341,23 +2750,33 @@ end.
               end
 end.
 'ForExprType061'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as processing-instruction(\"unknown\") in (//fs:Folder)[1]//processing-instruction() return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as processing-instruction(\"unknown\") in (//fs:Folder)[1]//processing-instruction() return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType062'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as item() in (//fs:Folder)[1]/fs:File/fs:FileName return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as item() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>\n      ",
+   Exp = "
+         <fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -2367,113 +2786,168 @@ end.
               end
 end.
 'ForExprType063'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType064'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType065'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as text() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as text() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType066'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as comment() in (//fs:Folder)[1]/fs:File/fs:FileName return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as comment() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType067'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as comment() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as comment() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType068'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as processing-instruction() in (//fs:Folder)[1]/fs:File/fs:FileName return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as processing-instruction() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType069'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as processing-instruction() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as processing-instruction() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType070'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as processing-instruction(\"foo\") in (//fs:Folder)[1]/fs:File/fs:FileName return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as processing-instruction(\"foo\") in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType071'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as processing-instruction(\"foo\") in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as processing-instruction(\"foo\") in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType072'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as document-node() in (//fs:Folder)[1]/fs:File/fs:FileName return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as document-node() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'ForExprType073'(_Config) ->
-   Qry = "\n        declare namespace fs=\"http://www.example.com/filesystem\"; \n        for $test as document-node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test\n      ",
+   Qry = "
+        declare namespace fs=\"http://www.example.com/filesystem\"; 
+        for $test as document-node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      ",
    Env = xqerl_test:handle_environment(environment('fsx_NS2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-ForExprWith-1'(_Config) ->
@@ -2482,6 +2956,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.

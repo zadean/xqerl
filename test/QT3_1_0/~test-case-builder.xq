@@ -442,7 +442,7 @@ declare function local:dec($text)
           $text,
           '\\','\\\\'),
         """","\\"""),
-      out:nl(),"\\n")
+     '&#13;&#10;',"\\n")
     return """"||$list||""""
   )
 };

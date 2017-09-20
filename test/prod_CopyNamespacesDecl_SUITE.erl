@@ -192,7 +192,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0055" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0055'}) end.
 'copynamespace-2'(_Config) ->
@@ -201,7 +203,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <original xmlns=\"http://www.example.com/mynamespace\">Original Content</original>\n      ",
+   Exp = "
+         <original xmlns=\"http://www.example.com/mynamespace\">Original Content</original>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<original xmlns=\"http://www.example.com/mynamespace\">Original Content</original>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -211,20 +215,32 @@ environment('math') ->
               end
 end.
 'copynamespace-3'(_Config) ->
-   Qry = "\n        declare namespace foo = \"http://example.org\"; \n        declare copy-namespaces preserve,no-inherit; \n        let $existingElement := <existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement> \n        let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> \n        return in-scope-prefixes(exactly-one($new/child::node()))\n      ",
+   Qry = "
+        declare namespace foo = \"http://example.org\"; 
+        declare copy-namespaces preserve,no-inherit; 
+        let $existingElement := <existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement> 
+        let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> 
+        return in-scope-prefixes(exactly-one($new/child::node()))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"\", \"xml\"\n      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n         <assert-permutation>\"\", \"xml\"</assert-permutation>\n      </result>", Res]).
+   Exp = "
+         \"\", \"xml\"
+      ",
+   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+         <assert-permutation>\"\", \"xml\"</assert-permutation>
+      </result>", Res]).
 'copynamespace-4'(_Config) ->
    Qry = "declare namespace foo = \"http://example.org\"; declare copy-namespaces preserve,inherit; declare variable $input-context1 external; let $existingElement := <existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement> let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> for $var in (in-scope-prefixes($new//child::*)) order by exactly-one($var) ascending return $var",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          foo xml\n      ",
+   Exp = "
+          foo xml
+      ",
    case xqerl_test:string_value(Res) of
              " foo xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -234,7 +250,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          foo xml\n      ",
+   Exp = "
+          foo xml
+      ",
    case xqerl_test:string_value(Res) of
              " foo xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -244,7 +262,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          foo xml\n      ",
+   Exp = "
+          foo xml
+      ",
    case xqerl_test:string_value(Res) of
              " foo xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -254,7 +274,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xml\n      ",
+   Exp = "
+         xml
+      ",
    case xqerl_test:string_value(Res) of
              "xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -264,7 +286,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         existingNamespace xml\n      ",
+   Exp = "
+         existingNamespace xml
+      ",
    case xqerl_test:string_value(Res) of
              "existingNamespace xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -274,7 +298,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         newNamespace xml\n      ",
+   Exp = "
+         newNamespace xml
+      ",
    case xqerl_test:string_value(Res) of
              "newNamespace xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -284,7 +310,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         existingNamespace newNamespace xml\n      ",
+   Exp = "
+         existingNamespace newNamespace xml
+      ",
    case xqerl_test:string_value(Res) of
              "existingNamespace newNamespace xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -294,7 +322,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         existingNamespace xml\n      ",
+   Exp = "
+         existingNamespace xml
+      ",
    case xqerl_test:string_value(Res) of
              "existingNamespace xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -304,7 +334,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         existingNamespace newNamespace xml\n      ",
+   Exp = "
+         existingNamespace newNamespace xml
+      ",
    case xqerl_test:string_value(Res) of
              "existingNamespace newNamespace xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -314,7 +346,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xml\n      ",
+   Exp = "
+         xml
+      ",
    case xqerl_test:string_value(Res) of
              "xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -324,7 +358,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         SOMESPACE somespace xml\n      ",
+   Exp = "
+         SOMESPACE somespace xml
+      ",
    case xqerl_test:string_value(Res) of
              "SOMESPACE somespace xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -334,7 +370,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         namespace1 namespace2 namespace3 xml\n      ",
+   Exp = "
+         namespace1 namespace2 namespace3 xml
+      ",
    case xqerl_test:string_value(Res) of
              "namespace1 namespace2 namespace3 xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -344,7 +382,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         namespace3 xml\n      ",
+   Exp = "
+         namespace3 xml
+      ",
    case xqerl_test:string_value(Res) of
              "namespace3 xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -354,7 +394,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xml\n      ",
+   Exp = "
+         xml
+      ",
    case xqerl_test:string_value(Res) of
              "xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -364,7 +406,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         namespace1 xml\n      ",
+   Exp = "
+         namespace1 xml
+      ",
    case xqerl_test:string_value(Res) of
              "namespace1 xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -374,7 +418,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         namespace2 namespace3 xml\n      ",
+   Exp = "
+         namespace2 namespace3 xml
+      ",
    case xqerl_test:string_value(Res) of
              "namespace2 namespace3 xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -384,7 +430,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         namespace3 xml\n      ",
+   Exp = "
+         namespace3 xml
+      ",
    case xqerl_test:string_value(Res) of
              "namespace3 xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -394,7 +442,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xml\n      ",
+   Exp = "
+         xml
+      ",
    case xqerl_test:string_value(Res) of
              "xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -404,7 +454,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         namespace2 xml\n      ",
+   Exp = "
+         namespace2 xml
+      ",
    case xqerl_test:string_value(Res) of
              "namespace2 xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -414,7 +466,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0055" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0055'}) end.
 'K-CopyNamespacesProlog-2'(_Config) ->
@@ -423,7 +477,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CopyNamespacesProlog-3'(_Config) ->
@@ -432,7 +488,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-CopyNamespacesProlog-4'(_Config) ->
@@ -441,7 +499,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-CopyNamespacesProlog-5'(_Config) ->
@@ -450,7 +510,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K2-CopyNamespacesProlog-1'(_Config) ->
@@ -459,7 +521,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <doc><a><b/></a><a><b xmlns:p=\"http://example.com/\"/></a></doc>\n      ",
+   Exp = "
+         <doc><a><b/></a><a><b xmlns:p=\"http://example.com/\"/></a></doc>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<doc><a><b/></a><a><b xmlns:p=\"http://example.com/\"/></a></doc>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -474,7 +538,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-CopyNamespacesProlog-3'(_Config) ->
@@ -483,7 +549,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'K2-CopyNamespacesProlog-4'(_Config) ->
@@ -492,7 +560,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e xmlns=\"http://example.com/\"><b/></e>\n      ",
+   Exp = "
+         <e xmlns=\"http://example.com/\"><b/></e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e xmlns=\"http://example.com/\"><b/></e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -507,7 +577,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e xmlns:appearsUnused=\"http://example.com/\"><b><appearsUnused:c xmlns:appearsUnused=\"http://example.com/\"/></b></e>\n      ",
+   Exp = "
+         <e xmlns:appearsUnused=\"http://example.com/\"><b><appearsUnused:c xmlns:appearsUnused=\"http://example.com/\"/></b></e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e xmlns:appearsUnused=\"http://example.com/\"><b><appearsUnused:c xmlns:appearsUnused=\"http://example.com/\"/></b></e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -522,7 +594,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         appearsUnused | appearsUnused | appearsUnused | xml | xml | xml |\n      ",
+   Exp = "
+         appearsUnused | appearsUnused | appearsUnused | xml | xml | xml |
+      ",
    case xqerl_test:string_value(Res) of
              "appearsUnused | appearsUnused | appearsUnused | xml | xml | xml |" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -532,7 +606,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e><b><c/></b></e>\n      ",
+   Exp = "
+         <e><b><c/></b></e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e><b><c/></b></e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -547,7 +623,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <a><b/></a>\n      ",
+   Exp = "
+         <a><b/></a>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a><b/></a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -562,7 +640,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         namespace1 xml | namespace1 namespace2 namespace3 xml\n      ",
+   Exp = "
+         namespace1 xml | namespace1 namespace2 namespace3 xml
+      ",
    case xqerl_test:string_value(Res) of
              "namespace1 xml | namespace1 namespace2 namespace3 xml" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

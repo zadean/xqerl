@@ -248,7 +248,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-outermost-002'(_Config) ->
@@ -257,7 +259,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-outermost-003'(_Config) ->
@@ -266,7 +270,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-outermost-004'(_Config) ->
@@ -275,7 +281,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-outermost-005'(_Config) ->
@@ -284,7 +292,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-006'(_Config) ->
@@ -293,7 +303,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-outermost-007'(_Config) ->
@@ -302,47 +314,75 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-outermost-008'(_Config) ->
-   Qry = "fn:outermost( if ( fn:current-dateTime() eq\n                                    fn:dateTime( fn:current-date(),\n                                                 fn:current-time() ))\n                               then .\n                               else 1 )",
+   Qry = "fn:outermost( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then .
+                               else 1 )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-outermost-009'(_Config) ->
-   Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))\n                                 then .\n                                 else 1 ),\n              fn:outermost( if (current-date() eq xs:date('1900-01-01'))\n                                 then 1\n                                 else . ) )",
+   Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then .
+                                 else 1 ),
+              fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then 1
+                                 else . ) )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  \n      ",
+   Exp = "
+	  
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-outermost-010'(_Config) ->
-   Qry = "fn:outermost( if ( fn:current-dateTime() eq\n                                    fn:dateTime( fn:current-date(),\n                                                 fn:current-time() ))\n                               then .\n                               else fn:dateTime#2 )",
+   Qry = "fn:outermost( if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then .
+                               else fn:dateTime#2 )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-outermost-011'(_Config) ->
-   Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))\n                                 then .\n                                 else fn:dateTime#2 ),\n              fn:outermost( if (current-date() eq xs:date('1900-01-01'))\n                                 then fn:dateTime#2\n                                 else . ) )",
+   Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then .
+                                 else fn:dateTime#2 ),
+              fn:outermost( if (current-date() eq xs:date('1900-01-01'))
+                                 then fn:dateTime#2
+                                 else . ) )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	  \n      ",
+   Exp = "
+	  
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-outermost-012'(_Config) ->
@@ -352,7 +392,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	1\n      ",
+   Exp = "
+	1
+      ",
    case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-013'(_Config) ->
@@ -362,7 +404,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-014'(_Config) ->
@@ -372,7 +416,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	7\n      ",
+   Exp = "
+	7
+      ",
    case xqerl_test:size(Res) of 7 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-015'(_Config) ->
@@ -382,7 +428,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	('0a','00a','000a','01a','010a','02a','020a')\n      ",
+   Exp = "
+	('0a','00a','000a','01a','010a','02a','020a')
+      ",
  Tst = xqerl:run("('0a','00a','000a','01a','010a','02a','020a')"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -395,7 +443,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-017'(_Config) ->
@@ -417,7 +467,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	7\n      ",
+   Exp = "
+	7
+      ",
    case xqerl_test:size(Res) of 7 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-024'(_Config) ->
@@ -427,20 +479,25 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	('level-0','level-00','level-000','level-01','level-010','level-02','level-020')\n      ",
+   Exp = "
+	('level-0','level-00','level-000','level-01','level-010','level-02','level-020')
+      ",
  Tst = xqerl:run("('level-0','level-00','level-000','level-01','level-010','level-02','level-020')"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-outermost-025'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( //processing-instruction() ), \n                          //processing-instruction() )",
+   Qry = "fn:deep-equal( fn:outermost( //processing-instruction() ), 
+                          //processing-instruction() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-026'(_Config) ->
@@ -450,7 +507,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	7\n      ",
+   Exp = "
+	7
+      ",
    case xqerl_test:size(Res) of 7 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-027'(_Config) ->
@@ -460,20 +519,25 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	('0c','00c','000c','01c','010c','02c','020c')\n      ",
+   Exp = "
+	('0c','00c','000c','01c','010c','02c','020c')
+      ",
  Tst = xqerl:run("('0c','00c','000c','01c','010c','02c','020c')"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-outermost-028'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( //comment() ),\n                           //comment() )",
+   Qry = "fn:deep-equal( fn:outermost( //comment() ),
+                           //comment() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-029'(_Config) ->
@@ -483,7 +547,10 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	7\n 	\n      ",
+   Exp = "
+	7
+ 	
+      ",
    case xqerl_test:size(Res) of 7 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-030'(_Config) ->
@@ -493,20 +560,26 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	('0t','00t','000t','01t','010t','02t','020t')\n	\n      ",
+   Exp = "
+	('0t','00t','000t','01t','010t','02t','020t')
+	
+      ",
  Tst = xqerl:run("('0t','00t','000t','01t','010t','02t','020t')"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-outermost-031'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( //text() ),\n                           //text() )",
+   Qry = "fn:deep-equal( fn:outermost( //text() ),
+                           //text() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-032'(_Config) ->
@@ -516,7 +589,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	1\n      ",
+   Exp = "
+	1
+      ",
    case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-033'(_Config) ->
@@ -526,20 +601,26 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	('root')\n      ",
+   Exp = "
+	('root')
+      ",
  Tst = xqerl:run("('root')"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-outermost-034'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( //* ), \n                           let $nodes := //*\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( //* ), 
+                           let $nodes := //*
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-035'(_Config) ->
@@ -549,17 +630,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	1\n      ",
+   Exp = "
+	1
+      ",
    case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-036'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( //node() ), \n                           let $nodes := //node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( //node() ), 
+                           let $nodes := //node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-037'(_Config) ->
@@ -569,17 +656,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	8\n      ",
+   Exp = "
+	8
+      ",
    case xqerl_test:size(Res) of 8 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-038'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/node() ), \n                           let $nodes := /root/node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/node() ), 
+                           let $nodes := /root/node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-039'(_Config) ->
@@ -589,17 +682,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	8\n      ",
+   Exp = "
+	8
+      ",
    case xqerl_test:size(Res) of 8 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-040'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/descendant::node() ), \n                           let $nodes := /root/descendant::node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/descendant::node() ), 
+                           let $nodes := /root/descendant::node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-041'(_Config) ->
@@ -609,17 +708,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	1\n      ",
+   Exp = "
+	1
+      ",
    case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-042'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[1]/ancestor::node() ), \n                           let $nodes := /root/level[1]/level[1]/ancestor::node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[1]/ancestor::node() ), 
+                           let $nodes := /root/level[1]/level[1]/ancestor::node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-043'(_Config) ->
@@ -629,17 +734,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	5\n      ",
+   Exp = "
+	5
+      ",
    case xqerl_test:size(Res) of 5 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-044'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding-sibling::node() ), \n                           let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding-sibling::node() ), 
+                           let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-045'(_Config) ->
@@ -649,17 +760,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	10\n      ",
+   Exp = "
+	10
+      ",
    case xqerl_test:size(Res) of 10 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-046'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding::node() ), \n                           let $nodes := /root/level[1]/level[last()]/preceding::node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding::node() ), 
+                           let $nodes := /root/level[1]/level[last()]/preceding::node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-047'(_Config) ->
@@ -669,17 +786,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	2\n      ",
+   Exp = "
+	2
+      ",
    case xqerl_test:size(Res) of 2 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-048'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/following-sibling::node() ), \n                           let $nodes := /root/level[1]/following-sibling::node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/following-sibling::node() ), 
+                           let $nodes := /root/level[1]/following-sibling::node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-049'(_Config) ->
@@ -689,17 +812,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	2\n      ",
+   Exp = "
+	2
+      ",
    case xqerl_test:size(Res) of 2 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-050'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[1]/following::node() ), \n                           let $nodes := /root/level[1]/level[1]/following::node()\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[1]/following::node() ), 
+                           let $nodes := /root/level[1]/level[1]/following::node()
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-051'(_Config) ->
@@ -709,17 +838,23 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	1\n      ",
+   Exp = "
+	1
+      ",
    case xqerl_test:size(Res) of 1 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-052'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( /root/node()/.. ), \n                           let $nodes := /root/node()/..\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( /root/node()/.. ), 
+                           let $nodes := /root/node()/..
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\n      ",
+   Exp = "
+	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-053'(_Config) ->
@@ -729,37 +864,49 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	2\n      ",
+   Exp = "
+	2
+      ",
    case xqerl_test:size(Res) of 2 -> {comment, "Count correct"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-054'(_Config) ->
-   Qry = "fn:deep-equal( fn:outermost( ($doc1//node(), $doc2//node()) ),\n                           let $nodes := ($doc1//node(), $doc2//node())\n                           return $nodes except $nodes/descendant::node() )",
+   Qry = "fn:deep-equal( fn:outermost( ($doc1//node(), $doc2//node()) ),
+                           let $nodes := ($doc1//node(), $doc2//node())
+                           return $nodes except $nodes/descendant::node() )",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	    \n      ",
+   Exp = "
+	    
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-055'(_Config) ->
-   Qry = "let $in := for $x in //* order by local-name($x) return $x\n            return deep-equal(fn:outermost($in)/local-name(), fn:outermost(//*)/local-name())",
+   Qry = "let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:outermost($in)/local-name(), fn:outermost(//*)/local-name())",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	    \n      ",
+   Exp = "
+	    
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-056'(_Config) ->
-   Qry = "let $in := for $x in //* order by local-name($x) return $x\n            return deep-equal(fn:outermost(($in, $in))/local-name(), fn:outermost(//*)/local-name())",
+   Qry = "let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:outermost(($in, $in))/local-name(), fn:outermost(//*)/local-name())",
    Env = xqerl_test:handle_environment(environment('outermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	    \n      ",
+   Exp = "
+	    
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-outermost-057'(_Config) ->
@@ -769,7 +916,9 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	    \n      ",
+   Exp = "
+	    
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-outermost-058'(_Config) ->
@@ -779,6 +928,8 @@ environment('outermost') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	    \n      ",
+   Exp = "
+	    
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.

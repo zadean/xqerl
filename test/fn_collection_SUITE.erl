@@ -226,7 +226,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-collection-2'(_Config) ->
@@ -235,7 +237,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-collection-3'(_Config) ->
@@ -244,7 +248,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0004'}) end.
 'fn-collection-4'(_Config) ->
@@ -254,7 +260,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -267,7 +275,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
  Tst = xqerl:run("2"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -280,7 +290,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -293,7 +305,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -306,7 +320,9 @@ environment('simple-collection-2') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <title>Advanced Programming in the Unix environment</title><title>Advanced Programming in the Unix environment</title><title>Basic Syntax</title><title>Data Model</title><title>Data on the Web</title><title>Data on the Web</title><title>Syntax For Data Model</title><title>TCP/IP Illustrated</title><title>TCP/IP Illustrated</title><title>The Economics of Technology and Content for Digital TV</title><title>XML</title><title>XML and Semistructured Data</title>\n      ",
+   Exp = "
+         <title>Advanced Programming in the Unix environment</title><title>Advanced Programming in the Unix environment</title><title>Basic Syntax</title><title>Data Model</title><title>Data on the Web</title><title>Data on the Web</title><title>Syntax For Data Model</title><title>TCP/IP Illustrated</title><title>TCP/IP Illustrated</title><title>The Economics of Technology and Content for Digital TV</title><title>XML</title><title>XML and Semistructured Data</title>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<title>Advanced Programming in the Unix environment</title><title>Advanced Programming in the Unix environment</title><title>Basic Syntax</title><title>Data Model</title><title>Data on the Web</title><title>Data on the Web</title><title>Syntax For Data Model</title><title>TCP/IP Illustrated</title><title>TCP/IP Illustrated</title><title>The Economics of Technology and Content for Digital TV</title><title>XML</title><title>XML and Semistructured Data</title>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -322,7 +338,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           \"TCP/IP Illustrated\", \"One of the best books on TCP/IP.\"\n           \n         \n      ",
+   Exp = "
+         
+           \"TCP/IP Illustrated\", \"One of the best books on TCP/IP.\"
+           
+         
+      ",
  case (   ct:fail(["<assert-permutation xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\"TCP/IP Illustrated\", \"One of the best books on TCP/IP.\"</assert-permutation>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-collection-8'(_Config) ->
@@ -332,7 +353,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <title>TCP/IP Illustrated</title><title>Data on the Web</title>\n            <title>Data on the Web</title><title>TCP/IP Illustrated</title>\n         \n      ",
+   Exp = "
+         
+            <title>TCP/IP Illustrated</title><title>Data on the Web</title>
+            <title>Data on the Web</title><title>TCP/IP Illustrated</title>
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<title>TCP/IP Illustrated</title><title>Data on the Web</title>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "<title>Data on the Web</title><title>TCP/IP Illustrated</title>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-collection-9'(_Config) ->
@@ -342,29 +368,43 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3 4 5\n      ",
+   Exp = "
+         3 4 5
+      ",
    case xqerl_test:string_value(Res) of
              "3 4 5" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-collection-10'(_Config) ->
-   Qry = "\n        let $c1 := fn:collection($collection-uri) \n        let $c2 := fn:collection($collection-uri) \n        for $c at $p in $c1 \n        return $c is exactly-one($c2[$p])",
+   Qry = "
+        let $c1 := fn:collection($collection-uri) 
+        let $c2 := fn:collection($collection-uri) 
+        for $c at $p in $c1 
+        return $c is exactly-one($c2[$p])",
    Env = xqerl_test:handle_environment(environment('simple-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true true true\n      ",
+   Exp = "
+         true true true
+      ",
    case xqerl_test:string_value(Res) of
              "true true true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-collection-10d'(_Config) ->
-   Qry = "\n        let $c1 := fn:collection() \n        let $c2 := fn:collection() \n        for $c at $p in $c1 \n        return $c is exactly-one($c2[$p])",
+   Qry = "
+        let $c1 := fn:collection() 
+        let $c2 := fn:collection() 
+        for $c at $p in $c1 
+        return $c is exactly-one($c2[$p])",
    Env = xqerl_test:handle_environment(environment('default-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true true true\n      ",
+   Exp = "
+         true true true
+      ",
    case xqerl_test:string_value(Res) of
              "true true true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -374,7 +414,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0004'}) end.
 'K2-SeqCollectionFunc-2'(_Config) ->
@@ -383,7 +425,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0004'}) end.
 'collection-001'(_Config) ->
@@ -393,8 +437,19 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             \n                count($result) = 2\n                document-node()*\n             \n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n                <assert>count($result) = 2</assert>\n                <assert-type>document-node()*</assert-type>\n             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+             
+                count($result) = 2
+                document-node()*
+             
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'collection-002'(_Config) ->
    Qry = "collection(())",
@@ -403,8 +458,19 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             \n                count($result) = 2\n                document-node()*\n             \n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n                <assert>count($result) = 2</assert>\n                <assert-type>document-node()*</assert-type>\n             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+             
+                count($result) = 2
+                document-node()*
+             
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'collection-003'(_Config) ->
    Qry = "collection() | collection(())",
@@ -413,8 +479,19 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             \n                count($result) = 3\n                document-node()*\n             \n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n                <assert>count($result) = 3</assert>\n                <assert-type>document-node()*</assert-type>\n             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+             
+                count($result) = 3
+                document-node()*
+             
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+                <assert>count($result) = 3</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'collection-004'(_Config) ->
    {skip,"collection-stability"}.
@@ -425,8 +502,19 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             \n                count($result) = 2\n                document-node()*\n             \n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n                <assert>count($result) = 2</assert>\n                <assert-type>document-node()*</assert-type>\n             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+             
+                count($result) = 2
+                document-node()*
+             
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'collection-006'(_Config) ->
    Qry = "collection(\"collection1\")",
@@ -435,8 +523,19 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             \n                count($result) = 2\n                document-node()*\n             \n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n                <assert>count($result) = 2</assert>\n                <assert-type>document-node()*</assert-type>\n             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+             
+                count($result) = 2
+                document-node()*
+             
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'collection-007'(_Config) ->
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") | collection(\"collection1\")",
@@ -445,20 +544,43 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             \n                count($result) = 2\n                document-node()*\n             \n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n                <assert>count($result) = 2</assert>\n                <assert-type>document-node()*</assert-type>\n             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+             
+                count($result) = 2
+                document-node()*
+             
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'collection-008'(_Config) ->
    {skip,"collection-stability"}.
 'collection-009'(_Config) ->
-   Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") \n            return $c | (for $doc in $c return doc(document-uri($doc)))",
+   Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") 
+            return $c | (for $doc in $c return doc(document-uri($doc)))",
    Env = xqerl_test:handle_environment(environment('simple-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             \n                count($result) = 2\n                document-node()*\n             \n             \n         \n      ",
- case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\n                <assert>count($result) = 2</assert>\n                <assert-type>document-node()*</assert-type>\n             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
+   Exp = "
+         
+             
+                count($result) = 2
+                document-node()*
+             
+             
+         
+      ",
+ case (   ct:fail(["<all-of xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+                <assert>count($result) = 2</assert>
+                <assert-type>document-node()*</assert-type>
+             </all-of>", Res])) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0003") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'collection-010'(_Config) ->
    {skip,"directory-as-collection-uri"}.
@@ -468,7 +590,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'collection-901'(_Config) ->
@@ -477,7 +601,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'collection-902'(_Config) ->
@@ -486,7 +612,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0004'}) end.
 'collection-903'(_Config) ->
@@ -495,7 +623,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'cbcl-collection-001'(_Config) ->
@@ -504,6 +634,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0004'}) end.

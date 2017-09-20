@@ -139,7 +139,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'math-acos-002'(_Config) ->
@@ -149,7 +151,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            abs($result - 1.5707963267948966e0) lt 1e-14\n        ",
+   Exp = "
+            abs($result - 1.5707963267948966e0) lt 1e-14
+        ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""abs($result - 1.5707963267948966e0) lt 1e-14",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -161,7 +165,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            abs($result - 1.5707963267948966e0) lt 1e-14\n        ",
+   Exp = "
+            abs($result - 1.5707963267948966e0) lt 1e-14
+        ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""abs($result - 1.5707963267948966e0) lt 1e-14",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -173,7 +179,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            0.0e0\n        ",
+   Exp = "
+            0.0e0
+        ",
  Tst = xqerl:run("0.0e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -186,7 +194,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            3.141592653589793e0\n        ",
+   Exp = "
+            3.141592653589793e0
+        ",
  Tst = xqerl:run("3.141592653589793e0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -199,7 +209,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            NaN\n        ",
+   Exp = "
+            NaN
+        ",
    case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -210,7 +222,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            NaN\n        ",
+   Exp = "
+            NaN
+        ",
    case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -221,7 +235,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            NaN\n        ",
+   Exp = "
+            NaN
+        ",
    case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -232,7 +248,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            NaN\n        ",
+   Exp = "
+            NaN
+        ",
    case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

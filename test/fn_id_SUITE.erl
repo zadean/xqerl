@@ -243,7 +243,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-id-2'(_Config) ->
@@ -252,7 +254,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n      ",
+   Exp = "
+            
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-id-3'(_Config) ->
@@ -261,17 +265,24 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-id-4'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        let $var := copy:copy(/*) return fn:id(\"argument1\", $var)\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        let $var := copy:copy(/*) return fn:id(\"argument1\", $var)
+      ",
    Env = xqerl_test:handle_environment(environment('auction-xq')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'fn-id-dtd-5'(_Config) ->
@@ -281,7 +292,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         id1\n      ",
+   Exp = "
+         id1
+      ",
    case xqerl_test:string_value(Res) of
              "id1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -292,7 +305,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -305,7 +320,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-2\n      ",
+   Exp = "
+         elementwithid-2
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -316,7 +333,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1 elementwithid-2\n      ",
+   Exp = "
+         elementwithid-1 elementwithid-2
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1 elementwithid-2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -327,7 +346,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1\n      ",
+   Exp = "
+         elementwithid-1
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -338,7 +359,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -351,7 +374,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-id-dtd-12'(_Config) ->
@@ -361,7 +386,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-3\n      ",
+   Exp = "
+         elementwithid-3
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -372,7 +399,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-4\n      ",
+   Exp = "
+         elementwithid-4
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-4" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -383,7 +412,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-id-dtd-15'(_Config) ->
@@ -393,7 +424,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1\n      ",
+   Exp = "
+         elementwithid-1
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -404,7 +437,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1\n      ",
+   Exp = "
+         elementwithid-1
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -415,7 +450,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1\n      ",
+   Exp = "
+         elementwithid-1
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -426,7 +463,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-6\n      ",
+   Exp = "
+         elementwithid-6
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-6" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -437,7 +476,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1\n      ",
+   Exp = "
+         elementwithid-1
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -448,7 +489,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1\n      ",
+   Exp = "
+         elementwithid-1
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -459,7 +502,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1\n      ",
+   Exp = "
+         elementwithid-1
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -469,7 +514,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'fn-id-dtd-23'(_Config) ->
@@ -479,7 +526,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         elementwithid-1 elementwithid-2\n      ",
+   Exp = "
+         elementwithid-1 elementwithid-2
+      ",
    case xqerl_test:string_value(Res) of
              "elementwithid-1 elementwithid-2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -489,7 +538,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-SeqIDFunc-2'(_Config) ->
@@ -498,7 +549,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-SeqIDFunc-3'(_Config) ->
@@ -507,47 +560,69 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K2-SeqIDFunc-4'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        id(\"id\", copy:copy((//comment())[1]))\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        id(\"id\", copy:copy((//comment())[1]))
+      ",
    Env = xqerl_test:handle_environment(environment('auction-xq')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'K2-SeqIDFunc-5'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        id(\"id\", copy:copy((//processing-instruction())[1]))\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        id(\"id\", copy:copy((//processing-instruction())[1]))
+      ",
    Env = xqerl_test:handle_environment(environment('auction-xq')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'K2-SeqIDFunc-6'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        id(\"id\", copy:copy(/*))\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        id(\"id\", copy:copy(/*))
+      ",
    Env = xqerl_test:handle_environment(environment('auction-xq')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'K2-SeqIDFunc-7'(_Config) ->
-   Qry = "\n        import module namespace copy=\"http://www.w3.org/QT3/copy\";\n        id(\"id\", (copy:copy(/*)//*:NegativeComments)[last()])\n      ",
+   Qry = "
+        import module namespace copy=\"http://www.w3.org/QT3/copy\";
+        id(\"id\", (copy:copy(/*)//*:NegativeComments)[last()])
+      ",
    Env = xqerl_test:handle_environment(environment('auction-xq')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'K2-SeqIDFunc-8'(_Config) ->
@@ -556,7 +631,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0001'}) end.
 'K2-SeqIDFunc-9'(_Config) ->
@@ -565,7 +642,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         b\n      ",
+   Exp = "
+         b
+      ",
    case xqerl_test:string_value(Res) of
              "b" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -576,7 +655,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         positiveInteger short\n      ",
+   Exp = "
+         positiveInteger short
+      ",
    case xqerl_test:string_value(Res) of
              "positiveInteger short" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -587,7 +668,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         short\n      ",
+   Exp = "
+         short
+      ",
    case xqerl_test:string_value(Res) of
              "short" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -598,7 +681,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         short\n      ",
+   Exp = "
+         short
+      ",
    case xqerl_test:string_value(Res) of
              "short" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -609,7 +694,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a b c d e f i\n      ",
+   Exp = "
+         a b c d e f i
+      ",
    case xqerl_test:string_value(Res) of
              "a b c d e f i" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -620,7 +707,9 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         positiveInteger short\n      ",
+   Exp = "
+         positiveInteger short
+      ",
    case xqerl_test:string_value(Res) of
              "positiveInteger short" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -631,34 +720,53 @@ environment('auction-xq') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a b c d e f i\n      ",
+   Exp = "
+         a b c d e f i
+      ",
    case xqerl_test:string_value(Res) of
              "a b c d e f i" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-id-001'(_Config) ->
-   Qry = "\n      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; \n      	let $doc := document { <root /> } return fn:empty( fn:id( local:generate(0), $doc) )\n      ",
+   Qry = "
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
+      	let $doc := document { <root /> } return fn:empty( fn:id( local:generate(0), $doc) )
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-id-002'(_Config) ->
-   Qry = "\n      	let $doc := document { <root /> } return fn:empty( fn:id( (), $doc) )\n      ",
+   Qry = "
+      	let $doc := document { <root /> } return fn:empty( fn:id( (), $doc) )
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'cbcl-id-003'(_Config) ->
-   Qry = "\n      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; \n      	let $doc := document { <root /> } return fn:empty( $doc/fn:id( local:generate(0)) )\n      ",
+   Qry = "
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
+      	let $doc := document { <root /> } return fn:empty( $doc/fn:id( local:generate(0)) )
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

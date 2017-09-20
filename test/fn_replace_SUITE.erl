@@ -274,7 +274,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a characte\n      ",
+   Exp = "
+         This is a characte
+      ",
    case xqerl_test:string_value(Res) of
              "This is a characte" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -284,7 +286,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a characte\n      ",
+   Exp = "
+         This is a characte
+      ",
    case xqerl_test:string_value(Res) of
              "This is a characte" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -294,7 +298,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a characte\n      ",
+   Exp = "
+         This is a characte
+      ",
    case xqerl_test:string_value(Res) of
              "This is a characte" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -304,7 +310,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a characte\n      ",
+   Exp = "
+         This is a characte
+      ",
    case xqerl_test:string_value(Res) of
              "This is a characte" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -314,7 +322,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a characte\n      ",
+   Exp = "
+         This is a characte
+      ",
    case xqerl_test:string_value(Res) of
              "This is a characte" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -324,7 +334,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a characte\n      ",
+   Exp = "
+         This is a characte
+      ",
    case xqerl_test:string_value(Res) of
              "This is a characte" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -334,7 +346,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         This is a characte\n      ",
+   Exp = "
+         This is a characte
+      ",
    case xqerl_test:string_value(Res) of
              "This is a characte" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -344,7 +358,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0001'}) end.
 'fn-replaceErr-2'(_Config) ->
@@ -353,7 +369,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'fn-replaceErr-3'(_Config) ->
@@ -362,7 +380,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'fn-replace-1'(_Config) ->
@@ -371,7 +391,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a*cada*\n      ",
+   Exp = "
+         a*cada*
+      ",
    case xqerl_test:string_value(Res) of
              "a*cada*" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -381,7 +403,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         *\n      ",
+   Exp = "
+         *
+      ",
    case xqerl_test:string_value(Res) of
              "*" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -391,7 +415,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         *c*bra\n      ",
+   Exp = "
+         *c*bra
+      ",
    case xqerl_test:string_value(Res) of
              "*c*bra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -401,7 +427,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         brcdbr\n      ",
+   Exp = "
+         brcdbr
+      ",
    case xqerl_test:string_value(Res) of
              "brcdbr" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -411,7 +439,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abbraccaddabbra\n      ",
+   Exp = "
+         abbraccaddabbra
+      ",
    case xqerl_test:string_value(Res) of
              "abbraccaddabbra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -421,7 +451,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'fn-replace-7'(_Config) ->
@@ -430,7 +462,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         b\n      ",
+   Exp = "
+         b
+      ",
    case xqerl_test:string_value(Res) of
              "b" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -440,7 +474,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         bbbb\n      ",
+   Exp = "
+         bbbb
+      ",
    case xqerl_test:string_value(Res) of
              "bbbb" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -450,7 +486,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         carted\n      ",
+   Exp = "
+         carted
+      ",
    case xqerl_test:string_value(Res) of
              "carted" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -460,7 +498,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [1=ab][2=]cd\n      ",
+   Exp = "
+         [1=ab][2=]cd
+      ",
    case xqerl_test:string_value(Res) of
              "[1=ab][2=]cd" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -470,7 +510,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -480,7 +522,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a*cada*\n      ",
+   Exp = "
+         a*cada*
+      ",
    case xqerl_test:string_value(Res) of
              "a*cada*" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -490,7 +534,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -500,7 +546,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -510,7 +558,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -520,7 +570,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -530,7 +582,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -540,7 +594,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -550,7 +606,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -560,7 +618,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -570,7 +630,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -580,7 +642,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -590,7 +654,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -600,7 +666,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -610,7 +678,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -620,17 +690,22 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-replace-27'(_Config) ->
-   Qry = "fn:replace(\"abracadabra\nabracadabra\", \"\\n\",\"with\")",
+   Qry = "fn:replace(\"abracadabra
+abracadabra\", \"\\n\",\"with\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -640,7 +715,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrwithbracadabra\n      ",
+   Exp = "
+         abracadabrwithbracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrwithbracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -650,7 +727,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrwithbracadabrwithbracadabra\n      ",
+   Exp = "
+         abracadabrwithbracadabrwithbracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrwithbracadabrwithbracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -660,7 +739,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrwithbracadabrwithbracadabra\n      ",
+   Exp = "
+         abracadabrwithbracadabrwithbracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrwithbracadabrwithbracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -670,7 +751,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabrawithabracadabra\n      ",
+   Exp = "
+         abracadabrawithabracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabrawithabracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -680,7 +763,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         withbracadabra\n      ",
+   Exp = "
+         withbracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "withbracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -690,7 +775,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abracadabra\n      ",
+   Exp = "
+         abracadabra
+      ",
    case xqerl_test:string_value(Res) of
              "abracadabra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -706,7 +793,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         $br$c$d$br$\n      ",
+   Exp = "
+         $br$c$d$br$
+      ",
    case xqerl_test:string_value(Res) of
              "$br$c$d$br$" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -716,7 +805,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         $abr$ac$ad$abr$a\n      ",
+   Exp = "
+         $abr$ac$ad$abr$a
+      ",
    case xqerl_test:string_value(Res) of
              "$abr$ac$ad$abr$a" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -726,7 +817,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \\br\\c\\d\\br\\\n      ",
+   Exp = "
+         \\br\\c\\d\\br\\
+      ",
    case xqerl_test:string_value(Res) of
              "\\br\\c\\d\\br\\" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -736,7 +829,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         |aa|br|aa|c|aa|d|aa|br|aa|\n      ",
+   Exp = "
+         |aa|br|aa|c|aa|d|aa|br|aa|
+      ",
    case xqerl_test:string_value(Res) of
              "|aa|br|aa|c|aa|d|aa|br|aa|" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -746,7 +841,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         a20bra20ca20da20bra20\n      ",
+   Exp = "
+         a20bra20ca20da20bra20
+      ",
    case xqerl_test:string_value(Res) of
              "a20bra20ca20da20bra20" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -756,7 +853,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         (ab.a.b.ab7)racad(ab.a.b.ab7)ra\n      ",
+   Exp = "
+         (ab.a.b.ab7)racad(ab.a.b.ab7)ra
+      ",
    case xqerl_test:string_value(Res) of
              "(ab.a.b.ab7)racad(ab.a.b.ab7)ra" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -766,7 +865,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	concat('Mary', codepoints-to-string(13), 'Jones')\n      ",
+   Exp = "
+	concat('Mary', codepoints-to-string(13), 'Jones')
+      ",
  Tst = xqerl:run("concat('Mary', codepoints-to-string(13), 'Jones')"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -778,7 +879,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	'Jacob Jones'\n      ",
+   Exp = "
+	'Jacob Jones'
+      ",
  Tst = xqerl:run("'Jacob Jones'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -790,7 +893,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n	\"Now, let's SENDSEND OUTOUT for QUICHEQUICHE!!\"\n      ",
+   Exp = "
+	\"Now, let's SENDSEND OUTOUT for QUICHEQUICHE!!\"
+      ",
  Tst = xqerl:run("\"Now, let's SENDSEND OUTOUT for QUICHEQUICHE!!\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -802,7 +907,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0001'}) end.
 'K-ReplaceFunc-2'(_Config) ->
@@ -811,7 +918,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-ReplaceFunc-3'(_Config) ->
@@ -820,7 +929,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-ReplaceFunc-4'(_Config) ->
@@ -829,7 +940,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0001" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0001'}) end.
 'K-ReplaceFunc-5'(_Config) ->
@@ -838,7 +951,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-ReplaceFunc-6'(_Config) ->
@@ -847,7 +962,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'K-ReplaceFunc-7'(_Config) ->
@@ -856,7 +973,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'K-ReplaceFunc-8'(_Config) ->
@@ -865,7 +984,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'K-ReplaceFunc-9'(_Config) ->
@@ -874,7 +995,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'K2-ReplaceFunc-1'(_Config) ->
@@ -883,7 +1006,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'K2-ReplaceFunc-2'(_Config) ->
@@ -892,7 +1017,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0004'}) end.
 'K2-ReplaceFunc-3'(_Config) ->
@@ -901,7 +1028,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0002'}) end.
 'K2-ReplaceFunc-4'(_Config) ->
@@ -910,7 +1039,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0002'}) end.
 'K2-ReplaceFunc-5'(_Config) ->
@@ -919,7 +1050,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0002'}) end.
 'K2-ReplaceFunc-6'(_Config) ->
@@ -928,7 +1061,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0002'}) end.
 'K2-ReplaceFunc-7'(_Config) ->
@@ -937,7 +1072,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0002'}) end.
 'K2-ReplaceFunc-8'(_Config) ->
@@ -946,7 +1083,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <result><para>ThiQ Qbcd.</para><para>ThiQ iQ a abQQ.</para></result>ThiQ abcdQ. ThiQ iQ a abQQ.\n      ",
+   Exp = "
+         <result><para>ThiQ Qbcd.</para><para>ThiQ iQ a abQQ.</para></result>ThiQ abcdQ. ThiQ iQ a abQQ.
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><para>ThiQ Qbcd.</para><para>ThiQ iQ a abQQ.</para></result>ThiQ abcdQ. ThiQ iQ a abQQ."++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -956,12 +1095,16 @@ environment('math') ->
               end
 end.
 'cbcl-fn-replace-001'(_Config) ->
-   Qry = "\n      boolean(replace(if(exists((1 to 10)[. mod 2 = 0])) then \"blah\" else (),\"a\",\"e\",\"m\"))\n   ",
+   Qry = "
+      boolean(replace(if(exists((1 to 10)[. mod 2 = 0])) then \"blah\" else (),\"a\",\"e\",\"m\"))
+   ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'cbcl-fn-replace-002'(_Config) ->
@@ -970,33 +1113,47 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'cbcl-fn-replace-003'(_Config) ->
-   Qry = "\n        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\")\n      ",
+   Qry = "
+        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'cbcl-fn-replace-004'(_Config) ->
-   Qry = "\n        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\",\"m\")\n      ",
+   Qry = "
+        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\",\"m\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.
 'cbcl-fn-replace-005'(_Config) ->
-   Qry = "\n        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\",\"m\")\n      ",
+   Qry = "
+        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\",\"m\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORX0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FORX0003'}) end.

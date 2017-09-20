@@ -304,7 +304,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -2147483648-2147483648\n      ",
+   Exp = "
+         -2147483648-2147483648
+      ",
    case xqerl_test:string_value(Res) of
              "-2147483648-2147483648" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -314,7 +316,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1873914410-2147483648\n      ",
+   Exp = "
+         -1873914410-2147483648
+      ",
    case xqerl_test:string_value(Res) of
              "-1873914410-2147483648" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -324,7 +328,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2147483647-2147483648\n      ",
+   Exp = "
+         2147483647-2147483648
+      ",
    case xqerl_test:string_value(Res) of
              "2147483647-2147483648" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -334,7 +340,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -2147483648-1873914410\n      ",
+   Exp = "
+         -2147483648-1873914410
+      ",
    case xqerl_test:string_value(Res) of
              "-2147483648-1873914410" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -344,7 +352,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -21474836482147483647\n      ",
+   Exp = "
+         -21474836482147483647
+      ",
    case xqerl_test:string_value(Res) of
              "-21474836482147483647" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -354,7 +364,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999-999999999999999999\n      ",
+   Exp = "
+         -999999999999999999-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -364,7 +376,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         830993497117024304-999999999999999999\n      ",
+   Exp = "
+         830993497117024304-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "830993497117024304-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -374,7 +388,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999-999999999999999999\n      ",
+   Exp = "
+         999999999999999999-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "999999999999999999-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -384,7 +400,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999830993497117024304\n      ",
+   Exp = "
+         -999999999999999999830993497117024304
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999830993497117024304" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -394,7 +412,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999999999999999999999\n      ",
+   Exp = "
+         -999999999999999999999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -404,7 +424,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999-999999999999999999\n      ",
+   Exp = "
+         -999999999999999999-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -414,7 +436,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         617375191608514839-999999999999999999\n      ",
+   Exp = "
+         617375191608514839-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "617375191608514839-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -424,7 +448,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         999999999999999999-999999999999999999\n      ",
+   Exp = "
+         999999999999999999-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "999999999999999999-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -434,7 +460,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999617375191608514839\n      ",
+   Exp = "
+         -999999999999999999617375191608514839
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999617375191608514839" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -444,7 +472,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999999999999999999999\n      ",
+   Exp = "
+         -999999999999999999999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -454,7 +484,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1.7976931348623157E308-1.7976931348623157E308\n      ",
+   Exp = "
+         -1.7976931348623157E308-1.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "-1.7976931348623157E308-1.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -464,7 +496,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0-1.7976931348623157E308\n      ",
+   Exp = "
+         0-1.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "0-1.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -474,7 +508,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1.7976931348623157E308-1.7976931348623157E308\n      ",
+   Exp = "
+         1.7976931348623157E308-1.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "1.7976931348623157E308-1.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -484,7 +520,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1.7976931348623157E3080\n      ",
+   Exp = "
+         -1.7976931348623157E3080
+      ",
    case xqerl_test:string_value(Res) of
              "-1.7976931348623157E3080" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -494,7 +532,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1.7976931348623157E3081.7976931348623157E308\n      ",
+   Exp = "
+         -1.7976931348623157E3081.7976931348623157E308
+      ",
    case xqerl_test:string_value(Res) of
              "-1.7976931348623157E3081.7976931348623157E308" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -504,7 +544,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3.4028235E38-3.4028235E38\n      ",
+   Exp = "
+         -3.4028235E38-3.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "-3.4028235E38-3.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -514,7 +556,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0-3.4028235E38\n      ",
+   Exp = "
+         0-3.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "0-3.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -524,7 +568,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3.4028235E38-3.4028235E38\n      ",
+   Exp = "
+         3.4028235E38-3.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "3.4028235E38-3.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -534,7 +580,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3.4028235E380\n      ",
+   Exp = "
+         -3.4028235E380
+      ",
    case xqerl_test:string_value(Res) of
              "-3.4028235E380" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -544,7 +592,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3.4028235E383.4028235E38\n      ",
+   Exp = "
+         -3.4028235E383.4028235E38
+      ",
    case xqerl_test:string_value(Res) of
              "-3.4028235E383.4028235E38" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -554,7 +604,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -92233720368547758-92233720368547758\n      ",
+   Exp = "
+         -92233720368547758-92233720368547758
+      ",
    case xqerl_test:string_value(Res) of
              "-92233720368547758-92233720368547758" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -564,7 +616,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -47175562203048468-92233720368547758\n      ",
+   Exp = "
+         -47175562203048468-92233720368547758
+      ",
    case xqerl_test:string_value(Res) of
              "-47175562203048468-92233720368547758" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -574,7 +628,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         92233720368547758-92233720368547758\n      ",
+   Exp = "
+         92233720368547758-92233720368547758
+      ",
    case xqerl_test:string_value(Res) of
              "92233720368547758-92233720368547758" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -584,7 +640,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -92233720368547758-47175562203048468\n      ",
+   Exp = "
+         -92233720368547758-47175562203048468
+      ",
    case xqerl_test:string_value(Res) of
              "-92233720368547758-47175562203048468" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -594,7 +652,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -9223372036854775892233720368547758\n      ",
+   Exp = "
+         -9223372036854775892233720368547758
+      ",
    case xqerl_test:string_value(Res) of
              "-9223372036854775892233720368547758" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -604,7 +664,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         00\n      ",
+   Exp = "
+         00
+      ",
    case xqerl_test:string_value(Res) of
              "00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -614,7 +676,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         446330\n      ",
+   Exp = "
+         446330
+      ",
    case xqerl_test:string_value(Res) of
              "446330" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -624,7 +688,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         655350\n      ",
+   Exp = "
+         655350
+      ",
    case xqerl_test:string_value(Res) of
              "655350" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -634,7 +700,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         044633\n      ",
+   Exp = "
+         044633
+      ",
    case xqerl_test:string_value(Res) of
              "044633" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -644,7 +712,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         065535\n      ",
+   Exp = "
+         065535
+      ",
    case xqerl_test:string_value(Res) of
              "065535" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -654,7 +724,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999-999999999999999999\n      ",
+   Exp = "
+         -999999999999999999-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -664,7 +736,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -297014075999096793-999999999999999999\n      ",
+   Exp = "
+         -297014075999096793-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-297014075999096793-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -674,7 +748,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -1-999999999999999999\n      ",
+   Exp = "
+         -1-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-1-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -684,7 +760,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999-297014075999096793\n      ",
+   Exp = "
+         -999999999999999999-297014075999096793
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999-297014075999096793" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -694,7 +772,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999-1\n      ",
+   Exp = "
+         -999999999999999999-1
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999-1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -704,7 +784,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         11\n      ",
+   Exp = "
+         11
+      ",
    case xqerl_test:string_value(Res) of
              "11" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -714,7 +796,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         527046023906100331\n      ",
+   Exp = "
+         527046023906100331
+      ",
    case xqerl_test:string_value(Res) of
              "527046023906100331" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -724,7 +808,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         9999999999999999991\n      ",
+   Exp = "
+         9999999999999999991
+      ",
    case xqerl_test:string_value(Res) of
              "9999999999999999991" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -734,7 +820,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         152704602390610033\n      ",
+   Exp = "
+         152704602390610033
+      ",
    case xqerl_test:string_value(Res) of
              "152704602390610033" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -744,7 +832,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1999999999999999999\n      ",
+   Exp = "
+         1999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "1999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -754,7 +844,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         00\n      ",
+   Exp = "
+         00
+      ",
    case xqerl_test:string_value(Res) of
              "00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -764,7 +856,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1307471086076746540\n      ",
+   Exp = "
+         1307471086076746540
+      ",
    case xqerl_test:string_value(Res) of
              "1307471086076746540" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -774,7 +868,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1844674407370955160\n      ",
+   Exp = "
+         1844674407370955160
+      ",
    case xqerl_test:string_value(Res) of
              "1844674407370955160" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -784,7 +880,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0130747108607674654\n      ",
+   Exp = "
+         0130747108607674654
+      ",
    case xqerl_test:string_value(Res) of
              "0130747108607674654" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -794,7 +892,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0184467440737095516\n      ",
+   Exp = "
+         0184467440737095516
+      ",
    case xqerl_test:string_value(Res) of
              "0184467440737095516" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -804,7 +904,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999-999999999999999999\n      ",
+   Exp = "
+         -999999999999999999-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -814,7 +916,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -475688437271870490-999999999999999999\n      ",
+   Exp = "
+         -475688437271870490-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "-475688437271870490-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -824,7 +928,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0-999999999999999999\n      ",
+   Exp = "
+         0-999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "0-999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -834,7 +940,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -999999999999999999-475688437271870490\n      ",
+   Exp = "
+         -999999999999999999-475688437271870490
+      ",
    case xqerl_test:string_value(Res) of
              "-999999999999999999-475688437271870490" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -844,7 +952,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -9999999999999999990\n      ",
+   Exp = "
+         -9999999999999999990
+      ",
    case xqerl_test:string_value(Res) of
              "-9999999999999999990" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -854,7 +964,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         00\n      ",
+   Exp = "
+         00
+      ",
    case xqerl_test:string_value(Res) of
              "00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -864,7 +976,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3038845459914645270\n      ",
+   Exp = "
+         3038845459914645270
+      ",
    case xqerl_test:string_value(Res) of
              "3038845459914645270" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -874,7 +988,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         9999999999999999990\n      ",
+   Exp = "
+         9999999999999999990
+      ",
    case xqerl_test:string_value(Res) of
              "9999999999999999990" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -884,7 +1000,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0303884545991464527\n      ",
+   Exp = "
+         0303884545991464527
+      ",
    case xqerl_test:string_value(Res) of
              "0303884545991464527" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -894,7 +1012,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0999999999999999999\n      ",
+   Exp = "
+         0999999999999999999
+      ",
    case xqerl_test:string_value(Res) of
              "0999999999999999999" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -904,7 +1024,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -32768-32768\n      ",
+   Exp = "
+         -32768-32768
+      ",
    case xqerl_test:string_value(Res) of
              "-32768-32768" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -914,7 +1036,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -5324-32768\n      ",
+   Exp = "
+         -5324-32768
+      ",
    case xqerl_test:string_value(Res) of
              "-5324-32768" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -924,7 +1048,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         32767-32768\n      ",
+   Exp = "
+         32767-32768
+      ",
    case xqerl_test:string_value(Res) of
              "32767-32768" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -934,7 +1060,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -32768-5324\n      ",
+   Exp = "
+         -32768-5324
+      ",
    case xqerl_test:string_value(Res) of
              "-32768-5324" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -944,7 +1072,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3276832767\n      ",
+   Exp = "
+         -3276832767
+      ",
    case xqerl_test:string_value(Res) of
              "-3276832767" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -954,7 +1084,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         ungrateful\n      ",
+   Exp = "
+         ungrateful
+      ",
    case xqerl_test:string_value(Res) of
              "ungrateful" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -964,7 +1096,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         Thy old groans ring yet in my ancient ears.\n      ",
+   Exp = "
+         Thy old groans ring yet in my ancient ears.
+      ",
    case xqerl_test:string_value(Res) of
              "Thy old groans ring yet in my ancient ears." -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -974,7 +1108,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         Ciao!\n      ",
+   Exp = "
+         Ciao!
+      ",
    case xqerl_test:string_value(Res) of
              "Ciao!" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -984,7 +1120,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         Ingratitude, thou marble-hearted fiend!\n      ",
+   Exp = "
+         Ingratitude, thou marble-hearted fiend!
+      ",
    case xqerl_test:string_value(Res) of
              "Ingratitude, thou marble-hearted fiend!" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -994,7 +1132,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         ABCD\n      ",
+   Exp = "
+         ABCD
+      ",
    case xqerl_test:string_value(Res) of
              "ABCD" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1004,7 +1144,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abcde\n      ",
+   Exp = "
+         abcde
+      ",
    case xqerl_test:string_value(Res) of
              "abcde" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1014,7 +1156,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         ABCDEabcde\n      ",
+   Exp = "
+         ABCDEabcde
+      ",
    case xqerl_test:string_value(Res) of
              "ABCDEabcde" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1024,7 +1168,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
    case xqerl_test:string_value(Res) of
              "1" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1034,7 +1180,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         ABCDH\n      ",
+   Exp = "
+         ABCDH
+      ",
    case xqerl_test:string_value(Res) of
              "ABCDH" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1044,7 +1192,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         *****\n      ",
+   Exp = "
+         *****
+      ",
    case xqerl_test:string_value(Res) of
              "*****" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1054,7 +1204,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         zzzzz123\n      ",
+   Exp = "
+         zzzzz123
+      ",
    case xqerl_test:string_value(Res) of
              "zzzzz123" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1064,7 +1216,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-concat-13'(_Config) ->
@@ -1073,7 +1227,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         abcde\n      ",
+   Exp = "
+         abcde
+      ",
    case xqerl_test:string_value(Res) of
              "abcde" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1083,7 +1239,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-concat-15'(_Config) ->
@@ -1092,7 +1250,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         %$#@!\n      ",
+   Exp = "
+         %$#@!
+      ",
    case xqerl_test:string_value(Res) of
              "%$#@!" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1102,7 +1262,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         concatconcat\n      ",
+   Exp = "
+         concatconcat
+      ",
    case xqerl_test:string_value(Res) of
              "concatconcat" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1112,7 +1274,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-concat-18'(_Config) ->
@@ -1121,7 +1285,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOTY0013" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOTY0013'}) end.
 'op-concat-19'(_Config) ->
@@ -1130,7 +1296,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \"12-16\"\n            xs:string\n         \n      ",
+   Exp = "
+         
+            \"12-16\"
+            xs:string
+         
+      ",
  case  begin Tst1 = xqerl:run("\"12-16\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -1142,7 +1313,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConcatOp-3'(_Config) ->
@@ -1151,7 +1324,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConcatOp-4'(_Config) ->
@@ -1160,7 +1335,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConcatOp-5'(_Config) ->
@@ -1169,7 +1346,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConcatOp-6'(_Config) ->
@@ -1178,7 +1357,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConcatOp-7'(_Config) ->
@@ -1187,7 +1368,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConcatOp-8'(_Config) ->
@@ -1196,7 +1379,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ConcatOp-9'(_Config) ->
@@ -1205,6 +1390,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

@@ -161,13 +161,17 @@ environment('math') ->
 {modules, []}
 ].
 'parse-xml-fragment-001'(_Config) ->
-   Qry = "\n        	parse-xml-fragment(unparsed-text(\"../docs/atomic.xml\"))/*\n        ",
+   Qry = "
+        	parse-xml-fragment(unparsed-text(\"../docs/atomic.xml\"))/*
+        ",
    Env = xqerl_test:handle_environment(environment('')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            element(*,xs:untyped)\n        ",
+   Exp = "
+            element(*,xs:untyped)
+        ",
    case xqerl_types:type(Res) of
            'element(*,xs:untyped)' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -178,7 +182,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'parse-xml-fragment-003'(_Config) ->
@@ -188,7 +194,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'parse-xml-fragment-004'(_Config) ->
@@ -198,7 +206,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0006'}) end.
 'parse-xml-fragment-005'(_Config) ->
@@ -208,7 +218,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -219,7 +231,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            vanessa\n        ",
+   Exp = "
+            vanessa
+        ",
    case xqerl_test:string_value(Res) of
              "vanessa" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -230,7 +244,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            <a/><b/><c/>\n        ",
+   Exp = "
+            <a/><b/><c/>
+        ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/><b/><c/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -246,7 +262,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n              \n        ",
+   Exp = "
+              
+        ",
    case xqerl_test:string_value(Res) of
              "  " -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -257,7 +275,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            <a> </a> <b> </b>\n        ",
+   Exp = "
+            <a> </a> <b> </b>
+        ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a> </a> <b> </b>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -273,7 +293,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            <a/><!--comment--><?PI?><b/>\n        ",
+   Exp = "
+            <a/><!--comment--><?PI?><b/>
+        ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/><!--comment--><?PI?><b/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -289,7 +311,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            <\n        ",
+   Exp = "
+            <
+        ",
    case xqerl_test:string_value(Res) of
              "<" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -300,7 +324,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            &\n        ",
+   Exp = "
+            &
+        ",
    case xqerl_test:string_value(Res) of
              "&" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -311,7 +337,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            <a/>\n        ",
+   Exp = "
+            <a/>
+        ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -327,7 +355,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -338,7 +368,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            abc\n        ",
+   Exp = "
+            abc
+        ",
    case xqerl_test:string_value(Res) of
              "abc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -349,7 +381,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0006'}) end.
 'parse-xml-fragment-017'(_Config) ->
@@ -359,7 +393,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0006'}) end.
 'parse-xml-fragment-018'(_Config) ->
@@ -369,7 +405,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0006'}) end.
 'parse-xml-fragment-019'(_Config) ->
@@ -379,17 +417,23 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0006'}) end.
 'parse-xml-fragment-020'(_Config) ->
-   Qry = "parse-xml-fragment(\"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'\n                                           'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html/>\")\n        ",
+   Qry = "parse-xml-fragment(\"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+                                           'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html/>\")
+        ",
    Env = xqerl_test:handle_environment(environment('')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0006" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0006'}) end.
 'parse-xml-fragment-021'(_Config) ->
@@ -399,7 +443,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            97 10 98\n        ",
+   Exp = "
+            97 10 98
+        ",
    case xqerl_test:string_value(Res) of
              "97 10 98" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -410,7 +456,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'parse-xml-fragment-023'(_Config) ->
@@ -420,6 +468,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

@@ -392,7 +392,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        XY\n      ",
+   Exp = "
+        XY
+      ",
    case xqerl_test:string_value(Res) of
              "XY" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -402,29 +404,40 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'FunctionCall-003'(_Config) ->
    {skip,"schemaValidation"}.
 'FunctionCall-004'(_Config) ->
-   Qry = "\n         declare function local:f($in as xs:boolean) as xs:boolean { $in };\n         local:f(<a>0</a>)",
+   Qry = "
+         declare function local:f($in as xs:boolean) as xs:boolean { $in };
+         local:f(<a>0</a>)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'FunctionCall-005'(_Config) ->
    {skip,"schemaValidation"}.
 'FunctionCall-006'(_Config) ->
-   Qry = "\n         let $f := function ($in as xs:boolean) as xs:boolean { $in }\n         return $f(<a>0</a>)\n      ",
+   Qry = "
+         let $f := function ($in as xs:boolean) as xs:boolean { $in }
+         return $f(<a>0</a>)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n      ",
+   Exp = "
+        
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'FunctionCall-007'(_Config) ->
@@ -432,12 +445,20 @@ environment('ListUnionTypes') ->
 'FunctionCall-008'(_Config) ->
    {skip,"schemaValidation"}.
 'FunctionCall-009'(_Config) ->
-   Qry = "\n        declare function local:f($in as xs:decimal*) as xs:decimal {sum($in, 0.0)};\n        local:f(xs:NMTOKENS('1 1.2 1.3 1.4')!xs:untypedAtomic(.))\n      ",
+   Qry = "
+        declare function local:f($in as xs:decimal*) as xs:decimal {sum($in, 0.0)};
+        local:f(xs:NMTOKENS('1 1.2 1.3 1.4')!xs:untypedAtomic(.))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          xs:decimal\n          4.9\n        \n      ",
+   Exp = "
+        
+          xs:decimal
+          4.9
+        
+      ",
  case  begin Tst2 = xqerl:run("4.9"),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
@@ -450,24 +471,44 @@ environment('ListUnionTypes') ->
 'FunctionCall-012'(_Config) ->
    {skip,"XP30+"}.
 'FunctionCall-013'(_Config) ->
-   Qry = "\n        declare function local:f($a as xs:integer, $b as xs:integer) as xs:integer {\n          data(<a>{$a}{$b}</a>)\n        };\n        local:f(12, 34)\n      ",
+   Qry = "
+        declare function local:f($a as xs:integer, $b as xs:integer) as xs:integer {
+          data(<a>{$a}{$b}</a>)
+        };
+        local:f(12, 34)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          xs:integer\n          1234\n        \n      ",
+   Exp = "
+        
+          xs:integer
+          1234
+        
+      ",
  case  begin Tst2 = xqerl:run("1234"),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
   ResVal2 == TstVal2 end andalso xqerl_types:type(Res) == 'xs:integer' of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'FunctionCall-014'(_Config) ->
-   Qry = "\n        let $f := function($a as xs:integer, $b as xs:integer) as xs:integer {\n          data(<a>{$a}{$b}</a>)\n        }\n        return $f(12, 34)\n      ",
+   Qry = "
+        let $f := function($a as xs:integer, $b as xs:integer) as xs:integer {
+          data(<a>{$a}{$b}</a>)
+        }
+        return $f(12, 34)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          xs:integer\n          1234\n        \n      ",
+   Exp = "
+        
+          xs:integer
+          1234
+        
+      ",
  case  begin Tst2 = xqerl:run("1234"),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
@@ -493,7 +534,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        XYZ\n      ",
+   Exp = "
+        XYZ
+      ",
    case xqerl_test:string_value(Res) of
              "XYZ" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -541,7 +584,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-2'(_Config) ->
@@ -550,7 +595,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-3'(_Config) ->
@@ -559,7 +606,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-4'(_Config) ->
@@ -568,7 +617,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-5'(_Config) ->
@@ -577,7 +628,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0081'}) end.
 'K-FunctionCallExpr-6'(_Config) ->
@@ -586,7 +639,12 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FunctionCallExpr-7'(_Config) ->
@@ -595,7 +653,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FunctionCallExpr-8'(_Config) ->
@@ -604,7 +664,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FunctionCallExpr-9'(_Config) ->
@@ -613,7 +675,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'K-FunctionCallExpr-10'(_Config) ->
@@ -622,7 +686,12 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0081") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FunctionCallExpr-11'(_Config) ->
@@ -631,7 +700,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-12'(_Config) ->
@@ -644,7 +715,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-15'(_Config) ->
@@ -655,7 +728,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"0003\"\n      ",
+   Exp = "
+         \"0003\"
+      ",
  Tst = xqerl:run("\"0003\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -669,7 +744,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      	\n      ",
+   Exp = "
+      	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FunctionCallExpr-17'(_Config) ->
@@ -680,7 +757,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      	\n      ",
+   Exp = "
+      	
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FunctionCallExpr-18'(_Config) ->
@@ -689,7 +768,12 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FunctionCallExpr-19'(_Config) ->
@@ -698,7 +782,12 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FunctionCallExpr-20'(_Config) ->
@@ -707,7 +796,12 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FunctionCallExpr-21'(_Config) ->
@@ -716,7 +810,12 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K-FunctionCallExpr-22'(_Config) ->
@@ -725,7 +824,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-23'(_Config) ->
@@ -734,7 +835,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-24'(_Config) ->
@@ -743,7 +846,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-25'(_Config) ->
@@ -754,7 +859,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-FunctionCallExpr-26'(_Config) ->
@@ -763,7 +870,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-27'(_Config) ->
@@ -772,7 +881,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-FunctionCallExpr-28'(_Config) ->
@@ -781,16 +892,23 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-FunctionCallExpr-1'(_Config) ->
-   Qry = "\n        declare function local:bar($c, $d, $e, $f, $g, $h, $i, $j, $a, $b) { 1 }; \n        declare function local:moo($k) { $k }; \n        local:moo(1)",
+   Qry = "
+        declare function local:bar($c, $d, $e, $f, $g, $h, $i, $j, $a, $b) { 1 }; 
+        declare function local:moo($k) { $k }; 
+        local:moo(1)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -802,7 +920,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-FunctionCallExpr-3'(_Config) ->
@@ -811,7 +931,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-FunctionCallExpr-4'(_Config) ->
@@ -820,7 +942,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-FunctionCallExpr-5'(_Config) ->
@@ -829,7 +953,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-FunctionCallExpr-6'(_Config) ->
@@ -842,7 +968,9 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-FunctionCallExpr-9'(_Config) ->
@@ -851,36 +979,67 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-FunctionCallExpr-10'(_Config) ->
-   Qry = "\n        declare variable $a := <a/>; \n        declare function local:testSingleNodeIdentity($node as node()) { $node is $node }; \n        declare function local:testDoubleNodeIdentity($a as node(), $b as node()) { $a is $b }; \n        local:testSingleNodeIdentity(<a/>), local:testDoubleNodeIdentity(<a/>, <b/>), local:testDoubleNodeIdentity($a, $a)\n      ",
+   Qry = "
+        declare variable $a := <a/>; 
+        declare function local:testSingleNodeIdentity($node as node()) { $node is $node }; 
+        declare function local:testDoubleNodeIdentity($a as node(), $b as node()) { $a is $b }; 
+        local:testSingleNodeIdentity(<a/>), local:testDoubleNodeIdentity(<a/>, <b/>), local:testDoubleNodeIdentity($a, $a)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         true false true\n      ",
+   Exp = "
+         true false true
+      ",
    case xqerl_test:string_value(Res) of
              "true false true" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-FunctionCallExpr-11'(_Config) ->
-   Qry = "\n        declare function local:compare($arg1 as xs:string, $arg2 as xs:string) { \n            let $cps1 := string-to-codepoints($arg1), \n            $cps2 := string-to-codepoints($arg2) \n            return abs(count($cps1) - count($cps2)) + sum(for $x in 1 to min((count($cps1), count($cps2))) \n                                                          return if ($cps1[$x] ne $cps2[$x]) then 1 else ()) }; \n        local:compare(\"\", \"\"), \n        local:compare(\"a\", \"\"), \n        local:compare(\"\", \"a\"), \n        local:compare(\"a\", \"a\"), \n        local:compare(\"\", \"aa\"), \n        local:compare(\"aa\", \"ab\"), \n        local:compare(\"ba\", \"ba\"), \n        local:compare(\"bab\", \"bbb\"), \n        local:compare(\"aba\", \"bab\")\n     ",
+   Qry = "
+        declare function local:compare($arg1 as xs:string, $arg2 as xs:string) { 
+            let $cps1 := string-to-codepoints($arg1), 
+            $cps2 := string-to-codepoints($arg2) 
+            return abs(count($cps1) - count($cps2)) + sum(for $x in 1 to min((count($cps1), count($cps2))) 
+                                                          return if ($cps1[$x] ne $cps2[$x]) then 1 else ()) }; 
+        local:compare(\"\", \"\"), 
+        local:compare(\"a\", \"\"), 
+        local:compare(\"\", \"a\"), 
+        local:compare(\"a\", \"a\"), 
+        local:compare(\"\", \"aa\"), 
+        local:compare(\"aa\", \"ab\"), 
+        local:compare(\"ba\", \"ba\"), 
+        local:compare(\"bab\", \"bbb\"), 
+        local:compare(\"aba\", \"bab\")
+     ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0 1 1 0 2 1 0 1 3\n      ",
+   Exp = "
+         0 1 1 0 2 1 0 1 3
+      ",
    case xqerl_test:string_value(Res) of
              "0 1 1 0 2 1 0 1 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-FunctionCallExpr-12'(_Config) ->
-   Qry = "\n        declare function local:func1() { if(local:func2('b')) then 3 else local:func1() }; \n        declare function local:func2($a) { if(matches(\"\",$a)) then () else 4 }; \n        local:func1()",
+   Qry = "
+        declare function local:func1() { if(local:func2('b')) then 3 else local:func1() }; 
+        declare function local:func2($a) { if(matches(\"\",$a)) then () else 4 }; 
+        local:func1()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
  Tst = xqerl:run("3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -892,195 +1051,311 @@ environment('ListUnionTypes') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'cbcl-promotion-001'(_Config) ->
-   Qry = "\n        string-join( (xs:anyURI('http://www.microsoft.com'), xs:anyURI('http://www.google.com/')), ' ')\n      ",
+   Qry = "
+        string-join( (xs:anyURI('http://www.microsoft.com'), xs:anyURI('http://www.google.com/')), ' ')
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.microsoft.com http://www.google.com/\n      ",
+   Exp = "
+         http://www.microsoft.com http://www.google.com/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.microsoft.com http://www.google.com/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-promotion-002'(_Config) ->
-   Qry = "\n        declare function local:index-of($seq as xs:double*, $item as xs:double) { for $x at $p in $seq return if ($x eq $item) then $p else () };\n        declare function local:sequence($x as xs:integer) { (\"string\", 1, 2.0, xs:float(3))[$x] };\n        local:index-of(for $x in (2,3,4) return local:sequence($x), 2)",
+   Qry = "
+        declare function local:index-of($seq as xs:double*, $item as xs:double) { for $x at $p in $seq return if ($x eq $item) then $p else () };
+        declare function local:sequence($x as xs:integer) { (\"string\", 1, 2.0, xs:float(3))[$x] };
+        local:index-of(for $x in (2,3,4) return local:sequence($x), 2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2\n      ",
+   Exp = "
+         2
+      ",
    case xqerl_test:string_value(Res) of
              "2" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-promotion-003'(_Config) ->
-   Qry = "\n        declare function local:index-of($seq as xs:integer*, $item as xs:integer?) as xs:float* { \n          if (empty($item)) \n            then -1\n            else for $x at $p in $seq return if ($x eq $item) then $p else () \n        };\n        local:index-of(1 to 10, 3)",
+   Qry = "
+        declare function local:index-of($seq as xs:integer*, $item as xs:integer?) as xs:float* { 
+          if (empty($item)) 
+            then -1
+            else for $x at $p in $seq return if ($x eq $item) then $p else () 
+        };
+        local:index-of(1 to 10, 3)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-promotion-004'(_Config) ->
-   Qry = "\n        declare function local:f() as xs:double* { \n          if (day-from-date(current-date()) < 32) then xs:integer(3) else -1\n        };\n        local:f() + 1",
+   Qry = "
+        declare function local:f() as xs:double* { 
+          if (day-from-date(current-date()) < 32) then xs:integer(3) else -1
+        };
+        local:f() + 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4\n      ",
+   Exp = "
+         4
+      ",
    case xqerl_test:string_value(Res) of
              "4" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-promotion-005'(_Config) ->
-   Qry = "\n        declare function local:index-of($seq, $item) as xs:double? { for $x at $p in $seq return if ($x eq $item) then $p else () };\n        local:index-of((1, 2.0, xs:float(3), 2), 2)",
+   Qry = "
+        declare function local:index-of($seq, $item) as xs:double? { for $x at $p in $seq return if ($x eq $item) then $p else () };
+        local:index-of((1, 2.0, xs:float(3), 2), 2)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'cbcl-promotion-006'(_Config) ->
-   Qry = "\n        declare function local:f($arg as xs:anyAtomicType?) { $arg };\n        local:f(index-of((1,2,3,2),2))",
+   Qry = "
+        declare function local:f($arg as xs:anyAtomicType?) { $arg };
+        local:f(index-of((1,2,3,2),2))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'cbcl-promotion-007'(_Config) ->
-   Qry = "\n        declare function local:f($v as xs:double*) as xs:double+ { if (empty($v)) then 0 else $v };\n        declare function local:g($v as xs:double*) as xs:double+ { local:f($v) };\n        local:g((1,2,3))",
+   Qry = "
+        declare function local:f($v as xs:double*) as xs:double+ { if (empty($v)) then 0 else $v };
+        declare function local:g($v as xs:double*) as xs:double+ { local:f($v) };
+        local:g((1,2,3))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 2 3\n      ",
+   Exp = "
+         1 2 3
+      ",
    case xqerl_test:string_value(Res) of
              "1 2 3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'function-call-reserved-function-names-001'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:attribute($arg) { fn:true() };\n	attribute(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:attribute($arg) { fn:true() };
+	attribute(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-002'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:comment($arg) { fn:true() };\n	comment(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:comment($arg) { fn:true() };
+	comment(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-003'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:document-node($arg) { fn:true() };\n	document-node(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:document-node($arg) { fn:true() };
+	document-node(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-004'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:element($arg) { fn:true() };\n	element(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:element($arg) { fn:true() };
+	element(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-005'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:empty-sequence() { fn:true() };\n	empty-sequence()\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:empty-sequence() { fn:true() };
+	empty-sequence()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-006'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:if() { fn:true() };\n	if()\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:if() { fn:true() };
+	if()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-007'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:item($arg) { fn:true() };\n	item(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:item($arg) { fn:true() };
+	item(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-008'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:node($arg) { fn:true() };\n	node(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:node($arg) { fn:true() };
+	node(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-009'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:processing-instruction($arg) { fn:true() };\n	processing-instruction(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:processing-instruction($arg) { fn:true() };
+	processing-instruction(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-010'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:schema-attribute() { fn:true() };\n	schema-attribute()\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:schema-attribute() { fn:true() };
+	schema-attribute()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-011'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:schema-element() { fn:true() };\n	schema-element()\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:schema-element() { fn:true() };
+	schema-element()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-012'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:text($arg) { fn:true() };\n	text(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:text($arg) { fn:true() };
+	text(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-013'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:typeswitch() { fn:true() };\n	typeswitch()\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:typeswitch() { fn:true() };
+	typeswitch()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-014'(_Config) ->
@@ -1090,30 +1365,48 @@ environment('ListUnionTypes') ->
 'function-call-reserved-function-names-016'(_Config) ->
    {skip,"XQ10"}.
 'function-call-reserved-function-names-017'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:function() { fn:true() };\n	function()\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:function() { fn:true() };
+	function()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-018'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:namespace-node($arg) { fn:true() };\n	namespace-node(1)\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:namespace-node($arg) { fn:true() };
+	namespace-node(1)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-019'(_Config) ->
-   Qry = "\n	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";\n	declare function local:switch() { fn:true() };\n	switch()\n      ",
+   Qry = "
+	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
+	declare function local:switch() { fn:true() };
+	switch()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'function-call-reserved-function-names-020'(_Config) ->

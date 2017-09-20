@@ -286,7 +286,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem/>\n      ",
+   Exp = "
+         <elem/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -301,7 +303,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem/>\n      ",
+   Exp = "
+         <elem/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -316,7 +320,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem/>\n      ",
+   Exp = "
+         <elem/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -331,7 +337,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem><a/><a/><a><b/></a></elem>\n      ",
+   Exp = "
+         <elem><a/><a/><a><b/></a></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem><a/><a/><a><b/></a></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -346,7 +354,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -358,7 +368,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>   </elem>\n      ",
+   Exp = "
+         <elem>   </elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>   </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -368,16 +380,30 @@ end.
               end
 end.
 'Constr-ws-tag-7'(_Config) ->
-   Qry = "declare boundary-space preserve; <elem>\n\n\n</elem>",
+   Qry = "declare boundary-space preserve; <elem>
+
+
+</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>\n\n\n</elem>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>\n\n\n</elem>"++"</x>)")) == "true" of
+   Exp = "
+         <elem>
+
+
+</elem>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>
+
+
+</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<elem>\n\n\n</elem>" of
+              case ResXml == "<elem>
+
+
+</elem>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -388,7 +414,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>			</elem>\n      ",
+   Exp = "
+         <elem>			</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>			</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -398,16 +426,66 @@ end.
               end
 end.
 'Constr-ws-tag-9'(_Config) ->
-   Qry = "declare boundary-space preserve; <elem>   	\n      	    <a>          	         \n		\n	\n        </a>	\n<a>        	     </a>             <a>	  <b>\n\n         	 </b>\n\n  </a>	\n\n		\n      </elem>",
+   Qry = "declare boundary-space preserve; <elem>   	
+      	    <a>          	         
+		
+	
+        </a>	
+<a>        	     </a>             <a>	  <b>
+
+         	 </b>
+
+  </a>	
+
+		
+      </elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>   	\n      	    <a>          	         \n		\n	\n        </a>	\n<a>        	     </a>             <a>	  <b>\n\n         	 </b>\n\n  </a>	\n\n		\n      </elem>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>   	\n      	    <a>          	         \n		\n	\n        </a>	\n<a>        	     </a>             <a>	  <b>\n\n         	 </b>\n\n  </a>	\n\n		\n      </elem>"++"</x>)")) == "true" of
+   Exp = "
+         <elem>   	
+      	    <a>          	         
+		
+	
+        </a>	
+<a>        	     </a>             <a>	  <b>
+
+         	 </b>
+
+  </a>	
+
+		
+      </elem>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>   	
+      	    <a>          	         
+		
+	
+        </a>	
+<a>        	     </a>             <a>	  <b>
+
+         	 </b>
+
+  </a>	
+
+		
+      </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<elem>   	\n      	    <a>          	         \n		\n	\n        </a>	\n<a>        	     </a>             <a>	  <b>\n\n         	 </b>\n\n  </a>	\n\n		\n      </elem>" of
+              case ResXml == "<elem>   	
+      	    <a>          	         
+		
+	
+        </a>	
+<a>        	     </a>             <a>	  <b>
+
+         	 </b>
+
+  </a>	
+
+		
+      </elem>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
@@ -418,7 +496,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         9\n      ",
+   Exp = "
+         9
+      ",
  Tst = xqerl:run("9"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -430,7 +510,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>1</elem>\n      ",
+   Exp = "
+         <elem>1</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -445,7 +527,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>1</elem>\n      ",
+   Exp = "
+         <elem>1</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -460,7 +544,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>1</elem>\n      ",
+   Exp = "
+         <elem>1</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -475,7 +561,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>12</elem>\n      ",
+   Exp = "
+         <elem>12</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>12</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -490,7 +578,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>12</elem>\n      ",
+   Exp = "
+         <elem>12</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>12</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -505,7 +595,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>12</elem>\n      ",
+   Exp = "
+         <elem>12</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>12</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -520,7 +612,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>1</elem>\n      ",
+   Exp = "
+         <elem>1</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -535,7 +629,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>1</elem>\n      ",
+   Exp = "
+         <elem>1</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -550,7 +646,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>1</elem>\n      ",
+   Exp = "
+         <elem>1</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -565,7 +663,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem><a/><b/></elem>\n      ",
+   Exp = "
+         <elem><a/><b/></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem><a/><b/></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -580,7 +680,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem><a/><b/></elem>\n      ",
+   Exp = "
+         <elem><a/><b/></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem><a/><b/></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -595,7 +697,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem><a/><b/></elem>\n      ",
+   Exp = "
+         <elem><a/><b/></elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem><a/><b/></elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -610,7 +714,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>   1</elem>\n      ",
+   Exp = "
+         <elem>   1</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>   1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -620,27 +726,48 @@ end.
               end
 end.
 'Constr-ws-enclexpr-14'(_Config) ->
-   Qry = "declare boundary-space preserve; <elem>\n\n\n{1}</elem>",
+   Qry = "declare boundary-space preserve; <elem>
+
+
+{1}</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>\n\n\n1</elem>\n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>\n\n\n1</elem>"++"</x>)")) == "true" of
+   Exp = "
+         <elem>
+
+
+1</elem>
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>
+
+
+1</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
-              case ResXml == "<elem>\n\n\n1</elem>" of
+              case ResXml == "<elem>
+
+
+1</elem>" of
                  true -> {comment, "assert-xml"};
                  _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
               end
 end.
 'Constr-ws-enclexpr-15'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-15 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace tab between open tag and enclosed expression :)\n\ndeclare boundary-space preserve; \n<elem>			{1}</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-15 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace tab between open tag and enclosed expression :)
+
+declare boundary-space preserve; 
+<elem>			{1}</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>			1</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -649,12 +776,19 @@ end.
               end
 end.
 'Constr-ws-enclexpr-16'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-16 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace space between enclosed expressions :)\n\ndeclare boundary-space preserve; \n<elem>{1}   {2}</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-16 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace space between enclosed expressions :)
+
+declare boundary-space preserve; 
+<elem>{1}   {2}</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1   2</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -663,13 +797,23 @@ end.
               end
 end.
 'Constr-ws-enclexpr-17'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-17 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace line feed between enclosed expressions :)\n\ndeclare boundary-space preserve; \n<elem>{1}\n\n\n{2}</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-17 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace line feed between enclosed expressions :)
+
+declare boundary-space preserve; 
+<elem>{1}
+
+
+{2}</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1\n\n\n2</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
+   Exp = "
+         
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1\n\n\n2</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
                  true -> {comment, "assert-xml"};
@@ -677,12 +821,19 @@ end.
               end
 end.
 'Constr-ws-enclexpr-18'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-18 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace tab between enclosed expressions :)\n\ndeclare boundary-space preserve; \n<elem>{1}			{2}</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-18 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace tab between enclosed expressions :)
+
+declare boundary-space preserve; 
+<elem>{1}			{2}</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1			2</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -691,12 +842,19 @@ end.
               end
 end.
 'Constr-ws-enclexpr-19'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-19 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace space between enclosed expression and close tag :)\n\ndeclare boundary-space preserve; \n<elem>{1}   </elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-19 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace space between enclosed expression and close tag :)
+
+declare boundary-space preserve; 
+<elem>{1}   </elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1   </elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -705,13 +863,23 @@ end.
               end
 end.
 'Constr-ws-enclexpr-20'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-20 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace line feed between enclosed expression and close tag :)\n\ndeclare boundary-space preserve; \n<elem>{1}\n\n\n</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-20 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace line feed between enclosed expression and close tag :)
+
+declare boundary-space preserve; 
+<elem>{1}
+
+
+</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1\n\n\n</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
+   Exp = "
+         
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1\n\n\n</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
                  true -> {comment, "assert-xml"};
@@ -719,12 +887,19 @@ end.
               end
 end.
 'Constr-ws-enclexpr-21'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-21 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace tab between enclosed expression and close tag :)\n\ndeclare boundary-space preserve; \n<elem>{1}			</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-21 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace tab between enclosed expression and close tag :)
+
+declare boundary-space preserve; 
+<elem>{1}			</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>1			</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -733,12 +908,19 @@ end.
               end
 end.
 'Constr-ws-enclexpr-22'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-22 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace space between child elements :)\n\ndeclare boundary-space preserve;\n<elem>   <a/>   <b/>   </elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-22 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace space between child elements :)
+
+declare boundary-space preserve;
+<elem>   <a/>   <b/>   </elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>   <a/>   <b/>   </elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -747,13 +929,29 @@ end.
               end
 end.
 'Constr-ws-enclexpr-23'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-23 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace line feed between child elements :)\n\ndeclare boundary-space preserve;\n<elem>\n\n\n<a/>\n\n\n<b/>\n\n\n</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-23 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace line feed between child elements :)
+
+declare boundary-space preserve;
+<elem>
+
+
+<a/>
+
+
+<b/>
+
+
+</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>\n\n\n<a/>\n\n\n<b/>\n\n\n</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
+   Exp = "
+         
+      ",
+   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>\n\n\n<a/>\n\n\n<b/>\n\n\n</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
                  true -> {comment, "assert-xml"};
@@ -761,12 +959,19 @@ end.
               end
 end.
 'Constr-ws-enclexpr-24'(_Config) ->
-   Qry = "(: Name: Constr-ws-enclexpr-24 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve whitespace tab between child elements :)\n\ndeclare boundary-space preserve;\n<elem>			<a/>			<b/>			</elem>",
+   Qry = "(: Name: Constr-ws-enclexpr-24 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve whitespace tab between child elements :)
+
+declare boundary-space preserve;
+<elem>			<a/>			<b/>			</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>			<a/>			<b/>			</elem>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -780,7 +985,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem> x</elem>\n      ",
+   Exp = "
+         <elem> x</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem> x</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -790,23 +997,38 @@ end.
               end
 end.
 'Constr-ws-nobound-2'(_Config) ->
-   Qry = "(: Name: Constr-ws-nobound-2 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve leading line feed :)\n\ndeclare boundary-space strip;\n<elem>\nx</elem>",
+   Qry = "(: Name: Constr-ws-nobound-2 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve leading line feed :)
+
+declare boundary-space strip;
+<elem>
+x</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         string-to-codepoints(string($result))[1] = 10\n      ",
+   Exp = "
+         string-to-codepoints(string($result))[1] = 10
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""string-to-codepoints(string($result))[1] = 10",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'Constr-ws-nobound-3'(_Config) ->
-   Qry = "(: Name: Constr-ws-nobound-3 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve leading tab :)\n\ndeclare boundary-space strip;\n<elem>	x</elem>",
+   Qry = "(: Name: Constr-ws-nobound-3 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve leading tab :)
+
+declare boundary-space strip;
+<elem>	x</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         string-to-codepoints(string($result))[1] = 9\n      ",
+   Exp = "
+         string-to-codepoints(string($result))[1] = 9
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""string-to-codepoints(string($result))[1] = 9",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -817,7 +1039,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>x </elem>\n      ",
+   Exp = "
+         <elem>x </elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>x </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -827,23 +1051,38 @@ end.
               end
 end.
 'Constr-ws-nobound-5'(_Config) ->
-   Qry = "(: Name: Constr-ws-nobound-5 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve trailing line feed :)\n\ndeclare boundary-space strip;\n<elem>x\n</elem>",
+   Qry = "(: Name: Constr-ws-nobound-5 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve trailing line feed :)
+
+declare boundary-space strip;
+<elem>x
+</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (120, 10))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (120, 10))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (120, 10))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'Constr-ws-nobound-6'(_Config) ->
-   Qry = "(: Name: Constr-ws-nobound-6 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve trailing tab :)\n\ndeclare boundary-space strip;\n<elem>x	</elem>",
+   Qry = "(: Name: Constr-ws-nobound-6 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve trailing tab :)
+
+declare boundary-space strip;
+<elem>x	</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (120, 9))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (120, 9))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (120, 9))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -854,7 +1093,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem> </elem>\n      ",
+   Exp = "
+         <elem> </elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem> </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -869,7 +1110,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (10))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (10))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (10))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -880,7 +1123,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>&#xD;</elem>\n      ",
+   Exp = "
+         <elem>&#xD;</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>&#xD;</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -895,7 +1140,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>	</elem>\n      ",
+   Exp = "
+         <elem>	</elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>	</elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -910,7 +1157,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem> </elem>\n      ",
+   Exp = "
+         <elem> </elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem> </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -920,12 +1169,19 @@ end.
               end
 end.
 'Constr-ws-gencdata-3'(_Config) ->
-   Qry = "(: Name: Constr-ws-gencdata-3 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve cdata tab :)\n\ndeclare boundary-space strip;\n<elem><![CDATA[	]]></elem>",
+   Qry = "(: Name: Constr-ws-gencdata-3 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve cdata tab :)
+
+declare boundary-space strip;
+<elem><![CDATA[	]]></elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (9))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (9))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (9))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -936,7 +1192,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem> 0 </elem>\n      ",
+   Exp = "
+         <elem> 0 </elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem> 0 </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -946,34 +1204,57 @@ end.
               end
 end.
 'Constr-ws-adjchref-2'(_Config) ->
-   Qry = "(: Name: Constr-ws-adjchref-2 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve line feed adjacent to character reference :)\n\ndeclare boundary-space strip;\n<elem>\n&#x30;\n</elem>",
+   Qry = "(: Name: Constr-ws-adjchref-2 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve line feed adjacent to character reference :)
+
+declare boundary-space strip;
+<elem>
+&#x30;
+</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (10, 48, 10))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (10, 48, 10))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (10, 48, 10))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'Constr-ws-adjchref-3'(_Config) ->
-   Qry = "(: Name: Constr-ws-adjchref-3 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve tab adjacent to character reference :)\n\ndeclare boundary-space strip;\n<elem>	&#x30;	</elem>",
+   Qry = "(: Name: Constr-ws-adjchref-3 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve tab adjacent to character reference :)
+
+declare boundary-space strip;
+<elem>	&#x30;	</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (9, 48, 9))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (9, 48, 9))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (9, 48, 9))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'Constr-ws-adjcdata-1'(_Config) ->
-   Qry = "(: Name: Constr-ws-adjcdata-1 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve space adjacent to cdata section :)\n\ndeclare boundary-space strip;\n<elem> <![CDATA[]]> </elem>",
+   Qry = "(: Name: Constr-ws-adjcdata-1 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve space adjacent to cdata section :)
+
+declare boundary-space strip;
+<elem> <![CDATA[]]> </elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem>  </elem>\n      ",
+   Exp = "
+         <elem>  </elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem>  </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -983,23 +1264,39 @@ end.
               end
 end.
 'Constr-ws-adjcdata-2'(_Config) ->
-   Qry = "(: Name: Constr-ws-adjcdata-2 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve line feed adjacent to cdata section :)\n\ndeclare boundary-space strip;\n<elem>\n<![CDATA[]]>\n</elem>",
+   Qry = "(: Name: Constr-ws-adjcdata-2 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve line feed adjacent to cdata section :)
+
+declare boundary-space strip;
+<elem>
+<![CDATA[]]>
+</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (10, 10))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (10, 10))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (10, 10))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'Constr-ws-adjcdata-3'(_Config) ->
-   Qry = "(: Name: Constr-ws-adjcdata-3 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve tab adjacent to cdata section :)\n\ndeclare boundary-space strip;\n<elem>	<![CDATA[]]>	</elem>",
+   Qry = "(: Name: Constr-ws-adjcdata-3 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve tab adjacent to cdata section :)
+
+declare boundary-space strip;
+<elem>	<![CDATA[]]>	</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (9, 9))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (9, 9))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (9, 9))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -1010,7 +1307,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem> </elem>\n      ",
+   Exp = "
+         <elem> </elem>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem> </elem>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1020,23 +1319,38 @@ end.
               end
 end.
 'Constr-ws-genenclexpr-2'(_Config) ->
-   Qry = "(: Name: Constr-ws-genenclexpr-2 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve enclosed exp line feed :)\n\ndeclare boundary-space strip;\n<elem>{\"\n\"}</elem>",
+   Qry = "(: Name: Constr-ws-genenclexpr-2 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve enclosed exp line feed :)
+
+declare boundary-space strip;
+<elem>{\"
+\"}</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (10))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (10))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (10))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
            end.
 'Constr-ws-genenclexpr-3'(_Config) ->
-   Qry = "(: Name: Constr-ws-genenclexpr-3 :)\n(: Written by: Andreas Behm :)\n(: Description: preserve enclosed exp tab :)\n\ndeclare boundary-space strip;\n<elem>{\"	\"}</elem>",
+   Qry = "(: Name: Constr-ws-genenclexpr-3 :)
+(: Written by: Andreas Behm :)
+(: Description: preserve enclosed exp tab :)
+
+declare boundary-space strip;
+<elem>{\"	\"}</elem>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         deep-equal(string-to-codepoints(string($result)), (9))\n      ",
+   Exp = "
+         deep-equal(string-to-codepoints(string($result)), (9))
+      ",
    case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""deep-equal(string-to-codepoints(string($result)), (9))",Options)) == {xqAtomicValue,'xs:boolean',true}) of
            true -> {comment, "assert"};
            _ -> ct:fail({Res,Exp}) 
@@ -1047,7 +1361,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem xml:space=\"preserve\"/>\n      ",
+   Exp = "
+         <elem xml:space=\"preserve\"/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem xml:space=\"preserve\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1062,7 +1378,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            <elem xml:space=\"strip\"> </elem>\n            \n         \n      ",
+   Exp = "
+         
+            <elem xml:space=\"strip\"> </elem>
+            
+         
+      ",
  case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<elem xml:space=\"strip\"> </elem>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0092") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-DirectConElemWhitespace-1'(_Config) ->
@@ -1071,7 +1392,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n           \n      ",
+   Exp = "
+           
+      ",
    case xqerl_test:string_value(Res) of
              "  " -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1081,7 +1404,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <elem/>\n      ",
+   Exp = "
+         <elem/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<elem/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1096,7 +1421,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         aaaaaaaa\n      ",
+   Exp = "
+         aaaaaaaa
+      ",
    case xqerl_test:string_value(Res) of
              "aaaaaaaa" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1106,7 +1433,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e> <b/>  </e>\n      ",
+   Exp = "
+         <e> <b/>  </e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e> <b/>  </e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1121,7 +1450,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-DirectConElemWhitespace-6'(_Config) ->
@@ -1130,7 +1461,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e xml:space=\"preserve\"/>\n      ",
+   Exp = "
+         <e xml:space=\"preserve\"/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e xml:space=\"preserve\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1145,7 +1478,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-DirectConElemWhitespace-8'(_Config) ->
@@ -1154,7 +1489,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e xml:space=\"preserve\"> </e>\n      ",
+   Exp = "
+         <e xml:space=\"preserve\"> </e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e xml:space=\"preserve\"> </e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1169,7 +1506,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-DirectConElemWhitespace-10'(_Config) ->
@@ -1178,7 +1517,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n      ",
+   Exp = "
+            
+      ",
    case xqerl_test:string_value(Res) of
              "   " -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1188,7 +1529,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n      ",
+   Exp = "
+            
+      ",
    case xqerl_test:string_value(Res) of
              "   " -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1198,7 +1541,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         123XXabc\n      ",
+   Exp = "
+         123XXabc
+      ",
    case xqerl_test:string_value(Res) of
              "123XXabc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1208,7 +1553,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         123abc\n      ",
+   Exp = "
+         123abc
+      ",
    case xqerl_test:string_value(Res) of
              "123abc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1218,7 +1565,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         123abc\n      ",
+   Exp = "
+         123abc
+      ",
    case xqerl_test:string_value(Res) of
              "123abc" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1228,7 +1577,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1240,7 +1591,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1252,7 +1605,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -1264,7 +1619,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n           \n      ",
+   Exp = "
+           
+      ",
    case xqerl_test:string_value(Res) of
              "  " -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1274,7 +1631,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         eddd\n      ",
+   Exp = "
+         eddd
+      ",
    case xqerl_test:string_value(Res) of
              "eddd" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1284,7 +1643,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e>111<e/></e>\n      ",
+   Exp = "
+         <e>111<e/></e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e>111<e/></e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1299,7 +1660,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e><e/>111</e>\n      ",
+   Exp = "
+         <e><e/>111</e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e><e/>111</e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -1314,7 +1677,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         ]]>\n      ",
+   Exp = "
+         ]]>
+      ",
    case xqerl_test:string_value(Res) of
              "]]>" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1324,7 +1689,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         cdat\n      ",
+   Exp = "
+         cdat
+      ",
    case xqerl_test:string_value(Res) of
              "cdat" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1334,7 +1701,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n          content  content  content \n      ",
+   Exp = "
+          content  content  content 
+      ",
    case xqerl_test:string_value(Res) of
              " content  content  content " -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1344,7 +1713,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-DirectConElemWhitespace-26'(_Config) ->
@@ -1353,7 +1724,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         11\n      ",
+   Exp = "
+         11
+      ",
    case xqerl_test:string_value(Res) of
              "11" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

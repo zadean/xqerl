@@ -174,7 +174,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-implicit-timezone-2'(_Config) ->
@@ -183,7 +185,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:dayTimeDuration\n      ",
+   Exp = "
+         xs:dayTimeDuration
+      ",
    case xqerl_types:type(Res) of
            'xs:dayTimeDuration' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -193,7 +197,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:string\n      ",
+   Exp = "
+         xs:string
+      ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -203,7 +209,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -213,7 +221,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:dayTimeDuration\n      ",
+   Exp = "
+         xs:dayTimeDuration
+      ",
    case xqerl_types:type(Res) of
            'xs:dayTimeDuration' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -223,7 +233,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'fn-implicit-timezone-7'(_Config) ->
@@ -232,7 +244,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -242,7 +256,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         PT0S\n      ",
+   Exp = "
+         PT0S
+      ",
    case xqerl_test:string_value(Res) of
              "PT0S" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -252,7 +268,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:string\n      ",
+   Exp = "
+         xs:string
+      ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -262,7 +280,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOCA0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOCA0005'}) end.
 'fn-implicit-timezone-11'(_Config) ->
@@ -271,7 +291,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'fn-implicit-timezone-12'(_Config) ->
@@ -280,7 +302,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODT0002'}) end.
 'fn-implicit-timezone-13'(_Config) ->
@@ -289,7 +313,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -301,7 +327,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:string\n      ",
+   Exp = "
+         xs:string
+      ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -311,7 +339,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:time\n      ",
+   Exp = "
+         xs:time
+      ",
    case xqerl_types:type(Res) of
            'xs:time' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -321,7 +351,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:time\n      ",
+   Exp = "
+         xs:time
+      ",
    case xqerl_types:type(Res) of
            'xs:time' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -331,7 +363,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:date\n      ",
+   Exp = "
+         xs:date
+      ",
    case xqerl_types:type(Res) of
            'xs:date' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -341,7 +375,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:date\n      ",
+   Exp = "
+         xs:date
+      ",
    case xqerl_types:type(Res) of
            'xs:date' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -351,7 +387,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:dateTime\n      ",
+   Exp = "
+         xs:dateTime
+      ",
    case xqerl_types:type(Res) of
            'xs:dateTime' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -361,7 +399,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:dateTime\n      ",
+   Exp = "
+         xs:dateTime
+      ",
    case xqerl_types:type(Res) of
            'xs:dateTime' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -371,7 +411,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:date\n      ",
+   Exp = "
+         xs:date
+      ",
    case xqerl_types:type(Res) of
            'xs:date' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -381,7 +423,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:time\n      ",
+   Exp = "
+         xs:time
+      ",
    case xqerl_types:type(Res) of
            'xs:time' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -391,7 +435,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:dateTime\n      ",
+   Exp = "
+         xs:dateTime
+      ",
    case xqerl_types:type(Res) of
            'xs:dateTime' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -401,7 +447,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ContextImplicitTimezoneFunc-1'(_Config) ->
@@ -410,7 +458,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-ContextImplicitTimezoneFunc-2'(_Config) ->
@@ -419,7 +469,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-ContextImplicitTimezoneFunc-3'(_Config) ->
@@ -428,6 +480,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.

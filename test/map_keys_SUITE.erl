@@ -148,7 +148,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-keys-002'(_Config) ->
@@ -157,7 +159,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-keys-003'(_Config) ->
@@ -166,7 +170,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                1\n                xs:string\n                \"a\"\n            \n        ",
+   Exp = "
+            
+                1
+                xs:string
+                \"a\"
+            
+        ",
  case xqerl_test:size(Res) == 1 andalso  begin Tst3 = xqerl:run("\"a\""),
   ResVal3 = xqerl_types:value(Res),
   TstVal3 = xqerl_types:value(Tst3),
@@ -178,7 +188,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                1\n                xs:string\n                \"a\"\n            \n        ",
+   Exp = "
+            
+                1
+                xs:string
+                \"a\"
+            
+        ",
  case xqerl_test:size(Res) == 1 andalso  begin Tst3 = xqerl:run("\"a\""),
   ResVal3 = xqerl_types:value(Res),
   TstVal3 = xqerl_types:value(Tst3),
@@ -190,7 +206,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                $result = \"a\"\n                $result = \"b\"\n                2\n            \n        ",
+   Exp = "
+            
+                $result = \"a\"
+                $result = \"b\"
+                2
+            
+        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = \"a\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = \"b\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 2 of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-keys-006'(_Config) ->
@@ -199,7 +221,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                $result = \"a\"\n                $result = \"b\"\n                2\n            \n        ",
+   Exp = "
+            
+                $result = \"a\"
+                $result = \"b\"
+                2
+            
+        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = \"a\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = \"b\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 2 of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-keys-007'(_Config) ->
@@ -208,7 +236,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                1\n                xs:string\n                \"a\"\n            \n        ",
+   Exp = "
+            
+                1
+                xs:string
+                \"a\"
+            
+        ",
  case xqerl_test:size(Res) == 1 andalso  begin Tst3 = xqerl:run("\"a\""),
   ResVal3 = xqerl_types:value(Res),
   TstVal3 = xqerl_types:value(Tst3),
@@ -220,7 +254,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                1\n                xs:string\n                \"a\"\n            \n        ",
+   Exp = "
+            
+                1
+                xs:string
+                \"a\"
+            
+        ",
  case xqerl_test:size(Res) == 1 andalso  begin Tst3 = xqerl:run("\"a\""),
   ResVal3 = xqerl_types:value(Res),
   TstVal3 = xqerl_types:value(Tst3),
@@ -232,7 +272,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                1\n                xs:string\n                \"a\"\n            \n        ",
+   Exp = "
+            
+                1
+                xs:string
+                \"a\"
+            
+        ",
  case xqerl_test:size(Res) == 1 andalso  begin Tst3 = xqerl:run("\"a\""),
   ResVal3 = xqerl_types:value(Res),
   TstVal3 = xqerl_types:value(Tst3),
@@ -244,7 +290,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-keys-011'(_Config) ->
@@ -253,7 +301,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'map-keys-012'(_Config) ->
@@ -262,7 +312,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                1\n                xs:string\n                \"b\"\n            \n        ",
+   Exp = "
+            
+                1
+                xs:string
+                \"b\"
+            
+        ",
  case xqerl_test:size(Res) == 1 andalso  begin Tst3 = xqerl:run("\"b\""),
   ResVal3 = xqerl_types:value(Res),
   TstVal3 = xqerl_types:value(Tst3),
@@ -274,7 +330,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                $result = \"a\"\n                $result = \"b\"\n                2\n            \n        ",
+   Exp = "
+            
+                $result = \"a\"
+                $result = \"b\"
+                2
+            
+        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = \"a\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = \"b\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 2 of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.
 'map-keys-014'(_Config) ->
@@ -283,6 +345,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                $result = 1\n                $result = 500000\n                500000\n            \n        ",
+   Exp = "
+            
+                $result = 1
+                $result = 500000
+                500000
+            
+        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result = 500000",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 500000 of true -> {comment, "any-of"};
    _ -> ct:fail(['all-of', {Res,Exp}]) end.

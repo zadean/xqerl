@@ -154,7 +154,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'cbcl-anyURI-002'(_Config) ->
@@ -163,7 +165,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         odd-scheme+1.://www.example.org/\n      ",
+   Exp = "
+         odd-scheme+1.://www.example.org/
+      ",
    case xqerl_test:string_value(Res) of
              "odd-scheme+1.://www.example.org/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -173,7 +177,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   Exp = "
+         http://%0Ad%E2%9C%90%F0%98%9A%A0/
+      ",
    case xqerl_test:string_value(Res) of
              "http://%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -183,7 +189,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://!$&'()*+,;=/\n      ",
+   Exp = "
+         http://!$&'()*+,;=/
+      ",
    case xqerl_test:string_value(Res) of
              "http://!$&'()*+,;=/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -195,7 +203,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   Exp = "
+         http://www.example.org/%0Ad%E2%9C%90%F0%98%9A%A0/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -205,7 +215,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/!/$/&/'/(/)/*/+/,/;/=/\n      ",
+   Exp = "
+         http://www.example.org/!/$/&/'/(/)/*/+/,/;/=/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/!/$/&/'/(/)/*/+/,/;/=/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -217,7 +229,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/:/@/\n      ",
+   Exp = "
+         http://www.example.org/:/@/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/:/@/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -227,7 +241,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/?%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   Exp = "
+         http://www.example.org/?%0Ad%E2%9C%90%F0%98%9A%A0/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/?%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -237,7 +253,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/?!$&'()*+,;=\n      ",
+   Exp = "
+         http://www.example.org/?!$&'()*+,;=
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/?!$&'()*+,;=" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -249,7 +267,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/?:@\n      ",
+   Exp = "
+         http://www.example.org/?:@
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/?:@" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -259,7 +279,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/#%0Ad%E2%9C%90%F0%98%9A%A0/\n      ",
+   Exp = "
+         http://www.example.org/#%0Ad%E2%9C%90%F0%98%9A%A0/
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/#%0Ad%E2%9C%90%F0%98%9A%A0/" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -269,7 +291,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/#!$&'()*+,;=\n      ",
+   Exp = "
+         http://www.example.org/#!$&'()*+,;=
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/#!$&'()*+,;=" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -281,7 +305,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/#:@\n      ",
+   Exp = "
+         http://www.example.org/#:@
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/#:@" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.

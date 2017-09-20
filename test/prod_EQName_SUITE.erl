@@ -164,7 +164,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out><my:b xmlns:my=\"http://www.example.com/ns/my\">42</my:b></out>\n       ",
+   Exp = "
+         <out><my:b xmlns:my=\"http://www.example.com/ns/my\">42</my:b></out>
+       ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><my:b xmlns:my=\"http://www.example.com/ns/my\">42</my:b></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -174,12 +176,16 @@ environment('math') ->
               end
 end.
 'eqname-002'(_Config) ->
-   Qry = "\n            declare variable $Q{http://www.example.com/ns/my}var := 12; \n            <out>{$Q{http://www.example.com/ns/my}var}</out>",
+   Qry = "
+            declare variable $Q{http://www.example.com/ns/my}var := 12; 
+            <out>{$Q{http://www.example.com/ns/my}var}</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>12</out>\n      ",
+   Exp = "
+         <out>12</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>12</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -189,12 +195,16 @@ end.
               end
 end.
 'eqname-003'(_Config) ->
-   Qry = "\n        declare function Q{http://www.example.com/ns/my}fn ($a as xs:integer) as xs:integer { $a + 2 }; \n        <out>{Q{http://www.example.com/ns/my}fn(12)}</out>",
+   Qry = "
+        declare function Q{http://www.example.com/ns/my}fn ($a as xs:integer) as xs:integer { $a + 2 }; 
+        <out>{Q{http://www.example.com/ns/my}fn(12)}</out>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>14</out>\n      ",
+   Exp = "
+         <out>14</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>14</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -209,7 +219,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out><e xmlns=\"http://www.example.com/ns/my\">12</e></out>\n      ",
+   Exp = "
+         <out><e xmlns=\"http://www.example.com/ns/my\">12</e></out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><e xmlns=\"http://www.example.com/ns/my\">12</e></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -224,7 +236,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <a/>\n      ",
+   Exp = "
+         <a/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -239,7 +253,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <a/>\n      ",
+   Exp = "
+         <a/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -249,12 +265,17 @@ end.
               end
 end.
 'eqname-007'(_Config) ->
-   Qry = "\n        declare decimal-format Q{http://www.example.com/ns}format grouping-separator=\"'\"; \n        <a xmlns:ex=\"http://www.example.com/ns\">{format-number(1e9, \"#'###'###'##0.00\", 'ex:format')}</a>\n      ",
+   Qry = "
+        declare decimal-format Q{http://www.example.com/ns}format grouping-separator=\"'\"; 
+        <a xmlns:ex=\"http://www.example.com/ns\">{format-number(1e9, \"#'###'###'##0.00\", 'ex:format')}</a>
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <a xmlns:ex=\"http://www.example.com/ns\">1'000'000'000.00</a>\n      ",
+   Exp = "
+         <a xmlns:ex=\"http://www.example.com/ns\">1'000'000'000.00</a>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a xmlns:ex=\"http://www.example.com/ns\">1'000'000'000.00</a>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -269,7 +290,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out><ex:b xmlns:ex=\"http://www.example.com/ns\">93.7</ex:b></out>\n      ",
+   Exp = "
+         <out><ex:b xmlns:ex=\"http://www.example.com/ns\">93.7</ex:b></out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><ex:b xmlns:ex=\"http://www.example.com/ns\">93.7</ex:b></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -284,7 +307,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>http://www.example.com/ ns</out>\n      ",
+   Exp = "
+         <out>http://www.example.com/ ns</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>http://www.example.com/ ns</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -299,7 +324,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>\n      ",
+   Exp = "
+         <out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -314,7 +341,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>\n      ",
+   Exp = "
+         <out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -329,7 +358,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out>47</out>\n      ",
+   Exp = "
+         <out>47</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out>47</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -344,7 +375,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <out xmlns=\"http://www.example.com/one\">98</out>\n      ",
+   Exp = "
+         <out xmlns=\"http://www.example.com/one\">98</out>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<out xmlns=\"http://www.example.com/one\">98</out>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -360,7 +393,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3.00\n      ",
+   Exp = "
+         3.00
+      ",
    case xqerl_test:string_value(Res) of
              "3.00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -371,7 +406,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2 3 4 5 6 7 8 9 10 11\n      ",
+   Exp = "
+         2 3 4 5 6 7 8 9 10 11
+      ",
    case xqerl_test:string_value(Res) of
              "2 3 4 5 6 7 8 9 10 11" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -381,7 +418,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           \"3.5\"\n           \"5.3\"\n           \n      ",
+   Exp = "
+         
+           \"3.5\"
+           \"5.3\"
+           
+      ",
  case ( begin Tst1 = xqerl:run("\"3.5\""),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -396,7 +438,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"preserve\"\n      ",
+   Exp = "
+         \"preserve\"
+      ",
  Tst = xqerl:run("\"preserve\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -410,7 +454,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'eqname-901'(_Config) ->
@@ -419,7 +465,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'eqname-902'(_Config) ->
@@ -428,7 +476,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'eqname-903'(_Config) ->
@@ -437,6 +487,8 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.

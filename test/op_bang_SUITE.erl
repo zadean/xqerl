@@ -148,7 +148,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1, 4, 9, 16, 25, 36, 49, 64, 81, 100\n      ",
+   Exp = "
+         1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+      ",
  Tst = xqerl:run("1, 4, 9, 16, 25, 36, 49, 64, 81, 100"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -160,7 +162,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3, 4, 5\n      ",
+   Exp = "
+         3, 4, 5
+      ",
  Tst = xqerl:run("3, 4, 5"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -172,7 +176,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1, 2, 3\n      ",
+   Exp = "
+         1, 2, 3
+      ",
  Tst = xqerl:run("1, 2, 3"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -184,7 +190,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         false(), false(), true()\n      ",
+   Exp = "
+         false(), false(), true()
+      ",
  Tst = xqerl:run("false(), false(), true()"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -196,7 +204,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4, 5, 6\n      ",
+   Exp = "
+         4, 5, 6
+      ",
  Tst = xqerl:run("4, 5, 6"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -209,7 +219,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"John Doe 2\", \"Jane Doe 1\", \"John Doe 2\"\n      ",
+   Exp = "
+         \"John Doe 2\", \"Jane Doe 1\", \"John Doe 2\"
+      ",
  Tst = xqerl:run("\"John Doe 2\", \"Jane Doe 1\", \"John Doe 2\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -222,7 +234,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         20\n      ",
+   Exp = "
+         20
+      ",
  Tst = xqerl:run("20"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -235,7 +249,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -18\n      ",
+   Exp = "
+         -18
+      ",
  Tst = xqerl:run("-18"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -247,7 +263,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -3\n      ",
+   Exp = "
+         -3
+      ",
  Tst = xqerl:run("-3"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -260,7 +278,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5\n      ",
+   Exp = "
+         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5
+      ",
  Tst = xqerl:run("1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -273,7 +293,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5\n      ",
+   Exp = "
+         1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5
+      ",
  Tst = xqerl:run("1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -286,7 +308,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1 to 15\n      ",
+   Exp = "
+         1 to 15
+      ",
  Tst = xqerl:run("1 to 15"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -299,7 +323,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"Jane Doe 3\"\n      ",
+   Exp = "
+         \"Jane Doe 3\"
+      ",
  Tst = xqerl:run("\"Jane Doe 3\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -312,7 +338,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1\n      ",
+   Exp = "
+         1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),

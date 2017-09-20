@@ -248,7 +248,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '123'\n        ",
+   Exp = "
+            '123'
+        ",
  Tst = xqerl:run("'123'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -260,7 +262,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '123'\n        ",
+   Exp = "
+            '123'
+        ",
  Tst = xqerl:run("'123'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -272,7 +276,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '00123'\n        ",
+   Exp = "
+            '00123'
+        ",
  Tst = xqerl:run("'00123'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -284,7 +290,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '-123'\n        ",
+   Exp = "
+            '-123'
+        ",
  Tst = xqerl:run("'-123'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -296,7 +304,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '-123'\n        ",
+   Exp = "
+            '-123'
+        ",
  Tst = xqerl:run("'-123'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -308,7 +318,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '-00123'\n        ",
+   Exp = "
+            '-00123'
+        ",
  Tst = xqerl:run("'-00123'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -320,7 +332,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '0'\n        ",
+   Exp = "
+            '0'
+        ",
  Tst = xqerl:run("'0'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -332,7 +346,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '000'\n        ",
+   Exp = "
+            '000'
+        ",
  Tst = xqerl:run("'000'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -344,7 +360,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '00000'\n        ",
+   Exp = "
+            '00000'
+        ",
  Tst = xqerl:run("'00000'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -356,7 +374,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'abcd'\n        ",
+   Exp = "
+            'abcd'
+        ",
  Tst = xqerl:run("'abcd'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -368,7 +388,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'ABCD'\n        ",
+   Exp = "
+            'ABCD'
+        ",
  Tst = xqerl:run("'ABCD'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -380,7 +402,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx'\n        ",
+   Exp = "
+            'i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx'
+        ",
  Tst = xqerl:run("'i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -392,7 +416,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX'\n        ",
+   Exp = "
+            'I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX'
+        ",
  Tst = xqerl:run("'I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -428,7 +454,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'\n        ",
+   Exp = "
+            'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'
+        ",
  Tst = xqerl:run("'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -440,7 +468,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN'\n        ",
+   Exp = "
+            'ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN'
+        ",
  Tst = xqerl:run("'ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -453,7 +483,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'one|two|three|four|five|six|seven|eight|nine|ten'\n        ",
+   Exp = "
+            'one|two|three|four|five|six|seven|eight|nine|ten'
+        ",
  Tst = xqerl:run("'one|two|three|four|five|six|seven|eight|nine|ten'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -466,7 +498,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'format-integer-020'(_Config) ->
@@ -475,7 +509,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-021'(_Config) ->
@@ -484,7 +520,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '1,500,000'\n        ",
+   Exp = "
+            '1,500,000'
+        ",
  Tst = xqerl:run("'1,500,000'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -496,7 +534,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '1,500,000'\n        ",
+   Exp = "
+            '1,500,000'
+        ",
  Tst = xqerl:run("'1,500,000'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -508,7 +548,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-024'(_Config) ->
@@ -517,7 +559,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-025'(_Config) ->
@@ -526,7 +570,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '1500000'\n        ",
+   Exp = "
+            '1500000'
+        ",
  Tst = xqerl:run("'1500000'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -538,7 +584,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '1500000'\n        ",
+   Exp = "
+            '1500000'
+        ",
  Tst = xqerl:run("'1500000'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -550,7 +598,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-028'(_Config) ->
@@ -559,7 +609,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-029'(_Config) ->
@@ -582,7 +634,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '(602)347-826'\n        ",
+   Exp = "
+            '(602)347-826'
+        ",
  Tst = xqerl:run("'(602)347-826'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -595,7 +649,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'SECOND'\n        ",
+   Exp = "
+            'SECOND'
+        ",
  Tst = xqerl:run("'SECOND'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -607,7 +663,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'Erster'\n        ",
+   Exp = "
+            'Erster'
+        ",
  Tst = xqerl:run("'Erster'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -619,7 +677,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '1st'\n        ",
+   Exp = "
+            '1st'
+        ",
  Tst = xqerl:run("'1st'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -631,7 +691,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-035'(_Config) ->
@@ -640,7 +702,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'One'\n        ",
+   Exp = "
+            'One'
+        ",
  Tst = xqerl:run("'One'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -653,7 +717,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n                ''\n                xs:string\n                count($result) = 1\n            \n        ",
+   Exp = "
+            
+                ''
+                xs:string
+                count($result) = 1
+            
+        ",
  case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"count($result) = 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso  begin Tst1 = xqerl:run("''"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -665,7 +735,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-038'(_Config) ->
@@ -674,17 +746,22 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            1234th\n        ",
+   Exp = "
+            1234th
+        ",
    case xqerl_test:string_value(Res) of
              "1234th" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-integer-039'(_Config) ->
-   Qry = "format-integer(1234, '\n')",
+   Qry = "format-integer(1234, '
+')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            1234\n        ",
+   Exp = "
+            1234
+        ",
    case xqerl_test:string_value(Res) of
              "1234" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -694,7 +771,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-041'(_Config) ->
@@ -717,7 +796,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '1234'\n        ",
+   Exp = "
+            '1234'
+        ",
  Tst = xqerl:run("'1234'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -730,7 +811,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '-85th'\n        ",
+   Exp = "
+            '-85th'
+        ",
  Tst = xqerl:run("'-85th'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -743,7 +826,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '-Fifth'\n        ",
+   Exp = "
+            '-Fifth'
+        ",
  Tst = xqerl:run("'-Fifth'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -756,7 +841,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'Zero'\n        ",
+   Exp = "
+            'Zero'
+        ",
  Tst = xqerl:run("'Zero'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -833,7 +920,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '12 345 678 901'\n        ",
+   Exp = "
+            '12 345 678 901'
+        ",
  Tst = xqerl:run("'12 345 678 901'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -857,7 +946,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '123'\n        ",
+   Exp = "
+            '123'
+        ",
  Tst = xqerl:run("'123'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -869,7 +960,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-055'(_Config) ->
@@ -878,7 +971,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            xs:string\n        ",
+   Exp = "
+            xs:string
+        ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -889,7 +984,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            xs:string\n        ",
+   Exp = "
+            xs:string
+        ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -900,7 +997,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            xs:string\n        ",
+   Exp = "
+            xs:string
+        ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -910,7 +1009,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            xs:string\n        ",
+   Exp = "
+            xs:string
+        ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
@@ -921,7 +1022,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '001'\n        ",
+   Exp = "
+            '001'
+        ",
  Tst = xqerl:run("'001'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -934,7 +1037,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            '1;234'\n        ",
+   Exp = "
+            '1;234'
+        ",
  Tst = xqerl:run("'1;234'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -947,7 +1052,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-062'(_Config) ->
@@ -957,7 +1064,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'Eleven'\n        ",
+   Exp = "
+            'Eleven'
+        ",
  Tst = xqerl:run("'Eleven'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -970,7 +1079,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            'Eleven'\n        ",
+   Exp = "
+            'Eleven'
+        ",
  Tst = xqerl:run("'Eleven'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -983,6 +1094,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n            \n        ",
+   Exp = "
+            
+        ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.

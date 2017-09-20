@@ -178,7 +178,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1970-01-01T00:00:00Z\n      ",
+   Exp = "
+         1970-01-01T00:00:00Z
+      ",
    case xqerl_test:string_value(Res) of
              "1970-01-01T00:00:00Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -188,7 +190,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1996-04-07T01:40:52Z\n      ",
+   Exp = "
+         1996-04-07T01:40:52Z
+      ",
    case xqerl_test:string_value(Res) of
              "1996-04-07T01:40:52Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -198,7 +202,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2030-12-31T23:59:59Z\n      ",
+   Exp = "
+         2030-12-31T23:59:59Z
+      ",
    case xqerl_test:string_value(Res) of
              "2030-12-31T23:59:59Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -208,7 +214,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2970-07-01T00:00:00Z\n      ",
+   Exp = "
+         2970-07-01T00:00:00Z
+      ",
    case xqerl_test:string_value(Res) of
              "2970-07-01T00:00:00Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -218,7 +226,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         4001-01-01T00:00:00Z\n      ",
+   Exp = "
+         4001-01-01T00:00:00Z
+      ",
    case xqerl_test:string_value(Res) of
              "4001-01-01T00:00:00Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -228,7 +238,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2001-12-30T11:12:00\n      ",
+   Exp = "
+         2001-12-30T11:12:00
+      ",
    case xqerl_test:string_value(Res) of
              "2001-12-30T11:12:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -238,7 +250,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-3'(_Config) ->
@@ -247,7 +261,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-4'(_Config) ->
@@ -256,7 +272,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTimealt-5'(_Config) ->
@@ -265,7 +283,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-6'(_Config) ->
@@ -274,7 +294,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         NaN\n      ",
+   Exp = "
+         NaN
+      ",
    case xqerl_test:string_value(Res) of
              "NaN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -284,7 +306,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         1997-11-05T14:34:36Z\n      ",
+   Exp = "
+         1997-11-05T14:34:36Z
+      ",
    case xqerl_test:string_value(Res) of
              "1997-11-05T14:34:36Z" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -294,7 +318,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            -0021-06-01T01:01:01Z\n            -0020-06-01T01:01:01Z\n         \n      ",
+   Exp = "
+         
+            -0021-06-01T01:01:01Z
+            -0020-06-01T01:01:01Z
+         
+      ",
  case (xqerl_test:string_value(Res) == "-0021-06-01T01:01:01Z") orelse (xqerl_test:string_value(Res) == "-0020-06-01T01:01:01Z") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'op-add-yearMonthDuration-to-dateTime-9'(_Config) ->
@@ -303,7 +332,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-10'(_Config) ->
@@ -312,7 +343,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-12'(_Config) ->
@@ -321,7 +354,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-13'(_Config) ->
@@ -330,7 +365,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-14'(_Config) ->
@@ -339,7 +376,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-15'(_Config) ->
@@ -348,7 +387,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'op-add-yearMonthDuration-to-dateTime-16'(_Config) ->
@@ -357,7 +398,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-YearMonthDurationAddDT-1'(_Config) ->
@@ -366,7 +409,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-YearMonthDurationAddDT-2'(_Config) ->
@@ -375,7 +420,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-YearMonthDurationAddDT-3'(_Config) ->
@@ -384,7 +431,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-YearMonthDurationAddDT-4'(_Config) ->
@@ -393,7 +442,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-YearMonthDurationAddDT-5'(_Config) ->
@@ -402,7 +453,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'K-YearMonthDurationAddDT-6'(_Config) ->
@@ -411,35 +464,71 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'cbcl-add-yearMonthDuration-to-dateTime-001'(_Config) ->
-   Qry = "\n         declare function local:two-digit($number as xs:integer) { \n            let $string := string($number) \n            return if (string-length($string) lt 2) then concat('0', $string) else $string \n         }; \n         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { \n            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) \n            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) \n         }; \n         xs:yearMonthDuration(\"P0Y\") + local:dateTime(2008, 05, 12, 12, 59)",
+   Qry = "
+         declare function local:two-digit($number as xs:integer) { 
+            let $string := string($number) 
+            return if (string-length($string) lt 2) then concat('0', $string) else $string 
+         }; 
+         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { 
+            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) 
+            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) 
+         }; 
+         xs:yearMonthDuration(\"P0Y\") + local:dateTime(2008, 05, 12, 12, 59)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2008-05-12T12:59:00\n      ",
+   Exp = "
+         2008-05-12T12:59:00
+      ",
    case xqerl_test:string_value(Res) of
              "2008-05-12T12:59:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-add-yearMonthDuration-to-dateTime-002'(_Config) ->
-   Qry = "\n         declare function local:two-digit($number as xs:integer) { \n            let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string \n         }; \n         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { \n            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) \n            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) \n         }; \n         local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration(\"P0Y\")",
+   Qry = "
+         declare function local:two-digit($number as xs:integer) { 
+            let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string 
+         }; 
+         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { 
+            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) 
+            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) 
+         }; 
+         local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration(\"P0Y\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2008-05-12T12:59:00\n      ",
+   Exp = "
+         2008-05-12T12:59:00
+      ",
    case xqerl_test:string_value(Res) of
              "2008-05-12T12:59:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-add-yearMonthDuration-to-dateTime-003'(_Config) ->
-   Qry = "\n         declare function local:two-digit($number as xs:integer) { \n            let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string \n         }; \n         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { \n            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) \n            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) \n         }; \n         local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration(\"P4026720960Y\")",
+   Qry = "
+         declare function local:two-digit($number as xs:integer) { 
+            let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string 
+         }; 
+         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { 
+            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) 
+            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) 
+         }; 
+         local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration(\"P4026720960Y\")",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          4026722968-05-12T12:59:00\n          \n        \n      ",
+   Exp = "
+        
+          4026722968-05-12T12:59:00
+          
+        
+      ",
  case (xqerl_test:string_value(Res) == "4026722968-05-12T12:59:00") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODT0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.

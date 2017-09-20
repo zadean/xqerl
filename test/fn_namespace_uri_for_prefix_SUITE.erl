@@ -173,44 +173,61 @@ environment('math') ->
 {modules, []}
 ].
 'fn-namespace-uri-for-prefix-1'(_Config) ->
-   Qry = "let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> \n      return string(fn:namespace-uri-for-prefix(\"p1\",$var))",
+   Qry = "let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> 
+      return string(fn:namespace-uri-for-prefix(\"p1\",$var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-namespace-uri-for-prefix-2'(_Config) ->
-   Qry = "\n        let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> \n        return fn:count(fn:namespace-uri-for-prefix(\"p2\",$var))\n      ",
+   Qry = "
+        let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> 
+        return fn:count(fn:namespace-uri-for-prefix(\"p2\",$var))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-namespace-uri-for-prefix-3'(_Config) ->
-   Qry = "declare default element namespace \"http://www.example.com/defaultspace\"; \n        let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> \n        return fn:string(fn:namespace-uri-for-prefix(\"\",$var))",
+   Qry = "declare default element namespace \"http://www.example.com/defaultspace\"; 
+        let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> 
+        return fn:string(fn:namespace-uri-for-prefix(\"\",$var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/defaultspace\n      ",
+   Exp = "
+         http://www.example.com/defaultspace
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/defaultspace" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-namespace-uri-for-prefix-4'(_Config) ->
-   Qry = "\n        declare default element namespace \"http://www.example.com/defaultspace\"; \n        let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> \n        return fn:string(fn:namespace-uri-for-prefix((), $var))",
+   Qry = "
+        declare default element namespace \"http://www.example.com/defaultspace\"; 
+        let $var := <anElement xmlns:p1 = \"http://www.example.com/examples\">some context</anElement> 
+        return fn:string(fn:namespace-uri-for-prefix((), $var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/defaultspace\n      ",
+   Exp = "
+         http://www.example.com/defaultspace
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/defaultspace" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -220,7 +237,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -230,7 +249,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -242,7 +263,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -252,7 +275,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -262,7 +287,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -272,7 +299,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -282,7 +311,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -292,7 +323,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -302,7 +335,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -312,7 +347,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -322,77 +359,103 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-namespace-uri-for-prefix-16'(_Config) ->
-   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; \n        fn:count(fn:namespace-uri-for-prefix(\"p1\",<anElement>some context</anElement>))",
+   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; 
+        fn:count(fn:namespace-uri-for-prefix(\"p1\",<anElement>some context</anElement>))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-namespace-uri-for-prefix-17'(_Config) ->
-   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; \n        fn:count(fn:namespace-uri-for-prefix(\"p1\",element anElement {\"some content\"}))",
+   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; 
+        fn:count(fn:namespace-uri-for-prefix(\"p1\",element anElement {\"some content\"}))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-namespace-uri-for-prefix-18'(_Config) ->
-   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; \n        let $var := element anElement {\"some content\"} \n        return fn:count(fn:namespace-uri-for-prefix(\"p1\",$var))",
+   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; 
+        let $var := element anElement {\"some content\"} 
+        return fn:count(fn:namespace-uri-for-prefix(\"p1\",$var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-namespace-uri-for-prefix-19'(_Config) ->
-   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; \n        for $var in (element anElement {\"some content\"}) \n        return fn:count(fn:namespace-uri-for-prefix(\"p1\",$var))",
+   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; 
+        for $var in (element anElement {\"some content\"}) 
+        return fn:count(fn:namespace-uri-for-prefix(\"p1\",$var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-namespace-uri-for-prefix-20'(_Config) ->
-   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; \n        for $var in element anElement {\"some content\"} \n        return fn:count(fn:namespace-uri-for-prefix(\"p1\",$var))",
+   Qry = "declare default element namespace \"http://www.example.com/defaultnamespace\"; 
+        for $var in element anElement {\"some content\"} 
+        return fn:count(fn:namespace-uri-for-prefix(\"p1\",$var))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'fn-namespace-uri-for-prefix-21'(_Config) ->
-   Qry = "\n        fn:string(fn:namespace-uri-for-prefix(\"p1\",\n                    <anElement xmlns:p1=\"http://www.example.com/examples\" xmlns:p2=\"http://www.someotherns.com/namespace\">some content\"</anElement>\n                  ))\n      ",
+   Qry = "
+        fn:string(fn:namespace-uri-for-prefix(\"p1\",
+                    <anElement xmlns:p1=\"http://www.example.com/examples\" xmlns:p2=\"http://www.someotherns.com/namespace\">some content\"</anElement>
+                  ))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -420,7 +483,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K-NamespaceURIForPrefixFunc-2'(_Config) ->
@@ -429,7 +494,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'K2-NamespaceURIForPrefixFunc-1'(_Config) ->
@@ -438,17 +505,23 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/B\n      ",
+   Exp = "
+         http://www.example.com/B
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/B" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K2-NamespaceURIForPrefixFunc-2'(_Config) ->
-   Qry = "namespace-uri-for-prefix(\"\", exactly-one(\n                      <e xmlns=\"http://www.example.com/A\" xmlns:A=\"http://www.example.com/C\"> <b xmlns:B=\"http://www.example.com/C\" xmlns=\"\"/> </e>/b)\n                      )",
+   Qry = "namespace-uri-for-prefix(\"\", exactly-one(
+                      <e xmlns=\"http://www.example.com/A\" xmlns:A=\"http://www.example.com/C\"> <b xmlns:B=\"http://www.example.com/C\" xmlns=\"\"/> </e>/b)
+                      )",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_test:string_value(Res) of
              "" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -458,16 +531,22 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/A\n      ",
+   Exp = "
+         http://www.example.com/A
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/A" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'cbcl-namespace-uri-for-prefix-001'(_Config) ->
-   Qry = "\n      	fn:boolean(fn:namespace-uri-for-prefix('', <a />))\n      ",
+   Qry = "
+      	fn:boolean(fn:namespace-uri-for-prefix('', <a />))
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.

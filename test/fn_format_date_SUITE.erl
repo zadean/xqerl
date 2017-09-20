@@ -319,7 +319,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         2003-09-7\n      ",
+   Exp = "
+         2003-09-7
+      ",
    case xqerl_test:string_value(Res) of
              "2003-09-7" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -338,7 +340,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         9-7-2003\n      ",
+   Exp = "
+         9-7-2003
+      ",
    case xqerl_test:string_value(Res) of
              "9-7-2003" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -357,7 +361,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         7-9-2003\n      ",
+   Exp = "
+         7-9-2003
+      ",
    case xqerl_test:string_value(Res) of
              "7-9-2003" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -376,7 +382,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         7 IX 2003\n      ",
+   Exp = "
+         7 IX 2003
+      ",
    case xqerl_test:string_value(Res) of
              "7 IX 2003" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -395,7 +403,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [2003-09-07]\n      ",
+   Exp = "
+         [2003-09-07]
+      ",
    case xqerl_test:string_value(Res) of
              "[2003-09-07]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -414,7 +424,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [2003-09-07]\n      ",
+   Exp = "
+         [2003-09-07]
+      ",
    case xqerl_test:string_value(Res) of
              "[2003-09-07]" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -433,12 +445,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         (03-09-07)\n      ",
+   Exp = "
+         (03-09-07)
+      ",
    case xqerl_test:string_value(Res) of
              "(03-09-07)" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-005'(_Config) ->
-   Qry = " string-join( for $i in 1 to 100 return format-date($t + xs:yearMonthDuration('P1Y')*$i,\n         '[YI]'), ' ')",
+   Qry = " string-join( for $i in 1 to 100 return format-date($t + xs:yearMonthDuration('P1Y')*$i,
+         '[YI]'), ' ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -452,12 +467,25 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MCMLI MCMLII MCMLIII MCMLIV MCMLV MCMLVI MCMLVII MCMLVIII\n            MCMLIX MCMLX MCMLXI MCMLXII MCMLXIII MCMLXIV MCMLXV MCMLXVI MCMLXVII MCMLXVIII\n            MCMLXIX MCMLXX MCMLXXI MCMLXXII MCMLXXIII MCMLXXIV MCMLXXV MCMLXXVI MCMLXXVII\n            MCMLXXVIII MCMLXXIX MCMLXXX MCMLXXXI MCMLXXXII MCMLXXXIII MCMLXXXIV MCMLXXXV\n            MCMLXXXVI MCMLXXXVII MCMLXXXVIII MCMLXXXIX MCMXC MCMXCI MCMXCII MCMXCIII\n            MCMXCIV MCMXCV MCMXCVI MCMXCVII MCMXCVIII MCMXCIX MM MMI MMII MMIII MMIV MMV\n            MMVI MMVII MMVIII MMIX MMX MMXI MMXII MMXIII MMXIV MMXV MMXVI MMXVII\n            MMXVIII MMXIX MMXX MMXXI MMXXII MMXXIII MMXXIV MMXXV MMXXVI MMXXVII MMXXVIII\n            MMXXIX MMXXX MMXXXI MMXXXII MMXXXIII MMXXXIV MMXXXV MMXXXVI MMXXXVII MMXXXVIII\n            MMXXXIX MMXL MMXLI MMXLII MMXLIII MMXLIV MMXLV MMXLVI MMXLVII MMXLVIII MMXLIX\n            MML\n      ",
+   Exp = "
+         MCMLI MCMLII MCMLIII MCMLIV MCMLV MCMLVI MCMLVII MCMLVIII
+            MCMLIX MCMLX MCMLXI MCMLXII MCMLXIII MCMLXIV MCMLXV MCMLXVI MCMLXVII MCMLXVIII
+            MCMLXIX MCMLXX MCMLXXI MCMLXXII MCMLXXIII MCMLXXIV MCMLXXV MCMLXXVI MCMLXXVII
+            MCMLXXVIII MCMLXXIX MCMLXXX MCMLXXXI MCMLXXXII MCMLXXXIII MCMLXXXIV MCMLXXXV
+            MCMLXXXVI MCMLXXXVII MCMLXXXVIII MCMLXXXIX MCMXC MCMXCI MCMXCII MCMXCIII
+            MCMXCIV MCMXCV MCMXCVI MCMXCVII MCMXCVIII MCMXCIX MM MMI MMII MMIII MMIV MMV
+            MMVI MMVII MMVIII MMIX MMX MMXI MMXII MMXIII MMXIV MMXV MMXVI MMXVII
+            MMXVIII MMXIX MMXX MMXXI MMXXII MMXXIII MMXXIV MMXXV MMXXVI MMXXVII MMXXVIII
+            MMXXIX MMXXX MMXXXI MMXXXII MMXXXIII MMXXXIV MMXXXV MMXXXVI MMXXXVII MMXXXVIII
+            MMXXXIX MMXL MMXLI MMXLII MMXLIII MMXLIV MMXLV MMXLVI MMXLVII MMXLVIII MMXLIX
+            MML
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "MCMLI MCMLII MCMLIII MCMLIV MCMLV MCMLVI MCMLVII MCMLVIII MCMLIX MCMLX MCMLXI MCMLXII MCMLXIII MCMLXIV MCMLXV MCMLXVI MCMLXVII MCMLXVIII MCMLXIX MCMLXX MCMLXXI MCMLXXII MCMLXXIII MCMLXXIV MCMLXXV MCMLXXVI MCMLXXVII MCMLXXVIII MCMLXXIX MCMLXXX MCMLXXXI MCMLXXXII MCMLXXXIII MCMLXXXIV MCMLXXXV MCMLXXXVI MCMLXXXVII MCMLXXXVIII MCMLXXXIX MCMXC MCMXCI MCMXCII MCMXCIII MCMXCIV MCMXCV MCMXCVI MCMXCVII MCMXCVIII MCMXCIX MM MMI MMII MMIII MMIV MMV MMVI MMVII MMVIII MMIX MMX MMXI MMXII MMXIII MMXIV MMXV MMXVI MMXVII MMXVIII MMXIX MMXX MMXXI MMXXII MMXXIII MMXXIV MMXXV MMXXVI MMXXVII MMXXVIII MMXXIX MMXXX MMXXXI MMXXXII MMXXXIII MMXXXIV MMXXXV MMXXXVI MMXXXVII MMXXXVIII MMXXXIX MMXL MMXLI MMXLII MMXLIII MMXLIV MMXLV MMXLVI MMXLVII MMXLVIII MMXLIX MML" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-006'(_Config) ->
-   Qry = " string-join( for $i in 1 to 100 return format-date($t +\n         xs:yearMonthDuration('P17Y')*$i, '[Yi,4-4]'), ' ')",
+   Qry = " string-join( for $i in 1 to 100 return format-date($t +
+         xs:yearMonthDuration('P17Y')*$i, '[Yi,4-4]'), ' ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -471,7 +499,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         dcccxvii dcccxxxiv dcccli dccclxviii dccclxxxv cmii cmxix\n            cmxxxvi cmliii cmlxx cmlxxxvii miv mxxi mxxxviii mlv mlxxii mlxxxix mcvi\n            mcxxiii mcxl mclvii mclxxiv mcxci mccviii mccxxv mccxlii mcclix mcclxxvi\n            mccxciii mcccx mcccxxvii mcccxliv mccclxi mccclxxviii mcccxcv mcdxii mcdxxix\n            mcdxlvi mcdlxiii mcdlxxx mcdxcvii mdxiv mdxxxi mdxlviii mdlxv mdlxxxii mdxcix\n            mdcxvi mdcxxxiii mdcl mdclxvii mdclxxxiv mdcci mdccxviii mdccxxxv mdcclii\n            mdcclxix mdcclxxxvi mdccciii mdcccxx mdcccxxxvii mdcccliv mdccclxxi\n            mdccclxxxviii mcmv mcmxxii mcmxxxix mcmlvi mcmlxxiii mcmxc mmvii mmxxiv mmxli\n            mmlviii mmlxxv mmxcii mmcix mmcxxvi mmcxliii mmclx mmclxxvii mmcxciv mmccxi\n            mmccxxviii mmccxlv mmcclxii mmcclxxix mmccxcvi mmcccxiii mmcccxxx mmcccxlvii\n            mmccclxiv mmccclxxxi mmcccxcviii mmcdxv mmcdxxxii mmcdxlix mmcdlxvi mmcdlxxxiii\n            mmd\n      ",
+   Exp = "
+         dcccxvii dcccxxxiv dcccli dccclxviii dccclxxxv cmii cmxix
+            cmxxxvi cmliii cmlxx cmlxxxvii miv mxxi mxxxviii mlv mlxxii mlxxxix mcvi
+            mcxxiii mcxl mclvii mclxxiv mcxci mccviii mccxxv mccxlii mcclix mcclxxvi
+            mccxciii mcccx mcccxxvii mcccxliv mccclxi mccclxxviii mcccxcv mcdxii mcdxxix
+            mcdxlvi mcdlxiii mcdlxxx mcdxcvii mdxiv mdxxxi mdxlviii mdlxv mdlxxxii mdxcix
+            mdcxvi mdcxxxiii mdcl mdclxvii mdclxxxiv mdcci mdccxviii mdccxxxv mdcclii
+            mdcclxix mdcclxxxvi mdccciii mdcccxx mdcccxxxvii mdcccliv mdccclxxi
+            mdccclxxxviii mcmv mcmxxii mcmxxxix mcmlvi mcmlxxiii mcmxc mmvii mmxxiv mmxli
+            mmlviii mmlxxv mmxcii mmcix mmcxxvi mmcxliii mmclx mmclxxvii mmcxciv mmccxi
+            mmccxxviii mmccxlv mmcclxii mmcclxxix mmccxcvi mmcccxiii mmcccxxx mmcccxlvii
+            mmccclxiv mmccclxxxi mmcccxcviii mmcdxv mmcdxxxii mmcdxlix mmcdlxvi mmcdlxxxiii
+            mmd
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "dcccxvii dcccxxxiv dcccli dccclxviii dccclxxxv cmii cmxix cmxxxvi cmliii cmlxx cmlxxxvii miv mxxi mxxxviii mlv mlxxii mlxxxix mcvi mcxxiii mcxl mclvii mclxxiv mcxci mccviii mccxxv mccxlii mcclix mcclxxvi mccxciii mcccx mcccxxvii mcccxliv mccclxi mccclxxviii mcccxcv mcdxii mcdxxix mcdxlvi mcdlxiii mcdlxxx mcdxcvii mdxiv mdxxxi mdxlviii mdlxv mdlxxxii mdxcix mdcxvi mdcxxxiii mdcl mdclxvii mdclxxxiv mdcci mdccxviii mdccxxxv mdcclii mdcclxix mdcclxxxvi mdccciii mdcccxx mdcccxxxvii mdcccliv mdccclxxi mdccclxxxviii mcmv mcmxxii mcmxxxix mcmlvi mcmlxxiii mcmxc mmvii mmxxiv mmxli mmlviii mmlxxv mmxcii mmcix mmcxxvi mmcxliii mmclx mmclxxvii mmcxciv mmccxi mmccxxviii mmccxlv mmcclxii mmcclxxix mmccxcvi mmcccxiii mmcccxxx mmcccxlvii mmccclxiv mmccclxxxi mmcccxcviii mmcdxv mmcdxxxii mmcdxlix mmcdlxvi mmcdlxxxiii mmd" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
@@ -590,7 +631,10 @@ environment('math') ->
              [40,66720,66723,45,66720,66729,45,66720,66727,41] -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-009'(_Config) ->
-   Qry = "\n        for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i \n        return concat(\"[\", $d, \":\", format-date($d, '[W]', (), 'ISO', ()), \"]\")\n      ",
+   Qry = "
+        for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i 
+        return concat(\"[\", $d, \":\", format-date($d, '[W]', (), 'ISO', ()), \"]\")
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -604,12 +648,24 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            [2004-05-01:18] [2004-06-01:23] [2004-07-01:27] [2004-08-01:31] [2004-09-01:36] [2004-10-01:40] [2004-11-01:45] \n            [2004-12-01:49] [2005-01-01:53] [2005-02-01:5] [2005-03-01:9] [2005-04-01:13] [2005-05-01:17] [2005-06-01:22] \n            [2005-07-01:26] [2005-08-01:31] [2005-09-01:35] [2005-10-01:39] [2005-11-01:44] [2005-12-01:48] [2006-01-01:52] \n            [2006-02-01:5] [2006-03-01:9] [2006-04-01:13] [2006-05-01:18] [2006-06-01:22] [2006-07-01:26] [2006-08-01:31] \n            [2006-09-01:35] [2006-10-01:39] [2006-11-01:44] [2006-12-01:48] [2007-01-01:1] [2007-02-01:5] [2007-03-01:9] \n            [2007-04-01:13] [2007-05-01:18] [2007-06-01:22] [2007-07-01:26] [2007-08-01:31] [2007-09-01:35] [2007-10-01:40] \n            [2007-11-01:44] [2007-12-01:48] [2008-01-01:1] [2008-02-01:5] [2008-03-01:9] [2008-04-01:14]\n         \n      ",
+   Exp = "
+         
+            [2004-05-01:18] [2004-06-01:23] [2004-07-01:27] [2004-08-01:31] [2004-09-01:36] [2004-10-01:40] [2004-11-01:45] 
+            [2004-12-01:49] [2005-01-01:53] [2005-02-01:5] [2005-03-01:9] [2005-04-01:13] [2005-05-01:17] [2005-06-01:22] 
+            [2005-07-01:26] [2005-08-01:31] [2005-09-01:35] [2005-10-01:39] [2005-11-01:44] [2005-12-01:48] [2006-01-01:52] 
+            [2006-02-01:5] [2006-03-01:9] [2006-04-01:13] [2006-05-01:18] [2006-06-01:22] [2006-07-01:26] [2006-08-01:31] 
+            [2006-09-01:35] [2006-10-01:39] [2006-11-01:44] [2006-12-01:48] [2007-01-01:1] [2007-02-01:5] [2007-03-01:9] 
+            [2007-04-01:13] [2007-05-01:18] [2007-06-01:22] [2007-07-01:26] [2007-08-01:31] [2007-09-01:35] [2007-10-01:40] 
+            [2007-11-01:44] [2007-12-01:48] [2008-01-01:1] [2008-02-01:5] [2008-03-01:9] [2008-04-01:14]
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "[2004-05-01:18] [2004-06-01:23] [2004-07-01:27] [2004-08-01:31] [2004-09-01:36] [2004-10-01:40] [2004-11-01:45] [2004-12-01:49] [2005-01-01:53] [2005-02-01:5] [2005-03-01:9] [2005-04-01:13] [2005-05-01:17] [2005-06-01:22] [2005-07-01:26] [2005-08-01:31] [2005-09-01:35] [2005-10-01:39] [2005-11-01:44] [2005-12-01:48] [2006-01-01:52] [2006-02-01:5] [2006-03-01:9] [2006-04-01:13] [2006-05-01:18] [2006-06-01:22] [2006-07-01:26] [2006-08-01:31] [2006-09-01:35] [2006-10-01:39] [2006-11-01:44] [2006-12-01:48] [2007-01-01:1] [2007-02-01:5] [2007-03-01:9] [2007-04-01:13] [2007-05-01:18] [2007-06-01:22] [2007-07-01:26] [2007-08-01:31] [2007-09-01:35] [2007-10-01:40] [2007-11-01:44] [2007-12-01:48] [2008-01-01:1] [2008-02-01:5] [2008-03-01:9] [2008-04-01:14]" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-010'(_Config) ->
-   Qry = "for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i \n            return concat(\"[\", $d, \":\", format-date($d, '[F01]', (), 'Q{}ISO', ()), ']')\n      ",
+   Qry = "for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i 
+            return concat(\"[\", $d, \":\", format-date($d, '[F01]', (), 'Q{}ISO', ()), ']')
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -623,12 +679,25 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            [2004-01-01:04] [2004-02-01:07] [2004-03-01:01] [2004-04-01:04] [2004-05-01:06] [2004-06-01:02] \n            [2004-07-01:04] [2004-08-01:07] [2004-09-01:03] [2004-10-01:05] [2004-11-01:01] [2004-12-01:03] \n            [2005-01-01:06] [2005-02-01:02] [2005-03-01:02] [2005-04-01:05] [2005-05-01:07] [2005-06-01:03] \n            [2005-07-01:05] [2005-08-01:01] [2005-09-01:04] [2005-10-01:06] [2005-11-01:02] [2005-12-01:04] \n            [2006-01-01:07] [2006-02-01:03] [2006-03-01:03] [2006-04-01:06] [2006-05-01:01] [2006-06-01:04] \n            [2006-07-01:06] [2006-08-01:02] [2006-09-01:05] [2006-10-01:07] [2006-11-01:03] [2006-12-01:05] \n            [2007-01-01:01] [2007-02-01:04] [2007-03-01:04] [2007-04-01:07] [2007-05-01:02] [2007-06-01:05] \n            [2007-07-01:07] [2007-08-01:03] [2007-09-01:06] [2007-10-01:01] [2007-11-01:04] [2007-12-01:06]             \n         \n      ",
+   Exp = "
+         
+            [2004-01-01:04] [2004-02-01:07] [2004-03-01:01] [2004-04-01:04] [2004-05-01:06] [2004-06-01:02] 
+            [2004-07-01:04] [2004-08-01:07] [2004-09-01:03] [2004-10-01:05] [2004-11-01:01] [2004-12-01:03] 
+            [2005-01-01:06] [2005-02-01:02] [2005-03-01:02] [2005-04-01:05] [2005-05-01:07] [2005-06-01:03] 
+            [2005-07-01:05] [2005-08-01:01] [2005-09-01:04] [2005-10-01:06] [2005-11-01:02] [2005-12-01:04] 
+            [2006-01-01:07] [2006-02-01:03] [2006-03-01:03] [2006-04-01:06] [2006-05-01:01] [2006-06-01:04] 
+            [2006-07-01:06] [2006-08-01:02] [2006-09-01:05] [2006-10-01:07] [2006-11-01:03] [2006-12-01:05] 
+            [2007-01-01:01] [2007-02-01:04] [2007-03-01:04] [2007-04-01:07] [2007-05-01:02] [2007-06-01:05] 
+            [2007-07-01:07] [2007-08-01:03] [2007-09-01:06] [2007-10-01:01] [2007-11-01:04] [2007-12-01:06]             
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "[2004-01-01:04] [2004-02-01:07] [2004-03-01:01] [2004-04-01:04] [2004-05-01:06] [2004-06-01:02] [2004-07-01:04] [2004-08-01:07] [2004-09-01:03] [2004-10-01:05] [2004-11-01:01] [2004-12-01:03] [2005-01-01:06] [2005-02-01:02] [2005-03-01:02] [2005-04-01:05] [2005-05-01:07] [2005-06-01:03] [2005-07-01:05] [2005-08-01:01] [2005-09-01:04] [2005-10-01:06] [2005-11-01:02] [2005-12-01:04] [2006-01-01:07] [2006-02-01:03] [2006-03-01:03] [2006-04-01:06] [2006-05-01:01] [2006-06-01:04] [2006-07-01:06] [2006-08-01:02] [2006-09-01:05] [2006-10-01:07] [2006-11-01:03] [2006-12-01:05] [2007-01-01:01] [2007-02-01:04] [2007-03-01:04] [2007-04-01:07] [2007-05-01:02] [2007-06-01:05] [2007-07-01:07] [2007-08-01:03] [2007-09-01:06] [2007-10-01:01] [2007-11-01:04] [2007-12-01:06]" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-011'(_Config) ->
-   Qry = "\n        for $i in 1 to 48, $d in $t + xs:dayTimeDuration('P3D')*$i \n        return concat(\"[\", $d, \":\", format-date($d, '[w]', (), 'ISO', ()), ']')",
+   Qry = "
+        for $i in 1 to 48, $d in $t + xs:dayTimeDuration('P3D')*$i 
+        return concat(\"[\", $d, \":\", format-date($d, '[w]', (), 'ISO', ()), ']')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -642,7 +711,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            [2005-12-04:1] [2005-12-07:2] [2005-12-10:2] [2005-12-13:3] [2005-12-16:3] [2005-12-19:4] [2005-12-22:4] \n            [2005-12-25:4] [2005-12-28:5] [2005-12-31:5] [2006-01-03:1] [2006-01-06:1] [2006-01-09:2] [2006-01-12:2] \n            [2006-01-15:2] [2006-01-18:3] [2006-01-21:3] [2006-01-24:4] [2006-01-27:4] [2006-01-30:5] [2006-02-02:1] \n            [2006-02-05:1] [2006-02-08:2] [2006-02-11:2] [2006-02-14:3] [2006-02-17:3] [2006-02-20:4] [2006-02-23:4] \n            [2006-02-26:4] [2006-03-01:1] [2006-03-04:1] [2006-03-07:2] [2006-03-10:2] [2006-03-13:3] [2006-03-16:3] \n            [2006-03-19:3] [2006-03-22:4] [2006-03-25:4] [2006-03-28:5] [2006-03-31:5] [2006-04-03:1] [2006-04-06:1] \n            [2006-04-09:1] [2006-04-12:2] [2006-04-15:2] [2006-04-18:3] [2006-04-21:3] [2006-04-24:4]            \n         \n      ",
+   Exp = "
+         
+            [2005-12-04:1] [2005-12-07:2] [2005-12-10:2] [2005-12-13:3] [2005-12-16:3] [2005-12-19:4] [2005-12-22:4] 
+            [2005-12-25:4] [2005-12-28:5] [2005-12-31:5] [2006-01-03:1] [2006-01-06:1] [2006-01-09:2] [2006-01-12:2] 
+            [2006-01-15:2] [2006-01-18:3] [2006-01-21:3] [2006-01-24:4] [2006-01-27:4] [2006-01-30:5] [2006-02-02:1] 
+            [2006-02-05:1] [2006-02-08:2] [2006-02-11:2] [2006-02-14:3] [2006-02-17:3] [2006-02-20:4] [2006-02-23:4] 
+            [2006-02-26:4] [2006-03-01:1] [2006-03-04:1] [2006-03-07:2] [2006-03-10:2] [2006-03-13:3] [2006-03-16:3] 
+            [2006-03-19:3] [2006-03-22:4] [2006-03-25:4] [2006-03-28:5] [2006-03-31:5] [2006-04-03:1] [2006-04-06:1] 
+            [2006-04-09:1] [2006-04-12:2] [2006-04-15:2] [2006-04-18:3] [2006-04-21:3] [2006-04-24:4]            
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "[2005-12-04:1] [2005-12-07:2] [2005-12-10:2] [2005-12-13:3] [2005-12-16:3] [2005-12-19:4] [2005-12-22:4] [2005-12-25:4] [2005-12-28:5] [2005-12-31:5] [2006-01-03:1] [2006-01-06:1] [2006-01-09:2] [2006-01-12:2] [2006-01-15:2] [2006-01-18:3] [2006-01-21:3] [2006-01-24:4] [2006-01-27:4] [2006-01-30:5] [2006-02-02:1] [2006-02-05:1] [2006-02-08:2] [2006-02-11:2] [2006-02-14:3] [2006-02-17:3] [2006-02-20:4] [2006-02-23:4] [2006-02-26:4] [2006-03-01:1] [2006-03-04:1] [2006-03-07:2] [2006-03-10:2] [2006-03-13:3] [2006-03-16:3] [2006-03-19:3] [2006-03-22:4] [2006-03-25:4] [2006-03-28:5] [2006-03-31:5] [2006-04-03:1] [2006-04-06:1] [2006-04-09:1] [2006-04-12:2] [2006-04-15:2] [2006-04-18:3] [2006-04-21:3] [2006-04-24:4]" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
@@ -661,7 +740,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0985\n      ",
+   Exp = "
+         0985
+      ",
    case xqerl_test:string_value(Res) of
              "0985" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -680,7 +761,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         985\n      ",
+   Exp = "
+         985
+      ",
    case xqerl_test:string_value(Res) of
              "985" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -699,7 +782,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         985\n      ",
+   Exp = "
+         985
+      ",
    case xqerl_test:string_value(Res) of
              "985" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -718,7 +803,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         85\n      ",
+   Exp = "
+         85
+      ",
    case xqerl_test:string_value(Res) of
              "85" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -737,7 +824,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         985\n      ",
+   Exp = "
+         985
+      ",
    case xqerl_test:string_value(Res) of
              "985" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -756,7 +845,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         985\n      ",
+   Exp = "
+         985
+      ",
    case xqerl_test:string_value(Res) of
              "985" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -775,7 +866,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         985\n      ",
+   Exp = "
+         985
+      ",
    case xqerl_test:string_value(Res) of
              "985" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -794,7 +887,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0003\n      ",
+   Exp = "
+         0003
+      ",
    case xqerl_test:string_value(Res) of
              "0003" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -813,7 +908,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -832,7 +929,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         03\n      ",
+   Exp = "
+         03
+      ",
    case xqerl_test:string_value(Res) of
              "03" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -851,7 +950,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         03\n      ",
+   Exp = "
+         03
+      ",
    case xqerl_test:string_value(Res) of
              "03" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -870,7 +971,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -889,7 +992,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         3\n      ",
+   Exp = "
+         3
+      ",
    case xqerl_test:string_value(Res) of
              "3" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -908,12 +1013,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         003\n      ",
+   Exp = "
+         003
+      ",
    case xqerl_test:string_value(Res) of
              "003" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-014'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[Z]'), ' ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z]'), ' ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -927,12 +1035,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         -14:00 -13:30 -13:00 -12:30 -12:00 -11:30 -11:00 -10:30 -10:00\n            -09:30 -09:00 -08:30 -08:00 -07:30 -07:00 -06:30 -06:00 -05:30 -05:00 -04:30\n            -04:00 -03:30 -03:00 -02:30 -02:00 -01:30 -01:00 -00:30 +00:00 +00:30 +01:00\n            +01:30 +02:00 +02:30 +03:00 +03:30 +04:00 +04:30 +05:00 +05:30 +06:00 +06:30\n            +07:00 +07:30 +08:00 +08:30 +09:00 +09:30 +10:00 +10:30 +11:00 +11:30 +12:00\n            +12:30 +13:00 +13:30 +14:00\n      ",
+   Exp = "
+         -14:00 -13:30 -13:00 -12:30 -12:00 -11:30 -11:00 -10:30 -10:00
+            -09:30 -09:00 -08:30 -08:00 -07:30 -07:00 -06:30 -06:00 -05:30 -05:00 -04:30
+            -04:00 -03:30 -03:00 -02:30 -02:00 -01:30 -01:00 -00:30 +00:00 +00:30 +01:00
+            +01:30 +02:00 +02:30 +03:00 +03:30 +04:00 +04:30 +05:00 +05:30 +06:00 +06:30
+            +07:00 +07:30 +08:00 +08:30 +09:00 +09:30 +10:00 +10:30 +11:00 +11:30 +12:00
+            +12:30 +13:00 +13:30 +14:00
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "-14:00 -13:30 -13:00 -12:30 -12:00 -11:30 -11:00 -10:30 -10:00 -09:30 -09:00 -08:30 -08:00 -07:30 -07:00 -06:30 -06:00 -05:30 -05:00 -04:30 -04:00 -03:30 -03:00 -02:30 -02:00 -01:30 -01:00 -00:30 +00:00 +00:30 +01:00 +01:30 +02:00 +02:30 +03:00 +03:30 +04:00 +04:30 +05:00 +05:30 +06:00 +06:30 +07:00 +07:30 +08:00 +08:30 +09:00 +09:30 +10:00 +10:30 +11:00 +11:30 +12:00 +12:30 +13:00 +13:30 +14:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-015'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[z0]'), '; ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[z0]'), '; ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -946,12 +1062,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         GMT-14; GMT-13:30; GMT-13; GMT-12:30; GMT-12; GMT-11:30; GMT-11;\n            GMT-10:30; GMT-10; GMT-9:30; GMT-9; GMT-8:30; GMT-8; GMT-7:30; GMT-7; GMT-6:30; GMT-6;\n            GMT-5:30; GMT-5; GMT-4:30; GMT-4; GMT-3:30; GMT-3; GMT-2:30; GMT-2; GMT-1:30; GMT-1;\n            GMT-0:30; GMT+0; GMT+0:30; GMT+1; GMT+1:30; GMT+2; GMT+2:30; GMT+3; GMT+3:30; GMT+4;\n            GMT+4:30; GMT+5; GMT+5:30; GMT+6; GMT+6:30; GMT+7; GMT+7:30; GMT+8; GMT+8:30; GMT+9;\n            GMT+9:30; GMT+10; GMT+10:30; GMT+11; GMT+11:30; GMT+12; GMT+12:30; GMT+13; GMT+13:30;\n            GMT+14\n      ",
+   Exp = "
+         GMT-14; GMT-13:30; GMT-13; GMT-12:30; GMT-12; GMT-11:30; GMT-11;
+            GMT-10:30; GMT-10; GMT-9:30; GMT-9; GMT-8:30; GMT-8; GMT-7:30; GMT-7; GMT-6:30; GMT-6;
+            GMT-5:30; GMT-5; GMT-4:30; GMT-4; GMT-3:30; GMT-3; GMT-2:30; GMT-2; GMT-1:30; GMT-1;
+            GMT-0:30; GMT+0; GMT+0:30; GMT+1; GMT+1:30; GMT+2; GMT+2:30; GMT+3; GMT+3:30; GMT+4;
+            GMT+4:30; GMT+5; GMT+5:30; GMT+6; GMT+6:30; GMT+7; GMT+7:30; GMT+8; GMT+8:30; GMT+9;
+            GMT+9:30; GMT+10; GMT+10:30; GMT+11; GMT+11:30; GMT+12; GMT+12:30; GMT+13; GMT+13:30;
+            GMT+14
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "GMT-14; GMT-13:30; GMT-13; GMT-12:30; GMT-12; GMT-11:30; GMT-11; GMT-10:30; GMT-10; GMT-9:30; GMT-9; GMT-8:30; GMT-8; GMT-7:30; GMT-7; GMT-6:30; GMT-6; GMT-5:30; GMT-5; GMT-4:30; GMT-4; GMT-3:30; GMT-3; GMT-2:30; GMT-2; GMT-1:30; GMT-1; GMT-0:30; GMT+0; GMT+0:30; GMT+1; GMT+1:30; GMT+2; GMT+2:30; GMT+3; GMT+3:30; GMT+4; GMT+4:30; GMT+5; GMT+5:30; GMT+6; GMT+6:30; GMT+7; GMT+7:30; GMT+8; GMT+8:30; GMT+9; GMT+9:30; GMT+10; GMT+10:30; GMT+11; GMT+11:30; GMT+12; GMT+12:30; GMT+13; GMT+13:30; GMT+14" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-016'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[z]'), '; ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[z]'), '; ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -965,12 +1090,25 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n         	GMT-14:00; GMT-13:30; GMT-13:00; GMT-12:30; GMT-12:00; GMT-11:30; GMT-11:00;\n			GMT-10:30; GMT-10:00; GMT-09:30; GMT-09:00; GMT-08:30; GMT-08:00; GMT-07:30;\n			GMT-07:00; GMT-06:30; GMT-06:00; GMT-05:30; GMT-05:00; GMT-04:30; GMT-04:00;\n			GMT-03:30; GMT-03:00; GMT-02:30; GMT-02:00; GMT-01:30; GMT-01:00; GMT-00:30;\n			GMT+00:00; GMT+00:30; GMT+01:00; GMT+01:30; GMT+02:00; GMT+02:30; GMT+03:00;\n			GMT+03:30; GMT+04:00; GMT+04:30; GMT+05:00; GMT+05:30; GMT+06:00; GMT+06:30;\n			GMT+07:00; GMT+07:30; GMT+08:00; GMT+08:30; GMT+09:00; GMT+09:30; GMT+10:00;\n			GMT+10:30; GMT+11:00; GMT+11:30; GMT+12:00; GMT+12:30; GMT+13:00; GMT+13:30;\n			GMT+14:00\n		 \n      ",
+   Exp = "
+         
+         	GMT-14:00; GMT-13:30; GMT-13:00; GMT-12:30; GMT-12:00; GMT-11:30; GMT-11:00;
+			GMT-10:30; GMT-10:00; GMT-09:30; GMT-09:00; GMT-08:30; GMT-08:00; GMT-07:30;
+			GMT-07:00; GMT-06:30; GMT-06:00; GMT-05:30; GMT-05:00; GMT-04:30; GMT-04:00;
+			GMT-03:30; GMT-03:00; GMT-02:30; GMT-02:00; GMT-01:30; GMT-01:00; GMT-00:30;
+			GMT+00:00; GMT+00:30; GMT+01:00; GMT+01:30; GMT+02:00; GMT+02:30; GMT+03:00;
+			GMT+03:30; GMT+04:00; GMT+04:30; GMT+05:00; GMT+05:30; GMT+06:00; GMT+06:30;
+			GMT+07:00; GMT+07:30; GMT+08:00; GMT+08:30; GMT+09:00; GMT+09:30; GMT+10:00;
+			GMT+10:30; GMT+11:00; GMT+11:30; GMT+12:00; GMT+12:30; GMT+13:00; GMT+13:30;
+			GMT+14:00
+		 
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "GMT-14:00; GMT-13:30; GMT-13:00; GMT-12:30; GMT-12:00; GMT-11:30; GMT-11:00; GMT-10:30; GMT-10:00; GMT-09:30; GMT-09:00; GMT-08:30; GMT-08:00; GMT-07:30; GMT-07:00; GMT-06:30; GMT-06:00; GMT-05:30; GMT-05:00; GMT-04:30; GMT-04:00; GMT-03:30; GMT-03:00; GMT-02:30; GMT-02:00; GMT-01:30; GMT-01:00; GMT-00:30; GMT+00:00; GMT+00:30; GMT+01:00; GMT+01:30; GMT+02:00; GMT+02:30; GMT+03:00; GMT+03:30; GMT+04:00; GMT+04:30; GMT+05:00; GMT+05:30; GMT+06:00; GMT+06:30; GMT+07:00; GMT+07:30; GMT+08:00; GMT+08:30; GMT+09:00; GMT+09:30; GMT+10:00; GMT+10:30; GMT+11:00; GMT+11:30; GMT+12:00; GMT+12:30; GMT+13:00; GMT+13:30; GMT+14:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-017'(_Config) ->
-   Qry = "string-join( for $z in -12 to +12 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT1H')), '[ZZ]'), ' ')",
+   Qry = "string-join( for $z in -12 to +12 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT1H')), '[ZZ]'), ' ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -984,7 +1122,11 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n         	Y X W V U T S R Q P O N Z A B C D E F G H I K L M\n		 \n      ",
+   Exp = "
+         
+         	Y X W V U T S R Q P O N Z A B C D E F G H I K L M
+		 
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "Y X W V U T S R Q P O N Z A B C D E F G H I K L M" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
@@ -1003,7 +1145,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         J\n      ",
+   Exp = "
+         J
+      ",
    case xqerl_test:string_value(Res) of
              "J" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1013,7 +1157,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         +05:30\n      ",
+   Exp = "
+         +05:30
+      ",
    case xqerl_test:string_value(Res) of
              "+05:30" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1023,12 +1169,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         +13:00\n      ",
+   Exp = "
+         +13:00
+      ",
    case xqerl_test:string_value(Res) of
              "+13:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-021'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[z00~00]'), '; ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[z00~00]'), '; ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1042,7 +1191,18 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n         	GMT-14~00; GMT-13~30; GMT-13~00; GMT-12~30; GMT-12~00; GMT-11~30; GMT-11~00; GMT-10~30; \n         	GMT-10~00; GMT-09~30; GMT-09~00; GMT-08~30; GMT-08~00; GMT-07~30; GMT-07~00; GMT-06~30; \n         	GMT-06~00; GMT-05~30; GMT-05~00; GMT-04~30; GMT-04~00; GMT-03~30; GMT-03~00; GMT-02~30; \n         	GMT-02~00; GMT-01~30; GMT-01~00; GMT-00~30; GMT+00~00; GMT+00~30; GMT+01~00; GMT+01~30; \n         	GMT+02~00; GMT+02~30; GMT+03~00; GMT+03~30; GMT+04~00; GMT+04~30; GMT+05~00; GMT+05~30; \n         	GMT+06~00; GMT+06~30; GMT+07~00; GMT+07~30; GMT+08~00; GMT+08~30; GMT+09~00; GMT+09~30; \n         	GMT+10~00; GMT+10~30; GMT+11~00; GMT+11~30; GMT+12~00; GMT+12~30; GMT+13~00; GMT+13~30; \n         	GMT+14~00\n		 \n      ",
+   Exp = "
+         
+         	GMT-14~00; GMT-13~30; GMT-13~00; GMT-12~30; GMT-12~00; GMT-11~30; GMT-11~00; GMT-10~30; 
+         	GMT-10~00; GMT-09~30; GMT-09~00; GMT-08~30; GMT-08~00; GMT-07~30; GMT-07~00; GMT-06~30; 
+         	GMT-06~00; GMT-05~30; GMT-05~00; GMT-04~30; GMT-04~00; GMT-03~30; GMT-03~00; GMT-02~30; 
+         	GMT-02~00; GMT-01~30; GMT-01~00; GMT-00~30; GMT+00~00; GMT+00~30; GMT+01~00; GMT+01~30; 
+         	GMT+02~00; GMT+02~30; GMT+03~00; GMT+03~30; GMT+04~00; GMT+04~30; GMT+05~00; GMT+05~30; 
+         	GMT+06~00; GMT+06~30; GMT+07~00; GMT+07~30; GMT+08~00; GMT+08~30; GMT+09~00; GMT+09~30; 
+         	GMT+10~00; GMT+10~30; GMT+11~00; GMT+11~30; GMT+12~00; GMT+12~30; GMT+13~00; GMT+13~30; 
+         	GMT+14~00
+		 
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "GMT-14~00; GMT-13~30; GMT-13~00; GMT-12~30; GMT-12~00; GMT-11~30; GMT-11~00; GMT-10~30; GMT-10~00; GMT-09~30; GMT-09~00; GMT-08~30; GMT-08~00; GMT-07~30; GMT-07~00; GMT-06~30; GMT-06~00; GMT-05~30; GMT-05~00; GMT-04~30; GMT-04~00; GMT-03~30; GMT-03~00; GMT-02~30; GMT-02~00; GMT-01~30; GMT-01~00; GMT-00~30; GMT+00~00; GMT+00~30; GMT+01~00; GMT+01~30; GMT+02~00; GMT+02~30; GMT+03~00; GMT+03~30; GMT+04~00; GMT+04~30; GMT+05~00; GMT+05~30; GMT+06~00; GMT+06~30; GMT+07~00; GMT+07~30; GMT+08~00; GMT+08~30; GMT+09~00; GMT+09~30; GMT+10~00; GMT+10~30; GMT+11~00; GMT+11~30; GMT+12~00; GMT+12~30; GMT+13~00; GMT+13~30; GMT+14~00" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
@@ -1066,7 +1226,8 @@ environment('math') ->
              [43,1632,1637,58,1635,1632] -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-023'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[Z0:01]'), '; ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z0:01]'), '; ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1080,12 +1241,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n         	-14:00; -13:30; -13:00; -12:30; -12:00; -11:30; -11:00; -10:30; -10:00; -9:30; -9:00;\n         	-8:30; -8:00; -7:30; -7:00; -6:30; -6:00; -5:30; -5:00; -4:30; -4:00; -3:30; -3:00;\n         	-2:30; -2:00; -1:30; -1:00; -0:30; +0:00; +0:30; +1:00; +1:30; +2:00; +2:30; +3:00;\n         	+3:30; +4:00; +4:30; +5:00; +5:30; +6:00; +6:30; +7:00; +7:30; +8:00; +8:30; +9:00;\n         	+9:30; +10:00; +10:30; +11:00; +11:30; +12:00; +12:30; +13:00; +13:30; +14:00\n		 \n      ",
+   Exp = "
+         
+         	-14:00; -13:30; -13:00; -12:30; -12:00; -11:30; -11:00; -10:30; -10:00; -9:30; -9:00;
+         	-8:30; -8:00; -7:30; -7:00; -6:30; -6:00; -5:30; -5:00; -4:30; -4:00; -3:30; -3:00;
+         	-2:30; -2:00; -1:30; -1:00; -0:30; +0:00; +0:30; +1:00; +1:30; +2:00; +2:30; +3:00;
+         	+3:30; +4:00; +4:30; +5:00; +5:30; +6:00; +6:30; +7:00; +7:30; +8:00; +8:30; +9:00;
+         	+9:30; +10:00; +10:30; +11:00; +11:30; +12:00; +12:30; +13:00; +13:30; +14:00
+		 
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "-14:00; -13:30; -13:00; -12:30; -12:00; -11:30; -11:00; -10:30; -10:00; -9:30; -9:00; -8:30; -8:00; -7:30; -7:00; -6:30; -6:00; -5:30; -5:00; -4:30; -4:00; -3:30; -3:00; -2:30; -2:00; -1:30; -1:00; -0:30; +0:00; +0:30; +1:00; +1:30; +2:00; +2:30; +3:00; +3:30; +4:00; +4:30; +5:00; +5:30; +6:00; +6:30; +7:00; +7:30; +8:00; +8:30; +9:00; +9:30; +10:00; +10:30; +11:00; +11:30; +12:00; +12:30; +13:00; +13:30; +14:00" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-024'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[Z999]'), '; ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z999]'), '; ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1099,12 +1269,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n         	-1400; -1330; -1300; -1230; -1200; -1130; -1100; -1030; -1000; -930; -900; -830; \n         	-800; -730; -700; -630; -600; -530; -500; -430; -400; -330; -300; -230; -200; \n         	-130; -100; -030; +000; +030; +100; +130; +200; +230; +300; +330; +400; +430; \n         	+500; +530; +600; +630; +700; +730; +800; +830; +900; +930; +1000; +1030; +1100; \n         	+1130; +1200; +1230; +1300; +1330; +1400\n		 \n      ",
+   Exp = "
+         
+         	-1400; -1330; -1300; -1230; -1200; -1130; -1100; -1030; -1000; -930; -900; -830; 
+         	-800; -730; -700; -630; -600; -530; -500; -430; -400; -330; -300; -230; -200; 
+         	-130; -100; -030; +000; +030; +100; +130; +200; +230; +300; +330; +400; +430; 
+         	+500; +530; +600; +630; +700; +730; +800; +830; +900; +930; +1000; +1030; +1100; 
+         	+1130; +1200; +1230; +1300; +1330; +1400
+		 
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "-1400; -1330; -1300; -1230; -1200; -1130; -1100; -1030; -1000; -930; -900; -830; -800; -730; -700; -630; -600; -530; -500; -430; -400; -330; -300; -230; -200; -130; -100; -030; +000; +030; +100; +130; +200; +230; +300; +330; +400; +430; +500; +530; +600; +630; +700; +730; +800; +830; +900; +930; +1000; +1030; +1100; +1130; +1200; +1230; +1300; +1330; +1400" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-025'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[Z99]'), '; ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z99]'), '; ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1118,12 +1297,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n         	-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -09:30; -09; -08:30; -08;\n         	-07:30; -07; -06:30; -06; -05:30; -05; -04:30; -04; -03:30; -03; -02:30; -02; -01:30;\n         	-01; -00:30; +00; +00:30; +01; +01:30; +02; +02:30; +03; +03:30; +04; +04:30; +05;\n         	+05:30; +06; +06:30; +07; +07:30; +08; +08:30; +09; +09:30; +10; +10:30; +11; +11:30;\n         	+12; +12:30; +13; +13:30; +14\n		 \n      ",
+   Exp = "
+         
+         	-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -09:30; -09; -08:30; -08;
+         	-07:30; -07; -06:30; -06; -05:30; -05; -04:30; -04; -03:30; -03; -02:30; -02; -01:30;
+         	-01; -00:30; +00; +00:30; +01; +01:30; +02; +02:30; +03; +03:30; +04; +04:30; +05;
+         	+05:30; +06; +06:30; +07; +07:30; +08; +08:30; +09; +09:30; +10; +10:30; +11; +11:30;
+         	+12; +12:30; +13; +13:30; +14
+		 
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -09:30; -09; -08:30; -08; -07:30; -07; -06:30; -06; -05:30; -05; -04:30; -04; -03:30; -03; -02:30; -02; -01:30; -01; -00:30; +00; +00:30; +01; +01:30; +02; +02:30; +03; +03:30; +04; +04:30; +05; +05:30; +06; +06:30; +07; +07:30; +08; +08:30; +09; +09:30; +10; +10:30; +11; +11:30; +12; +12:30; +13; +13:30; +14" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-026'(_Config) ->
-   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,\n         $z*xs:dayTimeDuration('PT30M')), '[Z0t]'), '; ')",
+   Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z0t]'), '; ')",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1137,7 +1325,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n         	-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -9:30; -9; -8:30; -8;\n         	-7:30; -7; -6:30; -6; -5:30; -5; -4:30; -4; -3:30; -3; -2:30; -2; -1:30; -1; -0:30;\n         	Z; +0:30; +1; +1:30; +2; +2:30; +3; +3:30; +4; +4:30; +5; +5:30; +6; +6:30; +7;\n         	+7:30; +8; +8:30; +9; +9:30; +10; +10:30; +11; +11:30; +12; +12:30; +13;\n         	+13:30; +14\n		 \n      ",
+   Exp = "
+         
+         	-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -9:30; -9; -8:30; -8;
+         	-7:30; -7; -6:30; -6; -5:30; -5; -4:30; -4; -3:30; -3; -2:30; -2; -1:30; -1; -0:30;
+         	Z; +0:30; +1; +1:30; +2; +2:30; +3; +3:30; +4; +4:30; +5; +5:30; +6; +6:30; +7;
+         	+7:30; +8; +8:30; +9; +9:30; +10; +10:30; +11; +11:30; +12; +12:30; +13;
+         	+13:30; +14
+		 
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -9:30; -9; -8:30; -8; -7:30; -7; -6:30; -6; -5:30; -5; -4:30; -4; -3:30; -3; -2:30; -2; -1:30; -1; -0:30; Z; +0:30; +1; +1:30; +2; +2:30; +3; +3:30; +4; +4:30; +5; +5:30; +6; +6:30; +7; +7:30; +8; +8:30; +9; +9:30; +10; +10:30; +11; +11:30; +12; +12:30; +13; +13:30; +14" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
@@ -1166,7 +1362,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1340") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1340") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-802err'(_Config) ->
@@ -1175,7 +1376,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1350") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1350") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-803err'(_Config) ->
@@ -1184,7 +1390,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1350") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1350") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-804err'(_Config) ->
@@ -1193,7 +1404,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1350") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1350") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-805err'(_Config) ->
@@ -1202,7 +1418,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1350") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1350") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-806err'(_Config) ->
@@ -1211,7 +1432,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1350") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1350") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-807err'(_Config) ->
@@ -1220,7 +1446,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1350") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1350") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-808err'(_Config) ->
@@ -1229,11 +1460,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n         \n         \n        \n      ",
+   Exp = "
+        
+         
+         
+        
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XTDE1340") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1340") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-en101'(_Config) ->
-   Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return\n         format-date($d2, '[MN]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
+         format-date($d2, '[MN]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1247,12 +1484,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER\n         \n      ",
+   Exp = "
+         
+            JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en102'(_Config) ->
-   Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return\n         format-date($d2, '[Mn]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
+         format-date($d2, '[Mn]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1266,12 +1508,19 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            january february march april may june july august september october november december\n         \n      ",
+   Exp = "
+         
+            january february march april may june july august september october november december
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "january february march april may june july august september october november december" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en103'(_Config) ->
-   Qry = "\n        for $i in 1 to 12 \n        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i \n        return format-date($d2, '[MNn]', 'en', (), ()) ",
+   Qry = "
+        for $i in 1 to 12 
+        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+        return format-date($d2, '[MNn]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1285,12 +1534,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            January February March April May June July August September October November December\n         \n      ",
+   Exp = "
+         
+            January February March April May June July August September October November December
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "January February March April May June July August September October November December" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en104'(_Config) ->
-   Qry = "\n        for $i in 1 to 12 \n        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i \n        return format-date($d2, '[MN,3-3]', 'en', (), ()) \n      ",
+   Qry = "
+        for $i in 1 to 12 
+        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+        return format-date($d2, '[MN,3-3]', 'en', (), ()) 
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1304,12 +1561,18 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC\n      ",
+   Exp = "
+         JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en105'(_Config) ->
-   Qry = "\n        for $i in 1 to 12 \n        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i \n        return format-date($d2, '[Mn,3-3]', 'en', (), ()) \n      ",
+   Qry = "
+        for $i in 1 to 12 
+        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+        return format-date($d2, '[Mn,3-3]', 'en', (), ()) 
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1323,12 +1586,18 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         jan feb mar apr may jun jul aug sep oct nov dec\n      ",
+   Exp = "
+         jan feb mar apr may jun jul aug sep oct nov dec
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "jan feb mar apr may jun jul aug sep oct nov dec" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en106'(_Config) ->
-   Qry = "\n        for $i in 1 to 12 \n        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i \n        return format-date($d2, '[MNn,3-3]', 'en', (), ()) \n      ",
+   Qry = "
+        for $i in 1 to 12 
+        return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+        return format-date($d2, '[MNn,3-3]', 'en', (), ()) 
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1342,12 +1611,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec\n      ",
+   Exp = "
+         Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en111'(_Config) ->
-   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return\n         format-date($d2, '[FN]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FN]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1361,12 +1633,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY\n         \n      ",
+   Exp = "
+         
+             MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en112'(_Config) ->
-   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return\n         format-date($d2, '[Fn]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[Fn]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1380,12 +1657,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n             monday tuesday wednesday thursday friday saturday sunday\n         \n      ",
+   Exp = "
+         
+             monday tuesday wednesday thursday friday saturday sunday
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "monday tuesday wednesday thursday friday saturday sunday" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en113'(_Config) ->
-   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return\n         format-date($d2, '[FNn]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FNn]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1399,12 +1681,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            Monday Tuesday Wednesday Thursday Friday Saturday Sunday\n         \n      ",
+   Exp = "
+         
+            Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "Monday Tuesday Wednesday Thursday Friday Saturday Sunday" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en114'(_Config) ->
-   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return\n         format-date($d2, '[FN,3-3]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FN,3-3]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1418,12 +1705,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         MON TUE WED THU FRI SAT SUN\n      ",
+   Exp = "
+         MON TUE WED THU FRI SAT SUN
+      ",
    case xqerl_test:string_value(Res) of
              "MON TUE WED THU FRI SAT SUN" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-en115'(_Config) ->
-   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return\n         format-date($d2, '[Fn,3-3]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[Fn,3-3]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1437,12 +1727,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         mon tue wed thu fri sat sun\n      ",
+   Exp = "
+         mon tue wed thu fri sat sun
+      ",
    case xqerl_test:string_value(Res) of
              "mon tue wed thu fri sat sun" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-en116'(_Config) ->
-   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return\n         format-date($d2, '[FNn,3-3]', 'en', (), ()) ",
+   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FNn,3-3]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1456,12 +1749,22 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         Mon Tue Wed Thu Fri Sat Sun\n      ",
+   Exp = "
+         Mon Tue Wed Thu Fri Sat Sun
+      ",
    case xqerl_test:string_value(Res) of
              "Mon Tue Wed Thu Fri Sat Sun" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-en117'(_Config) ->
-   Qry = "\n      	for $i in 1 to 7 \n      	return let $d2 := $d + xs:dayTimeDuration('P1D')*$i \n      	return let $abb := format-date($d2, '[FNn,3-4]', 'en', (), ()) \n        return let $expected := ('Mon', 'Tues', 'Weds', 'Thur', 'Fri', 'Sat', 'Sun') \n        return (\n         	substring($abb, 1, 3), \n         	starts-with($expected[$i], $abb) and string-length($abb) le 4 and string-length($abb) ge 3) \n      ",
+   Qry = "
+      	for $i in 1 to 7 
+      	return let $d2 := $d + xs:dayTimeDuration('P1D')*$i 
+      	return let $abb := format-date($d2, '[FNn,3-4]', 'en', (), ()) 
+        return let $expected := ('Mon', 'Tues', 'Weds', 'Thur', 'Fri', 'Sat', 'Sun') 
+        return (
+         	substring($abb, 1, 3), 
+         	starts-with($expected[$i], $abb) and string-length($abb) le 4 and string-length($abb) ge 3) 
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1475,12 +1778,19 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            Mon true Tue true Wed true Thu true Fri true Sat true Sun true\n         \n      ",
+   Exp = "
+         
+            Mon true Tue true Wed true Thu true Fri true Sat true Sun true
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "Mon true Tue true Wed true Thu true Fri true Sat true Sun true" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en118'(_Config) ->
-   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return let $abb :=\n         format-date($d2, '[FNn,3-5]', 'en', (), ()) return let $expected := ('Mon', 'Tues', 'Weds',\n         'Thurs', 'Fri', 'Sat', 'Sun') return (substring($abb, 1, 3), starts-with($expected[$i],\n         $abb) and string-length($abb) le 5 and string-length($abb) ge 3) ",
+   Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return let $abb :=
+         format-date($d2, '[FNn,3-5]', 'en', (), ()) return let $expected := ('Mon', 'Tues', 'Weds',
+         'Thurs', 'Fri', 'Sat', 'Sun') return (substring($abb, 1, 3), starts-with($expected[$i],
+         $abb) and string-length($abb) le 5 and string-length($abb) ge 3) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1494,12 +1804,17 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            Mon true Tue true Wed true Thu true Fri true Sat true Sun true\n         \n      ",
+   Exp = "
+         
+            Mon true Tue true Wed true Thu true Fri true Sat true Sun true
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "Mon true Tue true Wed true Thu true Fri true Sat true Sun true" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en121'(_Config) ->
-   Qry = "for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return\n         format-date($d2, '[D1o]', 'en', (), ()) ",
+   Qry = "for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[D1o]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1513,12 +1828,19 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1st 2nd 3rd 4th 5th 6th 7th 8th 9th 10th 11th 12th 13th 14th 15th\n            16th 17th 18th 19th 20th 21st 22nd 23rd 24th 25th 26th 27th 28th 29th 30th\n            31st\n         \n      ",
+   Exp = "
+         
+            1st 2nd 3rd 4th 5th 6th 7th 8th 9th 10th 11th 12th 13th 14th 15th
+            16th 17th 18th 19th 20th 21st 22nd 23rd 24th 25th 26th 27th 28th 29th 30th
+            31st
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "1st 2nd 3rd 4th 5th 6th 7th 8th 9th 10th 11th 12th 13th 14th 15th 16th 17th 18th 19th 20th 21st 22nd 23rd 24th 25th 26th 27th 28th 29th 30th 31st" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en122'(_Config) ->
-   Qry = "for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return\n         format-date($d2, '[Y1o]', 'en', (), ()) ",
+   Qry = "for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return
+         format-date($d2, '[Y1o]', 'en', (), ()) ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1532,12 +1854,19 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1990th 1991st 1992nd 1993rd 1994th 1995th 1996th 1997th 1998th 1999th\n            2000th 2001st 2002nd 2003rd 2004th 2005th 2006th 2007th 2008th 2009th 2010th 2011th\n            2012th 2013th 2014th 2015th 2016th 2017th 2018th 2019th 2020th\n         \n      ",
+   Exp = "
+         
+            1990th 1991st 1992nd 1993rd 1994th 1995th 1996th 1997th 1998th 1999th
+            2000th 2001st 2002nd 2003rd 2004th 2005th 2006th 2007th 2008th 2009th 2010th 2011th
+            2012th 2013th 2014th 2015th 2016th 2017th 2018th 2019th 2020th
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "1990th 1991st 1992nd 1993rd 1994th 1995th 1996th 1997th 1998th 1999th 2000th 2001st 2002nd 2003rd 2004th 2005th 2006th 2007th 2008th 2009th 2010th 2011th 2012th 2013th 2014th 2015th 2016th 2017th 2018th 2019th 2020th" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en123'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i\n         return format-date($d2, '[DW]', 'en', (), ()), ' ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
+         return format-date($d2, '[DW]', 'en', (), ()), ' ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1551,12 +1880,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN\n            TWELVE THIRTEEN FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY\n            TWENTY ONE TWENTY TWO TWENTY THREE TWENTY FOUR TWENTY FIVE TWENTY SIX TWENTY\n            SEVEN TWENTY EIGHT TWENTY NINE THIRTY THIRTY ONE\n         \n      ",
+   Exp = "
+         
+            ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN
+            TWELVE THIRTEEN FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY
+            TWENTY ONE TWENTY TWO TWENTY THREE TWENTY FOUR TWENTY FIVE TWENTY SIX TWENTY
+            SEVEN TWENTY EIGHT TWENTY NINE THIRTY THIRTY ONE
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY TWENTY ONE TWENTY TWO TWENTY THREE TWENTY FOUR TWENTY FIVE TWENTY SIX TWENTY SEVEN TWENTY EIGHT TWENTY NINE THIRTY THIRTY ONE" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en124'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i\n         return format-date($d2, '[Dw]', 'en', (), ()), ' ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
+         return format-date($d2, '[Dw]', 'en', (), ()), ' ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1570,12 +1907,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            one two three four five six seven eight nine ten eleven\n            twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty\n            twenty one twenty two twenty three twenty four twenty five twenty six twenty\n            seven twenty eight twenty nine thirty thirty one\n         \n      ",
+   Exp = "
+         
+            one two three four five six seven eight nine ten eleven
+            twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty
+            twenty one twenty two twenty three twenty four twenty five twenty six twenty
+            seven twenty eight twenty nine thirty thirty one
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twenty one twenty two twenty three twenty four twenty five twenty six twenty seven twenty eight twenty nine thirty thirty one" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en125'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i\n         return format-date($d2, '[DWw]', 'en', (), ()), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
+         return format-date($d2, '[DWw]', 'en', (), ()), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1589,12 +1934,23 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            One; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Eleven;\n            Twelve; Thirteen; Fourteen; Fifteen; Sixteen; Seventeen; Eighteen; Nineteen; Twenty;\n            Twenty One; Twenty Two; Twenty Three; Twenty Four; Twenty Five; Twenty Six; Twenty\n            Seven; Twenty Eight; Twenty Nine; Thirty; Thirty One\n        \n      ",
+   Exp = "
+         
+            One; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Eleven;
+            Twelve; Thirteen; Fourteen; Fifteen; Sixteen; Seventeen; Eighteen; Nineteen; Twenty;
+            Twenty One; Twenty Two; Twenty Three; Twenty Four; Twenty Five; Twenty Six; Twenty
+            Seven; Twenty Eight; Twenty Nine; Thirty; Thirty One
+        
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "One; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Eleven; Twelve; Thirteen; Fourteen; Fifteen; Sixteen; Seventeen; Eighteen; Nineteen; Twenty; Twenty One; Twenty Two; Twenty Three; Twenty Four; Twenty Five; Twenty Six; Twenty Seven; Twenty Eight; Twenty Nine; Thirty; Thirty One" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en126'(_Config) ->
-   Qry = " \n         string-join( \n            for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i\n              return replace(format-date($d2, '[YW]', 'en', (), ()), ' AND ', ' '),\n            '; ') ",
+   Qry = " 
+         string-join( 
+            for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
+              return replace(format-date($d2, '[YW]', 'en', (), ()), ' AND ', ' '),
+            '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1608,12 +1964,28 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            ONE THOUSAND NINE HUNDRED NINETY; ONE THOUSAND NINE HUNDRED\n            NINETY ONE; ONE THOUSAND NINE HUNDRED NINETY TWO; ONE THOUSAND NINE HUNDRED\n            NINETY THREE; ONE THOUSAND NINE HUNDRED NINETY FOUR; ONE THOUSAND NINE HUNDRED\n            NINETY FIVE; ONE THOUSAND NINE HUNDRED NINETY SIX; ONE THOUSAND NINE HUNDRED\n            NINETY SEVEN; ONE THOUSAND NINE HUNDRED NINETY EIGHT; ONE THOUSAND NINE HUNDRED\n            NINETY NINE; TWO THOUSAND; TWO THOUSAND ONE; TWO THOUSAND TWO; TWO THOUSAND\n            THREE; TWO THOUSAND FOUR; TWO THOUSAND FIVE; TWO THOUSAND SIX; TWO THOUSAND\n            SEVEN; TWO THOUSAND EIGHT; TWO THOUSAND NINE; TWO THOUSAND TEN; TWO\n            THOUSAND ELEVEN; TWO THOUSAND TWELVE; TWO THOUSAND THIRTEEN; TWO THOUSAND\n            FOURTEEN; TWO THOUSAND FIFTEEN; TWO THOUSAND SIXTEEN; TWO THOUSAND\n            SEVENTEEN; TWO THOUSAND EIGHTEEN; TWO THOUSAND NINETEEN; TWO THOUSAND\n            TWENTY\n         \n      ",
+   Exp = "
+         
+            ONE THOUSAND NINE HUNDRED NINETY; ONE THOUSAND NINE HUNDRED
+            NINETY ONE; ONE THOUSAND NINE HUNDRED NINETY TWO; ONE THOUSAND NINE HUNDRED
+            NINETY THREE; ONE THOUSAND NINE HUNDRED NINETY FOUR; ONE THOUSAND NINE HUNDRED
+            NINETY FIVE; ONE THOUSAND NINE HUNDRED NINETY SIX; ONE THOUSAND NINE HUNDRED
+            NINETY SEVEN; ONE THOUSAND NINE HUNDRED NINETY EIGHT; ONE THOUSAND NINE HUNDRED
+            NINETY NINE; TWO THOUSAND; TWO THOUSAND ONE; TWO THOUSAND TWO; TWO THOUSAND
+            THREE; TWO THOUSAND FOUR; TWO THOUSAND FIVE; TWO THOUSAND SIX; TWO THOUSAND
+            SEVEN; TWO THOUSAND EIGHT; TWO THOUSAND NINE; TWO THOUSAND TEN; TWO
+            THOUSAND ELEVEN; TWO THOUSAND TWELVE; TWO THOUSAND THIRTEEN; TWO THOUSAND
+            FOURTEEN; TWO THOUSAND FIFTEEN; TWO THOUSAND SIXTEEN; TWO THOUSAND
+            SEVENTEEN; TWO THOUSAND EIGHTEEN; TWO THOUSAND NINETEEN; TWO THOUSAND
+            TWENTY
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "ONE THOUSAND NINE HUNDRED NINETY; ONE THOUSAND NINE HUNDRED NINETY ONE; ONE THOUSAND NINE HUNDRED NINETY TWO; ONE THOUSAND NINE HUNDRED NINETY THREE; ONE THOUSAND NINE HUNDRED NINETY FOUR; ONE THOUSAND NINE HUNDRED NINETY FIVE; ONE THOUSAND NINE HUNDRED NINETY SIX; ONE THOUSAND NINE HUNDRED NINETY SEVEN; ONE THOUSAND NINE HUNDRED NINETY EIGHT; ONE THOUSAND NINE HUNDRED NINETY NINE; TWO THOUSAND; TWO THOUSAND ONE; TWO THOUSAND TWO; TWO THOUSAND THREE; TWO THOUSAND FOUR; TWO THOUSAND FIVE; TWO THOUSAND SIX; TWO THOUSAND SEVEN; TWO THOUSAND EIGHT; TWO THOUSAND NINE; TWO THOUSAND TEN; TWO THOUSAND ELEVEN; TWO THOUSAND TWELVE; TWO THOUSAND THIRTEEN; TWO THOUSAND FOURTEEN; TWO THOUSAND FIFTEEN; TWO THOUSAND SIXTEEN; TWO THOUSAND SEVENTEEN; TWO THOUSAND EIGHTEEN; TWO THOUSAND NINETEEN; TWO THOUSAND TWENTY" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en127'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i\n         return replace(format-date($d2, '[Yw]', 'en', (), ()), ' and ', ' '), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
+         return replace(format-date($d2, '[Yw]', 'en', (), ()), ' and ', ' '), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1627,12 +1999,28 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            one thousand nine hundred ninety; one thousand nine hundred \n            ninety one; one thousand nine hundred ninety two; one thousand nine hundred \n            ninety three; one thousand nine hundred ninety four; one thousand nine hundred \n            ninety five; one thousand nine hundred ninety six; one thousand nine hundred \n            ninety seven; one thousand nine hundred ninety eight; one thousand nine hundred \n            ninety nine; two thousand; two thousand one; two thousand two; two thousand \n            three; two thousand four; two thousand five; two thousand six; two thousand\n            seven; two thousand eight; two thousand nine; two thousand ten; two\n            thousand eleven; two thousand twelve; two thousand thirteen; two thousand\n            fourteen; two thousand fifteen; two thousand sixteen; two thousand \n            seventeen; two thousand eighteen; two thousand nineteen; two thousand \n            twenty\n         \n      ",
+   Exp = "
+         
+            one thousand nine hundred ninety; one thousand nine hundred 
+            ninety one; one thousand nine hundred ninety two; one thousand nine hundred 
+            ninety three; one thousand nine hundred ninety four; one thousand nine hundred 
+            ninety five; one thousand nine hundred ninety six; one thousand nine hundred 
+            ninety seven; one thousand nine hundred ninety eight; one thousand nine hundred 
+            ninety nine; two thousand; two thousand one; two thousand two; two thousand 
+            three; two thousand four; two thousand five; two thousand six; two thousand
+            seven; two thousand eight; two thousand nine; two thousand ten; two
+            thousand eleven; two thousand twelve; two thousand thirteen; two thousand
+            fourteen; two thousand fifteen; two thousand sixteen; two thousand 
+            seventeen; two thousand eighteen; two thousand nineteen; two thousand 
+            twenty
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "one thousand nine hundred ninety; one thousand nine hundred ninety one; one thousand nine hundred ninety two; one thousand nine hundred ninety three; one thousand nine hundred ninety four; one thousand nine hundred ninety five; one thousand nine hundred ninety six; one thousand nine hundred ninety seven; one thousand nine hundred ninety eight; one thousand nine hundred ninety nine; two thousand; two thousand one; two thousand two; two thousand three; two thousand four; two thousand five; two thousand six; two thousand seven; two thousand eight; two thousand nine; two thousand ten; two thousand eleven; two thousand twelve; two thousand thirteen; two thousand fourteen; two thousand fifteen; two thousand sixteen; two thousand seventeen; two thousand eighteen; two thousand nineteen; two thousand twenty" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en128'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i\n         return replace(format-date($d2, '[YWw]', 'en', (), ()), ' [Aa]nd ', ' '), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
+         return replace(format-date($d2, '[YWw]', 'en', (), ()), ' [Aa]nd ', ' '), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1646,12 +2034,28 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            One Thousand Nine Hundred Ninety; One Thousand Nine Hundred \n            Ninety One; One Thousand Nine Hundred Ninety Two; One Thousand Nine Hundred \n            Ninety Three; One Thousand Nine Hundred Ninety Four; One Thousand Nine Hundred \n            Ninety Five; One Thousand Nine Hundred Ninety Six; One Thousand Nine Hundred \n            Ninety Seven; One Thousand Nine Hundred Ninety Eight; One Thousand Nine Hundred \n            Ninety Nine; Two Thousand; Two Thousand One; Two Thousand Two; Two Thousand \n            Three; Two Thousand Four; Two Thousand Five; Two Thousand Six; Two Thousand\n            Seven; Two Thousand Eight; Two Thousand Nine; Two Thousand Ten; Two\n            Thousand Eleven; Two Thousand Twelve; Two Thousand Thirteen; Two Thousand\n            Fourteen; Two Thousand Fifteen; Two Thousand Sixteen; Two Thousand \n            Seventeen; Two Thousand Eighteen; Two Thousand Nineteen; Two Thousand \n            Twenty         \n         \n      ",
+   Exp = "
+         
+            One Thousand Nine Hundred Ninety; One Thousand Nine Hundred 
+            Ninety One; One Thousand Nine Hundred Ninety Two; One Thousand Nine Hundred 
+            Ninety Three; One Thousand Nine Hundred Ninety Four; One Thousand Nine Hundred 
+            Ninety Five; One Thousand Nine Hundred Ninety Six; One Thousand Nine Hundred 
+            Ninety Seven; One Thousand Nine Hundred Ninety Eight; One Thousand Nine Hundred 
+            Ninety Nine; Two Thousand; Two Thousand One; Two Thousand Two; Two Thousand 
+            Three; Two Thousand Four; Two Thousand Five; Two Thousand Six; Two Thousand
+            Seven; Two Thousand Eight; Two Thousand Nine; Two Thousand Ten; Two
+            Thousand Eleven; Two Thousand Twelve; Two Thousand Thirteen; Two Thousand
+            Fourteen; Two Thousand Fifteen; Two Thousand Sixteen; Two Thousand 
+            Seventeen; Two Thousand Eighteen; Two Thousand Nineteen; Two Thousand 
+            Twenty         
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "One Thousand Nine Hundred Ninety; One Thousand Nine Hundred Ninety One; One Thousand Nine Hundred Ninety Two; One Thousand Nine Hundred Ninety Three; One Thousand Nine Hundred Ninety Four; One Thousand Nine Hundred Ninety Five; One Thousand Nine Hundred Ninety Six; One Thousand Nine Hundred Ninety Seven; One Thousand Nine Hundred Ninety Eight; One Thousand Nine Hundred Ninety Nine; Two Thousand; Two Thousand One; Two Thousand Two; Two Thousand Three; Two Thousand Four; Two Thousand Five; Two Thousand Six; Two Thousand Seven; Two Thousand Eight; Two Thousand Nine; Two Thousand Ten; Two Thousand Eleven; Two Thousand Twelve; Two Thousand Thirteen; Two Thousand Fourteen; Two Thousand Fifteen; Two Thousand Sixteen; Two Thousand Seventeen; Two Thousand Eighteen; Two Thousand Nineteen; Two Thousand Twenty" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en129'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i\n         return translate(format-date($d2, '[DWo]', 'en', (), ()), '- ', ''), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
+         return translate(format-date($d2, '[DWo]', 'en', (), ()), '- ', ''), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1665,12 +2069,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            FIRST; SECOND; THIRD; FOURTH; FIFTH; SIXTH; SEVENTH; EIGHTH; NINTH;\n            TENTH; ELEVENTH; TWELFTH; THIRTEENTH; FOURTEENTH; FIFTEENTH; SIXTEENTH; SEVENTEENTH;\n            EIGHTEENTH; NINETEENTH; TWENTIETH; TWENTYFIRST; TWENTYSECOND; TWENTYTHIRD; TWENTYFOURTH;\n            TWENTYFIFTH; TWENTYSIXTH; TWENTYSEVENTH; TWENTYEIGHTH; TWENTYNINTH; THIRTIETH;\n            THIRTYFIRST\n         \n      ",
+   Exp = "
+         
+            FIRST; SECOND; THIRD; FOURTH; FIFTH; SIXTH; SEVENTH; EIGHTH; NINTH;
+            TENTH; ELEVENTH; TWELFTH; THIRTEENTH; FOURTEENTH; FIFTEENTH; SIXTEENTH; SEVENTEENTH;
+            EIGHTEENTH; NINETEENTH; TWENTIETH; TWENTYFIRST; TWENTYSECOND; TWENTYTHIRD; TWENTYFOURTH;
+            TWENTYFIFTH; TWENTYSIXTH; TWENTYSEVENTH; TWENTYEIGHTH; TWENTYNINTH; THIRTIETH;
+            THIRTYFIRST
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "FIRST; SECOND; THIRD; FOURTH; FIFTH; SIXTH; SEVENTH; EIGHTH; NINTH; TENTH; ELEVENTH; TWELFTH; THIRTEENTH; FOURTEENTH; FIFTEENTH; SIXTEENTH; SEVENTEENTH; EIGHTEENTH; NINETEENTH; TWENTIETH; TWENTYFIRST; TWENTYSECOND; TWENTYTHIRD; TWENTYFOURTH; TWENTYFIFTH; TWENTYSIXTH; TWENTYSEVENTH; TWENTYEIGHTH; TWENTYNINTH; THIRTIETH; THIRTYFIRST" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en130'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i\n         return translate(format-date($d2, '[Dwo]', 'en', (), ()), '- ', ''), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
+         return translate(format-date($d2, '[Dwo]', 'en', (), ()), '- ', ''), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1684,12 +2097,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            first; second; third; fourth; fifth; sixth; seventh; eighth; ninth;\n            tenth; eleventh; twelfth; thirteenth; fourteenth; fifteenth; sixteenth; seventeenth;\n            eighteenth; nineteenth; twentieth; twentyfirst; twentysecond; twentythird; twentyfourth;\n            twentyfifth; twentysixth; twentyseventh; twentyeighth; twentyninth; thirtieth;\n            thirtyfirst\n         \n      ",
+   Exp = "
+         
+            first; second; third; fourth; fifth; sixth; seventh; eighth; ninth;
+            tenth; eleventh; twelfth; thirteenth; fourteenth; fifteenth; sixteenth; seventeenth;
+            eighteenth; nineteenth; twentieth; twentyfirst; twentysecond; twentythird; twentyfourth;
+            twentyfifth; twentysixth; twentyseventh; twentyeighth; twentyninth; thirtieth;
+            thirtyfirst
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "first; second; third; fourth; fifth; sixth; seventh; eighth; ninth; tenth; eleventh; twelfth; thirteenth; fourteenth; fifteenth; sixteenth; seventeenth; eighteenth; nineteenth; twentieth; twentyfirst; twentysecond; twentythird; twentyfourth; twentyfifth; twentysixth; twentyseventh; twentyeighth; twentyninth; thirtieth; thirtyfirst" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en131'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i\n         return translate(format-date($d2, '[DWwo]', 'en', (), ()), '- ', ''), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
+         return translate(format-date($d2, '[DWwo]', 'en', (), ()), '- ', ''), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1703,12 +2125,21 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            First; Second; Third; Fourth; Fifth; Sixth; Seventh; Eighth; Ninth;\n            Tenth; Eleventh; Twelfth; Thirteenth; Fourteenth; Fifteenth; Sixteenth; Seventeenth;\n            Eighteenth; Nineteenth; Twentieth; TwentyFirst; TwentySecond; TwentyThird; TwentyFourth;\n            TwentyFifth; TwentySixth; TwentySeventh; TwentyEighth; TwentyNinth; Thirtieth;\n            ThirtyFirst\n         \n      ",
+   Exp = "
+         
+            First; Second; Third; Fourth; Fifth; Sixth; Seventh; Eighth; Ninth;
+            Tenth; Eleventh; Twelfth; Thirteenth; Fourteenth; Fifteenth; Sixteenth; Seventeenth;
+            Eighteenth; Nineteenth; Twentieth; TwentyFirst; TwentySecond; TwentyThird; TwentyFourth;
+            TwentyFifth; TwentySixth; TwentySeventh; TwentyEighth; TwentyNinth; Thirtieth;
+            ThirtyFirst
+         
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "First; Second; Third; Fourth; Fifth; Sixth; Seventh; Eighth; Ninth; Tenth; Eleventh; Twelfth; Thirteenth; Fourteenth; Fifteenth; Sixteenth; Seventeenth; Eighteenth; Nineteenth; Twentieth; TwentyFirst; TwentySecond; TwentyThird; TwentyFourth; TwentyFifth; TwentySixth; TwentySeventh; TwentyEighth; TwentyNinth; Thirtieth; ThirtyFirst" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en132'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i\n         return translate(replace(format-date($d2, '[YWo]', 'en', (), ()), ' AND ', ' '), '- ', ''), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
+         return translate(replace(format-date($d2, '[YWo]', 'en', (), ()), ' AND ', ' '), '- ', ''), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1722,12 +2153,26 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         ONETHOUSANDNINEHUNDREDNINETIETH;\n            ONETHOUSANDNINEHUNDREDNINETYFIRST; ONETHOUSANDNINEHUNDREDNINETYSECOND;\n            ONETHOUSANDNINEHUNDREDNINETYTHIRD; ONETHOUSANDNINEHUNDREDNINETYFOURTH;\n            ONETHOUSANDNINEHUNDREDNINETYFIFTH; ONETHOUSANDNINEHUNDREDNINETYSIXTH;\n            ONETHOUSANDNINEHUNDREDNINETYSEVENTH; ONETHOUSANDNINEHUNDREDNINETYEIGHTH;\n            ONETHOUSANDNINEHUNDREDNINETYNINTH; TWOTHOUSANDTH; TWOTHOUSANDFIRST;\n            TWOTHOUSANDSECOND; TWOTHOUSANDTHIRD; TWOTHOUSANDFOURTH; TWOTHOUSANDFIFTH;\n            TWOTHOUSANDSIXTH; TWOTHOUSANDSEVENTH; TWOTHOUSANDEIGHTH; TWOTHOUSANDNINTH;\n            TWOTHOUSANDTENTH; TWOTHOUSANDELEVENTH; TWOTHOUSANDTWELFTH;\n            TWOTHOUSANDTHIRTEENTH; TWOTHOUSANDFOURTEENTH; TWOTHOUSANDFIFTEENTH;\n            TWOTHOUSANDSIXTEENTH; TWOTHOUSANDSEVENTEENTH; TWOTHOUSANDEIGHTEENTH;\n            TWOTHOUSANDNINETEENTH; TWOTHOUSANDTWENTIETH\n      ",
+   Exp = "
+         ONETHOUSANDNINEHUNDREDNINETIETH;
+            ONETHOUSANDNINEHUNDREDNINETYFIRST; ONETHOUSANDNINEHUNDREDNINETYSECOND;
+            ONETHOUSANDNINEHUNDREDNINETYTHIRD; ONETHOUSANDNINEHUNDREDNINETYFOURTH;
+            ONETHOUSANDNINEHUNDREDNINETYFIFTH; ONETHOUSANDNINEHUNDREDNINETYSIXTH;
+            ONETHOUSANDNINEHUNDREDNINETYSEVENTH; ONETHOUSANDNINEHUNDREDNINETYEIGHTH;
+            ONETHOUSANDNINEHUNDREDNINETYNINTH; TWOTHOUSANDTH; TWOTHOUSANDFIRST;
+            TWOTHOUSANDSECOND; TWOTHOUSANDTHIRD; TWOTHOUSANDFOURTH; TWOTHOUSANDFIFTH;
+            TWOTHOUSANDSIXTH; TWOTHOUSANDSEVENTH; TWOTHOUSANDEIGHTH; TWOTHOUSANDNINTH;
+            TWOTHOUSANDTENTH; TWOTHOUSANDELEVENTH; TWOTHOUSANDTWELFTH;
+            TWOTHOUSANDTHIRTEENTH; TWOTHOUSANDFOURTEENTH; TWOTHOUSANDFIFTEENTH;
+            TWOTHOUSANDSIXTEENTH; TWOTHOUSANDSEVENTEENTH; TWOTHOUSANDEIGHTEENTH;
+            TWOTHOUSANDNINETEENTH; TWOTHOUSANDTWENTIETH
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "ONETHOUSANDNINEHUNDREDNINETIETH; ONETHOUSANDNINEHUNDREDNINETYFIRST; ONETHOUSANDNINEHUNDREDNINETYSECOND; ONETHOUSANDNINEHUNDREDNINETYTHIRD; ONETHOUSANDNINEHUNDREDNINETYFOURTH; ONETHOUSANDNINEHUNDREDNINETYFIFTH; ONETHOUSANDNINEHUNDREDNINETYSIXTH; ONETHOUSANDNINEHUNDREDNINETYSEVENTH; ONETHOUSANDNINEHUNDREDNINETYEIGHTH; ONETHOUSANDNINEHUNDREDNINETYNINTH; TWOTHOUSANDTH; TWOTHOUSANDFIRST; TWOTHOUSANDSECOND; TWOTHOUSANDTHIRD; TWOTHOUSANDFOURTH; TWOTHOUSANDFIFTH; TWOTHOUSANDSIXTH; TWOTHOUSANDSEVENTH; TWOTHOUSANDEIGHTH; TWOTHOUSANDNINTH; TWOTHOUSANDTENTH; TWOTHOUSANDELEVENTH; TWOTHOUSANDTWELFTH; TWOTHOUSANDTHIRTEENTH; TWOTHOUSANDFOURTEENTH; TWOTHOUSANDFIFTEENTH; TWOTHOUSANDSIXTEENTH; TWOTHOUSANDSEVENTEENTH; TWOTHOUSANDEIGHTEENTH; TWOTHOUSANDNINETEENTH; TWOTHOUSANDTWENTIETH" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en133'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i\n         return translate(replace(format-date($d2, '[Ywo]', 'en', (), ()), ' and ', ' '), '- ', ''), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
+         return translate(replace(format-date($d2, '[Ywo]', 'en', (), ()), ' and ', ' '), '- ', ''), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1741,12 +2186,26 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         onethousandninehundredninetieth;\n            onethousandninehundredninetyfirst; onethousandninehundredninetysecond;\n            onethousandninehundredninetythird; onethousandninehundredninetyfourth;\n            onethousandninehundredninetyfifth; onethousandninehundredninetysixth;\n            onethousandninehundredninetyseventh; onethousandninehundredninetyeighth;\n            onethousandninehundredninetyninth; twothousandth; twothousandfirst;\n            twothousandsecond; twothousandthird; twothousandfourth; twothousandfifth;\n            twothousandsixth; twothousandseventh; twothousandeighth; twothousandninth;\n            twothousandtenth; twothousandeleventh; twothousandtwelfth;\n            twothousandthirteenth; twothousandfourteenth; twothousandfifteenth;\n            twothousandsixteenth; twothousandseventeenth; twothousandeighteenth;\n            twothousandnineteenth; twothousandtwentieth\n      ",
+   Exp = "
+         onethousandninehundredninetieth;
+            onethousandninehundredninetyfirst; onethousandninehundredninetysecond;
+            onethousandninehundredninetythird; onethousandninehundredninetyfourth;
+            onethousandninehundredninetyfifth; onethousandninehundredninetysixth;
+            onethousandninehundredninetyseventh; onethousandninehundredninetyeighth;
+            onethousandninehundredninetyninth; twothousandth; twothousandfirst;
+            twothousandsecond; twothousandthird; twothousandfourth; twothousandfifth;
+            twothousandsixth; twothousandseventh; twothousandeighth; twothousandninth;
+            twothousandtenth; twothousandeleventh; twothousandtwelfth;
+            twothousandthirteenth; twothousandfourteenth; twothousandfifteenth;
+            twothousandsixteenth; twothousandseventeenth; twothousandeighteenth;
+            twothousandnineteenth; twothousandtwentieth
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "onethousandninehundredninetieth; onethousandninehundredninetyfirst; onethousandninehundredninetysecond; onethousandninehundredninetythird; onethousandninehundredninetyfourth; onethousandninehundredninetyfifth; onethousandninehundredninetysixth; onethousandninehundredninetyseventh; onethousandninehundredninetyeighth; onethousandninehundredninetyninth; twothousandth; twothousandfirst; twothousandsecond; twothousandthird; twothousandfourth; twothousandfifth; twothousandsixth; twothousandseventh; twothousandeighth; twothousandninth; twothousandtenth; twothousandeleventh; twothousandtwelfth; twothousandthirteenth; twothousandfourteenth; twothousandfifteenth; twothousandsixteenth; twothousandseventeenth; twothousandeighteenth; twothousandnineteenth; twothousandtwentieth" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
 'format-date-en134'(_Config) ->
-   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i\n         return translate(replace(format-date($d2, '[YWwo]', 'en', (), ()), ' [Aa]nd ', ' '), '- ', ''), '; ') ",
+   Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
+         return translate(replace(format-date($d2, '[YWwo]', 'en', (), ()), ' [Aa]nd ', ' '), '- ', ''), '; ') ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1760,7 +2219,20 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         OneThousandNineHundredNinetieth;\n            OneThousandNineHundredNinetyFirst; OneThousandNineHundredNinetySecond;\n            OneThousandNineHundredNinetyThird; OneThousandNineHundredNinetyFourth;\n            OneThousandNineHundredNinetyFifth; OneThousandNineHundredNinetySixth;\n            OneThousandNineHundredNinetySeventh; OneThousandNineHundredNinetyEighth;\n            OneThousandNineHundredNinetyNinth; TwoThousandth; TwoThousandFirst;\n            TwoThousandSecond; TwoThousandThird; TwoThousandFourth; TwoThousandFifth;\n            TwoThousandSixth; TwoThousandSeventh; TwoThousandEighth; TwoThousandNinth;\n            TwoThousandTenth; TwoThousandEleventh; TwoThousandTwelfth;\n            TwoThousandThirteenth; TwoThousandFourteenth; TwoThousandFifteenth;\n            TwoThousandSixteenth; TwoThousandSeventeenth; TwoThousandEighteenth;\n            TwoThousandNineteenth; TwoThousandTwentieth\n      ",
+   Exp = "
+         OneThousandNineHundredNinetieth;
+            OneThousandNineHundredNinetyFirst; OneThousandNineHundredNinetySecond;
+            OneThousandNineHundredNinetyThird; OneThousandNineHundredNinetyFourth;
+            OneThousandNineHundredNinetyFifth; OneThousandNineHundredNinetySixth;
+            OneThousandNineHundredNinetySeventh; OneThousandNineHundredNinetyEighth;
+            OneThousandNineHundredNinetyNinth; TwoThousandth; TwoThousandFirst;
+            TwoThousandSecond; TwoThousandThird; TwoThousandFourth; TwoThousandFifth;
+            TwoThousandSixth; TwoThousandSeventh; TwoThousandEighth; TwoThousandNinth;
+            TwoThousandTenth; TwoThousandEleventh; TwoThousandTwelfth;
+            TwoThousandThirteenth; TwoThousandFourteenth; TwoThousandFifteenth;
+            TwoThousandSixteenth; TwoThousandSeventeenth; TwoThousandEighteenth;
+            TwoThousandNineteenth; TwoThousandTwentieth
+      ",
    case string:trim(xqerl_test:string_value(Res)) of
              "OneThousandNineHundredNinetieth; OneThousandNineHundredNinetyFirst; OneThousandNineHundredNinetySecond; OneThousandNineHundredNinetyThird; OneThousandNineHundredNinetyFourth; OneThousandNineHundredNinetyFifth; OneThousandNineHundredNinetySixth; OneThousandNineHundredNinetySeventh; OneThousandNineHundredNinetyEighth; OneThousandNineHundredNinetyNinth; TwoThousandth; TwoThousandFirst; TwoThousandSecond; TwoThousandThird; TwoThousandFourth; TwoThousandFifth; TwoThousandSixth; TwoThousandSeventh; TwoThousandEighth; TwoThousandNinth; TwoThousandTenth; TwoThousandEleventh; TwoThousandTwelfth; TwoThousandThirteenth; TwoThousandFourteenth; TwoThousandFifteenth; TwoThousandSixteenth; TwoThousandSeventeenth; TwoThousandEighteenth; TwoThousandNineteenth; TwoThousandTwentieth" -> {comment, "assert-string-value"};
              _ -> ct:fail({Res,Exp}) end.
@@ -1780,7 +2252,14 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \"1990AD\", \"55BC\"\n            \"1990CE\", \"55BCE\"\n            \"1990A.D.\", \"55B.C.\"\n            \"1990C.E.\", \"55B.C.E.\"\n         \n      ",
+   Exp = "
+         
+            \"1990AD\", \"55BC\"
+            \"1990CE\", \"55BCE\"
+            \"1990A.D.\", \"55B.C.\"
+            \"1990C.E.\", \"55B.C.E.\"
+         
+      ",
  case (   ct:fail(["<assert-deep-eq xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\"1990AD\", \"55BC\"</assert-deep-eq>", Res])) orelse (   ct:fail(["<assert-deep-eq xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\"1990CE\", \"55BCE\"</assert-deep-eq>", Res])) orelse (   ct:fail(["<assert-deep-eq xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\"1990A.D.\", \"55B.C.\"</assert-deep-eq>", Res])) orelse (   ct:fail(["<assert-deep-eq xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\"1990C.E.\", \"55B.C.E.\"</assert-deep-eq>", Res])) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'format-date-en151'(_Config) ->
@@ -1798,7 +2277,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [Language: en]March\n      ",
+   Exp = "
+         [Language: en]March
+      ",
    case xqerl_test:string_value(Res) of
              "[Language: en]March" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -1817,12 +2298,16 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         [Calendar: AD]03\n      ",
+   Exp = "
+         [Calendar: AD]03
+      ",
    case xqerl_test:string_value(Res) of
              "[Calendar: AD]03" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-date-en153'(_Config) ->
-   Qry = "\n      	format-date($b, '[M01]', 'en', 'Q{http://calendar.example.com/non-existent-calendar}CB', ())\n      ",
+   Qry = "
+      	format-date($b, '[M01]', 'en', 'Q{http://calendar.example.com/non-existent-calendar}CB', ())
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1836,22 +2321,31 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:string\n      ",
+   Exp = "
+         xs:string
+      ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
 'format-date-en154'(_Config) ->
-   Qry = "\n      	declare namespace cal = \"http://calendar.example.com/non-existent-calendar\"; \n      	format-date(xs:date('2006-03-01'), '[M01]', 'en', 'cal:CB', ())\n      ",
+   Qry = "
+      	declare namespace cal = \"http://calendar.example.com/non-existent-calendar\"; 
+      	format-date(xs:date('2006-03-01'), '[M01]', 'en', 'cal:CB', ())
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         xs:string\n      ",
+   Exp = "
+         xs:string
+      ",
    case xqerl_types:type(Res) of
            'xs:string' -> {comment, "assert-type"};
            _ -> ct:fail({Res,Exp}) end.
 'format-date-en155'(_Config) ->
-   Qry = "\n      	format-date($b, '[M01]', 'en', 'Q{}ZODIAC', ())\n      ",
+   Qry = "
+      	format-date($b, '[M01]', 'en', 'Q{}ZODIAC', ())
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1865,11 +2359,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1340" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOFD1340'}) end.
 'format-date-en156'(_Config) ->
-   Qry = "\n      	format-date($b, '[M01]', 'en', 'ZODIAC', ())\n      ",
+   Qry = "
+      	format-date($b, '[M01]', 'en', 'ZODIAC', ())
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1883,11 +2381,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1340" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOFD1340'}) end.
 'format-date-en157'(_Config) ->
-   Qry = "\n      	format-date($b, '[M01]', 'en', ':w', ())\n      ",
+   Qry = "
+      	format-date($b, '[M01]', 'en', ':w', ())
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1901,11 +2403,15 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1340" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOFD1340'}) end.
 'format-date-en158'(_Config) ->
-   Qry = "\n      	format-date($b, '[M01]', 'en', 'Q{}1', ())\n      ",
+   Qry = "
+      	format-date($b, '[M01]', 'en', 'Q{}1', ())
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -1919,7 +2425,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1340" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOFD1340'}) end.
 'format-date-inpt-er1'(_Config) ->
@@ -1928,7 +2436,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'format-date-inpt-er2'(_Config) ->
@@ -1937,7 +2447,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'format-date-inpt-er3'(_Config) ->
@@ -1946,7 +2458,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'format-date-1340err'(_Config) ->
@@ -1955,6 +2469,8 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOFD1340" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FOFD1340'}) end.

@@ -193,45 +193,72 @@ environment('math') ->
 {modules, []}
 ].
 'contextDecl-014'(_Config) ->
-   Qry = "\n        declare variable $x := . + 5;\n        declare context item := 17;\n        $x\n      ",
+   Qry = "
+        declare variable $x := . + 5;
+        declare context item := 17;
+        $x
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         22\n      ",
+   Exp = "
+         22
+      ",
  Tst = xqerl:run("22"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-015'(_Config) ->
-   Qry = "\n        declare variable $y := /works/employee;\n        declare context item := $y[9];\n        declare variable $x external := if (./*) then fn:position() else 0;\n        ($x, $y)\n      ",
+   Qry = "
+        declare variable $y := /works/employee;
+        declare context item := $y[9];
+        declare variable $x external := if (./*) then fn:position() else 0;
+        ($x, $y)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'contextDecl-016'(_Config) ->
-   Qry = "\n        declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);\n        declare context item := $y[3];\n        declare variable $x external := fn:position();\n        $x\n      ",
+   Qry = "
+        declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);
+        declare context item := $y[3];
+        declare variable $x external := fn:position();
+        $x
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        1\n      ",
+   Exp = "
+        1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-017'(_Config) ->
-   Qry = "\n        declare variable $y := <root><a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a></root>;\n        declare context item := $y;\n        declare variable $x external := fn:last();\n        $x\n      ",
+   Qry = "
+        declare variable $y := <root><a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a></root>;
+        declare context item := $y;
+        declare variable $x external := fn:last();
+        $x
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        1\n      ",
+   Exp = "
+        1
+      ",
  Tst = xqerl:run("1"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -243,7 +270,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          2\n          \n        \n      ",
+   Exp = "
+        
+          2
+          
+        
+      ",
  case ( begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -255,7 +287,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          2\n          \n        \n      ",
+   Exp = "
+        
+          2
+          
+        
+      ",
  case ( begin Tst1 = xqerl:run("2"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -276,7 +313,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-021'(_Config) ->
@@ -285,7 +324,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-022'(_Config) ->
@@ -303,19 +344,29 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n        \n          \n          'London'\n        \n      ",
+   Exp = "
+        
+          
+          'London'
+        
+      ",
  case ( begin Tst2 = xqerl:run("'London'"),
   ResVal2 = xqerl_types:value(Res),
   TstVal2 = xqerl_types:value(Tst2),
   ResVal2 == TstVal2 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'contextDecl-023'(_Config) ->
-   Qry = "\n        declare context item as xs:integer+ := (1 to 17)[position() = 5];\n        .\n      ",
+   Qry = "
+        declare context item as xs:integer+ := (1 to 17)[position() = 5];
+        .
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'contextDecl-028'(_Config) ->
@@ -324,43 +375,60 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         7\n      ",
+   Exp = "
+         7
+      ",
  Tst = xqerl:run("7"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-029'(_Config) ->
-   Qry = "\n        declare context item := <a>bananas</a>;\n        string-length()\n      ",
+   Qry = "
+        declare context item := <a>bananas</a>;
+        string-length()
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         7\n      ",
+   Exp = "
+         7
+      ",
  Tst = xqerl:run("7"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-030'(_Config) ->
-   Qry = "\n        declare context item := <a id=\"qwerty\">bananas</a>;\n        string-length(@id)\n      ",
+   Qry = "
+        declare context item := <a id=\"qwerty\">bananas</a>;
+        string-length(@id)
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         6\n      ",
+   Exp = "
+         6
+      ",
  Tst = xqerl:run("6"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-031'(_Config) ->
-   Qry = "\n        declare context item := contains(?, \"e\");\n        .(\"raspberry\")\n      ",
+   Qry = "
+        declare context item := contains(?, \"e\");
+        .(\"raspberry\")
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'contextDecl-032'(_Config) ->
@@ -369,7 +437,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-033'(_Config) ->
@@ -378,7 +448,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-034'(_Config) ->
@@ -387,101 +459,148 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         5\n      ",
+   Exp = "
+         5
+      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-035'(_Config) ->
-   Qry = "\n        declare context item as xs:integer := (1 to 17)[position() = 5];\n        .\n      ",
+   Qry = "
+        declare context item as xs:integer := (1 to 17)[position() = 5];
+        .
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         5\n      ",
+   Exp = "
+         5
+      ",
  Tst = xqerl:run("5"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-036'(_Config) ->
-   Qry = "\n        declare context item as xs:integer := current-date();\n        .\n      ",
+   Qry = "
+        declare context item as xs:integer := current-date();
+        .
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-037'(_Config) ->
-   Qry = "\n        declare context item as xs:integer := <a>23</a>;\n        .\n      ",
+   Qry = "
+        declare context item as xs:integer := <a>23</a>;
+        .
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-038'(_Config) ->
-   Qry = "\n        declare context item as xs:anyURI := \"http://www.w3.org/\";\n        .\n      ",
+   Qry = "
+        declare context item as xs:anyURI := \"http://www.w3.org/\";
+        .
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-039'(_Config) ->
-   Qry = "\n        declare context item as xs:double := 1.234;\n        .\n      ",
+   Qry = "
+        declare context item as xs:double := 1.234;
+        .
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-040'(_Config) ->
-   Qry = "\n        declare context item external;\n        . instance of document-node()\n      ",
+   Qry = "
+        declare context item external;
+        . instance of document-node()
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'contextDecl-041'(_Config) ->
-   Qry = "\n        declare context item as document-node() external;\n        name(/*)\n      ",
+   Qry = "
+        declare context item as document-node() external;
+        name(/*)
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"works\"\n      ",
+   Exp = "
+         \"works\"
+      ",
  Tst = xqerl:run("\"works\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'contextDecl-042'(_Config) ->
-   Qry = "\n        declare context item external := 17;\n        . = 17\n      ",
+   Qry = "
+        declare context item external := 17;
+        . = 17
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'contextDecl-043'(_Config) ->
-   Qry = "\n        declare context item as xs:integer external := 17;\n        . = 17\n      ",
+   Qry = "
+        declare context item as xs:integer external := 17;
+        . = 17
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'contextDecl-044'(_Config) ->
@@ -491,7 +610,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-045'(_Config) ->
@@ -501,21 +622,32 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'contextDecl-046'(_Config) ->
-   Qry = "\n        declare context item as xs:double external;\n        declare context item as xs:integer := 15;\n        . = 17\n      ",
+   Qry = "
+        declare context item as xs:double external;
+        declare context item as xs:integer := 15;
+        . = 17
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0099" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0099'}) end.
 'contextDecl-047'(_Config) ->
-   Qry = "\n      	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; \n        . gt xs:date('1900-01-01')\n      ",
+   Qry = "
+      	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
+        . gt xs:date('1900-01-01')
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -529,71 +661,111 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'contextDecl-048'(_Config) ->
-   Qry = "\n      	import module namespace m=\"http://www.w3.org/TestModules/libmodule1\"; \n      	. = 17\n      ",
+   Qry = "
+      	import module namespace m=\"http://www.w3.org/TestModules/libmodule1\"; 
+      	. = 17
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0113" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0113'}) end.
 'contextDecl-049'(_Config) ->
-   Qry = "\n        import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; \n        declare context item as xs:date := current-date();\n        . gt xs:date('1900-01-01')\n      ",
+   Qry = "
+        import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
+        declare context item as xs:date := current-date();
+        . gt xs:date('1900-01-01')
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'contextDecl-050'(_Config) ->
-   Qry = "\n      	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; \n        declare context item as xs:integer := 23;\n        . eq 23\n      ",
+   Qry = "
+      	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
+        declare context item as xs:integer := 23;
+        . eq 23
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-051'(_Config) ->
-   Qry = "\n        import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; \n        declare context item as node() external;\n        . instance of element()\n      ",
+   Qry = "
+        import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
+        declare context item as node() external;
+        . instance of element()
+      ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-052'(_Config) ->
-   Qry = "\n        import module namespace m=\"http://www.w3.org/TestModules/libmodule3\"; \n        . eq 23\n      ",
+   Qry = "
+        import module namespace m=\"http://www.w3.org/TestModules/libmodule3\"; 
+        . eq 23
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0113" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0113'}) end.
 'contextDecl-053'(_Config) ->
-   Qry = "\n        declare variable $p := \"base-uri\";\n        declare variable $f := function-lookup(xs:QName(\"fn:\"||$p), 0);\n        declare context item := $f();\n        .\n      ",
+   Qry = "
+        declare variable $p := \"base-uri\";
+        declare variable $f := function-lookup(xs:QName(\"fn:\"||$p), 0);
+        declare context item := $f();
+        .
+      ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQDY0054" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQDY0054'}) end.
 'contextDecl-054'(_Config) ->
-   Qry = "\n      	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; \n        xs:date(.) gt xs:date('1900-01-01')\n      ",
+   Qry = "
+      	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
+        xs:date(.) gt xs:date('1900-01-01')
+      ",
    Env = xqerl_test:handle_environment([{sources, []},
 {schemas, []},
 {collections, []},
@@ -607,17 +779,26 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPTY0004'}) end.
 'contextDecl-055'(_Config) ->
-   Qry = "\n      declare variable $f := function-lookup(xs:QName(\"fn:\"||$p), 0);\n      declare context item := <e/>;\n      declare variable $p := \"local-name\";\n      $f()\n    ",
+   Qry = "
+      declare variable $f := function-lookup(xs:QName(\"fn:\"||$p), 0);
+      declare context item := <e/>;
+      declare variable $p := \"local-name\";
+      $f()
+    ",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \"e\"\n    ",
+   Exp = "
+      \"e\"
+    ",
  Tst = xqerl:run("\"e\""),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),

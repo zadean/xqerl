@@ -132,7 +132,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         13, 14, 15\n      ",
+   Exp = "
+         13, 14, 15
+      ",
  Tst = xqerl:run("13, 14, 15"),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -144,7 +146,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"b\", \"c\"\n      ",
+   Exp = "
+         \"b\", \"c\"
+      ",
  Tst = xqerl:run("\"b\", \"c\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -156,7 +160,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -169,7 +175,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -182,19 +190,27 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"Jane Doe 3\", \"Jane Doe 5\", \"Jane Doe 7\", \"Jane Doe 9\", \"Jane Doe 11\", \"Jane Doe 13\"\n      ",
+   Exp = "
+         \"Jane Doe 3\", \"Jane Doe 5\", \"Jane Doe 7\", \"Jane Doe 9\", \"Jane Doe 11\", \"Jane Doe 13\"
+      ",
  Tst = xqerl:run("\"Jane Doe 3\", \"Jane Doe 5\", \"Jane Doe 7\", \"Jane Doe 9\", \"Jane Doe 11\", \"Jane Doe 13\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
   if ResVal == TstVal -> {comment, "assert-deep-eq"};
     true -> ct:fail({Res,Exp}) end.
 'tail-006'(_Config) ->
-   Qry = "declare function local:sum($n) { if (empty($n)) then 0 else head($n) + local:sum(tail($n)) }; \n            local:sum(1 to 5)",
+   Qry = "declare function local:sum($n) { if (empty($n)) then 0 else head($n) + local:sum(tail($n)) }; 
+            local:sum(1 to 5)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            15\n            xs:integer\n         \n      ",
+   Exp = "
+         
+            15
+            xs:integer
+         
+      ",
  case  begin Tst1 = xqerl:run("15"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),

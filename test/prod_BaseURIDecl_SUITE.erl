@@ -196,7 +196,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0032" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0032'}) end.
 'base-URI-2'(_Config) ->
@@ -205,7 +207,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            aaa\n            \n         \n      ",
+   Exp = "
+         
+            aaa
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "aaa") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-3'(_Config) ->
@@ -214,7 +221,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            aaa\n            \n         \n      ",
+   Exp = "
+         
+            aaa
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "aaa") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-4'(_Config) ->
@@ -223,7 +235,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         aaa\n      ",
+   Exp = "
+         aaa
+      ",
    case xqerl_test:string_value(Res) of
              "aaa" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -233,7 +247,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            aaa\n            \n         \n      ",
+   Exp = "
+         
+            aaa
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "aaa") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-6'(_Config) ->
@@ -242,7 +261,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         aaa\n      ",
+   Exp = "
+         aaa
+      ",
    case xqerl_test:string_value(Res) of
              "aaa" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -252,17 +273,29 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/examples\n      ",
+   Exp = "
+         http://www.example.com/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'base-URI-8'(_Config) ->
-   Qry = "\n        declare namespace eg = \"http://example.org\"; \n        declare function eg:noContextFunction() { \n            if (fn:static-base-uri() eq fn:resolve-uri(\"examples\")) then \"true\" else \"true\" \n        }; \n        eg:noContextFunction()",
+   Qry = "
+        declare namespace eg = \"http://example.org\"; 
+        declare function eg:noContextFunction() { 
+            if (fn:static-base-uri() eq fn:resolve-uri(\"examples\")) then \"true\" else \"true\" 
+        }; 
+        eg:noContextFunction()",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            true\n            \n         \n      ",
+   Exp = "
+         
+            true
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "true") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FONS0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-9'(_Config) ->
@@ -271,7 +304,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://example.org\n      ",
+   Exp = "
+         http://example.org
+      ",
    case xqerl_test:string_value(Res) of
              "http://example.org" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -281,7 +316,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            0\n            1\n         \n      ",
+   Exp = "
+         
+            0
+            1
+         
+      ",
  case ( begin Tst1 = xqerl:run("0"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -296,7 +336,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/abc123\n      ",
+   Exp = "
+         http://www.example.com/abc123
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/abc123" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -306,7 +348,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            http://www.example.com/abc\"\n            \n         \n      ",
+   Exp = "
+         
+            http://www.example.com/abc\"
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "http://www.example.com/abc\"") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-13'(_Config) ->
@@ -315,7 +362,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/abc'\n      ",
+   Exp = "
+         http://www.example.com/abc'
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/abc'" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -325,7 +374,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            http://www.example.com/abc##0;\n            \n         \n      ",
+   Exp = "
+         
+            http://www.example.com/abc##0;
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "http://www.example.com/abc##0;") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-15'(_Config) ->
@@ -334,7 +388,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://A\n      ",
+   Exp = "
+         http://A
+      ",
    case xqerl_test:string_value(Res) of
              "http://A" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -344,7 +400,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            http:/www.abc .com\n            \n         \n      ",
+   Exp = "
+         
+            http:/www.abc .com
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "http:/www.abc .com") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-19'(_Config) ->
@@ -353,7 +414,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            http://declarebase-uri.com\n            \n         \n      ",
+   Exp = "
+         
+            http://declarebase-uri.com
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "http://declarebase-uri.com") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-URI-20'(_Config) ->
@@ -362,7 +428,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.base-uri.com\n      ",
+   Exp = "
+         http://www.base-uri.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.base-uri.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -372,7 +440,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.BASE-URI.com\n      ",
+   Exp = "
+         http://www.BASE-URI.com
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.BASE-URI.com" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -382,7 +452,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/examples\n      ",
+   Exp = "
+         http://www.example.org/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -392,7 +464,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/examples\n      ",
+   Exp = "
+         http://www.example.org/examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -402,7 +476,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            http://www.example.org/ examples\n            \n         \n      ",
+   Exp = "
+         
+            http://www.example.org/ examples
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "http://www.example.org/ examples") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'base-uri-25'(_Config) ->
@@ -411,7 +490,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.org/%20%20examples\n      ",
+   Exp = "
+         http://www.example.org/%20%20examples
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.org/%20%20examples" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -421,7 +502,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'base-uri-27'(_Config) ->
@@ -430,7 +513,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/fluster\n      ",
+   Exp = "
+         http://www.example.com/fluster
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/fluster" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -440,7 +525,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/fluster\n      ",
+   Exp = "
+         http://www.example.com/fluster
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/fluster" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
@@ -450,35 +537,50 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         http://www.example.com/fluster/now\n      ",
+   Exp = "
+         http://www.example.com/fluster/now
+      ",
    case xqerl_test:string_value(Res) of
              "http://www.example.com/fluster/now" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'K-BaseURIProlog-1'(_Config) ->
-   Qry = "\n        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"; \n        static-base-uri() eq 'http://example.com/declareBaseURITest'\n      ",
+   Qry = "
+        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"; 
+        static-base-uri() eq 'http://example.com/declareBaseURITest'
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K-BaseURIProlog-2'(_Config) ->
-   Qry = "\n        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"; \n        declare(::)base-uri(::)\"http://example.com/declareBaseURITest2\"; 1 eq 1",
+   Qry = "
+        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"; 
+        declare(::)base-uri(::)\"http://example.com/declareBaseURITest2\"; 1 eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0032" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0032'}) end.
 'K-BaseURIProlog-3'(_Config) ->
-   Qry = "\n        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"(::); \n        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"(::); 1 eq 1",
+   Qry = "
+        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"(::); 
+        declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"(::); 1 eq 1",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0032" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XQST0032'}) end.
 'K2-BaseURIProlog-1'(_Config) ->
@@ -487,7 +589,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -499,7 +606,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1\n            \n         \n      ",
+   Exp = "
+         
+            1
+            
+         
+      ",
  case ( begin Tst1 = xqerl:run("1"),
   ResVal1 = xqerl_types:value(Res),
   TstVal1 = xqerl_types:value(Tst1),
@@ -511,7 +623,13 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0046") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0005") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-BaseURIProlog-4'(_Config) ->
@@ -520,7 +638,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0001") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-BaseURIProlog-5'(_Config) ->
@@ -529,7 +652,12 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0001") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-BaseURIProlog-6'(_Config) ->
@@ -538,7 +666,9 @@ environment('math') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e xml:base=\"../\">http://example.com/BASEURI</e>\n      ",
+   Exp = "
+         <e xml:base=\"../\">http://example.com/BASEURI</e>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e xml:base=\"../\">http://example.com/BASEURI</e>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -553,15 +683,22 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPDY0002'}) end.
 'base-URI-modules-001'(_Config) ->
-   Qry = "declare base-uri \"http://www.example.org/base1\";\n          import module namespace m =\"http://www.w3.org/TestModules/module-001\";\n          static-base-uri() eq m:static-base-uri()\n    ",
+   Qry = "declare base-uri \"http://www.example.org/base1\";
+          import module namespace m =\"http://www.w3.org/TestModules/module-001\";
+          static-base-uri() eq m:static-base-uri()
+    ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n      \n    ",
+   Exp = "
+      
+    ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.

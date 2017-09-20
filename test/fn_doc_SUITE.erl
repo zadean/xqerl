@@ -228,7 +228,12 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0005") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-doc-2'(_Config) ->
@@ -237,7 +242,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0017'}) end.
 'fn-doc-3'(_Config) ->
@@ -246,7 +253,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-doc-4'(_Config) ->
@@ -255,7 +264,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, "Is empty"};
            Q -> ct:fail({Res,Exp,Q}) end.
 'fn-doc-5'(_Config) ->
@@ -265,7 +276,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-doc-6'(_Config) ->
@@ -275,7 +288,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-doc-7'(_Config) ->
@@ -285,7 +300,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \"Monday\", \"Tuesday\"\n      ",
+   Exp = "
+         \"Monday\", \"Tuesday\"
+      ",
  Tst = xqerl:run("\"Monday\", \"Tuesday\""),
   ResVal = xqerl_test:string_value(Res),
   TstVal = xqerl_test:string_value(Tst),
@@ -298,7 +315,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -311,7 +330,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         0\n      ",
+   Exp = "
+         0
+      ",
  Tst = xqerl:run("0"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -323,7 +344,12 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n           \n           \n         \n      ",
+   Exp = "
+         
+           
+           
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-doc-18'(_Config) ->
@@ -333,7 +359,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-doc-19'(_Config) ->
@@ -343,7 +371,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-doc-20'(_Config) ->
@@ -353,7 +383,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-doc-21'(_Config) ->
@@ -363,7 +395,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'fn-doc-22'(_Config) ->
@@ -373,7 +407,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-SeqDocFunc-1'(_Config) ->
@@ -382,7 +418,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'K2-SeqDocFunc-2'(_Config) ->
@@ -391,7 +429,9 @@ environment('works-and-staff-uri') ->
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <e/>\n      ",
+   Exp = "
+         <e/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -406,7 +446,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'K2-SeqDocFunc-4'(_Config) ->
@@ -415,7 +457,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0001") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-SeqDocFunc-5'(_Config) ->
@@ -433,7 +480,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'K2-SeqDocFunc-6'(_Config) ->
@@ -451,7 +500,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'K2-SeqDocFunc-7'(_Config) ->
@@ -460,7 +511,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'K2-SeqDocFunc-8'(_Config) ->
@@ -469,7 +522,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'K2-SeqDocFunc-9'(_Config) ->
@@ -478,7 +533,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-SeqDocFunc-10'(_Config) ->
@@ -496,7 +556,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'K2-SeqDocFunc-11'(_Config) ->
@@ -514,25 +576,44 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'K2-SeqDocFunc-12'(_Config) ->
-   Qry = "\n        declare variable $fileToOpen := <Variable id=\"_7\" name=\"constComplex2\" type=\"_11c\" context=\"_1\" location=\"f0:17\" file=\"f0\" line=\"17\"/>; \n        empty($fileToOpen//*[let $i := @type return doc($fileToOpen)//*[$i]])\n      ",
+   Qry = "
+        declare variable $fileToOpen := <Variable id=\"_7\" name=\"constComplex2\" type=\"_11c\" context=\"_1\" location=\"f0:17\" file=\"f0\" line=\"17\"/>; 
+        empty($fileToOpen//*[let $i := @type return doc($fileToOpen)//*[$i]])
+      ",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            \n         \n      ",
+   Exp = "
+         
+            
+            
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-SeqDocFunc-13'(_Config) ->
-   Qry = "\n        declare variable $doc1 := doc(\"http://example.com\"); \n        let $doc2 := doc(\"ftp://example.com/\") \n        for $i in doc(\"localFile.xml\") \n        return (1, 2, 3)",
+   Qry = "
+        declare variable $doc1 := doc(\"http://example.com\"); 
+        let $doc2 := doc(\"ftp://example.com/\") 
+        for $i in doc(\"localFile.xml\") 
+        return (1, 2, 3)",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            1 2 3\n            \n         \n      ",
+   Exp = "
+         
+            1 2 3
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "1 2 3") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-doc-24'(_Config) ->
@@ -550,7 +631,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <p> ]</p>\n      ",
+   Exp = "
+         <p> ]</p>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<p> ]</p>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -622,7 +705,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-doc-28'(_Config) ->
@@ -640,7 +725,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-doc-29'(_Config) ->
@@ -658,7 +745,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"/>\n      ",
+   Exp = "
+         <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"/>
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"/>"++"</x>)")) == "true" of
            true -> {comment, "assert-xml"};
            _ -> 
@@ -682,7 +771,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            schema\n            \n         \n      ",
+   Exp = "
+         
+            schema
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "schema") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'fn-doc-31'(_Config) ->
@@ -700,7 +794,12 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            schema\n            \n         \n      ",
+   Exp = "
+         
+            schema
+            
+         
+      ",
  case (xqerl_test:string_value(Res) == "schema") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002") of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'K2-SeqDocFunc-14'(_Config) ->
@@ -709,7 +808,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0005" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0005'}) end.
 'fn-doc-32'(_Config) ->
@@ -727,12 +828,46 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n  Everyday Italian\n  Giada De Laurentiis\n \n  Everyday Italian\n  Giada De Laurentiis\n\n      ",
+   Exp = "
+         
+  Everyday Italian
+  Giada De Laurentiis
+ 
+  Everyday Italian
+  Giada De Laurentiis
+
+      ",
    case xqerl_test:string_value(Res) of
-             "\n  Everyday Italian\n  Giada De Laurentiis\n \n  Everyday Italian\n  Giada De Laurentiis\n" -> {comment, "assert-string-value"};
+             "
+  Everyday Italian
+  Giada De Laurentiis
+ 
+  Everyday Italian
+  Giada De Laurentiis
+" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'fn-doc-33'(_Config) ->
-   Qry = "\n        declare namespace s = \"http://www.w3.org/2000/svg\"; \n        declare variable $uri external; \n        declare variable $root := doc($uri)/root/QObject; \n        declare variable $metaObjects := $root/preceding-sibling::metaObjects/metaObject; \n        declare function local:recurseMetaObject($object as element(metaObject), $count as xs:integer) { \n            <s:text x =\"{10 * $count}\" y=\"10\" font-family=\"Verdana\" font-size=\"55\" fill=\"blue\" >{\n                string($object/@className)}</s:text> \n        }; \n        declare function local:drawDiagram($object as element(QObject)) as element(s:g) { \n            <s:g> { if(string($object/@objectName)) \n                    then attribute xml:id {$object/@objectName} \n                    else (), \n                    $metaObjects[@className = $object/@className]/local:recurseMetaObject(., 1) } </s:g> \n        }; \n        <s:svg> { \n            <s:rect x=\"1\" y=\"1\" width=\"500\" height=\"300\" fill=\"none\" stroke=\"blue\" stroke-width=\"2\"/>, \n            <s:rect x=\"400\" y=\"100\" width=\"400\" height=\"200\" fill=\"yellow\" stroke=\"navy\" stroke-width=\"10\" />, \n            for $object in $root//QObject for $i in local:drawDiagram($object) stable order by string($i) return $i \n        } </s:svg>\n     ",
+   Qry = "
+        declare namespace s = \"http://www.w3.org/2000/svg\"; 
+        declare variable $uri external; 
+        declare variable $root := doc($uri)/root/QObject; 
+        declare variable $metaObjects := $root/preceding-sibling::metaObjects/metaObject; 
+        declare function local:recurseMetaObject($object as element(metaObject), $count as xs:integer) { 
+            <s:text x =\"{10 * $count}\" y=\"10\" font-family=\"Verdana\" font-size=\"55\" fill=\"blue\" >{
+                string($object/@className)}</s:text> 
+        }; 
+        declare function local:drawDiagram($object as element(QObject)) as element(s:g) { 
+            <s:g> { if(string($object/@objectName)) 
+                    then attribute xml:id {$object/@objectName} 
+                    else (), 
+                    $metaObjects[@className = $object/@className]/local:recurseMetaObject(., 1) } </s:g> 
+        }; 
+        <s:svg> { 
+            <s:rect x=\"1\" y=\"1\" width=\"500\" height=\"300\" fill=\"none\" stroke=\"blue\" stroke-width=\"2\"/>, 
+            <s:rect x=\"400\" y=\"100\" width=\"400\" height=\"200\" fill=\"yellow\" stroke=\"navy\" stroke-width=\"10\" />, 
+            for $object in $root//QObject for $i in local:drawDiagram($object) stable order by string($i) return $i 
+        } </s:svg>
+     ",
    Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/QObject.xml","","id/QObject.xml"}]},
 {schemas, []},
 {collections, []},
@@ -746,7 +881,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<s:svg xmlns:s=\"http://www.w3.org/2000/svg\"><s:rect stroke-width=\"2\" width=\"500\" fill=\"none\" height=\"300\" stroke=\"blue\" y=\"1\" x=\"1\"/><s:rect stroke-width=\"10\" width=\"400\" fill=\"yellow\" height=\"200\" stroke=\"navy\" y=\"100\" x=\"400\"/><s:g xml:id=\"_layout\"/><s:g/><s:g xml:id=\"qt_tabwidget_stackedwidget\"/><s:g xml:id=\"verticalLayout_2\"/><s:g xml:id=\"htmlQueryEdit\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"htmlOutput\"/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"verticalLayout\"/><s:g xml:id=\"wholeTree\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"wholeTreeOutput\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"verticalLayout_3\"/><s:g xml:id=\"diagramQuery\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"qt_tabwidget_tabbar\"/><s:g xml:id=\"menubar\"/><s:g xml:id=\"statusbar\"/><s:g/><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g xml:id=\"horizontalLayout\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QHBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QHBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QHBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QSizeGrip</s:text></s:g><s:g xml:id=\"inheritanceTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QTabWidget</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QTimer</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QTimer</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QToolButton</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QToolButton</s:text></s:g><s:g xml:id=\"qt_menubar_ext_button\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QToolButton</s:text></s:g><s:g xml:id=\"centralwidget\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"htmlTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"wholeTreeTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"svgTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidgetAnimator</s:text></s:g></s:svg>"++"</x>)")) of "true" -> {comment, "assert-xml"};
            _ -> 
               case ResXml == Exp of
@@ -784,7 +921,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n      ",
+   Exp = "
+         
+      ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODC0002'}) end.
 'fn-doc-36'(_Config) ->
@@ -802,7 +941,9 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         9\n      ",
+   Exp = "
+         9
+      ",
  Tst = xqerl:run("9"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
@@ -823,6 +964,11 @@ end.
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
    Options = [{'result',Res}],
-   Exp = "\n         \n            \n            false<xs:attribute xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:atomic=\"http://www.w3.org/XQueryTest\" name=\"attr\" type=\"xs:IDREFS\" use=\"required\" xml:id=\"idABC\"/>\n         \n      ",
+   Exp = "
+         
+            
+            false<xs:attribute xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:atomic=\"http://www.w3.org/XQueryTest\" name=\"attr\" type=\"xs:IDREFS\" use=\"required\" xml:id=\"idABC\"/>
+         
+      ",
  case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P2 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P2++"</x>" end ++ " , " ++ "<x>" ++ "false<xs:attribute xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:atomic=\"http://www.w3.org/XQueryTest\" name=\"attr\" type=\"xs:IDREFS\" use=\"required\" xml:id=\"idABC\"/>"++ "</x>)" )) == "true" orelse ResXml == Exp) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
