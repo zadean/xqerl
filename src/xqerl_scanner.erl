@@ -59,6 +59,7 @@ tokens_encl(Str, Acc) ->
 %%       {error, E} ->
 %%          xqerl_error:error('XPST0003', #xqError{value = E} );
       {invalid_name, _E} ->
+         ?dbg(?LINE,'XPST0003'),
          xqerl_error:error('XPST0003');
       {Token, T} ->
          %?dbg("TE",Token),
@@ -81,7 +82,8 @@ tokens(Str, Acc) ->
 %%          {Acc, NewStr};
 %%       {error, E} ->
 %%          xqerl_error:error('XPST0003', #xqError{value = E} );
-      {invalid_name, _E} ->
+      {invalid_name, E} ->
+         ?dbg(?LINE,E),
          xqerl_error:error('XPST0003');
       {Token, T} ->
          %?dbg("TOKEN",Token),
@@ -98,6 +100,7 @@ dc_tokens(Str, Acc, Depth) ->
       {computed, NewStr} ->
          tokens(strip_ws(NewStr), Acc);
       {error, E} ->
+         ?dbg(?LINE,'XPST0003'),
          xqerl_error:error('XPST0003', #xqError{value = E} );
       {Token, T, D2} ->
          dc_tokens(T, [Token|Acc], D2)
@@ -446,119 +449,39 @@ scan_token("Q{}" ++ T, _A) -> {[{'Q', ?L, 'Q'},{'{', ?L, '{'},{'}', ?L, '}'}], T
 scan_token(Str = "Q{" ++ _, _A) ->
    %?dbg("Q",Str),
    scan_QName(Str);
-scan_token(Str = "decimal-format" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'decimal-format', ?L, 'decimal-format'}, T}
-   end;
-scan_token(Str = "decimal-separator" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'decimal-separator', ?L, 'decimal-separator'}, T}
-   end;
-scan_token(Str = "grouping-separator" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'grouping-separator', ?L, 'grouping-separator'}, T}
-   end;
-scan_token(Str = "infinity" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'infinity', ?L, 'infinity'}, T}
-   end;
-scan_token(Str = "minus-sign" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'minus-sign', ?L, 'minus-sign'}, T}
-   end;
-scan_token(Str = "NaN" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'NaN', ?L, 'NaN'}, T}
-   end;
-scan_token(Str = "percent" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'percent', ?L, 'percent'}, T}
-   end;
-scan_token(Str = "per-mille" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'per-mille', ?L, 'per-mille'}, T}
-   end;
-scan_token(Str = "zero-digit" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'zero-digit', ?L, 'zero-digit'}, T}
-   end;
-scan_token(Str = "digit" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'digit', ?L, 'digit'}, T}
-   end;
-scan_token(Str = "pattern-separator" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'pattern-separator', ?L, 'pattern-separator'}, T}
-   end;
-scan_token(Str = "exponent-separator" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'exponent-separator', ?L, 'exponent-separator'}, T}
-   end;
-scan_token(Str = "context" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      _ ->
-         {{'context', ?L, 'context'}, T}
-   end;
-scan_token(Str = "allowing" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
+scan_token("decimal-format" ++ T, A) ->  qname_if_path("decimal-format", T, lookback(A));
+scan_token("decimal-separator" ++ T, A) ->  qname_if_path("decimal-separator", T, lookback(A));
+scan_token("grouping-separator" ++ T, A) ->  qname_if_path("grouping-separator", T, lookback(A));
+scan_token("infinity" ++ T, A) ->  qname_if_path("infinity", T, lookback(A));
+scan_token("minus-sign" ++ T, A) ->  qname_if_path("minus-sign", T, lookback(A));
+scan_token("NaN" ++ T, A) ->  qname_if_path("NaN", T, lookback(A));
+scan_token("percent" ++ T, A) ->  qname_if_path("percent", T, lookback(A));
+scan_token("per-mille" ++ T, A) ->  qname_if_path("per-mille", T, lookback(A));
+scan_token("zero-digit" ++ T, A) ->  qname_if_path("zero-digit", T, lookback(A));
+scan_token("digit" ++ T, A) ->  qname_if_path("digit", T, lookback(A));
+scan_token("pattern-separator" ++ T, A) ->  qname_if_path("pattern-separator", T, lookback(A));
+scan_token("exponent-separator" ++ T, A) ->  qname_if_path("exponent-separator", T, lookback(A));
+scan_token("context" ++ T, A) ->  qname_if_path("context", T, lookback(A));
+scan_token(Str = "allowing" ++ T, _A) ->  
+   case lookforward_is_empty(T) of
+      false ->
          scan_name(Str);
       _ ->
          {{'allowing', ?L, 'allowing'}, T}
    end;
 scan_token(Str = "tumbling" ++ T, A) ->  
    case lookback(A) of
-      '/' ->
-         scan_name(Str);
+      'for' ->
+         {{'tumbling', ?L, 'tumbling'}, T};
       _ ->
-         {{'tumbling', ?L, 'tumbling'}, T}
+         scan_name(Str)
    end;
 scan_token(Str = "sliding" ++ T, A) ->  
    case lookback(A) of
-      '/' ->
-         scan_name(Str);
       'for' ->
          {{'sliding', ?L, 'sliding'}, T};
       _ ->
-         {{'sliding', ?L, 'sliding'}, T}
+         scan_name(Str)
    end;
 scan_token(Str = "window" ++ T, _A) ->
    case lookforward_is_var(T) of
@@ -569,17 +492,28 @@ scan_token(Str = "window" ++ T, _A) ->
    end;
 scan_token(Str = "when" ++ T, A) ->  
    case lookback(A) of
-      '/' ->
-         scan_name(Str);
+      'start' ->
+         {{'when', ?L, 'when'}, T};
+      'end' ->
+         {{'when', ?L, 'when'}, T};
+      {'$',_,_} ->
+         {{'when', ?L, 'when'}, T};
       _ ->
-         {{'when', ?L, 'when'}, T}
+         scan_name(Str)
    end;
 scan_token(Str = "only" ++ T, A) ->  
    case lookback(A) of
       '/' ->
          scan_name(Str);
+      'function' ->
+         scan_name(Str);
       _ ->
-         {{'only', ?L, 'only'}, T}
+         case lookforward_is_end(T) of
+            true ->
+               {{'only', ?L, 'only'}, T};
+            _ ->
+               scan_name(Str)
+         end
    end;
 scan_token("%" ++ T, _A) ->  {{'%', ?L, '%'}, T};
 scan_token("start" ++ T, A) ->  qname_if_path("start", T, lookback(A));
@@ -606,8 +540,15 @@ scan_token(Str = "previous" ++ T, A) ->
    case lookback(A) of
       '/' ->
          scan_name(Str);
+      'function' ->
+         scan_name(Str);
       _ ->
-         {{'previous', ?L, 'previous'}, T}
+         case lookforward_is_var(T) of
+            true ->
+               {{'previous', ?L, 'previous'}, T};
+            _ ->
+               scan_name(Str)
+         end
    end;
 scan_token(Str = "next" ++ T, _A) -> 
    case lookforward_is_var(T) of
@@ -659,7 +600,7 @@ scan_token(Str = "array" ++ T, A) ->
          scan_name(Str)
    end;
 scan_token(Str = "namespace-node" ++ T, A) -> 
-   case lookforward_is_paren_or_curly(T) of
+   case lookforward_is_paren_or_curly(T) andalso not lookback(A) == 'function' of
       true ->
          {{'namespace-node', ?L, 'namespace-node'}, T};
       _ ->
@@ -667,6 +608,8 @@ scan_token(Str = "namespace-node" ++ T, A) ->
             true ->
                case lookback(A) of
                   '/' ->
+                     scan_name(Str);
+                  'function' ->
                      scan_name(Str);
                   _ ->
                      {{'namespace-node',1,'namespace-node'}, T}
@@ -821,7 +764,12 @@ scan_token(Str = "namespace" ++ T, A) ->
       'schema' ->
          {{'namespace', ?L, 'namespace'}, T};
       'function' ->
-         {{'namespace', ?L, 'namespace'}, T};
+         case lookforward_is_paren(T) of
+            true ->
+               scan_name(Str);
+            _ ->
+               {{'namespace', ?L, 'namespace'}, T}
+         end;
       ',' ->
          {{'namespace', ?L, 'namespace'}, T};
       '(' ->
@@ -831,7 +779,13 @@ scan_token(Str = "namespace" ++ T, A) ->
    end;
 scan_token("intersect" ++ T, A) -> qname_if_path("intersect", T, lookback(A));
 scan_token("collation" ++ T, A) -> qname_if_path("collation", T, lookback(A));
-scan_token("ascending" ++ T, A) -> qname_if_path("ascending", T, lookback(A));
+scan_token(Str = "ascending" ++ T, A) -> 
+   case lookforward_is_paren(T) of
+      true ->
+         scan_name(Str);
+      _ ->
+         qname_if_path("ascending", T, lookback(A))
+   end;
 scan_token("variable" ++ T, A) -> qname_if_path("variable", T, lookback(A));
 scan_token(Str = "ordering" ++ T, A) -> 
    case lookback(A) of
@@ -845,6 +799,8 @@ scan_token(Str = "instance" ++ T, A) ->
       true ->
          case lookback(A) of
             '/' ->
+               scan_name(Str);
+            'function' ->
                scan_name(Str);
             _ ->
                {{'instance',1,'instance'}, T}
@@ -876,7 +832,7 @@ scan_token("external" ++ T, A) ->
    qname_if_path("external", T, lookback(A));
 scan_token("encoding" ++ T, A) -> qname_if_path("encoding", T, lookback(A));
 scan_token(Str = "document" ++ T, _A) -> 
-   case lookforward_is_paren_or_curly(T) of 
+   case lookforward_is_curly(T) of 
       true ->
          {{'document', ?L, 'document'}, T};
       _ ->
@@ -889,7 +845,13 @@ scan_token(Str = "validate" ++ T, _A) ->
       _ ->
          scan_name(Str)
    end;
-scan_token("castable" ++ T, A) -> qname_if_path("castable", T, lookback(A));
+scan_token(Str = "castable" ++ T, A) -> 
+    case lookforward_is_paren(T) of
+       true ->
+          scan_name(Str);
+       _ ->
+         qname_if_path("castable", T, lookback(A))
+    end;
 scan_token(Str = "base-uri" ++ T, A) -> 
    case lookback(A) of
       'declare' ->
@@ -1089,7 +1051,12 @@ scan_token(Str = "xquery" ++ T, []) ->
    end;
 scan_token("stable" ++ T, A) -> qname_if_path("stable", T, lookback(A));
 scan_token("return" ++ T, A) -> 
-   qname_if_path("return", T, lookback(A));
+   case lookback(A) of
+      '/' ->
+         qname_if_path("return", T, lookback(A));
+      _ ->
+         {{'return',1,'return'}, T}
+   end;
 scan_token("option" ++ T, A) -> qname_if_path("option", T, lookback(A));
 scan_token("module" ++ T, A) -> qname_if_path("module", T, lookback(A));
 scan_token("import" ++ T, A) -> qname_if_path("import", T, lookback(A));
@@ -1199,10 +1166,34 @@ scan_token(Str = "item" ++ T, A) ->  % done
          end
    end;
 
-scan_token([32,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'}, T};
-scan_token([13,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'}, T};
-scan_token([10,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'}, T};
-scan_token([9 ,$i,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'idiv',1,'idiv'}, T};
+scan_token(Str = [32,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'idiv',1,'idiv'}, T}
+   end;
+scan_token(Str = [13,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'idiv',1,'idiv'}, T}
+   end;
+scan_token(Str = [10,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'idiv',1,'idiv'}, T}
+   end;
+scan_token(Str = [9 ,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'idiv',1,'idiv'}, T}
+   end;
 scan_token(Str = "idiv" ++ T, A) -> 
    case lookback(A) of
       ')' ->
@@ -1211,10 +1202,34 @@ scan_token(Str = "idiv" ++ T, A) ->
          scan_name(Str)
    end;
 
-scan_token([32,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
-scan_token([13,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
-scan_token([10,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
-scan_token([9 ,$m,$o,$d,H|T], _A)  when ?whitespace(H) -> {{'mod',1,'mod'}, T};
+scan_token(Str = [32,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'mod',1,'mod'}, T}
+   end;
+scan_token(Str = [13,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'mod',1,'mod'}, T}
+   end;
+scan_token(Str = [10,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'mod',1,'mod'}, T}
+   end;
+scan_token(Str = [9 ,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'mod',1,'mod'}, T}
+   end;
 scan_token(Str = "mod" ++ T, A) -> 
    case lookback(A) of
       ')' ->
@@ -1223,10 +1238,34 @@ scan_token(Str = "mod" ++ T, A) ->
          scan_name(Str)
    end;
 
-scan_token([32,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
-scan_token([13,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
-scan_token([10,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
-scan_token([9 ,$d,$i,$v,H|T], _A)  when ?whitespace(H) -> {{'div',1,'div'}, T};
+scan_token(Str = [32,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'div',1,'div'}, T}
+   end;
+scan_token(Str = [13,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'div',1,'div'}, T}
+   end;
+scan_token(Str = [10,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'div',1,'div'}, T}
+   end;
+scan_token(Str = [9 ,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'div',1,'div'}, T}
+   end;
 scan_token(Str = "div" ++ T, A) -> 
    case lookback(A) of
       ')' ->
@@ -1235,9 +1274,22 @@ scan_token(Str = "div" ++ T, A) ->
          scan_name(Str)
    end;
 
-scan_token("else" ++ T, A) -> qname_if_path("else", T, lookback(A));
-scan_token("cast" ++ T, A) -> qname_if_path("cast", T, lookback(A));
-scan_token("case" ++ T, A) -> qname_if_path("case", T, lookback(A));
+scan_token("else" ++ T, A) -> 
+   qname_if_path("else", T, lookback(A));
+scan_token(Str = "cast" ++ T, A) -> 
+    case lookforward_is_paren(T) of
+       true ->
+          scan_name(Str);
+       _ ->
+          qname_if_path("cast", T, lookback(A))
+    end;
+scan_token(Str = "case" ++ T, A) -> 
+    case lookforward_is_paren(T) of
+       true ->
+          scan_name(Str);
+       _ ->
+          qname_if_path("case", T, lookback(A))
+    end;
 scan_token("apos" ++ T, A) -> qname_if_path("apos", T, lookback(A));
 scan_token(Str = "let" ++ T, _A) -> 
    case lookforward_is_var(T) of
@@ -1259,11 +1311,19 @@ scan_token("for" ++ T, A) ->
                qname_if_path("for", T, lookback(A))
          end
    end;
-scan_token("and" ++ T, A) -> qname_if_path("and", T, lookback(A));
+scan_token(Str = "and" ++ T, A) -> 
+   case lookforward_is_paren(T) of
+      true ->
+         scan_name(Str);
+      _ ->
+         qname_if_path("and", T, lookback(A))
+   end;
 scan_token("to" ++ T, A) -> qname_if_path("to", T, lookback(A));
 scan_token(Str = "or" ++ [H|T], A) when ?whitespace(H) -> 
    case lookback(A) of
       '/' ->
+         scan_name(Str);
+      'function' ->
          scan_name(Str);
       '(' ->
          scan_name(Str);
@@ -1275,6 +1335,8 @@ scan_token(Str = "ne" ++ [H|T], A) when ?whitespace(H) ->
    case lookback(A) of
       '/' ->
          scan_name(Str);
+      'function' ->
+         scan_name(Str);
       '(' ->
          scan_name(Str);
       _ ->
@@ -1285,6 +1347,8 @@ scan_token(Str = "lt" ++ [H|T], A) when ?whitespace(H) ->
       true ->
          case lookback(A) of
             '/' ->
+               scan_name(Str);
+            'function' ->
                scan_name(Str);
             '(' ->
                scan_name(Str);
@@ -1300,10 +1364,12 @@ scan_token(Str = "le" ++ [H|T], A) when ?whitespace(H) ->
          case lookback(A) of
             '/' ->
                scan_name(Str);
+            'function' ->
+               scan_name(Str);
             '(' ->
                scan_name(Str);
             _ ->
-               {{'le',1,'le'}, T}
+               {{'le',?L,'le'}, T}
          end;
       _ ->
          scan_name(Str)
@@ -1314,8 +1380,16 @@ scan_token(Str = "is" ++ T, A) ->
          case lookback(A) of
             '/' ->
                scan_name(Str);
-            _ ->
-               {{'is',1,'is'}, T}
+            'function' ->
+               scan_name(Str);
+            O when O == '+';
+                   O == '-';
+                   O == '*';
+                   O == 'div' ->
+               scan_name(Str);                   
+            O ->
+               ?dbg(?LINE,O),
+               {{'is',?L,'is'}, T}
          end;
       _ ->
          scan_name(Str)
@@ -1332,27 +1406,19 @@ scan_token(Str = "in" ++ T, A) ->
                scan_name(Str);
             'namespace' ->
                scan_name(Str);
+            'function' ->
+               scan_name(Str);
             {'$',_,_} ->
-               {{'in',1,'in'}, T};
+               {{'in',?L,'in'}, T};
             'NCName' ->
-               {{'in',1,'in'}, T};
+               {{'in',?L,'in'}, T};
             'empty' ->
-               {{'in',1,'in'}, T};
+               {{'in',?L,'in'}, T};
             ')' ->
-               {{'in',1,'in'}, T};
+               {{'in',?L,'in'}, T};
             LB ->
                ?dbg("in scanner",A),
-               case lookforward_is_var(T) orelse lookforward_is_paren(T) of
-                  true ->
-                     {{'in',1,'in'}, T};
-                  _ ->
-                     case lookforward_is_nameletter(T) of
-                        true ->
-                           scan_name(Str);
-                        _ ->
-                           {{'in',1,'in'}, T}
-                     end
-               end
+               scan_name(Str)
          end;
       _ ->
          scan_name(Str)
@@ -1370,6 +1436,8 @@ scan_token(Str = "gt" ++ [H|T], A) when ?whitespace(H) ->
          scan_name(Str);
       '(' ->
          scan_name(Str);
+      'function' ->
+         scan_name(Str);
       _ ->
          {{'gt',1,'gt'}, T}
    end;
@@ -1378,6 +1446,8 @@ scan_token(Str = "ge" ++ [H|T], A) when ?whitespace(H) ->
       '/' ->
          scan_name(Str);
       '(' ->
+         scan_name(Str);
+      'function' ->
          scan_name(Str);
       _ ->
          {{'ge',1,'ge'}, T}
@@ -1388,6 +1458,8 @@ scan_token(Str = "eq" ++ [H|T], A) when ?whitespace(H) ->
          scan_name(Str);
       '(' ->
          scan_name(Str);
+      'function' ->
+         scan_name(Str);
       _ ->
          {{'eq',1,'eq'}, T}
    end;
@@ -1396,7 +1468,7 @@ scan_token(Str = "by" ++ T, A) ->
       '/' ->
          scan_name(Str);
       _ ->
-         case lookforward_is_ws(T) of
+         case lookforward_is_ws(T) andalso not lookforward_is_paren(T) of
             true ->
                {{'by',1,'by'}, T};
             _ ->
@@ -1408,7 +1480,7 @@ scan_token(Str = "at" ++ T, A) ->
       true ->
          {{'at',?L,'at'}, T};
       _ ->
-         case lookforward_is_ws(T) of
+         case lookforward_is_ws(T) andalso not lookforward_is_paren(T) of
             true ->
                case lookback(A) of
                   '/' ->
@@ -1426,8 +1498,15 @@ scan_token(Str = "as" ++ T, A) ->
          case lookback(A) of
             '/' ->
                scan_name(Str);
+            ')' ->
+               {{'as',?L,'as'}, T};
             _ ->
-               {{'as',?L,'as'}, T}
+               case lookforward_is_paren(T) of
+                  true ->
+                     scan_name(Str);
+                  _ ->
+                     qname_if_path("as", T, lookback(A))
+               end
          end;
       _ ->
          scan_name(Str)
@@ -1466,6 +1545,7 @@ scan_token(":*" ++ T, _A) ->  {{':*', ?L, ':*'}, T};
 scan_token("*:" ++ T, _A) ->  
    case lookforward_is_ws(T) of
       true ->
+         ?dbg(?LINE,'XPST0003'),
          xqerl_error:error('XPST0003');
       _ ->
          {{'*:', ?L, '*:'}, T}
@@ -1556,12 +1636,14 @@ scan_token("/" ++ T, A) ->
          end
    end;
 scan_token(":)" ++ _T, _A) -> % unbalanced comment
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_token([H,$:,$=|T], _A) when ?whitespace(H) ->
    {{':=', ?L, ':='}, T};
 scan_token([H,$:|T], A) when ?whitespace(H) ->
    case lookback(A) of
       'NCName' ->
+         ?dbg(?LINE,'XPST0003'),
          xqerl_error:error('XPST0003');
       _ ->
          {{':', ?L, ':'}, T}
@@ -1569,6 +1651,7 @@ scan_token([H,$:|T], A) when ?whitespace(H) ->
 scan_token([$:,H|T], A) when ?whitespace(H) -> 
    case lookback(A) of
       'NCName' ->
+         ?dbg(?LINE,'XPST0003'),
          xqerl_error:error('XPST0003');
       _ ->
          {{':', ?L, ':'}, T}
@@ -1907,6 +1990,24 @@ lookforward_is_number([H|_]) ->
 lookforward_is_nameletter([H|_]) ->
    xqerl_lib:is_xschar(H).
 
+lookforward_is_end(T) ->
+   case strip_ws(T) of
+      "end" ++ _ -> true;
+      _ -> false
+   end.
+
+lookforward_is_equal(T) ->
+   case strip_ws(T) of
+      "=" ++ _ -> true;
+      _ -> false
+   end.
+
+lookforward_is_empty(T) ->
+   case strip_ws(T) of
+      "empty" ++ _ -> true;
+      _ -> false
+   end.
+
 lookforward_is_var(T) ->
    case strip_ws(T) of
       "$" ++ _ -> true;
@@ -1972,12 +2073,11 @@ qname_if_path(Tok, [H|T], Last) ->
       true ->
          scan_name(Tok ++ [H|T]);
       _ ->
-         %io:format("TOK: ~p~n", [Tok]),
-         case special_token(Last) of
+         case special_token(Last) orelse (lookforward_is_paren([H|T]) andalso lookback(Last) == 'function') of
             true ->
                scan_name(Tok ++ [H|T]);
             _ ->
-               {{list_to_atom(Tok), 3, list_to_atom(Tok)}, [H|T]}
+               {{list_to_atom(Tok), ?L, list_to_atom(Tok)}, [H|T]}
          end
    end.
 
@@ -1986,6 +2086,7 @@ scan_direct_comment_text([], A) ->
 scan_direct_comment_text("-->" ++ T, A) ->  
    {{'comment-text', ?L, lists:reverse(A)}, T};
 scan_direct_comment_text("--" ++ _T, _A) ->  
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_direct_comment_text([H|T], A) ->  
    scan_direct_comment_text(T, [H|A] ).
@@ -2000,10 +2101,12 @@ scan_cdata_contents([H|T], A) ->
 
 % {Target, Contents, Tail}
 scan_direct_pi_constructor([]) ->  
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_direct_pi_constructor([H1, H2, H3 | _]) when H1 == $X orelse H1 == $x ,
                                                   H2 == $M orelse H2 == $m ,
                                                   H3 == $L orelse H3 == $l ->  
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_direct_pi_constructor(T) ->  
    T1 = strip_ws(T),
@@ -2114,6 +2217,7 @@ scan_comments(":)" ++ T, 1, none) -> % end comment
 scan_comments([H|T], 0, Q) -> % not in comment
    [H|scan_comments(T, 0, Q)];
 scan_comments([], Depth, none) when Depth > 0 -> % in comment with no more text
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_comments([_|T], Depth, Q) -> % in comment
    scan_comments(T, Depth, Q);
@@ -2121,6 +2225,7 @@ scan_comments([], _,_) ->
    [].
 
 scan_str_const([], _A, _L) ->
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_str_const("`{" ++ T, A, L) ->
    New = {'`{', ?L, '`{'},
@@ -2137,6 +2242,7 @@ scan_str_const([H|T], A, L) ->
 
 
 scan_str_const_interp([], _A) -> 
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_str_const_interp("}`" ++ T, A) ->
    Expr = lists:reverse(A),
@@ -2157,6 +2263,7 @@ scan_pragma("(#" ++ T, _A, _L) ->
             ")"++_ when H2 == $# ->
                scan_pragma([H2|T2], [], L1);
             _ ->
+               ?dbg(?LINE,'XPST0003'),
                xqerl_error:error('XPST0003')
          end
    end;
@@ -2184,5 +2291,6 @@ scan_braced_uri("}" ++ T, Acc) ->
 scan_braced_uri([H|T], Acc) -> 
    scan_braced_uri(T, [H|Acc]);
 scan_braced_uri([], _Acc) -> 
+   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003').
 

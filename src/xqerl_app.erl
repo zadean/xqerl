@@ -28,6 +28,8 @@
 
 %% Application callbacks
 -export([start/2, stop/1]).
+-export([init/0]).
+
 
 %% ===================================================================
 %% Application callbacks
@@ -38,3 +40,19 @@ start(_StartType, _StartArgs) ->
 
 stop(_State) ->
     ok.
+
+-record(module, {key,
+                 text,
+                 bin,
+                 variables,
+                 functions,
+                 stamp,
+                 imports
+                 }).
+
+
+init() ->
+   %mnesia:create_schema([node()]),
+   mnesia:create_table(module,
+                   [{disc_copies, [node()]},
+                    {attributes, record_info(fields, module)}]).

@@ -990,6 +990,16 @@ avg1([H|T], Sum, Count) ->
                                  ?seq:singleton(Base)
                            end
                      end;
+                  #xqProcessingInstructionNode{base_uri = Base} ->
+                     if Base == [] -> ?seq:empty();
+                        true -> 
+                           case ?seq:is_sequence(Base) of
+                              true ->
+                                 Base;
+                              _ ->
+                                 ?seq:singleton(Base)
+                           end
+                     end;
                   #xqDocumentNode{base_uri = Base} ->
                      if Base == [] -> ?seq:empty();
                         true -> 
@@ -1003,6 +1013,16 @@ avg1([H|T], Sum, Count) ->
                   #xqAttributeNode{parent_node = P} ->
                      case xqerl_node:get_node(#xqNode{frag_id = F, identity = P}) of
                         #xqElementNode{base_uri = PBase} ->
+                           if PBase == [] -> ?seq:empty();
+                              true -> 
+                                 case ?seq:is_sequence(PBase) of
+                                    true ->
+                                       PBase;
+                                    _ ->
+                                       ?seq:singleton(PBase)
+                                 end
+                           end;
+                        #xqProcessingInstructionNode{base_uri = PBase} ->
                            if PBase == [] -> ?seq:empty();
                               true -> 
                                  case ?seq:is_sequence(PBase) of

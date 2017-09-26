@@ -357,7 +357,7 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
          if Type == 'item' ->
                Seq;
             Type == 'xs:numeric' ->
-               ?dbg(?LINE,{Type,AType}),
+               %?dbg(?LINE,{Type,AType}),
                cast_as_seq(Seq,TargetSeqType#xqSeqType{type = 'xs:double'});
             AType == 'xs:anySimpleType' andalso Type == 'xs:anyAtomicType' ->
                Seq;
@@ -385,7 +385,13 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
             AType == 'xs:untypedAtomic' ->
                cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:anyURI' andalso Type == 'xs:string' ->
+               %?dbg(?FUNCTION_NAME,?LINE),
+               %xqerl_error:error('XPTY0004');
                cast_as_seq(Seq,TargetSeqType);
+            Type == 'xs:anyURI' andalso AType == 'xs:string' ->
+               ?dbg(?FUNCTION_NAME,?LINE),
+               xqerl_error:error('XPTY0004');
+               %cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:string' andalso ?numeric(Type) ->
                ?dbg(?FUNCTION_NAME,?LINE),
                xqerl_error:error('XPTY0004');
@@ -414,7 +420,8 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
                ?dbg(?FUNCTION_NAME,?LINE),
                xqerl_error:error('XPTY0004');
             AType == 'xs:decimal' andalso Type =/= 'xs:integer' andalso ?numeric(Type) -> % loss of precision
-               cast_as_seq(Seq,TargetSeqType);
+               xqerl_error:error('XPTY0004');
+               %cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:decimal' andalso Type =/= 'xs:integer' ->
                ?dbg(?FUNCTION_NAME,?LINE),
                ?dbg("as_seq AType,Type", {?LINE,AType,Type,TargetSeqType}),

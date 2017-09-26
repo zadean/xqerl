@@ -113,10 +113,9 @@ qname(var, {qname,default,"",Ln}) ->
    qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,_,"err",Ln}) ->
    {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
-%% qname(var, {qname,undefined,Px,Ln}) ->
-%%    %?dbg("qname(var", {Px,Ln}),
-%%    Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-%%    qname(var, {qname,Ns,Px,Ln});
+qname(var, {qname,undefined,Px,Ln}) ->
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+   qname(var, {qname,Ns,Px,Ln});
 qname(var, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
@@ -452,7 +451,7 @@ yecctoken2string(Other) ->
 
 
 
--file("C:/git/zadean/xqerl/src/xqerl_parser.erl", 455).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.erl", 454).
 
 -dialyzer({nowarn_function, yeccpars2/7}).
 yeccpars2(0=S, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -33502,7 +33501,7 @@ yeccpars2_420_(__Stack0) ->
 yeccpars2_425_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
-   value_of ( __1 )
+   string : trim ( value_of ( __1 ) )
   end | __Stack].
 
 -compile({inline,yeccpars2_426_/1}).
@@ -34296,7 +34295,7 @@ yeccpars2_647_(__Stack0) ->
 yeccpars2_665_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqVar { id = next_id ( ) , name = __3 , external = true }
+   # xqVar { id = next_id ( ) , name = qname ( var , __3 ) , external = true }
   end | __Stack].
 
 -compile({inline,yeccpars2_667_/1}).
@@ -34304,7 +34303,7 @@ yeccpars2_665_(__Stack0) ->
 yeccpars2_667_(__Stack0) ->
  [__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqVar { id = next_id ( ) , name = __3 , external = true , value = __6 }
+   # xqVar { id = next_id ( ) , name = qname ( var , __3 ) , external = true , value = __6 }
   end | __Stack].
 
 -compile({inline,yeccpars2_669_/1}).
@@ -34312,7 +34311,7 @@ yeccpars2_667_(__Stack0) ->
 yeccpars2_669_(__Stack0) ->
  [__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqVar { id = next_id ( ) , name = __3 , value = __5 }
+   # xqVar { id = next_id ( ) , name = qname ( var , __3 ) , value = __5 }
   end | __Stack].
 
 -compile({inline,yeccpars2_672_/1}).
@@ -34320,7 +34319,7 @@ yeccpars2_669_(__Stack0) ->
 yeccpars2_672_(__Stack0) ->
  [__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqVar { id = next_id ( ) , name = __3 , type = __4 , external = true }
+   # xqVar { id = next_id ( ) , name = qname ( var , __3 ) , type = __4 , external = true }
   end | __Stack].
 
 -compile({inline,yeccpars2_674_/1}).
@@ -34328,7 +34327,7 @@ yeccpars2_672_(__Stack0) ->
 yeccpars2_674_(__Stack0) ->
  [__7,__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqVar { id = next_id ( ) , name = __3 , type = __4 , external = true , value = __7 }
+   # xqVar { id = next_id ( ) , name = qname ( var , __3 ) , type = __4 , external = true , value = __7 }
   end | __Stack].
 
 -compile({inline,yeccpars2_675_/1}).
@@ -34336,7 +34335,7 @@ yeccpars2_674_(__Stack0) ->
 yeccpars2_675_(__Stack0) ->
  [__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqVar { id = next_id ( ) , name = __3 , type = __4 , value = __6 }
+   # xqVar { id = next_id ( ) , name = qname ( var , __3 ) , type = __4 , value = __6 }
   end | __Stack].
 
 -compile({inline,yeccpars2_676_/1}).
@@ -35715,7 +35714,7 @@ yeccpars2_960_(__Stack0) ->
 yeccpars2_965_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   { 'function-call' , { name , qname ( func , __3 ) } , { arity , length ( [ __1 | __4 ] ) } , { args , [ __1 | __4 ] } }
+   { 'function-call' , qname ( func , __3 ) , length ( [ __1 | __4 ] ) , [ __1 | __4 ] }
   end | __Stack].
 
 -compile({inline,yeccpars2_970_/1}).
@@ -35813,9 +35812,9 @@ yeccpars2_987_(__Stack0) ->
  [begin
    case lists : any ( fun ( A ) -> A == '?' end , __2 ) of
     true ->
-    { 'partial-function-call' , { name , qname ( func , __1 ) } , { arity , length ( __2 ) } , { args , __2 } } ;
+    { 'partial-function-call' , qname ( func , __1 ) , length ( __2 ) , __2 } ;
     _ ->
-    { 'function-call' , { name , qname ( func , __1 ) } , { arity , length ( __2 ) } , { args , __2 } }
+    { 'function-call' , qname ( func , __1 ) , length ( __2 ) , __2 }
     end
   end | __Stack].
 
@@ -36372,7 +36371,7 @@ yeccpars2_1109_(__Stack0) ->
 yeccpars2_1111_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   { 'function-call' , { name , # qname { namespace = "http://www.w3.org/2005/xpath-functions" , local_name = "concat" } } , { arity , 2 } , { args , [ __1 , __3 ] } }
+   { concat , __1 , __3 }
   end | __Stack].
 
 -compile({inline,yeccpars2_1112_/1}).
@@ -36634,4 +36633,4 @@ yeccpars2_1153_(__Stack0) ->
   end | __Stack].
 
 
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1855).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1854).

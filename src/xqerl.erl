@@ -16,6 +16,17 @@
 -export([compile/1]). 
 -export([compile_main/1]). 
 
+
+-record(module, {key,
+                 text,
+                 bin,
+                 variables,
+                 functions,
+                 stamp,
+                 imports
+                 }).
+
+
 compile(FileName) ->
    % saving the docs between runs to not have to reparse
    Docs = erlang:get('available-documents'),
@@ -34,6 +45,14 @@ compile(FileName) ->
       {ok,M,B} ->
 %         ?dbg("Mod name",M),
 %         print_erl(M,B),   
+         Rec = #module{key = {library,M,FileName},
+                       text = Bin,
+                       bin = B,
+                       stamp = erlang:system_time()},
+         Add = fun() ->
+                     mnesia:write(Rec)
+               end,
+         {atomic, ok} = mnesia:transaction(Add),
          code:load_binary(M, M, B);
       Other ->
          ?dbg("Mod error",Other),
@@ -42,6 +61,16 @@ compile(FileName) ->
    erlang:erase(),
    erlang:put('available-documents', Docs),
    ok.   
+
+%%  f() ->
+%%     F = fun() ->
+%%           mnesia:write({foo, 1, 2}),
+%%           mnesia:write({foo, 1, 3}),
+%%           mnesia:read({foo, 1})
+%%         end,
+%%     mnesia:transaction(F).
+
+
 
 run(Str) -> run(Str, []).
 
@@ -60,7 +89,8 @@ run(Str, Options) ->
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
 %      ?dbg("Tree",Tree),
-      Abstract = scan_tree(Tree),
+      Static = scan_tree_static(Tree),
+      Abstract = scan_tree(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
 %      print_erl(B),
@@ -135,6 +165,19 @@ scan_tree(Tree) ->
          xqerl_error:error('XPST0003')
    end.
 
+scan_tree_static(Tree) ->
+   try xqerl_static:handle_tree(Tree) of
+      Abstract ->
+         Abstract
+   catch
+      _:#xqError{} = E ->
+         ?dbg("scan_tree",E),
+         throw(E);
+      _:E ->
+         ?dbg("scan_tree",E),
+         xqerl_error:error('XPST0003')
+   end.
+
 % ok | error
 compile_abstract(Abstract) ->
    {ok, Mod1, _} = erl_scan:string("-module('xqerl_main')."),
@@ -196,11 +239,12 @@ trun(Str) ->
 %      ?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
-      ?dbg("Tree",Tree),
-      Abstract = xqerl_abs:scan_mod(Tree),
+%      ?dbg("Tree",Tree),
+      Static = xqerl_static:handle_tree(Tree),
+      Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
-%      print_erl(B),
+      print_erl(B),
       erlang:erase(),
       erlang:put('available-documents', Docs),
       xqerl_main:main([]).

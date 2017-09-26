@@ -439,6 +439,7 @@ modulo(Arg1, Arg2) ->
          end
    end.
 
+equal(undefined, undefined) -> ?seq:empty(); %op_numeric_equal_SUITE ?sing(?bool(true));
 equal([], []) -> ?seq:empty(); %op_numeric_equal_SUITE ?sing(?bool(true));
 equal([], _) -> ?seq:empty(); % prod_ValueComp_SUITE
 equal(_, []) -> ?seq:empty();

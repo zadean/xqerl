@@ -214,6 +214,7 @@
          id = -1 :: integer(),
          annotations = []  :: [ #annotation{} ], 
          name :: #'qname'{},
+         %type = undefined,
          type = #xqSeqType{},
          value = undefined :: term(),
          expr  = undefined :: term(),
@@ -341,7 +342,7 @@
       identity     = undefined :: term(),
       name         = undefined :: #qname{} | term(),
       parent_node  = undefined :: term(),
-      string_value = ""        :: string(),
+      base_uri     = ""        :: string() | #xqAtomicValue{},
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
    }).

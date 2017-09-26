@@ -561,12 +561,12 @@ Left  2000  '[' ']' '?'.
 'Annotation'             -> '%' 'EQName'                       : {annotation, {qname(anno, '$2'), []}}.
 
 %% 
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = '$3', 'type' = '$4', 'external' = true, 'value' = '$7'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external'                         : #xqVar{id = next_id(), 'name' = '$3', 'type' = '$4', 'external' = true}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = '$3', 'type' = '$4', 'value' = '$6'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = '$3', 'external' = true, 'value' = '$6'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external'                         : #xqVar{id = next_id(), 'name' = '$3', 'external' = true}.
-'VarDecl'                -> 'variable' '$' 'VarName' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = '$3', 'value' = '$5'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true, 'value' = '$7'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external'                         : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'value' = '$6'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true, 'value' = '$6'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external'                         : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true}.
+'VarDecl'                -> 'variable' '$' 'VarName' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'value' = '$5'}.
 
 'VarValue'               -> 'ExprSingle' : '$1'.
 'VarDefaultValue'        -> 'ExprSingle' : '$1'.
@@ -910,7 +910,7 @@ Left  2000  '[' ']' '?'.
 'ComparisonExpr'         -> 'StringConcatExpr' 'NodeComp'    'StringConcatExpr' : {'$2', '$1', '$3'}.
 'ComparisonExpr'         -> 'StringConcatExpr' : '$1'.
 % [86]
-'StringConcatExpr'       -> 'RangeExpr' '||' 'StringConcatExpr' : {'function-call', {name, #qname{namespace = "http://www.w3.org/2005/xpath-functions", local_name="concat"}},{arity, 2}, {args, ['$1', '$3']}}.
+'StringConcatExpr'       -> 'RangeExpr' '||' 'StringConcatExpr' : {'concat', '$1', '$3'}.
 %% {'concat', ['$1', '$3']}.
 'StringConcatExpr'       -> 'RangeExpr' : '$1'.
 % [87] 
@@ -949,7 +949,7 @@ Left  2000  '[' ']' '?'.
 'CastExpr'               -> 'ArrowExpr' 'cast' 'as' 'SingleType' : {'cast_as', '$1', '$4'}.
 'CastExpr'               -> 'ArrowExpr' : '$1'.
 % [96]     ArrowExpr      ::=      UnaryExpr ( "=>" ArrowFunctionSpecifier ArgumentList )*  
-'ArrowExpr'              -> 'ArrowExpr' '=>' 'ArrowFunctionSpecifier' 'ArgumentList' : {'function-call', {'name',  qname(func, '$3')},{arity, length(['$1'|'$4'])}, {args, ['$1'|'$4']}}.
+'ArrowExpr'              -> 'ArrowExpr' '=>' 'ArrowFunctionSpecifier' 'ArgumentList' : {'function-call', qname(func, '$3'),length(['$1'|'$4']), ['$1'|'$4']}.
 'ArrowExpr'              -> 'UnaryExpr' : '$1'.
 
 
@@ -1201,9 +1201,9 @@ Left  2000  '[' ']' '?'.
 'FunctionCall'           -> 'EQName' 'ArgumentList' : 
          case lists:any(fun(A) -> A == '?' end, '$2') of
             true ->
-               {'partial-function-call', {name, qname(func, '$1')},{arity, length('$2')}, {args, '$2'}};
+               {'partial-function-call', qname(func, '$1'),length('$2'),  '$2'};
             _ ->
-               {'function-call', {name, qname(func, '$1')},{arity, length('$2')}, {args, '$2'}}
+               {'function-call', qname(func, '$1'),length('$2'), '$2'}
          end.
 % [138]    Argument    ::=      ExprSingle | ArgumentPlaceholder 
 'Argument'               -> 'ExprSingle' : '$1'.
@@ -1550,7 +1550,7 @@ Left  2000  '[' ']' '?'.
 % [216]    ParenthesizedItemType      ::=      "(" ItemType ")"  
 'ParenthesizedItemType'  -> '(' 'ItemType' ')' : '$2'.
 % [217]    URILiteral     ::=      StringLiteral  
-'URILiteral'             -> 'StringLiteral' : value_of('$1').
+'URILiteral'             -> 'StringLiteral' : string:trim(value_of('$1')).
 %'URILiteral'             -> 'StringLiteral' : [{bin_element,?L,{string,?L,value_of('$1')},default,default}].
 % [218]    EQName      ::=      QName | URIQualifiedName
 'EQName'                 -> 'PrefixedName' : '$1'.
@@ -1687,10 +1687,9 @@ qname(var, {qname,default,"",Ln}) ->
    qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,_,"err",Ln}) ->
    {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
-%% qname(var, {qname,undefined,Px,Ln}) ->
-%%    %?dbg("qname(var", {Px,Ln}),
-%%    Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-%%    qname(var, {qname,Ns,Px,Ln});
+qname(var, {qname,undefined,Px,Ln}) ->
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+   qname(var, {qname,Ns,Px,Ln});
 qname(var, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 

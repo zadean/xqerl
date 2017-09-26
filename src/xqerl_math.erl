@@ -293,17 +293,18 @@
          #xqAtomicValue{value = X1} = ?seq:singleton_value(X),
          #xqAtomicValue{value = Y1} = ?seq:singleton_value(Y),
          Av =case {X1,Y1} of
-               {"INF",0} ->
+               {"INF",Y1} when Y1 == 0 ->
                   #xqAtomicValue{type='xs:double', value= 1.0};
-               {"-INF",0} ->
+               {"-INF",Y1} when Y1 == 0 ->
                   #xqAtomicValue{type='xs:double', value= 1.0};
-               {"NaN",0} ->
+               {"NaN",Y1} when Y1 == 0 ->
                   #xqAtomicValue{type='xs:double', value= 1.0};
                {X1,Y1} when X1 == 0, Y1 <0 ->
                   #xqAtomicValue{type='xs:double', value= "INF"}; % -0 missing should give -INF
                {X1,_} when abs(X1) == 1 ->
                   #xqAtomicValue{type='xs:double', value= 1.0};
                _ ->
+                  %?dbg("{X1,Y1}",{X1,Y1}),
                   case catch math:pow(X1, Y1) of
                      {'EXIT',_} ->
                         #xqAtomicValue{type='xs:double', value="NaN"};

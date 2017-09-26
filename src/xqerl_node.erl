@@ -206,7 +206,7 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
 %%                  end, Content).
 
 % returns {Id, Sz,Ctx2}
-handle_content(Ctx, Parent, #xqElementNode{name = QName, expr = Content, inscope_ns = ElemNs} = N, INs, Sz) ->
+handle_content(Ctx, Parent, #xqElementNode{name = QName, expr = Content, inscope_ns = ElemNs, base_uri = BU} = N, INs, Sz) ->
    %?dbg("N",N),
    %?dbg("INs",INs),
    %?dbg("ElemNs",ElemNs),
@@ -356,10 +356,10 @@ handle_content(Ctx, Parent, #xqElementNode{name = QName, expr = Content, inscope
    Node = N#xqElementNode{identity = Id, 
                           parent_node = Parent, 
                           name = QName1, 
-                          %base_uri = BaseUri1, set after content resolved
+                          %base_uri = BaseUri1,
                           expr = undefined, 
                           inscope_ns = NewNs1},
-   Ctx2 = add_node(Ctx1, Id, Node),
+   Ctx2 = (add_node(Ctx1, Id, Node))#{base_uri => BU},
    %?dbg("N",N),
    %?dbg("Node",Node),
    {Children, Sz1, Ctx3} = handle_contents(Ctx2, Id, NameSpaces ++ NonNameSpaces, NewNs1, 0),
@@ -369,7 +369,9 @@ handle_content(Ctx, Parent, #xqElementNode{name = QName, expr = Content, inscope
 %%    _ = lists:foreach(Fun, List),
    % base-uri will come from the children
    Ctx4 = set_node_children(Ctx3, Id, Children, Sz1),
-   Ctx5 = set_node_base_uri(Ctx4, Id),
+   %?dbg(?LINE,Ctx4),
+   Ctx5 = set_node_base_uri(Ctx4, [Id|Children]),
+   %?dbg(?LINE,Ctx5),
    {Id, Sz1 + Sz + 1,Ctx5};
 
 handle_content(Ctx, _Parent, #xqDocumentNode{expr = Content} = N, INs, Sz) ->
@@ -395,7 +397,7 @@ handle_content(Ctx, _Parent, #xqDocumentNode{expr = Content} = N, INs, Sz) ->
    Ctx2 = add_node(Ctx1, Id, Node),
    {Children, Sz1, Ctx3} = handle_contents(Ctx2, Id, Content2, INs, 0),
    Ctx4 = set_node_children(Ctx3, Id, Children, Sz1),
-   Ctx5 = set_node_base_uri(Ctx4, Id),
+   Ctx5 = set_node_base_uri(Ctx4, [Id|Children]),
    {Id, Sz1 + Sz + 1,Ctx5};
 
 handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, INs, Sz) ->
@@ -759,20 +761,27 @@ set_node_children(Ctx, Id, Children, Sz) ->
             Ctx).
 
 % returns new Ctx
-set_node_base_uri(Ctx, Id) ->
+set_node_base_uri(Ctx, Ids) ->
    Nodes   = maps:get(nodes, Ctx),
    BaseUri = maps:get(base_uri, Ctx),
-   Node = gb_trees:get(Id, Nodes),
-   Node2 = case Node of
-              #xqDocumentNode{} ->
-                 Node#xqDocumentNode{base_uri = BaseUri};
-              #xqElementNode{} ->
-                 Node#xqElementNode{base_uri = BaseUri}
-           end,
-   maps:put(nodes, 
-            gb_trees:enter(Id, Node2, Nodes),
-            %array:set(Id, Node2, Nodes),
-            Ctx).
+   ?dbg(?LINE, BaseUri),
+   ?dbg(?LINE, Ids),
+   lists:foldl(fun(Id,Ctx1) ->
+                  Node = gb_trees:get(Id, Nodes),
+                  Node2 = case Node of
+                             #xqDocumentNode{} ->
+                                Node#xqDocumentNode{base_uri = BaseUri};
+                             #xqElementNode{} ->
+                                Node#xqElementNode{base_uri = BaseUri};
+                             #xqProcessingInstructionNode{} ->
+                                Node#xqProcessingInstructionNode{base_uri = BaseUri};
+                             _ ->
+                                Node
+                          end,
+                  maps:put(nodes, 
+                           gb_trees:enter(Id, Node2, maps:get(nodes, Ctx1)),
+                           Ctx1)
+               end, Ctx, Ids).
 
 merge_ns(NewNs, OldNs) ->
    Combined = [{N2,P2} || #xqNamespaceNode{name = #qname{namespace = N2, prefix = P2}} <- lists:usort(NewNs)] ++

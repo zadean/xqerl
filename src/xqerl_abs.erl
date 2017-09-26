@@ -39,16 +39,6 @@
 
 -include("xqerl.hrl").
 
-valid_enc("US-ASCII") -> true;
-valid_enc("ISO-8859-1") -> true;
-valid_enc("UTF-16") -> true;
-valid_enc("UTF-8") -> true;
-valid_enc(_) -> xqerl_error:error('XQST0087').
-
-valid_ver("1.0") -> true;
-valid_ver("3.0") -> true;
-valid_ver("3.1") -> true;
-valid_ver(_) -> xqerl_error:error('XQST0031').
 
 init_mod_scan() ->
    erlang:put(imp_mod, 1),
@@ -57,234 +47,112 @@ init_mod_scan() ->
    erlang:put(iter, 1),
    erlang:put(iter_loop, 1).
 
-pro_def_elem_ns(Prolog) ->
-   D = lists:filtermap(fun({'element-namespace', E}) ->
-                             {true,E};
-                          (_) -> 
-                             false
-                       end, Prolog),
-   if D == [] ->
-         'no-namespace';
-      length(D) > 1 ->
-         xqerl_error:error('XQST0066');
-      true ->
-         lists:flatten(D)
-   end.
+%% {Name, Type, Annos, function_name, Arity, [param_types] }
+scan_functions(Functions) ->
+   %?dbg("Functions",Functions),
+   Specs = [ {Name, % Name#qname{namespace = xqerl_context:get_statically_known_namespace_from_prefix(Name#qname.prefix)}, 
+              Type, Annos, function_function_name(Id, Arity), Arity, param_types(Params) } 
+           || #xqFunction{id = Id, 
+                          annotations = Annos, 
+                          arity = Arity,
+                          params = Params,
+                          name = Name, 
+                          type = Type} 
+           <- Functions,
+              % block private functions from being visible
+              not lists:any(fun({annotation, #qname{namespace = "http://www.w3.org/2012/xquery", local_name = "private"}, _}) ->
+                                  true;
+                               (_) ->
+                                  false
+                            end, Annos)   ],
+   %xqerl_context:import_functions(Specs),
+   %xqerl_context:set_statically_known_functions(Specs),
+   [attribute(functions, Specs)].
 
-pro_def_func_ns(Prolog) ->
-   D = lists:filtermap(fun({'function-namespace', E}) ->
-                             {true,E};
-                          (_) -> 
-                             false
-                       end, Prolog),
-   if length(D) > 1 ->
-         xqerl_error:error('XQST0066');
-      true ->
-         ok
-   end.
+%% {Name, Type, Annos, function_name] }
+scan_variables(State, Variables) ->
+   Specs = [begin
+               Name1 = resolve_qname(Name, State),
+               {Name1, Type, Annos, variable_function_name(Name1) }
+            end
+           || #xqVar{id = _Id, 
+                     annotations = Annos, 
+                     name = Name, 
+                     type = Type} 
+           <- Variables   ],
+   xqerl_context:import_variables(Specs),
+   %xqerl_context:set_in_scope_variables(Specs),
+   [attribute(variables, Specs)].
 
-pro_context_item(Prolog, library) ->
-   D = lists:filter(fun({'context-item', _}) ->
-                          true;
-                       (_) ->
-                          false
-                    end, Prolog),
-   if length(D) > 0 ->
-         xqerl_error:error('XQST0113');
-      true ->
-         D
-   end;
-pro_context_item(Prolog, main) ->
-   D = lists:filter(fun({'context-item', _}) ->
-                          true;
-                       (_) ->
-                          false
-                    end, Prolog),
-   if length(D) > 1 ->
-         xqerl_error:error('XQST0099');
-      true ->
-         D
-   end.
-
-pro_setters(Prolog) ->
-   lists:filtermap(fun({'set', E}) -> {true,E};
-                   (_) -> false
-                end, Prolog).
-
-pro_namespaces(Prolog,ModNsPx,DefElNs) ->
-   Namespaces = [{DefElNs,[]}|
-                   lists:filtermap(fun({'namespace', N}) -> {true,N};
-                                      ({'module-import', N}) -> {true,N};
-                                      (_) -> false
-                                   end, Prolog)],
-   Namespaces1 = if ModNsPx == [] ->
-                       Namespaces;
-                    true ->
-                       [ModNsPx|Namespaces]
-                 end,
-   % check for dup prefixes
-   _ = lists:foldl(fun({_,Px},Dict) ->
-                         case dict:is_key(Px, Dict) of
-                            true ->
-                               xqerl_error:error('XQST0033');
-                            _ ->
-                               dict:append(Px, Px, Dict)
-                         end
-                   end, dict:new(), Namespaces1),
-   % check for overwritten namespaces
-   _ = lists:foreach(fun({"http://www.w3.org/2000/xmlns/",_}) ->
-                         xqerl_error:error('XQST0070');
-                      ({"http://www.w3.org/XML/1998/namespace",_}) ->
-                         xqerl_error:error('XQST0070');
-                      (_) ->
-                         ok
-                   end, Namespaces1),
-   Namespaces1.
-
-pro_mod_imports(Prolog) ->
-   Imports = lists:filtermap(fun({'module-import', E}) -> {true,E};
-                             (_) -> false
-                          end, Prolog),
-   % check for dup imports
-   _ = lists:foldl(fun({Ns,_},Dict) ->
-                         case dict:is_key(Ns, Dict) of
-                            true ->
-                               xqerl_error:error('XQST0047');
-                            _ ->
-                               dict:append(Ns, ok, Dict)
-                         end
-                   end, dict:new(), Imports),
-   Imports.
-
-pro_options(Prolog) ->
-   lists:filtermap(fun({'option', E}) -> {true,E};
-                      (_) -> false
-                   end, Prolog).
-
-pro_glob_variables(Prolog) ->
-   Variables = lists:filter(fun(#xqVar{}) -> true;
-                               (_) -> false
-                            end, Prolog),
-   % check for dup vars
-   _ = lists:foldl(fun(#xqVar{name = Nm, annotations = Annos},Dict) ->
-                        % check reserved annotation NS http://www.w3.org/2012/xquery
-                        _ = lists:foreach(fun({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery", 
-                                                                  local_name = L},_}}) when L == "public";
-                                                                                            L == "private" ->
-                                                ok;
-                                             ({annotation,{#qname{namespace = N},_}}) ->
-                                                ok = reserved_namespaces(N)
-                                             
-                                          end, Annos),
-                         case dict:is_key(Nm, Dict) of
-                            true ->
-                               xqerl_error:error('XQST0049');
-                            _ ->
-                               dict:append(Nm, ok, Dict)
-                         end
-                   end, dict:new(), Variables),
-   Variables.
-
-pro_glob_functions(Prolog) ->
-   Functions = lists:filter(fun(#xqFunction{}) -> true;
-                               (_) -> false
-                            end, Prolog),
-   % check for dup funs, reserved namespaces, dup params
-   _ = lists:foldl(fun(#xqFunction{name = #qname{namespace = Ns} = Nm, 
-                                   annotations = Annos,
-                                   arity = A,
-                                   params = Params},Dict) ->
-                         % check for dup params
-                        _ = lists:foldl(fun(#xqVar{name = Nm1},Dict1) ->
-                                           case dict:is_key(Nm1, Dict1) of
-                                              true ->
-                                                 xqerl_error:error('XQST0039');
-                                              _ ->
-                                                 dict:append(Nm1, ok, Dict1)
-                                           end
-                                     end, dict:new(), Params),
-                        % check reserved NS 
-                        ok = reserved_namespaces(Ns),
-                        % check reserved annotation NS 
-                        _ = lists:foreach(fun({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery", 
-                                                                  local_name = L},_}}) when L == "public";
-                                                                                            L == "private" ->
-                                                ok;
-                                             ({annotation,{#qname{namespace = N},_}}) ->
-                                                ok = reserved_namespaces(N)
-                                          end, Annos),
-                        % check dup fun
-                         case dict:is_key({Nm,A}, Dict) of
-                            true ->
-                               xqerl_error:error('XQST0034');
-                            _ ->
-                               dict:append({Nm,A}, ok, Dict)
-                         end
-                   end, dict:new(), Functions),
-   Functions.
-
-overwrite_static_namespaces(StaticNamespaces, LocalNamespaces) ->
-   lists:foldl(fun({Ns,Px},List) ->
-                     lists:keystore(Px, 1, List, {Px,Ns})
-               end, StaticNamespaces, LocalNamespaces).
-
+scan_mod(Map) when is_map(Map) ->
+   scan_mod(maps:get(body, Map), maps:remove(body, Map)).
+   
 scan_mod(#xqModule{version = {Version,Encoding}, 
                    prolog = Prolog, 
                    declaration = {_,{ModNs,_Prefix} = ModNsPx}, 
                    type = library,
-                   body = _}) ->
-   _ = valid_ver(Version),
-   _ = valid_enc(string:to_upper(Encoding)),      
+                   body = _},Map) ->
+%%    _ = valid_ver(Version),
+%%    _ = valid_enc(string:to_upper(Encoding)),      
    _ = init_mod_scan(),
-   DefElNs     = pro_def_elem_ns(Prolog),
-   _           = pro_def_func_ns(Prolog),
-   ContextItem = pro_context_item(Prolog,library),
-   Setters     = pro_setters(Prolog),
-   Namespaces  = pro_namespaces(Prolog,ModNsPx,DefElNs),
-   Imports     = pro_mod_imports(Prolog),
-   Options     = pro_options(Prolog),
-   Variables   = pro_glob_variables(Prolog),
-   Functions   = pro_glob_functions(Prolog),
-   
+   DefElNs     = xqerl_static:pro_def_elem_ns(Prolog),
+%%    _           = pro_def_func_ns(Prolog),
+   ContextItem = xqerl_static:pro_context_item(Prolog,main),
+%%    Setters     = pro_setters(Prolog),
+   Namespaces  = xqerl_static:pro_namespaces(Prolog,[],DefElNs),
+%%    Imports     = pro_mod_imports(Prolog),
+%%    Options     = pro_options(Prolog),
+   Variables   = xqerl_static:pro_glob_variables(Prolog),
+   Functions   = xqerl_static:pro_glob_functions(Prolog),
    StaticNamespaces = xqerl_context:static_namespaces(),
-   ConstNamespaces  = overwrite_static_namespaces(StaticNamespaces, Namespaces),
-   {Functions1, Variables1} = xqerl_context:import_modules(Imports),
-
+   ?dbg("{Variables}",{Variables}),
+   ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, Namespaces),
+%%    {Functions1, Variables1} = xqerl_context:import_modules(Imports),
+   %io:format("{Functions1, Variables1}: ~p~n",[{Functions1, Variables1}]),
+   % analyze for cyclical references
+%%    true = analyze_fun_vars(Functions, Variables),
    %?dbg("DefElNs",DefElNs),
    %?dbg("Namespaces",Namespaces),
    %?dbg("StaticNamespaces",StaticNamespaces),
    %?dbg("ConstNamespaces",ConstNamespaces),
-   
    %?dbg("Functions1",Functions1),
-   % analyze for cyclical references
-   true = analyze_fun_vars(Functions, Variables),
-   
-   SettersAbs = scan_setters(Setters),
-   NamespaceAbs = scan_namespaces(Namespaces),
-   OptionAbs = scan_options(Options,library),
-   ok = xqerl_context:import_variables(Variables1),
-   ok = xqerl_context:import_functions(Functions1),
+  
+%%    SettersAbs = scan_setters(Setters),
+%%    NamespaceAbs = scan_namespaces(Namespaces),
+%%    OptionAbs = scan_options(Options),
    FunctionAbs = scan_functions(Functions),
-   SetterMap = lists:foldl(fun({_,_,S,V},M) ->
-                                 maps:put(S, V, M)
-                           end, maps:new(), SettersAbs),
-   EmptyMap = maps:put(namespaces, ConstNamespaces, 
-                       maps:put(variables, [], 
-                       maps:put(var_tuple, [], 
-                       maps:put(iter, [], 
-                       maps:put(iter_loop, [], 
-                          maps:put(ctx_var, 'Ctx0', 
-                                maps:put(parameters, [], 
-                                         SetterMap))))))),
-   VariableAbs = scan_variables(Variables, EmptyMap),
-   [attribute(module, list_to_atom(ModNs)),
-    attribute('module-namespace', ModNsPx),
-    attribute('import-functions', Functions1),
-    attribute('import-variables', Variables1),
-    attribute('element-namespace', DefElNs),
-    attribute('context-item', if_empty(ContextItem, {'item', 'external', 'undefined'}))
-   ] ++ SettersAbs ++ NamespaceAbs ++
-   OptionAbs ++ VariableAbs ++
+%%    ok = xqerl_context:import_variables(Variables1),
+%%    ok = xqerl_context:import_functions(Functions1),
+%%    SetterMap = lists:foldl(fun({_,_,S,V},M) ->
+%%                                  maps:put(S, V, M)
+%%                            end, maps:new(), SettersAbs),
+   EmptyMap = #{namespaces => ConstNamespaces,
+                variables => [],
+                var_tuple => [],
+                iter => [],
+                iter_loop => [],
+                ctx_var => 'Ctx0',
+                parameters => [],
+                'boundary-space' => strip,
+                'construction-mode' => preserve,
+                'default-collation' => "http://www.w3.org/2005/xpath-functions/collation/codepoint",
+                'base-uri' => xqerl_context:get_static_base_uri(),
+                'ordering-mode' => ordered,
+                'empty-seq-order' => greatest,
+                'copy-namespaces' => {preserve, 'no-inherit'}
+               }, 
+
+   VariableAbs = scan_variables(EmptyMap,Variables),
+%%    [attribute('element-namespace', DefElNs),
+%%     attribute('import-functions', Functions1),
+%%     attribute('import-variables', Variables1),
+%%     attribute('context-item', if_empty(ContextItem, {'item', 'external', 'undefined'}))
+%%    ] ++ 
+%%    SettersAbs ++ 
+%%    NamespaceAbs ++
+%%    OptionAbs ++ 
+   [attribute(module, list_to_atom(ModNs))]++
+   VariableAbs ++
    FunctionAbs ++ 
    export_variables(Variables, EmptyMap) 
    ++
@@ -294,60 +162,116 @@ scan_mod(#xqModule{version = {Version,Encoding},
    ++ 
    function_functions(EmptyMap, Functions);
 
+%%    _ = valid_ver(Version),
+%%    _ = valid_enc(string:to_upper(Encoding)),      
+%%    _ = init_mod_scan(),
+%%    DefElNs     = pro_def_elem_ns(Prolog),
+%%    _           = pro_def_func_ns(Prolog),
+%%    ContextItem = pro_context_item(Prolog,library),
+%%    Setters     = pro_setters(Prolog),
+%%    Namespaces  = pro_namespaces(Prolog,ModNsPx,DefElNs),
+%%    Imports     = pro_mod_imports(Prolog),
+%%    Options     = pro_options(Prolog),
+%%    Variables   = pro_glob_variables(Prolog),
+%%    Functions   = pro_glob_functions(Prolog),
+%%    
+%%    StaticNamespaces = xqerl_context:static_namespaces(),
+%%    ConstNamespaces  = overwrite_static_namespaces(StaticNamespaces, Namespaces),
+%%    {Functions1, Variables1} = xqerl_context:import_modules(Imports),
+%% 
+%%    %?dbg("DefElNs",DefElNs),
+%%    %?dbg("Namespaces",Namespaces),
+%%    %?dbg("StaticNamespaces",StaticNamespaces),
+%%    %?dbg("ConstNamespaces",ConstNamespaces),
+%%    
+%%    %?dbg("Functions1",Functions1),
+%%    % analyze for cyclical references
+%%    true = analyze_fun_vars(Functions, Variables),
+%%    
+%%    SettersAbs = xqerl_static:scan_setters(Setters),
+%%    NamespaceAbs = xqerl_static:scan_namespaces(Namespaces),
+%%    OptionAbs = xqerl_static:scan_options(Options,library),
+%%    ok = xqerl_context:import_variables(Variables1),
+%%    ok = xqerl_context:import_functions(Functions1),
+%%    FunctionAbs = xqerl_static:scan_functions(Functions),
+%%    SetterMap = lists:foldl(fun({_,_,S,V},M) ->
+%%                                  maps:put(S, V, M)
+%%                            end, maps:new(), SettersAbs),
+%%    EmptyMap = maps:put(namespaces, ConstNamespaces, 
+%%                        maps:put(variables, [], 
+%%                        maps:put(var_tuple, [], 
+%%                        maps:put(iter, [], 
+%%                        maps:put(iter_loop, [], 
+%%                           maps:put(ctx_var, 'Ctx0', 
+%%                                 maps:put(parameters, [], 
+%%                                          SetterMap))))))),
+%%    VariableAbs = xqerl_static:scan_variables(Variables, EmptyMap),
+%%    [attribute(module, list_to_atom(ModNs)),
+%%     attribute('module-namespace', ModNsPx),
+%%     attribute('import-functions', Functions1),
+%%     attribute('import-variables', Variables1),
+%%     attribute('element-namespace', DefElNs),
+%%     attribute('context-item', if_empty(ContextItem, {'item', 'external', 'undefined'}))
+%%    ] ++ SettersAbs ++ NamespaceAbs ++
+%%    OptionAbs ++ VariableAbs ++
+%%    FunctionAbs ++ 
+%%    export_variables(Variables, EmptyMap) 
+%%    ++
+%%    export_functions(Functions)
+%%    ++
+%%    variable_functions(EmptyMap, Variables) 
+%%    ++ 
+%%    function_functions(EmptyMap, Functions);
+
 scan_mod(#xqModule{version = {Version,Encoding}, 
                    prolog = Prolog, 
                    type = main, 
-                   body = Body}) ->
-   _ = valid_ver(Version),
-   _ = valid_enc(string:to_upper(Encoding)),      
+                   body = Body}, Map) ->
+%%    _ = valid_ver(Version),
+%%    _ = valid_enc(string:to_upper(Encoding)),      
    _ = init_mod_scan(),
-   DefElNs     = pro_def_elem_ns(Prolog),
-   _           = pro_def_func_ns(Prolog),
-   ContextItem = pro_context_item(Prolog,main),
-   Setters     = pro_setters(Prolog),
-   Namespaces  = pro_namespaces(Prolog,[],DefElNs),
-   Imports     = pro_mod_imports(Prolog),
-   Options     = pro_options(Prolog),
-   Variables   = pro_glob_variables(Prolog),
-   Functions   = pro_glob_functions(Prolog),
+   DefElNs     = xqerl_static:pro_def_elem_ns(Prolog),
+%%    _           = pro_def_func_ns(Prolog),
+   ContextItem = xqerl_static:pro_context_item(Prolog,main),
+%%    Setters     = pro_setters(Prolog),
+   Namespaces  = xqerl_static:pro_namespaces(Prolog,[],DefElNs),
+%%    Imports     = pro_mod_imports(Prolog),
+%%    Options     = pro_options(Prolog),
+   Variables   = xqerl_static:pro_glob_variables(Prolog),
+   Functions   = xqerl_static:pro_glob_functions(Prolog),
    StaticNamespaces = xqerl_context:static_namespaces(),
-   ConstNamespaces  = overwrite_static_namespaces(StaticNamespaces, Namespaces),
-   {Functions1, Variables1} = xqerl_context:import_modules(Imports),
+   ?dbg("{Variables}",{Variables}),
+   ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, Namespaces),
+%%    {Functions1, Variables1} = xqerl_context:import_modules(Imports),
    %io:format("{Functions1, Variables1}: ~p~n",[{Functions1, Variables1}]),
    % analyze for cyclical references
-   true = analyze_fun_vars(Functions, Variables),
+%%    true = analyze_fun_vars(Functions, Variables),
    %?dbg("DefElNs",DefElNs),
    %?dbg("Namespaces",Namespaces),
    %?dbg("StaticNamespaces",StaticNamespaces),
    %?dbg("ConstNamespaces",ConstNamespaces),
    %?dbg("Functions1",Functions1),
   
-   SettersAbs = scan_setters(Setters),
-   NamespaceAbs = scan_namespaces(Namespaces),
-   OptionAbs = scan_options(Options),
+%%    SettersAbs = scan_setters(Setters),
+%%    NamespaceAbs = scan_namespaces(Namespaces),
+%%    OptionAbs = scan_options(Options),
    FunctionAbs = scan_functions(Functions),
-   ok = xqerl_context:import_variables(Variables1),
-   ok = xqerl_context:import_functions(Functions1),
-   SetterMap = lists:foldl(fun({_,_,S,V},M) ->
-                                 maps:put(S, V, M)
-                           end, maps:new(), SettersAbs),
-   EmptyMap = maps:put(namespaces, ConstNamespaces, 
-                       maps:put(variables, [], 
-                       maps:put(var_tuple, [], 
-                       maps:put(iter, [], 
-                       maps:put(iter_loop, [], 
-                          maps:put(ctx_var, 'Ctx0', 
-                                maps:put(parameters, [], 
-                                         SetterMap))))))),
-   VariableAbs = scan_variables(Variables, EmptyMap),
-   [attribute('element-namespace', DefElNs),
-    attribute('import-functions', Functions1),
-    attribute('import-variables', Variables1),
-    attribute('context-item', if_empty(ContextItem, {'item', 'external', 'undefined'}))
-   ] ++ 
-   SettersAbs ++ 
-   NamespaceAbs ++
-   OptionAbs ++ 
+%%    ok = xqerl_context:import_variables(Variables1),
+%%    ok = xqerl_context:import_functions(Functions1),
+%%    SetterMap = lists:foldl(fun({_,_,S,V},M) ->
+%%                                  maps:put(S, V, M)
+%%                            end, maps:new(), SettersAbs),
+   EmptyMap = Map#{namespaces => ConstNamespaces}, 
+
+   VariableAbs = scan_variables(EmptyMap,Variables),
+%%    [attribute('element-namespace', DefElNs),
+%%     attribute('import-functions', Functions1),
+%%     attribute('import-variables', Variables1),
+%%     attribute('context-item', if_empty(ContextItem, {'item', 'external', 'undefined'}))
+%%    ] ++ 
+%%    SettersAbs ++ 
+%%    NamespaceAbs ++
+%%    OptionAbs ++ 
    VariableAbs ++
    FunctionAbs ++ 
    export_variables(Variables, EmptyMap) 
@@ -364,67 +288,67 @@ scan_mod(#xqModule{version = {Version,Encoding},
 body_function(ContextMap, Body, ContextItem) ->
    _ = erlang:put(ctx, 1),
 [
- {function,?L,get_namespaces,0,
-  [{clause,?L,
-    [],
-    [],
-    [
-    {call,2,
-      {remote,2,{atom,2,lists},{atom,2,foreach}},
-      [{'fun',2,
-        {clauses,
-         [{clause,2,
-           [{tuple,2,[{var,2,'Ns'},{var,2,'Px'}]}],
-           [],
-           [{call,3,
-             {remote,3,
-              {atom,3,xqerl_context},
-              {atom,3,add_statically_known_namespace}},
-             [{var,3,'Ns'},{var,3,'Px'}]}]}]}},
-       {call,4,
-        {remote,4,{atom,4,proplists},{atom,4,get_value}},
-        [{atom,4,namespaces},
-         {call,4,
-          {atom,4,module_info},
-          [{atom,4,attributes}]}]}]},
-    {call,2,
-      {remote,2,{atom,2,lists},{atom,2,foreach}},
-      [{'fun',2,
-        {clauses,
-         [{clause,2,
-           [{var,2,'Value'}],
-           [],
-           [{call,3,
-             {remote,3,
-              {atom,3,xqerl_context},
-              {atom,3,add_statically_known_function}},
-             [{var,3,'Value'}]}]}]}},
-       {op,?L,'++',
-        {call,4,
-        {remote,4,{atom,4,proplists},{atom,4,get_value}},
-        [{atom,4,functions},
-         {call,4,
-          {atom,4,module_info},
-          [{atom,4,attributes}]}]},
-        {call,4,
-        {remote,4,{atom,4,proplists},{atom,4,get_value}},
-        [{atom,4,'import-functions'},
-         {call,4,
-          {atom,4,module_info},
-          [{atom,4,attributes}]}]}
-        }
-       ]},
-     {call,2,
-      {remote,2,{atom,2,xqerl_context},{atom,2,set_default_element_type_namespace}},
-      [{call,4,
-        {remote,4,{atom,4,proplists},{atom,4,get_value}},
-        [{atom,4,'element-namespace'},
-         {call,4,
-          {atom,4,module_info},
-          [{atom,4,attributes}]}]}]}
-    ]}
- ]
-}, 
+%%  {function,?L,get_namespaces,0,
+%%   [{clause,?L,
+%%     [],
+%%     [],
+%%     [
+%%     {call,2,
+%%       {remote,2,{atom,2,lists},{atom,2,foreach}},
+%%       [{'fun',2,
+%%         {clauses,
+%%          [{clause,2,
+%%            [{tuple,2,[{var,2,'Ns'},{var,2,'Px'}]}],
+%%            [],
+%%            [{call,3,
+%%              {remote,3,
+%%               {atom,3,xqerl_context},
+%%               {atom,3,add_statically_known_namespace}},
+%%              [{var,3,'Ns'},{var,3,'Px'}]}]}]}},
+%%        {call,4,
+%%         {remote,4,{atom,4,proplists},{atom,4,get_value}},
+%%         [{atom,4,namespaces},
+%%          {call,4,
+%%           {atom,4,module_info},
+%%           [{atom,4,attributes}]}]}]},
+%%     {call,2,
+%%       {remote,2,{atom,2,lists},{atom,2,foreach}},
+%%       [{'fun',2,
+%%         {clauses,
+%%          [{clause,2,
+%%            [{var,2,'Value'}],
+%%            [],
+%%            [{call,3,
+%%              {remote,3,
+%%               {atom,3,xqerl_context},
+%%               {atom,3,add_statically_known_function}},
+%%              [{var,3,'Value'}]}]}]}},
+%%        {op,?L,'++',
+%%         {call,4,
+%%         {remote,4,{atom,4,proplists},{atom,4,get_value}},
+%%         [{atom,4,functions},
+%%          {call,4,
+%%           {atom,4,module_info},
+%%           [{atom,4,attributes}]}]},
+%%         {call,4,
+%%         {remote,4,{atom,4,proplists},{atom,4,get_value}},
+%%         [{atom,4,'import-functions'},
+%%          {call,4,
+%%           {atom,4,module_info},
+%%           [{atom,4,attributes}]}]}
+%%         }
+%%        ]},
+%%      {call,2,
+%%       {remote,2,{atom,2,xqerl_context},{atom,2,set_default_element_type_namespace}},
+%%       [{call,4,
+%%         {remote,4,{atom,4,proplists},{atom,4,get_value}},
+%%         [{atom,4,'element-namespace'},
+%%          {call,4,
+%%           {atom,4,module_info},
+%%           [{atom,4,attributes}]}]}]}
+%%     ]}
+%%  ]
+%% }, 
  {function,?L,main,1,
 [{clause,?L,[{var,?L,'Options'}],[],
 [{match,?L,{var,?L,'Ctx0'},
@@ -436,7 +360,7 @@ body_function(ContextMap, Body, ContextItem) ->
                          {cons,?L,{tuple,?L,[{string,?L,P},atom_or_string(N)]},Acc}
                    end, {nil,?L}, Base)
     end,
-{call,3,{remote,3,{atom,3,maps},{atom,3,put}},[{atom,3,'base-uri'},{string,3,maps:get('base-uri', ContextMap)},
+%{call,3,{remote,3,{atom,3,maps},{atom,3,put}},[{atom,3,'base-uri'},{string,3,maps:get('base-uri', ContextMap)},
 {call,3,{remote,3,{atom,3,maps},{atom,3,put}},[{atom,3,variables},{nil,3},
 {call,4,{remote,4,{atom,4,maps},{atom,4,put}},[{atom,4,ctx_var},{atom,4,'Ctx'},
 {call,5,{remote,5,{atom,5,maps},{atom,5,put}},[{atom,5,parameters},{nil,5},
@@ -449,13 +373,14 @@ body_function(ContextMap, Body, ContextItem) ->
   {call,6,{remote,6,{atom,6,maps},{atom,6,new}},[]},
   {var,?L,'Options'}
   ]}
-]}
+%]}
 ]}
 ]}
 ]}
 ]}},
-{call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]},
-{call,7,{atom,7,get_namespaces},[]}]++
+{call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]}%,
+%{call,7,{atom,7,get_namespaces},[]}
+]++
 [{match,?L,{var,?L,'Ctx'}, 
   if ContextItem == [] -> % is context set?
         {var,?L,'Ctx0'};
@@ -598,141 +523,6 @@ export_variables(Variables, Ctx) ->
            <- Variables   ],
    [attribute(export, Specs)].
 
-%% {Name, Type, Annos, function_name, Arity, [param_types] }
-scan_functions(Functions) ->
-   %?dbg("Functions",Functions),
-   Specs = [ {Name, % Name#qname{namespace = xqerl_context:get_statically_known_namespace_from_prefix(Name#qname.prefix)}, 
-              Type, Annos, function_function_name(Id, Arity), Arity, param_types(Params) } 
-           || #xqFunction{id = Id, 
-                          annotations = Annos, 
-                          arity = Arity,
-                          params = Params,
-                          name = Name, 
-                          type = Type} 
-           <- Functions,
-              % block private functions from being visible
-              not lists:any(fun({annotation, #qname{namespace = "http://www.w3.org/2012/xquery", local_name = "private"}, _}) ->
-                                  true;
-                               (_) ->
-                                  false
-                            end, Annos)   ],
-   xqerl_context:import_functions(Specs),
-   %xqerl_context:set_statically_known_functions(Specs),
-   [attribute(functions, Specs)].
-
-%% {Name, Type, Annos, function_name] }
-scan_variables(Variables, Ctx) ->
-   Specs = [begin
-               Name1 = resolve_qname(Name, Ctx),
-               {Name1, Type, Annos, variable_function_name(Name1) }
-            end
-           || #xqVar{id = _Id, 
-                     annotations = Annos, 
-                     name = Name, 
-                     type = Type} 
-           <- Variables   ],
-   xqerl_context:import_variables(Specs),
-   %xqerl_context:set_in_scope_variables(Specs),
-   [attribute(variables, Specs)].
-
-scan_namespaces(Namespaces) ->
-   NsList = [begin
-                _ = xqerl_context:add_statically_known_namespace(Ns, Px),
-                {Ns,Px}
-             end
-            || {Ns,Px} <- Namespaces],
-   [attribute(namespaces,NsList)].
-
-scan_options(Options,library) ->
-   %?dbg(?LINE,Options),
-   Ok = lists:any(fun({#qname{prefix = "output"},_}) ->
-                        false;
-                     (_) ->
-                        true
-                  end, Options),
-   if Ok;
-      Options == [] ->
-         scan_options(Options);
-      true ->
-         xqerl_error:error('XQST0108')
-   end.
-   
-scan_options(Options) ->
-   _ = xqerl_options:validate(Options),
-   [attribute(options,Options)].
-
-scan_dec_formats(Formats) ->
-   [begin
-       Rec = lists:foldl(fun({F,V}, R) ->
-                               case F of
-                                  'decimal-separator' ->
-                                     R#dec_format{decimal = V};
-                                  'grouping-separator' ->
-                                     R#dec_format{grouping = V};
-                                  'infinity' ->
-                                     R#dec_format{infinity = V};
-                                  'minus-sign' ->
-                                     R#dec_format{minus = V};
-                                  'NaN' ->
-                                     R#dec_format{nan = V};
-                                  'percent' ->
-                                     R#dec_format{percent = V};
-                                  'per-mille' ->
-                                     R#dec_format{per_mille = V};
-                                  'zero-digit' ->
-                                     R#dec_format{zero = V};
-                                  'digit' ->
-                                     R#dec_format{digit = V};
-                                  'pattern-separator' ->
-                                     R#dec_format{pattern = V};
-                                  'exponent-separator' ->
-                                     R#dec_format{exponent = V};
-                                  _ ->
-                                     xqerl_error:error('XQST0097')
-                               end
-                         end, #dec_format{}, FList),
-       {Name, Rec}
-    end || {'decimal-format', Name, FList} <- Formats].
-
-set_or_error(Name,List,Default,Error) ->
-   case proplists:get_all_values(Name,List) of
-      [] ->
-         Default;
-      [H] ->
-         H;
-      _ ->
-         xqerl_error:error(Error)
-   end.  
-
-scan_setters(SetList) ->
-   BS = set_or_error('boundary-space', SetList, strip, 'XQST0068'),
-   DC = set_or_error('default-collation', SetList, "http://www.w3.org/2005/xpath-functions/collation/codepoint", 'XQST0038'),
-   BU = set_or_error('base-uri', SetList, xqerl_context:get_static_base_uri(), 'XQST0032'),
-   CM = set_or_error('construction-mode', SetList, preserve, 'XQST0067'),
-   OM = set_or_error('ordering-mode', SetList, ordered, 'XQST0065'),
-   EO = set_or_error('empty-seq-order', SetList, greatest, 'XQST0069'),
-   CN = set_or_error('copy-namespaces', SetList, {preserve, 'no-inherit'}, 'XQST0055'),
-   DF = scan_dec_formats(proplists:lookup_all('decimal-format', SetList)),
-   
-   _ = xqerl_context:set_boundary_space_policy(BS),
-   _ = xqerl_context:set_default_collation(DC),
-   _ = xqerl_context:set_static_base_uri(BU),
-   _ = xqerl_context:set_construction_mode(CM),
-   _ = xqerl_context:set_ordering_mode(OM),
-   _ = xqerl_context:set_default_order_for_empty_sequences(EO),
-   _ = xqerl_context:set_copy_namespaces_mode(CN),
-   _ = xqerl_context:set_statically_known_decimal_formats(DF),
-   
-   [attribute('boundary-space',   BS),
-    attribute('default-collation',DC),
-    attribute('base-uri',         BU),
-    attribute('construction-mode',CM),
-    attribute('ordering-mode',    OM),
-    attribute('empty-seq-order',  EO),
-    attribute('copy-namespaces',  CN),
-    attribute('decimal-format',   DF)
-   ].
-
 
 attribute(Name,Val) ->
    erlang:list_to_tuple([attribute,?L,Name,Val]).
@@ -853,7 +643,7 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
                add_edge(G, {Id,Nm}, Parent),
                Map
          end;
-      {'function-call', {name, Nm}, {arity, Ar}, {args, Args} } ->
+      {'function-call', Nm, Ar, Args} ->
          %?dbg(?LINE,{{Nm,Ar}, Parent}),
          case maps:is_key({Nm, Ar}, Map) of 
             true ->
@@ -1071,23 +861,17 @@ expr_do(Ctx, #xqQuery{query = Qry} )->
    expr_do(Ctx, Qry)]};
 expr_do(Ctx, [T]) when is_tuple(T) ->
    expr_do(Ctx, T);
-expr_do(_Ctx, {xqAtomicValue,'xs:string',Val}) ->
-   %?dbg(?LINE,Val),
-   %{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,singleton}}, [
-   {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:string'},{string,?L,Val}]};
-   %                                                         ]};
-expr_do(_Ctx, {xqAtomicValue,'xs:integer',Val}) ->
-   %{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,singleton}}, [
-   {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{integer,?L,Val}]};
-   %                                                         ]};
-expr_do(_Ctx, {xqAtomicValue,'xs:decimal',Val}) ->
-   %{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,singleton}}, [
-   {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:decimal'},{float,?L,Val}]};
-   %                                                         ]};
-expr_do(_Ctx, {xqAtomicValue,'xs:double',Val}) ->
-   %{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,singleton}}, [
-   {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:double'},{float,?L,Val}]};
-   %                                                         ]};
+%% expr_do(_Ctx, {xqAtomicValue,'xs:string',Val}) ->
+%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:string'},{string,?L,Val}]};
+%% expr_do(_Ctx, {xqAtomicValue,'xs:integer',Val}) ->
+%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{integer,?L,Val}]};
+%% expr_do(_Ctx, {xqAtomicValue,'xs:decimal',Val}) ->
+%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:decimal'},{float,?L,Val}]};
+%% expr_do(_Ctx, {xqAtomicValue,'xs:double',Val}) ->
+%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:double'},{float,?L,Val}]};
+expr_do(_Ctx, #xqAtomicValue{} = A) ->
+   erl_syntax:revert(erl_syntax:abstract(A));
+
 expr_do(Ctx, 'context-item') ->
    CtxName = get_context_variable_name(Ctx),
    {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[{var,?L,CtxName}]};
@@ -1270,8 +1054,8 @@ expr_do(Ctx, {Op,Vars,Test}) when Op == every;
 %{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,expand_nodes}},[{block,?L, ListEx }]}
 
 % ordering
-expr_do(Ctx, {'function-call', {name, #qname{namespace = "http://www.w3.org/2005/xpath-functions", 
-                                             local_name = "unordered"}}, {arity, 1}, {args, Args}}) ->
+expr_do(Ctx, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions", 
+                                      local_name = "unordered"}, 1, Args}) ->
    VarName1 = next_var_name(),
    VarName2 = next_var_name(),
    {block,?L,[{match,?L,
@@ -1302,15 +1086,15 @@ expr_do(Ctx, {'ordered-expr', Expr}) ->
    {var,?L,VarName2}]};
 
 % functions
-expr_do(Ctx, [{'function-call', {name, Name}, {arity, Arity}, {args, Args}}]) ->
+expr_do(Ctx, [{'function-call', Name, Arity, Args}]) ->
    get_function_ref({Name,Arity,Args}, Ctx);
-expr_do(Ctx, {'function-call', {name, Name}, {arity, Arity}, {args, Args}}) ->
+expr_do(Ctx, {'function-call', Name, Arity, Args}) ->
    get_function_ref({Name,Arity,Args}, Ctx);
 
 % partial functions
-expr_do(Ctx, [{'partial-function-call', {name, Name}, {arity, Arity}, {args, Args}}]) ->
-   expr_do(Ctx, {'partial-function-call', {name, Name}, {arity, Arity}, {args, Args}});
-expr_do(Ctx, {'partial-function-call', {name, Name}, {arity, Arity}, {args, Args}}) ->
+expr_do(Ctx, [{'partial-function-call', _, _, _} = P]) ->
+   expr_do(Ctx, P);
+expr_do(Ctx, {'partial-function-call', Name, Arity, Args}) ->
    PlaceHolders = lists:flatmap(fun(Arg) ->
                                       if Arg == '?' ->
                                             VarName = next_var_name(),
@@ -3241,13 +3025,19 @@ alist(L) -> [L].
 %%       path_index   = undefined :: [integer()],
 %%       expr         = undefined :: term()
 %%    }).
-abs_document_node(Ctx, #xqDocumentNode{expr = E}) ->
+abs_document_node(Ctx, #xqDocumentNode{expr = E, base_uri = BU}) ->
+   BU1 = case maps:get('base-uri', Ctx) of
+            undefined ->
+               BU;
+            B ->
+               B
+         end,   
    {tuple,?L,
     [
      atom_or_string(xqDocumentNode),
      atom_or_string(undefined),
      atom_or_string(undefined),
-     atom_or_string(undefined), % base_uri
+     atom_or_string(BU1), % base_uri
      empty_seq(),
      atom_or_string(undefined),
      atom_or_string(undefined),
@@ -3296,11 +3086,17 @@ prepend_namespaces(Ctx,Nss) ->
 %%       path_index   = undefined :: [integer()],
 %%       expr         = undefined :: term()
 %%    }).
-abs_element_node(Ctx, #xqElementNode{name = N, expr = E1, type = Type}) ->
+abs_element_node(Ctx, #xqElementNode{name = N, expr = E1, type = Type, base_uri = BU}) ->
    %?dbg("abs_element_node",{N,E1}),
    CtxVar = get_context_variable_name(Ctx),
    NextCtxVar = next_ctx_var_name(),
    %?dbg("abs_element_node",Ctx),
+   BU1 = case maps:get('base-uri', Ctx) of
+            undefined ->
+               BU;
+            B ->
+               B
+         end,   
    E = if is_list(E1) ->
              E1;
           true ->
@@ -3330,7 +3126,7 @@ abs_element_node(Ctx, #xqElementNode{name = N, expr = E1, type = Type}) ->
             {var,?L,CtxVar}, 
             Namespaces),
    Ctx2 = prepend_namespaces(Ctx, Namespaces),
-   Ctx1 = set_context_variable_name(Ctx2, NextCtxVar),
+   Ctx1 = (set_context_variable_name(Ctx2, NextCtxVar))#{'base-uri' => BU1},
    %?dbg("abs_element_node",Ctx1),
    %?dbg("abs_element_node",Namespaces),
    %?dbg("abs_element_node",Ctx2),
@@ -3361,7 +3157,7 @@ abs_element_node(Ctx, #xqElementNode{name = N, expr = E1, type = Type}) ->
         _ ->
            {atom,?L,Type}
      end, % type
-     atom_or_string(undefined), % base_uri
+     atom_or_string(BU1), % base_uri
      atom_or_string(undefined), % path_index
      if E == [undefined] -> empty_seq();
         true ->
@@ -3554,7 +3350,13 @@ abs_comment_node(Ctx, #xqCommentNode{string_value = S, expr = E}) ->
 %%       path_index   = undefined :: [integer()],
 %%       expr         = undefined :: term()
 %%    }).
-abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N, expr = E}) ->
+abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N, expr = E, base_uri = BU}) ->
+   BU1 = case maps:get('base-uri', Ctx) of
+            undefined ->
+               BU;
+            B ->
+               B
+         end,   
    {tuple,?L,
     [
      atom_or_string(xqProcessingInstructionNode),
@@ -3569,7 +3371,7 @@ abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N, expr = E}) ->
      %]}
      end,
      atom_or_string(undefined),
-     atom_or_string(undefined),
+     atom_or_string(BU1), % base_uri
      atom_or_string(undefined),
      case is_list(E) of
         true ->
@@ -3629,7 +3431,7 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind, annotations = Annos, name = Name, param
            {nil,?L};
         true ->
            lists:foldr(fun({annotation,{#qname{namespace = N} = Q,_}}, Abs) ->
-                             _ = reserved_namespaces(N),
+                             _ = xqerl_lib:reserved_namespaces(N),
                              {cons,?L,abs_qname(Ctx, Q), Abs}
                        end, {nil,?L}, Annos)
      end,
@@ -3969,24 +3771,13 @@ resolve_qname(Name, _Ctx) ->
    Name.
 
 
-reserved_namespaces(Ns) ->
-   % check reserved NS 
-   if Ns == "http://www.w3.org/XML/1998/namespace";
-      Ns == "http://www.w3.org/2001/XMLSchema";
-      Ns == "http://www.w3.org/2001/XMLSchema-instance";
-      Ns == "http://www.w3.org/2005/xpath-functions";
-      Ns == "http://www.w3.org/2005/xpath-functions/math";
-      Ns == "http://www.w3.org/2005/xpath-functions/array";
-      Ns == "http://www.w3.org/2005/xpath-functions/map";
-      Ns == "http://www.w3.org/2012/xquery" -> xqerl_error:error('XQST0045');
-      true ->
-         ok
-   end.
 
 maybe_check_type(Ctx,Type,Expr) ->
-   if Type == #xqSeqType{type = item,occur = zero_or_many} ->
+   if Type == undefined ->
           Expr;
-       true ->
+      Type == #xqSeqType{type = item,occur = zero_or_many} ->
+          Expr;
+      true ->
           {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},
            [Expr, abs_seq_type(Ctx,Type)]}
    end.
