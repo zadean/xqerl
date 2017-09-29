@@ -9,7 +9,7 @@
 %% An additional variable is available only in XQuery 3.1:
 %% - err:additional - further implementation-defined information about the error
 
--define(dbg(M,P), io:format("~p: ~p~n", [M,P])).
+-define(dbg(M,P), io:format("~s ~p ~p: ~p~n", [?MODULE,?LINE, M,P])).
 -define(seq, xqerl_seq2).
 
 -define(node(I), (I=='node' orelse I=='document' orelse I=='document-node' orelse I=='element' orelse I=='attribute' orelse I=='namespace' orelse I=='text' orelse I=='comment' orelse I=='processing-instruction')).
@@ -68,8 +68,9 @@
                     I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
 -define(NCName(I),  (I=='xs:NCName' orelse 
                     I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES')).
--define(anySimpleType(I),
-       (I=='xs:anySimpleType' orelse I=='xs:untypedAtomic' orelse I=='xs:dateTime' orelse I=='xs:dateTimeStamp' orelse I=='xs:time' orelse I=='xs:date' orelse 
+-define(anyAtomicType(I),
+       (I=='xs:anyAtomicType' orelse
+        I=='xs:anySimpleType' orelse I=='xs:untypedAtomic' orelse I=='xs:dateTime' orelse I=='xs:dateTimeStamp' orelse I=='xs:time' orelse I=='xs:date' orelse 
         I=='xs:gYearMonth' orelse I=='xs:gYear' orelse I=='xs:gMonthDay' orelse I=='xs:gDay' orelse I=='xs:gMonth' orelse I=='xs:boolean' orelse 
         I=='xs:base64Binary' orelse I=='xs:hexBinary' orelse I=='xs:float' orelse I=='xs:double' orelse I=='xs:anyURI' orelse I=='xs:QName' orelse I=='xs:NOTATION' orelse 
         I=='xs:decimal' orelse 
@@ -86,6 +87,7 @@
         I=='xs:ID' orelse I=='xs:IDREF' orelse I=='xs:IDREFS' orelse I=='xs:ENTITY' orelse I=='xs:ENTITIES' orelse 
         I=='xs:duration' orelse I=='xs:yearMonthDuration' orelse I=='xs:dayTimeDuration')
         ).
+
 
 
 -record(xqError, {
@@ -441,46 +443,10 @@
    predicates = []
 }).
 
-
-%% % [50]
-%% 'WindowClause'           -> 'for' 'TumblingWindowClause' : {'window', '$2'}.
-%% 'WindowClause'           -> 'for' 'SlidingWindowClause'  : {'window', '$2'}.
-%% % [51]
-%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'tumbling', {variable, {'name', '$4'}, {'type', '$5'}, {'expr', '$7'}}, {'start', '$8'}, {'end', '$9'}}.
-%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'tumbling', {variable, {'name', '$4'}, {'type', 'undefined'}, {'expr', '$6'}}, {'start', '$7'}, {'end', '$8'}}.
-%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition'                      : {'tumbling', {variable, {'name', '$4'}, {'type', '$5'}, {'expr', '$7'}}, {'start', '$8'}, {'end', 'undefined'}}.
-%% 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition'                      : {'tumbling', {variable, {'name', '$4'}, {'type', 'undefined'}, {'expr', '$6'}}, {'start', '$7'}, {'end', 'undefined'}}.
-%% % [52]
-%% 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'sliding', {variable, {'name', '$4'}, {'type', '$5'}, {'expr', '$7'}}, {'start', '$8'}, {'end', '$9'}}.
-%% 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : {'sliding', {variable, {'name', '$4'}, {'type', 'undefined'}, {'expr', '$6'}}, {'start', '$7'}, {'end', '$8'}}.
-%% % [53]
-%% 'WindowStartCondition'   -> 'start' 'WindowVars' 'when' 'ExprSingle' : {'$2', '$4'}.
-%% % [54]
-%% 'WindowEndCondition'     -> 'only' 'end' 'WindowVars' 'when' 'ExprSingle' : {'only',      '$3', '$5'}.
-%% 'WindowEndCondition'     ->        'end' 'WindowVars' 'when' 'ExprSingle' : {'undefined', '$2', '$4'}.
-%% % [55]
-%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar' 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', '$6'},{'next', '$9'}].
-%% 'WindowVars'             ->                   'PositionalVar' 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', '$4'},{'next', '$7'}].
-%% 'WindowVars'             -> '$' 'CurrentItem'                 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', '$5'},{'next', '$8'}].
-%% 'WindowVars'             ->                                   'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', 'undefined'},{'previous', '$3'},{'next', '$6'}].
-%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar'                               'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', 'undefined'},{'next', '$6'}].
-%% 'WindowVars'             ->                   'PositionalVar'                               'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', 'undefined'},{'next', '$4'}].
-%% 'WindowVars'             -> '$' 'CurrentItem'                                               'next' '$' 'NextItem' : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', 'undefined'},{'next', '$5'}].
-%% 'WindowVars'             ->                                                                 'next' '$' 'NextItem' : [{'current', 'undefined'},{'pos-variable', 'undefined'},{'previous', 'undefined'},{'next', '$3'}].
-%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar' 'previous' '$' 'PreviousItem'                       : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', '$6'},{'next', 'undefined'}].
-%% 'WindowVars'             ->                   'PositionalVar' 'previous' '$' 'PreviousItem'                       : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', '$4'},{'next', 'undefined'}].
-%% 'WindowVars'             -> '$' 'CurrentItem'                 'previous' '$' 'PreviousItem'                       : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', '$5'},{'next', 'undefined'}].
-%% 'WindowVars'             ->                                   'previous' '$' 'PreviousItem'                       : [{'current', 'undefined'},{'pos-variable', 'undefined'},{'previous', '$3'},{'next', 'undefined'}].
-%% 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar'                                                     : [{'current', '$2'},       {'pos-variable', '$3'},       {'previous', 'undefined'},{'next', 'undefined'}].
-%% 'WindowVars'             ->                   'PositionalVar'                                                     : [{'current', 'undefined'},{'pos-variable', '$1'},       {'previous', 'undefined'},{'next', 'undefined'}].
-%% 'WindowVars'             -> '$' 'CurrentItem'                                                                     : [{'current', '$2'},       {'pos-variable', 'undefined'},{'previous', 'undefined'},{'next', 'undefined'}].
-%% % [56]
-%% 'CurrentItem'            -> 'EQName' : #xqVar{id = next_id(), 'name' = '$1'}.
-%% % [57]
-%% 'PreviousItem'           -> 'EQName' : #xqVar{id = next_id(), 'name' = '$1'}.
-%% % [58]
-%% 'NextItem'               -> 'EQName' : #xqVar{id = next_id(), 'name' = '$1'}.
-
+%% range statement 
+-record(xqRange, {min :: integer(),
+                  max :: integer()
+}).
 
 %% -record(xqCollection, {
 %%    uri  :: string(),

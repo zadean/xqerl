@@ -165,17 +165,26 @@
 
 -module(xqerl_btypes).
 
--export([is_promotable/2]).
+-export([can_promote/2]).
+-export([can_substitute/2]).
 -export([is_list_type/1]).
 -export([is_node/1]).
+-export([is_atomic/1]).
+-export([is_numeric/1]).
 -export([get_type/1]).
 -export([sequence_type/1]).
+-export([static_operator_type/3]).
 
 -define(item,           9223372036854775808).
 -define(node,          11529215046068469760).
 -define(anyAtomicType, 10376293541461622784).
 -define(string,        10376293541595840512).
 -define(untypedAtomic, 10380797141088993280).
+
+-define(float,   10376311133647667200).
+-define(double,  10376302337554644992).
+-define(decimal, 10376297939508133888).
+-define(anyURI,  10376293541461639168).
 
 sequence_type(List) when is_list(List) ->
    Hd = hd(List),
@@ -188,12 +197,22 @@ sequence_type([H|T],ListType) ->
 
 
 % is subtype
-is_promotable(Type,TargetType) when Type band TargetType =:= TargetType -> true;
+can_substitute(Type,TargetType) when Type band TargetType =:= TargetType -> true;
 % is in union type
-is_promotable(Type,TargetType) when TargetType band 1024 =:= 1024 andalso
+can_substitute(Type,TargetType) when TargetType band 1024 =:= 1024 andalso
                                     Type band TargetType =/= ?anyAtomicType andalso
                                     Type band TargetType =/= ?item -> true;
-is_promotable(_Type,_TargetType) -> false.
+can_substitute(_Type,_TargetType) -> false.
+
+% numeric promotion
+can_promote(?float,?double) -> true;
+can_promote(Decimal,?double) when Decimal band ?decimal == ?decimal -> true;
+can_promote(Decimal,?float) when Decimal band ?decimal == ?decimal -> true;
+% URI promotion
+can_promote(?anyURI,?string) -> true;
+can_promote(?untypedAtomic,?string) -> true;
+can_promote(_Type,_TargetType) -> false.
+
 
 is_list_type(Type) ->
    Type band 2048 =:= 2048.
@@ -201,31 +220,15 @@ is_list_type(Type) ->
 is_node(Type) ->
    Type band ?node =:= ?node.
 
+is_atomic(Type) ->
+   Type band ?anyAtomicType =:= ?anyAtomicType.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+is_numeric(Type) when Type band ?decimal == ?decimal;
+                      Type band ?float == ?float;
+                      Type band ?double == ?double->
+   true;
+is_numeric(_) ->
+   false.
 
 
 
@@ -365,3 +368,165 @@ get_type(10376293541715904512 ) ->  'xs:IDREFS'               ;
 get_type(10376293541704894464 ) ->  'xs:NMTOKENS'             ;
 get_type(10376293541716428800 ) ->  'xs:ENTITIES'             .
 
+
+
+static_operator_type('add', 'xs:integer', 'xs:integer') -> 'xs:integer';
+static_operator_type('add', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('add', 'xs:integer', 'xs:float')   -> 'xs:float';
+static_operator_type('add', 'xs:integer', 'xs:double')  -> 'xs:double';
+static_operator_type('add', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
+static_operator_type('add', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('add', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('add', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('add', 'xs:float',   'xs:integer') -> 'xs:float';
+static_operator_type('add', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('add', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('add', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('add', 'xs:double',  'xs:integer') -> 'xs:double';
+static_operator_type('add', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('add', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('add', 'xs:double',  'xs:double')  -> 'xs:double';
+
+static_operator_type('add', 'xs:date', 'xs:dayTimeDuration') -> 'xs:date';
+static_operator_type('add', 'xs:date', 'xs:yearMonthDuration') -> 'xs:date';
+static_operator_type('add', 'xs:dateTime', 'xs:dayTimeDuration') -> 'xs:dateTime';
+static_operator_type('add', 'xs:dateTime', 'xs:yearMonthDuration') -> 'xs:dateTime';
+static_operator_type('add', 'xs:dayTimeDuration', 'xs:date') -> 'xs:date';
+static_operator_type('add', 'xs:dayTimeDuration', 'xs:dateTime') -> 'xs:dateTime';
+static_operator_type('add', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
+static_operator_type('add', 'xs:dayTimeDuration', 'xs:time') -> 'xs:time';
+static_operator_type('add', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
+static_operator_type('add', 'xs:yearMonthDuration', 'xs:date') -> 'xs:date';
+static_operator_type('add', 'xs:yearMonthDuration', 'xs:dateTime') -> 'xs:dateTime';
+static_operator_type('add', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+
+static_operator_type('divide', 'xs:integer', 'xs:integer') -> 'xs:decimal';
+static_operator_type('divide', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('divide', 'xs:integer', 'xs:float')   -> 'xs:float';
+static_operator_type('divide', 'xs:integer', 'xs:double')  -> 'xs:double';
+static_operator_type('divide', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
+static_operator_type('divide', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('divide', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('divide', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('divide', 'xs:float',   'xs:integer') -> 'xs:float';
+static_operator_type('divide', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('divide', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('divide', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('divide', 'xs:double',  'xs:integer') -> 'xs:double';
+static_operator_type('divide', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('divide', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('divide', 'xs:double',  'xs:double')  -> 'xs:double';
+
+static_operator_type('divide', 'xs:dayTimeDuration', 'xs:integer') -> 'xs:dayTimeDuration';
+static_operator_type('divide', 'xs:dayTimeDuration', 'xs:decimal') -> 'xs:dayTimeDuration';
+static_operator_type('divide', 'xs:dayTimeDuration', 'xs:float')   -> 'xs:dayTimeDuration';
+static_operator_type('divide', 'xs:dayTimeDuration', 'xs:double')  -> 'xs:dayTimeDuration';
+static_operator_type('divide', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:decimal';
+
+static_operator_type('divide', 'xs:yearMonthDuration', 'xs:integer') -> 'xs:yearMonthDuration';
+static_operator_type('divide', 'xs:yearMonthDuration', 'xs:decimal') -> 'xs:yearMonthDuration';
+static_operator_type('divide', 'xs:yearMonthDuration', 'xs:float')   -> 'xs:yearMonthDuration';
+static_operator_type('divide', 'xs:yearMonthDuration', 'xs:double')  -> 'xs:yearMonthDuration';
+static_operator_type('divide', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:decimal';
+
+static_operator_type('idivide', 'xs:integer', 'xs:integer') -> 'xs:integer';
+static_operator_type('idivide', 'xs:integer', 'xs:decimal') -> 'xs:integer';
+static_operator_type('idivide', 'xs:integer', 'xs:float')   -> 'xs:integer';
+static_operator_type('idivide', 'xs:integer', 'xs:double')  -> 'xs:integer';
+static_operator_type('idivide', 'xs:decimal', 'xs:integer') -> 'xs:integer';
+static_operator_type('idivide', 'xs:decimal', 'xs:decimal') -> 'xs:integer';
+static_operator_type('idivide', 'xs:decimal', 'xs:float')   -> 'xs:integer';
+static_operator_type('idivide', 'xs:decimal', 'xs:double')  -> 'xs:integer';
+static_operator_type('idivide', 'xs:float',   'xs:integer') -> 'xs:integer';
+static_operator_type('idivide', 'xs:float',   'xs:decimal') -> 'xs:integer';
+static_operator_type('idivide', 'xs:float',   'xs:float')   -> 'xs:integer';
+static_operator_type('idivide', 'xs:float',   'xs:double')  -> 'xs:integer';
+static_operator_type('idivide', 'xs:double',  'xs:integer') -> 'xs:integer';
+static_operator_type('idivide', 'xs:double',  'xs:decimal') -> 'xs:integer';
+static_operator_type('idivide', 'xs:double',  'xs:float')   -> 'xs:integer';
+static_operator_type('idivide', 'xs:double',  'xs:double')  -> 'xs:integer';
+
+static_operator_type('modulo', 'xs:integer', 'xs:integer') -> 'xs:integer';
+static_operator_type('modulo', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('modulo', 'xs:integer', 'xs:float')   -> 'xs:float';
+static_operator_type('modulo', 'xs:integer', 'xs:double')  -> 'xs:double';
+static_operator_type('modulo', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
+static_operator_type('modulo', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('modulo', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('modulo', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('modulo', 'xs:float',   'xs:integer') -> 'xs:float';
+static_operator_type('modulo', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('modulo', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('modulo', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('modulo', 'xs:double',  'xs:integer') -> 'xs:double';
+static_operator_type('modulo', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('modulo', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('modulo', 'xs:double',  'xs:double')  -> 'xs:double';
+
+static_operator_type('multiply', 'xs:integer', 'xs:integer') -> 'xs:integer';
+static_operator_type('multiply', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('multiply', 'xs:integer', 'xs:float')   -> 'xs:float';
+static_operator_type('multiply', 'xs:integer', 'xs:double')  -> 'xs:double';
+static_operator_type('multiply', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
+static_operator_type('multiply', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('multiply', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('multiply', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('multiply', 'xs:float',   'xs:integer') -> 'xs:float';
+static_operator_type('multiply', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('multiply', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('multiply', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('multiply', 'xs:double',  'xs:integer') -> 'xs:double';
+static_operator_type('multiply', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('multiply', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('multiply', 'xs:double',  'xs:double')  -> 'xs:double';
+
+static_operator_type('multiply'  ,'xs:integer', 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
+static_operator_type('multiply'  ,'xs:decimal', 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
+static_operator_type('multiply'  ,'xs:float'  , 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
+static_operator_type('multiply'  ,'xs:double' , 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
+static_operator_type('multiply'  ,'xs:integer', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+static_operator_type('multiply'  ,'xs:decimal', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+static_operator_type('multiply'  ,'xs:float'  , 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+static_operator_type('multiply'  ,'xs:double' , 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+
+static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:integer') -> 'xs:dayTimeDuration';
+static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:decimal') -> 'xs:dayTimeDuration';
+static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:float')   -> 'xs:dayTimeDuration';
+static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:double')  -> 'xs:dayTimeDuration';
+static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:integer') -> 'xs:yearMonthDuration';
+static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:decimal') -> 'xs:yearMonthDuration';
+static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:float')   -> 'xs:yearMonthDuration';
+static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:double')  -> 'xs:yearMonthDuration';
+
+static_operator_type('subtract', 'xs:integer', 'xs:integer') -> 'xs:integer';
+static_operator_type('subtract', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('subtract', 'xs:integer', 'xs:float')   -> 'xs:float';
+static_operator_type('subtract', 'xs:integer', 'xs:double')  -> 'xs:double';
+static_operator_type('subtract', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
+static_operator_type('subtract', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('subtract', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('subtract', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('subtract', 'xs:float',   'xs:integer') -> 'xs:float';
+static_operator_type('subtract', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('subtract', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('subtract', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('subtract', 'xs:double',  'xs:integer') -> 'xs:double';
+static_operator_type('subtract', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('subtract', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('subtract', 'xs:double',  'xs:double')  -> 'xs:double';
+
+static_operator_type('subtract', 'xs:date', 'xs:date') -> 'xs:dayTimeDuration';
+static_operator_type('subtract', 'xs:date', 'xs:dayTimeDuration') -> 'xs:date';
+static_operator_type('subtract', 'xs:date', 'xs:yearMonthDuration') -> 'xs:date';
+static_operator_type('subtract', 'xs:dateTime', 'xs:dateTime') -> 'xs:dayTimeDuration';
+static_operator_type('subtract', 'xs:dateTime', 'xs:dayTimeDuration') -> 'xs:dateTime';
+static_operator_type('subtract', 'xs:dateTime', 'xs:yearMonthDuration') -> 'xs:dateTime';
+static_operator_type('subtract', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
+static_operator_type('subtract', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
+static_operator_type('subtract', 'xs:time', 'xs:time') -> 'xs:dayTimeDuration';
+static_operator_type('subtract', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+
+static_operator_type(_,'empty-sequence',_) -> 'empty-sequence';
+static_operator_type(_,_,'empty-sequence') -> 'empty-sequence';
+static_operator_type(_,_,_) ->
+   xqerl_error:error('XPTY0004').

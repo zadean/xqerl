@@ -214,7 +214,7 @@ scan_dc_token("}" ++ T, _A, Depth) -> {{'}', ?L, '}'}, T, Depth};
 scan_dc_token([H|T], _Acc, Depth) -> %when not ?whitespace(H) ->
    case is_content_char(H) of
       true when ?whitespace(H) ->
-         {{'S', ?L, [H]}, T, Depth};
+         {{'S', ?L, H}, T, Depth};
       true ->
          {{'ElementContentChar', ?L, H}, T, Depth};
       _ ->
@@ -498,6 +498,8 @@ scan_token(Str = "when" ++ T, A) ->
          {{'when', ?L, 'when'}, T};
       {'$',_,_} ->
          {{'when', ?L, 'when'}, T};
+      'NCName' ->
+         {{'when', ?L, 'when'}, T};
       _ ->
          scan_name(Str)
    end;
@@ -600,7 +602,7 @@ scan_token(Str = "array" ++ T, A) ->
          scan_name(Str)
    end;
 scan_token(Str = "namespace-node" ++ T, A) -> 
-   case lookforward_is_paren_or_curly(T) andalso not lookback(A) == 'function' of
+   case lookforward_is_paren_or_curly(T) andalso (not (lookback(A) == 'function')) of
       true ->
          {{'namespace-node', ?L, 'namespace-node'}, T};
       _ ->
@@ -1283,13 +1285,7 @@ scan_token(Str = "cast" ++ T, A) ->
        _ ->
           qname_if_path("cast", T, lookback(A))
     end;
-scan_token(Str = "case" ++ T, A) -> 
-    case lookforward_is_paren(T) of
-       true ->
-          scan_name(Str);
-       _ ->
-          qname_if_path("case", T, lookback(A))
-    end;
+scan_token(Str = "case" ++ T, A) -> qname_if_path("case", T, lookback(A));
 scan_token("apos" ++ T, A) -> qname_if_path("apos", T, lookback(A));
 scan_token(Str = "let" ++ T, _A) -> 
    case lookforward_is_var(T) of
@@ -1311,12 +1307,16 @@ scan_token("for" ++ T, A) ->
                qname_if_path("for", T, lookback(A))
          end
    end;
-scan_token(Str = "and" ++ T, A) -> 
-   case lookforward_is_paren(T) of
-      true ->
+scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) -> 
+   case lookback(A) of
+      '/' ->
+         scan_name(Str);
+      'function' ->
+         scan_name(Str);
+      '(' ->
          scan_name(Str);
       _ ->
-         qname_if_path("and", T, lookback(A))
+         {{'and',1,'and'}, T}
    end;
 scan_token("to" ++ T, A) -> qname_if_path("to", T, lookback(A));
 scan_token(Str = "or" ++ [H|T], A) when ?whitespace(H) -> 
@@ -1416,6 +1416,12 @@ scan_token(Str = "in" ++ T, A) ->
                {{'in',?L,'in'}, T};
             ')' ->
                {{'in',?L,'in'}, T};
+            '+' ->
+               {{'in',?L,'in'}, T};
+            '?' ->
+               {{'in',?L,'in'}, T};
+            '*' ->
+               {{'in',?L,'in'}, T};
             LB ->
                ?dbg("in scanner",A),
                scan_name(Str)
@@ -1465,15 +1471,12 @@ scan_token(Str = "eq" ++ [H|T], A) when ?whitespace(H) ->
    end;
 scan_token(Str = "by" ++ T, A) -> 
    case lookback(A) of
-      '/' ->
-         scan_name(Str);
+      'order' ->
+         {{'by',1,'by'}, T};
+      'group' ->
+         {{'by',1,'by'}, T};
       _ ->
-         case lookforward_is_ws(T) andalso not lookforward_is_paren(T) of
-            true ->
-               {{'by',1,'by'}, T};
-            _ ->
-               scan_name(Str)
-         end   
+         scan_name(Str)   
    end;
 scan_token(Str = "at" ++ T, A) -> 
    case lookforward_is_var(T) of
@@ -1542,6 +1545,9 @@ scan_token("//" ++ T, _A) ->  {{'//', ?L, '//'}, T};
 scan_token("::" ++ T, _A) ->  {{'::', ?L, '::'}, T};
 scan_token(":=" ++ T, _A) ->  {{':=', ?L, ':='}, T};
 scan_token(":*" ++ T, _A) ->  {{':*', ?L, ':*'}, T};
+scan_token("*:=" ++ T, _A) ->  
+   {[{'*', ?L, '*'},{':=', ?L, ':='}], T}
+   ;
 scan_token("*:" ++ T, _A) ->  
    case lookforward_is_ws(T) of
       true ->

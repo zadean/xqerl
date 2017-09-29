@@ -206,8 +206,13 @@ windowclause(L, StartFun) ->
       [] -> stream_from_list([]);
       L1 ->
          Bw = winstart([[]|L1], StartFun, []),
+         % W is still a list, not sequence
          %?dbg("BW",Bw),
-         stream_from_list(lists:reverse(Bw))
+         Bw2 = lists:map(fun(B) ->
+                               L2 = element(9, B),
+                               setelement(9, B, ?seq:from_list(L2))
+                         end, Bw),
+         stream_from_list(lists:reverse(Bw2))
    end.
 
 %% takes single list from expression and the start/end functions and returns {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
@@ -620,8 +625,7 @@ val(T) ->
    xqerl_types:value(T).
 
 bool(T) ->
-   Bool = xqerl_fn:boolean([], T),
-   (?seq:singleton_value(Bool))#xqAtomicValue.value.
+   xqerl_operators:eff_bool_val(T).
 
 %   T#xqAtomicValue.value.
 

@@ -213,14 +213,25 @@ as_seq({Id,Doc}, SeqType) -> % new document fragment
    _ = xqerl_context:add_available_document(Id, Doc),
    Node = #xqNode{frag_id = Id,identity = 1},
    as_seq(?seq:singleton(Node), SeqType);
+as_seq(Vals, _) ->
+   Vals;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% block the others to see what breaks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 as_seq(Vals, []) ->
    Vals;
 as_seq(#qname{} = Q, SeqType) ->
    as_seq(?seq:singleton(Q), SeqType);
 as_seq(#xqAtomicValue{} = Av, SeqType) ->
    as_seq(?seq:singleton(Av), SeqType);
+as_seq(#xqNode{} = Node, #xqSeqType{type = node}) ->
+   Node;
 as_seq(#xqNode{} = Av, SeqType) ->
    as_seq(?seq:singleton(Av), SeqType);
+as_seq([], #xqSeqType{occur = one}) ->
+   xqerl_error:error('XPTY0004');
+as_seq([], #xqSeqType{occur = one_or_many}) ->
+   xqerl_error:error('XPTY0004');
 as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = function},occur = one}) when is_function(Vals) ->
    Vals;
 as_seq(#array{} = Vals, #xqSeqType{type = {array,_,_,any,any}}) ->
@@ -356,9 +367,10 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
       true ->
          if Type == 'item' ->
                Seq;
-            Type == 'xs:numeric' ->
+            Type == 'xs:numeric' andalso ?numeric(AType)->
                %?dbg(?LINE,{Type,AType}),
-               cast_as_seq(Seq,TargetSeqType#xqSeqType{type = 'xs:double'});
+               %cast_as_seq(Seq,TargetSeqType#xqSeqType{type = 'xs:double'});
+               Seq;
             AType == 'xs:anySimpleType' andalso Type == 'xs:anyAtomicType' ->
                Seq;
             Type == 'xs:anyAtomicType' ->
@@ -419,9 +431,9 @@ as_seq(Seq0, #xqSeqType{type = Type} = TargetSeqType) ->
             AType == 'xs:integer' ->
                ?dbg(?FUNCTION_NAME,?LINE),
                xqerl_error:error('XPTY0004');
-            AType == 'xs:decimal' andalso Type =/= 'xs:integer' andalso ?numeric(Type) -> % loss of precision
-               xqerl_error:error('XPTY0004');
-               %cast_as_seq(Seq,TargetSeqType);
+            AType == 'xs:decimal' andalso ?numeric(Type) -> % loss of precision
+               %xqerl_error:error('XPTY0004');
+               cast_as_seq(Seq,TargetSeqType);
             AType == 'xs:decimal' andalso Type =/= 'xs:integer' ->
                ?dbg(?FUNCTION_NAME,?LINE),
                ?dbg("as_seq AType,Type", {?LINE,AType,Type,TargetSeqType}),
@@ -512,7 +524,9 @@ cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occur} = TargetSeqType) ->
                                                  cast_as(Val, Type)
                                            end, Seq)
                            catch
-                              _:#xqError{} = E -> throw(E);
+                              _:#xqError{} = E -> 
+                                 ?dbg(Seq,TargetSeqType),
+                                 throw(E);
                               _:_ -> xqerl_error:error('XPTY0004',?LINE)
                            end
                      end
@@ -1757,10 +1771,10 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 'xs:anyURI' ) -> % MAY
                                    (Cp) ->
                                       [Cp]                                   
                                 end, Trim),
-?dbg(?LINE,EncBig),
+         %?dbg(?LINE,EncBig),
          case ietf_rfc2396_scanner:string(EncBig) of
             {ok,L,_} ->
-               ?dbg(?LINE,L),
+               %?dbg(?LINE,L),
                Head = hd(L),
                
                Bad = element(3, Head) == ":" orelse lists:keyfind(excluded, 1, L),
@@ -2261,7 +2275,7 @@ cast_as( #xqAtomicValue{type = 'xs:ENTITY', value = Val}, 'xs:untypedAtomic' ) -
 
 cast_as( #xqAtomicValue{} = Arg1,'xs:normalizedString' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:string' )),
-   Norm = shrink_spaces(StrVal),
+   Norm = xqerl_lib:shrink_spaces(StrVal),
    #xqAtomicValue{type = 'xs:normalizedString', value = Norm};
 cast_as( #xqAtomicValue{} = Arg1,'xs:token' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:normalizedString' )),
@@ -3129,27 +3143,6 @@ strip_zero_and_plus([$+|T], Acc) ->
    strip_zero_and_plus(T, Acc);
 strip_zero_and_plus([H|T], Acc) -> 
    strip_zero_and_plus(T, [H|Acc]).
-
-shrink_spaces([]) ->
-   [];
-shrink_spaces([32,WS|T]) when WS == 32;
-                              WS == 31;
-                              WS == 10;
-                              WS == 9 ->
-   shrink_spaces([32|T]);
-shrink_spaces("&#xD;"++T) ->
-   shrink_spaces([32|T]);
-shrink_spaces("&#xA;"++T) ->
-   shrink_spaces([32|T]);
-shrink_spaces("&#x9;"++T) ->
-   shrink_spaces([32|T]);
-shrink_spaces([WS|T]) when WS == 31;
-                           WS == 10;
-                           WS == 9 ->
-   shrink_spaces([32|T]);
-shrink_spaces([H|T]) ->
-   [H|shrink_spaces(T)].
-
 
 
 is_valid_month_day(1,Day) when Day >= 1, Day =< 31 -> true;

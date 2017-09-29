@@ -25,6 +25,8 @@
 
 -module(xqerl_lib).
 
+-include("xqerl.hrl").
+
 %% ====================================================================
 %% API functions
 %% ====================================================================
@@ -33,7 +35,11 @@
 -export([is_xschar/1]).
 -export([is_xsncname_start_char/1]).
 -export([escape_uri/1]).
+-export([shrink_spaces/1]).
 -export([reserved_namespaces/1]).
+-export([encode_for_uri/1]).
+-export([pct_encode3/1]).
+-export([resolve_against_base_uri/2]).
 
 -define(space, 32).
 -define(cr,    13).
@@ -175,4 +181,79 @@ reserved_namespaces(Ns) ->
       Ns == "http://www.w3.org/2012/xquery" -> xqerl_error:error('XQST0045');
       true ->
          ok
+   end.
+
+shrink_spaces([]) ->
+   [];
+shrink_spaces([32,WS|T]) when WS == 32;
+                              WS == 13;
+                              WS == 10;
+                              WS == 9 ->
+   shrink_spaces([32|T]);
+shrink_spaces("&#xD;"++T) ->
+   shrink_spaces([32|T]);
+shrink_spaces("&#xA;"++T) ->
+   shrink_spaces([32|T]);
+shrink_spaces("&#x9;"++T) ->
+   shrink_spaces([32|T]);
+shrink_spaces([WS|T]) when WS == 13;
+                           WS == 10;
+                           WS == 9 ->
+   shrink_spaces([32|T]);
+shrink_spaces([H|T]) ->
+   [H|shrink_spaces(T)].
+
+
+encode_for_uri([]) ->
+   [];
+encode_for_uri([H|T]) when H == $-;
+                        H == $_;
+                        H == $.;
+                        H == $~ ->
+   [H|encode_for_uri(T)];
+encode_for_uri([H|T]) when H >= $A, H =< $Z ->
+   [H|encode_for_uri(T)];
+encode_for_uri([H|T]) when H >= $a, H =< $z ->
+   [H|encode_for_uri(T)];
+encode_for_uri([H|T]) when H >= $0, H =< $9 ->
+   [H|encode_for_uri(T)];
+encode_for_uri([H|T]) ->
+   string:to_upper(edoc_lib:escape_uri([H])) ++ encode_for_uri(T).
+
+
+pct_encode3([]) ->
+   [];
+pct_encode3([H|T]) when H == $< ;H == $>;
+                        H == $\";H == $ ;
+                        H == ${ ;H == $};
+                        H == $| ;H == $\\;
+                        H == $^ ;H == $` ->
+   string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T);
+pct_encode3([H|T]) when H >= 32, H =< 126 ->
+   [H|pct_encode3(T)];
+pct_encode3([H|T]) ->
+   string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
+
+resolve_against_base_uri(Base,Path) ->
+   case filename:pathtype(Path) of
+      absolute ->
+         ?dbg(?LINE,Path),
+         Path;
+      relative ->
+         ?dbg(?LINE,Base),
+         ?dbg(?LINE,Path),
+         case http_uri:parse(Path) of
+            {ok,_} ->
+               Path;
+            _ ->
+               case filename:safe_relative_path(Path) of
+                  unsafe ->
+                     Base ++ Path;
+                  O ->
+                     Base ++ O
+               end
+         end;
+      volumerelative ->
+         ?dbg(?LINE,Path),
+         filename:join(Base,Path)
    end.

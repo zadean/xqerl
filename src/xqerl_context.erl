@@ -33,7 +33,7 @@
 -export([add_inscope_namespace/3]).
 -export([get_inscope_namespace/2]).
 
--export([import_modules/1]).
+-export([get_module_exports/1]).
 -export([import_functions/1]).
 -export([import_variables/1]).
 
@@ -185,9 +185,9 @@
 init() -> init(self()).
 
 init(Pid) ->
-%%    Docs = erlang:get('available-documents'),
-%%    erlang:erase(),
-%%    erlang:put('available-documents', Docs),
+   Docs = erlang:get('available-documents'),
+   erlang:erase(),
+   erlang:put('available-documents', Docs),
    
    Now = erlang:timestamp(),
    Key = {Pid, Now},
@@ -697,7 +697,7 @@ add_default_static_values({_, RawCdt} = Key) ->
               {"xqerl_array", "array"},
               {"xqerl_error", "error"}
              ],
-   {StatFunctions, StatVariables} = import_modules(Imports),
+   {StatFunctions, StatVariables} = get_module_exports(Imports),
    ok = import_variables(StatVariables),
    ok = import_functions(StatFunctions),   
    StaticNsDict = dict:from_list(StaticNsList),
@@ -727,9 +727,10 @@ add_default_static_values({_, RawCdt} = Key) ->
 %%    end.
 
 %TODO annotations (private)
-import_modules(Imports) ->
+get_module_exports(Imports) ->
    lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc}) ->
                  Mod = list_to_atom(Ns),
+                 %?dbg(?MODULE, Mod),
                  case catch Mod:module_info(attributes) of
                     {'EXIT',_} ->
                        xqerl_error:error('XQST0059');

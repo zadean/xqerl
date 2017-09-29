@@ -10,6 +10,7 @@
 %% API functions
 %% ====================================================================
 -export([trun/1]). 
+-export([trun/2]). 
 
 -export([run/1]). 
 -export([run/2]). 
@@ -34,25 +35,37 @@ compile(FileName) ->
    {ok, Bin} = file:read_file(FileName),
    Str = binary_to_list(Bin),
    Str2 = xqerl_scanner:remove_all_comments(Str),
-   Toks = xqerl_scanner:tokens(Str2),
+   Toks = scan_tokens(Str2),
 %   ?dbg("Toks",Toks),
    erlang:put(xquery_id, xqerl_context:init(self())),
-   {ok, Toks1} = xqerl_parser:parse(Toks),
+   Tree = parse_tokens(Toks),
+   Static = scan_tree_static(Tree),
 %   ?dbg("Toks1",Toks1),
-   Ret = xqerl_abs:scan_mod(Toks1),
+   Ret = scan_tree(Static),
 %   ?dbg("Ret",Ret),
    case compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
       {ok,M,B} ->
 %         ?dbg("Mod name",M),
-%         print_erl(M,B),   
-         Rec = #module{key = {library,M,FileName},
-                       text = Bin,
-                       bin = B,
-                       stamp = erlang:system_time()},
-         Add = fun() ->
-                     mnesia:write(Rec)
-               end,
-         {atomic, ok} = mnesia:transaction(Add),
+         print_erl(B),   
+%%          Rec = #module{key = {library,M,FileName},
+%%                        text = Bin,
+%%                        bin = B,
+%%                        stamp = erlang:system_time()},
+%%          Add = fun() ->
+%%                      mnesia:write(Rec)
+%%                end,
+%%          {atomic, ok} = mnesia:transaction(Add),
+         Relative = 
+             filename:rootname(
+           filename:join(
+             code:lib_dir(xqerl, lib),
+             filename:join((filename:split(FileName) -- filename:split(code:lib_dir(xqerl))))
+                        )),
+         ?dbg(?LINE,Relative),
+         ?dbg(?LINE,M),
+         ok = filelib:ensure_dir(Relative++".beam"),
+         X = file:write_file(Relative++".beam", B),
+         ?dbg(?LINE,X),
          code:load_binary(M, M, B);
       Other ->
          ?dbg("Mod error",Other),
@@ -83,17 +96,12 @@ run(Str, Options) ->
    catch code:delete(xqerl_main),
    try
       Str2 = strip_comments(Str),
-%      ?dbg("Str2",Str2),
       Tokens = scan_tokens(Str2),
-%      ?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
-%      ?dbg("Tree",Tree),
       Static = scan_tree_static(Tree),
       Abstract = scan_tree(Static),
-%      ?dbg("Abstract",Abstract),
-      B = compile_abstract(Abstract),
-%      print_erl(B),
+      _ = compile_abstract(Abstract),
       erlang:erase(),
       erlang:put('available-documents', Docs),
       xqerl_main:main(Options)
@@ -125,7 +133,9 @@ strip_comments(Str) ->
 
 % returns Tokens
 scan_tokens(Str) ->
-   try xqerl_scanner:tokens(Str) of
+   try 
+      xqerl_scanner:tokens(Str) 
+   of
       Tokens ->
          Tokens
    catch
@@ -202,9 +212,9 @@ compile_abstract(Abstract) ->
 print_erl(B) ->
    {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
    FL = erl_syntax:form_list(AC),
-   PP = (catch erl_prettypr:format(FL)),
-   io:fwrite("~s~n", [PP]),
-   %?dbg("huh",ok),
+   PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
+   io:fwrite("~ts~n", [PP]),
+   ?dbg("huh",PP),
    ok.   
 
 
@@ -227,7 +237,8 @@ compile_main(Str) ->
    erlang:erase(),
    ok.   
 
-trun(Str) ->
+trun(Str) -> trun(Str, []).
+trun(Str, Opt) ->
    % saving the docs between runs to not have to reparse
    Docs = erlang:get('available-documents'),
    erlang:erase(),
@@ -235,16 +246,18 @@ trun(Str) ->
    catch code:delete(xqerl_main),
       Str2 = strip_comments(Str),
 %      ?dbg("Str2",Str2),
-      Tokens = scan_tokens(Str2),
+      %Tokens = scan_tokens(Str2),
+      Tokens = xqerl_scanner:tokens(Str2), 
 %      ?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
-%      ?dbg("Tree",Tree),
+      ?dbg("Tree",Tree),
       Static = xqerl_static:handle_tree(Tree),
+%      ?dbg("Static",Static),
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
       print_erl(B),
       erlang:erase(),
       erlang:put('available-documents', Docs),
-      xqerl_main:main([]).
+      xqerl_main:main(Opt).

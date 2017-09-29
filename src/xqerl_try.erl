@@ -12,119 +12,567 @@
 
 -export([main/1]).
 
--'element-namespace'('no-namespace').
+-variables([{{qname, 'no-namespace', [], "uri"}, {xqSeqType, 'xs:string', one},
+        [], {'var$^0', 1}},
+       {{qname, 'no-namespace', [], "root"}, {xqSeqType, item, zero_or_many}, [],
+        {'var$^1', 1}},
+       {{qname, 'no-namespace', [], "metaObjects"}, {xqSeqType, item, zero_or_many},
+        [], {'var$^2', 1}}]).
 
--'import-functions'([]).
+-functions([{{qname, "http://www.w3.org/2005/xquery-local-functions", "local",
+         "recurseMetaObject"},
+        {xqSeqType, item, zero_or_many}, [], {'fx$^5', 3}, 2,
+        [{xqSeqType,
+          {xqKindTest, element, {qname, default, default, "metaObject"}, undefined,
+      undefined},
+          one},
+         {xqSeqType, 'xs:integer', one}]},
+       {{qname, "http://www.w3.org/2005/xquery-local-functions", "local",
+         "drawDiagram"},
+        {xqSeqType,
+         {xqKindTest, element, {qname, undefined, "s", "g"}, undefined, undefined}, one},
+        [], {'fx$^7', 2}, 1,
+        [{xqSeqType,
+          {xqKindTest, element, {qname, default, default, "QObject"}, undefined,
+      undefined},
+          one}]}]).
 
--'import-variables'([]).
+-export(['var$^0'/1, 'var$^1'/1, 'var$^2'/1]).
 
--'context-item'({item, external, undefined}).
+-export(['fx$^5'/3, 'fx$^7'/2]).
 
--'boundary-space'(strip).
-
--'default-collation'("http://www.w3.org/2005/xpath-functions/collat"
-           "ion/codepoint").
-
--'base-uri'("C:\\Users\\Zack").
-
--'construction-mode'(preserve).
-
--'ordering-mode'(ordered).
-
--'empty-seq-order'(greatest).
-
--'copy-namespaces'({preserve, 'no-inherit'}).
-
--'decimal-format'([]).
-
--namespaces([{'no-namespace', []}]).
-
--options([]).
-
--variables([{{qname, 'no-namespace', [], "uri"},
-        {xqSeqType, item, zero_or_many}, [], {uri, 1}}]).
-
--functions([]).
-
--export([uri/1]).
-
--export([]).
-
-uri(Ctx0) ->
+'var$^0'(Ctx0) ->
     {xqAtomicValue, 'xs:string',
-     "C:/git/zadean/xqerl/test/QT3_1_0/docs/works-m"
-     "od.xml"}.
+     "C:/git/zadean/xqerl/test/QT3_1_0/fn/id/QObject.xml"}.
+
+'var$^1'(Ctx0) ->
+    xqerl_step:forward(Ctx0,
+             xqerl_step:forward(Ctx0,
+                 xqerl_fn:doc(Ctx0,
+                         xqerl_types:as_seq(xqerl_context:get_variable_value({'var$^0', 1},
+                                          'var$^0'(Ctx0)),
+                             {xqSeqType, 'xs:string', zero_or_one})),
+                 child, {qname, 'no-namespace', [], "root"}, []),
+             child, {qname, 'no-namespace', [], "QObject"}, []).
+
+'var$^2'(Ctx0) ->
+    xqerl_step:forward(Ctx0,
+             xqerl_step:reverse(Ctx0,
+                 xqerl_seq2:union(xqerl_context:get_variable_value({'var$^1', 1},
+                                     'var$^1'(Ctx0)),
+                        xqerl_seq2:empty()),
+                 'preceding-sibling', {qname, 'no-namespace', [], "metaObjects"}, []),
+             child, {qname, 'no-namespace', [], "metaObject"}, []).
+
+'fx$^5'(Ctx0, Param__var_1, Param__var_2) ->
+    xqerl_node:new_fragment({xqElementNode, undefined, undefined,
+              {qname, "http://www.w3.org/2000/svg", "s", "text"}, undefined, [], [], [],
+              undefined, 'xs:anyType', {xqAtomicValue, 'xs:anyURI', "C:\\Users\\Zack"},
+              undefined,
+              begin
+                Ctx__1 = Ctx0,
+                [[],
+            {xqAttributeNode, undefined, {qname, 'no-namespace', [], "fill"}, undefined,
+             undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "blue"}]},
+            {xqAttributeNode, undefined, {qname, 'no-namespace', [], "font-size"},
+             undefined, undefined, undefined, undefined,
+             [{xqAtomicValue, 'xs:string', "55"}]},
+            {xqAttributeNode, undefined, {qname, 'no-namespace', [], "font-family"},
+             undefined, undefined, undefined, undefined,
+             [{xqAtomicValue, 'xs:string', "Verdana"}]},
+            {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
+             undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "10"}]},
+            {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
+             undefined, undefined, undefined,
+             [xqerl_operators:multiply({xqAtomicValue, 'xs:integer', 10}, Param__var_2)]},
+            xqerl_fn:string(Ctx__1,
+                  xqerl_types:as_seq(xqerl_step:forward(Ctx__1,
+                                    xqerl_seq2:union(Param__var_1, xqerl_seq2:empty()),
+                                    attribute, {qname, 'no-namespace', [], "className"},
+                                    []),
+                           {xqSeqType, item, zero_or_one}))]
+              end},
+             {xqAtomicValue, 'xs:anyURI', "C:\\Users\\Zack"}).
+
+'fx$^7'(Ctx0, Param__var_3) ->
+    xqerl_types:as_seq(xqerl_node:new_fragment({xqElementNode, undefined, undefined,
+                  {qname, "http://www.w3.org/2000/svg", "s", "g"}, undefined, [], [], [],
+                  undefined, 'xs:anyType', {xqAtomicValue, 'xs:anyURI', "C:\\Users\\Zack"},
+                  undefined,
+                  begin
+                    Ctx__1 = Ctx0,
+                    [xqerl_seq2:sort_seq(xqerl_seq2:append(xqerl_seq2:node_map(Ctx__1,
+                                            fun (Ctx__7) ->
+                                               'fx$^5'(Ctx__7,
+                                                  xqerl_types:as_seq(xqerl_context:get_context_item(Ctx__7),
+                                                      {xqSeqType,
+                                                       {xqKindTest,
+                                                        element,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "metaObject"},
+                                                        undefined,
+                                                        undefined},
+                                                       one}),
+                                                  xqerl_types:as_seq({xqAtomicValue,
+                                                       'xs:integer',
+                                                       1},
+                                                      {xqSeqType,
+                                                       'xs:integer',
+                                                       one}))
+                                            end,
+                                            begin
+                                              Local__4 =
+                                             xqerl_context:get_variable_value({'var$^2',
+                                                           1},
+                                                          'var$^2'(Ctx__1)),
+                                              xqerl_step:filter(Ctx__1,
+                                                 [fun
+                                                    (Ctx__4) ->
+                                                   xqerl_operators:general_compare('=',
+                                                               xqerl_step:forward(Ctx__4,
+                                                                        xqerl_context:get_context_item(Ctx__4),
+                                                                        attribute,
+                                                                        {qname,
+                                                                         'no-namespace',
+                                                                         [],
+                                                                         "className"},
+                                                                        []),
+                                                               xqerl_step:forward(Ctx__4,
+                                                                        xqerl_seq2:union(Param__var_3,
+                                                                               xqerl_seq2:empty()),
+                                                                        attribute,
+                                                                        {qname,
+                                                                         'no-namespace',
+                                                                         [],
+                                                                         "className"},
+                                                                        []))
+                                                  end],
+                                                 Local__4)
+                                            end),
+                                  xqerl_seq2:append(case
+                                            xqerl_seq2:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                                          xqerl_fn:string(Ctx__1,
+                                                                xqerl_types:as_seq(xqerl_step:forward(Ctx__1,
+                                                                                  xqerl_seq2:union(Param__var_3,
+                                                                                    xqerl_seq2:empty()),
+                                                                                  attribute,
+                                                                                  {qname,
+                                                                              'no-namespace',
+                                                                              [],
+                                                                              "objectName"},
+                                                                                  []),
+                                                                         {xqSeqType,
+                                                                          item,
+                                                                          zero_or_one}))))
+                                              of
+                                            {xqAtomicValue, 'xs:boolean',
+                                             true} ->
+                                           xqerl_node:new_fragment({xqAttributeNode,
+                                                     undefined,
+                                                     {qname,
+                                                      "http://www.w3.org/XML/1998/namespace",
+                                                      "xml",
+                                                      "id"},
+                                                     undefined,
+                                                     undefined,
+                                                     undefined,
+                                                     undefined,
+                                                     [xqerl_step:forward(Ctx__1,
+                                                               xqerl_seq2:union(Param__var_3,
+                                                                      xqerl_seq2:empty()),
+                                                               attribute,
+                                                               {qname,
+                                                                'no-namespace',
+                                                                [],
+                                                                "objectName"},
+                                                               [])]},
+                                                    {xqAtomicValue,
+                                                     'xs:anyURI',
+                                                     "C:\\Users\\Zack"});
+                                            _ -> xqerl_seq2:empty()
+                                          end,
+                                          xqerl_seq2:empty()))),
+                     {xqAtomicValue, 'xs:string', " "}]
+                  end},
+                      {xqAtomicValue, 'xs:anyURI', "C:\\Users\\Zack"}),
+             {xqSeqType,
+         {xqKindTest, element, {qname, "http://www.w3.org/2000/svg", "s", "g"},
+          undefined, undefined},
+         one}).
 
 main(Options) ->
     Ctx0 = maps:put(namespaces,
           [{"", 'no-namespace'},
-           {"local",
-            "http://www.w3.org/2005/xquery-local-functions"},
+           {"local", "http://www.w3.org/2005/xquery-local-functions"},
            {"fn", "http://www.w3.org/2005/xpath-functions"},
            {"xsi", "http://www.w3.org/2001/XMLSchema-instance"},
            {"xml", "http://www.w3.org/XML/1998/namespace"},
            {"xs", "http://www.w3.org/2001/XMLSchema"},
            {"math", "http://www.w3.org/2005/xpath-functions/math"},
            {"map", "http://www.w3.org/2005/xpath-functions/map"},
-           {"array",
-            "http://www.w3.org/2005/xpath-functions/array"},
-           {"err", "http://www.w3.org/2005/xqt-errors"}],
-          maps:put(variables, [],
-              maps:put(ctx_var, 'Ctx',
-                  maps:put(parameters, [],
-                      lists:foldl(fun ({K, V}, M) ->
-                           maps:put(K,
-                               V,
-                               M)
-                        end,
-                        maps:new(),
-                        Options))))),
+           {"array", "http://www.w3.org/2005/xpath-functions/array"},
+           {"err", "http://www.w3.org/2005/xqt-errors"},
+           {"s", "http://www.w3.org/2000/svg"}],
+          maps:put('base-uri', {xqAtomicValue, 'xs:anyURI', "C:\\Users\\Zack"},
+              maps:put(variables, [],
+                  maps:put(ctx_var, 'Ctx',
+                      maps:put(parameters, [],
+                     lists:foldl(fun ({K, V}, M) -> maps:put(K, V, M) end, maps:new(), Options)))))),
     xqerl_context:init(),
     Ctx = Ctx0,
-    xqerl_types:return_value(xqerl_fn:boolean(Ctx,
-                     xqerl_operators:eff_bool_val(xqerl_fn:contains(Ctx,
-                                      xqerl_types:as_seq(
-                                          xqerl_fn:'document-uri'(Ctx,
-                                                   xqerl_types:as_seq(xqerl_fn:doc(Ctx,
-                                                               xqerl_types:as_seq(xqerl_context:get_variable_value({uri,
-                                                                                      1},
-                                                                                     uri(Ctx)),
-                                                                        {xqSeqType,
-                                                                         'xs:string',
-                                                                         zero_or_one})),
-                                                            {xqSeqType,
-                                                             {xqKindTest,
-                                                              node,
-                                                              undefined,
-                                                              undefined,
-                                                              undefined},
-                                                             zero_or_one})),
-                                          {xqSeqType,
-                                           'xs:string',
-                                           zero_or_one}),
-                                      xqerl_types:as_seq(xqerl_context:get_variable_value({uri,
-                                                        1},
-                                                       uri(Ctx)),
-                                          {xqSeqType,
-                                           'xs:string',
-                                           zero_or_one})))
-                  orelse
-                  xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
-                                            xqerl_fn:'document-uri'(Ctx,
-                                                     xqerl_types:as_seq(xqerl_fn:doc(Ctx,
-                                                                 xqerl_types:as_seq(xqerl_context:get_variable_value({uri,
-                                                                                   1},
-                                                                                  uri(Ctx)),
-                                                                     {xqSeqType,
-                                                                      'xs:string',
-                                                                      zero_or_one})),
-                                                         {xqSeqType,
-                                                          {xqKindTest,
-                                                           node,
-                                                           undefined,
-                                                           undefined,
-                                                           undefined},
-                                                          zero_or_one})),
-                                            {xqAtomicValue,
-                                             'xs:string',
-                                             []})))).
+    Var_0 = xqerl_context:get_variable_value({'var$^0', 1}, 'var$^0'(Ctx)),
+    Var_1 = xqerl_context:get_variable_value({'var$^1', 1}, 'var$^1'(Ctx)),
+    Var_2 = xqerl_context:get_variable_value({'var$^2', 1}, 'var$^2'(Ctx)),
+    xqerl_types:return_value(xqerl_node:new_fragment({xqElementNode, undefined,
+                        undefined, {qname, "http://www.w3.org/2000/svg", "s", "svg"}, undefined, [], [],
+                        [], undefined, 'xs:anyType', {xqAtomicValue, 'xs:anyURI', "C:\\Users\\Zack"},
+                        undefined,
+                        begin
+                     Ctx__1 = Ctx,
+                     xqerl_seq2:sort_seq(xqerl_seq2:append(begin
+                                    VarTup__1 = fun Local__13() ->
+                                              fun IterLoop__1(Iter__1,
+                                                    Local__6) ->
+                                                 case
+                                                   xqerl_seq2:next(Iter__1)
+                                                of
+                                                   empty ->
+                                                  Local__6;
+                                                   none ->
+                                                  Local__6;
+                                                   {Local__7,
+                                                    Local__5,
+                                                    Iter__2} ->
+                                                  [],
+                                                  XQ__var_8 =
+                                                      Local__5,
+                                                  IterLoop__1(Iter__2,
+                                                         fun
+                                                      IterLoop__2(Iter__3,
+                                                             Local__10) ->
+                                                          case
+                                                            xqerl_seq2:next(Iter__3)
+                                                         of
+                                                            empty ->
+                                                           Local__10;
+                                                            none ->
+                                                           Local__10;
+                                                            {Local__11,
+                                                             Local__9,
+                                                             Iter__4} ->
+                                                           [],
+                                                           XQ__var_9 =
+                                                               Local__9,
+                                                           IterLoop__2(Iter__4,
+                                                                  xqerl_flwor:stream_append({Var_0,
+                                                                         Var_1,
+                                                                         Var_2,
+                                                                         XQ__var_8,
+                                                                         XQ__var_9},
+                                                                        Local__10))
+                                                          end
+                                                         end(xqerl_seq2:get_seq_iter('fx$^7'(Ctx__1,
+                                                                    xqerl_types:as_seq(XQ__var_8,
+                                                                             {xqSeqType,
+                                                                              {xqKindTest,
+                                                                               element,
+                                                                               {qname,
+                                                                           'no-namespace',
+                                                                           [],
+                                                                           "QObject"},
+                                                                               undefined,
+                                                                               undefined},
+                                                                              one}))),
+                                                        Local__6))
+                                                 end
+                                              end(xqerl_seq2:get_seq_iter(xqerl_step:forward(Ctx__1,
+                                                               xqerl_step:forward(Ctx__1,
+                                                                        xqerl_seq2:union(xqerl_context:get_variable_value({'var$^1',
+                                                                                        1},
+                                                                                       'var$^1'(Ctx__1)),
+                                                                               xqerl_seq2:empty()),
+                                                                        'descendant-or-self',
+                                                                        {xqKindTest,
+                                                                         node,
+                                                                         undefined,
+                                                                         undefined,
+                                                                         undefined},
+                                                                        []),
+                                                               child,
+                                                               {qname,
+                                                                'no-namespace',
+                                                                [],
+                                                                "QObject"},
+                                                               [])),
+                                             xqerl_flwor:stream_new())
+                                           end(),
+                                    VarTup__3 = fun Local__14() ->
+                                              xqerl_flwor:orderbyclause(VarTup__1,
+                                                         [{fun
+                                                        ({Var_0,
+                                                          Var_1,
+                                                          Var_2,
+                                                          XQ__var_8,
+                                                          XQ__var_9}) ->
+                                                            xqerl_fn:string(Ctx__1,
+                                                                  xqerl_types:as_seq(XQ__var_9,
+                                                                      {xqSeqType,
+                                                                       item,
+                                                                       zero_or_one}))
+                                                      end,
+                                                      ascending,
+                                                      default}])
+                                           end(),
+                                    fun IterLoop__3(Iter__5, Local__15) ->
+                                       case
+                                         xqerl_flwor:stream_next(Iter__5)
+                                           of
+                                         none ->
+                                             xqerl_seq2:sort_seq(Local__15);
+                                         {_,
+                                          {Var_0, Var_1, Var_2,
+                                           XQ__var_8, XQ__var_9},
+                                          Iter__6} ->
+                                             IterLoop__3(Iter__6,
+                                               xqerl_seq2:append(XQ__var_9,
+                                                       Local__15))
+                                       end
+                                    end(xqerl_flwor:stream_iter(VarTup__3),
+                                        xqerl_seq2:empty())
+                                       end,
+                                       xqerl_seq2:append(xqerl_node:new_fragment({xqElementNode,
+                                                    undefined,
+                                                    undefined,
+                                                    {qname,
+                                                     "http://www.w3.org/2000/svg",
+                                                     "s",
+                                                     "rect"},
+                                                    undefined,
+                                                    [],
+                                                    [],
+                                                    [],
+                                                    undefined,
+                                                    'xs:anyType',
+                                                    {xqAtomicValue,
+                                                     'xs:anyURI',
+                                                     "C:\\Users\\Zack"},
+                                                    undefined,
+                                                    begin
+                                                      Ctx__3 =
+                                                          Ctx__1,
+                                                      [[],
+                                                       {xqAttributeNode,
+                                                        undefined,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "stroke-width"},
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        [{xqAtomicValue,
+                                                          'xs:string',
+                                                          "10"}]},
+                                                       {xqAttributeNode,
+                                                        undefined,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "stroke"},
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        [{xqAtomicValue,
+                                                          'xs:string',
+                                                          "navy"}]},
+                                                       {xqAttributeNode,
+                                                        undefined,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "fill"},
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        [{xqAtomicValue,
+                                                          'xs:string',
+                                                          "yellow"}]},
+                                                       {xqAttributeNode,
+                                                        undefined,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "height"},
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        [{xqAtomicValue,
+                                                          'xs:string',
+                                                          "200"}]},
+                                                       {xqAttributeNode,
+                                                        undefined,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "width"},
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        [{xqAtomicValue,
+                                                          'xs:string',
+                                                          "400"}]},
+                                                       {xqAttributeNode,
+                                                        undefined,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "y"},
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        [{xqAtomicValue,
+                                                          'xs:string',
+                                                          "100"}]},
+                                                       {xqAttributeNode,
+                                                        undefined,
+                                                        {qname,
+                                                         'no-namespace',
+                                                         [],
+                                                         "x"},
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        [{xqAtomicValue,
+                                                          'xs:string',
+                                                          "400"}]}]
+                                                    end},
+                                                   {xqAtomicValue,
+                                                    'xs:anyURI',
+                                                    "C:\\Users\\Zack"}),
+                                          xqerl_seq2:append(xqerl_node:new_fragment({xqElementNode,
+                                                            undefined,
+                                                            undefined,
+                                                            {qname,
+                                                             "http://www.w3.org/2000/svg",
+                                                             "s",
+                                                             "rect"},
+                                                            undefined,
+                                                            [],
+                                                            [],
+                                                            [],
+                                                            undefined,
+                                                            'xs:anyType',
+                                                            {xqAtomicValue,
+                                                             'xs:anyURI',
+                                                             "C:\\Users\\Zack"},
+                                                            undefined,
+                                                            begin
+                                                              Ctx__2 =
+                                                             Ctx__1,
+                                                              [{xqAttributeNode,
+                                                                undefined,
+                                                                {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "stroke-width"},
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                [{xqAtomicValue,
+                                                             'xs:string',
+                                                             "2"}]},
+                                                               {xqAttributeNode,
+                                                                undefined,
+                                                                {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "stroke"},
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                [{xqAtomicValue,
+                                                             'xs:string',
+                                                             "blue"}]},
+                                                               {xqAttributeNode,
+                                                                undefined,
+                                                                {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "fill"},
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                [{xqAtomicValue,
+                                                             'xs:string',
+                                                             "none"}]},
+                                                               {xqAttributeNode,
+                                                                undefined,
+                                                                {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "height"},
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                [{xqAtomicValue,
+                                                             'xs:string',
+                                                             "300"}]},
+                                                               {xqAttributeNode,
+                                                                undefined,
+                                                                {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "width"},
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                [{xqAtomicValue,
+                                                             'xs:string',
+                                                             "500"}]},
+                                                               {xqAttributeNode,
+                                                                undefined,
+                                                                {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "y"},
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                [{xqAtomicValue,
+                                                             'xs:string',
+                                                             "1"}]},
+                                                               {xqAttributeNode,
+                                                                undefined,
+                                                                {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "x"},
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                undefined,
+                                                                [{xqAtomicValue,
+                                                             'xs:string',
+                                                             "1"}]}]
+                                                            end},
+                                                           {xqAtomicValue,
+                                                            'xs:anyURI',
+                                                            "C:\\Users\\Zack"}),
+                                                  xqerl_seq2:empty()))))
+                        end},
+                       {xqAtomicValue, 'xs:anyURI', "C:\\Users\\Zack"})).

@@ -38,6 +38,8 @@
 -define(str(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
 -define(atm(Typ,Val), ?seq:singleton(#xqAtomicValue{type = Typ, value = Val})).
 -define(node_test, ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
+-define(err(Code),xqerl_error:error(Code)).
+
 -include("xqerl.hrl").
 
 -'module-namespace'({"http://www.w3.org/2005/xpath-functions", "fn"}).
@@ -825,7 +827,7 @@
                                    true ->
                                       analyze_string1(Content,Input1)
                                 end},
-   xqerl_node:new_fragment(Frag,BaseUri).
+   ?seq:singleton(xqerl_node:new_fragment(Frag,BaseUri)).
 
 analyze_string1([],String) -> % no matches
    #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
@@ -912,7 +914,7 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
                         expr = [Att1,Txt1]}|get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)]
   end.
 
-
+%% TODO NO TEST
 %% Makes a dynamic call on a function with an argument list supplied in the form of an array. 
 'apply'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
@@ -971,8 +973,9 @@ avg1([H|T], Sum, Count) ->
 
 %% Returns the base URI of a node. 
 'base-uri'(Ctx) -> 'base-uri'(Ctx,xqerl_context:get_context_item(Ctx)).
+'base-uri'(_Ctx,[]) -> ?seq:empty();
 'base-uri'(_Ctx,Arg1) -> 
-   case ?seq:is_empty(Arg1) of
+   case ?seq:is_sequence(Arg1) andalso ?seq:is_empty(Arg1) of
       true ->
          Arg1;
       _ ->
@@ -981,6 +984,7 @@ avg1([H|T], Sum, Count) ->
             #xqNode{frag_id = F} ->
                case xqerl_node:get_node(Node) of
                   #xqElementNode{base_uri = Base} ->
+                     ?dbg("base-uri",Base),
                      if Base == [] -> ?seq:empty();
                         true -> 
                            case ?seq:is_sequence(Base) of
@@ -1011,40 +1015,11 @@ avg1([H|T], Sum, Count) ->
                            end
                      end;
                   #xqAttributeNode{parent_node = P} ->
-                     case xqerl_node:get_node(#xqNode{frag_id = F, identity = P}) of
-                        #xqElementNode{base_uri = PBase} ->
-                           if PBase == [] -> ?seq:empty();
-                              true -> 
-                                 case ?seq:is_sequence(PBase) of
-                                    true ->
-                                       PBase;
-                                    _ ->
-                                       ?seq:singleton(PBase)
-                                 end
-                           end;
-                        #xqProcessingInstructionNode{base_uri = PBase} ->
-                           if PBase == [] -> ?seq:empty();
-                              true -> 
-                                 case ?seq:is_sequence(PBase) of
-                                    true ->
-                                       PBase;
-                                    _ ->
-                                       ?seq:singleton(PBase)
-                                 end
-                           end;
-                        #xqDocumentNode{base_uri = PBase} ->
-                           if PBase == [] -> ?seq:empty();
-                              true -> 
-                                 case ?seq:is_sequence(PBase) of
-                                    true ->
-                                       PBase;
-                                    _ ->
-                                       ?seq:singleton(PBase)
-                                 end
-                           end;
-                        _ ->
-                           ?seq:empty()
-                     end;
+                     'base-uri'([],#xqNode{frag_id = F, identity = P});
+                  #xqCommentNode{parent_node = P} ->
+                     'base-uri'([],#xqNode{frag_id = F, identity = P});
+                  #xqTextNode{parent_node = P} ->
+                     'base-uri'([],#xqNode{frag_id = F, identity = P});
                   O ->
                     ?dbg("base-uri",O),
                     ?seq:empty()
@@ -1101,6 +1076,7 @@ avg1([H|T], Sum, Count) ->
    end.
 
 %% Returns an xs:string whose characters have supplied codepoints. 
+'codepoints-to-string'(_Ctx,[]) -> ?str("");
 'codepoints-to-string'(_Ctx,Arg1) -> 
    %?dbg("codepoints-to-string", Arg1),
    Ints = ?seq:to_list(Arg1),
@@ -1120,6 +1096,7 @@ avg1([H|T], Sum, Count) ->
 
 %% Given a string value and a collation, generates an internal value called a collation key, with the property that 
 %% the matching and ordering of collation keys reflects the matching and ordering of strings under the specified collation. 
+%% TODO NO TEST
 'collation-key'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'collation-key'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
@@ -1190,9 +1167,11 @@ avg1([H|T], Sum, Count) ->
 
 %% Determines whether or not any of the supplied strings, when tokenized at whitespace boundaries, 
 %% contains the supplied token, under the rules of the supplied collation. 
+%% TODO NO TEST
 'contains-token'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 'contains-token'(_Ctx,_Arg1,_Arg2,_Arg3) -> exit({not_implemented,?LINE}).
 
+'count'(_Ctx,#xqNode{}) -> ?atint(1);
 'count'(_Ctx,Arg1) ->
    Size = ?seq:size(Arg1),
    ?atint(Size).
@@ -1290,18 +1269,25 @@ avg1([H|T], Sum, Count) ->
 %TODO arrays
 %'deep-equal'(_Ctx,[],[]) -> ?bool(true);
 'deep-equal'(_Ctx,Arg1,Arg2) -> 
+   ?dbg("deep-equal",Arg1),
+   ?dbg("deep-equal",Arg2),
    case ?seq:is_empty(Arg1) andalso ?seq:is_empty(Arg2) of
       true ->
+   ?dbg("deep-equal",ok),
          ?bool(true);
       _ ->
          case count([], Arg1) =/= count([], Arg2) of
             true ->
+   ?dbg("deep-equal",count([], Arg1)),
+   ?dbg("deep-equal",count([], Arg2)),
                ?bool(false);
             _ ->
+   ?dbg("deep-equal",ok),
                Zip = lists:zip(?seq:to_list(Arg1), ?seq:to_list(Arg2)),
                %?dbg("deep-equal",Zip),
                try
                   ?bool(lists:all(fun({#xqNode{} = N1,#xqNode{} = N2}) ->
+   ?dbg("deep-equal",ok),
                                         A1 = xqerl_node:nodes_equal(N1,N2),
                                         %?dbg("deep-equal",A1),
                                         A1 == {xqAtomicValue,'xs:boolean',true};
@@ -1320,6 +1306,7 @@ avg1([H|T], Sum, Count) ->
                                   end, Zip))
                catch
                   _:_ ->
+   ?dbg("deep-equal",ok),
                      ?bool(false)
                end
          end
@@ -1409,17 +1396,21 @@ avg1([H|T], Sum, Count) ->
       true ->
          Arg1;
       _ ->
-         Uri = xqerl_types:value(Arg1),
-         %?dbg("doc Uri",{?LINE, Uri}),
-         case catch xqerl_context:get_available_document(Uri) of
-                  {'EXIT',_} ->
-         %?dbg("doc Uri",{?LINE, Uri}),
-                     Doc = xqerl_doc:read_http(Uri),
-                     ?seq:singleton(xqerl_doc:doc_to_node(Doc));
-                  _ ->
-         %?dbg("doc Uri",{?LINE, Uri}),
-                     ?seq:singleton(#xqNode{frag_id = Uri, identity = 1})
-               end
+         try
+            Uri = xqerl_types:value(Arg1),
+            case catch xqerl_context:get_available_document(Uri) of
+                     {'EXIT',_} ->
+                        Doc = xqerl_doc:read_http(Uri),
+                        ?seq:singleton(xqerl_doc:doc_to_node(Doc));
+                     _ ->
+                        ?seq:singleton(#xqNode{frag_id = Uri, identity = 1})
+                  end
+         catch 
+            _:#xqError{} = E ->
+               exit(E);
+            _:_ ->
+               ?err('FODC0005')
+         end
    end.
 
 
@@ -1466,6 +1457,7 @@ avg1([H|T], Sum, Count) ->
 'element-with-id'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
 %% Returns true if the argument is the empty sequence. 
+'empty'(_Ctx,#xqNode{}) -> ?bool(false);
 'empty'(_Ctx,Arg1) -> 
    ?bool(?seq:is_empty(Arg1)).
 
@@ -1476,24 +1468,8 @@ avg1([H|T], Sum, Count) ->
          ?str("");
       _ ->
          Val = xqerl_types:string_value(Arg1),
-         ?str(pct_encode1(Val))
+         ?str(xqerl_lib:encode_for_uri(Val))
    end.
-
-pct_encode1([]) ->
-   [];
-pct_encode1([H|T]) when H == $-;
-                        H == $_;
-                        H == $.;
-                        H == $~ ->
-   [H|pct_encode1(T)];
-pct_encode1([H|T]) when H >= $A, H =< $Z ->
-   [H|pct_encode1(T)];
-pct_encode1([H|T]) when H >= $a, H =< $z ->
-   [H|pct_encode1(T)];
-pct_encode1([H|T]) when H >= $0, H =< $9 ->
-   [H|pct_encode1(T)];
-pct_encode1([H|T]) ->
-   string:to_upper(edoc_lib:escape_uri([H])) ++ pct_encode1(T).
 
 
 %% Returns true if the string $arg1 contains $arg2 as a trailing substring, taking collations into account. 
@@ -1541,7 +1517,7 @@ pct_encode1([H|T]) ->
 'error'(_Ctx) -> 
    xqerl_error:error('FOER0000').
 'error'(_Ctx,QName) ->
-   case ?seq:is_sequence(QName) andalso ?seq:is_empty(QName) of
+   case QName == [] orelse ?seq:is_sequence(QName) andalso ?seq:is_empty(QName) of
       true ->
          xqerl_error:error('XPTY0004'); % no empty error without description
       _ ->
@@ -1555,7 +1531,7 @@ pct_encode1([H|T]) ->
                 ?seq:singleton(QName)
           end,
    Str = xqerl_types:string_value(Description),
-   case ?seq:is_empty(Name) of
+   case QName == [] orelse ?seq:is_empty(Name) of
       true ->
          xqerl_error:error('FOER0000',Str);
       _ ->
@@ -1563,7 +1539,7 @@ pct_encode1([H|T]) ->
    end.
 'error'(_Ctx,QName,Description,Object) ->
    Str = xqerl_types:string_value(Description),
-   case ?seq:is_sequence(QName) andalso ?seq:is_empty(QName) of
+   case QName == [] orelse ?seq:is_sequence(QName) andalso ?seq:is_empty(QName) of
       true ->
          xqerl_error:error('FOER0000',Str, Object);
       _ ->
@@ -1603,6 +1579,7 @@ pct_encode3([H|T]) ->
    string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
 
 %% Returns $arg if it contains exactly one item. Otherwise, raises an error. 
+'exactly-one'(_Ctx,[]) -> ?err('FORG0005');
 'exactly-one'(_Ctx,Arg1) -> 
    case ?seq:is_sequence(Arg1) of
       true ->
@@ -1610,7 +1587,7 @@ pct_encode3([H|T]) ->
             1 ->
                Arg1;
             _ ->
-               xqerl_error:error('FORG0005')
+               ?err('FORG0005')
          end;
       _ ->
          ?seq:singleton(Arg1)
@@ -2102,10 +2079,12 @@ unmask_static_mod_ns(T) -> T.
    end.
 
 %% Reads an external resource containing JSON, and returns the result of parsing the resource as JSON. 
+%% TODO NO TEST
 'json-doc'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'json-doc'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
 %% Parses a string supplied in the form of a JSON text, returning the results in the form of an XML document node. 
+%% TODO NO TEST
 'json-to-xml'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'json-to-xml'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
@@ -2459,6 +2438,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
          ?atm('xs:anyURI',"");
       _ ->
          Node = ?seq:singleton_value(Arg1),
+   ?dbg(?MODULE,{?LINE,Node}),
          case xqerl_node:get_node_name(Node) of
             #qname{namespace = 'no-namespace'} ->
                ?atm('xs:anyURI',"");
@@ -2538,7 +2518,8 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    Q = xqerl_node:get_node_name({I,Doc}),
    %?dbg("Q",Q),
    if Q == [] ->
-         ?str("");
+         ?seq:empty();
+         %?str("");
       true ->
          ?seq:singleton(#xqAtomicValue{type = 'xs:QName', value = Q})
    end;
@@ -2629,10 +2610,10 @@ shrink_spaces([H|T]) ->
 
 %% Returns true if the effective boolean value of $arg is false, or false if it is true. 
 'not'(_Ctx,Arg1) -> 
-   case ?seq:singleton_value(boolean([], Arg1)) of
-      ?inbool(true) ->
+   case xqerl_operators:eff_bool_val(Arg1) of
+      true ->
          ?bool(false);
-      ?inbool(false) ->
+      false ->
          ?bool(true)
    end.
 
@@ -2762,6 +2743,7 @@ shrink_spaces([H|T]) ->
    end.
 
 %% Returns a random number generator, which can be used to generate sequences of random numbers. 
+%% NO TEST
 'random-number-generator'(_Ctx) -> exit({not_implemented,?LINE}).
 'random-number-generator'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 
@@ -3076,6 +3058,7 @@ string_value(At) -> xqerl_types:string_value(At).
 'serialize'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
 %% Sorts a supplied sequence, based on the value of a sort key supplied as a function. 
+%% NO TEST
 'sort'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'sort'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 'sort'(_Ctx,_Arg1,_Arg2,_Arg3) -> exit({not_implemented,?LINE}).
@@ -3225,38 +3208,41 @@ string_value(At) -> xqerl_types:string_value(At).
 
 %% Returns the portion of the value of $sourceString beginning at the position indicated by the value of $start and continuing for the number of characters indicated by the value of $length. 
 'substring'(Ctx,SourceString,Start) ->
-   'substring'(Ctx,SourceString,Start, 'string-length'(Ctx,SourceString)).
+   'substring'(Ctx,SourceString,Start, []).
 
 'substring'(_Ctx,SourceString,Start,Length) -> 
    Val = xqerl_types:value(xqerl_types:cast_as(SourceString, 'xs:string')),
    VLen = xqerl_types:value(Length),
    VStart = xqerl_types:value(Start),
-   if VLen == "INF" ->
-         ?seq:empty();
-      VLen == "-INF" ->
-         ?seq:empty();
-      VLen == "NaN" ->
-         ?seq:empty();
-      VStart == "INF" ->
-         ?seq:empty();
-      VStart == "-INF" ->
-         ?seq:empty();
+   if VLen == "-INF";
+      VLen == "NaN";
+      VStart == "INF";
+      VStart == "-INF";
       VStart == "NaN" ->
-         ?seq:empty();
+         ?str("");
       true ->
-         Len = erlang:round(VLen),
          Start2 = erlang:round(VStart)-1,
+         Len = if VLen == [];
+                  VLen == "INF" -> 99;
+                  true ->
+                     erlang:round(VLen)
+               end,
          {Start1,End} = if Start2 < 0 ->
                               {0, Len + Start2};
                            true ->
                               {Start2, Len}
                         end,
-         if Val == [] ->
-               ?str("");
-            Start1 > length(Val) ->
+         if Val == [];
+            Start1 > length(Val);
+            End < 1 ->
                ?str("");
             true ->
-               Sub = string:slice(Val, Start1, End),
+               Sub = if VLen == [];
+                        VLen == "INF" ->
+                           string:slice(Val, Start1);
+                        true ->
+                           string:slice(Val, Start1, End)
+                     end,
                ?str(Sub)
          end
    end.
@@ -3527,6 +3513,7 @@ zip_map_trans([H|T],[TH|TT]) ->
 'uri-collection'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 
 %% Converts an XML tree, whose format corresponds to the XML representation of JSON defined in this specification, into a string conforming to the JSON grammar. 
+%% NO TEST
 'xml-to-json'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'xml-to-json'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
@@ -3572,5 +3559,6 @@ zip_map_trans([H|T],[TH|TT]) ->
    end.
 
 %% The external effects of fn:put are implementation-defined, since they occur outside the domain of XQuery. The intent is that, if fn:put is invoked on a document node and no error is raised, a subsequent query can access the stored document by invoking fn:doc with the same URI. 
+%% TODO NO TEST
 'put'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 

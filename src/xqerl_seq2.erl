@@ -81,7 +81,8 @@ size(Map) when is_map(Map) ->
 size({_,Size,_}) when is_integer(Size) ->
    Size.
 
--spec is_empty(seq()) -> boolean().
+-spec is_empty(seq() | []) -> boolean().
+is_empty([]) -> true;
 is_empty({_,Size,_}) ->
    Size == 0.
 
@@ -479,9 +480,11 @@ to_list({_,_,[]}) -> [];
 to_list({_,_,Seq}) when is_list(Seq) ->
    [V || {_,V} <- lists:keysort(1, Seq)].
 
-from_list(List) ->
+from_list(List) when is_list(List) ->
    Seq = empty(),
-   from_list1(lists:flatten(List), Seq).
+   from_list1(lists:flatten(List), Seq);
+from_list(List) ->
+   List.
 
 from_list1([], Seq) ->
    sort_seq(Seq);
@@ -905,7 +908,7 @@ combined_type(T1,T2) when ?unsignedShort (T1) andalso ?unsignedShort (T2) -> 'xs
 combined_type(T1,T2) when ?integer(T1) andalso ?integer(T2) -> 'xs:integer';
 combined_type(T1,T2) when ?decimal(T1) andalso ?decimal(T2) -> 'xs:decimal';
 combined_type(T1,T2) when ?numeric(T1) andalso ?numeric(T2) -> 'xs:numeric';
-combined_type(T1,T2) when ?anySimpleType(T1) andalso ?anySimpleType(T2) -> 'xs:anySimpleType';
+combined_type(T1,T2) when ?anyAtomicType(T1) andalso ?anyAtomicType(T2) -> 'xs:anyAtomicType';
 combined_type(_T1,_T2) ->
    'item'.
 

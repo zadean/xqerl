@@ -561,12 +561,12 @@ Left  2000  '[' ']' '?'.
 'Annotation'             -> '%' 'EQName'                       : {annotation, {qname(anno, '$2'), []}}.
 
 %% 
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true, 'value' = '$7'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true, 'expr' = '$7'}.
 'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external'                         : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'value' = '$6'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true, 'value' = '$6'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external'                         : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true}.
-'VarDecl'                -> 'variable' '$' 'VarName' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'value' = '$5'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'expr' = '$6'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true, 'expr' = '$6'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external'                                           : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true}.
+'VarDecl'                -> 'variable' '$' 'VarName' ':=' 'VarValue'                                      : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'expr' = '$5'}.
 
 'VarValue'               -> 'ExprSingle' : '$1'.
 'VarDefaultValue'        -> 'ExprSingle' : '$1'.
@@ -605,7 +605,7 @@ Left  2000  '[' ']' '?'.
 
 'FunctionBody'           -> 'EnclosedExpr' : '$1'.
 
-'EnclosedExpr'           -> '{' 'Expr' '}' : {'expr', '$2'}.
+'EnclosedExpr'           -> '{' 'Expr' '}' : '$2'.
 'EnclosedExpr'           -> '{' '}' : 'empty-expr'.
 
 'OptionDecl'             -> 'declare' 'option' 'EQName' 'StringLiteral' : {'option', {qname(opt, '$3'), value_of('$4')}}.
@@ -888,9 +888,9 @@ Left  2000  '[' ']' '?'.
 % [79]
 'TryClause'              -> 'try' 'EnclosedTryTargetExpr' : '$2'.
 % [80]
-'EnclosedTryTargetExpr'  -> 'EnclosedExpr' : '$1'.
+'EnclosedTryTargetExpr'  -> 'EnclosedExpr' : {expr, '$1'}.
 % [81]
-'CatchClause'            -> 'catch' 'CatchErrorList' 'EnclosedExpr' : {'$2', '$3'}.
+'CatchClause'            -> 'catch' 'CatchErrorList' 'EnclosedExpr' : {'$2', {expr, '$3'}}.
 'CatchClauses'           -> 'CatchClause' 'CatchClauses' : ['$1'|'$2'].
 'CatchClauses'           -> 'CatchClause' : ['$1'].
 % [82]
@@ -1123,7 +1123,7 @@ Left  2000  '[' ']' '?'.
 'Wildcard'               -> '*:' 'NCName' : #'qname'{prefix = "*", local_name = value_of('$2')}.
 'Wildcard'               -> 'BracedURILiteral' '*'  : #'qname'{namespace = '$1', local_name = "*"}.
 % [121]    PostfixExpr    ::=      PrimaryExpr (Predicate | ArgumentList | Lookup)*   
-'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : {postfix, '$1', #xqPostfixStep{predicates = '$2'}}.
+'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : {postfix, '$1', '$2'}.
 'PostfixExpr'            -> 'PrimaryExpr'              : '$1'.
 'PostFixes'              -> 'Predicate'    : [{'predicate', '$1'}].
 'PostFixes'              -> 'ArgumentList' : [{'arguments', '$1'}].
@@ -1143,7 +1143,7 @@ Left  2000  '[' ']' '?'.
 % [124]    Predicate      ::=      "[" Expr "]"   
 'Predicate'              -> '[' 'Expr' ']' : '$2'.
 % [125]    Lookup      ::=      "?" KeySpecifier
-'Lookup'                 -> '?' 'KeySpecifier' : {'lookup', '$2'}.
+'Lookup'                 -> '?' 'KeySpecifier' : '$2'.
 % [126]    KeySpecifier      ::=      NCName | IntegerLiteral | ParenthesizedExpr | "*"
 'KeySpecifier'           -> 'NCName' : value_of('$1').
 'KeySpecifier'           -> 'IntegerLiteral' : value_of('$1').
@@ -1164,7 +1164,7 @@ Left  2000  '[' ']' '?'.
 'PrimaryExpr'            -> 'FunctionCall'  : '$1'.
 'PrimaryExpr'            -> 'OrderedExpr'  : '$1'.
 'PrimaryExpr'            -> 'UnorderedExpr'  : '$1'.
-'PrimaryExpr'            -> 'NodeConstructor' : {'node-cons', '$1'}.
+'PrimaryExpr'            -> 'NodeConstructor' : '$1'.
 'PrimaryExpr'            -> 'FunctionItemExpr' : '$1'.
 'PrimaryExpr'            -> 'MapConstructor' : '$1'.
 'PrimaryExpr'            -> 'ArrayConstructor' : '$1'.
@@ -1190,7 +1190,7 @@ Left  2000  '[' ']' '?'.
 'VarName'                -> 'EQName' : qname(var, '$1').
 % [133]    ParenthesizedExpr    ::=      "(" Expr? ")"  
 'ParenthesizedExpr'      -> '(' ')' : 'empty-sequence'.
-'ParenthesizedExpr'      -> '(' 'Expr' ')' : {'expr', '$2'}.
+'ParenthesizedExpr'      -> '(' 'Expr' ')' : {'sequence', '$2'}.
 % [134]    ContextItemExpr      ::=      "."   
 'ContextItemExpr'        -> '.' : 'context-item'.
 % [135]    OrderedExpr    ::=      "ordered" EnclosedExpr  
@@ -1211,49 +1211,49 @@ Left  2000  '[' ']' '?'.
 % [139]    ArgumentPlaceholder     ::=      "?"
 'ArgumentPlaceholder'    -> '?' : value_of('$1').
 % [140]    NodeConstructor      ::=      DirectConstructor | ComputedConstructor   
-'NodeConstructor'        -> 'DirectConstructor'   : '$1'.
-'NodeConstructor'        -> 'ComputedConstructor' : '$1'.
+'NodeConstructor'        -> 'DirectConstructor'   : {direct_cons, '$1'}.
+'NodeConstructor'        -> 'ComputedConstructor' : {comp_cons, '$1'}.
 % [141]    DirectConstructor    ::=      DirElemConstructor | DirCommentConstructor | DirPIConstructor   
 'DirectConstructor'      -> 'DirElemConstructor'    : '$1'.
 'DirectConstructor'      -> 'DirCommentConstructor' : '$1'.
 'DirectConstructor'      -> 'DirPIConstructor'      : '$1'.
 % [142]    DirElemConstructor      ::=      "<" QName DirAttributeList ("/>" | (">" DirElemContent* "</" QName S? ">"))   /* ws: explicit */
 'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '/>' 
-                              : #xqElementNode{identity = next_node_id(), name = qname(other,'$2'), expr = '$3'}.
+                              : #xqElementNode{attributes = '$3', name = qname(other,'$2')}.
 'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' 'DirElemContents' '</' 'QName' '>' 
                               : if '$2' == '$7' ->
-                                 #xqElementNode{identity = next_node_id(), name = qname(other,'$2'), expr = '$3' ++ '$5'};
+                                 #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
                                  true -> xqerl_error:error('XQST0118')
                                 end. 
 'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' 'DirElemContents' '</' 'QName' 'S' '>' 
                               : if '$2' == '$7' ->
-                                 #xqElementNode{identity = next_node_id(), name = qname(other,'$2'), expr = '$3' ++ '$5'};
+                                 #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
                                  true -> xqerl_error:error('XQST0118')
                                 end. 
 'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' '</' 'QName' '>' 
                               : if '$2' == '$6' ->
-                                 #xqElementNode{identity = next_node_id(), name = qname(other,'$2'), expr = '$3'};
+                                 #xqElementNode{attributes = '$3', name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' '</' 'QName' 'S' '>' 
                               : if '$2' == '$6' ->
-                                 #xqElementNode{identity = next_node_id(), name = qname(other,'$2'), expr = '$3'};
+                                 #xqElementNode{attributes = '$3', name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'QName' '/>' 
-                              : #xqElementNode{identity = next_node_id(), name = qname(other,'$2')}.
+                              : #xqElementNode{name = qname(other,'$2')}.
 'DirElemConstructor'     -> '<' 'QName' '>' 'DirElemContents' '</' 'QName' '>' 
-                              : #xqElementNode{identity = next_node_id(), name = qname(other,'$2'), expr = '$4'}. 
+                              : #xqElementNode{name = qname(other,'$2'), expr = '$4'}. 
 'DirElemConstructor'     -> '<' 'QName' '>' 'DirElemContents' '</' 'QName' 'S' '>' 
-                              : #xqElementNode{identity = next_node_id(), name = qname(other,'$2'), expr = '$4'}. 
+                              : #xqElementNode{name = qname(other,'$2'), expr = '$4'}. 
 'DirElemConstructor'     -> '<' 'QName' '>' '</' 'QName' '>' 
                               : if '$2' == '$5' ->
-                                 #xqElementNode{identity = next_node_id(), name = qname(other,'$2')};
+                                 #xqElementNode{name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'QName' '>' '</' 'QName' 'S' '>' 
                               : if '$2' == '$5' ->
-                                 #xqElementNode{identity = next_node_id(), name = qname(other,'$2')};
+                                 #xqElementNode{name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')
                                 end.  
 % [143]    DirAttributeList     ::=      (S (QName S? "=" S? DirAttributeValue)?)* /* ws: explicit */
@@ -1307,23 +1307,24 @@ Left  2000  '[' ']' '?'.
 'DirElemContent'         -> 'ElementContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
 
 'ElementContentChars'    -> 'ElementContentChar' 'ElementContentChars' : [value_of('$1') | '$2'].
+'ElementContentChars'    -> 'S'                  'ElementContentChars' : [value_of('$1') | '$2'].
 'ElementContentChars'    -> 'ElementContentChar' : [value_of('$1')].
-'ElementContentChars'    -> 'S' : value_of('$1').
+'ElementContentChars'    -> 'S'                  : [value_of('$1')].
 % [148]    CommonContent     ::=      PredefinedEntityRef | CharRef | "{{" | "}}" | EnclosedExpr  
 'CommonContent'          -> 'PredefinedEntityRef' : #xqAtomicValue{type = 'xs:string', value = value_of('$1')}.
 'CommonContent'          -> 'CharRef'             : #xqTextNode{cdata = true, expr = #xqAtomicValue{type = 'xs:string', value = [value_of('$1')]}}.
 'CommonContent'          -> '{{'                  : #xqAtomicValue{type = 'xs:string', value = "{"}.
 'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = "}"}.
-'CommonContent'          -> 'EnclosedExpr' : '$1'.
+'CommonContent'          -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [149]    DirCommentConstructor      ::=      "<!--" DirCommentContents "-->"  /* ws: explicit */
-'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : #xqCommentNode{identity = next_node_id(), expr = '$2'}.
+'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : #xqCommentNode{expr = '$2'}.
 % [150]    DirCommentContents      ::=      ((Char - '-') | ('-' (Char - '-')))*
 %% done in scanner
 'DirCommentContents'     -> 'comment-text' : #xqAtomicValue{type = 'xs:string', value = value_of('$1')}.
 % [151]    DirPIConstructor     ::=      "<?" PITarget (S DirPIContents)? "?>"  /* ws: explicit */
 'DirPIConstructor'       -> '<?' 'PITarget' '?>'                 : #xqProcessingInstructionNode{name = qname(pi,value_of('$2'))}.
 'DirPIConstructor'       -> '<?' 'PITarget' 'DirPIContents' '?>' : #xqProcessingInstructionNode{name = qname(pi,value_of('$2')), 
-                                                                                                expr = [#xqAtomicValue{type = 'xs:string', value = value_of('$3')}]}.
+                                                                                                expr = #xqAtomicValue{type = 'xs:string', value = value_of('$3')}}.
 % [152]    DirPIContents     ::=      (Char* - (Char* '?>' Char*))  /* ws: explicit */
 %% done in scanner
 % [153]    CDataSection      ::=      "<![CDATA[" CDataSectionContents "]]>" /* ws: explicit */
@@ -1331,7 +1332,7 @@ Left  2000  '[' ']' '?'.
                                                                               #xqTextNode{cdata = true, expr = []};
                                                                            true ->
                                                                               #xqTextNode{cdata = true, 
-                                                                                          expr = [#xqAtomicValue{type = 'xs:string', value = '$2'}]}
+                                                                                          expr = #xqAtomicValue{type = 'xs:string', value = '$2'}}
                                                                         end.
 % [154]    CDataSectionContents    ::=      (Char* - (Char* ']]>' Char*)) /* ws: explicit */
 %% done in scanner
@@ -1346,31 +1347,33 @@ Left  2000  '[' ']' '?'.
 'ComputedConstructor'    -> 'CompCommentConstructor' : '$1'.
 'ComputedConstructor'    -> 'CompPIConstructor' : '$1'.
 % [156]    CompDocConstructor      ::=      "document" EnclosedExpr 
-'CompDocConstructor'     -> 'document' 'EnclosedExpr' : #xqDocumentNode{identity = next_node_id(), expr = '$2'}.
+'CompDocConstructor'     -> 'document' 'EnclosedExpr' : #xqDocumentNode{expr = {content_expr, '$2'}}.
 % [157]    CompElemConstructor     ::=      "element" (EQName | ("{" Expr "}")) EnclosedContentExpr  
-'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : #xqElementNode{identity = next_node_id(), name = '$2', expr = '$3'}. 
-'CompElemConstructor'    -> 'element' '{' 'Expr' '}' 'EnclosedContentExpr' : #xqElementNode{identity = next_node_id(), name = '$3', expr = '$5'}.
+'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : #xqElementNode{name = '$2', expr = '$3'}. 
+'CompElemConstructor'    -> 'element' '{' 'Expr' '}' 'EnclosedContentExpr' : #xqElementNode{name = '$3', expr = '$5'}.
 % [158]    EnclosedContentExpr     ::=      EnclosedExpr
-'EnclosedContentExpr'    -> 'EnclosedExpr' : '$1'.
+'EnclosedContentExpr'    -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [159]    CompAttrConstructor     ::=      "attribute" (EQName | ("{" Expr "}")) EnclosedExpr 
-'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{identity = next_node_id(), name = '$2', expr = '$3'}.
-'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{identity = next_node_id(), name = '$3', expr = '$5'}.
+'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{name = '$2', expr = {content_expr, '$3'}}.
+'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{name = '$3', expr = {content_expr, '$5'}}.
 % [160]    CompNamespaceConstructor      ::=      "namespace" (Prefix | EnclosedPrefixExpr) EnclosedURIExpr
-'CompNamespaceConstructor'-> 'namespace' 'Prefix'             'EnclosedURIExpr' : #xqNamespaceNode{identity = next_node_id(), name = #'qname'{namespace = '$3', prefix = '$2'}}.
-'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{identity = next_node_id(), name = #'qname'{namespace = '$3', prefix = '$2'}}.
+'CompNamespaceConstructor'-> 'namespace' 'Prefix'             'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2'}}.
+'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2'}}.
 % [161]    Prefix      ::=      NCName
 'Prefix'                 -> 'NCName' : value_of('$1').
 % [162]    EnclosedPrefixExpr      ::=      EnclosedExpr
-'EnclosedPrefixExpr'     -> 'EnclosedExpr' : '$1'.
+'EnclosedPrefixExpr'     -> 'EnclosedExpr' : {expr, '$1'}.
+%'EnclosedPrefixExpr'     -> 'EnclosedExpr' : {prefix_expr, '$1'}.
 % [163]    EnclosedURIExpr      ::=      EnclosedExpr   
-'EnclosedURIExpr'        -> 'EnclosedExpr' : '$1'.
+'EnclosedURIExpr'        -> 'EnclosedExpr' : {expr, '$1'}.
+%'EnclosedURIExpr'        -> 'EnclosedExpr' : {uri_expr, '$1'}.
 % [164]    CompTextConstructor     ::=      "text" EnclosedExpr  
-'CompTextConstructor'    -> 'text' 'EnclosedExpr' : #xqTextNode{expr = '$2'}.
+'CompTextConstructor'    -> 'text' 'EnclosedExpr' : #xqTextNode{expr = {content_expr, '$2'}}.
 % [165]    CompCommentConstructor     ::=      "comment" EnclosedExpr  
-'CompCommentConstructor' -> 'comment' 'EnclosedExpr' : #xqCommentNode{expr = '$2'}.
+'CompCommentConstructor' -> 'comment' 'EnclosedExpr' : #xqCommentNode{expr = {content_expr, '$2'}}.
 % [166]    CompPIConstructor    ::=      "processing-instruction" (NCName | ("{" Expr "}")) EnclosedExpr   
-'CompPIConstructor'      -> 'processing-instruction'    'NCName'    'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_node_id(), name = qname(pi,value_of('$2')), expr = '$3'}.
-'CompPIConstructor'      -> 'processing-instruction' '{' 'Expr' '}' 'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_node_id(), name = '$3',                     expr = '$5'}.
+'CompPIConstructor'      -> 'processing-instruction'    'NCName'    'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_node_id(), name = qname(pi,value_of('$2')), expr = {content_expr, '$3'}}.
+'CompPIConstructor'      -> 'processing-instruction' '{' 'Expr' '}' 'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_node_id(), name = '$3',                     expr = {content_expr, '$5'}}.
 % [167]    FunctionItemExpr     ::=      NamedFunctionRef | InlineFunctionExpr
 'FunctionItemExpr'       -> 'NamedFunctionRef' : '$1'.
 'FunctionItemExpr'       -> 'InlineFunctionExpr' : '$1'.
@@ -1407,7 +1410,7 @@ Left  2000  '[' ']' '?'.
 'ExprSingleList'         -> 'ExprSingle' : ['$1'].
 'ExprSingleList'         -> 'ExprSingle' ',' 'ExprSingleList' : ['$1'|'$3']. 
 % [176]    CurlyArrayConstructor      ::=      "array" EnclosedExpr 
-'CurlyArrayConstructor'  -> 'array' 'EnclosedExpr' : {'array', '$2'}.
+'CurlyArrayConstructor'  -> 'array' 'EnclosedExpr' : {'array', {content_expr, '$2'}}.
 % [177]    StringConstructor    ::=      "``[" StringConstructorContent "]``"   /* ws: explicit */
 'StringConstructor'      -> '``[' 'StringConstructorContent' ']``' : {'string-constructor', '$2'}.
 % [178]    StringConstructorContent      ::=      StringConstructorChars (StringConstructorInterpolation StringConstructorChars)*  /* ws: explicit */
@@ -1550,7 +1553,7 @@ Left  2000  '[' ']' '?'.
 % [216]    ParenthesizedItemType      ::=      "(" ItemType ")"  
 'ParenthesizedItemType'  -> '(' 'ItemType' ')' : '$2'.
 % [217]    URILiteral     ::=      StringLiteral  
-'URILiteral'             -> 'StringLiteral' : string:trim(value_of('$1')).
+'URILiteral'             -> 'StringLiteral' : xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(value_of('$1')))).
 %'URILiteral'             -> 'StringLiteral' : [{bin_element,?L,{string,?L,value_of('$1')},default,default}].
 % [218]    EQName      ::=      QName | URIQualifiedName
 'EQName'                 -> 'PrefixedName' : '$1'.
@@ -1842,8 +1845,7 @@ dir_att(QName, Value) ->
                #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = []}} 
          end;
       true ->
-         #xqAttributeNode{identity = next_node_id(), 
-                          name = qname(other,QName), 
+         #xqAttributeNode{name = qname(other,QName), 
                           expr = case Value of
                                     [] -> [#xqAtomicValue{type = 'xs:string', value = ""}];
                                     _ -> Value

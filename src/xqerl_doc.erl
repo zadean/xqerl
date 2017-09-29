@@ -93,9 +93,12 @@ read_http(Uri0,Name) ->
                   {ok,{_Stat,Body}} ->
                      Body;
                   {error,no_scheme} ->
-                     xqerl_error:error('FODC0005');
+                     xqerl_error:error('FODC0002');
                   {'EXIT',_} ->
-                     xqerl_error:error('FODC0002')                      
+                     xqerl_error:error('FODC0002');
+                  Other ->
+                     ?dbg("Other",Other),
+                     xqerl_error:error('FODC0002')
                end,
          %?dbg("XML",Xml),
          read_stream(Xml, Name)

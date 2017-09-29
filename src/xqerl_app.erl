@@ -53,6 +53,9 @@ stop(_State) ->
 
 init() ->
    %mnesia:create_schema([node()]),
+   %
+   code:add_patha(code:lib_dir(xqerl, lib)),
+   %code:lib_dir(xqerl, mnesia),
    mnesia:create_table(module,
                    [{disc_copies, [node()]},
                     {attributes, record_info(fields, module)}]).

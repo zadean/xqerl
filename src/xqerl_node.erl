@@ -85,7 +85,7 @@ new_fragment({RootId, Doc}) ->
 
 % return document {RootId, Doc}
 new_fragment(Content, BaseUri) when is_list(Content) ->
-   %?dbg("new_fragment Content",Content),
+   ?dbg("new_fragment Content",BaseUri),
    Ctx = new_context(),
    {Id,Ctx1} = next_id(Ctx),
    Doc = #xqXmlFragment{identity = Id},
@@ -113,7 +113,6 @@ can_follow(element,namespace) -> false;
 can_follow(attribute,namespace) -> false;
 %can_follow(_,document) -> false;
 can_follow(_,_) -> true.
-
 
 % returns {Children, Sz, Ctx3}
 handle_contents(Ctx, _Parent, [], _Ns, Sz) -> {[], Sz, Ctx};
@@ -196,6 +195,7 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
                end
          end,
    {Ids, Sz3,Ctx3,_Type,_UsedAtts} = lists:foldl(Fun, {[], Sz, Ctx, [], []}, Content1),
+   %?dbg(?LINE,Ctx3),
    {Ids, Sz3,Ctx3}.
 
 %% flatten_content(Content) ->
@@ -206,11 +206,12 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
 %%                  end, Content).
 
 % returns {Id, Sz,Ctx2}
-handle_content(Ctx, Parent, #xqElementNode{name = QName, expr = Content, inscope_ns = ElemNs, base_uri = BU} = N, INs, Sz) ->
+handle_content(Ctx, Parent, #xqElementNode{name = QName, expr = Content, inscope_ns = ElemNs} = N, INs, Sz) ->
    %?dbg("N",N),
    %?dbg("INs",INs),
    %?dbg("ElemNs",ElemNs),
    %?dbg("QName",QName),
+   BU = maps:get(base_uri, Ctx),
    {Id,Ctx1} = next_id(Ctx),
    Content1 = case ?seq:is_sequence(Content)  of
                  true ->
@@ -353,24 +354,31 @@ handle_content(Ctx, Parent, #xqElementNode{name = QName, expr = Content, inscope
    %?dbg("NewNs",NewNs),
    %?dbg("NewNs1",NewNs1),
    %?dbg("TempNs",TempNs),
+   % base-uri will come from the children
+   NewBase = lists:flatten([Uri || #xqAttributeNode{name = #qname{prefix = "xml", local_name = "base"}, expr = Uri} <- NonNameSpaces]),
+   BU1 = if NewBase == [] ->
+               BU;
+            true ->
+               Path = xqerl_lib:resolve_against_base_uri(xqerl_types:value(BU),xqerl_types:value(hd(NewBase)) ),
+               %?dbg(?LINE,{BU,NewBase,Path}),
+               #xqAtomicValue{type = 'xs:anyURI', value = Path}
+         end,
+   %?dbg(?LINE,BU1),
    Node = N#xqElementNode{identity = Id, 
                           parent_node = Parent, 
                           name = QName1, 
-                          %base_uri = BaseUri1,
+                          base_uri = BU1,
                           expr = undefined, 
                           inscope_ns = NewNs1},
-   Ctx2 = (add_node(Ctx1, Id, Node))#{base_uri => BU},
+   Ctx2 = (add_node(Ctx1, Id, Node)),
    %?dbg("N",N),
    %?dbg("Node",Node),
-   {Children, Sz1, Ctx3} = handle_contents(Ctx2, Id, NameSpaces ++ NonNameSpaces, NewNs1, 0),
+   {Children, Sz1, Ctx3} = handle_contents(Ctx2#{base_uri => BU1}, Id, NameSpaces ++ NonNameSpaces, NewNs1, 0),
    %?dbg("Children",Children),
-%%    % check for duplicate attributes
-%%    Atts = [X || #xqAttributeNode{name = #qname{}} X <- NonNameSpaces, is_record(X, xqAttributeNode)]
-%%    _ = lists:foreach(Fun, List),
-   % base-uri will come from the children
-   Ctx4 = set_node_children(Ctx3, Id, Children, Sz1),
+   Ctx4 = (set_node_children(Ctx3, Id, Children, Sz1)),
+   %?dbg(?LINE,Ctx3),
    %?dbg(?LINE,Ctx4),
-   Ctx5 = set_node_base_uri(Ctx4, [Id|Children]),
+   Ctx5 = set_node_base_uri(Ctx4#{base_uri => BU1}, [Id|Children]),
    %?dbg(?LINE,Ctx5),
    {Id, Sz1 + Sz + 1,Ctx5};
 
@@ -386,7 +394,7 @@ handle_content(Ctx, _Parent, #xqDocumentNode{expr = Content} = N, INs, Sz) ->
                     end
               end,
    Content2 = merge_content(Content1),
-   ?dbg("xqElementNode Content2",Content2),
+   %?dbg("xqElementNode Content2",Content2),
    % no attributes on documents
    _ = lists:foreach(fun(#xqAttributeNode{}) ->
                            xqerl_error:error('XPTY0004');
@@ -502,13 +510,14 @@ handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, 
 
    QName2 = resolve_attribute_namespace(QName1, NewNs),
    Node = N#xqAttributeNode{identity = Id, parent_node = Parent, name = QName2, expr = Expr},
-   Ctx2 = case QName2 of
-             #qname{prefix = "xml", local_name = "base"} ->
-                maps:put(base_uri, Expr, Ctx1);
-             _ ->
-                Ctx1
-          end,
-   Ctx3 = add_node(Ctx2, Id, Node),
+%%    Ctx2 = case QName2 of
+%%              #qname{prefix = "xml", local_name = "base"} ->
+%%                 maps:put(base_uri, Expr, Ctx1);
+%%              _ ->
+%%                 Ctx1
+%%           end,
+   Ctx3 = add_node(Ctx1, Id, Node),
+   %?dbg(?LINE,Ctx3),
    {Id, Sz + 1, Ctx3};
 
 handle_content(Ctx, Parent, #xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}} = N, INs, Sz) ->
@@ -543,8 +552,8 @@ handle_content(Ctx, Parent, #xqNamespaceNode{name = #qname{namespace = Ns, prefi
    Ctx2 = add_node(Ctx1, Id, Node),
    {Id, Sz + 1, Ctx2};
 
-handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName, expr = E} = N, INs, Sz) ->
-   %?dbg("xqProcessingInstructionNode",N),
+handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName, expr = E, base_uri = _BU} = N, _INs, Sz) ->
+   %?dbg("xqProcessingInstructionNode",BU),
    case string:str(xqerl_types:string_value(E), "?>") of
       0 ->
          QName0 = case ?seq:is_sequence(QName) of
@@ -590,6 +599,7 @@ handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName, expr = E}
          %QName2 = resolve_attribute_namespace(QName1, INs),
          {Id,Ctx1} = next_id(Ctx),
          Node = N#xqProcessingInstructionNode{identity = Id, parent_node = Parent, name = QName1},
+         %set_node_base_uri
          Ctx2 = add_node(Ctx1, Id, Node),
          {Id, Sz + 1, Ctx2};
       _ ->
@@ -621,7 +631,7 @@ handle_content(Ctx, _Parent, #xqTextNode{expr = ""}, _INs, Sz) -> % no empty tex
 %%    {[], Sz, Ctx};
 handle_content(Ctx, Parent, #xqTextNode{expr = Ex, cdata = C} = N, _INs, Sz) ->
    case (?seq:is_sequence(Ex) andalso ?seq:is_empty(Ex))
-      orelse (C == false andalso string:trim(xqerl_types:string_value(Ex)) == []) of
+      orelse (C == false andalso xqerl_types:string_value(Ex)) == [] of
       true ->
          %?dbg(?LINE,Ex),
          {[], Sz, Ctx};
@@ -764,15 +774,15 @@ set_node_children(Ctx, Id, Children, Sz) ->
 set_node_base_uri(Ctx, Ids) ->
    Nodes   = maps:get(nodes, Ctx),
    BaseUri = maps:get(base_uri, Ctx),
-   ?dbg(?LINE, BaseUri),
-   ?dbg(?LINE, Ids),
+   %?dbg(?LINE, BaseUri),
+   %?dbg(?LINE, Ids),
    lists:foldl(fun(Id,Ctx1) ->
                   Node = gb_trees:get(Id, Nodes),
                   Node2 = case Node of
-                             #xqDocumentNode{} ->
-                                Node#xqDocumentNode{base_uri = BaseUri};
-                             #xqElementNode{} ->
-                                Node#xqElementNode{base_uri = BaseUri};
+%%                              #xqDocumentNode{} ->
+%%                                 Node#xqDocumentNode{base_uri = BaseUri};
+%%                              #xqElementNode{} ->
+%%                                 Node#xqElementNode{base_uri = BaseUri};
                              #xqProcessingInstructionNode{} ->
                                 Node#xqProcessingInstructionNode{base_uri = BaseUri};
                              _ ->
@@ -962,7 +972,7 @@ merge_content([H|T], Acc) ->
    case ?seq:is_sequence(H) of
       true ->
          #xqSeqType{type = Type} = ?seq:get_seq_type(H),
-         if ?anySimpleType(Type) ->
+         if ?anyAtomicType(Type) ->
                Str = xqerl_types:string_value(H),
                %?dbg(?LINE,Str),
                merge_content([?untyp(Str)|T], Acc);
@@ -1146,7 +1156,7 @@ merge_text_content([#xqAtomicValue{value = S1} = H1, H2|T], Acc) ->
    case ?seq:is_sequence(H2) of
       true ->
          #xqSeqType{type = Type} = ?seq:get_seq_type(H2),
-         if ?anySimpleType(Type) ->
+         if ?anyAtomicType(Type) ->
                St2 = xqerl_types:value(xqerl_types:string_value(H2)),
                Str3 = ?str(S1 ++ St2),
                merge_text_content([Str3|T], Acc);
@@ -1167,7 +1177,7 @@ merge_text_content([H1, #xqAtomicValue{} = H2|T], Acc) ->
    case ?seq:is_sequence(H1) of
       true ->
          #xqSeqType{type = Type} = ?seq:get_seq_type(H1),
-         if ?anySimpleType(Type) ->
+         if ?anyAtomicType(Type) ->
                Str = xqerl_types:string_value(H1),
                Node = #xqTextNode{expr = ?str(Str)},
                merge_text_content([Node,H2|T], Acc);
@@ -1212,7 +1222,7 @@ merge_text_content([H|T], Acc) ->
    case ?seq:is_sequence(H) of
       true ->
          #xqSeqType{type = Type} = ?seq:get_seq_type(H),
-         if ?anySimpleType(Type) ->
+         if ?anyAtomicType(Type) ->
                Str = xqerl_types:string_value(H),
                merge_text_content([#xqTextNode{expr = ?str(Str)}|T], Acc);
             true ->
@@ -1397,7 +1407,7 @@ get_node_name({Id,Doc}) ->
       #xqProcessingInstructionNode{name = Nm} ->
                   Nm;
       #xqNamespaceNode{name = #qname{prefix = P}} ->
-         #qname{local_name = P};
+         #qname{namespace = "",prefix = "",local_name = P};
       _ ->
          []
    end;
@@ -1515,9 +1525,9 @@ atomize_node({Id,Doc}) ->
                #xqDocumentNode{} -> descendant_text({[Id], Doc});
                #xqElementNode{} -> descendant_text({[Id], Doc});
                #xqAttributeNode{expr = S} -> ?untyp(xqerl_types:string_value(S));
-               #xqNamespaceNode{name = #qname{namespace = S}} -> ?str(S);
-               #xqNamespace{namespace = S} -> ?str(S);
-               #xqProcessingInstructionNode{expr = S} -> ?str(string:trim(xqerl_types:string_value(S)));
+               #xqNamespaceNode{name = #qname{namespace = S}} -> ?untyp(S);
+               #xqNamespace{namespace = S} -> ?untyp(S);
+               #xqProcessingInstructionNode{expr = S} -> ?untyp(string:trim(xqerl_types:string_value(S)));
                #xqCommentNode{expr = S} -> ?str(xqerl_types:string_value(S));
                #xqTextNode{expr = S} -> ?untyp(xqerl_types:string_value(S))
             end,
@@ -1555,6 +1565,7 @@ nodes_equal({#xqDocumentNode{identity = Id1, children = _C1}, Doc1},
             {#xqDocumentNode{identity = Id2, children = _C2}, Doc2}) ->
    Nodes1 = get_comparable_child_nodes({Id1, Doc1}),
    Nodes2 = get_comparable_child_nodes({Id2, Doc2}),
+   %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
    length(Nodes1) == length(Nodes2)
    andalso
    lists:all(fun({Ci1,Ci2}) ->
@@ -1917,8 +1928,12 @@ encode_att_text(">"++Tail) ->
    "&gt;"++encode_att_text(Tail);
 encode_att_text("&"++Tail) ->
    "&amp;"++encode_att_text(Tail);
+encode_att_text("{{"++Tail) ->
+   "{{"++encode_att_text(Tail);
 encode_att_text("{"++Tail) ->
    "{{"++encode_att_text(Tail);
+encode_att_text("}}"++Tail) ->
+   "}}"++encode_att_text(Tail);
 encode_att_text("}"++Tail) ->
    "}}"++encode_att_text(Tail);
 encode_att_text([H|Tail]) ->

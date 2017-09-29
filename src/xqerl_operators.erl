@@ -120,6 +120,8 @@ is_comparable('xs:yearMonthDuration') -> true;
 is_comparable(Type) when ?numeric(Type) -> true;
 is_comparable(_)-> false.
 
+add(_, []) -> ?seq:empty();
+add([], _) -> ?seq:empty();
 add(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    add(Ns, Arg2);
@@ -194,6 +196,9 @@ add(Arg1, Arg2) ->
                ?sing(numeric_add(Arg1, Arg2))
          end
    end.
+
+subtract(_, []) -> ?seq:empty();
+subtract([], _) -> ?seq:empty();
 
 subtract(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
@@ -271,6 +276,8 @@ subtract(Arg1, Arg2) ->
    end.
 
 
+multiply(_, []) -> ?seq:empty();
+multiply([], _) -> ?seq:empty();
 multiply(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    multiply(Ns, Arg2);
@@ -317,6 +324,8 @@ multiply(Arg1, Arg2) ->
          end
    end.
 
+divide(_, []) -> ?seq:empty();
+divide([], _) -> ?seq:empty();
 divide(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    divide(Ns, Arg2);
@@ -363,6 +372,8 @@ divide(Arg1, Arg2) ->
          end
    end.
 
+idivide(_, []) -> ?seq:empty();
+idivide([], _) -> ?seq:empty();
 idivide(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    idivide(Ns, Arg2);
@@ -401,6 +412,8 @@ idivide(Arg1, Arg2) ->
          end
    end.
 
+modulo(_, []) -> ?seq:empty();
+modulo([], _) -> ?seq:empty();
 modulo(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    modulo(Ns, Arg2);
@@ -567,6 +580,10 @@ equal(Arg1, Arg2) ->
         end,
    equal(A1, A2).
 
+not_equal(undefined, undefined) -> ?seq:empty();
+not_equal([], []) -> ?seq:empty();
+not_equal([], _) -> ?seq:empty();
+not_equal(_, []) -> ?seq:empty();
 not_equal(Arg1, Arg2) ->
    case ?seq:is_sequence(Arg1) of
       true ->
@@ -2369,6 +2386,8 @@ key_val(Val) ->
 
 %% Computes the effective boolean value of the sequence $arg. 
 % 1
+eff_bool_val([]) ->
+   false;
 eff_bool_val(true) ->
    true;
 eff_bool_val(false) -> 
