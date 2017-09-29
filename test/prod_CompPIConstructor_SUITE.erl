@@ -237,7 +237,7 @@ environment('DupNode') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi text?>
       ",
@@ -254,7 +254,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -265,7 +265,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -276,7 +276,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -287,7 +287,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -299,7 +299,7 @@ end.
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -310,7 +310,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -321,7 +321,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -332,7 +332,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -347,7 +347,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi text?>
       ",
@@ -364,7 +364,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi text?>
       ",
@@ -381,7 +381,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi text?>
       ",
@@ -398,7 +398,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -409,7 +409,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi text?>
       ",
@@ -426,7 +426,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -437,7 +437,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -448,7 +448,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -460,7 +460,7 @@ end.
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi texttext texttext?>
       ",
@@ -477,7 +477,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          0
       ",
@@ -491,7 +491,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          a  b
       ",
@@ -503,7 +503,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          a  b
       ",
@@ -515,7 +515,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi 1 string 3.14 0.012345 2002-04-02T12:00:00-01:00?>
       ",
@@ -532,7 +532,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi 123 456 789?>
       ",
@@ -549,7 +549,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi 1  2?>
       ",
@@ -566,7 +566,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi 1  2?>
       ",
@@ -584,7 +584,7 @@ end.
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi texttext?>
       ",
@@ -601,7 +601,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -612,7 +612,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -623,7 +623,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -634,7 +634,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -645,7 +645,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -656,7 +656,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -667,7 +667,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -678,7 +678,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi text?>
       ",
@@ -695,7 +695,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi text?>
       ",
@@ -712,7 +712,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          116 101 120 116
       ",
@@ -724,7 +724,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          116 101 120 116
       ",
@@ -736,7 +736,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi ?>
       ",
@@ -753,7 +753,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <?pi ?>
       ",
@@ -770,7 +770,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -781,7 +781,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -792,7 +792,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -803,7 +803,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          name
       ",
@@ -815,7 +815,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          XmLnaMe
       ",
@@ -827,7 +827,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -838,7 +838,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -849,7 +849,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          asdas? >
       ",
@@ -861,7 +861,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          content {1+ } {
       ",
@@ -873,7 +873,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -884,7 +884,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -897,7 +897,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -911,7 +911,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",

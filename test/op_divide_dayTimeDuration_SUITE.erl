@@ -229,7 +229,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          PT0S
       ",
@@ -241,7 +241,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          PT0S
       ",
@@ -253,7 +253,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          PT0S
       ",
@@ -265,7 +265,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          PT0S
       ",
@@ -277,7 +277,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          PT0S
       ",
@@ -289,7 +289,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -300,7 +300,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -311,7 +311,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -322,7 +322,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -333,7 +333,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          NaN
       ",
@@ -345,7 +345,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          P1DT14H4M
       ",
@@ -357,7 +357,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          -P5DT30M30S
       ",
@@ -369,7 +369,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -380,7 +380,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -391,7 +391,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          1
       ",
@@ -403,7 +403,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -414,7 +414,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -425,7 +425,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -436,7 +436,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -447,7 +447,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -458,7 +458,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -469,7 +469,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -480,7 +480,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -491,7 +491,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -502,7 +502,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -513,7 +513,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -524,7 +524,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -535,7 +535,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -546,7 +546,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -557,7 +557,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -568,7 +568,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -579,7 +579,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -590,7 +590,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -601,7 +601,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -612,7 +612,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -623,7 +623,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -634,7 +634,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -645,7 +645,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          P2D
       ",
@@ -657,7 +657,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -668,7 +668,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          12
       ",
@@ -680,7 +680,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -691,7 +691,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          24
       ",
@@ -703,7 +703,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -714,7 +714,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          12
       ",
@@ -726,7 +726,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -737,7 +737,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          24
       ",
@@ -749,7 +749,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -760,7 +760,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          1
       ",
@@ -772,7 +772,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -783,7 +783,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          1
       ",
@@ -795,7 +795,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -806,7 +806,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          P1M
       ",
@@ -818,7 +818,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -829,7 +829,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          PT12H
       ",
@@ -841,7 +841,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",

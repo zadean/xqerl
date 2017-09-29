@@ -247,7 +247,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '123'
         ",
@@ -261,7 +261,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '123'
         ",
@@ -275,7 +275,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '00123'
         ",
@@ -289,7 +289,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '-123'
         ",
@@ -303,7 +303,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '-123'
         ",
@@ -317,7 +317,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '-00123'
         ",
@@ -331,7 +331,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '0'
         ",
@@ -345,7 +345,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '000'
         ",
@@ -359,7 +359,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '00000'
         ",
@@ -373,7 +373,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'abcd'
         ",
@@ -387,7 +387,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'ABCD'
         ",
@@ -401,7 +401,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx'
         ",
@@ -415,7 +415,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX'
         ",
@@ -425,25 +425,29 @@ environment('math') ->
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-014'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,102,111,114,32,36,105,32,105,110,32,49,32,116,111,32,50,48,32,114,101,116,117,114,110,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,32,39,1633,39,41,44,32,39,124,39,41],
+   Qry = "string-join(for $i in 1 to 20 return format-integer($i, '١'), '|')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,1633,124,1634,124,1635,124,1636,124,1637,124,1638,124,1639,124,1640,124,1641,124,1633,1632,124,1633,1633,124,1633,1634,124,1633,1635,124,1633,1636,124,1633,1637,124,1633,1638,124,1633,1639,124,1633,1640,124,1633,1641,124,1634,1632,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,1633,124,1634,124,1635,124,1636,124,1637,124,1638,124,1639,124,1640,124,1641,124,1633,1632,124,1633,1633,124,1633,1634,124,1633,1635,124,1633,1636,124,1633,1637,124,1633,1638,124,1633,1639,124,1633,1640,124,1633,1641,124,1634,1632,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'
+        ",
+ Tst = xqerl:run("'١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-015'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,102,111,114,32,36,105,32,105,110,32,49,32,116,111,32,50,48,32,114,101,116,117,114,110,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,32,39,1641,39,41,44,32,39,124,39,41],
+   Qry = "string-join(for $i in 1 to 20 return format-integer($i, '٩'), '|')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,1633,124,1634,124,1635,124,1636,124,1637,124,1638,124,1639,124,1640,124,1641,124,1633,1632,124,1633,1633,124,1633,1634,124,1633,1635,124,1633,1636,124,1633,1637,124,1633,1638,124,1633,1639,124,1633,1640,124,1633,1641,124,1634,1632,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,1633,124,1634,124,1635,124,1636,124,1637,124,1638,124,1639,124,1640,124,1641,124,1633,1632,124,1633,1633,124,1633,1634,124,1633,1635,124,1633,1636,124,1633,1637,124,1633,1638,124,1633,1639,124,1633,1640,124,1633,1641,124,1634,1632,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'
+        ",
+ Tst = xqerl:run("'١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -453,7 +457,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'
         ",
@@ -467,7 +471,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN'
         ",
@@ -482,7 +486,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'one|two|three|four|five|six|seven|eight|nine|ten'
         ",
@@ -497,7 +501,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -508,7 +512,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -519,7 +523,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '1,500,000'
         ",
@@ -533,7 +537,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '1,500,000'
         ",
@@ -547,7 +551,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -558,7 +562,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -569,7 +573,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '1500000'
         ",
@@ -583,7 +587,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '1500000'
         ",
@@ -597,7 +601,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -608,21 +612,23 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-029'(_Config) ->
-   Qry = [102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,49,53,48,48,48,48,48,44,32,39,35,35,35,65792,48,44,48,48,39,41],
+   Qry = "format-integer(1500000, '###𐄀0,00')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,49,53,48,48,65792,48,44,48,48,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,49,53,48,48,65792,48,44,48,48,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '1500𐄀0,00'
+        ",
+ Tst = xqerl:run("'1500𐄀0,00'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -633,7 +639,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '(602)347-826'
         ",
@@ -648,7 +654,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'SECOND'
         ",
@@ -662,7 +668,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'Erster'
         ",
@@ -676,7 +682,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '1st'
         ",
@@ -690,7 +696,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -701,7 +707,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'One'
         ",
@@ -716,7 +722,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
                 ''
@@ -734,7 +740,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -745,7 +751,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             1234th
         ",
@@ -758,7 +764,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             1234
         ",
@@ -766,36 +772,38 @@ environment('math') ->
              "1234" -> {comment, "assert-string-value"};
              _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
 'format-integer-040'(_Config) ->
-   Qry = [102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,49,50,51,52,44,32,39,49,50,51,1633,39,41],
+   Qry = "format-integer(1234, '123١')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'FODF1310'}) end.
 'format-integer-041'(_Config) ->
-   Qry = [102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,49,50,51,52,44,32,39,35,44,66720,66720,66720,39,41],
+   Qry = "format-integer(1234, '#,𐒠𐒠𐒠')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,66721,44,66722,66723,66724,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,66721,44,66722,66723,66724,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '𐒡,𐒢𐒣𐒤'
+        ",
+ Tst = xqerl:run("'𐒡,𐒢𐒣𐒤'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-042'(_Config) ->
-   Qry = [102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,49,50,51,52,44,32,39,64500,39,41],
+   Qry = "format-integer(1234, 'ﯴ')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '1234'
         ",
@@ -810,7 +818,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '-85th'
         ",
@@ -825,7 +833,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '-Fifth'
         ",
@@ -840,7 +848,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'Zero'
         ",
@@ -850,66 +858,76 @@ environment('math') ->
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-046'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,102,111,114,32,36,105,32,105,110,32,49,32,116,111,32,53,32,114,101,116,117,114,110,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,32,39,9312,39,41,44,32,39,124,39,41],
+   Qry = "string-join(for $i in 1 to 5 return format-integer($i, '①'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,9312,124,9313,124,9314,124,9315,124,9316,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,9312,124,9313,124,9314,124,9315,124,9316,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '①|②|③|④|⑤'
+        ",
+ Tst = xqerl:run("'①|②|③|④|⑤'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-047'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,102,111,114,32,36,105,32,105,110,32,49,32,116,111,32,53,32,114,101,116,117,114,110,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,32,39,9332,39,41,44,32,39,124,39,41],
+   Qry = "string-join(for $i in 1 to 5 return format-integer($i, '⑴'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,9332,124,9333,124,9334,124,9335,124,9336,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,9332,124,9333,124,9334,124,9335,124,9336,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '⑴|⑵|⑶|⑷|⑸'
+        ",
+ Tst = xqerl:run("'⑴|⑵|⑶|⑷|⑸'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-048'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,102,111,114,32,36,105,32,105,110,32,49,32,116,111,32,53,32,114,101,116,117,114,110,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,32,39,9352,39,41,44,32,39,124,39,41],
+   Qry = "string-join(for $i in 1 to 5 return format-integer($i, '⒈'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,9352,124,9353,124,9354,124,9355,124,9356,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,9352,124,9353,124,9354,124,9355,124,9356,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '⒈|⒉|⒊|⒋|⒌'
+        ",
+ Tst = xqerl:run("'⒈|⒉|⒊|⒋|⒌'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-049'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,102,111,114,32,36,105,32,105,110,32,49,32,116,111,32,53,32,114,101,116,117,114,110,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,32,39,913,39,41,44,32,39,124,39,41],
+   Qry = "string-join(for $i in 1 to 5 return format-integer($i, 'Α'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,913,124,914,124,915,124,916,124,917,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,913,124,914,124,915,124,916,124,917,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            'Α|Β|Γ|Δ|Ε'
+        ",
+ Tst = xqerl:run("'Α|Β|Γ|Δ|Ε'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-050'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,102,111,114,32,36,105,32,105,110,32,49,32,116,111,32,53,32,114,101,116,117,114,110,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,39,945,39,41,44,32,39,124,39,41],
+   Qry = "string-join(for $i in 1 to 5 return format-integer($i,'α'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,945,124,946,124,947,124,948,124,949,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,945,124,946,124,947,124,948,124,949,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            'α|β|γ|δ|ε'
+        ",
+ Tst = xqerl:run("'α|β|γ|δ|ε'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -919,7 +937,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '12 345 678 901'
         ",
@@ -929,13 +947,17 @@ environment('math') ->
   if ResVal == TstVal -> {comment, "assert-eq"};
     true -> ct:fail({Res,Exp}) end.
 'format-integer-052'(_Config) ->
-   Qry = [115,116,114,105,110,103,45,106,111,105,110,40,10,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,102,111,114,32,36,105,32,105,110,32,40,49,32,116,111,32,50,51,44,32,49,53,49,44,32,51,48,50,44,32,52,54,57,44,32,50,48,50,53,41,32,10,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,114,101,116,117,114,110,32,99,111,110,99,97,116,40,36,105,44,32,39,61,39,44,32,32,102,111,114,109,97,116,45,105,110,116,101,103,101,114,40,36,105,44,32,39,19968,39,41,41,44,32,39,124,39,41],
+   Qry = "string-join(
+                for $i in (1 to 23, 151, 302, 469, 2025) 
+                return concat($i, '=',  format-integer($i, '一')), '|')",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,32,32,32,32,32,32,32,32,32,32,32,32,39,49,61,19968,124,50,61,20108,124,51,61,19977,124,52,61,22235,124,53,61,20116,124,54,61,20845,124,55,61,19971,124,56,61,20843,124,57,61,20061,124,49,48,61,21313,124,49,49,61,21313,19968,124,49,50,61,21313,20108,124,49,51,61,21313,19977,124,49,52,61,21313,22235,124,49,53,61,21313,20116,124,49,54,61,21313,20845,124,49,55,61,21313,19971,124,49,56,61,21313,20843,124,49,57,61,21313,20061,124,50,48,61,20108,21313,124,50,49,61,20108,21313,19968,124,50,50,61,20108,21313,20108,124,50,51,61,20108,21313,19977,124,49,53,49,61,30334,20116,21313,19968,124,51,48,50,61,19977,30334,20108,124,52,54,57,61,22235,30334,20845,21313,20061,124,50,48,50,53,61,20108,21315,20108,21313,20116,39,10,32,32,32,32,32,32,32,32],
- Tst = xqerl:run([39,49,61,19968,124,50,61,20108,124,51,61,19977,124,52,61,22235,124,53,61,20116,124,54,61,20845,124,55,61,19971,124,56,61,20843,124,57,61,20061,124,49,48,61,21313,124,49,49,61,21313,19968,124,49,50,61,21313,20108,124,49,51,61,21313,19977,124,49,52,61,21313,22235,124,49,53,61,21313,20116,124,49,54,61,21313,20845,124,49,55,61,21313,19971,124,49,56,61,21313,20843,124,49,57,61,21313,20061,124,50,48,61,20108,21313,124,50,49,61,20108,21313,19968,124,50,50,61,20108,21313,20108,124,50,51,61,20108,21313,19977,124,49,53,49,61,30334,20116,21313,19968,124,51,48,50,61,19977,30334,20108,124,52,54,57,61,22235,30334,20845,21313,20061,124,50,48,50,53,61,20108,21315,20108,21313,20116,39]),
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+            '1=一|2=二|3=三|4=四|5=五|6=六|7=七|8=八|9=九|10=十|11=十一|12=十二|13=十三|14=十四|15=十五|16=十六|17=十七|18=十八|19=十九|20=二十|21=二十一|22=二十二|23=二十三|151=百五十一|302=三百二|469=四百六十九|2025=二千二十五'
+        ",
+ Tst = xqerl:run("'1=一|2=二|3=三|4=四|5=五|6=六|7=七|8=八|9=九|10=十|11=十一|12=十二|13=十三|14=十四|15=十五|16=十六|17=十七|18=十八|19=十九|20=二十|21=二十一|22=二十二|23=二十三|151=百五十一|302=三百二|469=四百六十九|2025=二千二十五'"),
   ResVal = xqerl_types:value(Res),
   TstVal = xqerl_types:value(Tst),
   if ResVal == TstVal -> {comment, "assert-eq"};
@@ -945,7 +967,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '123'
         ",
@@ -959,7 +981,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -970,7 +992,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             xs:string
         ",
@@ -983,7 +1005,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             xs:string
         ",
@@ -996,7 +1018,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             xs:string
         ",
@@ -1008,7 +1030,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             xs:string
         ",
@@ -1021,7 +1043,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '001'
         ",
@@ -1036,7 +1058,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             '1;234'
         ",
@@ -1051,7 +1073,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",
@@ -1063,7 +1085,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'Eleven'
         ",
@@ -1078,7 +1100,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             'Eleven'
         ",
@@ -1093,7 +1115,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
         ",

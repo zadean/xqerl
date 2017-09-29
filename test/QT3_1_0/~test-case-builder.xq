@@ -262,7 +262,7 @@ declare function local:print-testcase($test-case)
     )||
     "   Res = xqerl:run(Qry1),"||'&#10;'||
     "   ResXml = xqerl_node:to_xml(Res),"||'&#10;'||
-    "   Options = [{'result',Res}],"||'&#10;'||
+    "   Options = [{'result',xqerl_seq2:from_list(Res)}],"||'&#10;'||
     "   Exp = "||local:dec($test-case/*:result/data())||","||'&#10;'||
     local:print-result($test-case/*:result)
   )
@@ -426,14 +426,14 @@ declare function local:print-local-environment($env as item()*) as item()*
 
 declare function local:dec($text)
 {
-  let $cp := $text => string-to-codepoints()
+  (: let $cp := $text => string-to-codepoints()
   return
   if ( some $c in $cp satisfies ($c > 255  ) ) then
     let $list := $text
     let $cp2 := $list => string-to-codepoints()
     return 
     "["||string-join($cp2,",")||"]"
-  else
+  else :)
   (
     let $list := 
     replace(

@@ -157,7 +157,7 @@ environment('math') ->
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
         <foo> a cdata section in mixed content. a <!-- comment --> in mixed content. a <?processing instruction?> in mixed content. </foo>
       ",
@@ -170,31 +170,44 @@ environment('math') ->
               end
 end.
 'XML10-4ed-Excluded-char-1'(_Config) ->
-   Qry = [120,113,117,101,114,121,32,118,101,114,115,105,111,110,32,34,49,46,48,34,32,101,110,99,111,100,105,110,103,32,34,117,116,102,45,56,34,59,32,60,895,110,111,100,101,47,62],
+   Qry = "xquery version \"1.0\" encoding \"utf-8\"; <Ϳnode/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'XML10-4ed-Excluded-char-1-new'(_Config) ->
-   Qry = [120,113,117,101,114,121,32,118,101,114,115,105,111,110,32,34,49,46,48,34,32,101,110,99,111,100,105,110,103,32,34,117,116,102,45,56,34,59,32,60,895,110,111,100,101,47,62],
+   Qry = "xquery version \"1.0\" encoding \"utf-8\"; <Ϳnode/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,9,10,9,32,32,60,895,110,111,100,101,47,62,10,9,32,32,60,895,110,111,100,101,47,62,10,9,10,32,32,32,32,32,32],
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ [60,895,110,111,100,101,47,62]++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (   ct:fail([[60,115,101,114,105,97,108,105,122,97,116,105,111,110,45,109,97,116,99,104,101,115,32,120,109,108,110,115,61,34,104,116,116,112,58,47,47,119,119,119,46,119,51,46,111,114,103,47,50,48,49,48,47,48,57,47,113,116,45,102,111,116,115,45,99,97,116,97,108,111,103,34,62,38,108,116,59,895,110,111,100,101,47,38,103,116,59,60,47,115,101,114,105,97,108,105,122,97,116,105,111,110,45,109,97,116,99,104,101,115,62], Res])) of true -> {comment, "any-of"};
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+	
+	  <Ϳnode/>
+	  <Ϳnode/>
+	
+      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<Ϳnode/>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;Ϳnode/&gt;</serialization-matches>", Res])) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'XML10-4ed-Excluded-char-2'(_Config) ->
-   Qry = [40,58,32,78,97,109,101,58,32,69,120,99,108,117,100,101,100,45,99,104,97,114,45,50,32,58,41,10,40,58,32,87,114,105,116,116,101,110,32,98,121,58,32,78,105,99,111,108,97,101,32,66,114,105,110,122,97,32,58,41,10,40,58,32,68,101,115,99,114,105,112,116,105,111,110,58,32,84,104,101,32,99,104,97,114,97,99,116,101,114,32,35,120,48,49,48,48,32,105,115,32,101,120,99,108,117,100,101,100,32,102,114,111,109,32,116,104,101,32,115,116,97,114,116,32,111,102,32,97,32,78,97,109,101,32,58,41,10,40,58,32,32,32,32,32,32,32,32,32,32,32,32,32,32,105,110,32,88,77,76,32,49,46,48,32,52,116,104,32,101,100,105,116,105,111,110,32,97,110,100,32,111,108,100,101,114,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,58,41,10,10,120,113,117,101,114,121,32,118,101,114,115,105,111,110,32,34,49,46,48,34,32,101,110,99,111,100,105,110,103,32,34,117,116,102,45,56,34,59,10,10,60,65533,65533,110,111,100,101,47,62,10],
+   Qry = "(: Name: Excluded-char-2 :)
+(: Written by: Nicolae Brinza :)
+(: Description: The character #x0100 is excluded from the start of a Name :)
+(:              in XML 1.0 4th edition and older                          :)
+
+xquery version \"1.0\" encoding \"utf-8\";
+
+<��node/>
+",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
       ",
@@ -205,7 +218,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          <foo>&#x7f;</foo>
       ",
@@ -220,24 +233,29 @@ end.
 'XML10-5ed-Included-char-1-new'(_Config) ->
    {skip,"XML 1.1"}.
 'XML11-1ed-Included-char-1'(_Config) ->
-   Qry = [60,101,103,103,383,47,62],
+   Qry = "<eggſ/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
             
       ",
    if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
            true -> ct:fail({Res, 'XPST0003'}) end.
 'XML11-1ed-Included-char-1-new'(_Config) ->
-   Qry = [60,101,103,103,383,47,62],
+   Qry = "<eggſ/>",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
-   Exp = [10,9,10,32,32,32,32,32,32,32,32,32,32,32,32,60,101,103,103,383,47,62,10,32,32,32,32,32,32,32,32,32,32,32,32,60,101,103,103,383,47,62,10,9,10,32,32,32,32,32,32],
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ [60,101,103,103,383,47,62]++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (   ct:fail([[60,115,101,114,105,97,108,105,122,97,116,105,111,110,45,109,97,116,99,104,101,115,32,120,109,108,110,115,61,34,104,116,116,112,58,47,47,119,119,119,46,119,51,46,111,114,103,47,50,48,49,48,47,48,57,47,113,116,45,102,111,116,115,45,99,97,116,97,108,111,103,34,62,38,108,116,59,101,103,103,383,47,38,103,116,59,60,47,115,101,114,105,97,108,105,122,97,116,105,111,110,45,109,97,116,99,104,101,115,62], Res])) of true -> {comment, "any-of"};
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
+   Exp = "
+	
+            <eggſ/>
+            <eggſ/>
+	
+      ",
+ case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<eggſ/>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;eggſ/&gt;</serialization-matches>", Res])) of true -> {comment, "any-of"};
    Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
 'line-ending-Q001'(_Config) ->
    Qry = "deep-equal(string-to-codepoints('
@@ -245,7 +263,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -256,7 +274,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -268,7 +286,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -285,7 +303,7 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
@@ -296,18 +314,18 @@ end.
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
    case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
            _ -> ct:fail({Res,Exp}) end.
 'line-ending-Q009'(_Config) ->
-   Qry = [100,101,101,112,45,101,113,117,97,108,40,115,116,114,105,110,103,45,116,111,45,99,111,100,101,112,111,105,110,116,115,40,39,32,8232,32,39,41,44,32,40,51,50,44,32,56,50,51,50,44,32,51,50,41,41],
+   Qry = "deep-equal(string-to-codepoints('   '), (32, 8232, 32))",
    Qry1 = Qry,
    Res = xqerl:run(Qry1),
    ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',Res}],
+   Options = [{'result',xqerl_seq2:from_list(Res)}],
    Exp = "
          
       ",
