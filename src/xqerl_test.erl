@@ -427,6 +427,24 @@ handle_environment(List) ->
    Namespaces = proplists:get_value(namespaces, List) ,
    Resources = proplists:get_value(resources, List) ,
    Modules = proplists:get_value(modules, List) ,
+
+%% EmptyMap = #{namespaces => FinalState#state.known_ns,
+%%              variables => [],
+%%              var_tuple => [],
+%%              iter => [],
+%%              iter_loop => [],
+%%              ctx_var => 'Ctx0',
+%%              parameters => [],
+%%              known_fx_sigs => FinalState#state.known_fx_sigs,
+%%              'boundary-space' => FinalState#state.boundary_space,
+%%              'construction-mode' => FinalState#state.construction_mode,
+%%              'default-collation' => FinalState#state.default_collation,
+%%              'base-uri' => ?atomic('xs:anyURI', FinalState#state.base_uri),
+%%              'ordering-mode' => FinalState#state.order_mode,
+%%              'empty-seq-order' => FinalState#state.empty_order,
+%%              'copy-namespaces' => FinalState#state.copy_ns_mode,
+%%              body => Mod#xqModule{prolog = ContextItem ++ VarFunPart, % just for now
+%%                                   body = S1}
    
    Sources1 = lists:map(fun({File,Role,Uri}) ->
                               if Uri == [] ->
@@ -473,7 +491,9 @@ handle_environment(List) ->
                            xqerl_context:add_available_collection(Uri,Docs)
                      end, Collections),
    _ = xqerl_context:set_static_base_uri(BaseUri),
-   Params1 = lists:map(fun({Name,As,Value}) ->
+   Params1 = lists:map(fun({Name,"",Value}) ->
+                             "declare variable $"++Name++" := "++Value++";\n";
+                          ({Name,As,Value}) ->
                              "declare variable $"++Name++" as "++As++" := "++Value++";\n"
                        end, Params),
    Namespaces1 = lists:map(fun({Uri,[]}) ->

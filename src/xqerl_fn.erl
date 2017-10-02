@@ -2015,6 +2015,7 @@ unmask_static_mod_ns(T) -> T.
    xqerl_types:cast_as(?str(ImpOsStr), 'xs:dayTimeDuration').
 
 %% Returns a sequence of positive integers giving the positions within the sequence $seq of items that are equal to $search. 
+'index-of'(_Ctx,[],_Arg2) -> ?seq:empty();
 'index-of'(_Ctx,Seq,Arg2) -> 
    %{index,counter}
    Fun = fun(Elem,{List,Counter}) ->
@@ -2146,6 +2147,7 @@ unmask_static_mod_ns(T) -> T.
    end.
 
 %% Returns the local part of the supplied QName. 
+'local-name-from-QName'(_Ctx, []) -> ?seq:empty();
 'local-name-from-QName'(_Ctx, Arg) ->
    case ?seq:is_sequence(Arg) andalso ?seq:is_empty(Arg) of
       true ->
@@ -2963,13 +2965,18 @@ string_value(At) -> xqerl_types:string_value(At).
          FltVal = abs(ArgVal),
          {Int, Fract} = if ArgType =/= 'xs:float',
                            ArgType =/= 'xs:double' ->
-                              List = lists:flatten(io_lib:format("~w", [FltVal])),
+                              List = lists:flatten(io_lib:format("~f", [FltVal])),
+                              %?dbg("ArgVal",ArgVal),
+                              %?dbg("FltVal",FltVal),
+                              %?dbg("List",List),
+                              %?dbg("ArgType",ArgType),
                               [I1,F1] = case string:split(List,[$.]) of
                                            [I2,F2] ->
                                               [I2,F2];
                                            [I2] ->
                                               [I2,""]
                                         end,
+                              %?dbg("{I1,F1}",{I1,F1}),
                               {I1,F1};
                            true ->
                               I = trunc(FltVal),
@@ -2977,9 +2984,14 @@ string_value(At) -> xqerl_types:string_value(At).
                               List = lists:flatten(io_lib:format("~w", [F])),
                               %?dbg("List",List),
                               [_,Fl] = string:split(List,[$.]),
+                              %?dbg("I",I),
+                              %?dbg("F",F),
+                              %?dbg("List",List),
+                              %?dbg("Fl",Fl),
                               {integer_to_list(I), Fl}
                         end,
-         {Int1,Fract1} = if Pres == 0 -> {Int, Fract};
+         {Int1,Fract1} = if Pres == 0 ->
+                               {Int, Fract};
                             Pres < 1 ->
                                Len = length(Int),
                                AbsPres = abs(Pres),
@@ -2994,6 +3006,7 @@ string_value(At) -> xqerl_types:string_value(At).
                                Len = length(Fract),
                                if Len < Pres ->
                                      TempFract = lists:flatten(string:pad(Fract,Pres,trailing,[$0])),
+                                     %?dbg("TempFract",TempFract),
                                      {Int++TempFract,""};
                                   true ->
                                      NewInt = Int ++ lists:sublist(Fract, 1, Pres),
@@ -3001,9 +3014,14 @@ string_value(At) -> xqerl_types:string_value(At).
                                      {NewInt, NewFract}
                                end
                          end,
-         Int2 = list_to_integer(Int1),
+         Int2 = case catch list_to_integer(Int1) of
+                   {'EXIT',_} ->
+                      trunc(list_to_float(Int1));
+                   Int21 ->
+                      Int21
+                end,
          Mod1 = Int2 rem 2,
-         ?dbg("All",{Int1,Int,Fract1,Fract,Int2,Mod1}),
+         %?dbg("All",{Int1,Int,Fract1,Fract,Int2,Mod1}),
          Int3 = case {Mod1, Half(Fract1)} of
                    {_, less} ->
                       Int2;

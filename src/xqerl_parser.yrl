@@ -1761,8 +1761,8 @@ get_qname_prefix({qname,_,Px,_}) ->
 next_id() ->
    case erlang:get(var_id) of
       undefined ->
-         erlang:put(var_id, 1),
-         0;
+         erlang:put(var_id, 2),
+         1;
       Id ->
          erlang:put(var_id, Id + 1),
          Id

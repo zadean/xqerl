@@ -106,6 +106,7 @@ head({_,_,Seq}) ->
          append(Val, New)
    end.
 
+singleton_value([]) -> [];
 singleton_value(Fun) when is_function(Fun) -> Fun;
 singleton_value(Map) when is_map(Map) -> Map;
 singleton_value(#xqFunction{body = Fun}) -> Fun;
@@ -120,21 +121,7 @@ singleton_value({#xqSeqType{},_,_}) ->
    xqerl_error:error('XPTY0004');
 singleton_value(Seq) -> 
    ?dbg("singleton_value",Seq),
-%%    case is_sequence(Seq) of 
-%%       true ->
-%%          case ?MODULE:size(Seq) of
-%%             0 ->
-%%                [];
-%%             1 ->
-%%                {_,_,[{_,I}]} = Seq,
-%%                I;
-%%             _ ->
-               xqerl_error:error('XPTY0004').
-%% 
-%%          end;
-%%       _ ->
-%%          Seq
-%%    end.
+   xqerl_error:error('XPTY0004').
 
 -spec tail(seq()) -> seq().
 tail(Seq) ->
@@ -173,6 +160,7 @@ reverse({Type,Size,Seq}) ->
              end,
    FunLoop(Iter,New1).
 
+insert({_,_Size,_} = Seq1,[],_Pos) -> Seq1;
 insert({_,Size,_} = Seq1,Seq2,Pos) ->
    #xqAtomicValue{type = 'xs:integer', value = Pos1} = singleton_value(Pos),
    New = if Pos1 > 0 ->

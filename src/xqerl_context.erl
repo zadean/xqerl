@@ -682,30 +682,40 @@ static_namespaces() ->
 %% remove_key(Key) ->
 %%    catch ets:match_delete(?MODULE, {{Key,'_'},'_'}).
 
+get_local_timezone(RawCdt) ->
+   Loc = calendar:now_to_local_time(RawCdt),
+   UTC = calendar:now_to_universal_time(RawCdt),
+   {D,{H,M,_}} = calendar:time_difference(UTC, Loc),
+   if D == 0 ->
+         #off_set{sign = '+', hour = H, min = M};
+      true ->
+         #off_set{sign = '-', hour = 24 - H, min = M}
+   end.
+
+
 add_default_static_values({_, RawCdt} = Key) ->
-   {ok, Home} = init:get_argument(home),
-   set_static_base_uri(lists:flatten(Home)),
-   set_ordering_mode('ordered'),
-   set_implicit_timezone(#off_set{}),
+%%    {ok, Home} = init:get_argument(home),
+%%    set_static_base_uri(lists:flatten(Home)),
+%%    set_ordering_mode('ordered'),
+   set_implicit_timezone(get_local_timezone(RawCdt)),
    set_default_element_type_namespace('no-namespace'),
    
    StaticNsList = static_namespaces(),
-   Imports = [{"xqerl_fn", "fn"},
-              {"xqerl_xs", "xs"},
-              {"xqerl_math", "math"},
-              {"xqerl_map", "map"},
-              {"xqerl_array", "array"},
-              {"xqerl_error", "error"}
-             ],
-   {StatFunctions, StatVariables} = get_module_exports(Imports),
-   ok = import_variables(StatVariables),
-   ok = import_functions(StatFunctions),   
+%%    Imports = [{"xqerl_fn", "fn"},
+%%               {"xqerl_xs", "xs"},
+%%               {"xqerl_math", "math"},
+%%               {"xqerl_map", "map"},
+%%               {"xqerl_array", "array"},
+%%               {"xqerl_error", "error"}
+%%              ],
+%%    {StatFunctions, StatVariables} = get_module_exports(Imports),
+%%    ok = import_variables(StatVariables),
+%%    ok = import_functions(StatFunctions),   
    StaticNsDict = dict:from_list(StaticNsList),
    set_statically_known_namespaces(StaticNsDict),
-  
-   set_statically_known_collations(["http://www.w3.org/2005/xpath-functions/collation/codepoint"]),
+%%    set_statically_known_collations(["http://www.w3.org/2005/xpath-functions/collation/codepoint"]),
    set_default_language(#xqAtomicValue{type = 'xs:language', value = "en"}),
-   set_default_collation("http://www.w3.org/2005/xpath-functions/collation/codepoint"),
+%%    set_default_collation("http://www.w3.org/2005/xpath-functions/collation/codepoint"),
    %add_available_document(0, gb_trees:empty()), % erlang:put(0, gb_trees:empty()),
    
    %% non-augmentable values from dynamic context can be put here as well.

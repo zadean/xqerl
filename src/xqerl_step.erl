@@ -171,6 +171,7 @@ forward(Ctx0, Seq, child, #qname{} = Name, PredFuns) ->
                        is_record(Child, xqElementNode),
                        has_name(Child, Name)],
                PreFilterSeq = ?seq:from_list(List),
+               %?dbg("PreFilterSeq",PreFilterSeq),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);

@@ -1114,9 +1114,9 @@ instance_of( Seq0, TargetSeqType ) ->
                   true -> ?true
                end;
             T ->
-?dbg(?LINE,Seq0),
-?dbg(?LINE,TargetSeqType),
-?dbg(?LINE,seq_type_val_match(TargetSeqType, SeqType)),
+%?dbg(?LINE,Seq0),
+%?dbg(?LINE,TargetSeqType),
+%?dbg(?LINE,seq_type_val_match(TargetSeqType, SeqType)),
                case is_known_type(T) of
                   true ->
                      B = lists:all(fun(#xqAtomicValue{type = ATy}) ->

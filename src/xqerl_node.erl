@@ -85,7 +85,7 @@ new_fragment({RootId, Doc}) ->
 
 % return document {RootId, Doc}
 new_fragment(Content, BaseUri) when is_list(Content) ->
-   ?dbg("new_fragment Content",BaseUri),
+   %?dbg("new_fragment Content",BaseUri),
    Ctx = new_context(),
    {Id,Ctx1} = next_id(Ctx),
    Doc = #xqXmlFragment{identity = Id},

@@ -370,6 +370,11 @@ get_type(10376293541716428800 ) ->  'xs:ENTITIES'             .
 
 
 
+static_operator_type(Op, 'xs:numeric', T) -> 
+   static_operator_type(Op, 'xs:double', T);
+static_operator_type(Op, T, 'xs:numeric') -> 
+   static_operator_type(Op, T, 'xs:double');
+
 static_operator_type('add', 'xs:integer', 'xs:integer') -> 'xs:integer';
 static_operator_type('add', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
 static_operator_type('add', 'xs:integer', 'xs:float')   -> 'xs:float';

@@ -262,9 +262,9 @@ scan_mod(#xqModule{version = {Version,Encoding},
                               name = Name, 
                               type = Type} 
                     <- Variables   ]}, 
-   ?dbg("Variables",Variables),
+   %?dbg("Variables",Variables),
    VariableAbs = scan_variables(EmptyMap,Variables),
-   ?dbg("VariableAbs",VariableAbs),
+   %?dbg("VariableAbs",VariableAbs),
 %%    [attribute('element-namespace', DefElNs),
 %%     attribute('import-functions', Functions1),
 %%     attribute('import-variables', Variables1),
@@ -402,11 +402,11 @@ body_function(ContextMap, Body, ContextItem) ->
          ]}
    end
  }] ++
- lists:map(fun({N,_,_,{V,_}}) ->
+     lists:map(fun({N,_,_,{V,_}}) ->
                  ?dbg("{N,V}",{N,V}),
-                 {VarAbs,_Type} = get_variable_ref(N, maps:put(ctx_var, 'Ctx',ContextMap)),
-                 ?dbg("VarAbs",VarAbs),
-                 {match,?L,{var,?L,V},VarAbs}
+                 %{VarAbs,_Type} = get_variable_ref(N, maps:put(ctx_var, 'Ctx',ContextMap)),
+                 %?dbg("VarAbs",VarAbs),
+                 {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,put}},[{atom,?L,V},{call,?L,{atom,?L,V},[{var,?L,'Ctx'}]} ]}  
            end, maps:get(variables, ContextMap))
  ++    
  % set all the external variables here
@@ -473,10 +473,11 @@ function_functions(ContextMap, Functions) ->
                erlang:put(ctx, 1),
                {FName, Arity1} = function_function_name(Id, Arity),
                % add parameters to scope
-               {List,Map2} =  lists:mapfoldl(fun(#xqVar{name = #qname{namespace = Ns, prefix = Px} = Name,
+               {List,Map2} =  lists:mapfoldl(fun(#xqVar{id = VId,
+                                                        name = #qname{namespace = Ns, prefix = Px} = Name,
                                                         type = Type, 
                                                         annotations = Annos}, Map) ->
-                                     VarName = list_to_atom(lists:concat(["Param__var_", next_id()])),
+                                     VarName = list_to_atom(lists:concat(["Param__var_", VId])),
                                      Ns2 = case Ns of
                                               undefined ->
                                                  proplists:get_value(Px, maps:get(namespaces, ContextMap));
@@ -1003,6 +1004,9 @@ expr_do(Ctx, {comp_cons, Expr0}) ->
     [expr_do(Ctx, Expr),
      expr_do([],maps:get('base-uri', Ctx)) % base_uri     
     ]};
+expr_do(Ctx, {atomize, Expr0}) ->
+   {call,?L,{remote,?L,{atom,?L,xqerl_node},{atom,?L,atomize_nodes}},
+    [expr_do(Ctx, Expr0)]};
 
 
 expr_do(Ctx, #xqDocumentNode{} = N) ->
@@ -1027,7 +1031,7 @@ expr_do(Ctx, {Op,Vars,Test}) when Op == every;
                                   Op == some->
  % add the variables to the stack
    VarNames = [{[],[],[],local_variable_name(Id)} || #xqVar{id = Id} <- Vars],
-   VarTup = get_variable_tuple(VarNames),
+   VarTup = get_variable_tuple(Ctx, VarNames),
 
    {Gens,Ctx3} = lists:mapfoldl(fun(#xqVar{id = Id,
                              name = Name,
@@ -1201,7 +1205,7 @@ expr_do(Ctx, {step, #xqVarRef{name = Name}, Step}) ->
    step_expr_do(Ctx, Step, Src);
 
 expr_do(_Ctx, {variable, {Name,_}}) when is_atom(Name) ->
-   {var,?L,Name};
+   {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,get}},[{atom,?L,Name}]};
 expr_do(_Ctx, {variable, Name}) when is_atom(Name) ->
    {var,?L,Name};
 
@@ -2180,20 +2184,20 @@ order_do(Ctx0, Clauses) ->
    VarTup = get_variable_tuple(Ctx0),
    %?dbg("return_do",?L),
    VarTupName = {var,?L,get_variable_tuple_name(Ctx0)},
-   All = xqerl_context:get_statically_known_collations() ++ [default],
-   BaseUri = xqerl_types:value(maps:get('base-uri', Ctx0)),
-   Funs = lists:foldr(fun({order, Expr, {modifier,{_,Dir},{_,Empty},{_,Collation}}},Acc) ->
-                            Coll = if Collation == default ->
-                                         default;
-                                      true ->
-                                         xqerl_lib:resolve_against_base_uri(BaseUri, Collation)
-                                   end,
-                           case lists:any(fun(U) -> U == Coll end, All) of
-                              true ->
-                                 ok;
-                              _ ->
-                                 xqerl_error:error('XQST0076')
-                           end,
+   %All = xqerl_context:get_statically_known_collations() ++ [default],
+%%    BaseUri = xqerl_types:value(maps:get('base-uri', Ctx0)),
+   Funs = lists:foldr(fun({order, Expr, {modifier,{_,Dir},{_,Empty},{_,_Collation}}},Acc) ->
+%%                             Coll = if Collation == default ->
+%%                                          default;
+%%                                       true ->
+%%                                          xqerl_lib:resolve_against_base_uri(BaseUri, Collation)
+%%                                    end,
+%%                            case lists:any(fun(U) -> U == Coll end, All) of
+%%                               true ->
+%%                                  ok;
+%%                               _ ->
+%%                                  xqerl_error:error('XQST0076')
+%%                            end,
                            {cons,?L,
                             {tuple,?L, [{'fun',?L,{clauses,
                                           [{clause,?L,[VarTup],[],alist(expr_do(Ctx0, Expr))}]}},
@@ -2478,12 +2482,12 @@ window_clause_gen(Ctx, #xqWindow{type = Type,
                      end
                end, sets:new(), AllVars),
          
-   StartTup = get_variable_tuple([SVar,SPosVar,SPrevVar,SNextVar]),
-   EndTup   = get_variable_tuple([SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar]),
+   StartTup = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar]),
+   EndTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar]),
    % mask the win variable name to type check it later
    TempWinVarName = next_var_name(),
    TempWinVar = {[],[],[],TempWinVarName},
-   OutTup   = get_variable_tuple([SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,TempWinVar]),
+   OutTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,TempWinVar]),
    %Ctx21 = set_variable_tuple_name(Ctx, Name)
    %?dbg("window",?LINE),
    %?dbg("window",Ctx6),
@@ -2900,9 +2904,11 @@ get_variable_ref(Name, Map) ->
       true ->
          case tuple_size(Loc) of
             2 ->
-               {{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_variable_value}},
-                [{tuple,?L,[{atom,?L,element(1, Loc)},{integer,?L,element(2, Loc)}]},
-                 {call,?L,{atom,?L,element(1, Loc)},[{var,?L,get_context_variable_name(Map)}]} ]},Typ};
+               {{call,?L,
+                 {remote,?L,
+                  {atom,?L,erlang},
+                  {atom,?L,get}},
+                [{atom,?L,element(1, Loc)}]},Typ};
             3 ->
                {{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_variable_value}},
                 [{tuple,?L,[{atom,?L,element(1, Loc)},{atom,?L,element(2, Loc)},{integer,?L,element(3, Loc)}]},
@@ -2940,7 +2946,7 @@ get_function_ref({#qname{namespace = "http://www.w3.org/2005/xpath-functions", p
 get_function_ref({#qname{namespace = Ns, prefix = Px, local_name = Ln},Arity,Args}, Ctx) ->
    %io:format("Name,Arity,Args:: ~p ~p ~p~n",[Name,Arity,Args]),
    CtxName = get_context_variable_name(Ctx),
-   Funs = xqerl_context:get_statically_known_functions(),
+   Funs = maps:get(known_fx_sigs, Ctx),% xqerl_context:get_statically_known_functions(),
    Nss = maps:get(namespaces, Ctx),
    %?dbg("get_function_ref",Px),
    Ns2 = if Px == [] ->
@@ -3770,14 +3776,18 @@ local_variable_name(Id) ->
 
 get_variable_tuple(Map) when is_map(Map) ->
    Vars = maps:get(variables, Map),
-   get_variable_tuple(Vars);
-get_variable_tuple(List) when is_list(List) ->
-   {tuple,?L,[case Name of
-                 {N,_} ->
-                     {var,?L,N};
+   get_variable_tuple(Map, Vars).
+
+get_variable_tuple(Ctx, List) when is_list(List) ->
+   {tuple,?L,lists:flatten([case Name of
+                 {N,_} -> % global 
+                     %{var,?L,N};
+                     %{VarAbs,_Type} = get_variable_ref(QName, Ctx),
+                     %VarAbs;
+                     [];
                  N ->
                     {var,?L,N}
-              end || {_,_,_,Name} <- List]}.
+              end || {QName,_,_,Name} <- List])}.
 
 %% get_ret_variable_tuple(Ctx,Map) when is_map(Map) ->
 %%    Vars = maps:get(variables, Map),
@@ -3869,14 +3879,15 @@ resolve_qname(Name, _Ctx) ->
 
 
 maybe_check_type(Ctx,Type,Expr) ->
-   if Type == undefined ->
-          Expr;
-      Type == #xqSeqType{type = item,occur = zero_or_many} ->
-          Expr;
-      true ->
-          {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},
-           [Expr, abs_seq_type(Ctx,Type)]}
-   end.
+   Expr.
+%%    if Type == undefined ->
+%%           Expr;
+%%       Type == #xqSeqType{type = item,occur = zero_or_many} ->
+%%           Expr;
+%%       true ->
+%%           {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},
+%%            [Expr, abs_seq_type(Ctx,Type)]}
+%%    end.
 
 empty_seq_abs() ->
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,empty}},[]}.

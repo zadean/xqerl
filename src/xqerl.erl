@@ -251,7 +251,7 @@ trun(Str, Opt) ->
 %      ?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
-      ?dbg("Tree",Tree),
+%      ?dbg("Tree",Tree),
       Static = xqerl_static:handle_tree(Tree),
 %      ?dbg("Static",Static),
       Abstract = xqerl_abs:scan_mod(Static),
