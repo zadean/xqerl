@@ -268,20 +268,21 @@ forward(Ctx0, Seq, child, #xqKindTest{kind = node} = _Kt, PredFuns) ->
    doc_ord(Ctx0, Fun, Seq);
 
 
-forward(Ctx0, Seq, child, #xqKindTest{kind = attribute, name = Name}, PredFuns) ->
-   Fun = fun(Ctx) ->
-               #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
-               Doc = xqerl_context:get_available_document(F),
-               List = [#xqNode{frag_id = F, identity = C} ||
-                       C <- xqerl_node:child_ids({Id, Doc}),
-                       %%A <- xqerl_node:child_ids({C, Doc}),
-                       Child <- [get_node(C, Doc)],
-                       is_record(Child, xqAttributeNode),
-                       has_name(Child, Name)],
-               PreFilterSeq = ?seq:from_list(List),
-               do_preds(Ctx0, PreFilterSeq, PredFuns)
-         end,
-   doc_ord(Ctx0, Fun, Seq);
+forward(_Ctx0, _Seq, child, #xqKindTest{kind = attribute, name = _Name}, _PredFuns) ->
+   ?seq:empty();
+%%    Fun = fun(Ctx) ->
+%%                #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
+%%                Doc = xqerl_context:get_available_document(F),
+%%                List = [#xqNode{frag_id = F, identity = C} ||
+%%                        C <- xqerl_node:child_ids({Id, Doc}),
+%%                        %%A <- xqerl_node:child_ids({C, Doc}),
+%%                        Child <- [get_node(C, Doc)],
+%%                        is_record(Child, xqAttributeNode),
+%%                        has_name(Child, Name)],
+%%                PreFilterSeq = ?seq:from_list(List),
+%%                do_preds(Ctx0, PreFilterSeq, PredFuns)
+%%          end,
+%%    doc_ord(Ctx0, Fun, Seq);
 
 forward(Ctx0, Seq, child, #xqKindTest{kind = namespace}, PredFuns) ->
    Fun = fun(Ctx) ->
@@ -357,10 +358,8 @@ forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = node}, PredFuns) ->
                List = [#xqNode{frag_id = F, identity = C} ||
                        C <- [Id] ++ xqerl_node:descendant_ids({Id, Doc}),
                        Child <- [get_node(C, Doc)],
-                       (not is_record(Child, xqAttributeNode) orelse is_record(get_node(Id, Doc), xqAttributeNode)),
-                       (not is_record(Child, xqNamespaceNode) orelse is_record(get_node(Id, Doc), xqNamespaceNode)),                        
-                       (is_record(Child, xqTextNode) andalso xqerl_types:string_value(Child#xqTextNode.expr) =/= [])
-                       orelse not is_record(Child, xqTextNode)
+                       C == Id orelse
+                       (not is_record(Child, xqAttributeNode) andalso not is_record(Child, xqNamespaceNode) )
                        ],
                PreFilterSeq = ?seq:from_list(List),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
@@ -734,8 +733,13 @@ doc_ord(Ctx, Fun, Seq) ->
          %?dbg("Res",Res),
          % unique in doc order
          ?seq:union(Res, ?seq:empty());
-      _ ->
-         xqerl_error:error('XPTY0020') % only step on nodes
+      _ -> % only step on nodes
+         case ?seq:all_not_node(NewSeq) of
+            true ->
+               xqerl_error:error('XPTY0020');
+            _ ->
+               xqerl_error:error('XPTY0019')
+         end
    end.
 
 filter(Ctx, PredFuns,PreFilterSeq) ->

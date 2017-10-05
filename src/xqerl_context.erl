@@ -360,7 +360,8 @@ set_copy_namespaces_mode(Value) ->
    erlang:put('copy-namespaces-mode', Value).
 
 get_static_base_uri() ->
-   erlang:get('static-base-uri').
+   code:lib_dir(xqerl, lib).
+   %erlang:get('static-base-uri').
 set_static_base_uri(Value) ->
    erlang:put('static-base-uri', Value).
 
@@ -694,8 +695,8 @@ get_local_timezone(RawCdt) ->
 
 
 add_default_static_values({_, RawCdt} = Key) ->
-%%    {ok, Home} = init:get_argument(home),
-%%    set_static_base_uri(lists:flatten(Home)),
+   {ok, Home} = init:get_argument(home),
+   set_static_base_uri(lists:flatten(Home)),
 %%    set_ordering_mode('ordered'),
    set_implicit_timezone(get_local_timezone(RawCdt)),
    set_default_element_type_namespace('no-namespace'),
@@ -719,7 +720,8 @@ add_default_static_values({_, RawCdt} = Key) ->
    %add_available_document(0, gb_trees:empty()), % erlang:put(0, gb_trees:empty()),
    
    %% non-augmentable values from dynamic context can be put here as well.
-   set_current_datetime(xqerl_datetime:get_from_now(RawCdt)),
+   %set_current_datetime(xqerl_datetime:get_from_now(RawCdt)),
+   set_current_datetime(xqerl_datetime:get_from_now_local(RawCdt)),
    Key.
 
 %% lookup_ns_from_prefix(Key, Prefix) ->

@@ -55,6 +55,7 @@
 -export([get_seq_iter/1]).
 
 -export([all_node/1]).
+-export([all_not_node/1]).
 
 -include("xqerl.hrl").
 
@@ -166,7 +167,12 @@ insert({_,Size,_} = Seq1,Seq2,Pos) ->
    New = if Pos1 > 0 ->
                empty();
             true ->
-               Seq2
+               case is_sequence(Seq2) of
+                  true ->
+                     Seq2;
+                  _ ->
+                     singleton(Seq2)
+               end
          end,
    Iter1 = get_seq_iter(Seq1),
    FunLoop = fun Loop(CurrIter1,CurrSeq) ->
@@ -192,6 +198,12 @@ insert({_,Size,_} = Seq1,Seq2,Pos) ->
              end,
    sort_seq(FunLoop(Iter1,New)).
 
+zip_with(Ctx, _Fun,[],[]) ->
+   empty();
+zip_with(Ctx, _Fun,[],_) ->
+   xqerl_error:error('XPTY0004');
+zip_with(Ctx, _Fun,_,[]) ->
+   xqerl_error:error('XPTY0004');
 zip_with(Ctx, Fun,{_,Size1,_} = Seq1,{_,Size2,_} = Seq2) when is_function(Fun) ->
    New = empty(),
    Size = erlang:min(Size1,Size2),
@@ -219,7 +231,7 @@ zip_with(Ctx, Fun,{_,Size1,_} = Seq1,{_,Size2,_} = Seq2) when is_function(Fun) -
                           catch 
                              _:#xqError{} = E -> throw(E);
                              _:E ->
-                                ?dbg(?LINE,E),
+                                ?dbg("error",erlang:get_stacktrace()),
                                 xqerl_error:error('XPTY0004')
                           end
                     end
@@ -234,6 +246,7 @@ zip_with(Ctx, Fun,Seq1,Seq2) ->
    end.
 
 
+for_each(_Ctx, Fun,[]) when is_function(Fun) -> empty();
 for_each(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
    New = empty(),
    Iter = get_seq_iter(Seq),
@@ -254,6 +267,7 @@ for_each(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
                           catch
                              _:#xqError{} = E -> throw(E);
                              _:_ ->
+                                ?dbg("error",erlang:get_stacktrace()),
                                 xqerl_error:error('XPTY0004')
                           end
                     end
@@ -270,6 +284,7 @@ for_each(Ctx, Fun,Seq) ->
 -spec map(Ctx :: map(), Fun, Seq :: seq()) -> Seq1 :: seq() when
     Fun :: fun((A :: ctx()) -> B :: seq()).
 
+map(_Ctx, Fun,[]) when is_function(Fun) -> empty();
 map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
    New = empty(),
    Iter = get_seq_iter(Seq),
@@ -480,6 +495,8 @@ from_list1([H|T], Seq) ->
    New = append(H,Seq),
    from_list1(T, New).
 
+range(_, []) -> empty();
+range([], _) -> empty();
 range(From, To) ->
    case (is_sequence(From) andalso is_empty(From)) orelse (is_sequence(To) andalso is_empty(To)) of
       true ->
@@ -652,6 +669,8 @@ filter(Ctx, Fun,{_Type,Size,List} = Seq) when is_function(Fun,1) ->
                           %?dbg("Line",?LINE),
                           Ctx3 = xqerl_context:set_context_item(Ctx1, Value, Key),
                           %?dbg("Ctx3",Ctx3),
+                          %?dbg("Key",Key),
+                          %?dbg("Value",Value),
                           Resp = Fun(Ctx3),
                           %?dbg("Resp",Resp),
                           RespType = xqerl_types:type(Resp),
@@ -698,7 +717,7 @@ condense_seq(Seq) ->
                end, New, lists:usort(Sorted)).
 
 sort_seq({T,S,Seq}) ->
-   
+   %?dbg("Seq",Seq),   
    NewSeq = lists:keysort(1, Seq),
    {T,S,NewSeq}.
 
@@ -732,6 +751,8 @@ combine1(Seqs, atomic) ->
 %%          end
 %%    end.
 
+concat_seqs([],Seq2) -> Seq2;
+concat_seqs(Seq1,[]) -> Seq1;
 concat_seqs(#xqAtomicValue{} = Av1,{Seq2,Size2,List2}) ->
    concat_seqs(singleton(Av1),{Seq2,Size2,List2});
 concat_seqs({Seq1,Size1,List1},#xqAtomicValue{} = Av2) ->
@@ -772,7 +793,12 @@ shift_seq([{I,V}|T], Amt) ->
    [{I+Amt,V}|shift_seq(T, Amt)].
 
 all_node(Seqs) when not is_list(Seqs) ->
-   all_node([Seqs]);
+   case is_sequence(Seqs) of
+      true ->
+         all_node([Seqs]);
+      _ ->
+         all_node([singleton(Seqs)])
+   end;
 all_node(Seqs) ->
    lists:all(fun(Seq) ->
                    #xqSeqType{type = Type} = get_seq_type(Seq),

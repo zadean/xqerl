@@ -1501,9 +1501,12 @@ scan_token(Str = "as" ++ T, A) ->
          case lookback(A) of
             '/' ->
                scan_name(Str);
+            {'$',_,_} ->
+               {{'as',?L,'as'}, T};
             ')' ->
                {{'as',?L,'as'}, T};
-            _ ->
+            LB ->
+               ?dbg("LB",LB),
                case lookforward_is_paren(T) of
                   true ->
                      scan_name(Str);

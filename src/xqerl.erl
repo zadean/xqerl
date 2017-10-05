@@ -253,11 +253,11 @@ trun(Str, Opt) ->
       Tree = parse_tokens(Tokens),
 %      ?dbg("Tree",Tree),
       Static = xqerl_static:handle_tree(Tree),
-%      ?dbg("Static",Static),
+     ?dbg("Static",maps:get(body,Static)),
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
-      print_erl(B),
+%      print_erl(B),
       erlang:erase(),
       erlang:put('available-documents', Docs),
       xqerl_main:main(Opt).

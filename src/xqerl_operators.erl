@@ -883,6 +883,7 @@ less_than_eq(Arg1, Arg2) ->
          end
    end.
 %% unary returns sequence
+unary_plus([]) -> ?seq:empty();
 unary_plus([Arg1]) ->
    unary_plus(Arg1);
 unary_plus(#xqNode{} = Arg1) ->
@@ -907,6 +908,7 @@ unary_plus(Arg1) ->
          xqerl_error:error('XPTY0004')
    end.
 
+unary_minus([]) -> ?seq:empty();
 unary_minus(#xqNode{} = Arg1) ->
    unary_minus(atomize_list(Arg1));
 unary_minus(#xqAtomicValue{type = T} = Arg1) when ?numeric(T) ->
@@ -1571,6 +1573,10 @@ subtract_yearMonthDurations(#xqAtomicValue{type = 'xs:yearMonthDuration',
 % returns: xs:yearMonthDuration
 multiply_yearMonthDuration(_A,#xqAtomicValue{value = "NaN"}) ->
    xqerl_error:error('FOCA0005');
+multiply_yearMonthDuration(_A,#xqAtomicValue{value = "INF"}) ->
+   xqerl_error:error('FODT0002');
+multiply_yearMonthDuration(_A,#xqAtomicValue{value = "-INF"}) ->
+   xqerl_error:error('FODT0002');
 multiply_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                           value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                            #xqAtomicValue{value = Dbl}) -> 

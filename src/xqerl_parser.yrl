@@ -1099,7 +1099,12 @@ Left  2000  '[' ']' '?'.
 'ForwardAxis'            -> 'following' '::'          : 'following'.
 % [114]    AbbrevForwardStep    ::=      "@"? NodeTest  
 'AbbrevForwardStep'      -> '@' 'NodeTest' : {'attribute', '$2'}.
-'AbbrevForwardStep'      -> 'NodeTest'     : {'child', '$1'}.
+'AbbrevForwardStep'      -> 'NodeTest'     : case ('$1') of
+                                                #xqKindTest{kind = 'attribute'} ->
+                                                  {'attribute', '$1'};
+                                                _ ->
+                                                  {'child', '$1'}
+                                             end.
 % [115]    ReverseStep    ::=      (ReverseAxis NodeTest) | AbbrevReverseStep   
 'ReverseStep'            -> 'ReverseAxis' 'NodeTest' : {'$1', '$2'}.
 'ReverseStep'            -> 'AbbrevReverseStep'      : {'$1', #xqKindTest{kind = 'node'}}.
@@ -1349,12 +1354,12 @@ Left  2000  '[' ']' '?'.
 % [156]    CompDocConstructor      ::=      "document" EnclosedExpr 
 'CompDocConstructor'     -> 'document' 'EnclosedExpr' : #xqDocumentNode{expr = {content_expr, '$2'}}.
 % [157]    CompElemConstructor     ::=      "element" (EQName | ("{" Expr "}")) EnclosedContentExpr  
-'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : #xqElementNode{name = '$2', expr = '$3'}. 
+'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : #xqElementNode{name = qname(other,'$2'), expr = '$3'}. 
 'CompElemConstructor'    -> 'element' '{' 'Expr' '}' 'EnclosedContentExpr' : #xqElementNode{name = '$3', expr = '$5'}.
 % [158]    EnclosedContentExpr     ::=      EnclosedExpr
 'EnclosedContentExpr'    -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [159]    CompAttrConstructor     ::=      "attribute" (EQName | ("{" Expr "}")) EnclosedExpr 
-'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{name = '$2', expr = {content_expr, '$3'}}.
+'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{name = qname(other,'$2'), expr = {content_expr, '$3'}}.
 'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{name = '$3', expr = {content_expr, '$5'}}.
 % [160]    CompNamespaceConstructor      ::=      "namespace" (Prefix | EnclosedPrefixExpr) EnclosedURIExpr
 'CompNamespaceConstructor'-> 'namespace' 'Prefix'             'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2'}}.
@@ -1431,7 +1436,7 @@ Left  2000  '[' ']' '?'.
 % [183]    TypeDeclaration      ::=      "as" SequenceType 
 'TypeDeclaration'        -> 'as' 'SequenceType' : '$2'.
 % [184]    SequenceType      ::=      ("empty-sequence" "(" ")")| (ItemType OccurrenceIndicator?)   
-'SequenceType'           -> 'empty-sequence' '(' ')'         : #xqSeqType{type = 'empty-sequence', occur = 'one'}.
+'SequenceType'           -> 'empty-sequence' '(' ')'         : #xqSeqType{type = 'empty-sequence', occur = 'zero'}.
 'SequenceType'           -> 'ItemType' 'OccurrenceIndicator' : #xqSeqType{type = '$1', occur = '$2'}.
 'SequenceType'           -> 'ItemType'                       : #xqSeqType{type = '$1', occur = 'one'}.
 % [185]    OccurrenceIndicator     ::=      "?" | "*" | "+"   /* xgc: occurrence-indicators */ 
@@ -1490,7 +1495,7 @@ Left  2000  '[' ']' '?'.
 'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ')' : #xqKindTest{kind = 'attribute', name = '$3'}.
 'AttributeTest'          -> 'attribute' '(' ')' : #xqKindTest{kind = 'attribute'}.
 % [196]    AttribNameOrWildcard    ::=      AttributeName | "*"  
-'AttribNameOrWildcard'   -> 'AttributeName' : '$1'.
+'AttribNameOrWildcard'   -> 'AttributeName' : qname(wildcard,'$1').
 'AttribNameOrWildcard'   -> '*' : {qname,"*","*","*"}.
 % [197]    SchemaAttributeTest     ::=      "schema-attribute" "(" AttributeDeclaration ")" 
 'SchemaAttributeTest'    -> 'schema-attribute' '(' 'AttributeDeclaration' ')' : #xqKindTest{kind = 'schema-attribute', name = '$3'}.
@@ -1503,7 +1508,7 @@ Left  2000  '[' ']' '?'.
 'ElementTest'            -> 'element' '(' ')' : #xqKindTest{kind = 'element'}.
 % [200]    ElementNameOrWildcard      ::=      ElementName | "*" 
 'ElementNameOrWildcard'  -> '*' : {qname,"*","*","*"}.
-'ElementNameOrWildcard'  -> 'ElementName' : '$1'.
+'ElementNameOrWildcard'  -> 'ElementName' : qname(wildcard,'$1').
 % [201]    SchemaElementTest    ::=      "schema-element" "(" ElementDeclaration ")"  
 'SchemaElementTest'      -> 'schema-element' '(' 'ElementDeclaration' ')' : {'ignore', '$3'}.
 % [202]    ElementDeclaration      ::=      ElementName 
@@ -1714,6 +1719,16 @@ qname(opt, {qname,default,_,Ln}) ->
 qname(opt, {Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
+qname(wildcard, {qname,default,default,Ln}) ->
+   {qname,"*","*",Ln};
+qname(wildcard, {qname,default,Px,Ln}) ->
+   {qname,"*",Px,Ln};
+qname(wildcard, {qname,Ns,default,Ln}) ->
+   {qname,Ns,"*",Ln};
+qname(wildcard, {qname,Ns,Px,Ln}) ->
+   {qname,Ns,Px,Ln};
+
+
 qname(other, {qname,_,"err",Ln}) ->
    {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
 qname(other, {qname,"http://www.w3.org/2005/xqt-errors",_,Ln}) ->
@@ -1724,9 +1739,9 @@ qname(other, {qname,_,"*","*"}) ->
    {qname,"*","*","*"};
 qname(other, {qname,_,"*",Ln}) ->
    {qname,"*","*",Ln};
-qname(other, {qname,_,Px,"*"}) ->
-   %Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-   {qname,undefined,Px,"*"};
+qname(other, {qname,undefined,Px,"*"}) ->
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+   {qname,Ns,Px,"*"};
 qname(other, {qname,_,"local",Ln}) ->
    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
 qname(other, {qname,_,"fn",Ln}) ->

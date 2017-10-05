@@ -490,7 +490,9 @@ handle_environment(List) ->
                                          end, Docs),
                            xqerl_context:add_available_collection(Uri,Docs)
                      end, Collections),
-   _ = xqerl_context:set_static_base_uri(BaseUri),
+   BaseUri1 = lists:map(fun({Value}) ->
+                              "declare base-uri '"++Value++"';\n"
+                        end, BaseUri),
    Params1 = lists:map(fun({Name,"",Value}) ->
                              "declare variable $"++Name++" := "++Value++";\n";
                           ({Name,As,Value}) ->
@@ -501,7 +503,7 @@ handle_environment(List) ->
                               ({Uri,Prefix}) ->
                                  "declare namespace "++Prefix++" = '"++Uri++"';\n"
                            end, Namespaces),
-   Sources1++Schemas1++Params1++Namespaces1.
+   BaseUri1++Sources1++Schemas1++Params1++Namespaces1.
 
 
 

@@ -172,17 +172,13 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
                                            UsedAttNames
                                      end,
                      case Node of
-                        #xqTextNode{expr = E} ->
-%%                            Es = xqerl_types:string_value(E),
-%%                            if Es == [] ->
-%%                                  {Children, Sz1,Ctx1,Type,UsedAttNames1};
-%%                               true ->
-                                 {Id, Sz2,Ctx2} = handle_content(Ctx1, Parent, Node, Ns, Sz1),
-                                 if is_list(Id) ->
-                                       {Id ++ Children, Sz2,Ctx2,Type,UsedAttNames1};
-                                    true ->
-                                       {[Id|Children], Sz2,Ctx2,Type,UsedAttNames1}
-%%                                  end
+                        #xqElementNode{name = #qname{namespace = ENs, prefix = EPx}} ->
+                           NewNs = maybe_override_namespace({ENs,EPx},Ns),
+                           {Id, Sz2,Ctx2} = handle_content(Ctx1, Parent, Node, NewNs, Sz1),
+                           if is_list(Id) ->
+                                 {Id ++ Children, Sz2,Ctx2,Type,UsedAttNames1};
+                              true ->
+                                 {[Id|Children], Sz2,Ctx2,Type,UsedAttNames1}
                            end;
                         _ ->
                            {Id, Sz2,Ctx2} = handle_content(Ctx1, Parent, Node, Ns, Sz1),
@@ -197,6 +193,15 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
    {Ids, Sz3,Ctx3,_Type,_UsedAtts} = lists:foldl(Fun, {[], Sz, Ctx, [], []}, Content1),
    %?dbg(?LINE,Ctx3),
    {Ids, Sz3,Ctx3}.
+
+maybe_override_namespace({ENs,EPx},Ns) ->
+   Overridden = [O || O = #xqNamespace{namespace = NNs, prefix = NPx} <- Ns, EPx == NPx, ENs =/= NNs],
+   if Overridden == [] ->
+         Ns;
+      true ->
+         Ns -- Overridden ++ [#xqNamespace{namespace = ENs, prefix = EPx}]
+   end.
+
 
 %% flatten_content(Content) ->
 %%    lists:flatmap(fun({Num,_} = Seq) when is_integer(Num) ->
@@ -1218,13 +1223,14 @@ merge_text_content([#xqAttributeNode{expr = E}|T], Acc) ->
    merge_text_content([E|T], Acc);
 
 merge_text_content([H|T], Acc) ->
-   %?dbg(?LINE,H),
    case ?seq:is_sequence(H) of
       true ->
          #xqSeqType{type = Type} = ?seq:get_seq_type(H),
          if ?anyAtomicType(Type) ->
                Str = xqerl_types:string_value(H),
                merge_text_content([#xqTextNode{expr = ?str(Str)}|T], Acc);
+            Type == 'empty-sequence' ->
+               merge_text_content(T, Acc);
             true ->
                H3 = maybe_merge_text_seq(H),
                %?dbg(?LINE,H3),
@@ -1407,7 +1413,7 @@ get_node_name({Id,Doc}) ->
       #xqProcessingInstructionNode{name = Nm} ->
                   Nm;
       #xqNamespaceNode{name = #qname{prefix = P}} ->
-         #qname{namespace = "",prefix = "",local_name = P};
+         #qname{namespace = 'no-namespace',prefix = "",local_name = P};
       _ ->
          []
    end;

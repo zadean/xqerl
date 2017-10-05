@@ -1264,7 +1264,7 @@ cast_as( #xqNode{} = At, #xqKindTest{kind = 'processing-instruction'} ) ->
       _ ->
          xqerl_error:error('XPTY0004')
    end;
-cast_as( #xqNode{} = At, #xqKindTest{kind = document} ) ->
+cast_as( #xqNode{} = At, #xqKindTest{kind = 'document-node'} ) ->
    case xqerl_node:get_node(At) of
       #xqDocumentNode{} ->
          At;
@@ -1277,6 +1277,7 @@ cast_as( #xqNode{} = At, TT ) ->
    cast_as(Atomized, TT);
 
 cast_as( [], 'xs:anyURI') -> [];
+cast_as( [], 'xs:language') -> [];
 cast_as( [], 'xs:string') -> [];
 cast_as( [], 'xs:hexBinary') -> [];
 cast_as( [], 'xs:base64Binary') -> [];
@@ -2706,7 +2707,7 @@ cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when 
             end
       end
    catch
-      _:#xqError{name = #qname{local_name = "FOCA0002"}} -> xqerl_error:error('FORG0001');
+      %_:#xqError{name = #qname{local_name = "FOCA0002"}} -> xqerl_error:error('FORG0001');
       _:#xqError{} = E -> throw(E);
       G:E -> xqerl_error:error('FORG0001', ["xs:QName", Val,G,E] )
    end;

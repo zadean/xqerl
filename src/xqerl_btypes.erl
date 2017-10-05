@@ -28,7 +28,7 @@
 %%    node                       10100000000
 %%       attribute               10100000001
 %%       comment                 10100000010
-%%       document                10100000100
+%%       document-node           10100000100
 %%       element                 10100001000
 %%       namespace               10100010000
 %%       processing-instruction  10100100000
@@ -100,7 +100,7 @@
 %% node                    1 010 0000000 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% attribute               1 010 0000001 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% comment                 1 010 0000010 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
-%% document                1 010 0000100 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
+%% document-node           1 010 0000100 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% element                 1 010 0001000 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% namespace               1 010 0010000 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% processing-instruction  1 010 0100000 0 00 0 0 000 0 0 0000000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
@@ -173,7 +173,6 @@
 -export([is_numeric/1]).
 -export([get_type/1]).
 -export([sequence_type/1]).
--export([static_operator_type/3]).
 
 -define(item,           9223372036854775808).
 -define(node,          11529215046068469760).
@@ -240,7 +239,7 @@ get_type('item'                    ) ->   9223372036854775808 ;
 get_type('node'                    ) ->  11529215046068469760 ;
 get_type('attribute'               ) ->  11538222245323210752 ;
 get_type('comment'                 ) ->  11547229444577951744 ;
-get_type('document'                ) ->  11565243843087433728 ;
+get_type('document-node'           ) ->  11565243843087433728 ;
 get_type('element'                 ) ->  11601272640106397696 ;
 get_type('namespace'               ) ->  11673330234144325632 ;
 get_type('processing-instruction'  ) ->  11817445422220181504 ;
@@ -306,7 +305,7 @@ get_type( 9223372036854775808 ) ->  'item'                    ;
 get_type(11529215046068469760 ) ->  'node'                    ;
 get_type(11538222245323210752 ) ->  'attribute'               ;
 get_type(11547229444577951744 ) ->  'comment'                 ;
-get_type(11565243843087433728 ) ->  'document'                ;
+get_type(11565243843087433728 ) ->  'document-node'           ;
 get_type(11601272640106397696 ) ->  'element'                 ;
 get_type(11673330234144325632 ) ->  'namespace'               ;
 get_type(11817445422220181504 ) ->  'processing-instruction'  ;
@@ -370,168 +369,3 @@ get_type(10376293541716428800 ) ->  'xs:ENTITIES'             .
 
 
 
-static_operator_type(Op, 'xs:numeric', T) -> 
-   static_operator_type(Op, 'xs:double', T);
-static_operator_type(Op, T, 'xs:numeric') -> 
-   static_operator_type(Op, T, 'xs:double');
-
-static_operator_type('add', 'xs:integer', 'xs:integer') -> 'xs:integer';
-static_operator_type('add', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('add', 'xs:integer', 'xs:float')   -> 'xs:float';
-static_operator_type('add', 'xs:integer', 'xs:double')  -> 'xs:double';
-static_operator_type('add', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
-static_operator_type('add', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('add', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('add', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('add', 'xs:float',   'xs:integer') -> 'xs:float';
-static_operator_type('add', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('add', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('add', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('add', 'xs:double',  'xs:integer') -> 'xs:double';
-static_operator_type('add', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('add', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('add', 'xs:double',  'xs:double')  -> 'xs:double';
-
-static_operator_type('add', 'xs:date', 'xs:dayTimeDuration') -> 'xs:date';
-static_operator_type('add', 'xs:date', 'xs:yearMonthDuration') -> 'xs:date';
-static_operator_type('add', 'xs:dateTime', 'xs:dayTimeDuration') -> 'xs:dateTime';
-static_operator_type('add', 'xs:dateTime', 'xs:yearMonthDuration') -> 'xs:dateTime';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:date') -> 'xs:date';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:dateTime') -> 'xs:dateTime';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:time') -> 'xs:time';
-static_operator_type('add', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
-static_operator_type('add', 'xs:yearMonthDuration', 'xs:date') -> 'xs:date';
-static_operator_type('add', 'xs:yearMonthDuration', 'xs:dateTime') -> 'xs:dateTime';
-static_operator_type('add', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
-
-static_operator_type('divide', 'xs:integer', 'xs:integer') -> 'xs:decimal';
-static_operator_type('divide', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('divide', 'xs:integer', 'xs:float')   -> 'xs:float';
-static_operator_type('divide', 'xs:integer', 'xs:double')  -> 'xs:double';
-static_operator_type('divide', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
-static_operator_type('divide', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('divide', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('divide', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('divide', 'xs:float',   'xs:integer') -> 'xs:float';
-static_operator_type('divide', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('divide', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('divide', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('divide', 'xs:double',  'xs:integer') -> 'xs:double';
-static_operator_type('divide', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('divide', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('divide', 'xs:double',  'xs:double')  -> 'xs:double';
-
-static_operator_type('divide', 'xs:dayTimeDuration', 'xs:integer') -> 'xs:dayTimeDuration';
-static_operator_type('divide', 'xs:dayTimeDuration', 'xs:decimal') -> 'xs:dayTimeDuration';
-static_operator_type('divide', 'xs:dayTimeDuration', 'xs:float')   -> 'xs:dayTimeDuration';
-static_operator_type('divide', 'xs:dayTimeDuration', 'xs:double')  -> 'xs:dayTimeDuration';
-static_operator_type('divide', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:decimal';
-
-static_operator_type('divide', 'xs:yearMonthDuration', 'xs:integer') -> 'xs:yearMonthDuration';
-static_operator_type('divide', 'xs:yearMonthDuration', 'xs:decimal') -> 'xs:yearMonthDuration';
-static_operator_type('divide', 'xs:yearMonthDuration', 'xs:float')   -> 'xs:yearMonthDuration';
-static_operator_type('divide', 'xs:yearMonthDuration', 'xs:double')  -> 'xs:yearMonthDuration';
-static_operator_type('divide', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:decimal';
-
-static_operator_type('idivide', 'xs:integer', 'xs:integer') -> 'xs:integer';
-static_operator_type('idivide', 'xs:integer', 'xs:decimal') -> 'xs:integer';
-static_operator_type('idivide', 'xs:integer', 'xs:float')   -> 'xs:integer';
-static_operator_type('idivide', 'xs:integer', 'xs:double')  -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', 'xs:integer') -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', 'xs:decimal') -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', 'xs:float')   -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', 'xs:double')  -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   'xs:integer') -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   'xs:decimal') -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   'xs:float')   -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   'xs:double')  -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  'xs:integer') -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  'xs:decimal') -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  'xs:float')   -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  'xs:double')  -> 'xs:integer';
-
-static_operator_type('modulo', 'xs:integer', 'xs:integer') -> 'xs:integer';
-static_operator_type('modulo', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('modulo', 'xs:integer', 'xs:float')   -> 'xs:float';
-static_operator_type('modulo', 'xs:integer', 'xs:double')  -> 'xs:double';
-static_operator_type('modulo', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
-static_operator_type('modulo', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('modulo', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('modulo', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('modulo', 'xs:float',   'xs:integer') -> 'xs:float';
-static_operator_type('modulo', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('modulo', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('modulo', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  'xs:integer') -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  'xs:double')  -> 'xs:double';
-
-static_operator_type('multiply', 'xs:integer', 'xs:integer') -> 'xs:integer';
-static_operator_type('multiply', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('multiply', 'xs:integer', 'xs:float')   -> 'xs:float';
-static_operator_type('multiply', 'xs:integer', 'xs:double')  -> 'xs:double';
-static_operator_type('multiply', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
-static_operator_type('multiply', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('multiply', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('multiply', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('multiply', 'xs:float',   'xs:integer') -> 'xs:float';
-static_operator_type('multiply', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('multiply', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('multiply', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  'xs:integer') -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  'xs:double')  -> 'xs:double';
-
-static_operator_type('multiply'  ,'xs:integer', 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
-static_operator_type('multiply'  ,'xs:decimal', 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
-static_operator_type('multiply'  ,'xs:float'  , 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
-static_operator_type('multiply'  ,'xs:double' , 'xs:dayTimeDuration'  ) -> 'xs:dayTimeDuration';
-static_operator_type('multiply'  ,'xs:integer', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
-static_operator_type('multiply'  ,'xs:decimal', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
-static_operator_type('multiply'  ,'xs:float'  , 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
-static_operator_type('multiply'  ,'xs:double' , 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
-
-static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:integer') -> 'xs:dayTimeDuration';
-static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:decimal') -> 'xs:dayTimeDuration';
-static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:float')   -> 'xs:dayTimeDuration';
-static_operator_type('multiply', 'xs:dayTimeDuration',  'xs:double')  -> 'xs:dayTimeDuration';
-static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:integer') -> 'xs:yearMonthDuration';
-static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:decimal') -> 'xs:yearMonthDuration';
-static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:float')   -> 'xs:yearMonthDuration';
-static_operator_type('multiply', 'xs:yearMonthDuration',  'xs:double')  -> 'xs:yearMonthDuration';
-
-static_operator_type('subtract', 'xs:integer', 'xs:integer') -> 'xs:integer';
-static_operator_type('subtract', 'xs:integer', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('subtract', 'xs:integer', 'xs:float')   -> 'xs:float';
-static_operator_type('subtract', 'xs:integer', 'xs:double')  -> 'xs:double';
-static_operator_type('subtract', 'xs:decimal', 'xs:integer') -> 'xs:decimal';
-static_operator_type('subtract', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('subtract', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('subtract', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('subtract', 'xs:float',   'xs:integer') -> 'xs:float';
-static_operator_type('subtract', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('subtract', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('subtract', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  'xs:integer') -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  'xs:double')  -> 'xs:double';
-
-static_operator_type('subtract', 'xs:date', 'xs:date') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:date', 'xs:dayTimeDuration') -> 'xs:date';
-static_operator_type('subtract', 'xs:date', 'xs:yearMonthDuration') -> 'xs:date';
-static_operator_type('subtract', 'xs:dateTime', 'xs:dateTime') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:dateTime', 'xs:dayTimeDuration') -> 'xs:dateTime';
-static_operator_type('subtract', 'xs:dateTime', 'xs:yearMonthDuration') -> 'xs:dateTime';
-static_operator_type('subtract', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
-static_operator_type('subtract', 'xs:time', 'xs:time') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
-
-static_operator_type(_,'empty-sequence',_) -> 'empty-sequence';
-static_operator_type(_,_,'empty-sequence') -> 'empty-sequence';
-static_operator_type(_,_,_) ->
-   xqerl_error:error('XPTY0004').
