@@ -224,7 +224,10 @@ get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "function-arity"}, 1) -> 
   props(true, false, false, true, [], []);
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "function-lookup"}, 2) -> 
-  props(true, true, true, true, [dynamic_known_functions], []);
+  props(true, true, true, true, [known_decimal_formats,known_namespaces,known_collations,
+                                 dynamic_known_functions,base_uri,default_calendar,default_language,default_place], 
+                                [available_collections,available_uri_collections,context_item,context_position,
+                                 context_size,environment_variables,implicit_timezone]);
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "function-name"}, 1) -> 
   props(true, false, false, true, [], []);
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "generate-id"}, 0) -> 
@@ -278,7 +281,7 @@ get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "lang"}, 2) -> 
   props(true, false, false, false, [], []);
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "last"}, 0) -> 
-  props(true, true, true, false, [], [context_size]);
+  props(true, true, true, false, [], [context_size,context_item]);
 %% get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "load-xquery-module"}, 1) -> 
 %%   props(true, true, false, true, [XSLT], []);
 %% get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "load-xquery-module"}, 2) -> 
@@ -368,7 +371,7 @@ get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "path"}, 1) -> 
   props(true, false, false, false, [], []);
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "position"}, 0) -> 
-  props(true, true, true, false, [], [context_position]);
+  props(true, true, true, false, [], [context_position,context_item]);
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "prefix-from-QName"}, 1) -> 
   props(true, false, false, false, [], []);
 get_props(#qname{namespace = "http://www.w3.org/2005/xpath-functions",local_name = "QName"}, 2) -> 

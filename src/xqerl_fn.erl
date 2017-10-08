@@ -31,14 +31,31 @@
 
 -define(inbool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
-%-define(bool(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:boolean', value = Val})).
--define(atint(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:integer', value = Val})).
--define(dec(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:decimal', value = Val})).
--define(dbl(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:double', value = Val})).
--define(str(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
--define(atm(Typ,Val), ?seq:singleton(#xqAtomicValue{type = Typ, value = Val})).
--define(node_test, ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
+%% %-define(bool(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:boolean', value = Val})).
+%% -define(atint(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:integer', value = Val})).
+%% -define(dec(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:decimal', value = Val})).
+%% -define(dbl(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:double', value = Val})).
+%% -define(str(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
+%% -define(atm(Typ,Val), ?seq:singleton(#xqAtomicValue{type = Typ, value = Val})).
+%% -define(node_test, ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
 -define(err(Code),xqerl_error:error(Code)).
+-define(atint(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
+-define(dec(Val), #xqAtomicValue{type = 'xs:decimal', value = Val}).
+-define(dbl(Val), #xqAtomicValue{type = 'xs:double', value = Val}).
+-define(str(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
+-define(atm(Typ,Val), #xqAtomicValue{type = Typ, value = Val}).
+-define(node_test, #xqAtomicValue{type = 'xs:string', value = Val}).
+
+-define(noderecs(N), is_record(N, xqNode);
+                     is_record(N, xqElementNode);
+                     is_record(N, xqDocumentNode);
+                     is_record(N, xqAttributeNode);
+                     is_record(N, xqCommentNode);
+                     is_record(N, xqTextNode);
+                     is_record(N, xqProcessingInstructionNode);
+                     is_record(N, xqNamespaceNode)).
+
+
 
 -include("xqerl.hrl").
 
@@ -1201,7 +1218,14 @@ avg1([H|T], Sum, Count) ->
                    case I of
                       #xqAtomicValue{} ->
                          I;
-                      #xqNode{} -> % TODO all node types
+                      #xqElementNode{} -> xqerl_node:atomize_nodes(I);
+                      #xqDocumentNode{} -> xqerl_node:atomize_nodes(I);
+                      #xqAttributeNode{} -> xqerl_node:atomize_nodes(I);
+                      #xqCommentNode{} -> xqerl_node:atomize_nodes(I);
+                      #xqTextNode{} -> xqerl_node:atomize_nodes(I);
+                      #xqProcessingInstructionNode{} -> xqerl_node:atomize_nodes(I);
+                      #xqNamespaceNode{} -> xqerl_node:atomize_nodes(I);
+                      #xqNode{} -> 
                          xqerl_node:atomize_nodes(I);
                       #xqFunction{} ->
                          xqerl_error:error('FOTY0013');
@@ -2445,6 +2469,8 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    end.
 'name'(Ctx,Arg1) -> 
    Q = 'node-name'(Ctx,Arg1),
+   ?dbg("Q",Q),
+   ?dbg("Arg1",Arg1),
    S = xqerl_types:cast_as( Q, 'xs:string' ),
    if S == [] ->
          ?str("");
@@ -2467,6 +2493,10 @@ compare_convert_seq([H|T], Acc, SeqType) ->
             #qname{namespace = 'no-namespace'} ->
                ?atm('xs:anyURI',"");
             #qname{namespace = Uri} ->
+               ?atm('xs:anyURI',Uri);
+            #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = 'no-namespace'}} ->
+               ?atm('xs:anyURI',"");
+            #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = Uri}} ->
                ?atm('xs:anyURI',Uri);
             [] ->
                ?atm('xs:anyURI',"")
@@ -2549,6 +2579,19 @@ compare_convert_seq([H|T], Acc, SeqType) ->
          %?str("");
       true ->
          ?seq:singleton(#xqAtomicValue{type = 'xs:QName', value = Q})
+   end;
+'node-name'(_Ctx, N) when is_record(N, xqElementNode);
+                          is_record(N, xqDocumentNode);
+                          is_record(N, xqAttributeNode);
+                          is_record(N, xqCommentNode);
+                          is_record(N, xqTextNode);
+                          is_record(N, xqProcessingInstructionNode);
+                          is_record(N, xqNamespaceNode) ->
+   Q = xqerl_node:get_node_name(N),
+   if Q == [] ->
+         ?seq:empty();
+      true ->
+         Q
    end;
 'node-name'(Ctx, Arg1) ->
    case ?seq:is_empty(Arg1) of
@@ -2771,7 +2814,7 @@ shrink_spaces([H|T]) ->
                                case lists:keyfind(StrUri, 2, Namespaces) of
                                   false ->
                                      Prefix;
-                                  {P1,_} ->
+                                  #xqNamespace{prefix = P1} ->
                                      P1
                                end;
                             true ->
@@ -2844,11 +2887,36 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-QName'(_Ctx,String,Element) -> 
    #xqElementNode{inscope_ns = IsNs} = xqerl_node:get_node(?seq:singleton_value(Element)),
    ?dbg("IsNs",IsNs),
-   xqerl_types:cast_as(String, 'xs:QName', IsNs).
+   try
+      xqerl_types:cast_as(String, 'xs:QName', IsNs)
+   catch _:_ ->
+      ?err('FOCA0002')
+   end.
 
 %% Resolves a relative IRI reference against an absolute IRI. 
-'resolve-uri'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'resolve-uri'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'resolve-uri'(_Ctx,[]) -> ?seq:empty();
+'resolve-uri'(Ctx,Relative) -> 
+   Base = maps:get('base-uri', Ctx),
+   'resolve-uri'(Ctx,Relative,Base).
+'resolve-uri'(_Ctx,[],_Base) -> ?seq:empty();
+'resolve-uri'(_Ctx,Relative,Base) -> 
+   try
+      UriRel = xqerl_types:cast_as(Relative, 'xs:anyURI'),
+      ?dbg("UriRel",UriRel),
+      UriBas = xqerl_types:cast_as(Base, 'xs:anyURI'),
+      ?dbg("UriBas",UriBas),
+      RelVal = xqerl_types:value(UriRel),
+      ?dbg("RelVal",RelVal),
+      BasVal = xqerl_types:value(UriBas),
+      ?dbg("BasVal",BasVal),
+      {absolute, ResVal} = xqerl_lib:resolve_against_base_uri(BasVal, RelVal),
+      ?dbg("ResVal",ResVal),
+      ?atm('xs:anyURI',ResVal)
+   catch 
+      _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?err('FORG0002');
+      _:{badmatch, {relative,_}} -> ?err('FORG0002'); % relative base
+      _:E -> ?dbg("E",E), ?err('FORG0009')
+   end.
 
 %% Reverses the order of items in a sequence. 
 'reverse'(_Ctx,[]) -> 
@@ -3176,8 +3244,13 @@ string_value(At) -> xqerl_types:string_value(At).
 'string'(_Ctx,Fx) when is_function(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,#xqAtomicValue{} = Av) ->
    ?seq:singleton(xqerl_types:cast_as(Av, 'xs:string'));
-'string'(_Ctx,#xqNode{} = Node) ->
-   ?seq:singleton(xqerl_types:cast_as(xqerl_node:atomize_nodes(Node), 'xs:string'));
+
+'string'(_Ctx,Node) when ?noderecs(Node) ->
+   ?dbg("Node",Node),
+   Atomized = xqerl_node:atomize_nodes(Node),
+   ?dbg("Atomized",Atomized),
+   ?seq:singleton(xqerl_types:cast_as(Atomized, 'xs:string'));
+
 'string'(_Ctx,Arg1) -> 
    case ?seq:is_empty(Arg1) of
       true ->

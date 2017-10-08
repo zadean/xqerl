@@ -365,7 +365,9 @@ get_type(10376293541461626880 ) ->  'xs:NOTATION'             ;
 get_type(10376324327787201536 ) ->  'xs:numeric'              ;
 get_type(10376293541715904512 ) ->  'xs:IDREFS'               ;
 get_type(10376293541704894464 ) ->  'xs:NMTOKENS'             ;
-get_type(10376293541716428800 ) ->  'xs:ENTITIES'             .
+get_type(10376293541716428800 ) ->  'xs:ENTITIES'             ;
+% unknown type
+get_type(Atom) when is_atom(Atom) -> xqerl_error:error('XPST0017').
 
 
 

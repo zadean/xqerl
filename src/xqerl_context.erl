@@ -493,7 +493,7 @@ set_serial_version(Value) ->
 
 %% inscope namespaces
 add_inscope_namespace(Ctx,Prefix,Namespace) ->
-   maps:put(namespaces, [{Prefix,Namespace}|maps:get(namespaces, Ctx)], Ctx).
+   maps:put(namespaces, [#xqNamespace{namespace = Namespace, prefix = Prefix}|maps:get(namespaces, Ctx)], Ctx).
 get_inscope_namespace(Ctx,Prefix) ->
    List = maps:get(namespaces, Ctx),
    proplists:get_value(Prefix, List,undefined).

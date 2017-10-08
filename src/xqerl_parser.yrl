@@ -453,7 +453,7 @@ Left  2000  '[' ']' '?'.
 'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'preserve' : {'boundary-space', 'preserve'}.
 'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'strip'    : {'boundary-space', 'strip'}.
 
-'DefaultCollationDecl'   -> 'declare' 'default' 'collation' 'URILiteral' : {'default-collation', {'$4',[]}}. 
+'DefaultCollationDecl'   -> 'declare' 'default' 'collation' 'URILiteral' : {'default-collation', '$4'}. 
 
 'BaseURIDecl'            -> 'declare' 'base-uri' 'URILiteral' : {'base-uri', '$3'}.
 
@@ -1040,7 +1040,7 @@ Left  2000  '[' ']' '?'.
                                                                                 '$3'}}.
 'RelativePathExpr'       -> 'StepExpr' :  case '$1' of 
                                              #xqAxisStep{} ->
-                                                {step, '$1'};
+                                                {step, 'context-item', '$1'};
                                              #xqPostfixStep{} ->
                                                 {step, '$1'};
                                              _ ->
@@ -1120,8 +1120,8 @@ Left  2000  '[' ']' '?'.
 'NodeTest'               -> 'KindTest' : '$1'.
 'NodeTest'               -> 'NameTest' : '$1'.
 % [119]    NameTest    ::=      EQName | Wildcard 
-'NameTest'               -> 'EQName'   : #xqNameTest{name = qname(other,'$1')}.
-'NameTest'               -> 'Wildcard' : #xqNameTest{name = qname(other,'$1')}.
+'NameTest'               -> 'EQName'   : #xqNameTest{name = qname(wildcard,'$1')}.
+'NameTest'               -> 'Wildcard' : #xqNameTest{name = qname(wildcard,'$1')}.
 % [120]    Wildcard    ::=      "*" | (NCName ":*") | ("*:" NCName) | (BracedURILiteral "*")   /* ws: explicit */
 'Wildcard'               -> '*'           : #'qname'{prefix = "*", local_name = "*"}. 
 'Wildcard'               -> 'NCName' ':*' : #'qname'{prefix = value_of('$1'), local_name = "*"}.
@@ -1317,7 +1317,7 @@ Left  2000  '[' ']' '?'.
 'ElementContentChars'    -> 'S'                  : [value_of('$1')].
 % [148]    CommonContent     ::=      PredefinedEntityRef | CharRef | "{{" | "}}" | EnclosedExpr  
 'CommonContent'          -> 'PredefinedEntityRef' : #xqAtomicValue{type = 'xs:string', value = value_of('$1')}.
-'CommonContent'          -> 'CharRef'             : #xqTextNode{cdata = true, expr = #xqAtomicValue{type = 'xs:string', value = [value_of('$1')]}}.
+'CommonContent'          -> 'CharRef'             : #xqAtomicValue{type = 'xs:string', value = [value_of('$1')]}.
 'CommonContent'          -> '{{'                  : #xqAtomicValue{type = 'xs:string', value = "{"}.
 'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = "}"}.
 'CommonContent'          -> 'EnclosedExpr' : {content_expr, '$1'}.
@@ -1362,8 +1362,8 @@ Left  2000  '[' ']' '?'.
 'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{name = qname(other,'$2'), expr = {content_expr, '$3'}}.
 'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{name = '$3', expr = {content_expr, '$5'}}.
 % [160]    CompNamespaceConstructor      ::=      "namespace" (Prefix | EnclosedPrefixExpr) EnclosedURIExpr
-'CompNamespaceConstructor'-> 'namespace' 'Prefix'             'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2'}}.
-'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2'}}.
+'CompNamespaceConstructor'-> 'namespace' 'Prefix'             'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2', local_name = []}}.
+'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2', local_name = []}}.
 % [161]    Prefix      ::=      NCName
 'Prefix'                 -> 'NCName' : value_of('$1').
 % [162]    EnclosedPrefixExpr      ::=      EnclosedExpr
@@ -1723,6 +1723,11 @@ qname(wildcard, {qname,default,default,Ln}) ->
    {qname,"*","*",Ln};
 qname(wildcard, {qname,default,Px,Ln}) ->
    {qname,"*",Px,Ln};
+qname(wildcard, {qname,undefined,"*",Ln}) ->
+   {qname,"*","*",Ln};
+%% qname(wildcard, {qname,undefined,Px,Ln}) ->
+%%    %Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+%%    {qname,Ns,Px,Ln};
 qname(wildcard, {qname,Ns,default,Ln}) ->
    {qname,Ns,"*",Ln};
 qname(wildcard, {qname,Ns,Px,Ln}) ->
@@ -1848,21 +1853,22 @@ as_list(L) ->
 
 dir_att(QName, Value) ->
    if QName#qname.prefix == "xmlns"  ->
-         xqerl_context:add_statically_known_namespace(ns_value(Value), QName#qname.local_name),
-         #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = QName#qname.local_name}};
+         %xqerl_context:add_statically_known_namespace(ns_value(Value), QName#qname.local_name),
+         #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = QName#qname.local_name, local_name = []}};
       QName#qname.local_name == "xmlns" andalso QName#qname.prefix == default ->
          case at_value(Value) of 
             "" -> 
-               xqerl_context:add_statically_known_namespace('no-namespace', []),
-               #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = []}};
+               %xqerl_context:add_statically_known_namespace('no-namespace', []),
+               #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = []}};
             _ -> 
-               xqerl_context:add_statically_known_namespace(ns_value(Value), []),
-               #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = []}} 
+               %xqerl_context:add_statically_known_namespace(ns_value(Value), []),
+               #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = [], local_name = []}} 
          end;
       true ->
          #xqAttributeNode{name = qname(other,QName), 
                           expr = case Value of
                                     [] -> [#xqAtomicValue{type = 'xs:string', value = ""}];
+                                    undefined -> [#xqAtomicValue{type = 'xs:string', value = ""}];
                                     _ -> Value
                                     end}
    end.

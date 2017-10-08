@@ -141,6 +141,11 @@ qname(wildcard, {qname,default,default,Ln}) ->
    {qname,"*","*",Ln};
 qname(wildcard, {qname,default,Px,Ln}) ->
    {qname,"*",Px,Ln};
+qname(wildcard, {qname,undefined,"*",Ln}) ->
+   {qname,"*","*",Ln};
+%% qname(wildcard, {qname,undefined,Px,Ln}) ->
+%%    %Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+%%    {qname,Ns,Px,Ln};
 qname(wildcard, {qname,Ns,default,Ln}) ->
    {qname,Ns,"*",Ln};
 qname(wildcard, {qname,Ns,Px,Ln}) ->
@@ -266,21 +271,22 @@ as_list(L) ->
 
 dir_att(QName, Value) ->
    if QName#qname.prefix == "xmlns"  ->
-         xqerl_context:add_statically_known_namespace(ns_value(Value), QName#qname.local_name),
-         #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = QName#qname.local_name}};
+         %xqerl_context:add_statically_known_namespace(ns_value(Value), QName#qname.local_name),
+         #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = QName#qname.local_name, local_name = []}};
       QName#qname.local_name == "xmlns" andalso QName#qname.prefix == default ->
          case at_value(Value) of 
             "" -> 
-               xqerl_context:add_statically_known_namespace('no-namespace', []),
-               #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = []}};
+               %xqerl_context:add_statically_known_namespace('no-namespace', []),
+               #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = []}};
             _ -> 
-               xqerl_context:add_statically_known_namespace(ns_value(Value), []),
-               #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = []}} 
+               %xqerl_context:add_statically_known_namespace(ns_value(Value), []),
+               #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = [], local_name = []}} 
          end;
       true ->
          #xqAttributeNode{name = qname(other,QName), 
                           expr = case Value of
                                     [] -> [#xqAtomicValue{type = 'xs:string', value = ""}];
+                                    undefined -> [#xqAtomicValue{type = 'xs:string', value = ""}];
                                     _ -> Value
                                     end}
    end.
@@ -460,7 +466,7 @@ yecctoken2string(Other) ->
 
 
 
--file("C:/git/zadean/xqerl/src/xqerl_parser.erl", 463).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.erl", 469).
 
 -dialyzer({nowarn_function, yeccpars2/7}).
 yeccpars2(0=S, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -32501,7 +32507,7 @@ yeccgoto_uplus(1122=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
 yeccpars2_4_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
-   # xqNameTest { name = qname ( other , __1 ) }
+   # xqNameTest { name = qname ( wildcard , __1 ) }
   end | __Stack].
 
 -compile({inline,yeccpars2_8_/1}).
@@ -32519,7 +32525,7 @@ yeccpars2_24_(__Stack0) ->
  [begin
    case __1 of
     # xqAxisStep { } ->
-    { step , __1 } ;
+    { step , 'context-item' , __1 } ;
     # xqPostfixStep { } ->
     { step , __1 } ;
     _ ->
@@ -32673,7 +32679,7 @@ yeccpars2_88_(__Stack0) ->
 yeccpars2_90_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
-   # xqNameTest { name = qname ( other , __1 ) }
+   # xqNameTest { name = qname ( wildcard , __1 ) }
   end | __Stack].
 
 -compile({inline,yeccpars2_92_/1}).
@@ -33560,7 +33566,7 @@ yeccpars2_417_(__Stack0) ->
 yeccpars2_418_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqNamespaceNode { name = # qname { namespace = __3 , prefix = __2 } }
+   # xqNamespaceNode { name = # qname { namespace = __3 , prefix = __2 , local_name = [ ] } }
   end | __Stack].
 
 -compile({inline,yeccpars2_419_/1}).
@@ -33576,7 +33582,7 @@ yeccpars2_419_(__Stack0) ->
 yeccpars2_420_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqNamespaceNode { name = # qname { namespace = __3 , prefix = __2 } }
+   # xqNamespaceNode { name = # qname { namespace = __3 , prefix = __2 , local_name = [ ] } }
   end | __Stack].
 
 -compile({inline,yeccpars2_425_/1}).
@@ -34678,7 +34684,7 @@ yeccpars2_727_(__Stack0) ->
 yeccpars2_728_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   { 'default-collation' , { __4 , [ ] } }
+   { 'default-collation' , __4 }
   end | __Stack].
 
 -compile({inline,yeccpars2_730_/1}).
@@ -35022,7 +35028,7 @@ yeccpars2_792_(__Stack0) ->
 yeccpars2_793_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
-   # xqNameTest { name = qname ( other , __1 ) }
+   # xqNameTest { name = qname ( wildcard , __1 ) }
   end | __Stack].
 
 -compile({inline,yeccpars2_795_/1}).
@@ -35159,7 +35165,7 @@ yeccpars2_825_(__Stack0) ->
 yeccpars2_828_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
-   # xqTextNode { cdata = true , expr = # xqAtomicValue { type = 'xs:string' , value = [ value_of ( __1 ) ] } }
+   # xqAtomicValue { type = 'xs:string' , value = [ value_of ( __1 ) ] }
   end | __Stack].
 
 -compile({inline,yeccpars2_829_/1}).
@@ -36740,4 +36746,4 @@ yeccpars2_1154_(__Stack0) ->
   end | __Stack].
 
 
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1871).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1877).

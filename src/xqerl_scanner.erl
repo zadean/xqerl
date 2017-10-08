@@ -290,11 +290,31 @@ scan_dir_attr_apos_value([H|T], Acc) ->
       true ->
          scan_dir_attr_apos_value(T, [{'AposAttrContentChar', ?L, H}|Acc]);
       _ ->
-         %% in an attribute and got an expression
-         % scan ahead to the end of the enclosed statement
-         {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
-         Encl = tokens_encl(Expr, [{'{', 98, '{'}]),
-         scan_dir_attr_apos_value(T1, [Encl | Acc])
+         % check for predef entities
+         if H == $& ->
+               %% in an attribute and got an entity
+               Str = [H|T],
+               {Pre, T2} = case Str of
+                        "&lt;" ++ T1 ->
+                           {{'PredefinedEntityRef', ?L, [$<]}, T1};
+                        "&gt;" ++ T1 ->
+                           {{'PredefinedEntityRef', ?L, [$>]}, T1};
+                        "&amp;" ++ T1 ->
+                           {{'PredefinedEntityRef', ?L, [$&]}, T1};
+                        "&quot;" ++ T1 ->
+                           {{'PredefinedEntityRef', ?L, [$"]}, T1};
+                        "&apos;" ++ T1 ->
+                           {{'PredefinedEntityRef', ?L, [$']}, T1}
+                     end,
+                     %?dbg("scan_dir_attr_quot_value predef entities",{Pre, T2}),
+                     scan_dir_attr_apos_value(T2, [Pre | Acc]);
+            true ->
+               %% in an attribute and got an expression
+               % scan ahead to the end of the enclosed statement
+               {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
+               Encl = tokens_encl(Expr, [{'{', 98, '{'}]),
+               scan_dir_attr_apos_value(T1, [Encl | Acc])
+         end
    end.
 
 
@@ -1029,7 +1049,15 @@ scan_token(Str = "element" ++ T, A) ->
                scan_name(Str)
          end
    end;
-scan_token("default" ++ T, A) -> qname_if_path("default", T, lookback(A));
+scan_token(Str = "default" ++ T, A) ->
+   case lookback(A) of 
+      'declare' ->
+         {{'default', ?L, 'default'}, T};
+      [] ->
+         scan_name(Str);
+      LB ->
+         qname_if_path("default", T, LB)
+   end;
 scan_token(Str = "declare" ++ T, _A) -> 
    case is_keyword_declare(T) of
       true ->
@@ -2077,7 +2105,7 @@ lookforward_is_curly(T) ->
 
 qname_if_path(Tok, [], _Last) ->
    scan_name(Tok);
-qname_if_path(Tok, [H|T], Last) ->  
+qname_if_path(Tok, [H|T], Last) ->
    case xmerl_lib:is_namechar(H) of
       true ->
          scan_name(Tok ++ [H|T]);

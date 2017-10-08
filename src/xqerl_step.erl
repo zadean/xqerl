@@ -92,7 +92,18 @@ forward(Ctx0, {Id,Doc}, Axis, Name, PredFuns) ->
    _ = xqerl_context:add_available_document(Id, Doc),
    Node = #xqNode{frag_id = Id,identity = 1},
    forward(Ctx0, Node, Axis, Name, PredFuns);
-   
+
+forward(Ctx0, N, Axis, Name, PredFuns) when is_record(N, xqElementNode);
+                                            is_record(N, xqDocumentNode);
+                                            is_record(N, xqAttributeNode);
+                                            is_record(N, xqCommentNode);
+                                            is_record(N, xqTextNode);
+                                            is_record(N, xqProcessingInstructionNode);
+                                            is_record(N, xqNamespaceNode) ->
+   % this happens when stepping on a non-created node
+   Node = xqerl_node:new_fragment(Ctx0, N),
+   forward(Ctx0, Node, Axis, Name, PredFuns);
+
 forward(Ctx0, Seq, self, #qname{} = Name, PredFuns) ->
    % self axis just sorts what comes in and returns it in document order
    Fun = fun(Ctx) ->
@@ -515,6 +526,17 @@ reverse(Ctx0, {Id,Doc}, Axis, Name, PredFuns) ->
    % this happens when stepping on a newly created document
    _ = xqerl_context:add_available_document(Id, Doc),
    Node = #xqNode{frag_id = Id,identity = 1},
+   reverse(Ctx0, Node, Axis, Name, PredFuns);
+
+reverse(Ctx0, N, Axis, Name, PredFuns) when is_record(N, xqElementNode);
+                                            is_record(N, xqDocumentNode);
+                                            is_record(N, xqAttributeNode);
+                                            is_record(N, xqCommentNode);
+                                            is_record(N, xqTextNode);
+                                            is_record(N, xqProcessingInstructionNode);
+                                            is_record(N, xqNamespaceNode) ->
+   % this happens when stepping on a non-created node
+   Node = xqerl_node:new_fragment(Ctx0, N),
    reverse(Ctx0, Node, Axis, Name, PredFuns);
 
 reverse(Ctx0, Seq, 'ancestor-or-self', #qname{} = Name, PredFuns) ->

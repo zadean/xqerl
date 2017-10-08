@@ -1028,6 +1028,7 @@ node_after(Seq1, Seq2) ->
 
 node_is([], _) -> ?seq:empty();
 node_is(_, []) -> ?seq:empty();
+node_is(A, A) -> #xqAtomicValue{type = 'xs:boolean', value = true};
 node_is(#xqNode{frag_id = F1,identity = I1}, #xqNode{frag_id = F2,identity = I2}) ->
    #xqAtomicValue{type = 'xs:boolean', value = I1 == I2 andalso F1 == F2};
 node_is(Seq1,#xqNode{} = N2) ->

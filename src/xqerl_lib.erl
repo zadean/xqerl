@@ -234,26 +234,53 @@ pct_encode3([H|T]) when H >= 32, H =< 126 ->
 pct_encode3([H|T]) ->
    string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
 
+resolve_against_base_uri(Base,[]) -> 
+   case filename:pathtype(Base) of
+      absolute ->
+         {absolute,Base};
+      _ ->
+         case http_uri:parse(Base) of
+            {ok,_} ->
+               {absolute,Base};
+            _ ->
+               {relative, Base}
+         end
+   end;
 resolve_against_base_uri(Base,Path) ->
    case filename:pathtype(Path) of
       absolute ->
-         ?dbg(?LINE,Path),
-         Path;
+         ?dbg("Path",Path),
+         {absolute,Path};
       relative ->
-         ?dbg(?LINE,Base),
-         ?dbg(?LINE,Path),
+         ?dbg("Base",Base),
+         ?dbg("Path",Path),
          case http_uri:parse(Path) of
             {ok,_} ->
-               Path;
+               ?dbg("parse",http),
+               {absolute,Path};
             _ ->
-               case filename:safe_relative_path(Path) of
-                  unsafe ->
-                     Base ++ Path;
-                  O ->
-                     Base ++ O
+               case filename:pathtype(Base) of
+                  absolute ->
+                     case filename:safe_relative_path(Path) of
+                        unsafe ->
+                           ?dbg("parse",unsafe),
+                           {absolute, Base ++ Path};
+                        O ->
+                           ?dbg("safe",O),
+                           {absolute,Base ++ O}
+                     end;
+                  _ ->
+                     case http_uri:parse(Base) of
+                        {ok,_} ->
+                           ?dbg("parse",http),
+                           {absolute,Base ++ Path};
+                        _ ->
+                           ?dbg("relative",Base ++ Path),
+                           {relative, filename:join(Base,Path)}
+                     end
                end
          end;
       volumerelative ->
          ?dbg(?LINE,Path),
-         filename:join(Base,Path)
+         {relative, filename:join(Base,Path)}
    end.

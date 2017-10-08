@@ -1,3 +1,5 @@
+-ifndef(xqerl_hrl).
+-define(xqerl_hrl, true).
 
 %% The variables available in both XQuery 3.1 and XSLT 3.0 are:
 %% - err:code - the error code
@@ -8,6 +10,7 @@
 %% - err:column-number - the column number of the instruction where the error occurred
 %% An additional variable is available only in XQuery 3.1:
 %% - err:additional - further implementation-defined information about the error
+
 
 -define(dbg(M,P), io:format("~s ~p ~p: ~p~n", [?MODULE,?LINE, M,P])).
 -define(seq, xqerl_seq2).
@@ -519,3 +522,4 @@
 %%    default_collection      :: #xqCollection{} 
 %% }).
 
+-endif. % -ifdef(xqerl_hrl).

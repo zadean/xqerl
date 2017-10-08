@@ -63,6 +63,14 @@
 %-define(seq, array).
 -define(set, ordsets).
 %-define(set, gb_sets).
+-define(noderecs(N), is_record(N, xqNode);
+                     is_record(N, xqElementNode);
+                     is_record(N, xqDocumentNode);
+                     is_record(N, xqAttributeNode);
+                     is_record(N, xqCommentNode);
+                     is_record(N, xqTextNode);
+                     is_record(N, xqProcessingInstructionNode);
+                     is_record(N, xqNamespaceNode)).
 
 %% construct:
 %% 
@@ -75,12 +83,16 @@
 -spec size(seq()|map()|tuple()|list()) -> integer().
 size(#xqAtomicValue{}) ->
    1;
+size(#xqNode{}) ->
+   1;
 size(List) when is_list(List) ->
    length(List);
 size(Map) when is_map(Map) ->
    maps:size(Map);
 size({_,Size,_}) when is_integer(Size) ->
-   Size.
+   Size;
+size(_) ->
+   1.
 
 -spec is_empty(seq() | []) -> boolean().
 is_empty([]) -> true;
@@ -114,6 +126,16 @@ singleton_value(#xqFunction{body = Fun}) -> Fun;
 singleton_value(#xqError{} = E) -> E;
 singleton_value(#xqAtomicValue{} = A) -> A;
 singleton_value(#xqNode{} = A) -> A;
+
+singleton_value(N) when is_record(N, xqElementNode);
+                        is_record(N, xqDocumentNode);
+                        is_record(N, xqAttributeNode);
+                        is_record(N, xqCommentNode);
+                        is_record(N, xqTextNode);
+                        is_record(N, xqProcessingInstructionNode);
+                        is_record(N, xqNamespaceNode) ->
+   N;
+
 singleton_value(#qname{} = A) -> A;
 singleton_value({#xqSeqType{},0,_}) -> [];
 singleton_value({#xqSeqType{},1,[{_,V}]}) -> V;
@@ -305,7 +327,7 @@ map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
              end,
    FunLoop(Iter,New).
 
-node_map(Ctx, Fun,#xqNode{} = N) ->
+node_map(Ctx, Fun, N) when?noderecs(N) ->
    node_map(Ctx, Fun,singleton(N));
 node_map(_Ctx, _Fun,{#xqSeqType{type = Type},_Size,_}) when not ?node(Type) ->
    xqerl_error:error('XPTY0019');
@@ -526,6 +548,7 @@ range1(_Curr,_Min,Acc) ->
    Type = #xqSeqType{type = 'xs:integer', occur = zero_or_many},
    {Type,length(Acc),Acc}.
 
+%singleton(#xqAtomicValue{} = At) -> At;
 singleton(#xqAtomicValue{type = Type} = At) ->
    {#xqSeqType{type = Type, occur = one},1,[{1,At}]};
 singleton(Item) ->
@@ -851,6 +874,15 @@ int_rec(Val) ->
 
 get_seq_iter(List) when is_list(List) ->
    get_seq_iter(from_list(List));
+
+get_seq_iter(N) when is_record(N, xqElementNode);
+                     is_record(N, xqDocumentNode);
+                     is_record(N, xqAttributeNode);
+                     is_record(N, xqCommentNode);
+                     is_record(N, xqTextNode);
+                     is_record(N, xqProcessingInstructionNode);
+                     is_record(N, xqNamespaceNode) ->
+   get_seq_iter([N]);
 
 get_seq_iter(#xqAtomicValue{} = Av) ->
    get_seq_iter(singleton(Av));

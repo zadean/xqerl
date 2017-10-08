@@ -148,8 +148,16 @@ string_value(#qname{} = Q) ->
    string_value(cast_as(#xqAtomicValue{type = 'xs:QName', value = Q}, 'xs:string'));
 string_value(#xqAtomicValue{} = At) ->
    string_value(cast_as(At, 'xs:string'));
+
+string_value(N) when is_record(N, xqElementNode);
+                     is_record(N, xqDocumentNode);
+                     is_record(N, xqAttributeNode);
+                     is_record(N, xqCommentNode);
+                     is_record(N, xqTextNode);
+                     is_record(N, xqProcessingInstructionNode);
+                     is_record(N, xqNamespaceNode) ->
+   string_value(cast_as(xqerl_node:atomize_nodes(N), 'xs:string'));
 string_value(#xqNode{} = Nd) ->
-   %?dbg("string_value",xqerl_fn:data([], Nd)),
    string_value(cast_as(Nd, 'xs:string'));
 
 %% string_value(List) when is_list(List) ->
@@ -1007,6 +1015,8 @@ instance_of( Seq0, TargetSeqType ) ->
                                       _ ->
                                          false
                                     end;
+                                (#xqDocumentNode{}) ->
+                                   true;
                                 (_) ->
                                    false
                    end, ?seq:to_list(Seq)),
@@ -1020,7 +1030,9 @@ instance_of( Seq0, TargetSeqType ) ->
                                    Doc = xqerl_context:get_available_document(F),
                                    Node = xqerl_node:get_node({Id,Doc}),
                                    NodeType = xqerl_node:get_node_type(Node),
-                                   element == NodeType andalso has_name(Node, Name)
+                                   element == NodeType andalso has_name(Node, Name);
+                                (#xqElementNode{} = Node) ->
+                                   has_name(Node, Name)
                              end, ?seq:to_list(Seq)),
                if B == false -> ?false;
                   true -> ?true
@@ -1032,7 +1044,9 @@ instance_of( Seq0, TargetSeqType ) ->
                                    Doc = xqerl_context:get_available_document(F),
                                    Node = xqerl_node:get_node({Id,Doc}),
                                    NodeType = xqerl_node:get_node_type(Node),
-                                   attribute == NodeType andalso has_name(Node, Name)
+                                   attribute == NodeType andalso has_name(Node, Name);
+                                (#xqAttributeNode{} = Node) ->
+                                   has_name(Node, Name)
                    end, ?seq:to_list(Seq)),
                if B == false -> ?false;
                   true -> ?true
@@ -1044,7 +1058,10 @@ instance_of( Seq0, TargetSeqType ) ->
                                    Doc = xqerl_context:get_available_document(F),
                                    NodeType = xqerl_node:get_node_type({Id,Doc}),
                                    Kind == 'node' orelse 
-                                   Kind == NodeType
+                                   Kind == NodeType;
+                                (#xqNamespaceNode{}) ->
+                                   Kind == 'node' orelse 
+                                   Kind == 'namespace'
                    end, ?seq:to_list(Seq)),
                if B == false -> ?false;
                   true -> ?true
@@ -1226,6 +1243,8 @@ cast_as( _, 'xs:error' ) ->
 % QName hack
 cast_as( #qname{} = Q, 'xs:QName' ) -> 
    ?xav('xs:QName',Q);
+cast_as( #qname{} = Val, Type ) -> 
+   cast_as(#xqAtomicValue{type = 'xs:QName', value = Val}, Type);
 cast_as( #xqFunction{}, _ ) -> 
    xqerl_error:error('FOTY0013');
 cast_as( Fx, _ ) when is_function(Fx) -> 
@@ -1277,6 +1296,7 @@ cast_as( #xqNode{} = At, TT ) ->
    cast_as(Atomized, TT);
 
 cast_as( [], 'xs:anyURI') -> [];
+cast_as( [], 'xs:NCName') -> [];
 cast_as( [], 'xs:language') -> [];
 cast_as( [], 'xs:string') -> [];
 cast_as( [], 'xs:hexBinary') -> [];
@@ -2341,6 +2361,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:Name' ) ->
    end;
 
 cast_as( #xqAtomicValue{} = Arg1,'xs:NCName' ) ->
+   ?dbg("Arg1",Arg1),
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:Name' )),
    case re:run(StrVal, "[:]",[unicode]) of
       nomatch ->
@@ -2650,22 +2671,28 @@ cast_as(Seq,#xqSeqType{type = T, occur = Occur}) when Occur == one ->
          xqerl_error:error('XPTY0004')
    end;
 cast_as(Seq,T)  ->
-   %?dbg("GOT",{Seq,T}),
-   case ?seq:size(Seq) of
-      0 ->
-         cast_as([],T);
-      1 ->
-         cast_as(?seq:singleton_value(Seq),T);
+   case ?seq:is_sequence(Seq) of
+      true ->
+         case ?seq:size(Seq) of
+            0 ->
+               cast_as([],T);
+            1 ->
+               cast_as(?seq:singleton_value(Seq),T);
+            _ ->
+               xqerl_error:error('XPTY0004')
+      %%          % no lists in cast
+      %%          case catch promote(Seq,T) of
+      %%             {'EXIT',_} ->
+      %%                ?dbg("Bad Cast ST/TT: ",{Seq,T}),
+      %%                %xqerl_error:error('XPST0081');
+      %%                xqerl_error:error('XQST0052');
+      %%             Ok ->
+      %%                Ok
+      %%          end
+         end;
       _ ->
-         % no lists in cast
-         case catch promote(Seq,T) of
-            {'EXIT',_} ->
-               ?dbg("Bad Cast ST/TT: ",{Seq,T}),
-               %xqerl_error:error('XPST0081');
-               xqerl_error:error('XQST0052');
-            Ok ->
-               Ok
-         end
+         ?dbg("Bad Cast ST/TT: ",{Seq,T}),
+         Seq
    end.
 
 % namespace sensitive
@@ -2674,6 +2701,11 @@ cast_as( #xqNode{} = N, TT, Namespaces ) ->
    cast_as(String, TT, Namespaces);
 cast_as( #xqAtomicValue{type = 'xs:QName'} = Q,'xs:QName', _Namespaces) ->
    Q;
+cast_as( [],'xs:QName', _Namespaces) -> 
+   xqerl_error:error('XPTY0004');
+cast_as( #xqAtomicValue{type = AType, value = []},'xs:QName', _Namespaces) when AType == 'xs:string';
+                                                                                AType == 'xs:untypedAtomic'-> % MAYBE castable
+   xqerl_error:error('FORG0001');
 cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when AType == 'xs:string';
                                                                                 AType == 'xs:untypedAtomic'-> % MAYBE castable
    %?dbg("Namespaces",Namespaces),
@@ -2687,7 +2719,7 @@ cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when 
          "" ->
             Def = case lists:keyfind(Prefix, 3, Namespaces) of
                      false ->
-                        xqerl_context:get_default_element_type_namespace();
+                        xqerl_error:error('FONS0004');
                      {_,D,_} ->
                         D
                   end,
@@ -2698,7 +2730,11 @@ cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when 
          _ ->
             case lists:keyfind(Prefix, 3, Namespaces) of
                false ->
-                  xqerl_error:error('FONS0004');
+                  ?dbg("Prefix",Prefix),
+                  ?dbg("Namespaces",Namespaces),
+                  %xqerl_error:error('FONS0004'); % direct
+                  %xqerl_error:error('XQDY0074'); % constructed
+                  xqerl_error:error('FONS0004'); 
                {_,Namespace,_} ->
                   #xqAtomicValue{type = 'xs:QName', 
                                  value = #qname{namespace = Namespace,
@@ -2707,7 +2743,6 @@ cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when 
             end
       end
    catch
-      %_:#xqError{name = #qname{local_name = "FOCA0002"}} -> xqerl_error:error('FORG0001');
       _:#xqError{} = E -> throw(E);
       G:E -> xqerl_error:error('FORG0001', ["xs:QName", Val,G,E] )
    end;
@@ -2760,8 +2795,8 @@ cast_as(Seq,T,N)  ->
          case catch promote(Seq,T) of
             {'EXIT',_} ->
                ?dbg("Bad Cast ST/TT: ",{Seq,T}),
-               xqerl_error:error('XPST0081');
-               %xqerl_error:error('XPTY0004');
+               %xqerl_error:error('XPST0081');
+               xqerl_error:error('XPTY0004');
             Ok ->
                Ok
          end
@@ -3037,13 +3072,13 @@ dur_bin_to_ymdhms(Bin) ->
 scan_ncname([$_|T]) ->
    scan_ncname(T, [$_]);
 scan_ncname([]) ->
-   xqerl_error:error('FOCA0002');
+   xqerl_error:error('FORG0001');
 scan_ncname([H|T]) ->
    case xmerl_lib:is_letter(H) of 
       true ->
          scan_ncname(T, [H]);
       _ ->
-         xqerl_error:error('FOCA0002')
+         xqerl_error:error('FORG0001')
    end.
 
 scan_ncname([], Acc) ->
@@ -3055,7 +3090,7 @@ scan_ncname([H|T], Acc) ->
       true ->
          scan_ncname(T, [H|Acc]);
       _ ->
-         xqerl_error:error('FOCA0002')
+         xqerl_error:error('FORG0001')
    end.
 
 hexbin_to_str(Bin) -> [ hd(erlang:integer_to_list(I, 16)) || << I:4 >> <= Bin ].

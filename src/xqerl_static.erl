@@ -51,7 +51,8 @@
                  statement_type, % give type information back to caller
                  inscope_ns,
                  static_count,
-                 can_inline   = false % every statement that does not rely on the dynamic context
+                 can_inline   = false,  % every statement that does not rely on the dynamic context
+                 in_constructor = false % currently in an XML constructor 
                  }).
 
 -record(state, 
@@ -88,8 +89,9 @@ handle_tree(#xqModule{version = {Version,Encoding},
    State = #state{},
    _ = erlang:put(var_id, 1),
    _ = valid_ver(Version),
-   _ = valid_enc(string:to_upper(Encoding)),      
+   _ = valid_enc(string:uppercase(Encoding)),      
    _ = init_mod_scan(),
+   ok = check_prolog_order(Prolog),
    DefElNs     = pro_def_elem_ns(Prolog),
    _           = pro_def_func_ns(Prolog),
    ContextItem = pro_context_item(Prolog,ModuleType),
@@ -112,7 +114,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
    {Functions1, Variables1} = xqerl_context:get_module_exports(Imports ++ StaticImports),
    %?dbg(?LINE,{Functions1, Variables1}),
    % analyze for cyclical references
-   DiGraph = analyze_fun_vars(Body, Functions, Variables),
+   DiGraph = analyze_fun_vars(Body, Functions, ContextItem ++ Variables),
    ok = has_cycle(DiGraph),
    OrderedGraph = case digraph_utils:topsort(DiGraph) of
                      false ->
@@ -122,10 +124,28 @@ handle_tree(#xqModule{version = {Version,Encoding},
                                            lists:member(OV, digraph_utils:reaching([ModuleType],DiGraph))
                                      end, Ord)
                   end,
-   FunVarOrd = [element(1, S) || S <- OrderedGraph, element(1, S) =/= 0],
+   OrderedGraph1 = case lists:member(context_item, OrderedGraph) of
+                      true ->
+                         OrderedGraph;
+                      _ ->
+                         [context_item|OrderedGraph]
+                   end,
+   FunVarOrd = [if S == context_item ->
+                      S;
+                   true ->
+                     element(1, S)
+                end || S <- OrderedGraph1, 
+                       S == context_item orelse element(1, S) =/= 0],
+   ?dbg("FunVarOrd",FunVarOrd),
    
    FunVarSorted = 
-     lists:filtermap(fun(FVId) ->
+     lists:filtermap(fun(context_item) ->
+                           if ContextItem == [] ->
+                                 {true,{'context-item', {item,external,[]}}};
+                              true ->
+                                 {true,ContextItem}
+                           end;
+                        (FVId) ->
                            case lists:keyfind(FVId, #xqFunction.id, Functions) of
                               false ->
                                  case lists:keyfind(FVId, #xqVar.id, Variables) of
@@ -141,8 +161,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
    
    %?dbg("FunVarSorted",FunVarSorted),
    
-   FunOrd = [FId || {FId,#qname{}, _}  <- OrderedGraph, FId =/= 0],
-   VarOrd = [VId || {VId,#qname{}}  <- OrderedGraph],
+   FunOrd = [FId || {FId,#qname{}, _}  <- OrderedGraph1, FId =/= 0],
+   VarOrd = [VId || {VId,#qname{}}  <- OrderedGraph1],
    FunctionsSorted = lists:map(fun(FId) ->
                                      lists:keyfind(FId, #xqFunction.id, Functions)
                                end, FunOrd),
@@ -154,33 +174,34 @@ handle_tree(#xqModule{version = {Version,Encoding},
                                            {true,V}
                                      end
                                end, VarOrd),
+   State0 = State#state{known_collations = ["http://www.w3.org/2005/xpath-functions/collation/codepoint"], % move this someplace configurable
+                        default_elem_ns = DefElNs,
+                        context = #context{}
+                         },
+   State1 = scan_setters(State0, Setters),
+   State2 = scan_namespaces(State1, ConstNamespaces),
+   OptionAbs = scan_options(Options),
+   FunctionSigs = scan_functions(FunctionsSorted),
+   %StatFuncSigs = scan_functions(Functions1),
+   %?dbg("FunOrd",FunOrd),
+   %?dbg("FunctionSigs",FunctionSigs),
+   VariableSigs = scan_variables(State2,VariablesSorted),
    %?dbg("ContextItem",ContextItem),
    {ContextItemSt, CtxItemType} = if ContextItem == [] ->
                                         {[],#xqSeqType{type = item, occur = zero_or_many}};
                     true ->
-                       CtxState = handle_node(State#state{known_fx_sigs = Functions1,
-                                                          inscope_vars = Variables1,
+                       CtxState = handle_node(State2#state{known_fx_sigs = FunctionSigs ++ Functions1,
+                                                          inscope_vars = VariableSigs ++ Variables1,
                                                           context = #context{}}, ContextItem),
                        {get_statement(CtxState), get_statement_type(CtxState)}
                  end,
    ?dbg("CtxItemType",CtxItemType),
-   State1 = scan_setters(State, Setters),
-   State2 = scan_namespaces(State1, ConstNamespaces),
-   OptionAbs = scan_options(Options),
-   FunctionSigs = scan_functions(FunctionsSorted),
-   %?dbg("FunOrd",FunOrd),
-   %?dbg("FunctionSigs",FunctionSigs),
-   VariableSigs = scan_variables(State2,VariablesSorted),
    %?dbg("VarOrd",VarOrd),
-   %?dbg("VariableSigs",VariableSigs),
+   ?dbg("VariableSigs",VariableSigs),
    
    State3 = State2#state{context_item_type = CtxItemType,
-                         known_collations = ["http://www.w3.org/2005/xpath-functions/collation/codepoint"], % move this someplace configurable
-                         default_collation = "http://www.w3.org/2005/xpath-functions/collation/codepoint",  % move this someplace configurable
-                         default_elem_ns = DefElNs,
                          known_fx_sigs = FunctionSigs ++ Functions1,
-                         inscope_vars = VariableSigs ++ Variables1,
-                         context = #context{}
+                         inscope_vars = VariableSigs ++ Variables1
                          },
    
    % here do the variable and function bodies
@@ -191,19 +212,19 @@ handle_tree(#xqModule{version = {Version,Encoding},
                        end, State3, [Body] ++ lists:reverse(FunVarSorted)),
 %%                        end, State3, FunVarSorted),
    %?dbg("VarPart",VarPart),
-   %?dbg("VarFunPart",VarFunPart),
    
 %%    State5 = State4#state{known_fx_sigs = scan_functions(FunPart) ++ Functions1,
 %%                          inscope_vars = scan_variables(State3,VarPart) ++ Variables1},
    
    FinalState = State4, %handle_node(State4, Body),
+   ?dbg("FinalState#state.inscope_vars",FinalState#state.inscope_vars),
    digraph:delete(DiGraph),
    S1 = [X || #xqQuery{} = X  <- VarFunPart],
    S2 = [X ||  X  <- VarFunPart, not is_record(X, xqQuery)],
    %S1 = FinalState#state.context#context.statement,
    %%% for now, return a map with everything in it for the abstract part. just until it has no idea of static context
    EmptyMap = #{namespaces => FinalState#state.known_ns,
-                variables => [],
+                variables => [], %FinalState#state.inscope_vars,
                 var_tuple => [],
                 iter => [],
                 iter_loop => [],
@@ -218,7 +239,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 'empty-seq-order' => FinalState#state.empty_order,
                 'copy-namespaces' => FinalState#state.copy_ns_mode,
                 known_collations => FinalState#state.known_collations,
-                body => Mod#xqModule{prolog = [ContextItemSt|S2],
+                body => Mod#xqModule{prolog = S2,
                                      body = S1}
                }, 
    %%% not sent in %%%  
@@ -238,6 +259,65 @@ handle_tree(#xqModule{version = {Version,Encoding},
    EmptyMap.
 
 
+handle_node(State, #qname{namespace = NsExpr, prefix = PxExpr, local_name = LnExpr} = Node) ->
+   ?dbg("Node",Node),
+   NsExpr1 = if is_tuple(NsExpr) ->
+                   NS1 = handle_node(State, NsExpr),
+                   NTy = get_statement_type(NS1),
+                   ?dbg("NTy",NTy),
+                   NewSt1 = case check_type_match(NTy, #xqSeqType{type = 'xs:string', occur = one}) of
+                               false ->
+                                  ?err('XPTY0004');
+                               _ ->
+                                  St1 = case get_statement(NS1) of
+                                           {expr,#xqAtomicValue{} = Av1} ->
+                                              Av1;
+                                           O ->
+                                              O
+                                        end,
+                                  ?dbg("St1",St1),
+                                  AllAtom1 = all_atomics(St1),
+                                  ?dbg("AllAtom1",AllAtom1),
+                                  if AllAtom1 ->
+                                        xqerl_types:value(xqerl_types:cast_as(St1, 'xs:string'));
+                                     true ->
+                                        St1
+                                  end
+                            end,
+                  ?dbg("NewSt1",NewSt1),
+                  NewSt1;
+                true ->
+                   NsExpr
+             end,
+   PxExpr1 = if is_tuple(PxExpr) ->
+                   PS1 = handle_node(State, PxExpr),
+                   PTy = get_statement_type(PS1),
+                   ?dbg("PTy",PTy),
+                   case check_type_match(PTy, #xqSeqType{type = 'xs:string', occur = one}) of
+                      false ->
+                         ?err('XPTY0004');
+                      _ ->
+                         ok
+                   end,
+                   get_statement(PS1);
+                true ->
+                   PxExpr
+             end,
+   LnExpr1 = if is_tuple(LnExpr) ->
+                   LS1 = handle_node(State, LnExpr),
+                   LTy = get_statement_type(LS1),
+                   ?dbg("LTy",LTy),
+                   case check_type_match(LTy, #xqSeqType{type = 'xs:string', occur = one}) of
+                      false ->
+                         ?err('XPTY0004');
+                      _ ->
+                         ok
+                   end,
+                   get_statement(LS1);
+                true ->
+                   LnExpr
+             end,
+   set_statement(State, #qname{namespace = NsExpr1, prefix = PxExpr1, local_name = LnExpr1});
 handle_node(State, [Node]) -> 
    handle_node(State, Node);
 handle_node(State, Nodes) when is_list(Nodes) ->
@@ -280,15 +360,15 @@ handle_node(State, #xqAtomicValue{type = T} = At) ->
    S3;
 %% 3.1.2 Variable References
 handle_node(State, #xqVarRef{name = Name}) -> 
-?dbg("Name",Name),
+   %?dbg("Name",Name),
    St = get_variable(State, Name),
-?dbg("St",St),
+   %?dbg("St",St),
    Val = element(4, St), % ErlVar
    Type = element(2, St),
    set_statement_and_type(State, {variable, Val}, Type);
 %% 3.1.3 Parenthesized Expressions
 handle_node(State, {sequence, Expr}) -> 
-   ?dbg("Expr",Expr),
+   %?dbg("Expr",Expr),
    S = handle_node(State, Expr),
    St = get_statement(S),
    T = get_statement_type(S),
@@ -306,10 +386,25 @@ handle_node(State = #state{context_item_type = CIType}, 'context-item') ->
    ?dbg("CI",CIType),
    set_statement_and_type(State, 'context-item', CIType);
 handle_node(State, {'context-item', {Type,External,Expr}} )-> 
-   S1 = handle_node(State, Expr),
-   St1 = get_statement(S1),
-   ST  = get_statement_type(S1),
-   set_statement_and_type(State, {'context-item', {Type,External,St1}}, ST);
+   if External == external andalso Expr == undefined ->
+         set_statement_and_type(State, {'context-item', {Type,External,[]}}, #xqSeqType{type = Type, occur = zero_or_one});
+      true ->
+         S1 = handle_node(State, Expr),
+         St1 = get_statement(S1),
+         ST  = get_statement_type(S1),
+         SC = get_static_count(S1),
+         ?dbg("St1",ST),
+         ?dbg("St1",{Type,External,Expr}),
+         case check_type_match(ST, #xqSeqType{type = Type, occur = zero_or_one}) of
+            true when SC == 1;
+                      SC == undefined;
+                      External == external ->
+               ok;
+            _ ->
+               ?err('XPTY0004')
+         end,
+         set_statement_and_type(State, {'context-item', {Type,External,St1}}, ST)
+   end;
 %% 3.1.5 Static Function Calls
 handle_node(State, {'partial-function-call', {name, Name}, {arity, Arity}, {args, Args}} = Node) -> default_return(State, Node);
 %% 3.1.5.1 Evaluating Static and Dynamic Function Calls
@@ -329,6 +424,12 @@ handle_node(State,#xqVar{id = Id,
    VarType = get_statement_type(VarState), % for loop type is one out of a sequence
    VarStmt = get_statement(VarState),
    SVarType = VarType#xqSeqType{occur = zero_or_one},
+   case check_type_match(VarType, Type) of
+      false ->
+         ?err('XPTY0004');
+      _ ->
+         ok
+   end,
    case check_type_match(VarType, SVarType) of
       false ->
          ?err('XPTY0004');
@@ -340,6 +441,8 @@ handle_node(State,#xqVar{id = Id,
    
    State1 = add_inscope_variable(State, NewVar),
    
+   ?dbg("Expr",Expr),
+   ?dbg("VarStmt",VarStmt),
    NewStatement = #xqVar{id = Id,
                          name = Name, 
                          type = SVarType, 
@@ -367,14 +470,18 @@ handle_node(State, #xqFunction{type = _Type, params = Params, body = Expr} = Nod
            C ->
               C
         end,
-?dbg("ST", ST),
-?dbg("SC", SC),
+%?dbg("ST", ST),
+%?dbg("SC", SC),
    Node1 = Node#xqFunction{type = ST, body = St1},
    State2 = update_function_type(State, Node1),
    set_static_count(set_statement_and_type(State2, Node1, ST),SC);
 
 %% 3.1.8 Enclosed Expressions
-handle_node(State, {expr, Expr} = Node) -> default_return(State, Node);
+handle_node(State, {expr, Expr}) -> 
+   S1 = handle_node(State, Expr),
+   Stm = get_statement(S1),
+   Sty = get_statement_type(S1),
+   set_statement_and_type(State, {expr, Stm}, Sty);
 
 %% 3.2 Postfix Expressions
 handle_node(State, {postfix, {'function-call', _, _, _} = Fx, PostFixArgs}) -> 
@@ -512,6 +619,7 @@ handle_node(State, #xqAxisStep{direction = Direction,
                                axis = Axis, 
                                node_test = #xqKindTest{kind = Kind, name = KName} = Kt, 
                                predicates = Preds} = Node) ->
+   KName1 = resolve_qname(KName, State),
    State1 = if Direction == forward andalso Axis == attribute ->
                  %?dbg("{Direction, Axis}",{Direction, Axis}),
                   set_statement_and_type(State, Node, #xqSeqType{type = attribute, occur = zero_or_one});
@@ -526,13 +634,14 @@ handle_node(State, #xqAxisStep{direction = Direction,
                   default_return(State, Node)
             end,
    NewPreds = get_statement(handle_predicates(State1, Preds)),
-   set_statement(State1, Node#xqAxisStep{predicates = NewPreds});
+   set_statement(State1, Node#xqAxisStep{predicates = NewPreds, node_test = Kt#xqKindTest{name = KName1}});
 
 
 handle_node(State, #xqAxisStep{direction = Direction, 
                                axis = Axis, 
-                               node_test = #xqNameTest{name = Q}, 
+                               node_test = #xqNameTest{name = Q} = Nt, 
                                predicates = Preds} = Node) -> 
+   Q1 = resolve_qname(Q, State),
    State1 = if Direction == forward andalso Axis == attribute ->
                  %?dbg("{Direction, Axis}",{Direction, Axis}),
                   set_statement_and_type(State, Node, #xqSeqType{type = attribute, occur = zero_or_one});
@@ -547,7 +656,7 @@ handle_node(State, #xqAxisStep{direction = Direction,
                   default_return(State, Node)
             end,
    NewPreds = get_statement(handle_predicates(State1, Preds)),
-   set_statement(State1, Node#xqAxisStep{predicates = NewPreds});
+   set_statement(State1, Node#xqAxisStep{predicates = NewPreds, node_test = Nt#xqNameTest{name = Q1}});
 %% 3.3.3 Predicates within Steps
 %% 3.3.4 Unabbreviated Syntax
 %% 3.3.5 Abbreviated Syntax
@@ -716,12 +825,11 @@ handle_node(State, {'unary', '-', Expr1} = _Node) ->
          set_statement_and_type(State, {'unary', '-', St1}, #xqSeqType{type = 'xs:numeric', occur = zero_or_one})
    end; 
 %% 3.6 String Concatenation Expressions
-handle_node(State, {'concat', Expr1, Expr2} = Node) -> 
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
+handle_node(State, {'concat', Expr1, Expr2}) -> 
    S3 = {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
-                                 local_name = "concat"}, 2, [S1,S2]},
-   set_statement_and_type(State, S3, #xqSeqType{type = 'xs:string', occur = one}); 
+                                 local_name = "concat"}, 2, [Expr1,Expr2]},
+   %set_statement_and_type(State, S3, #xqSeqType{type = 'xs:string', occur = one});
+   handle_node(State, S3);
 %% 3.7 Comparison Expressions
 %% 3.7.1 Value Comparisons
 handle_node(State, {'eq', Expr1, Expr2}) -> 
@@ -825,7 +933,9 @@ handle_node(State, {'or', Expr1, Expr2} = _Node) ->
 %% 3.9 Node Constructors
 %% 3.9.1 Direct Element Constructors
 handle_node(State, {direct_cons, Cons} = _Node) ->
-   S1 = handle_direct_constructor(State, Cons),
+   IC = get_in_constructor(State),
+   State1 = set_in_constructor(State, true),
+   S1 = handle_direct_constructor(State1, Cons),
    St = get_statement(S1),
    Typ = case St of
             #xqElementNode{} ->
@@ -837,8 +947,13 @@ handle_node(State, {direct_cons, Cons} = _Node) ->
             _ ->
                node
          end,
-  %?dbg("St",St),
-   set_statement_and_type(State, {direct_cons,St}, #xqSeqType{type = Typ, occur = one});
+   NewSt = if IC ->
+                 St;
+                 %{direct_cons,St};
+              true ->
+                 {direct_cons,St}
+           end,
+   set_statement_and_type(State, NewSt, #xqSeqType{type = Typ, occur = one});
 %% 3.9.1.1 Attributes
 %% 3.9.1.2 Namespace Declaration Attributes
 %% 3.9.1.3 Content
@@ -846,7 +961,9 @@ handle_node(State, {direct_cons, Cons} = _Node) ->
 %% 3.9.2 Other Direct Constructors
 %% 3.9.3 Computed Constructors
 handle_node(State, {comp_cons, Cons} = _Node) ->
-   S1 = handle_node(State, Cons),
+   IC = get_in_constructor(State),
+   State1 = set_in_constructor(State, true),
+   S1 = handle_comp_constructor(State1, Cons),
    St = get_statement(S1),
    Typ = case St of
             #xqDocumentNode{} ->
@@ -866,29 +983,13 @@ handle_node(State, {comp_cons, Cons} = _Node) ->
             _ ->
                node
          end,
-  %?dbg("St",St),
-   set_statement_and_type(State, {'node-cons',St}, #xqSeqType{type = Typ, occur = zero_or_one});
-%% 3.9.3.1 Computed Element Constructors
-handle_node(State = #state{base_uri = BU}, #xqElementNode{expr = Expr} = Node) ->
-   S1 = get_statement(handle_node(State, Expr)),
-   set_statement_and_type(State, Node#xqElementNode{expr = S1, base_uri = ?atomic('xs:anyURI',BU)}, #xqSeqType{type = 'element', occur = one});
-%% 3.9.3.2 Computed Attribute Constructors
-handle_node(State, #xqAttributeNode{expr = Expr} = Node) ->
-   S1 = get_statement(handle_node(State, Expr)),
-   set_statement_and_type(State, Node#xqAttributeNode{expr = S1}, #xqSeqType{type = 'attribute', occur = one});
-%% 3.9.3.3 Document Node Constructors
-handle_node(State = #state{base_uri = BU}, #xqDocumentNode{expr = Expr} = Node) -> 
-   S1 = get_statement(handle_node(State, Expr)),
-   set_statement_and_type(State, Node#xqDocumentNode{expr = S1, base_uri = ?atomic('xs:anyURI',BU)}, #xqSeqType{type = 'document-node', occur = one});
-%% 3.9.3.4 Text Node Constructors
-handle_node(State, #xqTextNode{} = Node) -> default_return(State, Node);
-%% 3.9.3.5 Computed Processing Instruction Constructors
-handle_node(State, #xqProcessingInstructionNode{} = Node) -> default_return(State, Node);
-%% 3.9.3.6 Computed Comment Constructors
-handle_node(State, #xqCommentNode{} = Node) -> default_return(State, Node);
-%% 3.9.3.7 Computed Namespace Constructors
-handle_node(State, #xqNamespaceNode{} = Node) -> default_return(State, Node);
-%% 3.9.4 In-scope Namespaces of a Constructed Element
+   NewSt = if IC andalso Typ =/= 'document-node' ->
+                 St;
+                 %{comp_cons,St};
+              true ->
+                 {comp_cons,St}
+           end,
+   set_statement_and_type(State, NewSt, #xqSeqType{type = Typ, occur = zero_or_one});
 %% 3.10 String Constructors
 handle_node(State, {'string-constructor', Expr} = Node) -> default_return(State, Node);
 %% 3.11 Maps and Arrays
@@ -1040,7 +1141,24 @@ handle_node(State, {where, Expr}) ->
    set_statement_and_type(State, {where, St}, #xqSeqType{type = 'xs:boolean', occur = one});
   
 %% 3.12.6 Count Clause
-handle_node(State, {count, Expr} = Node) -> default_return(State, Node);
+handle_node(State, {count,#xqVar{id = Id, 
+                                 name = Name, 
+                                 type = Type, 
+                                 expr = Expr}}) ->
+   ErlVarName = local_variable_name(Id),
+   CntState = handle_node(State, Expr),
+   CntType = #xqSeqType{type = 'xs:integer', occur = one},
+   CntStmt = get_statement(CntState),
+   _ = check_type_match(CntType, Type),
+   NewVar  = {Name,CntType,[],ErlVarName},
+   
+   State1 = add_inscope_variable(State, NewVar),
+   
+   NewStatement = {count,#xqVar{id = Id, 
+                                name = Name, 
+                                type = CntType, 
+                                expr = CntStmt}},
+   set_statement(State1, NewStatement);
 %% 3.12.7 Group By Clause
 handle_node(State, {group, Expr} = Node) -> default_return(State, Node);
 %% 3.12.8 Order By Clause
@@ -1053,7 +1171,8 @@ handle_node(State, {order, OExpr, {modifier,_,_,{_,Collation}} = Mod}) ->
    NewColl =  if Collation == default ->
                      DefColl;
                   true ->
-                     xqerl_lib:resolve_against_base_uri(BaseUri, Collation)
+                     {absolute, NC} = xqerl_lib:resolve_against_base_uri(BaseUri, Collation),
+                     NC
                end,
    Ok = lists:member(NewColl, Collations),
    if Ok ->
@@ -1150,9 +1269,40 @@ handle_node(State, {instance_of, Expr1, Expr2}) ->
 %% 3.18.2 Typeswitch
 handle_node(State, {'typeswitch', RootExpr, CasesDefault} = Node) -> default_return(State, Node);
 %% 3.18.3 Cast
-handle_node(State, {cast_as, Expr1, Expr2} = Node) -> default_return(State, Node);
+% wraps the expression in a call to constructor function at run-time
+handle_node(State, {cast_as, 'empty-sequence', #xqSeqType{type = #qname{local_name = L}, occur = zero_or_one}}) when L =/= "NOTATION" ->
+   set_statement(State, 'empty-sequence');
+handle_node(State, {cast_as, 'empty-sequence', #xqSeqType{type = T, occur = zero_or_one}}) when T =/= 'xs:NOTATION' ->
+   set_statement(State, 'empty-sequence');
+handle_node(State, {cast_as, Expr1, #xqSeqType{type = #qname{prefix = Px, local_name = Ln}} = Expr2}) -> 
+   if Ln == "NOTATION";
+      Ln == "anySimpleType" ->
+         ?err('XPST0080');
+      true ->
+         ok
+   end,
+   TypeAtom = list_to_atom(Px ++ ":" ++ Ln),
+   ES1 = handle_node(State, Expr1),
+   ESt = get_statement(ES1),
+   NewStatement1 = {cast_as, ESt, Expr2},
+   set_statement_and_type(State, NewStatement1, Expr2#xqSeqType{type = TypeAtom});
+handle_node(State, {cast_as, Expr1, #xqSeqType{type = TypeAtom} = Expr2}) -> 
+   if TypeAtom == 'xs:NOTATION';
+      TypeAtom == 'xs:anySimpleType' ->
+         ?err('XPST0080');
+      true ->
+         ok
+   end,
+   ES1 = handle_node(State, Expr1),
+   ESt = get_statement(ES1),
+   NewStatement1 = {cast_as, ESt, Expr2},
+   set_statement_and_type(State, NewStatement1, Expr2#xqSeqType{type = TypeAtom});
 %% 3.18.4 Castable
-handle_node(State, {castable_as, Expr1, Expr2} = Node) -> default_return(State, Node);
+handle_node(State, {castable_as, Expr1, Expr2}) -> 
+   ES1 = handle_node(State, Expr1),
+   ESt = get_statement(ES1),
+   NewStatement1 = {castable_as, ESt, Expr2},
+   set_statement_and_type(State, NewStatement1, #xqSeqType{type = 'xs:boolean', occur = one});
 %% 3.18.5 Constructor Functions
 handle_node(State, Node = {'function-call',#qname{namespace = "http://www.w3.org/2001/XMLSchema",
                                                   local_name = Type}, 1, [#xqAtomicValue{type = AtType, value = AtVal} = Av]}) -> 
@@ -1163,14 +1313,17 @@ handle_node(State, Node = {'function-call',#qname{namespace = "http://www.w3.org
    NewNode = if NoCast ->
                   %?dbg("Av",Av),
                    #xqAtomicValue{type = TypeAtom, value = AtVal};
-                Type == "QName";
                 Type == "NOTATION" ->
-                  %?dbg("Av",Av),
+                   ?err('XPST0017');
+                Type == "QName" andalso AtType == 'xs:untypedAtomic' ->
+                   ?err('FORG0001');
+                Type == "QName" ->
                    xqerl_types:cast_as(Av, TypeAtom, State#state.known_ns);
                 true ->
                   %?dbg("Av",Av),
                    xqerl_types:cast_as(Av, TypeAtom)
              end,
+   ?dbg("NewNode",NewNode),
    set_statement_and_type(State, NewNode, #xqSeqType{type = TypeAtom, occur = zero_or_one});
 handle_node(State, {'function-call',#qname{namespace = "http://www.w3.org/2001/XMLSchema",
                                            local_name = _Type}, 1, ['empty-sequence']}) ->
@@ -1259,6 +1412,20 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    OutStatement = {'function-call',F#xqFunction{params = [NewStatement]}},
    set_statement_and_type(State, OutStatement, Type);
 
+% QName functions that can add namespaces to the dynamic in-scope namespaces
+handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+                                            local_name = "QName"} = Name, 2, [Arg1,Arg2]}) ->
+   %InConst = get_in_constructor(State),
+   F = get_static_function(State, {Name, 2}),
+   SimpArg1 = handle_node(State, Arg1),
+   SimpArg2 = handle_node(State, Arg2),
+   ArgSt1 = get_statement(SimpArg1),
+   ArgSt2 = get_statement(SimpArg2),
+   %if InConst ->
+   %      set_statement_and_type(State, F#xqFunction{params = [ArgSt1,ArgSt2]}, #xqSeqType{type = 'xs:QName', occur = one});
+   %   true ->
+   set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt1,ArgSt2]}}, #xqSeqType{type = 'xs:QName', occur = one});
+   %end;
 
 % cardinality check functions - defer type checking until runtime
 handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
@@ -1327,11 +1494,6 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
                                             local_name = "function-name"} = FName, 1, [Arg]}) -> 
    Type = #xqSeqType{type = 'xs:QName', occur = one},
    case Arg of
-%%       {'function-call', Name,Arity,_Args} ->
-%%          #xqFunction{type = FType} = get_static_function(State, {Name, Arity}),
-%%          NoCast = check_type_match(FType, #xqSeqType{type = function, occur = one}),
-%%          ?dbg("NoCast",NoCast),
-%%          set_statement_and_type(State, #xqAtomicValue{type = 'xs:QName', value = Name}, Type);
       {'partial-function-call', _Name,_Arity,_Args} ->
          set_statement_and_type(State, 'empty-sequence', #xqSeqType{type = 'empty-sequence', occur = zero});
       {'function-ref', Name,_Arity} ->
@@ -1442,7 +1604,7 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
               zero_or_many
         end,
    %?dbg("O1",O1),
-   %?dbg("Arg",Arg),
+   ?dbg("Arg",Arg),
    ?dbg("SType",SType),
    Val = if O1 == zero;
             O1 == none ->
@@ -1480,14 +1642,14 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
                           ({_S,_C}) -> % no known sequences
                            ?err('XPTY0004')
                        end, CheckArgs),
-  %?dbg("NewArgs",NewArgs),
+  %?dbg("NewArgs",NewArgs), % NewArgs wrapped as list on purpose!
    set_statement_and_type(State, {'function-call',F#xqFunction{params = [NewArgs]}}, #xqSeqType{type = 'xs:string', occur = one});
 
 
 % catch all for all fx's
 handle_node(State, {'function-call', Name, Arity, Args} = Node) ->
-   ?dbg("F",State#state.context#context.statement),
-   ?dbg("F",State#state.context_item_type),
+   %?dbg("F",State#state.context#context.statement),
+   %?dbg("F",State#state.context_item_type),
    %?dbg("Name, Arity, Args",{Name, Arity, Args}),
    #xqFunction{params = Params, type = Type} = F = get_static_function(State, {Name, Arity}),
    %?dbg("F",F),
@@ -1594,7 +1756,7 @@ handle_predicate(State, {predicate, Expr}) ->
          IsNum = check_type_match(Type, #xqSeqType{type = 'xs:numeric'}),
          ?dbg("IsNum",IsNum),
          if IsNum ->
-               set_statement(State, {predicate, {cast_as, SimSt, #xqSeqType{type = 'xs:integer', occur = zero_or_one}}});
+               set_statement(State, {predicate, {cast_as, SimSt, #xqSeqType{type = #qname{prefix = "xs",local_name = "integer"}, occur = zero_or_one}}});
             true ->
                set_statement(State, {predicate, SimSt})
          end
@@ -1627,9 +1789,9 @@ analyze_fun_vars(Body, Functions, Variables) ->
    M1 = lists:foldl(fun(#xqVar{id = Id, name = Nm}, Map) ->
                         digraph:add_vertex(G, {Id,Nm}),
                         maps:put(Nm, Id, Map);
-                       (#xqPosVar{id = Id, name = Nm}, Map) ->
-                        digraph:add_vertex(G, {Id,Nm}),
-                        maps:put(Nm, Id, Map)
+                       ({'context-item',_}, Map) ->
+                        digraph:add_vertex(G, context_item),
+                        maps:put(context_item, -1, Map)
                     end,
                     maps:new(), 
                     Variables),
@@ -1654,6 +1816,7 @@ analyze_fun_vars(Body, Functions, Variables) ->
    Reaching = digraph_utils:reaching([V], G),
    Reachable = digraph_utils:reachable([V], G),
    %TopoSort = digraph_utils:topsort(G), % this is the order to simplify and inline functions from
+   ?dbg("M2",M2),
    ?dbg("Reaching",Reaching),
    ?dbg("Reachable",Reachable),
    %?dbg("TopoSort",TopoSort),
@@ -1663,6 +1826,7 @@ analyze_fun_vars(Body, Functions, Variables) ->
 % scan everything, when new Var found, add edge and make parent, 
 % when new Ref found, find id and make link to parent, leave parent as is
 x(G, Map, [#xqFunction{id = Id, name = Nm, arity = Ar, body = Body, params = Params}|T], _Data) ->
+   ?dbg("xqFunction",{Body,{Id,Nm}}),
    digraph:add_vertex(G, {Id,Nm,Ar}),
    % overload params
    Map1 = lists:foldl(fun(#xqVar{id = Id1, name = Nm1}, M) ->
@@ -1671,22 +1835,53 @@ x(G, Map, [#xqFunction{id = Id, name = Nm, arity = Ar, body = Body, params = Par
                       end, Map, Params),
    x(G, Map1, {Id,Nm, Ar}, Body),
    x(G, Map, T, []);
+% global variables
 x(G, Map, [#xqVar{id = Id, name = Nm, expr = Body}|T], _Data) ->
-   %?dbg(?LINE,{Body,{Id,Nm}}),
+   % all global variable bodies can have dependency on context item
+   ?dbg("xqVar",{Body,{Id,Nm}}),
    digraph:add_vertex(G, {Id,Nm}),
-   x(G, Map, {Id,Nm}, Body),
+   case maps:is_key(context_item, Map) of
+      true ->
+         ?dbg("Context",{Id,Nm}),
+         %add_edge(G,context_item,{Id,Nm}),
+         x(G, Map, {Id,Nm}, Body),
+         ContextEdges = digraph_utils:reaching([{Id,Nm}], G),
+         case lists:member({dynamic,context_item}, ContextEdges) of
+            true ->
+               add_edge(G,context_item,{Id,Nm});
+            _ ->
+               ok
+         end;
+      _ ->
+         x(G, Map, {Id,Nm}, Body)
+   end,
    x(G, Map, T, []);
 x(G, Map, [#xqQuery{query = Qry}|T], _Data) ->
    digraph:add_vertex(G, main),
    x(G, Map, T, []),
-   x(G, Map, main, Qry);
+   x(G, Map, main, Qry),
+   % check for context dependency
+   ContextEdges = digraph_utils:reaching([main], G),
+   case lists:member({dynamic,context_item}, ContextEdges) of
+      true ->
+         add_edge(G,context_item,main);
+      _ ->
+         ok
+   end;
+x(G, Map, [{'context-item',{_,_,Expr}}|T],_Data ) ->
+   x(G, Map, context_item, Expr),
+   x(G, Map, T, []);
 x(G, Map, Parent, Data) when is_list(Data) ->
    lists:foldl(fun(D,M) ->
                        x(G, M, Parent, D)
                  end, Map, Data);
 x(G, Map, Parent, Data) when is_tuple(Data) ->
-   %?dbg(?LINE,{Data,Parent}),
+   %?dbg("tuple",{Parent,Data}),
    case Data of
+%%       {'context-item',Data} ->
+%%          add_edge(G, 'context-item', Parent),
+%%          x(G, Map, Parent, Data),
+%%          Map;
       #xqFlwor{} ->
          xf(G, Map, Parent, Data),
          Map;
@@ -1724,7 +1919,7 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
                Map
          end;
       {'function-call', Nm, Ar, Args } ->
-         %?dbg("{{Nm,Ar}, Parent}",{{Nm,Ar}, Parent}),
+         ?dbg("{{Nm,Ar}, Parent}",{{Nm,Ar}, Parent}),
          Properties = xqerl_static_fn_props:get_props(Nm, Ar),
          %?dbg("Properties",Properties),
          case maps:is_key({Nm, Ar}, Map) of 
@@ -1746,6 +1941,7 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
                                    digraph:add_vertex(G, {dynamic, P}),
                                    add_edge(G, {dynamic, P},{0,Nm,Ar})
                              end, Dynamic),
+               ?dbg("Parent",Parent),
                add_edge(G, {0,Nm,Ar}, Parent),
                x(G, Map, Parent, Args)
          end,
@@ -1773,13 +1969,14 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
          end,
          Map;
       _ ->
+         %?dbg("O",O),
          D1 = tuple_to_list(Data),
          x(G, Map, Parent, D1)
    end;
 x(G, Map, Parent, 'context-item') ->
-   %?dbg("Adding context item",Parent),
-   digraph:add_vertex(G, 'context-item'),
-   add_edge(G, 'context-item', Parent),
+   ?dbg("Adding context item",Parent),
+   digraph:add_vertex(G, context_item),
+   add_edge(G, context_item, Parent),
    Map;
 x(_G, Map, Parent, Data) ->
    %?dbg("dead end??",{?LINE, {Parent, Data}}),
@@ -1835,6 +2032,42 @@ init_mod_scan() ->
    erlang:put(iter, 1),
    erlang:put(iter_loop, 1).
 
+check_prolog_order(Prolog) ->
+   % 1st part : default namespaces, setters, namespace declarations, imports
+   FirstFun = fun({'element-namespace', _}) ->
+                    true;
+                 ({'function-namespace', _}) ->
+                    true;
+                 ({'set', _}) ->
+                    true;
+                 ({'namespace', _}) ->
+                    true;
+                 ({'module-import', _}) ->
+                    true;
+                 (_) ->
+                    false               
+              end,               
+   Rest = lists:dropwhile(FirstFun, Prolog),
+   % 2nd part : context item, variables and functions options
+   SecondFun = fun({'context-item', _}) ->
+                     true;
+                  (#xqFunction{}) ->
+                     true;
+                  (#xqVar{}) ->
+                     true;
+                  ({'option', _}) ->
+                     true;
+                  (_) ->
+                     false               
+              end,               
+   Rest1 = lists:dropwhile(SecondFun, Rest),
+   if Rest1 == [] ->
+         ok;
+      true ->
+         ?dbg("Rest1",Rest1),
+         ?err('XPST0003')
+   end.
+
 pro_def_elem_ns(Prolog) ->
    D = lists:filtermap(fun({'element-namespace', E}) ->
                              {true,E};
@@ -1849,6 +2082,14 @@ pro_def_elem_ns(Prolog) ->
          lists:flatten(D)
    end.
 
+check_def_collation(#state{known_collations = KC}, URI) ->
+   Ok = lists:member(URI, KC),
+   if Ok ->
+         ok;
+      true ->
+         ?err('XQST0038')
+   end.
+
 pro_def_func_ns(Prolog) ->
    D = lists:filtermap(fun({'function-namespace', E}) ->
                              {true,E};
@@ -1857,6 +2098,9 @@ pro_def_func_ns(Prolog) ->
                        end, Prolog),
    if length(D) > 1 ->
          xqerl_error:error('XQST0066');
+      D == ["http://www.w3.org/2000/xmlns/"];
+      D == ["http://www.w3.org/XML/1998/namespace"] ->
+         xqerl_error:error('XQST0070');
       true ->
          ok
    end.
@@ -2025,6 +2269,7 @@ scan_setters(State, SetList) ->
    EO = set_or_error('empty-seq-order', SetList, greatest, 'XQST0069'),
    CN = set_or_error('copy-namespaces', SetList, {preserve, 'no-inherit'}, 'XQST0055'),
    DF = scan_dec_formats(proplists:lookup_all('decimal-format', SetList)),
+   ok = check_def_collation(State, DC),
    
    State#state{boundary_space = BS,
                default_collation = DC,
@@ -2135,16 +2380,6 @@ scan_dec_formats(Formats) ->
 
 attribute(Name,Val) -> erlang:list_to_tuple([attribute,?LINE,Name,Val]).
 
-%% variable_function_name(#qname{namespace = _Ns, prefix = Px, local_name = Ln}) ->
-%%    %?dbg("variable_function_name",{Ns,Px,Ln}),
-%%    List = if Px == [] ->
-%%                 Ln;
-%%              true ->
-%%                 Px ++ ":" ++ Ln
-%%           end,
-%%    {list_to_atom(List), 1};
-%% variable_function_name(Name) ->
-%%    ?dbg("variable_function_name",Name).
 variable_function_name(Id) ->
    {list_to_atom(lists:concat(["var$^",integer_to_list(Id)])), 1}.
 
@@ -2158,10 +2393,9 @@ resolve_qname(#qname{namespace = Ns, prefix = undefined, local_name = Ln}, #stat
       {Px,_} ->
          #qname{namespace = Ns, prefix = Px, local_name = Ln}
    end;
-resolve_qname(#qname{namespace = undefined, prefix = Px, local_name = Ln}, Ctx) ->
-   Nss = maps:get('namespaces', Ctx),
-   case proplists:get_value(Px, Nss) of
-      undefined ->
+resolve_qname(#qname{namespace = undefined, prefix = Px, local_name = Ln}, #state{known_ns = Nss}) ->
+   case lists:keyfind(Px, 3, Nss) of
+      false ->
          xqerl_error:error('XPST0081'); % unable to expand
       Ns ->
          #qname{namespace = Ns, prefix = Px, local_name = Ln}
@@ -2204,16 +2438,26 @@ resolve_element_name(State, #qname{prefix = []} = QName) ->
    DefaultNs = State#state.default_elem_ns,
    QName#qname{namespace = DefaultNs};
 resolve_element_name(State, #qname{prefix = Px} = QName) ->
-   StatNs    = State#state.known_ns,
-   Ns = lists:keyfind(Px, 3, StatNs),
-   QName#qname{namespace = element(2,Ns)}.
+   try
+      StatNs    = State#state.known_ns,
+      Ns = lists:keyfind(Px, 3, StatNs),
+      QName#qname{namespace = element(2,Ns)}
+   catch
+      _:_ ->
+         ?err('XPST0081')
+   end.
 
 resolve_attribute_name(_State, #qname{prefix = []} = QName) ->
    QName#qname{namespace = 'no-namespace'};
 resolve_attribute_name(State, #qname{prefix = Px} = QName) ->
-   StatNs    = State#state.known_ns,
-   Ns = lists:keyfind(Px, 3, StatNs),
-   QName#qname{namespace = element(2,Ns)}.
+   try
+      StatNs    = State#state.known_ns,
+      Ns = lists:keyfind(Px, 3, StatNs),
+      QName#qname{namespace = element(2,Ns)}
+   catch
+      _:_ ->
+         ?err('XPST0081')
+   end.
 
 resolve_attribute_names(State, Attributes) ->
    Fun = fun(#xqAttributeNode{name = QName} = Att) ->
@@ -2231,37 +2475,142 @@ check_unique_att_names(Attributes) ->
          ?err('XQST0040')
    end.
 
+check_direct_namespaces(Namespaces) ->
+   %?dbg("has_bad_namespaces",Namespaces),
+   Sorted = lists:sort(Namespaces),
+   Unique = lists:usort(Namespaces),
+   Prefixes = lists:usort([P || #xqNamespaceNode{name = #qname{prefix = P}} <- Unique]),
+   if length(Sorted) =/= length(Prefixes) ->
+         xqerl_error:error('XQST0071');
+      true ->
+         ok
+   end,    
+   lists:foreach(
+     fun(#xqNamespaceNode{name = #qname{namespace = N2x, prefix = P2x}}) ->
+           P2 = xqerl_types:string_value(P2x),
+           N2 = xqerl_types:string_value(N2x),
+           % attempt to reset xml or xsi namespace
+           if P2 == "xml" andalso N2 =/= "http://www.w3.org/XML/1998/namespace" ->
+                 xqerl_error:error('XQST0070');
+              P2 =/= "xml" andalso N2 == "http://www.w3.org/XML/1998/namespace" ->
+                 xqerl_error:error('XQST0070');
+              P2 == "xmlns" ->
+                 xqerl_error:error('XQST0070');
+              P2 =/= "xmlns" andalso N2 == "http://www.w3.org/2000/xmlns/" ->
+                 xqerl_error:error('XQST0070');
+              N2 == "" ->
+                 xqerl_error:error('XQST0085');
+              true ->
+                 #xqNamespace{namespace = N2,prefix = P2}
+           end
+     end, Namespaces),
+   ok.
+
 
 %% 3.9.1 Direct Element Constructors
-handle_direct_constructor(State, #xqElementNode{name = QName, attributes = AttsNs, expr = Content}) ->
+handle_direct_constructor(State, #xqElementNode{name = QName, attributes = AttsNs, expr = Content} = Node) ->
    Namespaces = namespace_nodes(AttsNs),
    Attributes = attribute_nodes(AttsNs),
    State1 = override_namespaces(State, Namespaces),
    QName1 = resolve_element_name(State1, QName),
    Attributes1 = resolve_attribute_names(State1, Attributes),
-   ok = check_unique_att_names(Attributes1),
    Attributes2 = lists:map(fun(Att) ->
                                  get_statement(handle_direct_constructor(State1, Att))
                              end, Attributes1), 
    SContent = get_statement(handle_element_content(State1, Content)),
-   ?dbg(?LINE, Content),
-   ?dbg(?LINE, SContent),
-   ?dbg(?LINE, Attributes2),
-   ?dbg(?LINE, QName1),
-   set_statement(State, #xqElementNode{name = QName1, expr = Namespaces ++ Attributes2 ++ SContent});
+   %?dbg(?LINE, Content),
+   %?dbg(?LINE, SContent),
+   %?dbg(?LINE, Attributes2),
+   %?dbg(?LINE, QName1),
+   ok = check_unique_att_names(Attributes2),
+   ok = check_direct_namespaces(Namespaces),
+   set_statement(State, Node#xqElementNode{name = QName1, attributes = Namespaces ++ Attributes2, expr = SContent});
 %% 3.9.1.1 Attributes
 handle_direct_constructor(State, #xqAttributeNode{expr = Content} = Node) ->
-   default_return(State, Node);
+   S1 = handle_node(State, Content),
+   St = get_statement(S1),
+   set_statement(State, Node#xqAttributeNode{expr = St});
 %% 3.9.1.2 Namespace Declaration Attributes
-handle_direct_constructor(State, #xqNamespaceNode{name = QName} = Node) ->
-   default_return(State, Node);
+%% handle_direct_constructor(State, #xqNamespaceNode{name = QName} = Node) ->
+%%    default_return(State, Node);
 %% 3.9.2 Other Direct Constructors
-handle_direct_constructor(State, #xqProcessingInstructionNode{name = QName, expr = Content} = Node) ->
-   default_return(State, Node#xqProcessingInstructionNode{base_uri = []});
+handle_direct_constructor(State, #xqProcessingInstructionNode{} = Node) ->
+   set_statement(State, Node#xqProcessingInstructionNode{base_uri = []});
 handle_direct_constructor(State, #xqCommentNode{expr = Content} = Node) ->
-   default_return(State, Node);
+   S1 = handle_node(State, Content),
+   St = get_statement(S1),
+   set_statement(State, Node#xqCommentNode{expr = St});
+handle_direct_constructor(State, #xqTextNode{expr = Content} ) ->
+   S1 = handle_node(State, Content),
+   St = get_statement(S1),
+   set_statement(State, #xqTextNode{expr = St});
+% catch-all for expressions
 handle_direct_constructor(State, Cons) ->
    handle_node(State, Cons).
+
+
+%% 3.9.3.1 Computed Element Constructors
+handle_comp_constructor(State = #state{base_uri = BU}, #xqElementNode{name = Name, expr = Expr} = Node) ->
+   S1 = get_statement(handle_node(State, Expr)),
+   S2 = case Name of
+           'empty-sequence' ->
+              ?err('XPTY0004');
+           #qname{namespace = undefined} ->
+              ?err('XPST0081');
+           _ ->
+              get_statement(handle_node(State, Name))
+        end,
+   set_statement_and_type(State, Node#xqElementNode{name = S2, expr = S1, base_uri = ?atomic('xs:anyURI',BU)}, #xqSeqType{type = 'element', occur = one});
+%% 3.9.3.2 Computed Attribute Constructors
+handle_comp_constructor(State, #xqAttributeNode{name = Name, expr = Expr} = Node) ->
+   S1 = get_statement(handle_node(State, Expr)),
+   S2 = case Name of
+           'empty-sequence' ->
+              ?err('XPTY0004');
+           #qname{namespace = undefined} ->
+              ?err('XPST0081');
+           _ ->
+              get_statement(handle_node(State, Name))
+        end,
+   set_statement_and_type(State, Node#xqAttributeNode{name = S2, expr = S1}, #xqSeqType{type = 'attribute', occur = one});
+%% 3.9.3.3 Document Node Constructors
+handle_comp_constructor(State = #state{base_uri = BU}, #xqDocumentNode{expr = Expr} = Node) -> 
+   S1 = get_statement(handle_node(State, Expr)),
+   set_statement_and_type(State, Node#xqDocumentNode{expr = S1, base_uri = ?atomic('xs:anyURI',BU)}, #xqSeqType{type = 'document-node', occur = one});
+%% 3.9.3.4 Text Node Constructors
+handle_comp_constructor(State, #xqTextNode{expr = Content} = Node) -> 
+   S1 = handle_node(State, Content),
+   St = get_statement(S1),
+   set_statement(State, Node#xqTextNode{expr = St});
+%% 3.9.3.5 Computed Processing Instruction Constructors
+handle_comp_constructor(State, #xqProcessingInstructionNode{name = Name, expr = Expr} = Node) -> 
+   S1 = get_statement(handle_node(State, Expr)),
+   S2 = case Name of
+           'empty-sequence' ->
+              ?err('XPTY0004');
+           #qname{namespace = undefined} ->
+              ?err('XPST0081');
+           _ ->
+              get_statement(handle_node(State, Name))
+        end,
+   set_statement_and_type(State, Node#xqProcessingInstructionNode{name = S2, expr = S1}, #xqSeqType{type = 'processing-instruction', occur = one});
+%% 3.9.3.6 Computed Comment Constructors
+handle_comp_constructor(State, #xqCommentNode{expr = Content} = Node) -> 
+   S1 = handle_node(State, Content),
+   St = get_statement(S1),
+   set_statement(State, Node#xqCommentNode{expr = St});
+%% 3.9.3.7 Computed Namespace Constructors
+handle_comp_constructor(State, #xqNamespaceNode{name = Name} = Node) -> 
+   S2 = case Name of
+           'empty-sequence' ->
+              ?err('XPTY0004');
+           #qname{namespace = undefined} ->
+              ?err('XPST0081');
+           _ ->
+              get_statement(handle_node(State, Name))
+        end,
+   set_statement_and_type(State, Node#xqNamespaceNode{name = S2}, #xqSeqType{type = 'namespace', occur = one}).
+
 
 
 %% 3.9.1.3 Content
@@ -2370,8 +2719,8 @@ handle_list(State, NodeList) ->
 check_fun_arg_types(State, Args, ArgTypes) ->
    Arg_ArgTypes = lists:zip(Args, ArgTypes),
    Fun = fun({Arg, ArgType}) ->
-               ?dbg("ArgS",get_statement(Arg)),
-               ?dbg("ArgT",get_statement_type(Arg)),
+               %?dbg("ArgS",get_statement(Arg)),
+               %?dbg("ArgT",get_statement_type(Arg)),
                S1 = check_fun_arg_type(State, Arg, ArgType),
                Cnt = get_static_count(S1),
                %?dbg("Cnt",Cnt),
@@ -2382,7 +2731,7 @@ check_fun_arg_types(State, Args, ArgTypes) ->
    lists:map(Fun, Arg_ArgTypes).
 
 check_fun_arg_type(State, Arg, TargetType) ->
-   ?dbg("Arg",get_statement(Arg)),
+   %?dbg("Arg",get_statement(Arg)),
    ParamType = get_statement_type(Arg),
    Param = get_statement(Arg),
    %?dbg("Param",Param),
@@ -2404,7 +2753,7 @@ check_fun_arg_type(State, Arg, TargetType) ->
    ok = check_occurance_match(ParamType1, TargetType, StatCnt),
    % now check the types
    NoCast = check_type_match(ParamType1, TargetType),
-   ?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
+   %?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
    if NoCast ->
          Arg;
       NoCast == cast ->
@@ -2412,8 +2761,15 @@ check_fun_arg_type(State, Arg, TargetType) ->
       NoCast == atomize ->
          set_statement(Arg, {promote_to, {atomize, Param}, TargetType});
       true ->
-         %oops
-         ?err('XPTY0004')
+         #xqSeqType{type = TT} = TargetType,
+         #xqSeqType{type = PT} = ParamType,
+         if PT == 'xs:untypedAtomic' andalso TT == 'xs:QName';
+            PT == 'xs:untypedAtomic' andalso TT == 'xs:NOTATION' ->
+               ?err('XPTY0117');
+            true ->
+               %oops
+               ?err('XPTY0004')
+         end
    end.
 
 all_atomics([]) -> false;
@@ -2460,6 +2816,8 @@ get_list_type([#xqSeqType{type = H}|Types], BType) ->
       true ->
          H1 = case H of
             #xqKindTest{kind = K} ->
+               K;
+            #xqFunTest{type = #xqSeqType{type = K}} ->
                K;
             _ ->
                H
@@ -2531,7 +2889,7 @@ check_type_match(ParamType, #xqSeqType{type = #xqKindTest{kind = TargetType}}) -
 check_type_match(#xqSeqType{type = #xqKindTest{kind = ParamType}}, TargetType) -> % needs name checking
    BP = xqerl_btypes:get_type(ParamType),
    BT = xqerl_btypes:get_type(TargetType#xqSeqType.type),
-   ?dbg("{BP, BT}",{BP, BT}),
+   %?dbg("{BP, BT}",{BP, BT}),
    check_type_cast(BP, BT);   
 
 check_type_match(ParamType, #xqSeqType{type = #xqFunTest{type = any}}) -> % needs type checking
@@ -2542,7 +2900,7 @@ check_type_match(#xqSeqType{type = #xqFunTest{type = ParamType}}, TargetType) ->
    check_type_match(ParamType, TargetType);   
 
 check_type_match(ParamType, TargetType) ->
-   ?dbg("{ParamType, TargetType}",{ParamType, TargetType}),
+   %?dbg("{ParamType, TargetType}",{ParamType, TargetType}),
    BP = xqerl_btypes:get_type(ParamType#xqSeqType.type),
    BT = xqerl_btypes:get_type(TargetType#xqSeqType.type),
    check_type_cast(BP, BT).
@@ -2635,6 +2993,12 @@ set_static_count(#state{context = #context{} = Ctx} = State, StaticCount) ->
 
 get_static_count(#state{context = #context{static_count = StaticCount}}) -> StaticCount.
 
+set_in_constructor(#state{context = #context{} = Ctx} = State, InConstructor) ->
+   NewCtx = Ctx#context{in_constructor = InConstructor},
+   State#state{context = NewCtx}.
+
+get_in_constructor(#state{context = #context{in_constructor = InConstructor}}) -> InConstructor.
+
 set_inscope_ns(#state{context = #context{} = Ctx} = State, InscopeNs) ->
    NewCtx = Ctx#context{inscope_ns = InscopeNs},
    State#state{context = NewCtx}.
@@ -2656,21 +3020,24 @@ next_var() ->
    _ = erlang:put(var_id, Id + 1),
    list_to_atom("Var__"++integer_to_list(Id)).
 
+global_variable_name(Id) ->
+   list_to_atom(lists:concat(["var$^",integer_to_list(Id)])).
 local_variable_name(Id) ->
-  list_to_atom(lists:concat(["XQ__var_", Id])).
+   list_to_atom(lists:concat(["XQ__var_", Id])).
 param_variable_name(Id) ->
-  list_to_atom(lists:concat(["Param__var_", Id])).
+   list_to_atom(lists:concat(["Param__var_", Id])).
 
 
 % {Name,Type,Annos,ErlVarName}
 add_inscope_variable(#state{inscope_vars = Vars} = State, {#qname{namespace = Ns, local_name = Ln},_,_,_} = NewVar) ->
-   ?dbg("NewVar",NewVar),
-   ?dbg("Vars",Vars),
+   %?dbg("NewVar",NewVar),
+   %?dbg("Vars",Vars),
    NewVars = [NewVar | [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_} = Var  <- Vars, {Ns1,Ln1} =/= {Ns,Ln}]],
    State#state{inscope_vars = NewVars}.
 
 get_variable(#state{inscope_vars = Vars}, #qname{namespace = Ns, local_name = Ln}) ->
-   ?dbg("Vars",Vars),
+   ?dbg("Vars",{Ns,Ln}),
+   %?dbg("Vars",Vars),
    [O] = [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_} = Var  <- Vars, {Ns1,Ln1} == {Ns,Ln}],
    O.
 
@@ -2715,7 +3082,18 @@ static_operator_type(Op,#xqSeqType{type = T1} = A1,A2) when ?node(T1) ->
 static_operator_type(Op,A1,#xqSeqType{type = T2} = A2) when ?node(T2) ->
    static_operator_type(Op,A1,A2#xqSeqType{type = 'xs:double'});
 
-static_operator_type(Op,#xqSeqType{type = T1},#xqSeqType{type = T2}) ->
+static_operator_type(Op,#xqSeqType{type = T1},#xqSeqType{type = #xqFunTest{type = T2}}) ->
+   ?dbg("{Op,T1,T2}",{Op,T1,T2}),
+   static_operator_type(Op, T1, T2);
+static_operator_type(Op,#xqSeqType{type = #xqFunTest{type = T1}},#xqSeqType{type = T2}) ->
+   ?dbg("{Op,T1,T2}",{Op,T1,T2}),
+   static_operator_type(Op, T1, T2);
+
+static_operator_type(Op,#xqSeqType{type = T1},T2) ->
+   ?dbg("{Op,T1,T2}",{Op,T1,T2}),
+   static_operator_type(Op, T1, T2);
+
+static_operator_type(Op,T1,#xqSeqType{type = T2}) ->
    ?dbg("{Op,T1,T2}",{Op,T1,T2}),
    static_operator_type(Op, T1, T2);
 
