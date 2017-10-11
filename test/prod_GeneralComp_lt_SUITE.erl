@@ -371,1458 +371,1712 @@ environment('math') ->
 'generalexpression199'(_Config) ->
    Qry = "() < ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression200'(_Config) ->
    Qry = "() < 10000",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression201'(_Config) ->
    Qry = "() < (50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression202'(_Config) ->
    Qry = "() < (10000,50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression203'(_Config) ->
    Qry = "() < <a>10000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression204'(_Config) ->
    Qry = "() < (<a>10000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression205'(_Config) ->
    Qry = "() < (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression206'(_Config) ->
    Qry = "() < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression207'(_Config) ->
    Qry = "() < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression208'(_Config) ->
    Qry = "
          () < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression209'(_Config) ->
    Qry = "10000 < ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression210'(_Config) ->
    Qry = "10000 < (50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression211'(_Config) ->
    Qry = "10000 < (10000,50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression212'(_Config) ->
    Qry = "10000 < <a>10000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression213'(_Config) ->
    Qry = "10000 < (<a>10000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression214'(_Config) ->
    Qry = "10000 < (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression215'(_Config) ->
    Qry = "10000 < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression216'(_Config) ->
    Qry = "10000 < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression217'(_Config) ->
    Qry = "
          10000 < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression218'(_Config) ->
    Qry = "(50000) < ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression219'(_Config) ->
    Qry = "(50000) < 10000",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression220'(_Config) ->
    Qry = "(50000) < (50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression221'(_Config) ->
    Qry = "(50000) < (10000,50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression222'(_Config) ->
    Qry = "(50000) < <a>10000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression223'(_Config) ->
    Qry = "(50000) < (<a>10000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression224'(_Config) ->
    Qry = "(50000) < (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression225'(_Config) ->
    Qry = "(50000) < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression226'(_Config) ->
    Qry = "(50000) < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression227'(_Config) ->
    Qry = "
          (50000) < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression228'(_Config) ->
    Qry = "(10000,50000) < ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression229'(_Config) ->
    Qry = "(10000,50000) < 10000",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression230'(_Config) ->
    Qry = "(10000,50000) < (50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression231'(_Config) ->
    Qry = "(10000,50000) < (10000,50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression232'(_Config) ->
    Qry = "(10000,50000) < <a>10000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression233'(_Config) ->
    Qry = "(10000,50000) < (<a>10000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression234'(_Config) ->
    Qry = "(10000,50000) < (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression235'(_Config) ->
    Qry = "(10000,50000) < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression236'(_Config) ->
    Qry = "(10000,50000) < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression237'(_Config) ->
    Qry = "
          (10000,50000) < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression238'(_Config) ->
    Qry = "<a>10000</a> < ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression239'(_Config) ->
    Qry = "<a>10000</a> < 10000",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression240'(_Config) ->
    Qry = "<a>10000</a> < (50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression241'(_Config) ->
    Qry = "<a>10000</a> < (10000,50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression242'(_Config) ->
    Qry = "<a>10000</a> < <a>10000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression243'(_Config) ->
    Qry = "<a>10000</a> < (<a>10000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression244'(_Config) ->
    Qry = "<a>10000</a> < (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression245'(_Config) ->
    Qry = "<a>10000</a> < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression246'(_Config) ->
    Qry = "<a>10000</a> < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression247'(_Config) ->
    Qry = "
          <a>10000</a> < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression248'(_Config) ->
    Qry = "(<a>10000</a>) < ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression249'(_Config) ->
    Qry = "(<a>10000</a>) < 10000",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression250'(_Config) ->
    Qry = "(<a>10000</a>) < (50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression251'(_Config) ->
    Qry = "(<a>10000</a>) < (10000,50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression252'(_Config) ->
    Qry = "(<a>10000</a>) < <a>10000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression253'(_Config) ->
    Qry = "(<a>10000</a>) < (<a>10000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression254'(_Config) ->
    Qry = "(<a>10000</a>) < (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression255'(_Config) ->
    Qry = "(<a>10000</a>) < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression256'(_Config) ->
    Qry = "(<a>10000</a>) < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression257'(_Config) ->
    Qry = "
          (<a>10000</a>) < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression258'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression259'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < 10000",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression260'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < (50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression261'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < (10000,50000)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression262'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < <a>10000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression263'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < (<a>10000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression264'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression265'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression266'(_Config) ->
    Qry = "(<a>10000</a>,<b>50000</b>) < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression267'(_Config) ->
    Qry = "(
          <a>10000</a>,<b>50000</b>) < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression268'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < ()",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression269'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < 10000",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression270'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < (50000)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression271'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < (10000,50000)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression272'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < <a>10000</a>",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression273'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < (<a>10000</a>)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression274'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < (<a>10000</a>,<b>50000</b>)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression275'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression276'(_Config) ->
    Qry = "(/works/employee[1]/hours[1]) < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression277'(_Config) ->
    Qry = "
           ($works/works/employee[1]/hours[1]) < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression278'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < ()",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression279'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < 10000",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression280'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < (50000)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression281'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < (10000,50000)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression282'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < <a>10000</a>",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression283'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < (<a>10000</a>)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression284'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < (<a>10000</a>,<b>50000</b>)",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression285'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < (/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression286'(_Config) ->
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) < (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression287'(_Config) ->
    Qry = "
          ($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1]) < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression288'(_Config) ->
    Qry = "
          ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < ()",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression289'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < 10000",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression290'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < (50000)",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression291'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < (10000,50000)",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression292'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < <a>10000</a>",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression293'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < (<a>10000</a>)",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression294'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < (<a>10000</a>,<b>50000</b>)",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression295'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < ($works/works/employee[1]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression296'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < ($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generalexpression297'(_Config) ->
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) < ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'lessthanonanyuri-1'(_Config) ->
    Qry = "(xs:anyURI(\"http://www.example/com\")) < (xs:anyURI(\"http://www.example/com\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-1'(_Config) ->
    Qry = "not(() < () )",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-2'(_Config) ->
    Qry = "not(1 < () )",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-3'(_Config) ->
    Qry = "not(() < 1 )",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-4'(_Config) ->
    Qry = "1 =< 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-5'(_Config) ->
    Qry = "(1, 2, 3) < 4",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-6'(_Config) ->
    Qry = "(1, 2, 3) < 2",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-7'(_Config) ->
    Qry = "(1, 2, 3) < 3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-8'(_Config) ->
    Qry = "1 < (1, 2, 3)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-9'(_Config) ->
    Qry = "2 < (1, 2, 3)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-10'(_Config) ->
    Qry = "0 < (1, 2, 3)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-11'(_Config) ->
    Qry = "1 < 2",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-12'(_Config) ->
    Qry = "xs:untypedAtomic(\"false\") < true()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-13'(_Config) ->
    Qry = "false() < xs:untypedAtomic(\"true\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-14'(_Config) ->
    Qry = "not(xs:untypedAtomic(\"true\") < false())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-15'(_Config) ->
    Qry = "not(true() < xs:untypedAtomic(\"false\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-16'(_Config) ->
    Qry = "1 < xs:anyURI(\"0\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-17'(_Config) ->
    Qry = "xs:anyURI(\"0\") < 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-18'(_Config) ->
    Qry = "1 <= count((1, 2, 3, timezone-from-time(current-time()), 4))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-GenCompLT-19'(_Config) ->
    Qry = "0 < count((1, 2, 3, timezone-from-time(current-time()), 4))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-1'(_Config) ->
    Qry = "<e>1.1</e> < 3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-2'(_Config) ->
    Qry = "3. < <e>1.1</e>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-3'(_Config) ->
    Qry = "<e>1.1</e> < 3.",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-4'(_Config) ->
    Qry = "3 < <e>1.1</e>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-5'(_Config) ->
    Qry = "<e>1.1</e> < 3e3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-6'(_Config) ->
    Qry = "3e3 < <e>1.1</e>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-7'(_Config) ->
    Qry = "<e>1.1</e> < xs:float(3e3)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-GenCompLT-8'(_Config) ->
    Qry = "xs:float(3e3) < <e>1.1</e>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

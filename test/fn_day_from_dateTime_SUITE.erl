@@ -171,315 +171,351 @@ environment('math') ->
 'fn-day-from-dateTime1args-1'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime1args-2'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1996-04-07T01:40:52Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         7
-      ",
-   case xqerl_test:string_value(Res) of
-             "7" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "7") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime1args-3'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"2030-12-31T23:59:59Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         31
-      ",
-   case xqerl_test:string_value(Res) of
-             "31" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "31") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-1'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         31
-      ",
-   case xqerl_test:string_value(Res) of
-             "31" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "31") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-2'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1999-12-31T20:00:00-05:00\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         31
-      ",
-   case xqerl_test:string_value(Res) of
-             "31" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "31") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-3'(_Config) ->
    Qry = "fn:day-from-dateTime(fn:adjust-dateTime-to-timezone(xs:dateTime(\"1999-12-31T19:20:00-05:00\"), xs:dayTimeDuration(\"PT0H\")))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-4'(_Config) ->
    Qry = "fn:avg((fn:day-from-dateTime(xs:dateTime(\"1996-12-10T12:00:00Z\")),fn:day-from-dateTime(xs:dateTime(\"2000-12-20T12:00:00Z\"))))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         15
-      ",
-   case xqerl_test:string_value(Res) of
-             "15" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "15") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-5'(_Config) ->
    Qry = "fn:count(fn:day-from-dateTime(()))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
-   case xqerl_test:string_value(Res) of
-             "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-6'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1999-01-01T00:20:00-05:00\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-7'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"0001-05-31T23:20:00-05:00\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         31
-      ",
-   case xqerl_test:string_value(Res) of
-             "31" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "31") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-8'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-03T00:00:00Z\")) + fn:day-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
-   case xqerl_test:string_value(Res) of
-             "4" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "4") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-9'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-10T00:00:00Z\")) - fn:day-from-dateTime(xs:dateTime(\"1969-01-01T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         9
-      ",
-   case xqerl_test:string_value(Res) of
-             "9" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "9") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTimeNew-10'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-02T02:00:00Z\")) * fn:day-from-dateTime(xs:dateTime(\"0002-01-04T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
-   case xqerl_test:string_value(Res) of
-             "8" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "8") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-11'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1000-01-10T02:00:00Z\")) div fn:day-from-dateTime(xs:dateTime(\"0050-01-05T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         2
-      ",
-   case xqerl_test:string_value(Res) of
-             "2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-12'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-10T10:00:00Z\")) idiv fn:day-from-dateTime(xs:dateTime(\"1970-01-10T02:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-13'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-10T10:00:00Z\")) mod fn:day-from-dateTime(xs:dateTime(\"1970-01-03T03:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-14'(_Config) ->
    Qry = "+fn:day-from-dateTime(xs:dateTime(\"1971-01-01T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-15'(_Config) ->
    Qry = "-fn:day-from-dateTime(xs:dateTime(\"1970-01-03T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         -3
-      ",
-   case xqerl_test:string_value(Res) of
-             "-3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "-3") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-16'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\")) eq fn:day-from-dateTime(xs:dateTime(\"1970-01-02T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-17'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1970-01-02T10:00:00Z\")) ne fn:day-from-dateTime(xs:dateTime(\"1970-02-02T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-18'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1971-01-03T10:00:00Z\")) ge fn:day-from-dateTime(xs:dateTime(\"1970-01-03T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-day-from-dateTime-19'(_Config) ->
    Qry = "fn:day-from-dateTime(xs:dateTime(\"1971-01-10T10:00:00Z\")) ge fn:day-from-dateTime(xs:dateTime(\"1970-01-11T10:00:00Z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-DayFromDateTimeFunc-1'(_Config) ->
    Qry = "day-from-dateTime()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-DayFromDateTimeFunc-2'(_Config) ->
    Qry = "day-from-dateTime((), \"Wrong param\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-DayFromDateTimeFunc-3'(_Config) ->
    Qry = "empty(day-from-dateTime(()))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-DayFromDateTimeFunc-4'(_Config) ->
    Qry = "day-from-dateTime(()) instance of xs:integer?",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-DayFromDateTimeFunc-5'(_Config) ->
    Qry = "day-from-dateTime(xs:dateTime(\"2001-02-03T08:23:12.43\")) eq 3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

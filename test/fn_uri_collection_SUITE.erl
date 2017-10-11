@@ -131,77 +131,91 @@ environment('math') ->
 'fn-uri-collection-1'(_Config) ->
    Qry = "fn:uri-collection(\"argument1\",\"argument2\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-uri-collection-2'(_Config) ->
    Qry = "fn:uri-collection(\"thisfileshouldnotexists\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODC0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-uri-collection-3'(_Config) ->
    Qry = "fn:uri-collection(\"invalidURI%gg\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODC0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODC0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-SeqUriCollectionFunc-1'(_Config) ->
    Qry = "uri-collection(\"http:\\\\invalidURI\\someURI%gg\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODC0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODC0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-SeqUriCollectionFunc-2'(_Config) ->
    Qry = "uri-collection(\":/\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODC0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODC0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'uri-collection-901'(_Config) ->
    Qry = "uri-collection()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODC0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'uri-collection-903'(_Config) ->
    Qry = "uri-collection(())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODC0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODC0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

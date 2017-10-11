@@ -245,879 +245,871 @@ environment('math') ->
 'format-integer-001'(_Config) ->
    Qry = "format-integer(123, '1')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '123'
-        ",
- Tst = xqerl:run("'123'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'123'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-002'(_Config) ->
    Qry = "format-integer(123, '001')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '123'
-        ",
- Tst = xqerl:run("'123'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'123'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-003'(_Config) ->
    Qry = "format-integer(123, '00001')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '00123'
-        ",
- Tst = xqerl:run("'00123'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'00123'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-004'(_Config) ->
    Qry = "format-integer(-123, '9')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '-123'
-        ",
- Tst = xqerl:run("'-123'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'-123'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-005'(_Config) ->
    Qry = "format-integer(-123, '999')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '-123'
-        ",
- Tst = xqerl:run("'-123'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'-123'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-006'(_Config) ->
    Qry = "format-integer(-123, '99999')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '-00123'
-        ",
- Tst = xqerl:run("'-00123'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'-00123'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-007'(_Config) ->
    Qry = "format-integer(0, '0')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '0'
-        ",
- Tst = xqerl:run("'0'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'0'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-008'(_Config) ->
    Qry = "format-integer(0, '000')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '000'
-        ",
- Tst = xqerl:run("'000'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'000'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-009'(_Config) ->
    Qry = "format-integer(0, '00000')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '00000'
-        ",
- Tst = xqerl:run("'00000'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'00000'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-010'(_Config) ->
    Qry = "string-join(for $i in 1 to 4 return format-integer($i, 'a'))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'abcd'
-        ",
- Tst = xqerl:run("'abcd'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'abcd'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-011'(_Config) ->
    Qry = "string-join(for $i in 1 to 4 return format-integer($i, 'A'))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'ABCD'
-        ",
- Tst = xqerl:run("'ABCD'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'ABCD'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-012'(_Config) ->
    Qry = "string-join(for $i in 1 to 20 return format-integer($i, 'i'), '|')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx'
-        ",
- Tst = xqerl:run("'i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-013'(_Config) ->
    Qry = "string-join(for $i in 1 to 20 return format-integer($i, 'I'), '|')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX'
-        ",
- Tst = xqerl:run("'I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-014'(_Config) ->
    Qry = "string-join(for $i in 1 to 20 return format-integer($i, '١'), '|')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'
-        ",
- Tst = xqerl:run("'١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-015'(_Config) ->
    Qry = "string-join(for $i in 1 to 20 return format-integer($i, '٩'), '|')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'
-        ",
- Tst = xqerl:run("'١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'١|٢|٣|٤|٥|٦|٧|٨|٩|١٠|١١|١٢|١٣|١٤|١٥|١٦|١٧|١٨|١٩|٢٠'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-016'(_Config) ->
    Qry = "string-join(for $i in 1 to 10 return format-integer($i, 'Ww'), '|')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'
-        ",
- Tst = xqerl:run("'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-017'(_Config) ->
    Qry = "string-join(for $i in 1 to 10 return format-integer($i, 'W'), '|')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN'
-        ",
- Tst = xqerl:run("'ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-018'(_Config) ->
    Qry = "string-join(for $i in 1 to 10 return format-integer($i, 'w'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'one|two|three|four|five|six|seven|eight|nine|ten'
-        ",
- Tst = xqerl:run("'one|two|three|four|five|six|seven|eight|nine|ten'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'one|two|three|four|five|six|seven|eight|nine|ten'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-019'(_Config) ->
    Qry = "format-integer(a, 'w')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPDY0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-020'(_Config) ->
    Qry = "format-integer(1, '')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-021'(_Config) ->
    Qry = "format-integer(1500000, '0,000')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1,500,000'
-        ",
- Tst = xqerl:run("'1,500,000'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1,500,000'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-022'(_Config) ->
    Qry = "format-integer(1500000, '#,###,000')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1,500,000'
-        ",
- Tst = xqerl:run("'1,500,000'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1,500,000'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-023'(_Config) ->
    Qry = "format-integer(1500000, '0,000,')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-024'(_Config) ->
    Qry = "format-integer(1500000, '11#0,000')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-025'(_Config) ->
    Qry = "format-integer(1500000, '#')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1500000'
-        ",
- Tst = xqerl:run("'1500000'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1500000'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-026'(_Config) ->
    Qry = "format-integer(1500000, '#a')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1500000'
-        ",
- Tst = xqerl:run("'1500000'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1500000'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-027'(_Config) ->
    Qry = "format-integer(1500000, ',123')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-028'(_Config) ->
    Qry = "format-integer(1500000, '0,00,,000')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-029'(_Config) ->
    Qry = "format-integer(1500000, '###𐄀0,00')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1500𐄀0,00'
-        ",
- Tst = xqerl:run("'1500𐄀0,00'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1500𐄀0,00'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-030'(_Config) ->
    Qry = "format-integer(602347826, '#(000)000-000')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '(602)347-826'
-        ",
- Tst = xqerl:run("'(602)347-826'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'(602)347-826'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-031'(_Config) ->
    Qry = "format-integer(2, 'W;o')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'SECOND'
-        ",
- Tst = xqerl:run("'SECOND'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'SECOND'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-032'(_Config) ->
    Qry = "format-integer(1, 'Ww;o(-er)', 'de' cast as xs:language)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'Erster'
-        ",
- Tst = xqerl:run("'Erster'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'Erster'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-033'(_Config) ->
    Qry = "format-integer(1, '1;o(-en)')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1st'
-        ",
- Tst = xqerl:run("'1st'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1st'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-034'(_Config) ->
    Qry = "format-integer(1, '1;o(-er)z')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-035'(_Config) ->
    Qry = "format-integer(1, 'Ww;t')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'One'
-        ",
- Tst = xqerl:run("'One'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'One'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-036'(_Config) ->
    Qry = "format-integer((), 'Ww')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                ''
-                xs:string
-                count($result) = 1
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"count($result) = 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso  begin Tst1 = xqerl:run("''"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"''") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"xs:string") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"count($result) = 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-037'(_Config) ->
    Qry = "format-integer(1234, 'Ww;o()(')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-038'(_Config) ->
    Qry = "format-integer(1234, '()Ww;o')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            1234th
-        ",
-   case xqerl_test:string_value(Res) of
-             "1234th" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1234th") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-039'(_Config) ->
    Qry = "format-integer(1234, '
 ')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            1234
-        ",
-   case xqerl_test:string_value(Res) of
-             "1234" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1234") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-040'(_Config) ->
    Qry = "format-integer(1234, '123١')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-041'(_Config) ->
    Qry = "format-integer(1234, '#,𐒠𐒠𐒠')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '𐒡,𐒢𐒣𐒤'
-        ",
- Tst = xqerl:run("'𐒡,𐒢𐒣𐒤'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'𐒡,𐒢𐒣𐒤'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-042'(_Config) ->
    Qry = "format-integer(1234, 'ﯴ')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1234'
-        ",
- Tst = xqerl:run("'1234'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1234'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-043'(_Config) ->
    Qry = "format-integer(-85, '1;o')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '-85th'
-        ",
- Tst = xqerl:run("'-85th'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'-85th'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-044'(_Config) ->
    Qry = "format-integer(-5, 'Ww;o')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '-Fifth'
-        ",
- Tst = xqerl:run("'-Fifth'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'-Fifth'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-045'(_Config) ->
    Qry = "format-integer(0, 'Ww')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'Zero'
-        ",
- Tst = xqerl:run("'Zero'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'Zero'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-046'(_Config) ->
    Qry = "string-join(for $i in 1 to 5 return format-integer($i, '①'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '①|②|③|④|⑤'
-        ",
- Tst = xqerl:run("'①|②|③|④|⑤'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'①|②|③|④|⑤'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-047'(_Config) ->
    Qry = "string-join(for $i in 1 to 5 return format-integer($i, '⑴'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '⑴|⑵|⑶|⑷|⑸'
-        ",
- Tst = xqerl:run("'⑴|⑵|⑶|⑷|⑸'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'⑴|⑵|⑶|⑷|⑸'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-048'(_Config) ->
    Qry = "string-join(for $i in 1 to 5 return format-integer($i, '⒈'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '⒈|⒉|⒊|⒋|⒌'
-        ",
- Tst = xqerl:run("'⒈|⒉|⒊|⒋|⒌'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'⒈|⒉|⒊|⒋|⒌'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-049'(_Config) ->
    Qry = "string-join(for $i in 1 to 5 return format-integer($i, 'Α'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'Α|Β|Γ|Δ|Ε'
-        ",
- Tst = xqerl:run("'Α|Β|Γ|Δ|Ε'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'Α|Β|Γ|Δ|Ε'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-050'(_Config) ->
    Qry = "string-join(for $i in 1 to 5 return format-integer($i,'α'), '|')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'α|β|γ|δ|ε'
-        ",
- Tst = xqerl:run("'α|β|γ|δ|ε'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'α|β|γ|δ|ε'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-051'(_Config) ->
    Qry = "format-integer(12345678901,'# 000')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '12 345 678 901'
-        ",
- Tst = xqerl:run("'12 345 678 901'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'12 345 678 901'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-052'(_Config) ->
    Qry = "string-join(
                 for $i in (1 to 23, 151, 302, 469, 2025) 
                 return concat($i, '=',  format-integer($i, '一')), '|')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1=一|2=二|3=三|4=四|5=五|6=六|7=七|8=八|9=九|10=十|11=十一|12=十二|13=十三|14=十四|15=十五|16=十六|17=十七|18=十八|19=十九|20=二十|21=二十一|22=二十二|23=二十三|151=百五十一|302=三百二|469=四百六十九|2025=二千二十五'
-        ",
- Tst = xqerl:run("'1=一|2=二|3=三|4=四|5=五|6=六|7=七|8=八|9=九|10=十|11=十一|12=十二|13=十三|14=十四|15=十五|16=十六|17=十七|18=十八|19=十九|20=二十|21=二十一|22=二十二|23=二十三|151=百五十一|302=三百二|469=四百六十九|2025=二千二十五'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1=一|2=二|3=三|4=四|5=五|6=六|7=七|8=八|9=九|10=十|11=十一|12=十二|13=十三|14=十四|15=十五|16=十六|17=十七|18=十八|19=十九|20=二十|21=二十一|22=二十二|23=二十三|151=百五十一|302=三百二|469=四百六十九|2025=二千二十五'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-053'(_Config) ->
    Qry = "format-integer(123,'#0')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '123'
-        ",
- Tst = xqerl:run("'123'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'123'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-054'(_Config) ->
    Qry = "format-integer(123,'0#')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-055'(_Config) ->
    Qry = "format-integer(1,'b;o')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            xs:string
-        ",
-   case xqerl_types:type(Res) of
-           'xs:string' -> {comment, "assert-type"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_type(Res,"xs:string") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-056'(_Config) ->
    Qry = "format-integer(1,'o;o')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            xs:string
-        ",
-   case xqerl_types:type(Res) of
-           'xs:string' -> {comment, "assert-type"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_type(Res,"xs:string") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-057'(_Config) ->
    Qry = "format-integer(1,'bo;o')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            xs:string
-        ",
-   case xqerl_types:type(Res) of
-           'xs:string' -> {comment, "assert-type"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_type(Res,"xs:string") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-058'(_Config) ->
    Qry = "format-integer(1,'bb')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            xs:string
-        ",
-   case xqerl_types:type(Res) of
-           'xs:string' -> {comment, "assert-type"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_type(Res,"xs:string") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-059'(_Config) ->
    Qry = "format-integer(1,'001;')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '001'
-        ",
- Tst = xqerl:run("'001'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'001'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-060'(_Config) ->
    Qry = "format-integer(1234,'#;##1;')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            '1;234'
-        ",
- Tst = xqerl:run("'1;234'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'1;234'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-061'(_Config) ->
    Qry = "format-integer(1, ';')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-062'(_Config) ->
    Qry = "format-integer(11, 'Ww', 'en')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'Eleven'
-        ",
- Tst = xqerl:run("'Eleven'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'Eleven'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-063'(_Config) ->
    Qry = "format-integer(11, 'Ww', '@*!+%')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            'Eleven'
-        ",
- Tst = xqerl:run("'Eleven'"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'Eleven'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-integer-064'(_Config) ->
    Qry = "format-integer(-1, '1o')",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FODF1310" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FODF1310'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

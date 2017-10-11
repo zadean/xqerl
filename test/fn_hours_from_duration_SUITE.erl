@@ -179,399 +179,403 @@ environment('math') ->
 'fn-hours-from-duration1args-1'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P0DT0H0M0S\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration1args-2'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P15DT11H59M59S\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         11
-      ",
- Tst = xqerl:run("11"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"11") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration1args-3'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P31DT23H59M59S\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         23
-      ",
- Tst = xqerl:run("23"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"23") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-1'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P3DT10H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         10
-      ",
- Tst = xqerl:run("10"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"10") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-2'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P3DT12H32M12S\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         12
-      ",
- Tst = xqerl:run("12"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"12") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-3'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"PT123H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         3
-      ",
- Tst = xqerl:run("3"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"3") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-4'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"-P3DT10H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         -10
-      ",
- Tst = xqerl:run("-10"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"-10") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-5'(_Config) ->
    Qry = "fn:count(fn:hours-from-duration(()))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-6'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P01DT01H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-7'(_Config) ->
    Qry = "fn:avg((fn:hours-from-duration(xs:dayTimeDuration(\"P23DT10H\")),fn:hours-from-duration(xs:dayTimeDuration(\"P21DT08H\"))))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         9
-      ",
- Tst = xqerl:run("9"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"9") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-8'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P21DT10H\")) + fn:hours-from-duration(xs:dayTimeDuration(\"P22DT20H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         30
-      ",
- Tst = xqerl:run("30"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"30") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-9'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P30DT10H\")) - fn:hours-from-duration(xs:dayTimeDuration(\"P10DT02H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-10'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P20DT05H\")) * fn:hours-from-duration(xs:dayTimeDuration(\"P03DT08H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         40
-      ",
- Tst = xqerl:run("40"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"40") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-11'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P20DT10H\")) div fn:hours-from-duration(xs:dayTimeDuration(\"P05DT05H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         2
-      ",
- Tst = xqerl:run("2"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-12'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P25DT10H\")) idiv fn:hours-from-duration(xs:dayTimeDuration(\"P05DT02H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         5
-      ",
- Tst = xqerl:run("5"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"5") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-13'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P10DT10H\")) mod fn:hours-from-duration(xs:dayTimeDuration(\"P03DT02H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-14'(_Config) ->
    Qry = "+fn:hours-from-duration(xs:dayTimeDuration(\"P21DT10H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         10
-      ",
- Tst = xqerl:run("10"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"10") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-15'(_Config) ->
    Qry = "-fn:hours-from-duration(xs:dayTimeDuration(\"P20DT02H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         -2
-      ",
- Tst = xqerl:run("-2"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"-2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-16'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P22DT09H\")) eq fn:hours-from-duration(xs:dayTimeDuration(\"P22DT09H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-17'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P23DT07H\")) ne fn:hours-from-duration(xs:dayTimeDuration(\"P12DT05H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-18'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P20DT03H\")) le fn:hours-from-duration(xs:dayTimeDuration(\"P21DT01H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-19'(_Config) ->
    Qry = "fn:hours-from-duration(xs:dayTimeDuration(\"P21DT07H\")) ge fn:hours-from-duration(xs:dayTimeDuration(\"P20DT08H\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-hours-from-duration-20'(_Config) ->
    Qry = "fn:hours-from-duration(xs:duration(\"P1Y2M3DT10H30M\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         10
-      ",
- Tst = xqerl:run("10"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"10") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-HoursFromDurationFunc-1'(_Config) ->
    Qry = "hours-from-duration()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-HoursFromDurationFunc-2'(_Config) ->
    Qry = "hours-from-duration((), \"Wrong param\")",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-HoursFromDurationFunc-3'(_Config) ->
    Qry = "empty(hours-from-duration(()))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-HoursFromDurationFunc-4'(_Config) ->
    Qry = "hours-from-duration(()) instance of xs:integer?",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-HoursFromDurationFunc-5'(_Config) ->
    Qry = "hours-from-duration(xs:dayTimeDuration(\"P3DT8H2M1.03S\")) eq 8",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-HoursFromDurationFunc-6'(_Config) ->
    Qry = "hours-from-duration(xs:dayTimeDuration(\"-P3DT8H2M1.03S\")) eq -8",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-HoursFromDurationFunc-7'(_Config) ->
    Qry = "hours-from-duration(xs:duration(\"-P3Y4M8DT1H23M2.34S\")) eq -1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-hours-from-duration-001'(_Config) ->
    Qry = "fn:hours-from-duration(xs:yearMonthDuration('P1Y'))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
-   case xqerl_test:string_value(Res) of
-             "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

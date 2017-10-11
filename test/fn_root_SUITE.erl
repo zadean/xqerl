@@ -200,520 +200,487 @@ environment('lang') ->
    Qry = "fn:root()",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPDY0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-2'(_Config) ->
    Qry = "(1 to 100)[fn:root()]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-3'(_Config) ->
    Qry = "fn:count(fn:root(()))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-4'(_Config) ->
    Qry = "let $var := <!-- A Comment Node --> return fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <!-- A Comment Node -->
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!-- A Comment Node -->"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<!-- A Comment Node -->" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<!-- A Comment Node -->") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-5'(_Config) ->
    Qry = "fn:root(<!-- A Comment Node -->)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <!-- A Comment Node -->
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!-- A Comment Node -->"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<!-- A Comment Node -->" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<!-- A Comment Node -->") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-6'(_Config) ->
    Qry = "let $var := <anElement>An Element Content</anElement> return fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <anElement>An Element Content</anElement>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<anElement>An Element Content</anElement>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<anElement>An Element Content</anElement>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<anElement>An Element Content</anElement>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-7'(_Config) ->
    Qry = "fn:root(<anElement>An Element Content</anElement>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <anElement>An Element Content</anElement>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<anElement>An Element Content</anElement>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<anElement>An Element Content</anElement>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<anElement>An Element Content</anElement>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-8'(_Config) ->
    Qry = "let $var := <?format role=\"output\" ?> return fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <?format role=\"output\" ?>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?format role=\"output\" ?>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<?format role=\"output\" ?>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<?format role=\"output\" ?>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-9'(_Config) ->
    Qry = "fn:root(<?format role=\"output\" ?>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <?format role=\"output\" ?>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?format role=\"output\" ?>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<?format role=\"output\" ?>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<?format role=\"output\" ?>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-10'(_Config) ->
    Qry = "let $var := element anElement {attribute anAttribute {\"Attribute Value\"}} return fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <anElement anAttribute=\"Attribute Value\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<anElement anAttribute=\"Attribute Value\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<anElement anAttribute=\"Attribute Value\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<anElement anAttribute=\"Attribute Value\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-11'(_Config) ->
    Qry = "fn:root(element anElement {attribute anAttribute {\"Attribute Value\"}})",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <anElement anAttribute=\"Attribute Value\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<anElement anAttribute=\"Attribute Value\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<anElement anAttribute=\"Attribute Value\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<anElement anAttribute=\"Attribute Value\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-12'(_Config) ->
    Qry = "let $var := document {<anElement><anInternalElement>element content</anInternalElement></anElement>} return fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <anElement><anInternalElement>element content</anInternalElement></anElement>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<anElement><anInternalElement>element content</anInternalElement></anElement>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<anElement><anInternalElement>element content</anInternalElement></anElement>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<anElement><anInternalElement>element content</anInternalElement></anElement>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-13'(_Config) ->
    Qry = "fn:root(document {<anElement><anInternalElement>element content</anInternalElement></anElement>})",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <anElement><anInternalElement>element content</anInternalElement></anElement>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<anElement><anInternalElement>element content</anInternalElement></anElement>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<anElement><anInternalElement>element content</anInternalElement></anElement>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<anElement><anInternalElement>element content</anInternalElement></anElement>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-14'(_Config) ->
    Qry = "fn:root(fn:exactly-one(/langs[1]/para[1]))",
    Env = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-15'(_Config) ->
    Qry = "fn:root(/langs[1]/para[1]/@xml:lang)",
    Env = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<langs><para xml:lang=\"en\"/><div xml:lang=\"en\"><para>And now, and forever!</para></div><para xml:lang=\"EN\"/><para xml:lang=\"en-us\"/></langs>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-16'(_Config) ->
    Qry = "fn:root(text {\"A text Node\"})",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         A text Node
-      ",
-   case xqerl_test:string_value(Res) of
-             "A text Node" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "A text Node") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-17'(_Config) ->
    Qry = "let $var := text {\"a text Node\"} return fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         a text Node
-      ",
-   case xqerl_test:string_value(Res) of
-             "a text Node" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "a text Node") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-18'(_Config) ->
    Qry = "let $var := element anElement {\"Element Content\"} return fn:root($var) is fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-19'(_Config) ->
    Qry = "let $var := element anElement {\"Element Content\"} return fn:root($var) is fn:root($var)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-20'(_Config) ->
    Qry = "let $var := element anElement {\"Element Content\"} return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-21'(_Config) ->
    Qry = "let $var := <!-- An Element Node --> return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-22'(_Config) ->
    Qry = "let $var := <?format role=\"output\" ?> return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-23'(_Config) ->
    Qry = "let $var := text {\"A text node\"} return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-root-24'(_Config) ->
    Qry = "fn:root(.)",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPDY0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeRootFunc-1'(_Config) ->
    Qry = "Root(2)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeRootFunc-2'(_Config) ->
    Qry = "(1, 2, 3)[root()]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeRootFunc-3'(_Config) ->
    Qry = "root(2)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeRootFunc-4'(_Config) ->
    Qry = "empty(root(()))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-1'(_Config) ->
    Qry = "fn:root(<e/>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-2'(_Config) ->
    Qry = "empty(fn:root(<e/>/..))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-3'(_Config) ->
    Qry = "fn:root(<!-- comment -->)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <!-- comment -->
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!-- comment -->"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<!-- comment -->" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<!-- comment -->") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-4'(_Config) ->
    Qry = "<e>{fn:root(attribute name {\"value\"})}</e>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e name=\"value\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e name=\"value\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e name=\"value\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e name=\"value\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-5'(_Config) ->
    Qry = "fn:root(<?target data?>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <?target data?>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<?target data?>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<?target data?>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<?target data?>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-6'(_Config) ->
    Qry = "fn:root(text{\"text node\"})",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         text node
-      ",
-   case xqerl_test:string_value(Res) of
-             "text node" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "text node") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-7'(_Config) ->
    Qry = "fn:root(text{\"text node\"})",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         text node
-      ",
-   case xqerl_test:string_value(Res) of
-             "text node" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "text node") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeRootFunc-8'(_Config) ->
    Qry = "root(document {()}) instance of document-node()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

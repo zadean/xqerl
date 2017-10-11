@@ -191,499 +191,617 @@ environment('math') ->
 'nodeexpression1'(_Config) ->
    Qry = "count(() is ())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression2'(_Config) ->
    Qry = "count(() is <a>50000</a>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression3'(_Config) ->
    Qry = "count(() is /works[1]/employee[1]/empnum[1])",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression4'(_Config) ->
    Qry = "count(() is (/staff[1]/employee[1]/empnum[1]))",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression5'(_Config) ->
    Qry = "count(<a>50000</a> is ())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression6'(_Config) ->
    Qry = "<a>50000</a> is <a>50000</a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression7'(_Config) ->
    Qry = "<a>50000</a> is /works[1]/employee[1]/empnum[1]",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression8'(_Config) ->
    Qry = "<a>50000</a> is (/staff[1]/employee[1]/empnum[1])",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression9'(_Config) ->
    Qry = "count(/works[1]/employee[1]/empnum[1] is ())",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression10'(_Config) ->
    Qry = "/works[1]/employee[1]/empnum[1] is <a>50000</a>",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression11'(_Config) ->
    Qry = "/works[1]/employee[1]/empnum[1] is /works[1]/employee[1]/empnum[1]",
    Env = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression12'(_Config) ->
    Qry = "
          $works/works[1]/employee[1]/empnum[1] is $staff/staff[1]/employee[1]/empnum[1]",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression13'(_Config) ->
    Qry = "count((/staff[1]/employee[1]/empnum[1]) is ())",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression14'(_Config) ->
    Qry = "(/staff[1]/employee[1]/empnum[1]) is <a>50000</a>",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression15'(_Config) ->
    Qry = "
           ($staff/staff[1]/employee[1]/empnum[1]) is $works/works[1]/employee[1]/empnum[1]",
    Env = xqerl_test:handle_environment(environment('works-and-staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpression16'(_Config) ->
    Qry = "(/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpressionhc1'(_Config) ->
    Qry = "fn:not((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpressionhc2'(_Config) ->
    Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) lt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpressionhc3'(_Config) ->
    Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) ge ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpressionhc4'(_Config) ->
    Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) gt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodeexpressionhc5'(_Config) ->
    Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) le ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
    Env = xqerl_test:handle_environment(environment('staff')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'nodecomparisonerr-1'(_Config) ->
    Qry = "fn:count(() is 100)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeSame-1'(_Config) ->
    Qry = "empty(1 is ())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeSame-2'(_Config) ->
    Qry = "empty(() is 1)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeSame-3'(_Config) ->
    Qry = "1 is 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeSame-4'(_Config) ->
    Qry = "empty(() is ())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeSame-5'(_Config) ->
    Qry = "() is",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-NodeSame-6'(_Config) ->
    Qry = "is ()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeSame-1'(_Config) ->
    Qry = "declare variable $var := <elem/>; <a>{$var}</a>/elem[1] is $var",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeSame-2'(_Config) ->
    Qry = "declare variable $var := <elem/>; $var is $var",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeSame-3'(_Config) ->
    Qry = "declare variable $var := <elem/>; not($var is <elem/>)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeSame-4'(_Config) ->
    Qry = "declare variable $e := attribute name {()}; $e is $e, <is/> is <is/>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         true false
-      ",
-   case xqerl_test:string_value(Res) of
-             "true false" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "true false") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeSame-5'(_Config) ->
    Qry = "empty(exactly-one(<e/>/*) is exactly-one(<e/>/*))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',false}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FORG0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FORG0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-NodeSame-6'(_Config) ->
    Qry = "empty(zero-or-one(<e/>/*) is zero-or-one(<e/>/*))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-node-same-001'(_Config) ->
    Qry = "
       	let $node := <a> <b/> <c/> </a> 
       	return not(exactly-one($node/b[1]) is exactly-one($node/c[1]))
       ",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-node-same-002'(_Config) ->
    Qry = "
       	let $node := <a> <b/> <c/> </a> 
       	return not(not(exactly-one($node/b[1]) is exactly-one($node/c[1])))
       ",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-is-same-node-001'(_Config) ->
    Qry = "
       	declare function local:f() as node() { <a/> }; 
       	local:f() is local:f()
       ",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

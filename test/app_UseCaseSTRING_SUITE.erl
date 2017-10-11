@@ -147,21 +147,18 @@ environment('string-and-company-data') ->
    Qry = "//news_item/title[contains(., \"Foobar Corporation\")]",
    Env = xqerl_test:handle_environment(environment('string')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<title>Foobar Corporation releases its new line of Foo products
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<title>Foobar Corporation releases its new line of Foo products
    today</title><title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title>"++"</x>)")) of "true" -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == Exp of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   patent infringement </title>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'string-queries-results-q2'(_Config) ->
    Qry = "
         declare variable $input-context1 := $string;
@@ -193,21 +190,18 @@ end.
       ",
    Env = xqerl_test:handle_environment(environment('string-and-company-data')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<news_item><title> Gorilla Corporation acquires YouNameItWeIntegrateIt.com </title><date>1-20-2000</date></news_item><news_item><title>Foobar Corporation releases its new line of Foo products
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<news_item><title> Gorilla Corporation acquires YouNameItWeIntegrateIt.com </title><date>1-20-2000</date></news_item><news_item><title>Foobar Corporation releases its new line of Foo products
    today</title><date>1-20-2000</date></news_item><news_item><title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title><date>1-20-2000</date></news_item>"++"</x>)")) of "true" -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == Exp of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   patent infringement </title><date>1-20-2000</date></news_item>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'string-queries-results-q4'(_Config) ->
    Qry = "
         declare function local:partners($c as xs:string) as element()* { 
@@ -222,13 +216,9 @@ end.
         return $item",
    Env = xqerl_test:handle_environment(environment('string-and-company-data')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<news_item>
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<news_item>
    <title> Gorilla Corporation acquires YouNameItWeIntegrateIt.com </title>
    <content>
       <par> Today, Gorilla Corporation announced that it will purchase
@@ -276,13 +266,14 @@ end.
    </content>
    <date>1-20-2000</date>
    <news_agent>Reliable News Corporation</news_agent>
-</news_item>"++"</x>)")) of "true" -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == Exp of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+</news_item>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'string-queries-results-q5'(_Config) ->
    Qry = "
         for $item in //news_item 
@@ -294,13 +285,9 @@ end.
       ",
    Env = xqerl_test:handle_environment(environment('string')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<item_summary> Gorilla Corporation acquires YouNameItWeIntegrateIt.com . 1-20-2000.  Today, Gorilla Corporation announced that it will purchase
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<item_summary> Gorilla Corporation acquires YouNameItWeIntegrateIt.com . 1-20-2000.  Today, Gorilla Corporation announced that it will purchase
           YouNameItWeIntegrateIt.com. The shares of
           YouNameItWeIntegrateIt.com dropped $3.00 as a result of this
           announcement.
@@ -310,10 +297,11 @@ end.
          infringement. The patents that were mentioned as part of the
          lawsuit are considered to be the basis of Foobar
          Corporation's Wireless Foo line of products.
-      </item_summary>"++"</x>)")) of "true" -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == Exp of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+      </item_summary>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

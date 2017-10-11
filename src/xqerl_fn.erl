@@ -839,7 +839,6 @@
                 {match,List} ->
                    List
              end,
-   BaseUri = maps:get('base-uri', Ctx),
    Frag = #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                        prefix = "fn",
                                        local_name = "analyze-string-result"},
@@ -848,7 +847,7 @@
                                    true ->
                                       analyze_string1(Content,Input1)
                                 end},
-   ?seq:singleton(xqerl_node:new_fragment(Frag,BaseUri)).
+   ?seq:singleton(xqerl_node:new_fragment(Ctx, Frag)).
 
 analyze_string1([],String) -> % no matches
    #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
@@ -963,7 +962,7 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
                                 end,
              xqerl_types:cast_as(Avg,OutType)
          catch 
-            _:#xqError{name = #qname{local_name = "XPTY0004"}} -> xqerl_error:error('FORG0006');
+            _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "XPTY0004"}}} -> xqerl_error:error('FORG0006');
             E -> throw(E)
          end
    end.
@@ -1564,20 +1563,18 @@ avg1([H|T], Sum, Count) ->
              _ ->
                 ?seq:singleton(QName)
           end,
-   Str = xqerl_types:string_value(Description),
    case QName == [] orelse ?seq:is_empty(Name) of
       true ->
-         xqerl_error:error('FOER0000',Str);
+         xqerl_error:error('FOER0000',Description);
       _ ->
-         xqerl_error:error(xqerl_types:value(QName),Str)
+         xqerl_error:error(xqerl_types:value(QName),Description)
    end.
 'error'(_Ctx,QName,Description,Object) ->
-   Str = xqerl_types:string_value(Description),
    case QName == [] orelse ?seq:is_sequence(QName) andalso ?seq:is_empty(QName) of
       true ->
-         xqerl_error:error('FOER0000',Str, Object);
+         xqerl_error:error('FOER0000',Description, Object);
       _ ->
-         xqerl_error:error(xqerl_types:value(QName),Str, Object)
+         xqerl_error:error(xqerl_types:value(QName),Description, Object)
    end.
 
 
@@ -1805,14 +1802,14 @@ get_static_function(Ctx,{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
    FunSig.
 
 
-mask_static_mod_ns("http://www.w3.org/2005/xpath-functions") -> "xqerl_fn";
-mask_static_mod_ns("http://www.w3.org/2001/XMLSchema") -> "xqerl_xs";
-mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/math") -> "xqerl_math";
-mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/map") -> "xqerl_map";
-mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/array") -> "xqerl_array";
-mask_static_mod_ns("http://www.w3.org/2005/xqt-errors") -> "xqerl_error";
-mask_static_mod_ns("http://www.w3.org/2005/xquery-local-functions") -> "xqerl_main";
-mask_static_mod_ns(T) -> T.
+%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions") -> "xqerl_fn";
+%% mask_static_mod_ns("http://www.w3.org/2001/XMLSchema") -> "xqerl_xs";
+%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/math") -> "xqerl_math";
+%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/map") -> "xqerl_map";
+%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/array") -> "xqerl_array";
+%% mask_static_mod_ns("http://www.w3.org/2005/xqt-errors") -> "xqerl_error";
+%% mask_static_mod_ns("http://www.w3.org/2005/xquery-local-functions") -> "xqerl_main";
+%% mask_static_mod_ns(T) -> T.
 
 unmask_static_mod_ns("xqerl_fn") -> "http://www.w3.org/2005/xpath-functions";
 unmask_static_mod_ns("xqerl_xs") -> "http://www.w3.org/2001/XMLSchema";
@@ -1967,9 +1964,9 @@ unmask_static_mod_ns(T) -> T.
    try
       Root = xqerl_step:root(Ctx,Node),
       %?dbg("Root",Root),
-      Desc = xqerl_step:forward(Ctx,Root, 'descendant-or-self', #qname{prefix = "*", local_name = "*"}, []),
+      Desc = xqerl_step:forward(Ctx,Root, 'descendant-or-self', #qname{namespace = "*", local_name = "*"}, []),
       %?dbg("Desc",Desc),
-      Atts = xqerl_step:forward(Ctx,Desc, attribute, #qname{prefix = "*", local_name = "*"}, 
+      Atts = xqerl_step:forward(Ctx,Desc, attribute, #qname{namespace = "*", local_name = "*"}, 
                                 [fun(CtxLoc) ->
                                        Ci = ?seq:singleton_value(xqerl_context:get_context_item(CtxLoc)),
                                        Att = xqerl_node:get_node(Ci),
@@ -2132,7 +2129,7 @@ unmask_static_mod_ns(T) -> T.
 'lang'(Ctx,Testlang0,Node) -> 
    try
       Testlang = xqerl_types:string_value(Testlang0),
-      Ances = xqerl_step:reverse(Ctx,Node, 'ancestor-or-self', #qname{prefix = "*", local_name = "*"}, []),
+      Ances = xqerl_step:reverse(Ctx,Node, 'ancestor-or-self', #qname{namespace = "*", local_name = "*"}, []),
       Atts = xqerl_step:forward(Ctx,Ances, attribute, #qname{namespace = "http://www.w3.org/XML/1998/namespace",
                                                              prefix = "xml", 
                                                              local_name = "lang"},[]),
@@ -2801,10 +2798,14 @@ shrink_spaces([H|T]) ->
                      S ->
                         S
                   end,
-         {Prefix, Local} = case xqerl_types:scan_ncname(Str) of
-                                 {P, L} -> {P, L};
-                                 L -> {"", L}
-                              end,
+         {Prefix, Local} = case catch xqerl_types:scan_ncname(Str) of
+                              {'EXIT',_} ->
+                                 ?err('FOCA0002');
+                              {P, L} -> 
+                                 {P, L};
+                              L -> 
+                                 {"", L}
+                           end,
          if Prefix =/= "" andalso StrUri == 'no-namespace' ->
                xqerl_error:error('FOCA0002');
             true ->
@@ -2913,7 +2914,7 @@ string_value(At) -> xqerl_types:string_value(At).
       ?dbg("ResVal",ResVal),
       ?atm('xs:anyURI',ResVal)
    catch 
-      _:#xqError{name = #qname{local_name = "FORG0001"}} -> ?err('FORG0002');
+      _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FORG0001"}}} -> ?err('FORG0002');
       _:{badmatch, {relative,_}} -> ?err('FORG0002'); % relative base
       _:E -> ?dbg("E",E), ?err('FORG0009')
    end.

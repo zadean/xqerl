@@ -1227,55 +1227,90 @@ init() ->
       {xqNamespace, "http://www.w3.org/2005/xpath-functions/array", "array"},
       {xqNamespace, "http://www.w3.org/2005/xqt-errors", "err"}]}.
 
-'fx$^2'(Ctx0, Param__var_1) ->
-    xqerl_step:forward(Ctx0, xqerl_step:forward(Ctx0, Param__var_1, self, [], []),
-             child, {qname, "*", "*", "price"}, []).
-
 main(Options) ->
     Ctx0 = init(),
     Ctx = begin
-       Local__8 = proplists:get_value(context_item, Options, []),
-    ?dbg("Local__8",Local__8),
-       xqerl_context:set_context_position(xqerl_context:set_context_item(xqerl_context:set_context_size(Ctx0,
-                                            xqerl_seq2:size(Local__8)),
-                                 Local__8),
-                      1)
+       Local__7 = proplists:get_value(context_item, Options, []),
+       xqerl_context:set_context_item(Ctx0, Local__7, 1, xqerl_seq2:size(Local__7))
      end,
-    ?dbg("Ctx",xqerl_context:get_context_item(Ctx)),
     xqerl_types:return_value(begin
-                VarTup__1 = fun Local__6() ->
-                     fun IterLoop__1(Iter__1, Local__2) ->
-                        case xqerl_seq2:next(Iter__1) of
-                          empty -> Local__2;
-                          none -> Local__2;
-                          {Local__3, Local__1, Iter__2} ->
-                         [],
-                         XQ__var_3 = Local__1,
-                         IterLoop__1(Iter__2, xqerl_flwor:stream_append({XQ__var_3}, Local__2))
-                        end
-                     end(xqerl_seq2:get_seq_iter(begin
-                               Local__4 = xqerl_step:root(Ctx,
-                                           xqerl_context:get_context_item(Ctx)),
-                               xqerl_step:forward(Ctx,
-                                        xqerl_step:forward(Ctx,
-                                                 xqerl_step:forward(Ctx,
-                                                     Local__4,
-                                                     child,
-                                                     {qname,
-                                                      "*",
-                                                      "*",
-                                                      "bib"},
-                                                     []),
-                                                 self, [], []),
-                                        child, {qname, "*", "*", "book"}, [])
-                                  end),
-                         xqerl_flwor:stream_new())
+                VarTup__1 = fun Local__5() ->
+                     begin
+                       fun IterLoop__1(Iter__1, Local__2) ->
+                          case xqerl_flwor:stream_next(Iter__1) of
+                            none -> Local__2;
+                            {Local__3, {XQ__var_1, _, _, _, _, _, _, _, Local__1}, []} ->
+                           XQ__var_2 = Local__1,
+                           xqerl_flwor:stream_append({XQ__var_1, XQ__var_2}, Local__2);
+                            {Local__3, {XQ__var_1, _, _, _, _, _, _, _, Local__1}, Iter__2} ->
+                           XQ__var_2 = Local__1,
+                           IterLoop__1(Iter__2,
+                                  xqerl_flwor:stream_append({XQ__var_1, XQ__var_2}, Local__2))
+                          end
+                       end(xqerl_flwor:stream_iter(xqerl_flwor:windowclause(begin
+                                           xqerl_seq2:sort_seq(xqerl_seq2:append({xqAtomicValue,
+                                                         'xs:integer',
+                                                         14},
+                                                        xqerl_seq2:append({xqAtomicValue,
+                                                                 'xs:integer',
+                                                                 12},
+                                                                xqerl_seq2:append({xqAtomicValue,
+                                                                         'xs:integer',
+                                                                         10},
+                                                                        xqerl_seq2:append({xqAtomicValue,
+                                                                            'xs:integer',
+                                                                            8},
+                                                                           xqerl_seq2:append({xqAtomicValue,
+                                                                                    'xs:integer',
+                                                                                    6},
+                                                                                   xqerl_seq2:append({xqAtomicValue,
+                                                                                            'xs:integer',
+                                                                                            4},
+                                                                                           xqerl_seq2:append({xqAtomicValue,
+                                                                                                    'xs:integer',
+                                                                                                    2},
+                                                                                                   xqerl_seq2:empty()))))))))
+                                         end,
+                                         fun ({XQ__var_1, _, _, _}) ->
+                                            xqerl_operators:general_compare('=',
+                                                        xqerl_operators:modulo(XQ__var_1,
+                                                                {xqAtomicValue,
+                                                                 'xs:integer',
+                                                                 3}),
+                                                        {xqAtomicValue,
+                                                         'xs:integer',
+                                                         0})
+                                         end,
+                                         fun ({XQ__var_1, _, _, _, _, _, _, _}) ->
+                                            xqerl_operators:general_compare('=',
+                                                        xqerl_operators:modulo(XQ__var_1,
+                                                                {xqAtomicValue,
+                                                                 'xs:integer',
+                                                                 3}),
+                                                        {xqAtomicValue,
+                                                         'xs:integer',
+                                                         0})
+                                         end,
+                                         {tumbling, false})),
+                      xqerl_flwor:stream_new())
+                     end
                   end(),
-                fun IterLoop__2(Iter__3, Local__7) ->
+                fun IterLoop__2(Iter__3, Local__6) ->
                    case xqerl_flwor:stream_next(Iter__3) of
-                none -> xqerl_seq2:sort_seq(Local__7);
-                {_, {XQ__var_3}, Iter__4} ->
-                    IterLoop__2(Iter__4, xqerl_seq2:append('fx$^2'(Ctx, XQ__var_3), Local__7))
+                none -> xqerl_seq2:sort_seq(Local__6);
+                {_, {XQ__var_1, XQ__var_2}, Iter__4} ->
+                    IterLoop__2(Iter__4,
+                      xqerl_seq2:append(xqerl_node:new_fragment(Ctx,
+                                       {xqElementNode, undefined, undefined,
+                                        {qname, 'no-namespace', [], "window"},
+                                        undefined, [], [],
+                                        [{xqNamespace, 'no-namespace', []},
+                                         {xqNamespace,
+                                          "http://www.w3.org/XML/1998/namespace",
+                                          "xml"}],
+                                        undefined, 'xs:anyType', [], undefined,
+                                        XQ__var_2}),
+                              Local__6))
                    end
                 end(xqerl_flwor:stream_iter(VarTup__1), xqerl_seq2:empty())
               end).

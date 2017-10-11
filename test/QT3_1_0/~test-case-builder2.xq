@@ -8,160 +8,129 @@ declare option output:cdata-section-elements "Q{http://www.w3.org/2010/09/qt-fot
 (: declare option output:method "text"; :)
 (: declare option output:normalization-form "none"; :)
 
-declare function local:print-result-as-true($parts)
-{
-  for $part at $i in $parts
-  let $name := local-name($part)
-  order by $name
-  return
-  if ($name = "assert-count") then
-    "xqerl_test:size(Res) == "||$part/text()
-  else if ($name = "assert-empty") then
-    "case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end"
-  else if ($name = "assert-serialization-error") then
-  (
-    if ($part/@code eq "*") then
-    "is_tuple(Res) andalso element(1,Res) == 'xqError'"
-    else
-    "is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(3,element(2,Res))) == """||$part/@code||""""
-  )
-  else if ($name = "error") then
-  (
-    if ($part/@code eq "*") then
-    "is_tuple(Res) andalso element(1,Res) == 'xqError'"
-    else
-    "is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(3,element(2,Res))) == """||$part/@code||""""
-  )
-  else if ($name = "assert-true") then
-    "xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}"
-  else if ($name = "assert-false") then
-    "xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',false}"
-  else if ($name = "assert-string-value") then
-  (
-    if ($part/@normalize-space = "true") then
-    "string:trim(xqerl_test:string_value(Res)) == "||local:dec(normalize-space($part/text()))
-    else
-    "xqerl_test:string_value(Res) == "||local:dec($part/text())
-  )
-  else if ($name = "assert-eq") then
-" begin Tst"||$i||" = xqerl:run("||local:dec($part/data())||"),
-  ResVal"||$i||" = xqerl_types:value(Res),
-  TstVal"||$i||" = xqerl_types:value(Tst"||$i||"),
-  ResVal"||$i||" == TstVal"||$i||" end"
-  else if ($name = "assert-xml" and $part/@file) then
-    "xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P"||$i||" -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P"||$i||"++""</x>"" end ++ "" , "" ++ ""<x>"" ++ "||
-      local:dec(file:read-text(substring-after(resolve-uri($part/@file, base-uri($part)),"file:///")))
-    ||"++ ""</x>)"" )) == ""true"" orelse ResXml == Exp"
-  else if ($name = "assert-xml") then
-    "xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P"||$i||" -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P"||$i||"++""</x>"" end ++ "" , "" ++ ""<x>"" ++ "||
-      local:dec($part/data())
-    ||"++ ""</x>)"" )) == ""true"" orelse ResXml == Exp"
-  else if ($name = "assert-type") then
-    "xqerl_types:type(Res) == '"||replace($part/data(),"\(\)","")||"'"
-
-  else if ($name = "assert") then
-    "   (xqerl_seq2:singleton_value(xqerl:run(""declare variable $result external;""++"||
-    local:dec($part/data())|| ",Options)) == {xqAtomicValue,'xs:boolean',true})"
-  else (: TODO :)
-    ("   ct:fail(["||local:dec(fn:serialize($part))||", Res])") (: => trace() :)  
-};
-
 
 declare function local:print-result($result)
 {
-  (: assert-count :)
-  if ($result/*:assert-count) then
-    "   case xqerl_test:size(Res) of "||$result/*:assert-count||" -> {comment, ""Count correct""};
-           Q -> ct:fail({Res,Exp,Q}) end"
-  else if ($result/*:assert-empty) then
-    "   case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> {comment, ""Is empty""};
-           Q -> ct:fail({Res,Exp,Q}) end"
-  else if ($result/*:all-of) then (: TODO :)
-    " case "||string-join(local:print-result-as-true($result/*:all-of/*)," andalso ")||" of true -> {comment, ""any-of""};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end"
-  else if ($result/*:any-of) then (: TODO :)
-    " case ("||string-join(local:print-result-as-true($result/*:any-of/*),") orelse (")||") of true -> {comment, ""any-of""};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end"
-  else if ($result/*:assert-serialization-error) then
-    (if ($result/*:assert-serialization-error/@code eq "*") then
-    "   if is_tuple(Res) andalso element(1,Res) == 'xqError'"
+  let $name := local-name($result)
+  return
+  if ($name = "all-of") then 
+    "   case lists:all(fun({comment,_}) -> true; (_) -> false end, ["||'&#10;'|| 
+    (for $t in $result/*
+     return local:print-result($t)) => string-join(',&#10;')||"]) of "||'&#10;'|| 
+    "      true -> {comment, ""all-of""};" ||'&#10;'|| 
+    "      _ -> ct:fail('all-of') " ||'&#10;'|| 
+    "   end"
+     
+  else if ($name = "any-of") then 
+    "   case lists:any(fun({comment,_}) -> true; (_) -> false end, ["||'&#10;'|| 
+    (for $t in $result/*
+     return local:print-result($t)) => string-join(',&#10;')||"]) of "||'&#10;'|| 
+    "      true -> {comment, ""any-of""};" ||'&#10;'|| 
+    "      _ -> ct:fail('any-of') " ||'&#10;'|| 
+    "   end"
+
+  else if ($name = "assert-empty") then
+    "   case xqerl_test:assert_empty(Res) of " ||'&#10;'|| 
+    "      true -> {comment, ""Empty""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-true") then
+    "   case xqerl_test:assert_true(Res) of " ||'&#10;'|| 
+    "      true -> {comment, ""True""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-false") then
+    "   case xqerl_test:assert_false(Res) of " ||'&#10;'|| 
+    "      true -> {comment, ""False""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-count") then
+    let $ec := """"||$result||""""
+    return
+    "   case xqerl_test:assert_count(Res, "||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Count correct""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-string-value") then
+    if ($result/@normalize-space="true") then
+      let $ec := local:mask-string(normalize-space($result/text()))
+      return
+      "   case xqerl_test:assert_norm_string_value(Res, "||$ec||") of " ||'&#10;'|| 
+      "      true -> {comment, ""String correct""};" ||'&#10;'|| 
+      "      {false, F} -> F " ||'&#10;'|| 
+      "   end"
     else
-    "   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(3,element(2,Res))) == """||$result/*:assert-serialization-error/@code||"""")
-    ||" -> {comment, ""Correct error""};
-           true -> ct:fail({Res, '"||$result/*:assert-serialization-error/@code||"'}) end"
-  else if ($result/*:error) then
-    (if ($result/*:error/@code eq "*") then
-    "   if is_tuple(Res) andalso element(1,Res) == 'xqError'"
-    else
-    "   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(3,element(2,Res))) == """||$result/*:error/@code||"""")
-    ||" -> {comment, ""Correct error""};
-           true -> ct:fail({Res, '"||$result/*:error/@code||"'}) end"
-  else if ($result/*:assert-true) then
-    "   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, ""assert-true""};
-           _ -> ct:fail({Res,Exp}) end"
-  else if ($result/*:assert-false) then
-    "   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, ""assert-false""};
-           _ -> ct:fail({Res,Exp}) end"
-  else if ($result/*:assert-string-value) then
-    if ($result/*:assert-string-value/@normalize-space="true") then
-      "   case string:trim(xqerl_test:string_value(Res)) of
-             "||local:dec(normalize-space($result/*:assert-string-value/text()))||
-             " -> {comment, ""assert-string-value""};
-             _ -> ct:fail({Res,Exp}) end"
-    else
-     (: trace($result) || :)
-      "   case xqerl_test:string_value(Res) of
-             "||local:dec($result/*:assert-string-value/text())||
-             " -> {comment, ""assert-string-value""};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end"
-  else if ($result/*:assert-eq) then
-" Tst = xqerl:run("||local:dec($result/*:assert-eq/data())||"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, ""assert-eq""};
-    true -> ct:fail({Res,Exp}) end"
-  else if ($result/*:assert-deep-eq) then
-" Tst = xqerl:run("||local:dec($result/*:assert-deep-eq/data())||"),
-  ResVal = xqerl_test:string_value(Res),
-  TstVal = xqerl_test:string_value(Tst),
-  if ResVal == TstVal -> {comment, ""assert-deep-eq""};
-    true -> ct:fail({Res,Exp}) end"
-  else if ($result/*:assert-xml and $result/*:assert-xml/@file) then
-    "   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P++""</x>"" end ++ "" , "" ++ ""<x>""++"
-    ||local:dec(file:read-text(substring-after(resolve-uri($result/*:assert-xml/@file, base-uri($result)),"file:///")))||
-    "++""</x>)"")) of ""true"" -> {comment, ""assert-xml""};
-           _ -> 
-              case ResXml == Exp of
-                 true -> {comment, ""assert-xml""};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end"
-    (: "lists:flatten(xqerl_node:to_xml(Res)) == "||
-      local:dec(file:read-text(substring-after(resolve-uri($result/*:assert-xml/@file, base-uri($result)),"file:///")))
-    ||"" :)
-  else if ($result/*:assert-xml) then
-    "   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>""; P -> ""Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>""++P++""</x>"" end ++ "" , "" ++ ""<x>""++"||
-    local:dec($result/*:assert-xml/data())
-    ||"++""</x>)"")) == ""true"" of
-           true -> {comment, ""assert-xml""};
-           _ -> 
-              case ResXml == "||local:dec($result/*:assert-xml/data())||" of
-                 true -> {comment, ""assert-xml""};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end"
-  else if ($result/*:assert-type) then
-    "   case xqerl_types:type(Res) of
-           '"||replace($result/*:assert-type/data(),"\(\)","")||"' -> {comment, ""assert-type""};
-           _ -> ct:fail({Res,Exp}) end"
-  else if ($result/*:assert) then
-  "   case (xqerl_seq2:singleton_value(xqerl:run(""declare variable $result external;"""||
-  local:dec($result/*:assert/data())|| ",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, ""assert""};
-           _ -> ct:fail({Res,Exp}) 
-           end"
+      let $ec := local:mask-string($result/text())
+      return
+      "   case xqerl_test:assert_string_value(Res, "||$ec||") of " ||'&#10;'|| 
+      "      true -> {comment, ""String correct""};" ||'&#10;'|| 
+      "      {false, F} -> F " ||'&#10;'|| 
+      "   end"
+  else if ($name = "assert-serialization-error") then
+    let $ec := """"||$result/@code||""""
+    return
+    "   case xqerl_test:assert_error(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Correct error""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "error") then
+    let $ec := """"||$result/@code||""""
+    return
+    "   case xqerl_test:assert_error(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Correct error""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-eq") then
+    let $ec := local:mask-string($result/data())
+    return
+    "   case xqerl_test:assert_eq(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Equal""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-type") then
+    let $ec := local:mask-string($result/data())
+    return
+    "   case xqerl_test:assert_type(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Correct type""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert") then
+    let $ec := local:mask-string($result/data())
+    return
+    "   case xqerl_test:assert(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Correct results""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-permutation") then
+    let $ec := local:mask-string($result/data())
+    return
+    "   case xqerl_test:assert_permutation(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Correct permutation""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-deep-eq") then
+    let $ec := local:mask-string($result/data())
+    return
+    "   case xqerl_test:assert_deep_eq(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""Deep equal""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
+  else if ($name = "assert-xml") then
+    let $ec := if ($result/@file) then
+                local:mask-string(
+                  file:read-text(
+                    substring-after(
+                      resolve-uri($result/@file, base-uri($result)),
+                      "file:///")))
+               else
+                 local:mask-string($result/data())
+    return
+    "   case xqerl_test:assert_xml(Res,"||$ec||") of " ||'&#10;'|| 
+    "      true -> {comment, ""XML Deep equal""};" ||'&#10;'|| 
+    "      {false, F} -> F " ||'&#10;'|| 
+    "   end"
   else (: TODO :)
-    ("   ct:fail(["||local:dec(fn:serialize($result))||", Res])") (: => trace() :)
+    ("   ct:fail(["||local:mask-string(fn:serialize($result))||", Res])") (: => trace() :)
 };
 
 declare function local:print-testcase($test-case)
@@ -246,9 +215,9 @@ declare function local:print-testcase($test-case)
     "   Qry = "||
     (
       if ($test-case/*:test/@file) then
-        local:dec(file:read-text(substring-after(resolve-uri($test-case/*:test/@file, base-uri($test-case)),"file:///"),"utf-8",true()))
+        local:mask-string(file:read-text(substring-after(resolve-uri($test-case/*:test/@file, base-uri($test-case)),"file:///"),"utf-8",true()))
       else
-        local:dec($test-case/*:test/text())
+        local:mask-string($test-case/*:test/text())
    )
     ||","||'&#10;'||
     (
@@ -264,11 +233,12 @@ declare function local:print-testcase($test-case)
         "   Qry1 = Qry,"||'&#10;'
     )||
     "   io:format(""Qry1: ~p~n"",[Qry1]),"||'&#10;'||
-    "   Res = xqerl:run(Qry1),"||'&#10;'||
-    "   ResXml = xqerl_node:to_xml(Res),"||'&#10;'||
-    "   Options = [{'result',xqerl_seq2:from_list(Res)}],"||'&#10;'||
-    "   Exp = "||local:dec($test-case/*:result/data())||","||'&#10;'||
-    local:print-result($test-case/*:result)
+    "   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,"||'&#10;'||
+    "   Out = " || local:print-result($test-case/*:result/*) ||', &#10;'||
+    "   case Out of"||'&#10;'||
+    "      {comment, C} -> {comment, C};"||'&#10;'||
+    "      Err -> ct:fail(Err)"||'&#10;'||
+    "   end"
   )
 };
 
@@ -428,25 +398,15 @@ declare function local:print-local-environment($env as item()*) as item()*
   "]")
 };
 
-declare function local:dec($text)
+declare function local:mask-string($text)
 {
-  (: let $cp := $text => string-to-codepoints()
-  return
-  if ( some $c in $cp satisfies ($c > 255  ) ) then
-    let $list := $text
-    let $cp2 := $list => string-to-codepoints()
-    return 
-    "["||string-join($cp2,",")||"]"
-  else :)
   (
     let $list := 
-    replace(
       replace(
         replace(
           $text,
           '\\','\\\\'),
-        """","\\"""),
-     '&#13;&#10;',"\\n")
+        """","\\""")
     return """"||$list||""""
   )
 };
@@ -455,7 +415,7 @@ declare function local:dec($text)
 (
 let $doc := doc("catalog.xml")
 let $globalEnvs := $doc/*:catalog/*:environment
-for $ts in$doc/*:catalog/*:test-set(: [@name = "map-size"] :)
+for $ts in$doc/*:catalog/*:test-set(: [@name = "prod-AxisStep.abbr"] :)
 let $file := resolve-uri($ts/@file, base-uri($ts)) 
 let $case := doc($file)
 let $name := $ts/@name

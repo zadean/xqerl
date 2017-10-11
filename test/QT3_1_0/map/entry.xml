@@ -98,14 +98,14 @@
             </all-of>
         </result>
     </test-case>
-    <test-case name="map-entry-007">
+    <!-- <test-case name="map-entry-007">
         <description>collation of a singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <test>map:collation(map:entry(0,1))</test>
         <result>
             <assert-string-value>http://www.w3.org/2005/xpath-functions/collation/codepoint</assert-string-value>
         </result>
-    </test-case>
+    </test-case> -->
     
  
 

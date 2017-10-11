@@ -678,6 +678,7 @@
 
    <test-case name="cbcl-count-001">
       <description> test fn:count on a range </description>
+      <dependency type="problem" value="HUGE RANGE"/>
       <created by="Tim Mills" on="2008-04-11"/>
       
       <test>fn:count(1 to 10000000)</test>
@@ -689,6 +690,7 @@
    <test-case name="cbcl-count-002">
       <description> test fn:count on a mix of values and expressions </description>
       <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="problem" value="HUGE RANGE"/>
       <dependency type="spec" value="XQ10+"/>    
       <test>declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else $arg }; fn:count( ( (), local:generate( () ), local:generate( 0 ), (1 to 10000000), local:generate( () ), local:generate(1)) )</test>
       <result>

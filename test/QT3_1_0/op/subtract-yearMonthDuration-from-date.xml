@@ -419,6 +419,7 @@ part of a boolean expression (or operator) and the "fn:boolean" function.
       <result>
          <any-of>
             <error code="FODT0001"/>
+            <error code="FODT0002"/>
             <assert-string-value>-25252731713499257-05-12</assert-string-value>
          </any-of>
       </result>

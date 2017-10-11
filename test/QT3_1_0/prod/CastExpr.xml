@@ -22383,7 +22383,7 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <test>xs:anyURI("&#12316;")</test>
       <result>
-         <assert-string-value>&#12316;</assert-string-value>
+         <assert-string-value><![CDATA[&#12316;]]></assert-string-value>
       </result>
    </test-case>
 

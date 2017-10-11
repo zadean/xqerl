@@ -70,10 +70,9 @@ scan_functions(Functions) ->
    [attribute(functions, Specs)].
 
 %% {Name, Type, Annos, function_name] }
-scan_variables(State, Variables) ->
+scan_variables(_State, Variables) ->
    Specs = [begin
-               Name1 = resolve_qname(Name, State),
-               {Name1, Type, Annos, variable_function_name(Id) }
+               {Name, Type, Annos, variable_function_name(Id) }
             end
            || #xqVar{id = Id, 
                      annotations = Annos, 
@@ -90,7 +89,11 @@ erl_term_abs(Term) ->
 init_fun_abs(Ctx, KeysToAdd) ->
    Map  = add_context_key(#{},namespaces,Ctx),
    Map2 = add_context_key(Map,named_functions,Ctx),
-   erl_term_abs(Map2).
+   Fun = fun(Name, M) ->
+               add_context_key(M,Name,Ctx)
+         end,
+   Map3 = lists:foldl(Fun, Map2, KeysToAdd),
+   erl_term_abs(Map3).
 
 add_context_key(Map,namespaces,Ctx) ->
    Map#{namespaces => maps:get(namespaces, Ctx)};
@@ -109,7 +112,7 @@ add_context_key(Map,named_functions,Ctx) ->
        };
 
 add_context_key(Map,Key,Ctx) ->
-   Map.
+   Map#{Key => maps:get(Key, Ctx)}.
 
 dynamic_context_items() ->
    context_item,
@@ -132,19 +135,18 @@ dynamic_context_items() ->
 scan_mod(Map) when is_map(Map) ->
    scan_mod(maps:get(body, Map), maps:remove(body, Map)).
    
-scan_mod(#xqModule{version = {Version,Encoding}, 
-                   prolog = Prolog, 
-                   declaration = {_,{ModNs,_Prefix} = ModNsPx}, 
+scan_mod(#xqModule{prolog = Prolog, 
+                   declaration = {_,{ModNs,_Prefix}}, 
                    type = library,
                    body = _},Map) ->
    _ = init_mod_scan(),
    DefElNs     = xqerl_static:pro_def_elem_ns(Prolog),
-   ContextItem = xqerl_static:pro_context_item(Prolog,main),
+   %ContextItem = xqerl_static:pro_context_item(Prolog,main),
    Namespaces  = xqerl_static:pro_namespaces(Prolog,[],DefElNs),
    Variables   = xqerl_static:pro_glob_variables(Prolog),
    Functions   = xqerl_static:pro_glob_functions(Prolog),
    StaticNamespaces = xqerl_context:static_namespaces(),
-   ?dbg("{Variables}",{Variables}),
+   %?dbg("{Variables}",{Variables}),
    ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, Namespaces),
    FunctionAbs = scan_functions(Functions),
    EmptyMap = Map#{namespaces => ConstNamespaces}, 
@@ -240,7 +242,7 @@ scan_mod(#xqModule{prolog = Prolog,
    Variables   = lists:filtermap(VarFun, Prolog),
    Functions   = xqerl_static:pro_glob_functions(Prolog),
    {Functions1, Variables1} = xqerl_context:get_module_exports(Imports),
-   ?dbg("Imports",Imports),
+   %?dbg("Imports",Imports),
    %?dbg("DefElNs",DefElNs),
    %?dbg("Namespaces",Namespaces),
    %?dbg("StaticNamespaces",StaticNamespaces),
@@ -255,9 +257,8 @@ scan_mod(#xqModule{prolog = Prolog,
                         annotations = Annos,
                         name = Name,
                         type = Type}) ->
-                   Name1 = resolve_qname(Name, Map),
                    {Name2,A} = variable_function_name(Id),
-                   {Name1, Type, Annos, {Name2,A} };
+                   {Name, Type, Annos, {Name2,A} };
                 (X) ->
                    X
              end,
@@ -305,41 +306,33 @@ body_function(ContextMap, Body) ->
                              NextVar = next_var_name(),
                              {block,?L,
                              [{match,?L,{var,?L,NextVar}, 
-                               {call,?L,{remote,?L,{atom,?L,proplists},{atom,?L,get_value}},
+                               {call,?L,{remote,?L,{atom,?L,maps},{atom,?L,get}},
                                 [{atom,?L,context_item},{var,?L,'Options'},{nil,?L} ]}},
-                              {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_position}},
-                               [{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},
-                                  [{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_size}},
-                                    [{var,?L,'Ctx0'},
-                                     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,size}},[{var,?L,NextVar}]}             
-                                    ]},
-                                   {var,?L,NextVar}
-                                  ]},
-                                {integer,?L,1}
-                                ]}
+                              {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},
+                               [{var,?L,'Ctx0'},
+                                {var,?L,NextVar},
+                                {integer,?L,1},
+                                {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,size}},[{var,?L,NextVar}]}]}
                               ]};
                           true ->
                              NextVar = next_var_name(),
                              {block,?L,
                              [{match,?L,{var,?L,NextVar}, expr_do(ContextMap, V)},
-                              {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_position}},
-                               [{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},
-                                  [{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_size}},
-                                    [{var,?L,'Ctx0'},
-                                     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,size}},[{var,?L,NextVar}]}             
-                                    ]},
-                                   {var,?L,NextVar}
-                                  ]},
-                                {integer,?L,1}
-                                ]}
-                              ]}
+                              {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},
+                               [{var,?L,'Ctx0'},
+                                {var,?L,NextVar},
+                                {integer,?L,1},
+                                {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,size}},[{var,?L,NextVar}]}]}]}
                         end
                       }, 'Ctx'}    
                 end,                 
    % reverse list that the dependencies are correct   
    {VarSetAbs,LastCtx} = lists:mapfoldl(VarSetFun, 'Ctx0', lists:reverse(maps:get(variables, ContextMap))),
    [{function,?L,main,1,[{clause,?L,[{var,?L,'Options'}],[],
-                          [{match,?L,{var,?L,'Ctx0'},{call,?L,{atom,?L,init},[]}}] ++
+                          [{match,?L,{var,?L,'Ctx0'},
+                            {call,?L,{remote,?L,{atom,?L,maps},{atom,?L,merge}},
+                             [{call,?L,{atom,?L,init},[]},
+                               {var,?L,'Options'}]}}] ++
                             if LastCtx == 'Ctx0' ->
                                   [{match,?L,{var,?L,'Ctx'},{var,?L,'Ctx0'}} | VarSetAbs];
                                true ->
@@ -353,9 +346,16 @@ variable_functions(ContextMap, Variables) ->
    CtxName = get_context_variable_name(ContextMap),
    %?dbg(?FUNCTION_NAME,?LINE),
    Specs = [begin 
+               #qname{namespace = Ns1, prefix = P1, local_name = L1} = QName,
+               QNameStr = if P1 == [] ->
+                                L1;
+                             P1 == undefined ->
+                                "Q{" ++ Ns1 ++ "}" ++ L1;
+                             true ->
+                                P1 ++ ":" ++ L1
+                          end,               
                erlang:put(ctx, 1),
                {Name, Arity} = variable_function_name(Id),
-               %{Name, Arity} = variable_function_name(resolve_qname(QName, ContextMap)),
                Expr1 = begin
                           Ex = expr_do(ContextMap, Expr),
                           if is_list(Ex) -> Ex;
@@ -367,7 +367,7 @@ variable_functions(ContextMap, Variables) ->
                                  [{match,?L,{var,?L,'Tmp'},{block,?L,Expr1}},
                                   {'case' ,?L,
                                   {call,?L,{remote,?L,{atom,?L,maps},{atom,?L,get}},
-                                   [{atom,?L,Name},{var,?L,CtxName}, {var,?L,'Tmp'} ]},
+                                   [{string,?L,QNameStr},{var,?L,CtxName}, {var,?L,'Tmp'} ]},
                                   [
                                    {clause,?L,[{atom,?L,undefined}],[],
                                     [{call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}},
@@ -402,18 +402,18 @@ variable_functions(ContextMap, Variables) ->
 
 function_functions(ContextMap, Functions) ->
    CtxName = get_context_variable_name(ContextMap),
+   CtxName2 = next_ctx_var_name(),
    Specs = [begin
                erlang:put(ctx, 1),
                {FName, Arity1} = function_function_name(Id, Arity),
                % add parameters to scope
                {List,Map2} =  lists:mapfoldl(fun(#xqVar{id = VId,
-                                                        name = #qname{namespace = Ns, prefix = Px} = Name,
+                                                        name = Name,
                                                         type = Type, 
                                                         annotations = Annos}, Map) ->
                                      VarName = list_to_atom(lists:concat(["Param__var_", VId])),
-                                     Name1 = Name#qname{namespace = Ns},
                                      %% {name,type,annos,Name}
-                                     NewMap = add_param({Name1,Type,Annos,VarName}, Map),
+                                     NewMap = add_param({Name,Type,Annos,VarName}, Map),
                                      {{var,?L, VarName}, NewMap}
                                 end, ContextMap, Params),
                Internal = 
@@ -428,7 +428,11 @@ function_functions(ContextMap, Functions) ->
                      [], % guards
                      % body
                      begin
-                        [expr_do(Map2, Expr)]
+                        Map3 = set_context_variable_name(Map2, CtxName2),
+                        % do not allow functions to access the current context item
+                        [{match,?L,{var,?L,CtxName2},
+                          {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_empty_context_item}}, [ {var,?L, CtxName}] }},
+                         expr_do(Map3, Expr)]
                      end
                      }]},
                Internal
@@ -436,8 +440,7 @@ function_functions(ContextMap, Functions) ->
            || #xqFunction{id = Id, 
                           arity = Arity,
                           params = Params,
-                          body = Expr,
-                          type = ReturnType} 
+                          body = Expr} 
            <- Functions   ],
    Specs.
 
@@ -448,11 +451,9 @@ export_functions(Functions) ->
            <- Functions   ],
    [attribute(export, Specs)].
 
-export_variables(Variables, Ctx) ->
+export_variables(Variables, _Ctx) ->
    Specs = [ variable_function_name(Id)
-             %variable_function_name(resolve_qname(Name, Ctx))
-           
-           || #xqVar{id = Id, name = Name} 
+           || #xqVar{id = Id, name = _Name} 
            <- Variables   ],
    [attribute(export, Specs)].
 
@@ -476,8 +477,7 @@ expr_do(_Ctx, {pragma, _Pragmas, []}) ->
    xqerl_error:error('XQST0079');
 expr_do(Ctx, {pragma, Pragmas, Exprs}) ->
    % just check for good names
-   _ = lists:foreach(fun({Name,_}) ->
-                           #qname{namespace = N} = resolve_qname(Name, Ctx),
+   _ = lists:foreach(fun({#qname{namespace = N},_}) ->
                            if N == default -> % no default pragma namespace
                                  xqerl_error:error('XPST0081');
                               N == "" -> % no default pragma namespace
@@ -494,21 +494,21 @@ expr_do(_Ctx, undefined) ->
 expr_do(Ctx, {'try',Expr,{'catch',CatchClauses}}) ->
    TryAbs = expr_do(Ctx, Expr),
    
-   CodeVar = next_var_name(),
-   DescVar = next_var_name(),
-   ValuVar = next_var_name(),
-   ModuVar = next_var_name(),
-   LineVar = next_var_name(),
-   ColnVar = next_var_name(),
+%%    CodeVar = next_var_name(),
+%%    DescVar = next_var_name(),
+%%    ValuVar = next_var_name(),
+%%    ModuVar = next_var_name(),
+%%    LineVar = next_var_name(),
+%%    ColnVar = next_var_name(),
    
    ErrNs = "http://www.w3.org/2005/xqt-errors",
    
-   NewCodeVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "code"},#xqSeqType{type = 'xs:QName', occur = one},[],CodeVar},
-   NewDescVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "description"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],DescVar},
-   NewValuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "value"},#xqSeqType{type = 'item', occur = zero_or_many},[],ValuVar},
-   NewModuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "module"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],ModuVar},
-   NewLineVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "line-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],LineVar},
-   NewColnVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "column-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],ColnVar},
+   NewCodeVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "code"},#xqSeqType{type = 'xs:QName', occur = one},[],'CodeVar'},
+   NewDescVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "description"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],'DescVar'},
+   NewValuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "value"},#xqSeqType{type = 'item', occur = zero_or_many},[],'ValuVar'},
+   NewModuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "module"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],'ModuVar'},
+   NewLineVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "line-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],'LineVar'},
+   NewColnVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "column-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],'ColnVar'},
    
    Ctx0 = add_variable(NewCodeVar, Ctx),
    Ctx1 = add_variable(NewDescVar, Ctx0),
@@ -520,24 +520,28 @@ expr_do(Ctx, {'try',Expr,{'catch',CatchClauses}}) ->
    Clauses = lists:flatmap(fun({Errors,DoExpr}) ->
                              DoExprAbs = expr_do(Ctx5, DoExpr),
                              lists:map(fun(#xqNameTest{name = #qname{namespace = Ns,local_name = Ln}}) ->
-                                             NamePattern = {tuple,?L,[{atom,?L,'xqError'},
-                                                                      {match,?L,
-                                                                      {tuple,?L,
-                                                                       [{atom,?L,'qname'},
-                                                                         if Ns == "*" -> {var,?L,'_'};
-                                                                            %true -> {string,?L,mask_namespace(Ns)}
-                                                                            true -> {string,?L,Ns}
-                                                                         end,
-                                                                         {var,?L,'_'},
-                                                                         if Ln == "*" -> {var,?L,'_'};
-                                                                            true -> {string,?L,Ln}
-                                                                         end]},
-                                                                       {var,?L,CodeVar}
-                                                                      },
-                                                                      {var,?L,DescVar},
-                                                                      {var,?L,ValuVar},
-                                                                      {tuple,?L,[{var,?L,ModuVar},{var,?L,LineVar},{var,?L,ColnVar}]}
-                                                                      ]}, 
+                                             NamePattern = {tuple,?L,
+                                                            [
+                                                             {atom,?L,'xqError'},
+                                                             {match,?L,
+                                                              {tuple,?L,
+                                                               [{var,?L,'_'},
+                                                                {var,?L,'_'},
+                                                                {tuple,?L,
+                                                                 [{atom,?L,'qname'},
+                                                                  if Ns == "*" -> {var,?L,'_'};
+                                                                     true -> {string,?L,Ns}
+                                                                  end,
+                                                                  {var,?L,'_'},
+                                                                  if Ln == "*" -> {var,?L,'_'};
+                                                                     true -> {string,?L,Ln}
+                                                                  end]}]},
+                                                              {var,?L,'CodeVar'}
+                                                             },
+                                                             {var,?L,'DescVar'},
+                                                             {var,?L,'ValuVar'},
+                                                             {tuple,?L,[{var,?L,'ModuVar'},{var,?L,'LineVar'},{var,?L,'ColnVar'}]}
+                                                            ]}, 
                                              {clause,?L,
                                               [{tuple,?L,
                                                 [{var,?L,'_'},
@@ -556,6 +560,10 @@ expr_do(Ctx, {'try',Expr,{'catch',CatchClauses}}) ->
 
 expr_do(Ctx, #xqNameTest{name = Name}) ->
    abs_qname(Ctx, Name);
+
+% inline errors
+expr_do(_Ctx, {error, ErrCode}) when is_atom(ErrCode) ->
+   {call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}}, [{atom,?L,ErrCode}]};
 
 % bang operator
 expr_do(Ctx, {'simple-map',SeqExpr,{'simple-map',_,_}=MapExpr}) ->
@@ -603,19 +611,8 @@ expr_do(Ctx, #xqFunction{id = _Id,
    },
    %?dbg("ParamList",Fx),
    abs_function(Ctx, F, Body) ;
-%% % named function ref
-%% expr_do(Ctx, #xqFunction{id = _Id,
-%%                          name = #qname{} = Name, % fun object
-%%                          annotations = _Annotations, 
-%%                          arity = Arity,
-%%                          params = _Params,
-%%                          body = _Expr}) ->
-%%    get_function_ref({Name, Arity},Ctx);
 
-%% expr_do(Ctx, {'function-ref', #qname{} = Name, Arity} ) ->
-%%    get_function_ref({Name, Arity},Ctx);
-%TODO fix the context item
-expr_do(Ctx, {'context-item', {Type,External,Expr}} )->
+expr_do(Ctx, {'context-item', {_Type,_External,Expr}} )->
    expr_do(Ctx, Expr);
 expr_do(_Ctx, {map, []} ) -> % empty map
    {call,?L,{remote,?L,{atom,?L,maps},{atom,?L,new}}, []};
@@ -630,7 +627,7 @@ expr_do(Ctx, {map, Vals} ) ->
    }
    ;
 expr_do(Ctx, {array, {expr, Expr}} )->
-   ?dbg("array",Expr),
+   %?dbg("array",Expr),
    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,from_list}},
     [lists:foldr(fun(E,Acc) ->
                        {cons,?L,expr_do(Ctx, E),Acc}
@@ -638,7 +635,7 @@ expr_do(Ctx, {array, {expr, Expr}} )->
      ]
    };
 expr_do(Ctx, {array, Expr} )->
-   ?dbg("array",Expr),
+   %?dbg("array",Expr),
    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,from_list}},
     [lists:foldr(fun(E,Acc) ->
                        {cons,?L,expr_do(Ctx, E),Acc}
@@ -650,14 +647,6 @@ expr_do(Ctx, #xqQuery{query = Qry} )->
    expr_do(Ctx, Qry)]};
 expr_do(Ctx, [T]) when is_tuple(T) ->
    expr_do(Ctx, T);
-%% expr_do(_Ctx, {xqAtomicValue,'xs:string',Val}) ->
-%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:string'},{string,?L,Val}]};
-%% expr_do(_Ctx, {xqAtomicValue,'xs:integer',Val}) ->
-%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{integer,?L,Val}]};
-%% expr_do(_Ctx, {xqAtomicValue,'xs:decimal',Val}) ->
-%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:decimal'},{float,?L,Val}]};
-%% expr_do(_Ctx, {xqAtomicValue,'xs:double',Val}) ->
-%%    {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:double'},{float,?L,Val}]};
 expr_do(_Ctx, #xqAtomicValue{} = A) ->
    erl_syntax:revert(erl_syntax:abstract(A));
 
@@ -667,12 +656,8 @@ expr_do(Ctx, 'context-item') ->
    %{var,?L,CtxName};
 expr_do(Ctx, {range,Expr1,Expr2}) ->
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,range}},
-    [
-     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},[expr_do(Ctx, Expr1),
-                                                                       abs_seq_type(Ctx, #xqSeqType{type = 'xs:integer', occur = zero_or_one})]},
-     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},[expr_do(Ctx, Expr2),
-                                                                       abs_seq_type(Ctx, #xqSeqType{type = 'xs:integer', occur = zero_or_one})]}
-    ]};
+    [expr_do(Ctx, Expr1),
+     expr_do(Ctx, Expr2)]};
 expr_do(Ctx, {'and',Expr1,Expr2}) ->
    CtxName = get_context_variable_name(Ctx),
    {call,?L,{remote,?L,{atom,?L,xqerl_fn},{atom,?L,boolean}}, 
@@ -694,12 +679,6 @@ expr_do(Ctx, {'or',Expr1,Expr2}) ->
      }
     ]};
 
-%% expr_do(Ctx, {List, Preds}) when is_tuple(List), is_list(Preds) ->
-%%    {block,?L,
-%%    [{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},[expr_do(Ctx, List)]},
-%%    expr_do(Ctx, Preds)
-%%    ]};
-
 % instance of / castable
 expr_do(Ctx, {instance_of,Expr1,Expr2}) ->
    %?dbg("instance_of abs",{Ctx, Expr2}),
@@ -707,15 +686,16 @@ expr_do(Ctx, {instance_of,Expr1,Expr2}) ->
    E2 = expr_do(Ctx, Expr2),
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,instance_of}},[E1,E2]};
 
-expr_do(_Ctx, {castable_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "NOTATION"}}}) -> % namespace sensitive
-   xqerl_error:error('XPST0080');
 expr_do(_Ctx, {castable_as,'empty-sequence',#xqSeqType{occur = one}}) -> % bad empty cast
    abs_boolean(false);
 expr_do(_Ctx, {castable_as,'empty-sequence',#xqSeqType{occur = zero_or_one}}) -> % good empty cast
    abs_boolean(true);
-expr_do(_Ctx, {castable_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "*"}}}) -> % bad cast
-   xqerl_error:error('XPST0003');
 expr_do(Ctx, {castable_as,Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "QName"}}}) -> % namespace sensitive
+   Namespaces = abs_ns_list(Ctx),
+   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,castable}},
+    [expr_do(Ctx, Expr1), {atom,?L,'xs:QName'} ,Namespaces]
+   };
+expr_do(Ctx, {castable_as,Expr1,#xqSeqType{type = 'xs:QName'}}) -> % namespace sensitive
    Namespaces = abs_ns_list(Ctx),
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,castable}},
     [expr_do(Ctx, Expr1), {atom,?L,'xs:QName'} ,Namespaces]
@@ -724,14 +704,6 @@ expr_do(Ctx, {castable_as,Expr1,Expr2}) ->
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,castable}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
    ]};
 
-expr_do(_Ctx, {cast_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "NOTATION"}}}) -> % namespace sensitive
-   xqerl_error:error('XPST0080');
-expr_do(_Ctx, {cast_as,'empty-sequence',#xqSeqType{occur = one}}) -> % bad empty cast
-   xqerl_error:error('XPTY0004');
-expr_do(Ctx, {cast_as,'empty-sequence',#xqSeqType{occur = zero_or_one}}) -> % good empty cast
-   expr_do(Ctx, 'empty-sequence');
-expr_do(_Ctx, {cast_as,_Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "*"}}}) -> % bad cast
-   xqerl_error:error('XPST0003');
 expr_do(Ctx, {cast_as,Expr1,#xqSeqType{type = #qname{prefix = "xs",local_name = "QName"}}}) -> % namespace sensitive
    Namespaces = abs_ns_list(Ctx),
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as}},
@@ -749,10 +721,6 @@ expr_do(Ctx, {cast_as,Expr1,Expr2}) ->
 expr_do(Ctx, {promote_to,Expr1,Expr2}) ->
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as_seq}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
    ]};
-%TODO treat statement for static/dynamic typing
-%% expr_do(Ctx, {treat_as,Expr1,Expr2}) ->
-%%    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,treat_as_seq}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
-%%    ]};
 
 expr_do(_Ctx, #xqSeqType{type = Atom, occur = O}) when is_atom(Atom) ->
    {tuple,?L,[{atom,?L,xqSeqType},{atom,?L,Atom},{atom,?L,O}]};
@@ -776,20 +744,17 @@ expr_do(Ctx, #xqSeqType{type = T, occur = O}) when is_record(T, xqFunTest) ->
 
 % node construction
 % just for now
+expr_do(Ctx, {content_expr, [Expr]}) ->
+   expr_do(Ctx, {expr, Expr});
+expr_do(Ctx, {content_expr, Expr}) when is_list(Expr) ->
+   expr_do(Ctx, {sequence, Expr});
 expr_do(Ctx, {content_expr, Expr}) ->
    expr_do(Ctx, {expr, Expr});
-%% expr_do(Ctx, {'node-cons', Expr0}) ->
-%%    Expr = maybe_strip_boundry_space(Ctx,Expr0),
-%%    {call,?L,{remote,?L,{atom,?L,xqerl_node},{atom,?L,new_fragment}},
-%%     [expr_do(Ctx, Expr),
-%%      expr_do([],maps:get('base-uri', Ctx)) % base_uri     
-%%     ]};
 expr_do(Ctx, {direct_cons, Expr}) ->
    {call,?L,{remote,?L,{atom,?L,xqerl_node},{atom,?L,new_fragment}},
     [{var,?L,get_context_variable_name(Ctx)},
      expr_do(Ctx, Expr)]};
 expr_do(Ctx, {comp_cons, Expr}) ->
-   %Expr = maybe_strip_boundry_space(Ctx,Expr0),
    {call,?L,{remote,?L,{atom,?L,xqerl_node},{atom,?L,new_fragment}},
     [{var,?L,get_context_variable_name(Ctx)},
      expr_do(Ctx, Expr)]};
@@ -915,21 +880,15 @@ expr_do(Ctx, {'function-call', #xqFunction{params = Params, body = {M,F,_A}}}) -
      {atom,?L,M},
      {atom,?L,F}},
     [{var,?L,CtxName}|NewArgs]};
-expr_do(Ctx, #xqFunction{params = Params, body = {M,F,A}}) ->
-   CtxName = get_context_variable_name(Ctx),
-   NewArgs = lists:map(fun(P) ->
-                             expr_do(Ctx,P)
-                       end, Params),
+
+expr_do(_Ctx, #xqFunction{body = {M,F,A}}) ->
    {'fun',?L,
     {'function',
      {atom,?L,M},
      {atom,?L,F},
      {integer,?L,A}}};
-expr_do(Ctx, #xqFunction{params = Params, body = {F,A}}) ->
-   CtxName = get_context_variable_name(Ctx),
-   NewArgs = lists:map(fun(P) ->
-                             expr_do(Ctx,P)
-                       end, Params),
+
+expr_do(_Ctx, #xqFunction{body = {F,A}}) ->
    {'fun',?L,
     {'function',
      F,
@@ -979,12 +938,15 @@ expr_do(Ctx, {expr,List}) when is_list(List) ->
    Exprs = lists:map(fun(E) ->
                            expr_do(Ctx, E)
                      end, List),
-   from_list_to_seq(Exprs);
+   abs_list(Exprs);
 
 expr_do(Ctx, {expr,E}) ->
    expr_do(Ctx, E);
-expr_do(Ctx, {sequence,E}) ->
-   expr_do(Ctx, E);
+expr_do(Ctx, {sequence,List}) ->
+   Exprs = lists:map(fun(E) ->
+                           expr_do(Ctx, E)
+                     end, List),
+   from_list_to_seq(Exprs);
 
 
 
@@ -1005,6 +967,12 @@ expr_do(Ctx, {step, {'function-call', _, _, _} = Base, Step}) ->
 %%    step_expr_do(Ctx, {step, Base, Step}, []);
 
 
+expr_do(Ctx, {step, {variable, {Name,_}}, Step}) ->
+   VarAbs = {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,get}},[{atom,?L,Name}]},
+   Src = {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,union}},
+          [VarAbs,
+           {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,empty}},[]} ]},
+   step_expr_do(Ctx, Step, Src);
 expr_do(Ctx, {step, #xqVarRef{name = Name}, Step}) ->
    {VarAbs,_} = get_variable_ref(Name, Ctx),
    Src = {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,union}},
@@ -1024,20 +992,13 @@ expr_do(Ctx, {step, {expr, Base}, Step}) ->
 expr_do(Ctx, {step, Base, Step}) ->
    Src = expr_do(Ctx, Base),
    step_expr_do(Ctx, Step, Src);
-%%    CurrCtxVar = get_context_variable_name(Ctx),
-%%    Src = CurrCtxVar,
-%% %%    Src = {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[{var,?L,CurrCtxVar}]},
-%%    BaseAbs = step_expr_do(Ctx, Base, Src),
-%%    %?dbg("BaseAbs",BaseAbs),
-%%    %?dbg("Step",Step),
-%%    step_expr_do(Ctx, Step, BaseAbs);
 
 expr_do(Ctx, {step, Base}) ->
    CurrCtxVar = get_context_variable_name(Ctx),
    Src = {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[{var,?L,CurrCtxVar}]},
    step_expr_do(Ctx, Base, Src);
 
-expr_do(Ctx, {postfix, {'function-ref',Q,V}, {predicates = [{arguments,Args}]}}) ->
+expr_do(Ctx, {postfix, {'function-ref',Q,V}, [{arguments,Args}]}) ->
    PlaceHolders = lists:flatmap(fun(Arg) ->
                                       if Arg == '?' ->
                                             VarName = next_var_name(),
@@ -1083,15 +1044,7 @@ expr_do(Ctx, {postfix, {'function-ref',Q,V}, {predicates = [{arguments,Args}]}})
                              }]}}
    end;
 
-%%    CurrCtxVar = get_context_variable_name(Ctx),
-%%    Var = expr_do(Ctx, {'function-ref',Q,V}),
-%%    
-%%    ArgAbs = lists:map(fun(Arg) ->
-%%                             expr_do(Ctx, Arg)
-%%                       end, Args),
-%%    {call,?L,Var,[{var,?L,CurrCtxVar}]++ArgAbs};
-
-expr_do(Ctx, {postfix, InlineFunc, [{arguments,Args}|TArgs]}) ->
+expr_do(Ctx, {postfix, InlineFunc, [{arguments,Args}|_TArgs]}) ->
    PlaceHolders = lists:flatmap(fun(Arg) ->
                                       if Arg == '?' ->
                                             VarName = next_var_name(),
@@ -1184,34 +1137,6 @@ expr_do(Ctx, #xqVarRef{name = Name}) ->
    {V,_} = get_variable_ref(Name, Ctx),
    V;
 
-%%    Local = (catch something),
-%%    if RootExpr == Local ->
-%%          ok;
-%%       true ->
-%%          Local1 = somethingelse,
-%%          if RootExpr == Local1 ->
-%%                ok;
-%%             true ->
-%%                notok            
-%%          end
-%%    end;
-%% [{match,1,{var,1,'Local'},{'catch',1,{atom,1,something}}},
-%%  {'if',2,
-%%        [{clause,2,[],
-%%                 [[{op,2,'==',{var,2,'RootExpr'},{var,2,'Local'}}]],
-%%                 [{atom,3,ok}]},
-%%         {clause,4,[],
-%%                 [[{atom,4,true}]],
-%%                 [{match,5,{var,5,'Local1'},{atom,5,somethingelse}},
-%%                  {'if',6,
-%%                        [{clause,6,[],
-%%                                 [[{op,6,'==',
-%%                                       {var,6,'RootExpr'},
-%%                                       {var,6,'Local1'}}]],
-%%                                 [{atom,7,ok}]},
-%%                         {clause,8,[],
-%%                                 [[{atom,8,true}]],
-%%                                 [{atom,9,notok}]}]}]}]}]
 expr_do(Ctx, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) ->
    RootVariable = next_var_name(),
    RootVarSet = {match,?L,{var,?L,RootVariable},
@@ -1224,6 +1149,11 @@ expr_do(Ctx, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) ->
    %?dbg("DefaultRet",DefaultRet),
    IfStatements = (catch
      lists:foldr(fun({MatchExprs, {return, ReturnExpr}},Abs) ->
+                       MatchExprs2 = if MatchExprs == [] -> % match the empty sequence
+                                           [[]];
+                                        true ->
+                                           MatchExprs
+                                     end,
                        ReturnAbs = expr_do(Ctx, ReturnExpr),
                        %?dbg("MatchExprs",MatchExprs),
                        lists:foldr(fun(MatchExpr, Abs1) ->
@@ -1242,7 +1172,7 @@ expr_do(Ctx, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) ->
                                              Abs1}                                            
                                             ]}
                                           ]
-                                   end, Abs, MatchExprs)
+                                   end, Abs, MatchExprs2)
                  end, DefaultRet, Cases)),
    %?dbg("IfStatements",IfStatements),
    Ret = {block,?L,[RootVarSet|IfStatements]},
@@ -1302,19 +1232,12 @@ expr_do(Ctx, {'typeswitch', RootExpr, CasesDefault}) ->
                             expr_do(NewCtx, RetExpr)]}];
                         ({'def-novar',{return,RetExpr}}, _Acc) ->
                            alist(expr_do(Ctx, RetExpr))
-                     end, {nil,?L}, ExpandedCases),   
+                     end, [{nil,?L}], ExpandedCases),   
    %?dbg("CaseNestExprs",CaseNestExprs),
    {block,?L,[
     {match,?L,{var,?L,CaseVar}, expr_do(Ctx,RootExpr)},
     CaseNestExprs
    ]};
-
-   
-%%    {'case',?L,
-%%     {call,?L,{remote,?L,{atom,?L,xqerl_fn},{atom,?L,boolean}}, [{var,?L,'Ctx'}, expr_do(Ctx, If)] },
-%%     [{clause,?L,[abs_boolean(#xqAtomicValue{type = 'xs:boolean', value = true})],[],xqerl_flwor:singleton(expr_do(Ctx, Then))},
-%%      {clause,?L,[{var,?L,'_'}  ],[],xqerl_flwor:singleton(expr_do(Ctx, Else))}]};
-
 
 expr_do(Ctx, {'if-then-else', If, Then, Else}) ->
    {'case',?L,
@@ -1476,10 +1399,11 @@ expr_do(Ctx, List) when is_list(List) ->
    Exprs = lists:map(fun(E) ->
                            expr_do(Ctx, E)
                      end, List),
-   from_list_to_seq(Exprs);
+   abs_list(Exprs);
+   %from_list_to_seq(Exprs);
 
 expr_do(_Ctx, Expr) ->
-   ?dbg("TODO", Expr),
+   %?dbg("TODO", Expr),
    {nil,?L}.
 
 step_expr_do(Ctx, {postfix,#xqVarRef{} = Var, #xqPostfixStep{} = Step}, _Source) -> % variables aren't step, but can be dupes
@@ -1500,6 +1424,23 @@ step_expr_do(Ctx, #xqVarRef{name = Name}, Source) -> % variables aren't step, bu
      end
      ]}
    ;
+
+step_expr_do(Ctx, {variable, {Name,_}}, Source) -> % variables aren't step, but can be dupes
+   CtxVar = get_context_variable_name(Ctx),
+   NextCtxVar = next_ctx_var_name(),
+   VarAbs = {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,get}},[{atom,?L,Name}]},
+   {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,node_map}},
+    [{var,?L,CtxVar},
+     {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[],
+                          alist(VarAbs) }]}},
+     if is_atom(Source) ->
+           {var,?L,Source};
+        true ->
+           Source
+     end
+     ]}
+   ;
+
 % bang operator
 step_expr_do(Ctx, {'simple-map',SeqExpr,{'simple-map',_,_} = MapExpr}, Source) ->
    CtxVar = get_context_variable_name(Ctx),
@@ -1686,9 +1627,9 @@ step_expr_do(Ctx, Preds, SourceVarName) when is_list(Preds) ->
                                                                                 {Arg,PHs}
                                                                           end
                                                                     end, PlaceHolders, Args),
-                                 ?dbg(?LINE,Args),
-                                 ?dbg(?LINE,PlaceHolders),
-                                 ?dbg(?LINE,NewArgs),
+                                 %?dbg(?LINE,Args),
+                                 %?dbg(?LINE,PlaceHolders),
+                                 %?dbg(?LINE,NewArgs),
                                  ArgAbs = lists:map(fun({var,_,_} = Arg) ->
                                                           Arg;
                                                        (Arg) ->
@@ -1740,18 +1681,8 @@ step_expr_do(Ctx, 'context-item', SourceVarName) ->
                          end,{atom,?L,self},{nil,?L}, {nil,?L}]};
 
 step_expr_do(Ctx, {'union', Expr1, Expr2}, SourceVarName) ->
-   %NextCtxVar = next_ctx_var_name(),
-   %Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-   %{block,?L,
-   % [
-   %  {match,?L,{var,?L,NextCtxVar},if is_atom(SourceVarName) ->
-   %                            {var,?L,SourceVarName};
-   %                         true ->
-   %                            SourceVarName
-   %                      end},
-     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,union}},
-      [step_expr_do(Ctx, Expr1,SourceVarName),step_expr_do(Ctx, Expr2,SourceVarName)]}     
-   %  ]};
+   {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,union}},
+    [step_expr_do(Ctx, Expr1,SourceVarName),step_expr_do(Ctx, Expr2,SourceVarName)]}     
    ;
 step_expr_do(Ctx, {'function-call', _, _, _} = Other, SourceVarName) ->
    CtxVar = get_context_variable_name(Ctx),
@@ -1777,7 +1708,7 @@ step_expr_do(Ctx, {'function-ref', _, _} = Other, SourceVarName) ->
        true ->
           SourceVarName
     end]};
-step_expr_do(Ctx, {postfix, {'function-ref',Q,V}, {predicates = [{arguments,Args}]}}, SourceVarName) ->
+step_expr_do(Ctx, {postfix, {'function-ref',Q,V}, [{arguments,Args}]}, SourceVarName) ->
    PlaceHolders = lists:flatmap(fun(Arg) ->
                                       if Arg == '?' ->
                                             VarName = next_var_name(),
@@ -1818,7 +1749,7 @@ step_expr_do(Ctx, {postfix, {'function-ref',Q,V}, {predicates = [{arguments,Args
           SourceVarName
     end]};
 
-step_expr_do(Ctx, {postfix, {'function-call',_,_,_} = Other, {predicates = [{arguments,Args}]}}, SourceVarName) ->
+step_expr_do(Ctx, {postfix, {'function-call',_,_,_} = Other, [{arguments,Args}]}, SourceVarName) ->
    PlaceHolders = lists:flatmap(fun(Arg) ->
                                       if Arg == '?' ->
                                             VarName = next_var_name(),
@@ -1895,12 +1826,6 @@ step_expr_do(Ctx, {expr,List}, Source) when is_list(List) ->
      end
      ]};
 
-
-%%    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,from_list}},[
-%%    lists:foldr(fun(E, Abs) ->
-%%                    {cons,?L,step_expr_do(Ctx, E,Source), Abs} 
-%%              end, {nil,?L}, List)
-%%    ]};
 step_expr_do(Ctx, {expr,E}, Source) ->
    step_expr_do(Ctx, E, Source);
 
@@ -1930,22 +1855,6 @@ step_expr_do(Ctx, Other, Source) ->
 
 
 %get_function_ref({Name,Arity,Args}, Ctx);
-
-%% % return part, changes tuple stream to a sequence
-%% fun Loop(I,Stream) ->
-%%        case xqerl_flwor:stream_next(I) of
-%%           none ->
-%%              Stream;
-%%           {_K,{Local__var_0,Local__var_1},NewI} ->
-%%              % return statement
-%%              RetVal =  ?seq:from_list([Local__var_1,
-%%                                             
-%%                ?seq:from_list([{xqAtomicValue, 'xs:integer', 6},{xqAtomicValue, 'xs:integer', 5},{xqAtomicValue, 'xs:integer', 4}])
-%%                                            ]),
-%%                
-%%              Loop(NewI,?seq:append(RetVal,Stream) )
-%%        end
-%% end(xqerl_flwor:stream_iter(VarTup__1), ?seq:empty())
 
 return_do(Ctx0, _LastVar,Clause) -> 
    Tuple = {var,?L,get_variable_tuple_name(Ctx0)},
@@ -1990,23 +1899,14 @@ order_do(Ctx0, Clauses) ->
    VarTup = get_variable_tuple(Ctx0),
    %?dbg("return_do",?L),
    VarTupName = {var,?L,get_variable_tuple_name(Ctx0)},
-   %All = xqerl_context:get_statically_known_collations() ++ [default],
-%%    BaseUri = xqerl_types:value(maps:get('base-uri', Ctx0)),
    Funs = lists:foldr(fun({order, Expr, {modifier,{_,Dir},{_,Empty},{_,_Collation}}},Acc) ->
-%%                             Coll = if Collation == default ->
-%%                                          default;
-%%                                       true ->
-%%                                          xqerl_lib:resolve_against_base_uri(BaseUri, Collation)
-%%                                    end,
-%%                            case lists:any(fun(U) -> U == Coll end, All) of
-%%                               true ->
-%%                                  ok;
-%%                               _ ->
-%%                                  xqerl_error:error('XQST0076')
-%%                            end,
                            {cons,?L,
                             {tuple,?L, [{'fun',?L,{clauses,
-                                          [{clause,?L,[VarTup],[],alist(expr_do(Ctx0, Expr))}]}},
+                                          [{clause,?L,[VarTup],[],
+                                            [{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,singleton_value}},
+                                              alist(expr_do(Ctx0, Expr))
+                                             }]
+                                            }]}},
                                          {atom,?L,Dir},{atom,?L,Empty}]}
                             , Acc} 
                       end, {nil,?L}, Clauses),
@@ -2064,29 +1964,20 @@ count_do(Ctx, [{_, #xqVar{id = Id, name = Name}}]) ->
 group_do(Ctx0, Clauses) ->
    Incoming = get_variable_tuple_name(Ctx0),
    IncomingVarTup = get_variable_tuple(Ctx0),
-   ?dbg("group_do",?L),
+   %?dbg("group_do",?L),
    %?dbg("Incoming",Incoming),
    % split the tuples into key and variable tuples
    % reusing the old variable names is okay, because they are out of scope
    % Base contains the match-out for the LC
    NextVarTupVar = next_var_tuple_name(),
-   KeyNames = [ Name || #xqGroupBy{grp_variable = #xqVarRef{name = Name}} <- Clauses],
-   All = xqerl_context:get_statically_known_collations() ++ [default],
-   _ = lists:foreach(fun(#xqGroupBy{collation = Coll}) ->
-                           case lists:any(fun(U) -> U == Coll end, All) of
-                              true ->
-                                 ok;
-                              _ ->
-                                 xqerl_error:error('XQST0076')
-                           end
-                     end, Clauses),
-   KeyVars = lists:map(fun(Q) ->
-                          {V,_} = get_variable_ref(Q, Ctx0),
-                          V
-                    end, KeyNames),
+   KeyNames = [ {var,?L,Name} || #xqGroupBy{grp_variable = {variable, Name}} <- Clauses],
+   KeyVars = KeyNames,%lists:map(fun(Q) ->
+                      %    {V,_} = get_variable_ref(Q, Ctx0),
+                      %    V
+                      %end, KeyNames),
    KeyTuple = {tuple,?L,KeyVars},
    AllNames = maps:get(variables, Ctx0),
-   AllVars = [{var,?L,Name} || {_,_,_,Name} <- AllNames],
+   AllVars = [ {var,?L,Name} || {_,_,_,Name} <- AllNames, is_atom(Name)],
    RestVars = lists:filter(fun({var,_,V}) ->
                                  not lists:any(fun({var,_,V1}) ->
                                                      V1 == V
@@ -2454,18 +2345,6 @@ for_clause_gen(Ctx, {_,_Type,_,VarName} = NewVar, PosVar, Expr, Empty, Rest) ->
            }] ++
            % when on last in loop and about to return variables, don't loop again. it will clear the vars
            [
-%%             {clause,?L,[{tuple,?L,[ {var,?L,PosVarTupVar},{var,?L,NextVarTupVar},{nil,?L} ]}],[],
-%%             if PosVar == [] -> 
-%%                   [{match,?L,{var,?L,VarName},{call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},
-%%                                                [{var,?L,NextVarTupVar},abs_seq_type(Ctx,Type)]}}|
-%%                    alist(RestAbs)];
-%%                 true ->
-%%                    [{match,?L,{var,?L,VarName},{call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},
-%%                                                 [{var,?L,NextVarTupVar},abs_seq_type(Ctx,Type)]}},
-%%                     {match,?L,{var,?L,PosVarName},{tuple,?L,
-%%                                                    [ {atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{var,?L,PosVarTupVar} ]}}|alist(RestAbs)]
-%%              end
-%%            },
            {clause,?L,[{tuple,?L,[ {var,?L,PosVarTupVar},{var,?L,NextVarTupVar},{var,?L,NextNextIterVar} ]}],[],
             [% first cast the variable to it's type
              if PosVar == [] -> {nil,?L};
@@ -2561,13 +2440,9 @@ let_clause_gen(Ctx, {_,_Type,_,VarName} = NewVar, Expr, Rest) ->
            }]},
          [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[ITuple]},
           {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
-          %{var,?L,INextVarTupVar}
-          %{var,?L,Incoming}
-          %ITuple
          ]
         },
         Ctx1 
-        %set_iterator_name(set_variable_tuple_name(NextCtx, INextVarTupVar),[]) 
         }         
    end.
 
@@ -2578,7 +2453,6 @@ where_clause_gen(Ctx, Expr) ->
    VarTupList = get_variable_tuple(Ctx),
    CurrVarTupVar = get_variable_tuple_name(Ctx),
    NextVarTupVar = next_var_tuple_name(),
-   %NextNextVarTupVar = next_var_tuple_name(),
    NextIterVar = next_iter_name(),
    NextNextIterVar = next_iter_name(),
    NextIterLoop = next_iter_loop_name(),
@@ -2626,7 +2500,6 @@ where_clause_gen(Ctx, Expr) ->
        {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
        ] % args to named fun
    },
-   %set_variable_tuple_name(Ctx, NextVarTupVar)
    Ctx
    }
    .
@@ -2658,17 +2531,11 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
    NewVars = lists:keystore(Key, 1, Vars1, Variable1),
    maps:put(variables, NewVars, Map).
 
-get_variable_ref(Name, Map) ->
-   #qname{namespace = Ns, prefix = Px, local_name = Ln} = resolve_qname(Name, Map),
+get_variable_ref(#qname{namespace = Ns, prefix = Px, local_name = Ln}, Map) ->
    Vars0 = xqerl_context:get_in_scope_variables(),
    Vars1 = maps:get(parameters, Map),
    Vars = maps:get(variables, Map) ++ Vars1 ++ Vars0,
    Nss = maps:get(namespaces, Map),
-   %?dbg("get_variable_ref Nss", Nss),
-   %?dbg("Vars0", Vars0),
-   %?dbg("Vars1", Vars1),
-   %?dbg("Vars", Vars),
-   %?dbg("get_variable_ref Ns, Px, Ln", {Ns,Px, Ln}),
    Ns2 = case Ns of
             undefined ->
                proplists:get_value(Px, Nss);
@@ -2676,7 +2543,6 @@ get_variable_ref(Name, Map) ->
             _ ->
                Ns
          end,
-   %?dbg("get_variable_ref Ns2, Px, Ln", {Ns2, Px, Ln, Vars}),
    Var = lists:filter(fun(E) ->
                            case element(1, E) of
                               #qname{namespace = Ns2, local_name = Ln} ->
@@ -2687,7 +2553,6 @@ get_variable_ref(Name, Map) ->
                         end, Vars),
    Loc = case Var of 
             [] ->
-               ?dbg("get_variable_ref Ns, Px, Ln", {Ns2,Px, Ln,Vars}),
                xqerl_error:error('XPST0008');
             [H] ->
                element(4, H);
@@ -2718,188 +2583,9 @@ get_variable_ref(Name, Map) ->
          end
    end.
 
-%% %% get_function_ref({#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = _Px, local_name = "concat"} = Name, Arity,Args}, Ctx) ->
-%% %%    get_function_ref({Name#qname{namespace = "xqerl_fn"}, Arity,Args}, Ctx);
-%% get_function_ref({#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = _Px, local_name = "concat"}, Arity,Args}, Ctx)->
-%%    if Arity > 1 ->
-%%       CtxName = get_context_variable_name(Ctx),
-%%       NewArgs = lists:flatmap(fun(Arg) -> 
-%%                                 [ case Arg of
-%%                                      {var,_,_} ->
-%%                                         Arg;
-%%                                      _ ->
-%%                                        expr_do(Ctx, Arg)
-%%                                   end]
-%%                           end, Args),
-%%       ArgList = [{var,?L,CtxName}, from_list_to_seq(NewArgs)],   
-%%             {call,?L,
-%%              {remote,?L,
-%%               {atom,?L,'xqerl_fn'},
-%%               {atom,?L,'concat'}},
-%%              ArgList};
-%%       true ->
-%%          xqerl_error:error('XPST0017')
-%%    end;
-%% 
-%% get_function_ref({#qname{namespace = Ns, prefix = Px, local_name = Ln},Arity,Args}, Ctx) ->
-%%    %io:format("Name,Arity,Args:: ~p ~p ~p~n",[Name,Arity,Args]),
-%%    CtxName = get_context_variable_name(Ctx),
-%%    Funs = maps:get(known_fx_sigs, Ctx),% xqerl_context:get_statically_known_functions(),
-%%    Nss = maps:get(namespaces, Ctx),
-%%    %?dbg("get_function_ref",Px),
-%%    Ns2 = if Px == [] ->
-%%                xqerl_context:get_default_function_namespace();
-%%             true ->
-%%                %mask_namespace(namespace_from_prefix(Px,Nss,Ns))
-%%                namespace_from_prefix(Px,Nss,Ns)
-%%          end, 
-%%    %?dbg("Funs", Funs), 
-%%    Fun = case lists:filter(fun(E) ->
-%%                            case element(1, E) of
-%%                               #qname{namespace = Ns2, local_name = Ln} ->
-%%                                  case element(5, E) of
-%%                                     Arity ->
-%%                                        true;
-%%                                     _ ->
-%%                                        false
-%%                                  end;
-%%                               _ ->
-%%                                  false
-%%                            end
-%%                         end, Funs) of
-%%             [FX] ->
-%%                FX;
-%%             X ->
-%%                ?dbg("get_function_ref",{Ns2,Px,Ln,Arity,X}),
-%%                xqerl_error:error('XPST0017')
-%%          end,
-%%    Loc = element(4, Fun),
-%%    ArgTypes = element(6, Fun),
-%%    %TODO use it!
-%%    ReturnType = element(2, Fun),
-%%    TypedArgs = lists:zip(ArgTypes, Args),
-%%    %?dbg("Fun",TypedArgs),
-%%    NewArgs = lists:flatmap(fun({Type,Arg}) -> 
-%%                              [ case Arg of
-%%                                   {var,_,_} ->
-%%                                      Arg;
-%%                                   _ ->
-%%                                     expr_do(Ctx, Arg)
-%%                                end]
-%%                        end, TypedArgs),
-%%    %?dbg("NewArgs",NewArgs),
-%%    case tuple_size(Loc) of
-%%       2 -> % local call
-%%          %{call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},[
-%%           {call,?L,
-%%            {atom,?L,element(1, Loc)}, 
-%%           [{var,?L,CtxName}|NewArgs]}
-%%          %,abs_seq_type(ReturnType)]}
-%%          ;
-%%       3 -> % module call
-%%          %{call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,as_seq}},[
-%%          {call,?L,
-%%           {remote,?L,
-%%            {atom,?L,element(1, Loc)},
-%%            {atom,?L,element(2, Loc)}},
-%%           [{var,?L,CtxName}|NewArgs]}
-%%           %,abs_seq_type(ReturnType)]}         
-%%    end;
-%% 
-%% %% get_function_ref({#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = _Px, local_name = "concat"} = Name, Arity}, Ctx) ->
-%% %%    get_function_ref({Name#qname{namespace = "xqerl_fn"}, Arity}, Ctx);
-%% get_function_ref({#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = _Px, local_name = "concat"} = Name, Arity}, Ctx) ->
-%%    if Arity > 1 ->
-%%       abs_function(Ctx,#xqFunction{name = Name#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = "fn"}, 
-%%                                    arity = Arity,
-%%                                    type = {xqSeqType, 'xs:string', one}},
-%%                    {'fun',?L,{function,{atom,?L,'xqerl_fn'},{atom,?L,'concat'},{integer,?L,2}}}
-%%                    );
-%%       true ->
-%%          xqerl_error:error('XPST0017')
-%%    end;
-%% get_function_ref({#qname{namespace = Ns, prefix = Px, local_name = Ln} = Name, Arity}, Ctx) ->
-%%    Funs = xqerl_context:get_statically_known_functions(),
-%%    %?dbg("Funs", Funs),
-%%    Ns2 = case Ns of
-%%             undefined ->
-%%                if Px == [] ->
-%%                      xqerl_context:get_default_function_namespace();
-%%                   true ->
-%%                      xqerl_context:get_statically_known_namespace_from_prefix(Px)
-%%                      %mask_namespace(xqerl_context:get_statically_known_namespace_from_prefix(Px))
-%%                end;
-%%             _ ->
-%%                mask_namespace(Ns)
-%%          end,
-%%    Name1 = Name#qname{namespace = Ns2},
-%%    %?dbg("{Name,Arity,Args}", {Name1,Arity,Args}), 
-%%    Fun = case lists:filter(fun(E) ->
-%%                            case element(1, E) of
-%%                               #qname{namespace = Ns2, local_name = Ln} ->
-%%                                  case element(5, E) of
-%%                                     Arity ->
-%%                                        true;
-%%                                     _ ->
-%%                                        false
-%%                                  end;
-%%                               _ ->
-%%                                  false
-%%                            end
-%%                         end, Funs) of
-%%             [FX] ->
-%%                FX;
-%%             X ->
-%%                ?dbg("get_function_ref",{Ns2,Px,Ln,Arity,X}),
-%%                xqerl_error:error('XPST0017')
-%%          end,
-%%    %?dbg("Fun", Fun),
-%%    Loc = element(4, Fun),
-%%    FunType = element(2, Fun),
-%%    FunAnnos = element(3, Fun),
-%%    FunParams = element(6, Fun),
-%%    FunAbs = case tuple_size(Loc) of
-%%                2 -> % local call
-%%                   %{'fun',?L,{function,element(1, Loc),element(2, Loc)}};
-%%                   {'fun',?L,{function,
-%%                              {atom,?L, case element(2, Name1) of
-%%                                           "http://www.w3.org/2005/xquery-local-functions" ->
-%%                                              'xqerl_main';
-%%                                           Mod ->
-%%                                              list_to_atom(Mod)
-%%                                        end},
-%%                              {atom,?L,element(1, Loc)},{atom,?L,element(2, Loc)}}};
-%%                3 -> % module call
-%%                   {'fun',?L,{function,{atom,?L,element(1, Loc)},{atom,?L,element(2, Loc)},{integer,?L,element(3, Loc)}}}
-%%             end,
-%%    abs_function(Ctx,
-%%                 #xqFunction{name = Name,
-%%                             arity = Arity,
-%%                             annotations = FunAnnos,
-%%                             params = FunParams,
-%%                             type = FunType},
-%%                 FunAbs
-%%                 ).
-%% 
-
-
-
 alist(L) when is_list(L) -> lists:flatten(L);
 alist(L) -> [L].
 
-   
-
-
-%% -record(xqDocumentNode, {
-%%       identity     = undefined :: term(),
-%%       desc_count   = 0         :: integer(),
-%%       document_uri = undefined :: term(),
-%%       children     = []        :: [term()],
-%%       value        = undefined :: term(),
-%%       string_value = ""        :: string(),
-%%       path_index   = undefined :: [integer()],
-%%       expr         = undefined :: term()
-%%    }).
 abs_document_node(Ctx, #xqDocumentNode{expr = E, base_uri = BU}) ->
    BU1 = case maps:get('base-uri', Ctx) of
             undefined ->
@@ -2939,29 +2625,7 @@ abs_document_node(Ctx, #xqDocumentNode{expr = E, base_uri = BU}) ->
      end
      ]}.
 
-prepend_namespaces(Ctx,Nss) ->
-   Old = maps:get(namespaces, Ctx),
-   New = lists:foldl(fun(#xqNamespace{namespace = N, prefix = P}, List) ->
-                           lists:keystore(P, 3, List, #xqNamespace{namespace = N, prefix = P})
-                     end, Old, Nss),
-   %?dbg("prepend_namespaces",New),
-   maps:put(namespaces, New, Ctx).
-
-%% -record(xqElementNode, {
-%%       identity     = undefined :: term(),
-%%       desc_count   = 0         :: integer(),
-%%       name         = undefined :: #qname{},
-%%       parent_node  = undefined :: term(),
-%%       children     = []        :: [term()],
-%%       attributes   = []        :: [term()],
-%%       inscope_ns   = []        ,
-%%       nilled       = false     :: boolean(),
-%%       value        = undefined :: [ #xqAtomicValue{} ],
-%%       string_value = ""        :: string(),
-%%       path_index   = undefined :: [integer()],
-%%       expr         = undefined :: term()
-%%    }).
-abs_element_node(Ctx, #xqElementNode{name = N, attributes = A1, expr = E1, type = Type, base_uri = BU}) ->
+abs_element_node(Ctx, #xqElementNode{name = N, attributes = A1, expr = E1, type = Type, base_uri = BU, inscope_ns = IsNs}) ->
    {tuple,?L,
     [
      atom_or_string(xqElementNode),
@@ -2976,7 +2640,7 @@ abs_element_node(Ctx, #xqElementNode{name = N, attributes = A1, expr = E1, type 
      atom_or_string(undefined), % parent
      empty_seq(),               % children
      expr_do(Ctx, A1),          % attributes
-     empty_seq(),
+     erl_term_abs(IsNs),        % inscope_ns
      atom_or_string(undefined),
      case maps:get('construction-mode', Ctx) of
         strip ->
@@ -2994,58 +2658,6 @@ abs_element_node(Ctx, #xqElementNode{name = N, attributes = A1, expr = E1, type 
      end
     ]}.
 
-flatten_node_expr(E) ->
-   lists:map(fun flatten_node_cons/1, E).
-
-flatten_att_expr(E) ->
-   %?dbg("E",E),
-   lists:map(fun({content_expr, Expr}) ->
-               if is_list(Expr) ->
-                     {expr, 
-                     lists:flatmap(fun({'node-cons',NC}) ->
-                                         [NC];
-%%                                       (#xqAtomicValue{value = []} = A) ->
-%%                                          [A];
-%%                                       (#xqAtomicValue{} = A) ->
-%%                                          [#xqTextNode{expr = A}];
-                                      (Other) ->
-                                         alist(Other)
-                                   end, Expr)};
-                  true ->
-                     {expr, Expr}
-               end;
-                (O) -> O                   
-             end, E).
-
-   
-flatten_node_cons({content_expr, Expr}) ->
-   %?dbg(?FUNCTION_NAME,?LINE),
-   if is_list(Expr) ->
-         {expr, 
-         lists:flatmap(fun({'node-cons',NC}) ->
-                             [NC];
-                          (#xqAtomicValue{} = A) ->
-                             [A];
-%%                           (#xqAtomicValue{} = A) ->
-%%                              [#xqTextNode{expr = A}];
-                          (Other) ->
-                             alist(Other)
-                       end, Expr)};
-      true ->
-         {expr, Expr}
-   end;
-flatten_node_cons(E) -> E.
-   
-
-%% -record(xqAttributeNode, {
-%%       identity     = undefined :: term(),
-%%       name         = undefined :: #qname{},
-%%       parent_node  = undefined :: term(),
-%%       value        = undefined :: [ #xqAtomicValue{} ],
-%%       string_value = ""        :: string(),
-%%       path_index   = undefined :: [integer()],
-%%       expr         = undefined :: term()
-%%    }).
 abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
    {tuple,?L,
     [
@@ -3059,11 +2671,7 @@ abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
                  abs_qname(Ctx,N)
            end;
         _ ->
-           % wrap this in try catch
-           %{call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,value}},
-            %[
-             expr_do(Ctx, N)
-            %]}
+           expr_do(Ctx, N)
      end,
      atom_or_string(undefined),
      atom_or_string(undefined),
@@ -3071,31 +2679,18 @@ abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
      atom_or_string(undefined),
      if E == [undefined] -> empty_seq();
         true ->
-           Strip = maybe_strip_boundry_space(Ctx,E),
-           Flattened = flatten_att_expr(Strip),
            Flat = lists:map(fun(Ex) ->
                                   expr_do(Ctx,Ex)
-                            end, Flattened), 
-           %?dbg(?LINE,E),
-           %?dbg(?LINE,Strip),
-           %?dbg(?LINE,Flattened),
-           %?dbg(?LINE,Flat),
+                            end, alist(E)), 
            lists:foldr(fun(X, Abs) ->
                       {cons,?L,X, Abs} 
                 end, {nil,?L}, Flat)
      end
      ]}.
 
-%% -record(xqTextNode, {
-%%       identity     = undefined :: term(),
-%%       parent_node  = undefined :: term(),
-%%       string_value = ""        :: string(),
-%%       path_index   = undefined :: [integer()],
-%%       expr         = undefined :: term()
-%%    }).
 abs_text_node(Ctx, #xqTextNode{expr = E, cdata = C}) ->
-   ?dbg(?LINE,E),
-   ?dbg(?LINE,C),
+   %?dbg(?LINE,E),
+   %?dbg(?LINE,C),
    {tuple,?L,
     [
      atom_or_string(xqTextNode),
@@ -3115,20 +2710,11 @@ abs_text_node(Ctx, #xqTextNode{expr = E, cdata = C}) ->
               E == 'empty-expr' -> empty_seq();
               E == 'empty-sequence' -> empty_seq();
               true ->
-                 %{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[
                  expr_do(Ctx, E)
-                 %]}
            end
      end
      ]}.
 
-%% -record(xqCommentNode, {
-%%       identity     = undefined :: term(),
-%%       parent_node  = undefined :: term(),
-%%       string_value = ""        :: string(),
-%%       path_index   = undefined :: [integer()],
-%%       expr         = undefined :: term()
-%%    }).
 abs_comment_node(Ctx, #xqCommentNode{string_value = S, expr = E}) ->
    {tuple,?L,
     [
@@ -3154,22 +2740,14 @@ abs_comment_node(Ctx, #xqCommentNode{string_value = S, expr = E}) ->
      end
      ]}.
 
-%% -record(xqProcessingInstructionNode, {
-%%       identity     = undefined :: term(),
-%%       name         = undefined :: #qname{},
-%%       parent_node  = undefined :: term(),
-%%       string_value = ""        :: string(),
-%%       path_index   = undefined :: [integer()],
-%%       expr         = undefined :: term()
-%%    }).
 abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N, expr = E, base_uri = BU}) ->
    BU1 = case maps:get('base-uri', Ctx) of
-            undefined when BU =/= undefined->
+            undefined when BU =/= [] ->
                BU;
             undefined ->
                [];
-            B when BU == undefined ->
-               B;
+            %B when BU == [] ->
+            %   B;
             _ ->
                BU
          end,   
@@ -3191,17 +2769,13 @@ abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N, expr = E, base_uri = BU}
      atom_or_string(undefined),
      case is_list(E) of
         true ->
-           {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[
             lists:foldr(fun(X, Abs) ->
                             {cons,?L,expr_do(Ctx, X), Abs} 
-                      end, {nil,?L}, E)
-            ]};
+                      end, {nil,?L}, E);
         _ ->
            if E == undefined -> empty_seq();
               true ->
-                 {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[
                  expr_do(Ctx, E)
-                 ]}
            end
      end
      ]}.
@@ -3213,13 +2787,7 @@ abs_namespace_node(_Ctx, #xqNamespace{namespace = N, prefix = P}) ->
      atom_or_string(N),
      atom_or_string(P)
      ]};
-%% -record(xqNamespaceNode, {
-%%       identity     = undefined :: term(),
-%%       name         = undefined :: #qname{},
-%%       parent_node  = undefined :: term(),
-%%       path_index   = undefined :: [integer()],
-%%       expr         = undefined :: term()
-%%    }).
+
 abs_namespace_node(Ctx, #xqNamespaceNode{name = Name}) ->
    %?dbg("abs_namespace_node",Ctx),
    {tuple,?L,
@@ -3231,13 +2799,7 @@ abs_namespace_node(Ctx, #xqNamespaceNode{name = Name}) ->
      atom_or_string(undefined),
      atom_or_string(undefined)
      ]}.
-%% -record(xqFunTest, {
-%%    kind   = function :: function | map,
-%%    annotations = [] :: [ #annotation{} ],
-%%    name   :: #qname{},
-%%    params = any :: [#xqSeqType{}] | any,
-%%    type   = any :: #xqSeqType{} | any
-%% }).
+
 abs_fun_test(Ctx,#xqFunTest{kind = Kind, annotations = Annos, name = Name, params = Params, type = Type}) ->
    {tuple,?L,
     [
@@ -3308,8 +2870,8 @@ abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
                 end,
                 if is_tuple(P) ->
                       case P of 
-                         {expr, #xqAtomicValue{value = ""}} ->
-                            atom_or_string("");
+                         %{expr, #xqAtomicValue{value = ""}} ->
+                         %   atom_or_string("");
                          #xqAtomicValue{value = ""} ->
                             atom_or_string("");
                          _ ->
@@ -3318,11 +2880,11 @@ abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
                    true ->
                       atom_or_string(P)
                 end,
-                if is_tuple(L) ->
-                      expr_do(Ctx, L);
-                   true ->
+                %if is_tuple(L) ->
+                %      expr_do(Ctx, L);
+                %   true ->
                       atom_or_string(L)
-                end
+                %end
                ]}.
 
 % {xqKindTest,node,undefined,undefined,undefined}
@@ -3366,16 +2928,6 @@ abs_function(Ctx,
      abs_seq_type(Ctx, Type)  , %type
      BodyAbs                    %body
      ]}.
-%% -record(xqFunction, {
-%%    id                = 0 :: integer(),
-%%    annotations       = [] :: [ #annotation{} ],
-%%    name              = undefined :: #'qname'{},
-%%    arity             = 0 :: integer(),
-%%    params            = [],
-%%    type              = #xqSeqType{} :: #xqSeqType{},
-%%    body              = undefined :: term()%,
-%%    %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
-%% }).
 
 abs_param_list(Ctx, List) ->
    lists:foldr(fun(#xqSeqType{} = St,Acc) ->
@@ -3384,15 +2936,6 @@ abs_param_list(Ctx, List) ->
                      {cons,?L,abs_seq_type(Ctx, St) ,Acc}
                end, {nil,?L}, List).
    
-
-%% abs_boolean(true) ->
-%%    C = erl_syntax:comment(["this is a comment"]),
-%%    ?e:revert(
-%%     ?e:set_precomments(
-%%     ?e:tuple(
-%%       [?e:atom(xqAtomicValue),
-%%        ?e:atom('xs:boolean'),
-%%        ?e:atom(true)]), C));
 abs_boolean(false) ->
    {tuple, ?L, [atom_or_string(xqAtomicValue),
     atom_or_string('xs:boolean'),
@@ -3401,10 +2944,6 @@ abs_boolean(true) ->
    {tuple, ?L, [atom_or_string(xqAtomicValue),
     atom_or_string('xs:boolean'),
     atom_or_string(true)]}.
-%% abs_boolean(#xqAtomicValue{type = 'xs:boolean', value = Val}) ->
-%%    {tuple, ?L, [atom_or_string(xqAtomicValue),
-%%     atom_or_string('xs:boolean'),
-%%     atom_or_string(Val)]}.
 
 
 abs_simp_atomic_value(#xqAtomicValue{type = Type, value = Val}) ->
@@ -3439,16 +2978,6 @@ get_iterator_name(Ctx) ->
    maps:get(iter, Ctx).
 set_iterator_name(Ctx, Name) ->
    maps:put(iter, Name, Ctx).
-
-%% get_iterator_loop_name(Ctx) ->
-%%    maps:get(iter_loop, Ctx).
-%% set_iterator_loop_name(Ctx, Name) ->
-%%    maps:put(iter_loop, Name, Ctx).
-
-%% abs_namespaces(Module) ->
-%%    lists:foreach(fun({Ns,Px}) ->
-%%                        xqerl_context:add_statically_known_namespace(Ns, Px)
-%%                  end, proplists:get_value(namespaces, Module:module_info(attributes))).
 
 abs_ns_list(Ctx) ->
    lists:foldr(fun(#xqNamespace{prefix = P,namespace = N}, Abs) ->
@@ -3503,13 +3032,6 @@ get_variable_tuple(_Ctx, List) when is_list(List) ->
                     {var,?L,N}
               end || {_QName,_,_,Name} <- List])}.
 
-%% get_ret_variable_tuple(Ctx,Map) when is_map(Map) ->
-%%    Vars = maps:get(variables, Map),
-%%    %?dbg("Vars",Vars),
-%%    get_ret_variable_tuple(Ctx,Vars);
-%% get_ret_variable_tuple(Ctx,List) when is_list(List) ->
-%%    {tuple,?L,[?s({var,?L,Name},Type) || {_,Type,_,Name} <- List]}.
-
 % prefix,namespaces,current
 namespace_from_prefix("default",Ns,N) -> namespace_from_prefix([],Ns,N);
 namespace_from_prefix(default,Ns,N) -> namespace_from_prefix([],Ns,N);
@@ -3524,70 +3046,16 @@ namespace_from_prefix(Px,Ns,N) ->
          O
    end.
 
-concat_string_content([#xqAtomicValue{type = 'xs:string', value = V1},#xqAtomicValue{type = 'xs:string', value = V2}|T]) ->
-   concat_string_content([#xqAtomicValue{type = 'xs:string', value = V1 ++ V2}|T]);
-concat_string_content([H|T]) ->
-   [H|concat_string_content(T)];
-concat_string_content([]) -> [].
-
-% empty space around cdata is not whitespace
-strip_boundry_space([#xqAtomicValue{} = A,#xqTextNode{cdata = true} = X|T]) ->
-   [A|strip_boundry_space([X|T])];
-strip_boundry_space([#xqTextNode{cdata = true} = X,#xqAtomicValue{} = A|T]) ->
-   [X,A|strip_boundry_space(T)];
-% now empty strings
-strip_boundry_space([#xqAtomicValue{type = 'xs:string', value = V} = H|T]) ->
-   case string:trim(V) of
-      "" -> strip_boundry_space(T);
-      _ -> [H|strip_boundry_space(T)]
-   end;
-% the rest
-strip_boundry_space([H|T]) ->
-   [H|strip_boundry_space(T)];
-strip_boundry_space([]) ->
-   [].
-
-maybe_strip_boundry_space(Ctx,Expr0) ->
-   Pol = maps:get('boundary-space', Ctx),
-   Expr1 = alist(Expr0),
-   Expr2 = concat_string_content(Expr1),
-%   ?dbg(?LINE,Expr2),
-%%    case Expr2 of
-%%       [#xqAtomicValue{}] -> % single atomic 
-%%          Expr2;
-%%       _ ->
-         if Pol == strip ->
-               strip_boundry_space(Expr2);
-            true ->
-               Expr2
-%%          end
-   end.
-
-resolve_qname(#qname{namespace = Ns, prefix = undefined, local_name = Ln}, Ctx) ->
-   Nss = maps:get('namespaces', Ctx),
-   case lists:keyfind(Ns, 2, Nss) of
-      false ->
-         xqerl_error:error('XPST0081'); % unable to expand
-      {Px,_} ->
-         #qname{namespace = Ns, prefix = Px, local_name = Ln}
-   end;
-resolve_qname(#qname{namespace = undefined, prefix = Px, local_name = Ln}, Ctx) ->
-   Nss = maps:get('namespaces', Ctx),
-   case proplists:get_value(Px, Nss) of
-      undefined ->
-         xqerl_error:error('XPST0081'); % unable to expand
-      Ns ->
-         #qname{namespace = Ns, prefix = Px, local_name = Ln}
-   end;
-resolve_qname(Name, _Ctx) ->
-   Name.
-
-
 empty_seq_abs() ->
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,empty}},[]}.
 
+abs_list(List) ->
+    lists:foldr(fun(E, Abs) ->
+                      {cons,?L, E, Abs}
+                end, {nil,?L}, List).
 from_list_to_seq(List) ->
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,sort_seq}},
-    [lists:foldl(fun(E, Abs) ->
+    [
+     lists:foldl(fun(E, Abs) ->
                 {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,append}},[E, Abs]} 
           end, empty_seq_abs(), List)]}.

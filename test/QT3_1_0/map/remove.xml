@@ -16,7 +16,7 @@
     <test-case name="map-remove-002">
         <description>Keys in empty map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map:new(()), "abcd")</test>
+        <test>map:remove(map{}, "abcd")</test>
         <result>
             <assert>map:size($result) eq 0</assert>
         </result>
@@ -43,7 +43,7 @@
     <test-case name="map-remove-006">
         <description>Remove from two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map:new((map:entry("a", "1"), map:entry("b", 2))), "b")</test>
+        <test>map:remove(map:merge((map:entry("a", "1"), map:entry("b", 2))), "b")</test>
         <result>
             <all-of>
                 <assert>map:size($result) eq 1</assert>
@@ -54,7 +54,7 @@
     <test-case name="map-remove-007">
         <description>Null remove from two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map:new((map:entry("a", "1"), map:entry("b", 2))), "c")</test>
+        <test>map:remove(map:merge((map:entry("a", "1"), map:entry("b", 2))), "c")</test>
         <result>
             <all-of>
                 <assert>map:keys($result) = "a"</assert>
@@ -66,7 +66,7 @@
     <test-case name="map-remove-008">
         <description>Remove match of numeric values</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map:new((map:entry(12, 1), map:entry(13, 2))), 12e0)</test>
+        <test>map:remove(map:merge((map:entry(12, 1), map:entry(13, 2))), 12e0)</test>
         <result>
             <all-of>
                 <assert>map:size($result) = 1</assert>
@@ -78,7 +78,7 @@
     <test-case name="map-remove-009">
         <description>Remove match of untypedAtomic</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map:new((map:entry("a",1), map:entry("b",2))), xs:untypedAtomic("b"))</test>
+        <test>map:remove(map:merge((map:entry("a",1), map:entry("b",2))), xs:untypedAtomic("b"))</test>
         <result>
             <all-of>
                 <assert>map:size($result) = 1</assert>
@@ -106,7 +106,7 @@
     <test-case name="map-remove-012">
         <description>Remove from a large map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map:new(for $n in 1 to 500000 return map:entry($n, $n+1)), 123456)</test>
+        <test>map:remove(map:merge(for $n in 1 to 500000 return map:entry($n, $n+1)), 123456)</test>
         <result>
             <all-of>
                 <assert>map:contains($result, 1)</assert>

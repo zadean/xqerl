@@ -22,7 +22,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"abc":12}')</test>
       <result>
-         <assert-deep-eq>map{"abc":=12e0}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":12e0}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-003">
@@ -30,7 +30,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"abc":12e0}')</test>
       <result>
-         <assert-deep-eq>map{"abc":=12e0}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":12e0}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-004">
@@ -38,7 +38,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"abc":-1.2e0}')</test>
       <result>
-         <assert-deep-eq>map{"abc":=-1.2e0}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":-1.2e0}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-005">
@@ -46,7 +46,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"abc":true}')</test>
       <result>
-         <assert-deep-eq>map{"abc":=true()}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":true()}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-006">
@@ -54,7 +54,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"abc":false}')</test>
       <result>
-         <assert-deep-eq>map{"abc":=false()}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":false()}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-007">
@@ -62,7 +62,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"abc":null}')</test>
       <result>
-         <assert-deep-eq>map{"abc":=()}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":()}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-008">
@@ -70,7 +70,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"abc":true,"xyz":false}')</test>
       <result>
-         <assert-deep-eq>map{"abc":=true(),"xyz":=false()}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":true(),"xyz":false()}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-009">
@@ -78,7 +78,7 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json(' { "abc" : true , "xyz" : false } ')</test>
       <result>
-         <assert-deep-eq>map{"abc":=true(),"xyz":=false()}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":true(),"xyz":false()}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-010">
@@ -88,7 +88,7 @@
             "xyz"   :   false   
             }   ')</test>
       <result>
-         <assert-deep-eq>map{"abc":=true(),"xyz":=false()}</assert-deep-eq>
+         <assert-deep-eq>map{"abc":true(),"xyz":false()}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-011">
@@ -359,7 +359,7 @@
    <test-case name="fn-parse-json-035">
       <description>String formats: effect of unescape option</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('["\r"]', map{'unescape':=false()})</test>
+      <test>parse-json('["\r"]', map{'unescape':false()})</test>
       <result>
          <assert>$result(1) = '\r'</assert>
       </result>
@@ -367,7 +367,7 @@
    <test-case name="fn-parse-json-036">
       <description>String formats: effect of unescape option</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('["\r"]', map{'unescape':=true()})</test>
+      <test>parse-json('["\r"]', map{'unescape':true()})</test>
       <result>
          <assert>$result(1) = '&#xd;'</assert>
       </result>
@@ -375,7 +375,7 @@
    <test-case name="fn-parse-json-037">
       <description>String formats: effect of unescape option</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('["\u0000"]', map{'unescape':=false()})</test>
+      <test>parse-json('["\u0000"]', map{'unescape':false()})</test>
       <result>
          <assert>$result(1) = '\u0000'</assert>
       </result>
@@ -383,7 +383,7 @@
    <test-case name="fn-parse-json-038">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('true', map{'spec':='ECMA-262'})</test>
+      <test>parse-json('true', map{'spec':'ECMA-262'})</test>
       <result>
          <assert-true/>
       </result>
@@ -391,7 +391,7 @@
    <test-case name="fn-parse-json-039">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('false', map{'spec':='ECMA-262'})</test>
+      <test>parse-json('false', map{'spec':'ECMA-262'})</test>
       <result>
          <assert-false/>
       </result>
@@ -399,7 +399,7 @@
    <test-case name="fn-parse-json-040">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('null', map{'spec':='ECMA-262'})</test>
+      <test>parse-json('null', map{'spec':'ECMA-262'})</test>
       <result>
          <assert-empty/>
       </result>
@@ -407,7 +407,7 @@
    <test-case name="fn-parse-json-041">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('93.7', map{'spec':='ECMA-262'})</test>
+      <test>parse-json('93.7', map{'spec':'ECMA-262'})</test>
       <result>
         <all-of>
           <assert-eq>93.7e0</assert-eq>
@@ -418,7 +418,7 @@
    <test-case name="fn-parse-json-042">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('"abcd\n"', map{'spec':='ECMA-262','unescape':=false()})</test>
+      <test>parse-json('"abcd\n"', map{'spec':'ECMA-262','unescape':false()})</test>
       <result>
         <all-of>
           <assert-eq>'abcd\n'</assert-eq>
@@ -548,7 +548,7 @@
    <test-case name="fn-parse-json-910">
       <description>Syntax error</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('{"a":=13}')</test>
+      <test>parse-json('{"a":13}')</test>
       <result>
          <error code="FOJS0001"/>
       </result>
@@ -661,7 +661,7 @@
    <test-case name="fn-parse-json-924">
       <description>String formats: effect of unescape option: invalid XML character</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('["\u0000"]', map{'unescape':=true()})</test>
+      <test>parse-json('["\u0000"]', map{'unescape':true()})</test>
       <result>
          <error code="FOJS0001"/>
       </result>
@@ -669,7 +669,7 @@
    <test-case name="fn-parse-json-925">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('true', map{'spec':='RFC4627'})</test>
+      <test>parse-json('true', map{'spec':'RFC4627'})</test>
       <result>
          <error code="FOJS0001"/>
       </result>
@@ -677,7 +677,7 @@
    <test-case name="fn-parse-json-926">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('false', map{'spec':='RFC4627'})</test>
+      <test>parse-json('false', map{'spec':'RFC4627'})</test>
       <result>
          <error code="FOJS0001"/>
       </result>
@@ -685,7 +685,7 @@
    <test-case name="fn-parse-json-927">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('null', map{'spec':='RFC4627'})</test>
+      <test>parse-json('null', map{'spec':'RFC4627'})</test>
       <result>
          <error code="FOJS0001"/>
       </result>
@@ -693,7 +693,7 @@
    <test-case name="fn-parse-json-928">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('93.7', map{'spec':='RFC4627'})</test>
+      <test>parse-json('93.7', map{'spec':'RFC4627'})</test>
       <result>
         <error code="FOJS0001"/>
       </result>
@@ -701,7 +701,7 @@
    <test-case name="fn-parse-json-929">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <test>parse-json('"abcd\n"', map{'spec':='RFC4627','unescape':=false()})</test>
+      <test>parse-json('"abcd\n"', map{'spec':'RFC4627','unescape':false()})</test>
       <result>
         <error code="FOJS0001"/>
       </result>

@@ -10,7 +10,6 @@
 -export(['map-entry-004'/1]).
 -export(['map-entry-005'/1]).
 -export(['map-entry-006'/1]).
--export(['map-entry-007'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -21,8 +20,7 @@ all() -> [
    'map-entry-003',
    'map-entry-004',
    'map-entry-005',
-   'map-entry-006',
-   'map-entry-007'].
+   'map-entry-006'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -131,123 +129,234 @@ environment('math') ->
 'map-entry-001'(_Config) ->
    Qry = "map:entry(3, 5)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                1
-                map(*)
-                map(xs:integer, xs:integer)
-                function(xs:anyAtomicType) as xs:integer?
-                $result(3) eq 5
-                map:size($result) eq 1
-                map:size(map:remove($result, 3)) eq 0
-                map:size(map:remove($result, 1)) eq 1
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"$result(3) eq 5",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size(map:remove($result, 3)) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size(map:remove($result, 1)) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' andalso xqerl_types:type(Res) == 'map(xs:integer, xs:integer)' andalso xqerl_types:type(Res) == 'function(xs:anyAtomicType) as xs:integer?' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:integer, xs:integer)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"function(xs:anyAtomicType) as xs:integer?") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result(3) eq 5") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size($result) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'map-entry-002'(_Config) ->
    Qry = "map:entry(3, ())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                1
-                map(*)
-                map(xs:integer, empty-sequence())
-                empty($result(3))
-                map:size($result) eq 1
-                map:size(map:remove($result, 3)) eq 0
-                map:size(map:remove($result, 1)) eq 1
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(3))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size(map:remove($result, 3)) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size(map:remove($result, 1)) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' andalso xqerl_types:type(Res) == 'map(xs:integer, empty-sequence)' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:integer, empty-sequence())") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty($result(3))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size($result) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'map-entry-003'(_Config) ->
    Qry = "map:entry(\"foo\", (\"x\", \"y\", \"z\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                1
-                map(*)
-                map(xs:string, xs:string*)
-                empty($result(\"bar\"))
-                count($result(\"foo\")) eq 3
-                map:get($result, \"foo\") = \"z\"
-                map:get($result, xs:untypedAtomic(\"foo\")) = \"z\"
-                map:size($result) eq 1
-                map:size(map:remove($result, \"foo\")) eq 0
-                map:size(map:remove($result, \"bar\")) eq 1
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(\"bar\"))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"count($result(\"foo\")) eq 3",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:get($result, \"foo\") = \"z\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:get($result, xs:untypedAtomic(\"foo\")) = \"z\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size(map:remove($result, \"foo\")) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size(map:remove($result, \"bar\")) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' andalso xqerl_types:type(Res) == 'map(xs:string, xs:string*)' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:string, xs:string*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty($result(\"bar\"))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"count($result(\"foo\")) eq 3") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:get($result, \"foo\") = \"z\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:get($result, xs:untypedAtomic(\"foo\")) = \"z\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size($result) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, \"foo\")) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, \"bar\")) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'map-entry-004'(_Config) ->
    Qry = "map:entry(xs:untypedAtomic(\"foo\"), map{})",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                1
-                map(*)
-                map(xs:string, map(*))
-                empty($result(\"bar\"))
-                count($result(\"foo\")) eq 1
-                empty($result(\"foo\")(\"bar\"))
-                empty($result(xs:untypedAtomic(\"foo\"))(\"bar\"))
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(\"bar\"))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"count($result(\"foo\")) eq 1",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(\"foo\")(\"bar\"))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(xs:untypedAtomic(\"foo\"))(\"bar\"))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' andalso xqerl_types:type(Res) == 'map(xs:string, map(*))' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:string, map(*))") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty($result(\"bar\"))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"count($result(\"foo\")) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty($result(\"foo\")(\"bar\"))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty($result(xs:untypedAtomic(\"foo\"))(\"bar\"))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'map-entry-005'(_Config) ->
    Qry = "map:entry(number('NaN'), 'NaN')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                1
-                map(*)
-                map:size($result) eq 0
-                empty($result(number('NaN')))
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"empty($result(number('NaN')))",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size($result) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty($result(number('NaN')))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'map-entry-006'(_Config) ->
    Qry = "map:entry(xs:float('NaN'), 'NaN')",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                1
-                map(*)
-                map:size($result) eq 0
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"map:size($result) eq 0",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_types:type(Res) == 'map(*)' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
-'map-entry-007'(_Config) ->
-   Qry = "map:collation(map:entry(0,1))",
-   Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            http://www.w3.org/2005/xpath-functions/collation/codepoint
-        ",
-   case xqerl_test:string_value(Res) of
-             "http://www.w3.org/2005/xpath-functions/collation/codepoint" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size($result) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

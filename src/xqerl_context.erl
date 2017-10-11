@@ -44,6 +44,7 @@
 
 -export([add_statically_known_namespace/2]).
 -export([get_statically_known_namespace_from_prefix/1]).
+-export([get_statically_known_prefix_from_namespace/1]).
 
 -export([get_default_element_type_namespace/0]).
 -export([set_default_element_type_namespace/1]).
@@ -146,6 +147,7 @@
 -export([set_empty_context_item/1]).
 -export([set_context_item/2]).
 -export([set_context_item/3]).
+-export([set_context_item/4]).
 -export([get_context_position/1]).
 -export([set_context_position/2]).
 -export([get_context_size/1]).
@@ -250,6 +252,17 @@ get_statically_known_namespace_from_prefix(Prefix) ->
          ?dbg("get_statically_known_namespace_from_prefix",Prefix),
          xqerl_error:error('XPST0081');
       {ok, V} ->
+         V
+   end.
+
+get_statically_known_prefix_from_namespace(Namespace) ->
+   Dict = erlang:get('statically-known-namespaces'),
+   List = dict:to_list(Dict),
+   case lists:keyfind(Namespace, 2, List) of
+      false ->
+         ?dbg("get_statically_known_prefix_from_namespace",Namespace),
+         xqerl_error:error('XPST0081');
+      {V,_} ->
          V
    end.
 
@@ -549,9 +562,19 @@ set_empty_context_item(Ctx) ->
    Ctx3.
    
 % returns new Ctx map
+set_context_item(Ctx, [], _Pos, _Size) ->
+   set_empty_context_item(Ctx);
+set_context_item(Ctx, CI, Pos, Size) ->
+   Ctx#{'context-item' => CI,
+        'context-position' => Pos,
+        'context-item-count' => Size}.
+
 set_context_item(Ctx, CI, Pos) ->
    Ctx#{'context-item' => CI,
         'context-position' => Pos}.
+
+set_context_item(Ctx, []) ->
+   maps:remove('context-item',Ctx);
 set_context_item(Ctx, CI) ->
    maps:put('context-item', CI, Ctx).
 

@@ -435,7 +435,10 @@ together with the numeric-equal operator "ge".
       	local:date(25252734927766555, 05, 12) + xs:yearMonthDuration("P4267296Y")
       </test>
       <result>
-         <error code="FODT0001"/>
+        <any-of>
+          <error code="FODT0001"/>
+          <error code="FODT0002"/>
+        </any-of>
       </result>
    </test-case>
 </test-set>

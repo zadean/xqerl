@@ -1,6 +1,6 @@
 -module(xqerl_parser).
 -export([parse/1, parse_and_scan/1, format_error/1]).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1585).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1587).
 
 
 %% -------------------------------------------------------------------
@@ -68,9 +68,15 @@ xqAtomicValue(Type,Value) ->
 %% qname(func, {qname,undefined,"xs",Ln}) ->
 %%    Ns = "xqerl_xs",
 %%    {qname,Ns,"xs",Ln};
-qname(func, {qname,undefined,Px,Ln}) -> % must be known
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-   {qname,Ns,Px,Ln};
+%% qname(_, {qname,undefined,"local",Ln}) ->
+%%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
+qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
+   try
+      Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+      {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,undefined,Px,Ln}
+   end;
 % reserved function names
 qname(func, {qname,default,_,"array"}) -> xqerl_error:error('XPST0003');
 qname(func, {qname,default,_,"attribute"}) -> xqerl_error:error('XPST0003');
@@ -97,7 +103,27 @@ qname(func, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(pi, Ln) ->
-   {qname,'no-namespace',[],string:trim(Ln)};
+   Str = string:trim(Ln),
+   case xqerl_lib:is_xsncname_start_char(hd(Str)) of
+      true ->
+         lists:foreach(fun($:) -> xqerl_error:error('XPTY0004');
+                          (C) ->
+                           case xqerl_lib:is_xsname_char(C) of
+                              false ->
+                                 ?dbg("C",C),
+                                 xqerl_error:error('XPTY0004');
+                              _ -> ok
+                           end
+                        end, Str);
+      _ ->
+         xqerl_error:error('XPTY0004')
+   end,
+   LC = string:lowercase(Str),
+   if LC == "xml" ->
+         xqerl_error:error('XPST0003');
+      true ->
+         {qname,'no-namespace',[],Str}
+   end;
 
 %% qname(type, {qname,_,"xs",Ln}) ->
 %%    Ns = "xqerl_xs",
@@ -113,9 +139,20 @@ qname(var, {qname,default,"",Ln}) ->
    qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,_,"err",Ln}) ->
    {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
-qname(var, {qname,undefined,Px,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-   qname(var, {qname,Ns,Px,Ln});
+qname(var, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
+   try
+      Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+      {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,undefined,Px,Ln}
+   end;
+qname(var, {qname,Ns,undefined,Ln}) -> % may be known in static namespaces
+   try
+      Px = xqerl_context:get_statically_known_prefix_from_namespace(Ns),
+      {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,Ns,undefined,Ln}
+   end;
 qname(var, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
@@ -134,13 +171,13 @@ qname(opt, {qname,undefined,Px,Ln}) ->
 qname(opt, {qname,default,_,Ln}) ->
    Ns  = "http://www.w3.org/2012/xquery",
    {qname,Ns,"",Ln};
-qname(opt, {Ns,Px,Ln}) ->
+qname(opt, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(wildcard, {qname,default,default,Ln}) ->
-   {qname,"*","*",Ln};
-qname(wildcard, {qname,default,Px,Ln}) ->
-   {qname,"*",Px,Ln};
+   {qname,'no-namespace',[],Ln};
+qname(wildcard, {qname,default,_Px,Ln}) ->
+   {qname,'no-namespace',[],Ln};
 qname(wildcard, {qname,undefined,"*",Ln}) ->
    {qname,"*","*",Ln};
 %% qname(wildcard, {qname,undefined,Px,Ln}) ->
@@ -165,8 +202,8 @@ qname(other, {qname,_,"*",Ln}) ->
 qname(other, {qname,undefined,Px,"*"}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
    {qname,Ns,Px,"*"};
-qname(other, {qname,_,"local",Ln}) ->
-   {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
+%% qname(other, {qname,_,"local",Ln}) ->
+%%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
 qname(other, {qname,_,"fn",Ln}) ->
    {qname,"http://www.w3.org/2005/xpath-functions","fn",Ln};
 qname(other, {qname,_,"xsi",Ln}) ->
@@ -243,18 +280,19 @@ ns_value([]) ->
    [];
 ns_value([#xqAtomicValue{} = At]) ->
    %?dbg("1705",At),
-   element(3,At);
+   xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
 ns_value([{expr,A}]) ->
    ?dbg("XQST0022",A),
    xqerl_error:error('XQST0022');
 ns_value(A) when is_list(A) ->
    %?dbg("1708",A),
    try
-      lists:flatmap( fun(#xqAtomicValue{value = V}) ->
+      L = lists:flatmap( fun(#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,_E}) ->
                             xqerl_error:error('XQST0022')
-                     end, A)
+                     end, A),
+      xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
    catch _:_ ->
       ?dbg("XQST0022",A),
       xqerl_error:error('XQST0022')
@@ -287,11 +325,27 @@ dir_att(QName, Value) ->
                           expr = case Value of
                                     [] -> [#xqAtomicValue{type = 'xs:string', value = ""}];
                                     undefined -> [#xqAtomicValue{type = 'xs:string', value = ""}];
-                                    _ -> Value
+                                    _ -> normalize_att_content(Value)
                                     end}
    end.
   
+normalize_att_content(Content) ->
+   lists:map(
+      fun(#xqAtomicValue{value = Str} = A) ->
+            A#xqAtomicValue{value = normalize_whitespace(Str)};
+         (O) ->
+            O
+      end, Content).
 
+normalize_whitespace([H|T]) when H == 32;
+                                 H == 13;
+                                 H == 10;
+                                 H == 9 ->
+   [32|normalize_whitespace(T)];
+normalize_whitespace([H|T]) ->
+   [H|normalize_whitespace(T)];
+normalize_whitespace([]) ->
+   [].
 
 -file("c:/erlang/erl9.0/lib/parsetools-2.1.5/include/yeccpre.hrl", 0).
 %%
@@ -466,7 +520,7 @@ yecctoken2string(Other) ->
 
 
 
--file("C:/git/zadean/xqerl/src/xqerl_parser.erl", 469).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.erl", 523).
 
 -dialyzer({nowarn_function, yeccpars2/7}).
 yeccpars2(0=S, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -32627,7 +32681,7 @@ yeccpars2_66_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_67_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1569).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1571).
 yeccpars2_67_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -32891,7 +32945,7 @@ yeccpars2_215_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_217_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1519).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1521).
 yeccpars2_217_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -32907,7 +32961,7 @@ yeccpars2_220_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_223_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1566).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1568).
 yeccpars2_223_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -32915,7 +32969,7 @@ yeccpars2_223_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_224_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1573).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1575).
 yeccpars2_224_(__Stack0) ->
  [__2,__1 | __Stack] = __Stack0,
  [begin
@@ -32971,7 +33025,7 @@ yeccpars2_240_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_243_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1531).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1533).
 yeccpars2_243_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33004,13 +33058,15 @@ yeccpars2_252_(__Stack0) ->
     Q ;
     # qname { namespace = _ , prefix = "xs" , local_name = _ } = Q ->
     qname_to_atom ( Q ) ;
+    # qname { namespace = _ , prefix = default , local_name = _ } = Q ->
+    qname_to_atom ( Q # qname { prefix = "xs" } ) ;
     Q ->
     Q
     end
   end | __Stack].
 
 -compile({inline,yeccpars2_256_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1530).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1532).
 yeccpars2_256_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33018,7 +33074,7 @@ yeccpars2_256_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_272_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1480).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1482).
 yeccpars2_272_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33026,7 +33082,7 @@ yeccpars2_272_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_274_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1488).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1490).
 yeccpars2_274_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33034,7 +33090,7 @@ yeccpars2_274_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_277_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1487).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1489).
 yeccpars2_277_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33042,7 +33098,7 @@ yeccpars2_277_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_278_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1486).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1488).
 yeccpars2_278_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33050,7 +33106,7 @@ yeccpars2_278_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_282_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1544).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1546).
 yeccpars2_282_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33058,7 +33114,7 @@ yeccpars2_282_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_285_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1546).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1548).
 yeccpars2_285_(__Stack0) ->
  [__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33074,7 +33130,7 @@ yeccpars2_287_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_290_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1538).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1540).
 yeccpars2_290_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33082,7 +33138,7 @@ yeccpars2_290_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_293_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1533).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1535).
 yeccpars2_293_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33090,7 +33146,7 @@ yeccpars2_293_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_295_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1536).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1538).
 yeccpars2_295_(__Stack0) ->
  [__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33098,7 +33154,7 @@ yeccpars2_295_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_297_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1539).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1541).
 yeccpars2_297_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33106,7 +33162,7 @@ yeccpars2_297_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_300_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1535).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1537).
 yeccpars2_300_(__Stack0) ->
  [__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33122,7 +33178,7 @@ yeccpars2_302_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_305_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1507).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1509).
 yeccpars2_305_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33130,7 +33186,7 @@ yeccpars2_305_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_307_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1504).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1506).
 yeccpars2_307_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33138,7 +33194,7 @@ yeccpars2_307_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_308_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1506).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1508).
 yeccpars2_308_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33146,7 +33202,7 @@ yeccpars2_308_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_309_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1503).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1505).
 yeccpars2_309_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33154,7 +33210,7 @@ yeccpars2_309_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_312_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1502).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1504).
 yeccpars2_312_(__Stack0) ->
  [__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33162,7 +33218,7 @@ yeccpars2_312_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_314_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1501).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1503).
 yeccpars2_314_(__Stack0) ->
  [__7,__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33170,7 +33226,7 @@ yeccpars2_314_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_316_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1482).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1484).
 yeccpars2_316_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33178,7 +33234,7 @@ yeccpars2_316_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_319_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1494).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1496).
 yeccpars2_319_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33186,7 +33242,7 @@ yeccpars2_319_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_321_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1492).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1494).
 yeccpars2_321_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33194,7 +33250,7 @@ yeccpars2_321_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_322_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1495).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1497).
 yeccpars2_322_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33202,7 +33258,7 @@ yeccpars2_322_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_323_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1491).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1493).
 yeccpars2_323_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33210,15 +33266,15 @@ yeccpars2_323_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_326_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1490).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1492).
 yeccpars2_326_(__Stack0) ->
  [__6,__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqKindTest { kind = attribute , name = __3 , type = __5 }
+   # xqKindTest { kind = attribute , name = __3 , type = # xqSeqType { type = __5 , occur = one } }
   end | __Stack].
 
 -compile({inline,yeccpars2_330_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1551).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1553).
 yeccpars2_330_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33226,7 +33282,7 @@ yeccpars2_330_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_331_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1553).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1555).
 yeccpars2_331_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33234,7 +33290,7 @@ yeccpars2_331_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_333_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1555).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1557).
 yeccpars2_333_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33258,7 +33314,7 @@ yeccpars2_339_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_340_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1529).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1531).
 yeccpars2_340_(__Stack0) ->
  [__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33266,7 +33322,7 @@ yeccpars2_340_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_341_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1528).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1530).
 yeccpars2_341_(__Stack0) ->
  [__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33474,19 +33530,19 @@ yeccpars2_392_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_396_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1509).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1511).
 yeccpars2_396_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   { ignore , __3 }
+   # xqKindTest { kind = 'schema-element' , name = qname ( wildcard , __3 ) }
   end | __Stack].
 
 -compile({inline,yeccpars2_400_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1497).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1499).
 yeccpars2_400_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   # xqKindTest { kind = 'schema-attribute' , name = __3 }
+   # xqKindTest { kind = 'schema-attribute' , name = qname ( wildcard , __3 ) }
   end | __Stack].
 
 -compile({inline,yeccpars2_405_/1}).
@@ -33538,7 +33594,7 @@ yeccpars2_410_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_412_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1474).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1476).
 yeccpars2_412_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33546,7 +33602,7 @@ yeccpars2_412_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_414_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1484).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1486).
 yeccpars2_414_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -33586,7 +33642,7 @@ yeccpars2_420_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_425_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1557).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1559).
 yeccpars2_425_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -33679,7 +33735,7 @@ yeccpars2_447_(__Stack0) ->
 yeccpars2_449_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   [ { 'let' , __1 } ] ++ __3
+   [ { 'let' , __1 } | __3 ]
   end | __Stack].
 
 -compile({inline,yeccpars2_452_/1}).
@@ -34324,7 +34380,7 @@ yeccpars2_636_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_640_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1478).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1480).
 yeccpars2_640_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -34332,7 +34388,7 @@ yeccpars2_640_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_641_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1476).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1478).
 yeccpars2_641_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -34340,7 +34396,7 @@ yeccpars2_641_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_642_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1477).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1479).
 yeccpars2_642_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -34992,7 +35048,7 @@ yeccpars2_786_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_789_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1575).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1577).
 yeccpars2_789_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -35000,7 +35056,7 @@ yeccpars2_789_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_790_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1574).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1576).
 yeccpars2_790_(__Stack0) ->
  [__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -35165,7 +35221,7 @@ yeccpars2_825_(__Stack0) ->
 yeccpars2_828_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
-   # xqAtomicValue { type = 'xs:string' , value = [ value_of ( __1 ) ] }
+   { char_ref , [ value_of ( __1 ) ] }
   end | __Stack].
 
 -compile({inline,yeccpars2_829_/1}).
@@ -35181,7 +35237,7 @@ yeccpars2_829_(__Stack0) ->
 yeccpars2_830_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
-   # xqAtomicValue { type = 'xs:string' , value = value_of ( __1 ) }
+   { entity_ref , value_of ( __1 ) }
   end | __Stack].
 
 -compile({inline,yeccpars2_831_/1}).
@@ -36240,7 +36296,7 @@ yeccpars2_1067_(__Stack0) ->
 yeccpars2_1068_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   [ { 'let' , # xqVar { id = next_id ( ) , name = __1 , type = undefined , expr = __3 } } ,
+   [ { 'let' , # xqVar { id = next_id ( ) , name = __1 , expr = __3 } } ,
     # xqGroupBy { grp_variable = # xqVarRef { name = __1 } , collation = default } ]
   end | __Stack].
 
@@ -36249,7 +36305,7 @@ yeccpars2_1068_(__Stack0) ->
 yeccpars2_1070_(__Stack0) ->
  [__5,__4,__3,__2,__1 | __Stack] = __Stack0,
  [begin
-   [ { 'let' , # xqVar { id = next_id ( ) , name = __1 , type = undefined , expr = __3 } } ,
+   [ { 'let' , # xqVar { id = next_id ( ) , name = __1 , expr = __3 } } ,
     # xqGroupBy { grp_variable = # xqVarRef { name = __1 } , collation = __5 } ]
   end | __Stack].
 
@@ -36384,7 +36440,7 @@ yeccpars2_1096_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_1098_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1568).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1570).
 yeccpars2_1098_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -36392,7 +36448,7 @@ yeccpars2_1098_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_1099_/1}).
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1567).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1569).
 yeccpars2_1099_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -36746,4 +36802,4 @@ yeccpars2_1154_(__Stack0) ->
   end | __Stack].
 
 
--file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1877).
+-file("C:/git/zadean/xqerl/src/xqerl_parser.yrl", 1933).

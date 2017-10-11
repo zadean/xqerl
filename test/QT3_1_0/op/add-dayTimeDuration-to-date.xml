@@ -420,7 +420,10 @@ together with the numeric-equal operator "ge".
       }; 
       local:date(25252734927766555, 05, 12) + xs:dayTimeDuration("P4267296D")</test>
       <result>
-         <error code="FODT0001"/>
+        <any-of>
+           <error code="FODT0001"/>
+           <error code="FODT0002"/>
+        </any-of>
       </result>
    </test-case>   
 </test-set>

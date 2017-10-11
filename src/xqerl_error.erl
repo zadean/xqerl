@@ -37,6 +37,8 @@
 -define(str(S), #xqAtomicValue{type = 'xs:string', value = S} ).
 -define(NS, "http://www.w3.org/2005/xqt-errors").
 
+-dialyzer({[no_return], [error/1, error/2, error/3]}).
+
 %% -record(xqError, {
 %%       name,
 %%       description,
@@ -45,36 +47,38 @@
 %%    }).
 
 error(#qname{} = Name) ->
-   Err = #xqError{name = Name,
+   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = ?str(msg('FOER0000'))},
    exit(Err);
 error(Code) when is_atom(Code) ->
-   Err = #xqError{name = #qname{namespace = ?NS, 
+   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
+                                          #qname{namespace = ?NS, 
                                 prefix = "err", 
-                                local_name = atom_to_list(Code)},
+                                local_name = atom_to_list(Code)}},
                   description = ?str(msg(Code))},
    exit(Err).
 
 error(#qname{} = Name, Msg) ->
-   Err = #xqError{name = Name,
+   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = Msg},
    exit(Err);
 error(Code, Msg) ->
-   Err = #xqError{name = #qname{namespace = ?NS, 
+   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
+                                          #qname{namespace = ?NS, 
                                 prefix = "err", 
-                                local_name = atom_to_list(Code)},
+                                local_name = atom_to_list(Code)}},
                   description = Msg},
    exit(Err).
 
 error(#qname{} = Name, Msg, Obj) ->
-   Err = #xqError{name = Name,
+   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = Msg,
                   value = Obj},
    exit(Err);
 error(Code, Msg, Obj) ->
-   Err = #xqError{name = #qname{namespace = ?NS, 
+   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = ?NS, 
                                 prefix = "err", 
-                                local_name = atom_to_list(Code)},
+                                local_name = atom_to_list(Code)}},
                   description = Msg,
                   value = Obj},
    exit(Err).

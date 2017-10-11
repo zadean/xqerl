@@ -405,65 +405,8 @@ scan_token([H|T], _A) when H == $" ; H == $' ->
    {{'StringLiteral', ?L, Literal}, T1};
 
 % types
-%% scan_token("xs:nonPositiveInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:nonPositiveInteger"), {QName, T};
-%% scan_token("xs:nonNegativeInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:nonNegativeInteger"), {QName, T};
-%% scan_token("xs:yearMonthDuration" ++ T, _A) ->  {QName, _} = scan_name("xs:yearMonthDuration"), {QName, T};
-%% scan_token("xs:normalizedString" ++ T, _A) ->  {QName, _} = scan_name("xs:normalizedString"), {QName, T};
-%% scan_token("xs:positiveInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:positiveInteger"), {QName, T};
-%% scan_token("xs:negativeInteger" ++ T, _A) ->  {QName, _} = scan_name("xs:negativeInteger"), {QName, T};
-%% scan_token("xs:dayTimeDuration" ++ T, _A) ->  {QName, _} = scan_name("xs:dayTimeDuration"), {QName, T};
-%% scan_token("xs:untypedAtomic" ++ T, _A) ->  {QName, _} = scan_name("xs:untypedAtomic"), {QName, T};
-%% scan_token("xs:unsignedShort" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedShort"), {QName, T};
-%% scan_token("xs:anyAtomicType" ++ T, _A) ->  {QName, _} = scan_name("xs:anyAtomicType"), {QName, T};
-%% scan_token("xs:unsignedLong" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedLong"), {QName, T};
-%% scan_token("xs:unsignedByte" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedByte"), {QName, T};
-%% scan_token("xs:base64Binary" ++ T, _A) ->  {QName, _} = scan_name("xs:base64Binary"), {QName, T};
-%% scan_token("xs:unsignedInt" ++ T, _A) ->  {QName, _} = scan_name("xs:unsignedInt"), {QName, T};
-%% scan_token("xs:gYearMonth" ++ T, _A) ->  {QName, _} = scan_name("xs:gYearMonth"), {QName, T};
-%% scan_token("xs:hexBinary" ++ T, _A) ->  {QName, _} = scan_name("xs:hexBinary"), {QName, T};
-%% scan_token("xs:gMonthDay" ++ T, _A) ->  {QName, _} = scan_name("xs:gMonthDay"), {QName, T};
-%% scan_token("xs:NOTATION" ++ T, _A) ->  {QName, _} = scan_name("xs:NOTATION"), {QName, T};
-%% scan_token("xs:NMTOKENS" ++ T, _A) ->  {QName, _} = scan_name("xs:NMTOKENS"), {QName, T};
-%% scan_token("xs:language" ++ T, _A) ->  {QName, _} = scan_name("xs:language"), {QName, T};
-%% scan_token("xs:ENTITIES" ++ T, _A) ->  {QName, _} = scan_name("xs:ENTITIES"), {QName, T};
-%% scan_token("xs:duration" ++ T, _A) ->  {QName, _} = scan_name("xs:duration"), {QName, T};
-%% scan_token("xs:dateTimeStamp" ++ T, _A) ->  {QName, _} = scan_name("xs:dateTimeStamp"), {QName, T};
-%% scan_token("xs:dateTime" ++ T, _A) ->  {QName, _} = scan_name("xs:dateTime"), {QName, T};
-%% scan_token("xs:untyped" ++ T, _A) ->  {QName, _} = scan_name("xs:untyped"), {QName, T};
-%% scan_token("xs:NMTOKEN" ++ T, _A) ->  {QName, _} = scan_name("xs:NMTOKEN"), {QName, T};
-%% scan_token("xs:integer" ++ T, _A) ->  {QName, _} = scan_name("xs:integer"), {QName, T};
-%% scan_token("xs:decimal" ++ T, _A) ->  {QName, _} = scan_name("xs:decimal"), {QName, T};
-%% scan_token("xs:boolean" ++ T, _A) ->  {QName, _} = scan_name("xs:boolean"), {QName, T};
-%% scan_token("xs:string" ++ T, _A) ->  {QName, _} = scan_name("xs:string"), {QName, T};
-%% scan_token("xs:NCName" ++ T, _A) ->  {QName, _} = scan_name("xs:NCName"), {QName, T};
-%% scan_token("xs:IDREFS" ++ T, _A) ->  {QName, _} = scan_name("xs:IDREFS"), {QName, T};
-%% scan_token("xs:gMonth" ++ T, _A) ->  {QName, _} = scan_name("xs:gMonth"), {QName, T};
-%% scan_token("xs:ENTITY" ++ T, _A) ->  {QName, _} = scan_name("xs:ENTITY"), {QName, T};
-%% scan_token("xs:double" ++ T, _A) ->  {QName, _} = scan_name("xs:double"), {QName, T};
-%% scan_token("xs:anyURI" ++ T, _A) ->  {QName, _} = scan_name("xs:anyURI"), {QName, T};
-%% scan_token("xs:token" ++ T, _A) ->  {QName, _} = scan_name("xs:token"), {QName, T};
-%% scan_token("xs:short" ++ T, _A) ->  {QName, _} = scan_name("xs:short"), {QName, T};
-%% scan_token("xs:QName" ++ T, _A) ->  {QName, _} = scan_name("xs:QName"), {QName, T};
-%% scan_token("xs:IDREF" ++ T, _A) ->  {QName, _} = scan_name("xs:IDREF"), {QName, T};
-%% scan_token("xs:gYear" ++ T, _A) ->  {QName, _} = scan_name("xs:gYear"), {QName, T};
-%% scan_token("xs:float" ++ T, _A) ->  {QName, _} = scan_name("xs:float"), {QName, T};
-%% scan_token("xs:time" ++ T, _A) ->  {QName, _} = scan_name("xs:time"), {QName, T};
-%% scan_token("xs:Name" ++ T, _A) ->  {QName, _} = scan_name("xs:Name"), {QName, T};
-%% scan_token("xs:long" ++ T, _A) ->  {QName, _} = scan_name("xs:long"), {QName, T};
-%% scan_token("xs:gDay" ++ T, _A) ->  {QName, _} = scan_name("xs:gDay"), {QName, T};
-%% scan_token("xs:date" ++ T, _A) ->  {QName, _} = scan_name("xs:date"), {QName, T};
-%% scan_token("xs:byte" ++ T, _A) ->  {QName, _} = scan_name("xs:byte"), {QName, T};
-%% scan_token("xs:int" ++ T, _A) ->  {QName, _} = scan_name("xs:int"), {QName, T};
-%% scan_token("xs:ID" ++ T, _A) ->  {QName, _} = scan_name("xs:ID"), {QName, T};
-%% scan_token("xs:anyType" ++ T, _A) ->  {QName, _} = scan_name("xs:anyType"), {QName, T};
-%% scan_token("xs:error" ++ T, _A) ->  {QName, _} = scan_name("xs:error"), {QName, T};
-scan_token(Str = "xs:" ++ T, _A) ->  
+scan_token(Str = "xs:" ++ _T, _A) ->  
    scan_name(Str);
-%% scan_token("xs:" ++ _T, _A) -> 
-%%    xqerl_error:error('XQST0052', "Unkown xs type");
-% end types
-%scan_token("node()" ++ T, _A) -> {{'node()', ?L, 'node()'}, T};
-%scan_token("item()" ++ T, _A) -> {{'item()', ?L, 'item()'}, T};
 
 scan_token("Q{}" ++ T, _A) -> {[{'Q', ?L, 'Q'},{'{', ?L, '{'},{'}', ?L, '}'}], T};
 scan_token(Str = "Q{" ++ _, _A) ->
@@ -652,6 +595,13 @@ scan_token(")#" ++ T, _A) ->  {{')#', ?L, ')#'}, T};
 scan_token("`{" ++ T, _A) ->  {{'`{', ?L, '`{'}, T};
 scan_token("}`" ++ T, _A) ->  {{'}`', ?L, '}`'}, T};
 
+scan_token(Str = "schema-element" ++ T, _A) -> 
+   case lookforward_is_paren(T) of
+      true ->
+         {{'schema-element', ?L, 'schema-element'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 scan_token(Str = "schema-attribute" ++ T, _A) -> 
    case lookforward_is_paren(T) of
       true ->
@@ -1000,7 +950,7 @@ scan_token(Str = "ancestor" ++ T, _A) ->
    end;
 %%% end Axis keywords
 
-scan_token(Str = "version" ++ T, A) -> 
+scan_token(Str = "version" ++ T, A) ->
    case lookback(A) of
       'xquery' ->
          {{'version', ?L, 'version'}, T};
@@ -1025,10 +975,13 @@ scan_token(Str = "ordered" ++ T, A) ->
          end
    end;
 scan_token(Str = "element" ++ T, A) -> 
+   Curly = lookforward_is_paren_or_curly(T),
    case lookforward_is_paren_or_curly(T) orelse 
-          (not xmerl_lib:is_namechar(hd(T)) andalso xmerl_lib:is_namechar(hd(strip_ws(T)))) of
+          (T =/=[] andalso not xmerl_lib:is_namechar(hd(T)) andalso xmerl_lib:is_namechar(hd(strip_ws(T)))) of
       true ->
          case lookback(A) of
+            '/' when Curly == false ->
+               scan_name(Str);
             'element' ->
                scan_name(Str);
             _ ->
@@ -1080,14 +1033,26 @@ scan_token(Str = "xquery" ++ T, []) ->
          scan_name(Str)
    end;
 scan_token("stable" ++ T, A) -> qname_if_path("stable", T, lookback(A));
-scan_token("return" ++ T, A) -> 
+scan_token(Str = "return" ++ T, A) -> 
    case lookback(A) of
+      'element' ->
+         scan_name(Str);
+      'attribute' ->
+         scan_name(Str);
+      'processing-instruction' ->
+         scan_name(Str);
       '/' ->
          qname_if_path("return", T, lookback(A));
       _ ->
          {{'return',1,'return'}, T}
    end;
-scan_token("option" ++ T, A) -> qname_if_path("option", T, lookback(A));
+scan_token(Str = "option" ++ T, A) -> 
+   case lookback(A) of
+      'declare' ->
+         {{'option',1,'option'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 scan_token("module" ++ T, A) -> qname_if_path("module", T, lookback(A));
 scan_token("import" ++ T, A) -> qname_if_path("import", T, lookback(A));
 scan_token("except" ++ T, A) -> qname_if_path("except", T, lookback(A));
@@ -1313,7 +1278,7 @@ scan_token(Str = "cast" ++ T, A) ->
        _ ->
           qname_if_path("cast", T, lookback(A))
     end;
-scan_token(Str = "case" ++ T, A) -> qname_if_path("case", T, lookback(A));
+scan_token("case" ++ T, A) -> qname_if_path("case", T, lookback(A));
 scan_token("apos" ++ T, A) -> qname_if_path("apos", T, lookback(A));
 scan_token(Str = "let" ++ T, _A) -> 
    case lookforward_is_var(T) of
@@ -1323,7 +1288,7 @@ scan_token(Str = "let" ++ T, _A) ->
       _ ->
          scan_name(Str)
    end;
-scan_token("for" ++ T, A) -> 
+scan_token(Str = "for" ++ T, _A) -> 
    case lookforward_is_var(T) of
       true ->
          {{'for',1,'for'}, T};
@@ -1332,7 +1297,7 @@ scan_token("for" ++ T, A) ->
             true ->
                {{'for',1,'for'}, T};
             _ ->
-               qname_if_path("for", T, lookback(A))
+               scan_name(Str)
          end
    end;
 scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) -> 
@@ -1450,8 +1415,8 @@ scan_token(Str = "in" ++ T, A) ->
                {{'in',?L,'in'}, T};
             '*' ->
                {{'in',?L,'in'}, T};
-            LB ->
-               ?dbg("in scanner",A),
+            _ ->
+               %?dbg("in scanner",A),
                scan_name(Str)
          end;
       _ ->
@@ -1817,6 +1782,10 @@ scan_literal([H, H | T], H, Acc) -> % double delim
    scan_literal(T, H, [H|Acc]);
 scan_literal([H|T], H, Acc) ->
     {lists:reverse(Acc), T};
+scan_literal("&apos;" ++ T, Delim, Acc) ->
+   scan_literal(T, Delim, [$'|Acc]);
+scan_literal("&quot;" ++ T, Delim, Acc) ->
+   scan_literal(T, Delim, [$"|Acc]);
 scan_literal("&amp;" ++ T, Delim, Acc) ->
    scan_literal(T, Delim, [$&|Acc]);
 scan_literal("&gt;" ++ T, Delim, Acc) ->
@@ -1830,6 +1799,8 @@ scan_literal("&#" ++ T, Delim, Acc) ->
    {{'CharRef', _, CP}, T1} = scan_dec_char_ref(T, []),
    %?dbg("CP",CP),
    scan_literal(T1, Delim, [CP|Acc]);
+scan_literal("&" ++ _T, _Delim, _Acc) -> % not allowed in literal
+   xqerl_error:error('XPST0003');
 scan_literal([H|T], Delim, Acc) ->
     scan_literal(T, Delim, [H|Acc]).
 
@@ -1849,17 +1820,17 @@ scan_name([H1, H2 | T]) when H1 == $: ; H1 == $_ ->
           ?dbg("Line",?LINE),
           {invalid_name, [H1,H2|T]};
        true ->
-          scan_prefix(T, [H2, H1])
+          scan_prefix([H2|T], [H1])
     end;
 scan_name([H|T]) when H == $* ->
     scan_prefix(T, [H]);
+scan_name([$_|T]) ->
+   scan_prefix(T, [$_]);
 scan_name([H|T]) ->
    case xmerl_lib:is_letter(H) of
       true ->
           scan_prefix(T, [H]);
       false ->
-         %?dbg("Line",?LINE),
-         %?dbg("Line",H),
           {invalid_name, [H|T]}
    end;
 scan_name(Str) ->
@@ -1952,7 +1923,11 @@ lookforward_greatest_least(T) ->
    case lookforward_is_ws(T) of
       true ->
          case strip_ws(T) of
+            [$g,$r,$e,$a,$t,$e,$s,$t,$,|_]->
+               true;
             [$g,$r,$e,$a,$t,$e,$s,$t,S|_] when ?whitespace(S) ->
+               true;
+            [$l,$e,$a,$s,$t,$,|_] ->
                true;
             [$l,$e,$a,$s,$t,S|_] when ?whitespace(S) ->
                true;
@@ -2024,8 +1999,8 @@ lookforward_is_number([H|_]) ->
          false
    end.
 
-lookforward_is_nameletter([H|_]) ->
-   xqerl_lib:is_xschar(H).
+%% lookforward_is_nameletter([H|_]) ->
+%%    xqerl_lib:is_xschar(H).
 
 lookforward_is_end(T) ->
    case strip_ws(T) of
@@ -2033,11 +2008,11 @@ lookforward_is_end(T) ->
       _ -> false
    end.
 
-lookforward_is_equal(T) ->
-   case strip_ws(T) of
-      "=" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_equal(T) ->
+%%    case strip_ws(T) of
+%%       "=" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
 lookforward_is_empty(T) ->
    case strip_ws(T) of
@@ -2105,6 +2080,8 @@ lookforward_is_curly(T) ->
 
 qname_if_path(Tok, [], _Last) ->
    scan_name(Tok);
+qname_if_path(Tok, _, []) ->
+   scan_name(Tok);
 qname_if_path(Tok, [H|T], Last) ->
    case xmerl_lib:is_namechar(H) of
       true ->
@@ -2118,8 +2095,10 @@ qname_if_path(Tok, [H|T], Last) ->
          end
    end.
 
-scan_direct_comment_text([], A) ->  
-   {{'comment-text', ?L, lists:reverse(A)}, []};
+scan_direct_comment_text([], _A) ->  
+   ?dbg("unbalanced comment",'XPST0003'),
+   xqerl_error:error('XPST0003');
+%%    {{'comment-text', ?L, lists:reverse(A)}, []};
 scan_direct_comment_text("-->" ++ T, A) ->  
    {{'comment-text', ?L, lists:reverse(A)}, T};
 scan_direct_comment_text("--" ++ _T, _A) ->  
@@ -2131,30 +2110,36 @@ scan_direct_comment_text([H|T], A) ->
 scan_cdata_contents([], A) ->  
    {{'cdata-contents', ?L, lists:reverse(A)}, []};
 scan_cdata_contents("]]>" ++ T, A) ->
-   ?dbg(?MODULE,?LINE),
    {{'cdata-contents', ?L, lists:reverse(A)}, T};
 scan_cdata_contents([H|T], A) ->  
    scan_cdata_contents(T, [H|A] ).
 
 % {Target, Contents, Tail}
 scan_direct_pi_constructor([]) ->  
-   ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
-scan_direct_pi_constructor([H1, H2, H3 | _]) when H1 == $X orelse H1 == $x ,
-                                                  H2 == $M orelse H2 == $m ,
-                                                  H3 == $L orelse H3 == $l ->  
-   ?dbg(?LINE,'XPST0003'),
+scan_direct_pi_constructor([H1, H2, H3, H4 | _]) when H1 == $X orelse H1 == $x ,
+                                                      H2 == $M orelse H2 == $m ,
+                                                      H3 == $L orelse H3 == $l ,
+                                                      ?whitespace(H4) ->  
    xqerl_error:error('XPST0003');
-scan_direct_pi_constructor(T) ->  
-   T1 = strip_ws(T),
-   {{_,_,Target}, T2} = scan_name(T1),
+scan_direct_pi_constructor([H|_]) when ?whitespace(H) -> xqerl_error:error('XPST0003');
+scan_direct_pi_constructor(Str) ->  
+   %T1 = strip_ws(T),
+   {{_,_,Target}, T1} = scan_name(Str),
    % significant ws
-   T3 = strip_ws(T2),
-   case scan_direct_pi_contents(T3, []) of
-      {Contents, T4} ->
-         {{'PITarget', ?L, Target}, {'DirPIContents', ?L, Contents}, T4};
-      {T4} ->
-         {{'PITarget', ?L, Target}, [], T4}
+   case T1 of
+      [H|T2] when ?whitespace(H) ->
+         T3 = strip_ws(T2),
+         case scan_direct_pi_contents(T3, []) of
+            {Contents, T4} ->
+               {{'PITarget', ?L, Target}, {'DirPIContents', ?L, Contents}, T4};
+            {T4} ->
+               {{'PITarget', ?L, Target}, [], T4}
+         end;
+      "?>" ++ T9 ->
+         {{'PITarget', ?L, Target}, [], "?>" ++ T9};
+      _ ->
+         xqerl_error:error('XPST0003') % no significant whitespace found
    end.
    
 scan_direct_pi_contents([], Acc) ->
@@ -2171,7 +2156,12 @@ scan_dec_char_ref([H|T], Acc) when H >= $0, H =< $9  ->
   scan_dec_char_ref(T, [H|Acc]);
 scan_dec_char_ref([H|T], Acc) when H == $; ->
    CP = list_to_integer(lists:reverse(Acc)),
-   {{'CharRef', ?L, CP}, T}.
+   Valid = xqerl_lib:is_xschar(CP),
+   if Valid ->
+         {{'CharRef', ?L, CP}, T};
+      true ->
+         xqerl_error:error('XQST0090')
+   end.
 
 scan_hex_char_ref([H|T], Acc) when H >= $0, H =< $9  ->
    scan_hex_char_ref(T, [H|Acc]);
@@ -2182,11 +2172,11 @@ scan_hex_char_ref([H|T], Acc) when H >= $A, H =< $F  ->
 scan_hex_char_ref([H|T], Acc) when H == $; ->
    Hex = lists:reverse(Acc),
    CP = list_to_integer(Hex, 16),
-   if CP > 16#10FFFF;
-      CP < 1 ->
-         xqerl_error:error('XQST0090');
+   Valid = xqerl_lib:is_xschar(CP),
+   if Valid ->
+         {{'CharRef', ?L, CP}, T};
       true ->
-         {{'CharRef', ?L, CP}, T}
+         xqerl_error:error('XQST0090')
    end.
 
 scan_entity_ref([H|T], Acc) when H == $; ->
@@ -2228,10 +2218,15 @@ scan_enclosed_expr(Str, Acc, CurlyDepth, AposDepth, QuotDepth) ->
    ?dbg("scan_enclosed_expr", {Str, Acc, CurlyDepth, AposDepth, QuotDepth}),
    xqerl_error:error('XPST0003').
 
-% remove all xquery comments, they can be nested 
+% remove all xquery comments, they can be nested
+% also normalize end-of-line characters 
 remove_all_comments(Bin) ->
    scan_comments(Bin, 0, none).
 
+scan_comments([13,10|T], Depth, Type) ->
+   [10|scan_comments(T, Depth, Type)];
+scan_comments([13|T], Depth, Type) ->
+   [10|scan_comments(T, Depth, Type)];
 scan_comments("(#" ++ T, 0, none) -> % start pragma
    "(#" ++ scan_comments(T, 0, "(#");
 scan_comments("#)" ++ T, 0, "(#") -> % end pragma
@@ -2291,17 +2286,26 @@ scan_str_const_interp([H|T], A) ->
 % [105]    Pragma            ::=      "(#" S? EQName (S PragmaContents)? "#)"   /* ws: explicit */
 scan_pragma("(#" ++ T, _A, _L) ->
    T1 = strip_ws(T), % optional ws
-   {Name, [H2|T2]} =  scan_name(T1),
-   L1 = [{'S', ?L, 'S'}, Name, {'(#', ?L, '(#'}],
-   if ?whitespace(H2) ->
-         scan_pragma(strip_ws(T2), [], L1);
-      true ->
-         case T2 of
-            ")"++_ when H2 == $# ->
-               scan_pragma([H2|T2], [], L1);
-            _ ->
-               ?dbg(?LINE,'XPST0003'),
-               xqerl_error:error('XPST0003')
+   case T1 of
+      [$Q|_] ->
+         {L1,T2} = scan_QName(T1),
+         {N1,T3} = scan_name(T2),
+         L2 = lists:flatten([{'S', ?L, 'S'}, N1,lists:reverse(L1), {'(#', ?L, '(#'}]),
+         ?dbg("L2", L2),
+         scan_pragma(strip_ws(T3), [], L2);
+      _ ->
+         {Name, [H2|T2]} =  scan_name(T1),
+         L1 = [{'S', ?L, 'S'}, Name, {'(#', ?L, '(#'}],
+         if ?whitespace(H2) ->
+               scan_pragma(strip_ws(T2), [], L1);
+            true ->
+               case T2 of
+                  ")"++_ when H2 == $# ->
+                     scan_pragma([H2|T2], [], L1);
+                  _ ->
+                     ?dbg("XPST0003",T2),
+                     xqerl_error:error('XPST0003')
+               end
          end
    end;
 scan_pragma("#)"++T, [], L) ->
@@ -2325,6 +2329,18 @@ scan_pragma([H|T], A, L) ->
 
 scan_braced_uri("}" ++ T, Acc) -> 
    {lists:reverse(Acc), T};
+scan_braced_uri("&amp;" ++ T, Acc) ->
+   scan_braced_uri(T, [$&|Acc]);
+scan_braced_uri("&gt;" ++ T, Acc) ->
+   scan_braced_uri(T, [$>|Acc]);
+scan_braced_uri("&lt;" ++ T, Acc) ->
+   scan_braced_uri(T, [$<|Acc]);
+scan_braced_uri("&#x" ++ T, Acc) ->
+   {{'CharRef', _, CP}, T1} = scan_hex_char_ref(T, []),
+   scan_braced_uri(T1, [CP|Acc]);
+scan_braced_uri("&#" ++ T, Acc) ->
+   {{'CharRef', _, CP}, T1} = scan_dec_char_ref(T, []),
+   scan_braced_uri(T1, [CP|Acc]);
 scan_braced_uri([H|T], Acc) -> 
    scan_braced_uri(T, [H|Acc]);
 scan_braced_uri([], _Acc) -> 

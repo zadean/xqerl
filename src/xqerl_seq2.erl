@@ -220,11 +220,11 @@ insert({_,Size,_} = Seq1,Seq2,Pos) ->
              end,
    sort_seq(FunLoop(Iter1,New)).
 
-zip_with(Ctx, _Fun,[],[]) ->
+zip_with(_Ctx, _Fun,[],[]) ->
    empty();
-zip_with(Ctx, _Fun,[],_) ->
+zip_with(_Ctx, _Fun,[],_) ->
    xqerl_error:error('XPTY0004');
-zip_with(Ctx, _Fun,_,[]) ->
+zip_with(_Ctx, _Fun,_,[]) ->
    xqerl_error:error('XPTY0004');
 zip_with(Ctx, Fun,{_,Size1,_} = Seq1,{_,Size2,_} = Seq2) when is_function(Fun) ->
    New = empty(),
@@ -252,7 +252,7 @@ zip_with(Ctx, Fun,{_,Size1,_} = Seq1,{_,Size2,_} = Seq2) when is_function(Fun) -
                              Loop({NewIter1,NewIter2},NewSeq)
                           catch 
                              _:#xqError{} = E -> throw(E);
-                             _:E ->
+                             _:_ ->
                                 ?dbg("error",erlang:get_stacktrace()),
                                 xqerl_error:error('XPTY0004')
                           end
@@ -327,9 +327,14 @@ map(Ctx, Fun,{_,Size,_} = Seq) when is_function(Fun) ->
              end,
    FunLoop(Iter,New).
 
-node_map(Ctx, Fun, N) when?noderecs(N) ->
+node_map(_Ctx, _Fun, []) ->
+   empty();
+node_map(Ctx, Fun, N) when ?noderecs(N) ->
    node_map(Ctx, Fun,singleton(N));
+node_map(_Ctx, _Fun,{#xqSeqType{type = 'empty-sequence'},_Size,_}) ->
+   empty();
 node_map(_Ctx, _Fun,{#xqSeqType{type = Type},_Size,_}) when not ?node(Type) ->
+   ?dbg("Type",Type),
    xqerl_error:error('XPTY0019');
 node_map(Ctx, Fun,{#xqSeqType{type = Type},Size,_} = Seq) when is_function(Fun), ?node(Type) ->
    New = empty(),
@@ -498,6 +503,7 @@ empty() ->
    Type = #xqSeqType{type = 'empty-sequence', occur = zero},
    {Type,0,Empty}.
 
+to_list([]) -> [];
 to_list(#xqAtomicValue{} = A) -> [A];
 to_list(#xqNode{} = A) -> [A];
 to_list(#xqFunction{} = A) -> [A];
@@ -530,8 +536,12 @@ range(From, To) ->
                To1 = xqerl_types:value(xqerl_types:cast_as(To, 'xs:integer')),
                From1 = xqerl_types:value(xqerl_types:cast_as(From, 'xs:integer')),
                R = range1(From1,To1,[]),
-               %?dbg("R",R),
-               R;
+               Sz = ?MODULE:size(R),
+               if Sz == 0 ->
+                     empty();
+                  true ->
+                     R
+               end;
                %range2(To1 - From1 + 1, To1,From1,[]);
             _ ->
                xqerl_error:error('XPTY0004')
@@ -542,10 +552,10 @@ range1(Min,Curr,Seq) when Curr >= Min ->
    %?dbg("R",Curr),
    range1(Min,Curr - 1, [{Curr + 1 - Min, #xqAtomicValue{type = 'xs:integer', value = Curr}}|Seq]);
 range1(0,_Min,Acc) ->
-   Type = #xqSeqType{type = 'xs:integer', occur = zero_or_many},
+   Type = #xqSeqType{type = 'xs:integer', occur = one_or_many},
    {Type,length(Acc),Acc};
 range1(_Curr,_Min,Acc) ->
-   Type = #xqSeqType{type = 'xs:integer', occur = zero_or_many},
+   Type = #xqSeqType{type = 'xs:integer', occur = one_or_many},
    {Type,length(Acc),Acc}.
 
 %singleton(#xqAtomicValue{} = At) -> At;
@@ -653,7 +663,8 @@ filter(_Ctx, #xqAtomicValue{type = 'xs:integer', value = Pos},_Seq) when Pos =< 
    empty();
 filter(_Ctx, #xqAtomicValue{type = 'xs:integer', value = Pos},_Seq) when not is_integer(Pos) ->
    empty();
-filter(_Ctx, #xqAtomicValue{type = 'xs:integer', value = Pos},{_Type,_Size,List}) when Pos > 0 ->
+filter(_Ctx, #xqAtomicValue{type = Type, value = Pos},{_Type,_Size,List}) when Pos > 0, Type == 'xs:double';
+                                                                               Pos > 0, Type == 'xs:integer' ->
    New = empty(),
    case lists:keyfind(Pos, 1, List) of
       false ->
@@ -670,13 +681,6 @@ filter(Ctx, #xqAtomicValue{type = T, value = Pos},Seq) when ?numeric(T) ->
    end;
 filter(Ctx, Fun,{_Type,Size,List} = Seq) when is_function(Fun,1) ->
    New = empty(),
-%%    {_Type,Size,List} = Seq = case is_sequence(Seq0) of
-%%                           true ->
-%%                              Seq0;
-%%                           _ ->
-%%                              ?dbg("not sequence",?LINE),
-%%                              singleton(Seq0)
-%%                        end,
    Iter = get_seq_iter(Seq),
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
    %?dbg("Line",Seq),

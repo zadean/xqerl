@@ -177,143 +177,153 @@ environment('collection') ->
    Qry = "generate-id(())",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            xs:string
-            \"\"
-         
-      ",
- case  begin Tst2 = xqerl:run("\"\""),
-  ResVal2 = xqerl_types:value(Res),
-  TstVal2 = xqerl_types:value(Tst2),
-  ResVal2 == TstVal2 end andalso xqerl_types:type(Res) == 'xs:string' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"xs:string") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_eq(Res,"\"\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-001'(_Config) ->
    Qry = "generate-id(/*)",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-002'(_Config) ->
    Qry = "generate-id((//@*)[1])",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-003'(_Config) ->
    Qry = "generate-id(/)",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-004'(_Config) ->
    Qry = "generate-id((//comment())[1])",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-005'(_Config) ->
    Qry = "generate-id((//processing-instruction())[1])",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-006'(_Config) ->
    Qry = "generate-id((//text())[1])",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-007'(_Config) ->
    {skip,"XP20+"}.
 'generate-id-008'(_Config) ->
    Qry = "generate-id() eq generate-id(/)",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-009'(_Config) ->
    Qry = "/*/(generate-id() eq generate-id(.))",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-010'(_Config) ->
    Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    Env = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-011'(_Config) ->
    {skip,"XP20+"}.
 'generate-id-012'(_Config) ->
@@ -321,27 +331,31 @@ environment('collection') ->
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    Env = xqerl_test:handle_environment(environment('collection')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-013'(_Config) ->
    Qry = "let $nodes := collection()//*
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    Env = xqerl_test:handle_environment(environment('collection')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-014'(_Config) ->
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
@@ -349,16 +363,16 @@ environment('collection') ->
       ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-015'(_Config) ->
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
@@ -366,16 +380,16 @@ environment('collection') ->
       ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         matches($result, '^[A-Za-z][A-Za-z0-9]*$')
-      ",
-   case (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;""matches($result, '^[A-Za-z][A-Za-z0-9]*$')",Options)) == {xqAtomicValue,'xs:boolean',true}) of
-           true -> {comment, "assert"};
-           _ -> ct:fail({Res,Exp}) 
-           end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-016'(_Config) ->
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
@@ -383,14 +397,16 @@ environment('collection') ->
       ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-017'(_Config) ->
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
@@ -398,73 +414,85 @@ environment('collection') ->
       ",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-018'(_Config) ->
    {skip,"xpath-1.0-compatibility"}.
 'generate-id-901'(_Config) ->
    Qry = "let $f := function() {generate-id()} return $f()",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPDY0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-902'(_Config) ->
    Qry = "let $f := function($x as item()) {generate-id($x)} return $f(3)",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-903'(_Config) ->
    Qry = "for $i in 1 to 20 return generate-id($i)",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-904'(_Config) ->
    Qry = "let $f := function($x as item()) {\"\"} return generate-id($f)",
    Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'generate-id-905'(_Config) ->
    Qry = "generate-id(//*)",
    Env = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0004'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

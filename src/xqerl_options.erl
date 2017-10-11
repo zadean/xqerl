@@ -21,7 +21,8 @@
 %% -------------------------------------------------------------------
 
 %% @doc Module for Serialization options
-
+%% @TODO Complete the implementation
+ 
 -module(xqerl_options).
 
 -define(NS,"https://www.w3.org/2010/xslt-xquery-serialization").
@@ -139,13 +140,13 @@ validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "doctype-sys
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "encoding"},Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "escape-uri-attributes"},Value}|T],State) -> 
-   validate1(T,maps:put('byte-order-mark', true_false(Value), State));
+   validate1(T,maps:put('escape-uri-attributes', true_false(Value), State));
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "html-version"},Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "include-content-type"},Value}|T],State) -> 
-   validate1(T,maps:put('byte-order-mark', true_false(Value), State));
+   validate1(T,maps:put('include-content-type', true_false(Value), State));
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "indent"},Value}|T],State) -> 
-   validate1(T,maps:put('byte-order-mark', true_false(Value), State));
+   validate1(T,maps:put('indent', true_false(Value), State));
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "item-separator"},Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "json-node-output-method"},Value}|T],State) -> 
@@ -163,7 +164,7 @@ validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "standalone"
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "suppress-indentation"},Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "undeclare-prefixes"},Value}|T],State) -> 
-   validate1(T,maps:put('byte-order-mark', true_false(Value), State));
+   validate1(T,maps:put('undeclare-prefixes', true_false(Value), State));
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "use-character-maps"},Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "version"},Value}|T],State) -> 

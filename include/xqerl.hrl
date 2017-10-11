@@ -76,6 +76,7 @@
         I=='xs:anySimpleType' orelse I=='xs:untypedAtomic' orelse I=='xs:dateTime' orelse I=='xs:dateTimeStamp' orelse I=='xs:time' orelse I=='xs:date' orelse 
         I=='xs:gYearMonth' orelse I=='xs:gYear' orelse I=='xs:gMonthDay' orelse I=='xs:gDay' orelse I=='xs:gMonth' orelse I=='xs:boolean' orelse 
         I=='xs:base64Binary' orelse I=='xs:hexBinary' orelse I=='xs:float' orelse I=='xs:double' orelse I=='xs:anyURI' orelse I=='xs:QName' orelse I=='xs:NOTATION' orelse 
+        I=='xs:numeric' orelse 
         I=='xs:decimal' orelse 
         I=='xs:integer' orelse 
         I=='xs:nonPositiveInteger' orelse I=='xs:negativeInteger' orelse 
@@ -192,14 +193,25 @@
 
 -record(xqSeqType, {
    type  = item :: term(), %:: atom() | #xqKindTest{},
-   occur = zero_or_many  :: zero | one | zero_or_one | zero_or_many | one_or_many
+   occur = zero_or_many  :: zero | one | zero_or_one | zero_or_many | one_or_many | none
 }).
+
+% 3 types of items
+-record(xqAtomicValue,
+        {
+         type  = undefined :: atom(),
+         value = undefined :: term() | []
+        }).
+-record(xqNode, {
+      frag_id      = 0 :: integer() | string(),
+      identity     = -1 :: integer()
+   }).
 
 -record(qname, 
         {
-         namespace  :: 'no-namespace' | default | undefined | string(),
-         prefix    = undefined :: default | undefined | string(),
-         local_name :: undefined | string()
+         namespace  :: 'no-namespace' | default | undefined | string() | #xqAtomicValue{} | #xqNode{},
+         prefix    = undefined :: default | undefined | string() | #xqAtomicValue{} | #xqNode{},
+         local_name :: undefined | string() | #xqAtomicValue{} | #xqNode{}
         }).
 -record(xqPosVar,
         {
@@ -248,8 +260,8 @@
 
 -record(xqNamespace, 
         {
-         namespace  :: undefined | atom(),
-         prefix     :: undefined | bitstring() | []
+         namespace  :: 'no-namespace' | undefined | string() | [],
+         prefix     :: undefined | string() | []
         }).
 %% -record(xqElement, 
 %%         {
@@ -265,12 +277,6 @@
 %%    doc  % an XML
 %% }).
 
-% 3 types of items
--record(xqAtomicValue,
-        {
-         type  = undefined :: atom(),
-         value = undefined :: term()
-        }).
 %% -record(xqFuncParam, {
 %%    name              = undefined    :: #'qname'{},
 %%    type              = #xqSeqType{} :: #xqSeqType{}
@@ -278,7 +284,7 @@
 -record(xqFunction, {
    id                = 0 :: integer(),
    annotations       = [] :: [ #annotation{} ],
-   name              = undefined :: #'qname'{} | undefined,
+   name              = undefined :: #qname{} | undefined,
    arity             = 0 :: integer(),
    params            = [],
    type              = #xqSeqType{} :: any | #xqSeqType{},
@@ -286,10 +292,6 @@
    %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
 }).
 
--record(xqNode, {
-      frag_id      = 0 :: integer() | string(),
-      identity     = -1 :: integer()
-   }).
 
 -record(xqXmlFragment, {
       identity     = undefined :: term(),
@@ -316,7 +318,7 @@
       name         = undefined :: #qname{} | term(),
       parent_node  = undefined :: term(),
       children     = []        :: [term()],
-      attributes   = []        :: [term()],
+      attributes   = []        :: undefined | [term()],
       inscope_ns   = []        ,
       nilled       = false     :: boolean(),
       type         = undefined :: term(),
@@ -410,7 +412,7 @@
 }).
 
 -record(xqGroupBy, {
-   grp_variable :: #xqVarRef{},
+   grp_variable :: #xqVarRef{} | {variable, atom()},
    collation
 }).
 
@@ -419,7 +421,7 @@
 }).
 
 -record(xqKindTest, {
-   kind = node :: node | text | comment | 'namespace-node' | namespace | element | attribute | 'document-node' | document | 'processing-instruction',
+   kind = node :: node | text | comment | 'namespace-node' | namespace | 'schema-element' | element | 'schema-attribute' | attribute | 'document-node' | document | 'processing-instruction',
    name = undefined :: #qname{} | undefined | term(),
    type,
    test
@@ -430,7 +432,7 @@
    annotations = [] :: [ #annotation{} ],
    name   :: undefined | #qname{},
    params = any :: [#xqSeqType{}] | any,
-   type   = any :: #xqSeqType{} | any
+   type   = any :: #xqSeqType{} | #xqKindTest{} | any
 }).
 % {xqFunTest,function,[],undefined,any,any}
 -record(xqAxisStep, {

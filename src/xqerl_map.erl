@@ -75,7 +75,12 @@
 'contains'(_Ctx,Map,Key) when is_map(Map) ->
    ?sin(#xqAtomicValue{type = 'xs:boolean', value = maps:is_key(xqerl_operators:key_val(Key), Map)});
 'contains'(_Ctx,Map,Key) ->
-   'contains'(_Ctx,?val(Map),Key).
+   IMap = ?val(Map),
+   if is_map(IMap) ->
+         'contains'(_Ctx,IMap,Key);
+      true ->
+         xqerl_error:error('XPTY0004')
+   end.
 
 %% Returns a map that contains a single entry (a key-value pair). 
 'entry'(_Ctx,Key0,Value0) -> 
@@ -93,16 +98,28 @@
                    Action(K,V)
              end, maps:values(?val(Map)));
 'for-each'(_Ctx,Map,Action) ->
-   'for-each'(_Ctx,?val(Map),Action).
+   IMap = ?val(Map),
+   if is_map(IMap) ->
+         'for-each'(_Ctx,IMap,Action);
+      true ->
+         xqerl_error:error('XPTY0004')
+   end.
 
 %% Returns the value associated with a supplied key in a given map. 
-'get'(_Ctx,Map,Key) -> 
-   case maps:find(xqerl_operators:key_val(Key), ?val(Map)) of
+'get'(_Ctx,Map,Key) when is_map(Map) -> 
+   case maps:find(xqerl_operators:key_val(Key), Map) of
            error ->
               ?seq:empty();
            {ok, {_,V}} ->
               V
-        end.
+        end;
+'get'(_Ctx,Map,Key) -> 
+   IMap = ?val(Map),
+   if is_map(IMap) ->
+         'get'(_Ctx,IMap,Key);
+      true ->
+         xqerl_error:error('XPTY0004')
+   end.
 
 %% Returns a sequence containing all the keys present in a map 
 'keys'(_Ctx,Map) ->
@@ -113,6 +130,8 @@
             end, [], ?val(Map))).
 
 %% Returns a map that combines the entries from a number of existing maps. 
+'merge'(_Ctx,Maps) when is_map(Maps) ->
+   Maps;
 'merge'(_Ctx,Maps) ->
    OptionMap = maps:put(duplicates, 'use-first', maps:new()),
    'merge'(_Ctx,Maps,OptionMap).

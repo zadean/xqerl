@@ -1028,7 +1028,7 @@ node_after(Seq1, Seq2) ->
 
 node_is([], _) -> ?seq:empty();
 node_is(_, []) -> ?seq:empty();
-node_is(A, A) -> #xqAtomicValue{type = 'xs:boolean', value = true};
+node_is(#xqNode{} = A, #xqNode{} = A) -> #xqAtomicValue{type = 'xs:boolean', value = true};
 node_is(#xqNode{frag_id = F1,identity = I1}, #xqNode{frag_id = F2,identity = I2}) ->
    #xqAtomicValue{type = 'xs:boolean', value = I1 == I2 andalso F1 == F2};
 node_is(Seq1,#xqNode{} = N2) ->
@@ -1095,7 +1095,7 @@ value_compare(Op,#xqAtomicValue{type = 'xs:untypedAtomic'} = Val1, #xqAtomicValu
                  true ->
                     xqerl_types:cast_as(Val1,'xs:double');
                  _ ->
-                     xqerl_types:cast_as(Val1,Type)
+                    xqerl_types:cast_as(Val1,Type)
               end
         end,
    value_compare(Op,V1,Val2);
@@ -1414,9 +1414,9 @@ numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
              (ValA == "-INF") andalso (ValB == "-INF") ->
                 true;
              (ValA == ValB) andalso TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
-                false;
+                true;
              (ValA == ValB) andalso TypeB == 'xs:float' andalso TypeA == 'xs:double' ->
-                false;
+                true;
              true ->
                 ValA == ValB %andalso TypeA == TypeB
           end,
@@ -2223,6 +2223,12 @@ numeric_unary_plus(_) ->
 % returns: xs:numeric
 numeric_unary_minus([]) -> [];
 numeric_unary_minus([#xqAtomicValue{} = Arg]) -> numeric_unary_minus(Arg);
+numeric_unary_minus(#xqAtomicValue{type = Type, value = "INF"} = Arg) when ?numeric(Type) ->
+   Arg#xqAtomicValue{value = "-INF"};
+numeric_unary_minus(#xqAtomicValue{type = Type, value = "-INF"} = Arg) when ?numeric(Type) ->
+   Arg#xqAtomicValue{value = "INF"};
+numeric_unary_minus(#xqAtomicValue{type = Type, value = "NaN"} = Arg) when ?numeric(Type) ->
+   Arg#xqAtomicValue{value = "NaN"};
 numeric_unary_minus(#xqAtomicValue{type = Type, value = Val} = Arg) when ?numeric(Type) ->
    Arg#xqAtomicValue{value = Val * -1};
 numeric_unary_minus(_) ->
@@ -2385,6 +2391,8 @@ key_val(Val) ->
          {duration,V};
       #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = N,local_name = L}} ->
          {N,L};
+      [] ->
+         xqerl_error:error('XPTY0004');
       _ ->
          Atomic
    end.

@@ -257,7 +257,8 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <test>ordered{}</test>
       <result>
-         <error code="XPST0003"/>
+        <assert-empty/>
+         <!-- <error code="XPST0003"/> -->
       </result>
    </test-case>
 
@@ -266,7 +267,8 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <test>unordered{}</test>
       <result>
-         <error code="XPST0003"/>
+        <assert-empty/>
+         <!-- <error code="XPST0003"/> -->
       </result>
    </test-case>
 

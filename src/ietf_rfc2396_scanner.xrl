@@ -17,14 +17,15 @@ BIG = &#[0-9]+;
 % excluded characters
 CONTROL = [\x00-\x1F\x7F]
 SPACE = [\s]
-DELIMS = [\<\>\#\%\"]
+DELIMS = [\<\>\#\%\"\;]
 UNWISE = [\{\}\|\\\^\`]
 
 SCHEME = (file|http|https|ftp|ssh|sftp|tftp)://
 %SCHEME = [a-zA-Z]([0-9A-Za-z]|\+|\-|\.)+
 Rules.
  
-{CONTROL}|{DELIMS}|{UNWISE} : {token,{excluded,TokenLine,TokenChars}}.
+{CONTROL}|{UNWISE} : {token,{excluded,TokenLine,TokenChars}}.
+{DELIMS} : {token,{delimiter,TokenLine,TokenChars}}.
 {RESERVED} : {token,{reserved,TokenLine,TokenChars}}.
 {SPACE} : {token,{unreserved,TokenLine,TokenChars}}.
 {UNRESERVED} : {token,{unreserved,TokenLine,TokenChars}}.

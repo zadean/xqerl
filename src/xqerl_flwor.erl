@@ -166,6 +166,7 @@ add_position(H, Cnt, Acc) ->
 
 %% takes {{K1,KN}, {V1,V2,VN}} and returns {K1,KN,V1,V2,VN} grouped
 groupbyclause(KeyVals) ->
+   %?dbg("KeyVals",KeyVals),
    KeyVals1 = [
                {
                 list_to_tuple(
@@ -173,7 +174,9 @@ groupbyclause(KeyVals) ->
                       #xqNode{} = N ->
                          ?seq:singleton_value(xqerl_node:atomize_nodes(N));
                       #xqAtomicValue{} = A ->
-                         A
+                         A;
+                      [] ->
+                         []
                    end || 
                    K2 <- tuple_to_list(K1)
                   ]
@@ -182,7 +185,7 @@ groupbyclause(KeyVals) ->
              ],
    Keys = [K || {K,_V} <- KeyVals1],
 
-   %?dbg("KeyVals1",KeyVals1),
+   %dbg("KeyVals1",KeyVals1),
    UKeys = unique(Keys),
    %?dbg("UKeys",UKeys),
    Mapped = lists:foldl(fun({K,V},Acc) ->
@@ -461,7 +464,7 @@ orderbyclause(VarStream, Clauses) ->
    stream_from_list(
    lists:sort(fun(A,B) ->
                     do_order(A,B,Clauses)
-              end, stream_to_list(VarStream) )).
+              end, stream_to_list(VarStream))).
 
 
 do_order(_A,_B,[]) ->
@@ -469,34 +472,22 @@ do_order(_A,_B,[]) ->
 do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
    ValA = Fun(A),
    ValB = Fun(B),
-   if Empty == greatest andalso ValA == [] ->
+   if ValA == [] andalso ValB == [] -> % stable sort by empty function
+         true;
+      Empty == greatest andalso ValA == [] ->
          true;
       Empty == greatest andalso ValB == [] ->
          false;
-      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', value = "NaN"};
-      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:float', value = "NaN"};
+      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
          true;
       Empty == least andalso ValA == [] ->
          false;
       Empty == least andalso ValB == [] ->
          true;
-      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', value = "NaN"};
-      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:float', value = "NaN"};
+      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
          true;
-      Empty == default andalso ValA == [] ->
-         case xqerl_context:get_default_order_for_empty_sequences() of
-            greatest ->
-               true;
-            _ ->
-               false
-         end;
-      Empty == default andalso ValB == [] ->
-         case xqerl_context:get_default_order_for_empty_sequences() of
-            greatest ->
-               false;
-            _ ->
-               true
-         end;
       true ->
          case val(xqerl_operators:greater_than(ValA, ValB)) of
             true  ->
@@ -511,12 +502,12 @@ do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
          end
    end;
 do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
-   %?dbg("in",{A,B}),
    ValA = Fun(A), %W
+   %?dbg("ValA",ValA),
    ValB = Fun(B), %V
-   %?dbg("in",{ValA,ValB}),
-   if ValA == ValB ->
-         true; % stable sort
+   %?dbg("ValB",ValB),
+   if ValA == [] andalso ValB == [] -> % stable sort by empty function
+         true;
       Empty == greatest andalso ValA == [] ->
          false;
       Empty == greatest andalso ValB == [] ->
@@ -531,20 +522,6 @@ do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
       Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', value = "NaN"};
       Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
          true;
-      Empty == default andalso ValA == [] ->
-         case xqerl_context:get_default_order_for_empty_sequences() of
-            greatest ->
-               false;
-            _ ->
-               true
-         end;
-      Empty == default andalso ValB == [] ->
-         case xqerl_context:get_default_order_for_empty_sequences() of
-            greatest ->
-               true;
-            _ ->
-               false
-         end;
       true ->
          case val(xqerl_operators:less_than(ValA, ValB)) of
             true ->
@@ -625,6 +602,7 @@ val(T) ->
    xqerl_types:value(T).
 
 bool(T) ->
+   %?dbg("T",T),
    xqerl_operators:eff_bool_val(T).
 
 %   T#xqAtomicValue.value.

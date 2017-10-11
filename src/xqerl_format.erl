@@ -22,6 +22,7 @@
 
 %% @doc Formatting functions for use with fn:format-integer, date fomat functions, and format-number. 
 %% @TODO use the modifier markers for ordinals and 'traditional'. 
+%% @TODO Complete the implementation
 
 -module(xqerl_format).
 -include("xqerl.hrl").

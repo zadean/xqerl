@@ -659,7 +659,7 @@ Left  2000  '[' ']' '?'.
 % [48]
 'LetClause'              -> 'let' 'LetBindingList' : '$2'. 
 % [49]
-'LetBindingList'         -> 'LetBinding' ',' 'LetBindingList' : [{'let', '$1'}] ++ '$3' .
+'LetBindingList'         -> 'LetBinding' ',' 'LetBindingList' : [{'let', '$1'}|'$3'].
 'LetBindingList'         -> 'LetBinding' : [{'let', '$1'}] .
 
 'LetBinding'             -> '$' 'VarName' 'TypeDeclaration' ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5'}.
@@ -795,9 +795,9 @@ Left  2000  '[' ']' '?'.
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$6'}] .
 'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'} },
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = 'undefined', 'expr' = '$3'} },
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'} },
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$5'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = 'undefined', 'expr' = '$3'} },
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'} },
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
 'GroupingSpec'           ->  'GroupingVariable'                                     'collation' 'URILiteral' : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$3'}].
 'GroupingSpec'           ->  'GroupingVariable'                                                              : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}].
@@ -1316,8 +1316,8 @@ Left  2000  '[' ']' '?'.
 'ElementContentChars'    -> 'ElementContentChar' : [value_of('$1')].
 'ElementContentChars'    -> 'S'                  : [value_of('$1')].
 % [148]    CommonContent     ::=      PredefinedEntityRef | CharRef | "{{" | "}}" | EnclosedExpr  
-'CommonContent'          -> 'PredefinedEntityRef' : #xqAtomicValue{type = 'xs:string', value = value_of('$1')}.
-'CommonContent'          -> 'CharRef'             : #xqAtomicValue{type = 'xs:string', value = [value_of('$1')]}.
+'CommonContent'          -> 'PredefinedEntityRef' : {entity_ref, value_of('$1')}.
+'CommonContent'          -> 'CharRef'             : {char_ref, [value_of('$1')]}.
 'CommonContent'          -> '{{'                  : #xqAtomicValue{type = 'xs:string', value = "{"}.
 'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = "}"}.
 'CommonContent'          -> 'EnclosedExpr' : {content_expr, '$1'}.
@@ -1458,6 +1458,8 @@ Left  2000  '[' ']' '?'.
                                              Q;
                                           #qname{namespace = _, prefix = "xs", local_name = _} = Q ->
                                              qname_to_atom(Q);
+                                          #qname{namespace = _, prefix = default, local_name = _} = Q ->
+                                             qname_to_atom(Q#qname{prefix = "xs"});
                                           Q ->
                                              Q
                                        end.
@@ -1491,14 +1493,14 @@ Left  2000  '[' ']' '?'.
 'PITest'                 -> 'processing-instruction' '(' 'StringLiteral' ')' : #xqKindTest{kind = 'processing-instruction', name = qname(pi,value_of('$3'))}.
 'PITest'                 -> 'processing-instruction' '(' ')' : #xqKindTest{kind = 'processing-instruction'}.
 % [195]    AttributeTest     ::=      "attribute" "(" (AttribNameOrWildcard ("," TypeName)?)? ")" 
-'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ',' 'TypeName' ')' : #xqKindTest{kind = 'attribute', name = '$3', type = '$5'}.
+'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ',' 'TypeName' ')' : #xqKindTest{kind = 'attribute', name = '$3', type = #xqSeqType{type = '$5', occur = one}}.
 'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ')' : #xqKindTest{kind = 'attribute', name = '$3'}.
 'AttributeTest'          -> 'attribute' '(' ')' : #xqKindTest{kind = 'attribute'}.
 % [196]    AttribNameOrWildcard    ::=      AttributeName | "*"  
 'AttribNameOrWildcard'   -> 'AttributeName' : qname(wildcard,'$1').
 'AttribNameOrWildcard'   -> '*' : {qname,"*","*","*"}.
 % [197]    SchemaAttributeTest     ::=      "schema-attribute" "(" AttributeDeclaration ")" 
-'SchemaAttributeTest'    -> 'schema-attribute' '(' 'AttributeDeclaration' ')' : #xqKindTest{kind = 'schema-attribute', name = '$3'}.
+'SchemaAttributeTest'    -> 'schema-attribute' '(' 'AttributeDeclaration' ')' : #xqKindTest{kind = 'schema-attribute', name = qname(wildcard,'$3')}.
 % [198]    AttributeDeclaration    ::=      AttributeName  
 'AttributeDeclaration'   -> 'AttributeName' : '$1'.
 % [199]    ElementTest    ::=      "element" "(" (ElementNameOrWildcard ("," TypeName "?"?)?)? ")"   
@@ -1510,7 +1512,7 @@ Left  2000  '[' ']' '?'.
 'ElementNameOrWildcard'  -> '*' : {qname,"*","*","*"}.
 'ElementNameOrWildcard'  -> 'ElementName' : qname(wildcard,'$1').
 % [201]    SchemaElementTest    ::=      "schema-element" "(" ElementDeclaration ")"  
-'SchemaElementTest'      -> 'schema-element' '(' 'ElementDeclaration' ')' : {'ignore', '$3'}.
+'SchemaElementTest'      -> 'schema-element' '(' 'ElementDeclaration' ')' : #xqKindTest{kind = 'schema-element', name = qname(wildcard,'$3')}.
 % [202]    ElementDeclaration      ::=      ElementName 
 'ElementDeclaration'     -> 'ElementName' : '$1'.
 % [203]    AttributeName     ::=      EQName   
@@ -1650,9 +1652,15 @@ xqAtomicValue(Type,Value) ->
 %% qname(func, {qname,undefined,"xs",Ln}) ->
 %%    Ns = "xqerl_xs",
 %%    {qname,Ns,"xs",Ln};
-qname(func, {qname,undefined,Px,Ln}) -> % must be known
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-   {qname,Ns,Px,Ln};
+%% qname(_, {qname,undefined,"local",Ln}) ->
+%%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
+qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
+   try
+      Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+      {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,undefined,Px,Ln}
+   end;
 % reserved function names
 qname(func, {qname,default,_,"array"}) -> xqerl_error:error('XPST0003');
 qname(func, {qname,default,_,"attribute"}) -> xqerl_error:error('XPST0003');
@@ -1679,7 +1687,27 @@ qname(func, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(pi, Ln) ->
-   {qname,'no-namespace',[],string:trim(Ln)};
+   Str = string:trim(Ln),
+   case xqerl_lib:is_xsncname_start_char(hd(Str)) of
+      true ->
+         lists:foreach(fun($:) -> xqerl_error:error('XPTY0004');
+                          (C) ->
+                           case xqerl_lib:is_xsname_char(C) of
+                              false ->
+                                 ?dbg("C",C),
+                                 xqerl_error:error('XPTY0004');
+                              _ -> ok
+                           end
+                        end, Str);
+      _ ->
+         xqerl_error:error('XPTY0004')
+   end,
+   LC = string:lowercase(Str),
+   if LC == "xml" ->
+         xqerl_error:error('XPST0003');
+      true ->
+         {qname,'no-namespace',[],Str}
+   end;
 
 %% qname(type, {qname,_,"xs",Ln}) ->
 %%    Ns = "xqerl_xs",
@@ -1695,9 +1723,20 @@ qname(var, {qname,default,"",Ln}) ->
    qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,_,"err",Ln}) ->
    {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
-qname(var, {qname,undefined,Px,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-   qname(var, {qname,Ns,Px,Ln});
+qname(var, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
+   try
+      Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+      {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,undefined,Px,Ln}
+   end;
+qname(var, {qname,Ns,undefined,Ln}) -> % may be known in static namespaces
+   try
+      Px = xqerl_context:get_statically_known_prefix_from_namespace(Ns),
+      {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,Ns,undefined,Ln}
+   end;
 qname(var, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
@@ -1716,13 +1755,13 @@ qname(opt, {qname,undefined,Px,Ln}) ->
 qname(opt, {qname,default,_,Ln}) ->
    Ns  = "http://www.w3.org/2012/xquery",
    {qname,Ns,"",Ln};
-qname(opt, {Ns,Px,Ln}) ->
+qname(opt, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(wildcard, {qname,default,default,Ln}) ->
-   {qname,"*","*",Ln};
-qname(wildcard, {qname,default,Px,Ln}) ->
-   {qname,"*",Px,Ln};
+   {qname,'no-namespace',[],Ln};
+qname(wildcard, {qname,default,_Px,Ln}) ->
+   {qname,'no-namespace',[],Ln};
 qname(wildcard, {qname,undefined,"*",Ln}) ->
    {qname,"*","*",Ln};
 %% qname(wildcard, {qname,undefined,Px,Ln}) ->
@@ -1747,8 +1786,8 @@ qname(other, {qname,_,"*",Ln}) ->
 qname(other, {qname,undefined,Px,"*"}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
    {qname,Ns,Px,"*"};
-qname(other, {qname,_,"local",Ln}) ->
-   {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
+%% qname(other, {qname,_,"local",Ln}) ->
+%%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
 qname(other, {qname,_,"fn",Ln}) ->
    {qname,"http://www.w3.org/2005/xpath-functions","fn",Ln};
 qname(other, {qname,_,"xsi",Ln}) ->
@@ -1825,18 +1864,19 @@ ns_value([]) ->
    [];
 ns_value([#xqAtomicValue{} = At]) ->
    %?dbg("1705",At),
-   element(3,At);
+   xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
 ns_value([{expr,A}]) ->
    ?dbg("XQST0022",A),
    xqerl_error:error('XQST0022');
 ns_value(A) when is_list(A) ->
    %?dbg("1708",A),
    try
-      lists:flatmap( fun(#xqAtomicValue{value = V}) ->
+      L = lists:flatmap( fun(#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,_E}) ->
                             xqerl_error:error('XQST0022')
-                     end, A)
+                     end, A),
+      xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
    catch _:_ ->
       ?dbg("XQST0022",A),
       xqerl_error:error('XQST0022')
@@ -1869,8 +1909,24 @@ dir_att(QName, Value) ->
                           expr = case Value of
                                     [] -> [#xqAtomicValue{type = 'xs:string', value = ""}];
                                     undefined -> [#xqAtomicValue{type = 'xs:string', value = ""}];
-                                    _ -> Value
+                                    _ -> normalize_att_content(Value)
                                     end}
    end.
   
+normalize_att_content(Content) ->
+   lists:map(
+      fun(#xqAtomicValue{value = Str} = A) ->
+            A#xqAtomicValue{value = normalize_whitespace(Str)};
+         (O) ->
+            O
+      end, Content).
 
+normalize_whitespace([H|T]) when H == 32;
+                                 H == 13;
+                                 H == 10;
+                                 H == 9 ->
+   [32|normalize_whitespace(T)];
+normalize_whitespace([H|T]) ->
+   [H|normalize_whitespace(T)];
+normalize_whitespace([]) ->
+   [].

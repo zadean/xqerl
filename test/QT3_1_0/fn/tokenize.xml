@@ -350,14 +350,14 @@ abracadabra", "\n")</test>
       </result>
    </test-case>
 
-   <test-case name="K-TokenizeFunc-1">
+   <!-- <test-case name="K-TokenizeFunc-1">
       <description> fn:tokenize takes at least two arguments. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <test>tokenize("input")</test>
       <result>
          <error code="XPST0017"/>
       </result>
-   </test-case>
+   </test-case> -->
 
    <test-case name="K-TokenizeFunc-2">
       <description> The pattern can't be the empty sequence. </description>

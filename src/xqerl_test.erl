@@ -1,20 +1,207 @@
 -module(xqerl_test).
+
+-export([assert/2]).
+-export([assert_empty/1]).
+-export([assert_type/2]).
+-export([assert_xml/2]).
+-export([assert_eq/2]).
+-export([assert_deep_eq/2]).
+-export([assert_false/1]).
+-export([assert_true/1]).
+-export([assert_count/2]).
+-export([assert_permutation/2]).
+-export([assert_string_value/2]).
+-export([assert_norm_string_value/2]).
+-export([assert_error/2]).
+
 -export([size/1]).
 -export([string_value/1]).
 -export([run/1]).
 -export([run/2]).
 -export([run_suite/1]).
 -export([handle_environment/1]).
+
 -include("xqerl.hrl").
+
+
+%% assert functions return either true or {false, Result}
+
+%% assert                 (: run test query with result as variable == true :)
+assert(Result, QueryString) ->
+   NewQueryString = "declare variable $result as item() external; " ++ QueryString,
+   case catch xqerl:run(NewQueryString, #{"result" => Result}) of
+      {'EXIT',Res} ->
+         {false, Res};
+      Res1 ->
+         StrVal = string_value(Res1),
+         if StrVal == "true" ->
+               true;
+            true ->
+               {false, {assert,Res1,QueryString}}
+         end
+   end.
+
+%% assert_empty           (: string value of result == [] :)
+assert_empty(Result) ->
+   StrVal = string_value(Result),
+   if StrVal == [] ->
+         true;
+      true ->
+         {false, {assert_empty,StrVal}}
+   end.
+%% assert_type            (: result instance of type :)
+assert_type(Result, TypeString) ->
+   NewQueryString = "declare variable $result as item() external; $result instance of " ++ TypeString,
+   case catch xqerl:run(NewQueryString, #{"result" => Result}) of
+      {'EXIT',Res} ->
+         {false, {assert_type,Res}};
+      Res1 ->
+         StrVal = string_value(Res1),
+         if StrVal == "true" ->
+               true;
+            true ->
+               {false, {assert_type,Res1,TypeString}}
+         end
+   end.
+%% assert_xml             (: fn:deep-equal(result, run test query) :)
+assert_xml(Result, QueryString) ->
+   ResXml = xqerl_node:to_xml(Result),
+   case ResXml == QueryString of
+      true ->
+         true;
+      _ ->
+         try
+            NewQueryString = "fn:deep-equal(<x>" ++ ResXml ++ "</x> ,<x>" ++ QueryString ++ "</x>)",
+            Res1 = xqerl:run(NewQueryString, #{}),
+            StrVal = string_value(Res1),
+            if StrVal == "true" ->
+                  true;
+               true ->
+                  {false, {assert_xml,ResXml,QueryString}}
+            end
+         catch 
+            _:_ ->
+               {false, {assert_xml,ResXml,QueryString}}
+         end
+   end.
+%% assert_eq              (: '=' operator :)
+assert_eq(Result, TypeString) ->
+   NewQueryString = "declare variable $result as item() external; $result = " ++ TypeString,
+   case catch xqerl:run(NewQueryString, #{"result" => Result}) of
+      {'EXIT',Res} ->
+         {false, Res};
+      Res1 ->
+         StrVal = string_value(Res1),
+         if StrVal == "true" ->
+               true;
+            true ->
+               {false, {assert_eq,Res1,TypeString}}
+         end
+   end.
+%% assert_deep_eq         (: fn:deep-equal(result, run test query) :)
+assert_deep_eq(Result, QueryString) ->
+   NewQueryString = "declare variable $result as item() external; fn:deep-equal($result,(" ++ QueryString ++ "))",
+   case catch xqerl:run(NewQueryString, #{"result" => ?seq:from_list(Result)}) of
+      {'EXIT',Res} ->
+         {false, Res};
+      Res1 ->
+         StrVal = string_value(Res1),
+         if StrVal == "true" ->
+               true;
+            true ->
+               {false, {assert_deep_eq,Res1,QueryString}}
+         end
+   end.
+%% assert_false           (: string value of result == 'true' :)
+assert_false(Result) ->
+   StrVal = string_value(Result),
+   if StrVal == "false" ->
+         true;
+      true ->
+         {false, {assert_false,Result}}
+   end.
+%% assert_true            (: string value of result == 'false' :)
+assert_true(Result) ->
+   StrVal = string_value(Result),
+   if StrVal == "true" ->
+         true;
+      true ->
+         {false, {assert_true,Result}}
+   end.
+%% assert_permutation     (: take_while memeber(result, run test query) == [] :)
+%% the result should be a list of atomic values, the permute list also
+assert_permutation(Result, PermuteString) ->
+   QueryString = "(" ++ PermuteString ++ ")",
+   case catch xqerl:run(QueryString, #{}) of
+      {'EXIT',Res} ->
+         {false, Res};
+      Res1 ->
+         Rest = Result -- Res1,
+         if Rest == [] ->
+               true;
+            true ->
+               {false, {assert_permutation,Rest,PermuteString}}
+         end
+   end.
+%% assert_count           (: fn:count(result) == cnt :)
+assert_count(Result, TypeString) ->
+   NewQueryString = "declare variable $result as item() external; fn:count($result) eq " ++ TypeString,
+   case catch xqerl:run(NewQueryString, #{"result" => Result}) of
+      {'EXIT',Res} ->
+         {false, Res};
+      Res1 ->
+         StrVal = string_value(Res1),
+         if StrVal == "true" ->
+               true;
+            true ->
+               {false, {assert_count,Res1,TypeString}}
+         end
+   end.
+%% assert_string_value    (: string value of result == Str :)
+assert_string_value(Result, String) ->
+   StrVal = string_value(Result),
+   if StrVal == String ->
+         true;
+      true ->
+         {false, {assert_string_value,StrVal,String}}
+   end.
+assert_norm_string_value(Result, String) ->
+   StrVal = string:trim(string_value(Result)),
+   if StrVal == String ->
+         true;
+      true ->
+         {false, {assert_string_value,StrVal,String}}
+   end.
+%% assert_error
+assert_error(Result, ErrorCode) ->
+   case Result of 
+      #xqError{name = #xqAtomicValue{value = #qname{local_name = Err}}} ->
+         if Err == ErrorCode;
+            ErrorCode == "*" ->
+               true;
+            true ->
+               {false,{Err,ErrorCode}}
+         end;
+      _ ->
+         StrVal = string_value(Result),
+         {false, {assert_error,StrVal,ErrorCode}}
+   end.
+
+
 
 size({Id,{Size,_}}) when is_integer(Id), is_integer(Size) ->
    1;
 size(A) ->
    ?seq:size(A).
 
-string_value(List) when is_list(List) ->
-   Seq = ?seq:from_list(List),
+string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
+   NewList = lists:map(fun(I) ->
+                             %xqerl_types:string_value(I)
+                             ?seq:singleton(I)
+                       end, List),
+   Seq = ?seq:from_list(NewList),
    xqerl_types:string_value(Seq);
+   %lists:concat([hd(NewList)|[" "++ Av || Av <- tl(NewList), Av =/= [] ] ]);
 string_value(Seq) ->
    xqerl_types:string_value(Seq).
 
@@ -114,12 +301,12 @@ run(prod1) ->
    run_suite(prod_DefaultCollationDecl_SUITE),
    run_suite(prod_DefaultNamespaceDecl_SUITE),
    run_suite(prod_DirAttributeList_SUITE),
-   run_suite(prod_DirectConstructor_SUITE),
+   run_suite(prod_DirectConstructor_SUITE);
+run(prod2) ->
    run_suite(prod_DirElemConstructor_SUITE),
    run_suite(prod_DirElemContent_SUITE),
    run_suite(prod_DirElemContent_namespace_SUITE),
-   run_suite(prod_DirElemContent_whitespace_SUITE);
-run(prod2) ->
+   run_suite(prod_DirElemContent_whitespace_SUITE),
    run_suite(prod_EmptyOrderDecl_SUITE),
    run_suite(prod_EQName_SUITE),
    run_suite(prod_ExtensionExpr_SUITE),

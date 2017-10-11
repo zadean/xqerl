@@ -810,6 +810,7 @@
    <test-case name="cbcl-subsequence-010">
       <description> Test subsequence on largest supported (non-infinite) range. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="problem" value="HUGE RANGE"/>
       <modified by="Michael Kay" on="2012-12-20" change="allow correct answer or indeterminate error. See bug 20310."/>
       <modified by="O'Neil Delpratt" on="2013-06-07" change="Added error code. Relating to bug issue #19579" />
       <test>count(subsequence(1 to 3000000000, -2147483648, 2147483647))</test>
@@ -824,6 +825,7 @@
    <test-case name="cbcl-subsequence-011">
       <description> Test unbounded subsequence with starting position out of int range. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="problem" value="HUGE RANGE"/>
       <modified by="Michael Kay" on="2012-12-20" change="allow correct answer or indeterminate error. See bug 20310."/>
       <test>count(subsequence(1 to 3000000000, -2147483649))</test>
       <result>
@@ -837,6 +839,7 @@
    <test-case name="cbcl-subsequence-012">
       <description> Test unbounded subsequence with starting position out of int range. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="problem" value="HUGE RANGE"/>
       <modified by="Michael Kay" on="2012-12-20" change="allow correct answer or indeterminate error. See bug 20310."/>
       <test>count(subsequence(1 to 3000000000, 2147483648))</test>
       <result>
@@ -850,6 +853,7 @@
    <test-case name="cbcl-subsequence-013">
       <description> Test unbounded subsequence with largest allowed starting position. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="problem" value="HUGE RANGE"/>
       <modified by="Michael Kay" on="2012-12-20" change="allow correct answer or indeterminate error. See bug 20310."/>
       <test>count(subsequence(1 to 3000000000, 2147483647))</test>
       <result>
@@ -863,6 +867,7 @@
    <test-case name="cbcl-subsequence-014">
       <description> Test unbounded subsequence with largest allowed starting position. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="problem" value="HUGE RANGE"/>
       <modified by="Michael Kay" on="2012-12-20" change="allow correct answer or indeterminate error. See bug 20310."/>
       <test>subsequence(1 to 3000000000, 2147483647, 5)</test>
       <result>

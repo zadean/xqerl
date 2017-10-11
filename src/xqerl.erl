@@ -85,7 +85,7 @@ compile(FileName) ->
 
 
 
-run(Str) -> run(Str, []).
+run(Str) -> run(Str, #{}).
 
 run(Str, Options) ->
    % saving the docs between runs to not have to reparse
@@ -237,7 +237,7 @@ compile_main(Str) ->
    erlang:erase(),
    ok.   
 
-trun(Str) -> trun(Str, []).
+trun(Str) -> trun(Str, #{}).
 trun(Str, Opt) ->
    % saving the docs between runs to not have to reparse
    Docs = erlang:get('available-documents'),
@@ -246,9 +246,8 @@ trun(Str, Opt) ->
    catch code:delete(xqerl_main),
       Str2 = strip_comments(Str),
 %      ?dbg("Str2",Str2),
-      %Tokens = scan_tokens(Str2),
       Tokens = xqerl_scanner:tokens(Str2), 
-%      ?dbg("Tokens",Tokens),
+      ?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
       ?dbg("Tree",Tree),

@@ -938,2726 +938,2543 @@ environment('xq311B') ->
    Qry = "fn:count(//center/child::*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes001-2'(_Config) ->
    Qry = "fn:count(//center/child::*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes001-3'(_Config) ->
    Qry = "fn:count(//center/child::*)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         6
-      ",
- Tst = xqerl:run("6"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"6") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes002-1'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes002-2'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes002-3'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes002-4'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         2
-      ",
- Tst = xqerl:run("2"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes003-1'(_Config) ->
    Qry = "fn:count(//center/child::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes003-2'(_Config) ->
    Qry = "fn:count(//center/child::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes003-3'(_Config) ->
    Qry = "fn:count(//center/child::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes003-4'(_Config) ->
    Qry = "fn:count(//center/child::node())",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         19
-      ",
- Tst = xqerl:run("19"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"19") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes004-1'(_Config) ->
    Qry = "fn:count(//center/*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes004-2'(_Config) ->
    Qry = "fn:count(//center/*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes004-3'(_Config) ->
    Qry = "fn:count(//center/*)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         6
-      ",
- Tst = xqerl:run("6"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"6") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes005-1'(_Config) ->
    Qry = "fn:count(//center/south-east)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes005-2'(_Config) ->
    Qry = "fn:count(//center/south-east)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes005-3'(_Config) ->
    Qry = "fn:count(//center/south-east)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes005-4'(_Config) ->
    Qry = "fn:count(//center/south-east)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         2
-      ",
- Tst = xqerl:run("2"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes006-1'(_Config) ->
    Qry = "fn:count(//center/node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes006-2'(_Config) ->
    Qry = "fn:count(//center/node())",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes006-3'(_Config) ->
    Qry = "fn:count(//center/node())",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes006-4'(_Config) ->
    Qry = "fn:count(//center/node())",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         19
-      ",
- Tst = xqerl:run("19"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"19") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes007-1'(_Config) ->
    Qry = "fn:count(//west/attribute::*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes007-2'(_Config) ->
    Qry = "fn:count(//west/attribute::*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes007-3'(_Config) ->
    Qry = "fn:count(//west/attribute::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes008-1'(_Config) ->
    Qry = "fn:count(//west/attribute::west-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes008-2'(_Config) ->
    Qry = "fn:count(//west/attribute::west-attr-2)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes008-3'(_Config) ->
    Qry = "fn:count(//west/attribute::west-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes009-1'(_Config) ->
    Qry = "fn:count(//west/attribute::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes009-2'(_Config) ->
    Qry = "fn:count(//west/attribute::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes009-3'(_Config) ->
    Qry = "fn:count(//west/attribute::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes010-1'(_Config) ->
    Qry = "fn:count(//west/@*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes010-2'(_Config) ->
    Qry = "fn:count(//west/@*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes010-3'(_Config) ->
    Qry = "fn:count(//west/@*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes011-1'(_Config) ->
    Qry = "fn:count(//west/@west-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes011-2'(_Config) ->
    Qry = "fn:count(//west/@west-attr-2)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes011-3'(_Config) ->
    Qry = "fn:count(//west/@west-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes012-1'(_Config) ->
    Qry = "fn:count( / )",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes013-1'(_Config) ->
    Qry = "fn:count(//center/parent::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes014-1'(_Config) ->
    Qry = "fn:count(/far-north/parent::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes015-1'(_Config) ->
    Qry = "fn:count(//center/parent::near-north)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes016-1'(_Config) ->
    Qry = "fn:count(//center/parent::nowhere)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes017-1'(_Config) ->
    Qry = "fn:count(//center/parent::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes018-1'(_Config) ->
    Qry = "fn:count(/far-north/parent::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes019-1'(_Config) ->
    Qry = "fn:count(//center/..)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes020-1'(_Config) ->
    Qry = "fn:count(//center/self::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes021-1'(_Config) ->
    Qry = "fn:count(//center/self::center)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes023-1'(_Config) ->
    Qry = "fn:count(//center/self::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes027-1'(_Config) ->
    Qry = "fn:count(//center/@center-attr-3/self::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes030-1'(_Config) ->
    Qry = "fn:count(//center/text()/self::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes030-2'(_Config) ->
    Qry = "fn:count(//center/text()/self::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes031-1'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes031-2'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes031-3'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes031-4'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         5
-      ",
- Tst = xqerl:run("5"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"5") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes032-1'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes032-2'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes032-3'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes032-4'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes033-1'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes033-2'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes033-3'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes033-4'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         21
-      ",
- Tst = xqerl:run("21"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"21") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes034-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes034-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         6
-      ",
- Tst = xqerl:run("6"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"6") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes035-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes035-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes035-3'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes035-4'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes036-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::center)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes036-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::center)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         9
-      ",
- Tst = xqerl:run("9"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"9") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes037-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes037-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         22
-      ",
- Tst = xqerl:run("22"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"22") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes041-1'(_Config) ->
    Qry = "fn:count(//center/@center-attr-3/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes043-1'(_Config) ->
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes043-2'(_Config) ->
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes044-1'(_Config) ->
    Qry = "fn:count(/child::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes044-2'(_Config) ->
    Qry = "fn:count(/child::*)",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes045-1'(_Config) ->
    Qry = "fn:count(/child::far-north)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes045-2'(_Config) ->
    Qry = "fn:count(/child::far-north)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes046-1'(_Config) ->
    Qry = "fn:count(/child::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes046-2'(_Config) ->
    Qry = "fn:count(/child::node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         7
-      ",
- Tst = xqerl:run("7"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"7") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes047-1'(_Config) ->
    Qry = "fn:count(/*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes047-2'(_Config) ->
    Qry = "fn:count(/*)",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes048-1'(_Config) ->
    Qry = "fn:count(/far-north)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes048-2'(_Config) ->
    Qry = "fn:count(/far-north)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes049-1'(_Config) ->
    Qry = "fn:count(/node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes049-2'(_Config) ->
    Qry = "fn:count(/node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         7
-      ",
- Tst = xqerl:run("7"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"7") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes055-1'(_Config) ->
    Qry = "fn:count(/self::node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes056-1'(_Config) ->
    Qry = "fn:count(/descendant::*)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes056-2'(_Config) ->
    Qry = "fn:count(/descendant::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         15
-      ",
- Tst = xqerl:run("15"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"15") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes056-3'(_Config) ->
    Qry = "fn:count(/descendant::*)",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         16
-      ",
- Tst = xqerl:run("16"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"16") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes057-1'(_Config) ->
    Qry = "fn:count(/descendant::south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes057-2'(_Config) ->
    Qry = "fn:count(/descendant::south)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes057-3'(_Config) ->
    Qry = "fn:count(/descendant::south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes057-4'(_Config) ->
    Qry = "fn:count(/descendant::south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes058-1'(_Config) ->
    Qry = "fn:count(/descendant::node())",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes058-2'(_Config) ->
    Qry = "fn:count(/descendant::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         56
-      ",
- Tst = xqerl:run("56"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"56") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes058-3'(_Config) ->
    Qry = "fn:count(/descendant::node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         58
-      ",
- Tst = xqerl:run("58"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"58") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes059-1'(_Config) ->
    Qry = "fn:count(/descendant-or-self::*)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes059-2'(_Config) ->
    Qry = "fn:count(/descendant-or-self::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         15
-      ",
- Tst = xqerl:run("15"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"15") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes060-1'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes060-2'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes060-3'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes060-4'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes061-1'(_Config) ->
    Qry = "fn:count(/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         57
-      ",
- Tst = xqerl:run("57"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"57") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes061-2'(_Config) ->
    Qry = "fn:count(/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         59
-      ",
- Tst = xqerl:run("59"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"59") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes062-1'(_Config) ->
    Qry = "fn:count(//child::*)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes062-2'(_Config) ->
    Qry = "fn:count(//child::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         15
-      ",
- Tst = xqerl:run("15"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"15") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes063-1'(_Config) ->
    Qry = "fn:count(//child::south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes063-2'(_Config) ->
    Qry = "fn:count(//child::south)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes063-3'(_Config) ->
    Qry = "fn:count(//child::south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes063-4'(_Config) ->
    Qry = "fn:count(//child::south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes064-1'(_Config) ->
    Qry = "fn:count(//child::node())",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes064-2'(_Config) ->
    Qry = "fn:count(//child::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         56
-      ",
- Tst = xqerl:run("56"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"56") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes064-3'(_Config) ->
    Qry = "fn:count(//child::node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         58
-      ",
- Tst = xqerl:run("58"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"58") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes065-1'(_Config) ->
    Qry = "fn:count(//*)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes065-2'(_Config) ->
    Qry = "fn:count(//*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         15
-      ",
- Tst = xqerl:run("15"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"15") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes066-1'(_Config) ->
    Qry = "fn:count(//south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes066-2'(_Config) ->
    Qry = "fn:count(//south)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes066-3'(_Config) ->
    Qry = "fn:count(//south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes066-4'(_Config) ->
    Qry = "fn:count(//south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes067-1'(_Config) ->
    Qry = "fn:count(//node())",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes067-2'(_Config) ->
    Qry = "fn:count(//node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         56
-      ",
- Tst = xqerl:run("56"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"56") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes067-3'(_Config) ->
    Qry = "fn:count(//node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         58
-      ",
- Tst = xqerl:run("58"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"58") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes068-1'(_Config) ->
    Qry = "fn:count(//attribute::*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes068-2'(_Config) ->
    Qry = "fn:count(//attribute::*)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes068-3'(_Config) ->
    Qry = "fn:count(//attribute::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         14
-      ",
- Tst = xqerl:run("14"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"14") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes069-1'(_Config) ->
    Qry = "fn:count(//attribute::mark)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes069-2'(_Config) ->
    Qry = "fn:count(//attribute::mark)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes069-3'(_Config) ->
    Qry = "fn:count(//attribute::mark)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         6
-      ",
- Tst = xqerl:run("6"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"6") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes070-1'(_Config) ->
    Qry = "fn:count(//@*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes070-2'(_Config) ->
    Qry = "fn:count(//@*)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes070-3'(_Config) ->
    Qry = "fn:count(//@*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         14
-      ",
- Tst = xqerl:run("14"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"14") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes071-1'(_Config) ->
    Qry = "fn:count(//@mark)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes071-2'(_Config) ->
    Qry = "fn:count(//@mark)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes071-3'(_Config) ->
    Qry = "fn:count(//@mark)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         6
-      ",
- Tst = xqerl:run("6"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"6") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes072-1'(_Config) ->
    Qry = "fn:count(//self::*)",
    Env = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes072-2'(_Config) ->
    Qry = "fn:count(//self::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         15
-      ",
- Tst = xqerl:run("15"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"15") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes073-1'(_Config) ->
    Qry = "fn:count(//self::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         57
-      ",
- Tst = xqerl:run("57"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"57") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes073-2'(_Config) ->
    Qry = "fn:count(//self::node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         59
-      ",
- Tst = xqerl:run("59"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"59") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes074-1'(_Config) ->
    Qry = "fn:count(//center//child::*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes074-2'(_Config) ->
    Qry = "fn:count(//center//child::*)",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes074-3'(_Config) ->
    Qry = "fn:count(//center//child::*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes074-4'(_Config) ->
    Qry = "fn:count(//center//child::*)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         12
-      ",
- Tst = xqerl:run("12"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"12") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes075-1'(_Config) ->
    Qry = "fn:count(//center//child::south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes075-2'(_Config) ->
    Qry = "fn:count(//center//child::south)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes075-3'(_Config) ->
    Qry = "fn:count(//center//child::south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes075-4'(_Config) ->
    Qry = "fn:count(//center//child::south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes076-1'(_Config) ->
    Qry = "fn:count(//center//child::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes076-2'(_Config) ->
    Qry = "fn:count(//center//child::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes076-3'(_Config) ->
    Qry = "fn:count(//center//child::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes076-4'(_Config) ->
    Qry = "fn:count(//center//child::node())",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         37
-      ",
- Tst = xqerl:run("37"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"37") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes077-1'(_Config) ->
    Qry = "fn:count(//center//*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes077-2'(_Config) ->
    Qry = "fn:count(//center//*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes077-3'(_Config) ->
    Qry = "fn:count(//center//*)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         12
-      ",
- Tst = xqerl:run("12"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"12") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes078-1'(_Config) ->
    Qry = "fn:count(//center//south)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes078-2'(_Config) ->
    Qry = "fn:count(//center//south)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes078-3'(_Config) ->
    Qry = "fn:count(//center//south)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes078-4'(_Config) ->
    Qry = "fn:count(//center//south)",
    Env = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         8
-      ",
- Tst = xqerl:run("8"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"8") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes079-1'(_Config) ->
    Qry = "fn:count(//center//node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes079-2'(_Config) ->
    Qry = "fn:count(//center//node())",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes079-3'(_Config) ->
    Qry = "fn:count(//center//node())",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes079-4'(_Config) ->
    Qry = "fn:count(//center//node())",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         37
-      ",
- Tst = xqerl:run("37"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"37") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes080-1'(_Config) ->
    Qry = "fn:count(//west//attribute::*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes080-2'(_Config) ->
    Qry = "fn:count(//west//attribute::*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes080-3'(_Config) ->
    Qry = "fn:count(//west//attribute::*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes081-1'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes081-2'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes081-3'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes081-4'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes082-1'(_Config) ->
    Qry = "fn:count(//west//attribute::node())",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes082-2'(_Config) ->
    Qry = "fn:count(//west//attribute::node())",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes082-3'(_Config) ->
    Qry = "fn:count(//west//attribute::node())",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes083-1'(_Config) ->
    Qry = "fn:count(//west//@*)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes083-2'(_Config) ->
    Qry = "fn:count(//west//@*)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes083-3'(_Config) ->
    Qry = "fn:count(//west//@*)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes084-1'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes084-2'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
    Env = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
- Tst = xqerl:run("0"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes084-3'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes084-4'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
    Env = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         4
-      ",
- Tst = xqerl:run("4"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes085'(_Config) ->
    Qry = "<root> {//Customers} </root>",
    Env = xqerl_test:handle_environment(environment('nw_Customers')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <root><Customers CustomerID=\"ALFKI\">
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<root><Customers CustomerID=\"ALFKI\">
 		<CompanyName>Alfreds Futterkiste</CompanyName>
 		<ContactName>Maria Anders</ContactName>
 		<ContactTitle>Sales Representative</ContactTitle>
@@ -4757,2367 +4574,175 @@ environment('xq311B') ->
 			<PostalCode>01-012</PostalCode>
 			<Country>Poland</Country>
 		</FullAddress>
-	</Customers></root>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<root><Customers CustomerID=\"ALFKI\">
-		<CompanyName>Alfreds Futterkiste</CompanyName>
-		<ContactName>Maria Anders</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>030-0074321</Phone>
-		<Fax>030-0076545</Fax>
-		<FullAddress>
-			<Address>Obere Str. 57</Address>
-			<City>Berlin</City>
-			<PostalCode>12209</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ANATR\">
-		<CompanyName>Ana Trujillo Emparedados y helados</CompanyName>
-		<ContactName>Ana Trujillo</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(5) 555-4729</Phone>
-		<Fax>(5) 555-3745</Fax>
-		<FullAddress>
-			<Address>Avda. de la Constituci&#243;n 2222</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05021</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ANTON\">
-		<CompanyName>Antonio Moreno Taquer&#237;a</CompanyName>
-		<ContactName>Antonio Moreno</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(5) 555-3932</Phone>
-		<FullAddress>
-			<Address>Mataderos  2312</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05023</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"AROUT\">
-		<CompanyName>Around the Horn</CompanyName>
-		<ContactName>Thomas Hardy</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(171) 555-7788</Phone>
-		<Fax>(171) 555-6750</Fax>
-		<FullAddress>
-			<Address>120 Hanover Sq.</Address>
-			<City>London</City>
-			<PostalCode>WA1 1DP</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BERGS\">
-		<CompanyName>Berglunds snabbk&#246;p</CompanyName>
-		<ContactName>Christina Berglund</ContactName>
-		<ContactTitle>Order Administrator</ContactTitle>
-		<Phone>0921-12 34 65</Phone>
-		<Fax>0921-12 34 67</Fax>
-		<FullAddress>
-			<Address>Berguvsv&#228;gen  8</Address>
-			<City>Lule&#229;</City>
-			<PostalCode>S-958 22</PostalCode>
-			<Country>Sweden</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BLAUS\">
-		<CompanyName>Blauer See Delikatessen</CompanyName>
-		<ContactName>Hanna Moos</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>0621-08460</Phone>
-		<Fax>0621-08924</Fax>
-		<FullAddress>
-			<Address>Forsterstr. 57</Address>
-			<City>Mannheim</City>
-			<PostalCode>68306</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BLONP\">
-		<CompanyName>Blondesddsl p&#232;re et fils</CompanyName>
-		<ContactName>Fr&#233;d&#233;rique Citeaux</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>88.60.15.31</Phone>
-		<Fax>88.60.15.32</Fax>
-		<FullAddress>
-			<Address>24, place Kl&#233;ber</Address>
-			<City>Strasbourg</City>
-			<PostalCode>67000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BOLID\">
-		<CompanyName>B&#243;lido Comidas preparadas</CompanyName>
-		<ContactName>Mart&#237;n Sommer</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(91) 555 22 82</Phone>
-		<Fax>(91) 555 91 99</Fax>
-		<FullAddress>
-			<Address>C/ Araquil, 67</Address>
-			<City>Madrid</City>
-			<PostalCode>28023</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BONAP\">
-		<CompanyName>Bon app'</CompanyName>
-		<ContactName>Laurence Lebihan</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>91.24.45.40</Phone>
-		<Fax>91.24.45.41</Fax>
-		<FullAddress>
-			<Address>12, rue des Bouchers</Address>
-			<City>Marseille</City>
-			<PostalCode>13008</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BOTTM\">
-		<CompanyName>Bottom-Dollar Markets</CompanyName>
-		<ContactName>Elizabeth Lincoln</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(604) 555-4729</Phone>
-		<Fax>(604) 555-3745</Fax>
-		<FullAddress>
-			<Address>23 Tsawassen Blvd.</Address>
-			<City>Tsawassen</City>
-			<Region>BC</Region>
-			<PostalCode>T2F 8M4</PostalCode>
-			<Country>Canada</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BSBEV\">
-		<CompanyName>B's Beverages</CompanyName>
-		<ContactName>Victoria Ashworth</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(171) 555-1212</Phone>
-		<FullAddress>
-			<Address>Fauntleroy Circus</Address>
-			<City>London</City>
-			<PostalCode>EC2 5NT</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CACTU\">
-		<CompanyName>Cactus Comidas para llevar</CompanyName>
-		<ContactName>Patricio Simpson</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(1) 135-5555</Phone>
-		<Fax>(1) 135-4892</Fax>
-		<FullAddress>
-			<Address>Cerrito 333</Address>
-			<City>Buenos Aires</City>
-			<PostalCode>1010</PostalCode>
-			<Country>Argentina</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CENTC\">
-		<CompanyName>Centro comercial Moctezuma</CompanyName>
-		<ContactName>Francisco Chang</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(5) 555-3392</Phone>
-		<Fax>(5) 555-7293</Fax>
-		<FullAddress>
-			<Address>Sierras de Granada 9993</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05022</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CHOPS\">
-		<CompanyName>Chop-suey Chinese</CompanyName>
-		<ContactName>Yang Wang</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>0452-076545</Phone>
-		<FullAddress>
-			<Address>Hauptstr. 29</Address>
-			<City>Bern</City>
-			<PostalCode>3012</PostalCode>
-			<Country>Switzerland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"COMMI\">
-		<CompanyName>Com&#233;rcio Mineiro</CompanyName>
-		<ContactName>Pedro Afonso</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(11) 555-7647</Phone>
-		<FullAddress>
-			<Address>Av. dos Lus&#237;adas, 23</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05432-043</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CONSH\">
-		<CompanyName>Consolidated Holdings</CompanyName>
-		<ContactName>Elizabeth Brown</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(171) 555-2282</Phone>
-		<Fax>(171) 555-9199</Fax>
-		<FullAddress>
-			<Address>Berkeley Gardens 12  Brewery</Address>
-			<City>London</City>
-			<PostalCode>WX1 6LT</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"DRACD\">
-		<CompanyName>Drachenblut Delikatessen</CompanyName>
-		<ContactName>Sven Ottlieb</ContactName>
-		<ContactTitle>Order Administrator</ContactTitle>
-		<Phone>0241-039123</Phone>
-		<Fax>0241-059428</Fax>
-		<FullAddress>
-			<Address>Walserweg 21</Address>
-			<City>Aachen</City>
-			<PostalCode>52066</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"DUMON\">
-		<CompanyName>Du monde entier</CompanyName>
-		<ContactName>Janine Labrune</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>40.67.88.88</Phone>
-		<Fax>40.67.89.89</Fax>
-		<FullAddress>
-			<Address>67, rue des Cinquante Otages</Address>
-			<City>Nantes</City>
-			<PostalCode>44000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"EASTC\">
-		<CompanyName>Eastern Connection</CompanyName>
-		<ContactName>Ann Devon</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(171) 555-0297</Phone>
-		<Fax>(171) 555-3373</Fax>
-		<FullAddress>
-			<Address>35 King George</Address>
-			<City>London</City>
-			<PostalCode>WX3 6FW</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ERNSH\">
-		<CompanyName>Ernst Handel</CompanyName>
-		<ContactName>Roland Mendel</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>7675-3425</Phone>
-		<Fax>7675-3426</Fax>
-		<FullAddress>
-			<Address>Kirchgasse 6</Address>
-			<City>Graz</City>
-			<PostalCode>8010</PostalCode>
-			<Country>Austria</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FAMIA\">
-		<CompanyName>Familia Arquibaldo</CompanyName>
-		<ContactName>Aria Cruz</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(11) 555-9857</Phone>
-		<FullAddress>
-			<Address>Rua Or&#243;s, 92</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05442-030</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FISSA\">
-		<CompanyName>FISSA Fabrica Inter. Salchichas S.A.</CompanyName>
-		<ContactName>Diego Roel</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(91) 555 94 44</Phone>
-		<Fax>(91) 555 55 93</Fax>
-		<FullAddress>
-			<Address>C/ Moralzarzal, 86</Address>
-			<City>Madrid</City>
-			<PostalCode>28034</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FOLIG\">
-		<CompanyName>Folies gourmandes</CompanyName>
-		<ContactName>Martine Ranc&#233;</ContactName>
-		<ContactTitle>Assistant Sales Agent</ContactTitle>
-		<Phone>20.16.10.16</Phone>
-		<Fax>20.16.10.17</Fax>
-		<FullAddress>
-			<Address>184, chauss&#233;e de Tournai</Address>
-			<City>Lille</City>
-			<PostalCode>59000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FOLKO\">
-		<CompanyName>Folk och f&#228; HB</CompanyName>
-		<ContactName>Maria Larsson</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>0695-34 67 21</Phone>
-		<FullAddress>
-			<Address>&#197;kergatan 24</Address>
-			<City>Br&#228;cke</City>
-			<PostalCode>S-844 67</PostalCode>
-			<Country>Sweden</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FRANK\">
-		<CompanyName>Frankenversand</CompanyName>
-		<ContactName>Peter Franken</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>089-0877310</Phone>
-		<Fax>089-0877451</Fax>
-		<FullAddress>
-			<Address>Berliner Platz 43</Address>
-			<City>M&#252;nchen</City>
-			<PostalCode>80805</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FRANR\">
-		<CompanyName>France restauration</CompanyName>
-		<ContactName>Carine Schmitt</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>40.32.21.21</Phone>
-		<Fax>40.32.21.20</Fax>
-		<FullAddress>
-			<Address>54, rue Royale</Address>
-			<City>Nantes</City>
-			<PostalCode>44000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FRANS\">
-		<CompanyName>Franchi S.p.A.</CompanyName>
-		<ContactName>Paolo Accorti</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>011-4988260</Phone>
-		<Fax>011-4988261</Fax>
-		<FullAddress>
-			<Address>Via Monte Bianco 34</Address>
-			<City>Torino</City>
-			<PostalCode>10100</PostalCode>
-			<Country>Italy</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FURIB\">
-		<CompanyName>Furia Bacalhau e Frutos do Mar</CompanyName>
-		<ContactName>Lino Rodriguez</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(1) 354-2534</Phone>
-		<Fax>(1) 354-2535</Fax>
-		<FullAddress>
-			<Address>Jardim das rosas n. 32</Address>
-			<City>Lisboa</City>
-			<PostalCode>1675</PostalCode>
-			<Country>Portugal</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GALED\">
-		<CompanyName>Galer&#237;a del gastr&#243;nomo</CompanyName>
-		<ContactName>Eduardo Saavedra</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(93) 203 4560</Phone>
-		<Fax>(93) 203 4561</Fax>
-		<FullAddress>
-			<Address>Rambla de Catalu&#241;a, 23</Address>
-			<City>Barcelona</City>
-			<PostalCode>08022</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GODOS\">
-		<CompanyName>Godos Cocina T&#237;pica</CompanyName>
-		<ContactName>Jos&#233; Pedro Freyre</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(95) 555 82 82</Phone>
-		<FullAddress>
-			<Address>C/ Romero, 33</Address>
-			<City>Sevilla</City>
-			<PostalCode>41101</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GOURL\">
-		<CompanyName>Gourmet Lanchonetes</CompanyName>
-		<ContactName>Andr&#233; Fonseca</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(11) 555-9482</Phone>
-		<FullAddress>
-			<Address>Av. Brasil, 442</Address>
-			<City>Campinas</City>
-			<Region>SP</Region>
-			<PostalCode>04876-786</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GREAL\">
-		<CompanyName>Great Lakes Food Market</CompanyName>
-		<ContactName>Howard Snyder</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(503) 555-7555</Phone>
-		<FullAddress>
-			<Address>2732 Baker Blvd.</Address>
-			<City>Eugene</City>
-			<Region>OR</Region>
-			<PostalCode>97403</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GROSR\">
-		<CompanyName>GROSELLA-Restaurante</CompanyName>
-		<ContactName>Manuel Pereira</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(2) 283-2951</Phone>
-		<Fax>(2) 283-3397</Fax>
-		<FullAddress>
-			<Address>5&#170; Ave. Los Palos Grandes</Address>
-			<City>Caracas</City>
-			<Region>DF</Region>
-			<PostalCode>1081</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HANAR\">
-		<CompanyName>Hanari Carnes</CompanyName>
-		<ContactName>Mario Pontes</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(21) 555-0091</Phone>
-		<Fax>(21) 555-8765</Fax>
-		<FullAddress>
-			<Address>Rua do Pa&#231;o, 67</Address>
-			<City>Rio de Janeiro</City>
-			<Region>RJ</Region>
-			<PostalCode>05454-876</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HILAA\">
-		<CompanyName>HILARION-Abastos</CompanyName>
-		<ContactName>Carlos Hern&#225;ndez</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(5) 555-1340</Phone>
-		<Fax>(5) 555-1948</Fax>
-		<FullAddress>
-			<Address>Carrera 22 con Ave. Carlos Soublette #8-35</Address>
-			<City>San Crist&#243;bal</City>
-			<Region>T&#225;chira</Region>
-			<PostalCode>5022</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HUNGC\">
-		<CompanyName>Hungry Coyote Import Store</CompanyName>
-		<ContactName>Yoshi Latimer</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(503) 555-6874</Phone>
-		<Fax>(503) 555-2376</Fax>
-		<FullAddress>
-			<Address>City Center Plaza 516 Main St.</Address>
-			<City>Elgin</City>
-			<Region>OR</Region>
-			<PostalCode>97827</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HUNGO\">
-		<CompanyName>Hungry Owl All-Night Grocers</CompanyName>
-		<ContactName>Patricia McKenna</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>2967 542</Phone>
-		<Fax>2967 3333</Fax>
-		<FullAddress>
-			<Address>8 Johnstown Road</Address>
-			<City>Cork</City>
-			<Region>Co. Cork</Region>
-			<Country>Ireland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ISLAT\">
-		<CompanyName>Island Trading</CompanyName>
-		<ContactName>Helen Bennett</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(198) 555-8888</Phone>
-		<FullAddress>
-			<Address>Garden House Crowther Way</Address>
-			<City>Cowes</City>
-			<Region>Isle of Wight</Region>
-			<PostalCode>PO31 7PJ</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"KOENE\">
-		<CompanyName>K&#246;niglich Essen</CompanyName>
-		<ContactName>Philip Cramer</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>0555-09876</Phone>
-		<FullAddress>
-			<Address>Maubelstr. 90</Address>
-			<City>Brandenburg</City>
-			<PostalCode>14776</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LACOR\">
-		<CompanyName>La corne d'abondance</CompanyName>
-		<ContactName>Daniel Tonini</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>30.59.84.10</Phone>
-		<Fax>30.59.85.11</Fax>
-		<FullAddress>
-			<Address>67, avenue de l'Europe</Address>
-			<City>Versailles</City>
-			<PostalCode>78000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LAMAI\">
-		<CompanyName>La maison d'Asie</CompanyName>
-		<ContactName>Annette Roulet</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>61.77.61.10</Phone>
-		<Fax>61.77.61.11</Fax>
-		<FullAddress>
-			<Address>1 rue Alsace-Lorraine</Address>
-			<City>Toulouse</City>
-			<PostalCode>31000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LAUGB\">
-		<CompanyName>Laughing Bacchus Wine Cellars</CompanyName>
-		<ContactName>Yoshi Tannamuri</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(604) 555-3392</Phone>
-		<Fax>(604) 555-7293</Fax>
-		<FullAddress>
-			<Address>1900 Oak St.</Address>
-			<City>Vancouver</City>
-			<Region>BC</Region>
-			<PostalCode>V3F 2K1</PostalCode>
-			<Country>Canada</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LAZYK\">
-		<CompanyName>Lazy K Kountry Store</CompanyName>
-		<ContactName>John Steel</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(509) 555-7969</Phone>
-		<Fax>(509) 555-6221</Fax>
-		<FullAddress>
-			<Address>12 Orchestra Terrace</Address>
-			<City>Walla Walla</City>
-			<Region>WA</Region>
-			<PostalCode>99362</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LEHMS\">
-		<CompanyName>Lehmanns Marktstand</CompanyName>
-		<ContactName>Renate Messner</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>069-0245984</Phone>
-		<Fax>069-0245874</Fax>
-		<FullAddress>
-			<Address>Magazinweg 7</Address>
-			<City>Frankfurt a.M.</City>
-			<PostalCode>60528</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LETSS\">
-		<CompanyName>Let's Stop N Shop</CompanyName>
-		<ContactName>Jaime Yorres</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(415) 555-5938</Phone>
-		<FullAddress>
-			<Address>87 Polk St. Suite 5</Address>
-			<City>San Francisco</City>
-			<Region>CA</Region>
-			<PostalCode>94117</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LILAS\">
-		<CompanyName>LILA-Supermercado</CompanyName>
-		<ContactName>Carlos Gonz&#225;lez</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(9) 331-6954</Phone>
-		<Fax>(9) 331-7256</Fax>
-		<FullAddress>
-			<Address>Carrera 52 con Ave. Bol&#237;var #65-98 Llano Largo</Address>
-			<City>Barquisimeto</City>
-			<Region>Lara</Region>
-			<PostalCode>3508</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LINOD\">
-		<CompanyName>LINO-Delicateses</CompanyName>
-		<ContactName>Felipe Izquierdo</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(8) 34-56-12</Phone>
-		<Fax>(8) 34-93-93</Fax>
-		<FullAddress>
-			<Address>Ave. 5 de Mayo Porlamar</Address>
-			<City>I. de Margarita</City>
-			<Region>Nueva Esparta</Region>
-			<PostalCode>4980</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LONEP\">
-		<CompanyName>Lonesome Pine Restaurant</CompanyName>
-		<ContactName>Fran Wilson</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(503) 555-9573</Phone>
-		<Fax>(503) 555-9646</Fax>
-		<FullAddress>
-			<Address>89 Chiaroscuro Rd.</Address>
-			<City>Portland</City>
-			<Region>OR</Region>
-			<PostalCode>97219</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MAGAA\">
-		<CompanyName>Magazzini Alimentari Riuniti</CompanyName>
-		<ContactName>Giovanni Rovelli</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>035-640230</Phone>
-		<Fax>035-640231</Fax>
-		<FullAddress>
-			<Address>Via Ludovico il Moro 22</Address>
-			<City>Bergamo</City>
-			<PostalCode>24100</PostalCode>
-			<Country>Italy</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MAISD\">
-		<CompanyName>Maison Dewey</CompanyName>
-		<ContactName>Catherine Dewey</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(02) 201 24 67</Phone>
-		<Fax>(02) 201 24 68</Fax>
-		<FullAddress>
-			<Address>Rue Joseph-Bens 532</Address>
-			<City>Bruxelles</City>
-			<PostalCode>B-1180</PostalCode>
-			<Country>Belgium</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MEREP\">
-		<CompanyName>M&#232;re Paillarde</CompanyName>
-		<ContactName>Jean Fresni&#232;re</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(514) 555-8054</Phone>
-		<Fax>(514) 555-8055</Fax>
-		<FullAddress>
-			<Address>43 rue St. Laurent</Address>
-			<City>Montr&#233;al</City>
-			<Region>Qu&#233;bec</Region>
-			<PostalCode>H1J 1C3</PostalCode>
-			<Country>Canada</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MORGK\">
-		<CompanyName>Morgenstern Gesundkost</CompanyName>
-		<ContactName>Alexander Feuer</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>0342-023176</Phone>
-		<FullAddress>
-			<Address>Heerstr. 22</Address>
-			<City>Leipzig</City>
-			<PostalCode>04179</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"NORTS\">
-		<CompanyName>North/South</CompanyName>
-		<ContactName>Simon Crowther</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(171) 555-7733</Phone>
-		<Fax>(171) 555-2530</Fax>
-		<FullAddress>
-			<Address>South House 300 Queensbridge</Address>
-			<City>London</City>
-			<PostalCode>SW7 1RZ</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"OCEAN\">
-		<CompanyName>Oc&#233;ano Atl&#225;ntico Ltda.</CompanyName>
-		<ContactName>Yvonne Moncada</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(1) 135-5333</Phone>
-		<Fax>(1) 135-5535</Fax>
-		<FullAddress>
-			<Address>Ing. Gustavo Moncada 8585 Piso 20-A</Address>
-			<City>Buenos Aires</City>
-			<PostalCode>1010</PostalCode>
-			<Country>Argentina</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"OLDWO\">
-		<CompanyName>Old World Delicatessen</CompanyName>
-		<ContactName>Rene Phillips</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(907) 555-7584</Phone>
-		<Fax>(907) 555-2880</Fax>
-		<FullAddress>
-			<Address>2743 Bering St.</Address>
-			<City>Anchorage</City>
-			<Region>AK</Region>
-			<PostalCode>99508</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"OTTIK\">
-		<CompanyName>Ottilies K&#228;seladen</CompanyName>
-		<ContactName>Henriette Pfalzheim</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>0221-0644327</Phone>
-		<Fax>0221-0765721</Fax>
-		<FullAddress>
-			<Address>Mehrheimerstr. 369</Address>
-			<City>K&#246;ln</City>
-			<PostalCode>50739</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PARIS\">
-		<CompanyName>Paris sp&#233;cialit&#233;s</CompanyName>
-		<ContactName>Marie Bertrand</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(1) 42.34.22.66</Phone>
-		<Fax>(1) 42.34.22.77</Fax>
-		<FullAddress>
-			<Address>265, boulevard Charonne</Address>
-			<City>Paris</City>
-			<PostalCode>75012</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PERIC\">
-		<CompanyName>Pericles Comidas cl&#225;sicas</CompanyName>
-		<ContactName>Guillermo Fern&#225;ndez</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(5) 552-3745</Phone>
-		<Fax>(5) 545-3745</Fax>
-		<FullAddress>
-			<Address>Calle Dr. Jorge Cash 321</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05033</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PICCO\">
-		<CompanyName>Piccolo und mehr</CompanyName>
-		<ContactName>Georg Pipps</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>6562-9722</Phone>
-		<Fax>6562-9723</Fax>
-		<FullAddress>
-			<Address>Geislweg 14</Address>
-			<City>Salzburg</City>
-			<PostalCode>5020</PostalCode>
-			<Country>Austria</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PRINI\">
-		<CompanyName>Princesa Isabel Vinhos</CompanyName>
-		<ContactName>Isabel de Castro</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(1) 356-5634</Phone>
-		<FullAddress>
-			<Address>Estrada da sa&#250;de n. 58</Address>
-			<City>Lisboa</City>
-			<PostalCode>1756</PostalCode>
-			<Country>Portugal</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"QUEDE\">
-		<CompanyName>Que Del&#237;cia</CompanyName>
-		<ContactName>Bernardo Batista</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(21) 555-4252</Phone>
-		<Fax>(21) 555-4545</Fax>
-		<FullAddress>
-			<Address>Rua da Panificadora, 12</Address>
-			<City>Rio de Janeiro</City>
-			<Region>RJ</Region>
-			<PostalCode>02389-673</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"QUEEN\">
-		<CompanyName>Queen Cozinha</CompanyName>
-		<ContactName>L&#250;cia Carvalho</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(11) 555-1189</Phone>
-		<FullAddress>
-			<Address>Alameda dos Can&#224;rios, 891</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05487-020</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"QUICK\">
-		<CompanyName>QUICK-Stop</CompanyName>
-		<ContactName>Horst Kloss</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>0372-035188</Phone>
-		<FullAddress>
-			<Address>Taucherstra&#223;e 10</Address>
-			<City>Cunewalde</City>
-			<PostalCode>01307</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RANCH\">
-		<CompanyName>Rancho grande</CompanyName>
-		<ContactName>Sergio Guti&#233;rrez</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(1) 123-5555</Phone>
-		<Fax>(1) 123-5556</Fax>
-		<FullAddress>
-			<Address>Av. del Libertador 900</Address>
-			<City>Buenos Aires</City>
-			<PostalCode>1010</PostalCode>
-			<Country>Argentina</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RATTC\">
-		<CompanyName>Rattlesnake Canyon Grocery</CompanyName>
-		<ContactName>Paula Wilson</ContactName>
-		<ContactTitle>Assistant Sales Representative</ContactTitle>
-		<Phone>(505) 555-5939</Phone>
-		<Fax>(505) 555-3620</Fax>
-		<FullAddress>
-			<Address>2817 Milton Dr.</Address>
-			<City>Albuquerque</City>
-			<Region>NM</Region>
-			<PostalCode>87110</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"REGGC\">
-		<CompanyName>Reggiani Caseifici</CompanyName>
-		<ContactName>Maurizio Moroni</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>0522-556721</Phone>
-		<Fax>0522-556722</Fax>
-		<FullAddress>
-			<Address>Strada Provinciale 124</Address>
-			<City>Reggio Emilia</City>
-			<PostalCode>42100</PostalCode>
-			<Country>Italy</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RICAR\">
-		<CompanyName>Ricardo Adocicados</CompanyName>
-		<ContactName>Janete Limeira</ContactName>
-		<ContactTitle>Assistant Sales Agent</ContactTitle>
-		<Phone>(21) 555-3412</Phone>
-		<FullAddress>
-			<Address>Av. Copacabana, 267</Address>
-			<City>Rio de Janeiro</City>
-			<Region>RJ</Region>
-			<PostalCode>02389-890</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RICSU\">
-		<CompanyName>Richter Supermarkt</CompanyName>
-		<ContactName>Michael Holz</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>0897-034214</Phone>
-		<FullAddress>
-			<Address>Grenzacherweg 237</Address>
-			<City>Gen&#232;ve</City>
-			<PostalCode>1203</PostalCode>
-			<Country>Switzerland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ROMEY\">
-		<CompanyName>Romero y tomillo</CompanyName>
-		<ContactName>Alejandra Camino</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(91) 745 6200</Phone>
-		<Fax>(91) 745 6210</Fax>
-		<FullAddress>
-			<Address>Gran V&#237;a, 1</Address>
-			<City>Madrid</City>
-			<PostalCode>28001</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SANTG\">
-		<CompanyName>Sant&#233; Gourmet</CompanyName>
-		<ContactName>Jonas Bergulfsen</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>07-98 92 35</Phone>
-		<Fax>07-98 92 47</Fax>
-		<FullAddress>
-			<Address>Erling Skakkes gate 78</Address>
-			<City>Stavern</City>
-			<PostalCode>4110</PostalCode>
-			<Country>Norway</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SAVEA\">
-		<CompanyName>Save-a-lot Markets</CompanyName>
-		<ContactName>Jose Pavarotti</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(208) 555-8097</Phone>
-		<FullAddress>
-			<Address>187 Suffolk Ln.</Address>
-			<City>Boise</City>
-			<Region>ID</Region>
-			<PostalCode>83720</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SEVES\">
-		<CompanyName>Seven Seas Imports</CompanyName>
-		<ContactName>Hari Kumar</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(171) 555-1717</Phone>
-		<Fax>(171) 555-5646</Fax>
-		<FullAddress>
-			<Address>90 Wadhurst Rd.</Address>
-			<City>London</City>
-			<PostalCode>OX15 4NB</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SIMOB\">
-		<CompanyName>Simons bistro</CompanyName>
-		<ContactName>Jytte Petersen</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>31 12 34 56</Phone>
-		<Fax>31 13 35 57</Fax>
-		<FullAddress>
-			<Address>Vinb&#230;ltet 34</Address>
-			<City>Kobenhavn</City>
-			<PostalCode>1734</PostalCode>
-			<Country>Denmark</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SPECD\">
-		<CompanyName>Sp&#233;cialit&#233;s du monde</CompanyName>
-		<ContactName>Dominique Perrier</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(1) 47.55.60.10</Phone>
-		<Fax>(1) 47.55.60.20</Fax>
-		<FullAddress>
-			<Address>25, rue Lauriston</Address>
-			<City>Paris</City>
-			<PostalCode>75016</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SPLIR\">
-		<CompanyName>Split Rail Beer &amp; Ale</CompanyName>
-		<ContactName>Art Braunschweiger</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(307) 555-4680</Phone>
-		<Fax>(307) 555-6525</Fax>
-		<FullAddress>
-			<Address>P.O. Box 555</Address>
-			<City>Lander</City>
-			<Region>WY</Region>
-			<PostalCode>82520</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SUPRD\">
-		<CompanyName>Supr&#234;mes d&#233;lices</CompanyName>
-		<ContactName>Pascale Cartrain</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(071) 23 67 22 20</Phone>
-		<Fax>(071) 23 67 22 21</Fax>
-		<FullAddress>
-			<Address>Boulevard Tirou, 255</Address>
-			<City>Charleroi</City>
-			<PostalCode>B-6000</PostalCode>
-			<Country>Belgium</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"THEBI\">
-		<CompanyName>The Big Cheese</CompanyName>
-		<ContactName>Liz Nixon</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(503) 555-3612</Phone>
-		<FullAddress>
-			<Address>89 Jefferson Way Suite 2</Address>
-			<City>Portland</City>
-			<Region>OR</Region>
-			<PostalCode>97201</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"THECR\">
-		<CompanyName>The Cracker Box</CompanyName>
-		<ContactName>Liu Wong</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(406) 555-5834</Phone>
-		<Fax>(406) 555-8083</Fax>
-		<FullAddress>
-			<Address>55 Grizzly Peak Rd.</Address>
-			<City>Butte</City>
-			<Region>MT</Region>
-			<PostalCode>59801</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TOMSP\">
-		<CompanyName>Toms Spezialit&#228;ten</CompanyName>
-		<ContactName>Karin Josephs</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>0251-031259</Phone>
-		<Fax>0251-035695</Fax>
-		<FullAddress>
-			<Address>Luisenstr. 48</Address>
-			<City>M&#252;nster</City>
-			<PostalCode>44087</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TORTU\">
-		<CompanyName>Tortuga Restaurante</CompanyName>
-		<ContactName>Miguel Angel Paolino</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(5) 555-2933</Phone>
-		<FullAddress>
-			<Address>Avda. Azteca 123</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05033</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TRADH\">
-		<CompanyName>Tradi&#231;&#227;o Hipermercados</CompanyName>
-		<ContactName>Anabela Domingues</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(11) 555-2167</Phone>
-		<Fax>(11) 555-2168</Fax>
-		<FullAddress>
-			<Address>Av. In&#234;s de Castro, 414</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05634-030</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TRAIH\">
-		<CompanyName>Trail's Head Gourmet Provisioners</CompanyName>
-		<ContactName>Helvetius Nagy</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(206) 555-8257</Phone>
-		<Fax>(206) 555-2174</Fax>
-		<FullAddress>
-			<Address>722 DaVinci Blvd.</Address>
-			<City>Kirkland</City>
-			<Region>WA</Region>
-			<PostalCode>98034</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"VAFFE\">
-		<CompanyName>Vaffeljernet</CompanyName>
-		<ContactName>Palle Ibsen</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>86 21 32 43</Phone>
-		<Fax>86 22 33 44</Fax>
-		<FullAddress>
-			<Address>Smagsloget 45</Address>
-			<City>&#197;rhus</City>
-			<PostalCode>8200</PostalCode>
-			<Country>Denmark</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"VICTE\">
-		<CompanyName>Victuailles en stock</CompanyName>
-		<ContactName>Mary Saveley</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>78.32.54.86</Phone>
-		<Fax>78.32.54.87</Fax>
-		<FullAddress>
-			<Address>2, rue du Commerce</Address>
-			<City>Lyon</City>
-			<PostalCode>69004</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"VINET\">
-		<CompanyName>Vins et alcools Chevalier</CompanyName>
-		<ContactName>Paul Henriot</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>26.47.15.10</Phone>
-		<Fax>26.47.15.11</Fax>
-		<FullAddress>
-			<Address>59 rue de l'Abbaye</Address>
-			<City>Reims</City>
-			<PostalCode>51100</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WANDK\">
-		<CompanyName>Die Wandernde Kuh</CompanyName>
-		<ContactName>Rita M&#252;ller</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>0711-020361</Phone>
-		<Fax>0711-035428</Fax>
-		<FullAddress>
-			<Address>Adenauerallee 900</Address>
-			<City>Stuttgart</City>
-			<PostalCode>70563</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WARTH\">
-		<CompanyName>Wartian Herkku</CompanyName>
-		<ContactName>Pirkko Koskitalo</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>981-443655</Phone>
-		<Fax>981-443655</Fax>
-		<FullAddress>
-			<Address>Torikatu 38</Address>
-			<City>Oulu</City>
-			<PostalCode>90110</PostalCode>
-			<Country>Finland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WELLI\">
-		<CompanyName>Wellington Importadora</CompanyName>
-		<ContactName>Paula Parente</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(14) 555-8122</Phone>
-		<FullAddress>
-			<Address>Rua do Mercado, 12</Address>
-			<City>Resende</City>
-			<Region>SP</Region>
-			<PostalCode>08737-363</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WHITC\">
-		<CompanyName>White Clover Markets</CompanyName>
-		<ContactName>Karl Jablonski</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(206) 555-4112</Phone>
-		<Fax>(206) 555-4115</Fax>
-		<FullAddress>
-			<Address>305 - 14th Ave. S. Suite 3B</Address>
-			<City>Seattle</City>
-			<Region>WA</Region>
-			<PostalCode>98128</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WILMK\">
-		<CompanyName>Wilman Kala</CompanyName>
-		<ContactName>Matti Karttunen</ContactName>
-		<ContactTitle>Owner/Marketing Assistant</ContactTitle>
-		<Phone>90-224 8858</Phone>
-		<Fax>90-224 8858</Fax>
-		<FullAddress>
-			<Address>Keskuskatu 45</Address>
-			<City>Helsinki</City>
-			<PostalCode>21240</PostalCode>
-			<Country>Finland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WOLZA\">
-		<CompanyName>Wolski  Zajazd</CompanyName>
-		<ContactName>Zbyszek Piestrzeniewicz</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(26) 642-7012</Phone>
-		<Fax>(26) 642-7012</Fax>
-		<FullAddress>
-			<Address>ul. Filtrowa 68</Address>
-			<City>Warszawa</City>
-			<PostalCode>01-012</PostalCode>
-			<Country>Poland</Country>
-		</FullAddress>
-	</Customers></root>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<root><Customers CustomerID=\"ALFKI\">
-		<CompanyName>Alfreds Futterkiste</CompanyName>
-		<ContactName>Maria Anders</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>030-0074321</Phone>
-		<Fax>030-0076545</Fax>
-		<FullAddress>
-			<Address>Obere Str. 57</Address>
-			<City>Berlin</City>
-			<PostalCode>12209</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ANATR\">
-		<CompanyName>Ana Trujillo Emparedados y helados</CompanyName>
-		<ContactName>Ana Trujillo</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(5) 555-4729</Phone>
-		<Fax>(5) 555-3745</Fax>
-		<FullAddress>
-			<Address>Avda. de la Constituci&#243;n 2222</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05021</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ANTON\">
-		<CompanyName>Antonio Moreno Taquer&#237;a</CompanyName>
-		<ContactName>Antonio Moreno</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(5) 555-3932</Phone>
-		<FullAddress>
-			<Address>Mataderos  2312</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05023</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"AROUT\">
-		<CompanyName>Around the Horn</CompanyName>
-		<ContactName>Thomas Hardy</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(171) 555-7788</Phone>
-		<Fax>(171) 555-6750</Fax>
-		<FullAddress>
-			<Address>120 Hanover Sq.</Address>
-			<City>London</City>
-			<PostalCode>WA1 1DP</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BERGS\">
-		<CompanyName>Berglunds snabbk&#246;p</CompanyName>
-		<ContactName>Christina Berglund</ContactName>
-		<ContactTitle>Order Administrator</ContactTitle>
-		<Phone>0921-12 34 65</Phone>
-		<Fax>0921-12 34 67</Fax>
-		<FullAddress>
-			<Address>Berguvsv&#228;gen  8</Address>
-			<City>Lule&#229;</City>
-			<PostalCode>S-958 22</PostalCode>
-			<Country>Sweden</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BLAUS\">
-		<CompanyName>Blauer See Delikatessen</CompanyName>
-		<ContactName>Hanna Moos</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>0621-08460</Phone>
-		<Fax>0621-08924</Fax>
-		<FullAddress>
-			<Address>Forsterstr. 57</Address>
-			<City>Mannheim</City>
-			<PostalCode>68306</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BLONP\">
-		<CompanyName>Blondesddsl p&#232;re et fils</CompanyName>
-		<ContactName>Fr&#233;d&#233;rique Citeaux</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>88.60.15.31</Phone>
-		<Fax>88.60.15.32</Fax>
-		<FullAddress>
-			<Address>24, place Kl&#233;ber</Address>
-			<City>Strasbourg</City>
-			<PostalCode>67000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BOLID\">
-		<CompanyName>B&#243;lido Comidas preparadas</CompanyName>
-		<ContactName>Mart&#237;n Sommer</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(91) 555 22 82</Phone>
-		<Fax>(91) 555 91 99</Fax>
-		<FullAddress>
-			<Address>C/ Araquil, 67</Address>
-			<City>Madrid</City>
-			<PostalCode>28023</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BONAP\">
-		<CompanyName>Bon app'</CompanyName>
-		<ContactName>Laurence Lebihan</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>91.24.45.40</Phone>
-		<Fax>91.24.45.41</Fax>
-		<FullAddress>
-			<Address>12, rue des Bouchers</Address>
-			<City>Marseille</City>
-			<PostalCode>13008</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BOTTM\">
-		<CompanyName>Bottom-Dollar Markets</CompanyName>
-		<ContactName>Elizabeth Lincoln</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(604) 555-4729</Phone>
-		<Fax>(604) 555-3745</Fax>
-		<FullAddress>
-			<Address>23 Tsawassen Blvd.</Address>
-			<City>Tsawassen</City>
-			<Region>BC</Region>
-			<PostalCode>T2F 8M4</PostalCode>
-			<Country>Canada</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"BSBEV\">
-		<CompanyName>B's Beverages</CompanyName>
-		<ContactName>Victoria Ashworth</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(171) 555-1212</Phone>
-		<FullAddress>
-			<Address>Fauntleroy Circus</Address>
-			<City>London</City>
-			<PostalCode>EC2 5NT</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CACTU\">
-		<CompanyName>Cactus Comidas para llevar</CompanyName>
-		<ContactName>Patricio Simpson</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(1) 135-5555</Phone>
-		<Fax>(1) 135-4892</Fax>
-		<FullAddress>
-			<Address>Cerrito 333</Address>
-			<City>Buenos Aires</City>
-			<PostalCode>1010</PostalCode>
-			<Country>Argentina</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CENTC\">
-		<CompanyName>Centro comercial Moctezuma</CompanyName>
-		<ContactName>Francisco Chang</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(5) 555-3392</Phone>
-		<Fax>(5) 555-7293</Fax>
-		<FullAddress>
-			<Address>Sierras de Granada 9993</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05022</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CHOPS\">
-		<CompanyName>Chop-suey Chinese</CompanyName>
-		<ContactName>Yang Wang</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>0452-076545</Phone>
-		<FullAddress>
-			<Address>Hauptstr. 29</Address>
-			<City>Bern</City>
-			<PostalCode>3012</PostalCode>
-			<Country>Switzerland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"COMMI\">
-		<CompanyName>Com&#233;rcio Mineiro</CompanyName>
-		<ContactName>Pedro Afonso</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(11) 555-7647</Phone>
-		<FullAddress>
-			<Address>Av. dos Lus&#237;adas, 23</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05432-043</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"CONSH\">
-		<CompanyName>Consolidated Holdings</CompanyName>
-		<ContactName>Elizabeth Brown</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(171) 555-2282</Phone>
-		<Fax>(171) 555-9199</Fax>
-		<FullAddress>
-			<Address>Berkeley Gardens 12  Brewery</Address>
-			<City>London</City>
-			<PostalCode>WX1 6LT</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"DRACD\">
-		<CompanyName>Drachenblut Delikatessen</CompanyName>
-		<ContactName>Sven Ottlieb</ContactName>
-		<ContactTitle>Order Administrator</ContactTitle>
-		<Phone>0241-039123</Phone>
-		<Fax>0241-059428</Fax>
-		<FullAddress>
-			<Address>Walserweg 21</Address>
-			<City>Aachen</City>
-			<PostalCode>52066</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"DUMON\">
-		<CompanyName>Du monde entier</CompanyName>
-		<ContactName>Janine Labrune</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>40.67.88.88</Phone>
-		<Fax>40.67.89.89</Fax>
-		<FullAddress>
-			<Address>67, rue des Cinquante Otages</Address>
-			<City>Nantes</City>
-			<PostalCode>44000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"EASTC\">
-		<CompanyName>Eastern Connection</CompanyName>
-		<ContactName>Ann Devon</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(171) 555-0297</Phone>
-		<Fax>(171) 555-3373</Fax>
-		<FullAddress>
-			<Address>35 King George</Address>
-			<City>London</City>
-			<PostalCode>WX3 6FW</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ERNSH\">
-		<CompanyName>Ernst Handel</CompanyName>
-		<ContactName>Roland Mendel</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>7675-3425</Phone>
-		<Fax>7675-3426</Fax>
-		<FullAddress>
-			<Address>Kirchgasse 6</Address>
-			<City>Graz</City>
-			<PostalCode>8010</PostalCode>
-			<Country>Austria</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FAMIA\">
-		<CompanyName>Familia Arquibaldo</CompanyName>
-		<ContactName>Aria Cruz</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(11) 555-9857</Phone>
-		<FullAddress>
-			<Address>Rua Or&#243;s, 92</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05442-030</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FISSA\">
-		<CompanyName>FISSA Fabrica Inter. Salchichas S.A.</CompanyName>
-		<ContactName>Diego Roel</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(91) 555 94 44</Phone>
-		<Fax>(91) 555 55 93</Fax>
-		<FullAddress>
-			<Address>C/ Moralzarzal, 86</Address>
-			<City>Madrid</City>
-			<PostalCode>28034</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FOLIG\">
-		<CompanyName>Folies gourmandes</CompanyName>
-		<ContactName>Martine Ranc&#233;</ContactName>
-		<ContactTitle>Assistant Sales Agent</ContactTitle>
-		<Phone>20.16.10.16</Phone>
-		<Fax>20.16.10.17</Fax>
-		<FullAddress>
-			<Address>184, chauss&#233;e de Tournai</Address>
-			<City>Lille</City>
-			<PostalCode>59000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FOLKO\">
-		<CompanyName>Folk och f&#228; HB</CompanyName>
-		<ContactName>Maria Larsson</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>0695-34 67 21</Phone>
-		<FullAddress>
-			<Address>&#197;kergatan 24</Address>
-			<City>Br&#228;cke</City>
-			<PostalCode>S-844 67</PostalCode>
-			<Country>Sweden</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FRANK\">
-		<CompanyName>Frankenversand</CompanyName>
-		<ContactName>Peter Franken</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>089-0877310</Phone>
-		<Fax>089-0877451</Fax>
-		<FullAddress>
-			<Address>Berliner Platz 43</Address>
-			<City>M&#252;nchen</City>
-			<PostalCode>80805</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FRANR\">
-		<CompanyName>France restauration</CompanyName>
-		<ContactName>Carine Schmitt</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>40.32.21.21</Phone>
-		<Fax>40.32.21.20</Fax>
-		<FullAddress>
-			<Address>54, rue Royale</Address>
-			<City>Nantes</City>
-			<PostalCode>44000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FRANS\">
-		<CompanyName>Franchi S.p.A.</CompanyName>
-		<ContactName>Paolo Accorti</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>011-4988260</Phone>
-		<Fax>011-4988261</Fax>
-		<FullAddress>
-			<Address>Via Monte Bianco 34</Address>
-			<City>Torino</City>
-			<PostalCode>10100</PostalCode>
-			<Country>Italy</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"FURIB\">
-		<CompanyName>Furia Bacalhau e Frutos do Mar</CompanyName>
-		<ContactName>Lino Rodriguez</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(1) 354-2534</Phone>
-		<Fax>(1) 354-2535</Fax>
-		<FullAddress>
-			<Address>Jardim das rosas n. 32</Address>
-			<City>Lisboa</City>
-			<PostalCode>1675</PostalCode>
-			<Country>Portugal</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GALED\">
-		<CompanyName>Galer&#237;a del gastr&#243;nomo</CompanyName>
-		<ContactName>Eduardo Saavedra</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(93) 203 4560</Phone>
-		<Fax>(93) 203 4561</Fax>
-		<FullAddress>
-			<Address>Rambla de Catalu&#241;a, 23</Address>
-			<City>Barcelona</City>
-			<PostalCode>08022</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GODOS\">
-		<CompanyName>Godos Cocina T&#237;pica</CompanyName>
-		<ContactName>Jos&#233; Pedro Freyre</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(95) 555 82 82</Phone>
-		<FullAddress>
-			<Address>C/ Romero, 33</Address>
-			<City>Sevilla</City>
-			<PostalCode>41101</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GOURL\">
-		<CompanyName>Gourmet Lanchonetes</CompanyName>
-		<ContactName>Andr&#233; Fonseca</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(11) 555-9482</Phone>
-		<FullAddress>
-			<Address>Av. Brasil, 442</Address>
-			<City>Campinas</City>
-			<Region>SP</Region>
-			<PostalCode>04876-786</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GREAL\">
-		<CompanyName>Great Lakes Food Market</CompanyName>
-		<ContactName>Howard Snyder</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(503) 555-7555</Phone>
-		<FullAddress>
-			<Address>2732 Baker Blvd.</Address>
-			<City>Eugene</City>
-			<Region>OR</Region>
-			<PostalCode>97403</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"GROSR\">
-		<CompanyName>GROSELLA-Restaurante</CompanyName>
-		<ContactName>Manuel Pereira</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(2) 283-2951</Phone>
-		<Fax>(2) 283-3397</Fax>
-		<FullAddress>
-			<Address>5&#170; Ave. Los Palos Grandes</Address>
-			<City>Caracas</City>
-			<Region>DF</Region>
-			<PostalCode>1081</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HANAR\">
-		<CompanyName>Hanari Carnes</CompanyName>
-		<ContactName>Mario Pontes</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(21) 555-0091</Phone>
-		<Fax>(21) 555-8765</Fax>
-		<FullAddress>
-			<Address>Rua do Pa&#231;o, 67</Address>
-			<City>Rio de Janeiro</City>
-			<Region>RJ</Region>
-			<PostalCode>05454-876</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HILAA\">
-		<CompanyName>HILARION-Abastos</CompanyName>
-		<ContactName>Carlos Hern&#225;ndez</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(5) 555-1340</Phone>
-		<Fax>(5) 555-1948</Fax>
-		<FullAddress>
-			<Address>Carrera 22 con Ave. Carlos Soublette #8-35</Address>
-			<City>San Crist&#243;bal</City>
-			<Region>T&#225;chira</Region>
-			<PostalCode>5022</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HUNGC\">
-		<CompanyName>Hungry Coyote Import Store</CompanyName>
-		<ContactName>Yoshi Latimer</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(503) 555-6874</Phone>
-		<Fax>(503) 555-2376</Fax>
-		<FullAddress>
-			<Address>City Center Plaza 516 Main St.</Address>
-			<City>Elgin</City>
-			<Region>OR</Region>
-			<PostalCode>97827</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"HUNGO\">
-		<CompanyName>Hungry Owl All-Night Grocers</CompanyName>
-		<ContactName>Patricia McKenna</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>2967 542</Phone>
-		<Fax>2967 3333</Fax>
-		<FullAddress>
-			<Address>8 Johnstown Road</Address>
-			<City>Cork</City>
-			<Region>Co. Cork</Region>
-			<Country>Ireland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ISLAT\">
-		<CompanyName>Island Trading</CompanyName>
-		<ContactName>Helen Bennett</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(198) 555-8888</Phone>
-		<FullAddress>
-			<Address>Garden House Crowther Way</Address>
-			<City>Cowes</City>
-			<Region>Isle of Wight</Region>
-			<PostalCode>PO31 7PJ</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"KOENE\">
-		<CompanyName>K&#246;niglich Essen</CompanyName>
-		<ContactName>Philip Cramer</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>0555-09876</Phone>
-		<FullAddress>
-			<Address>Maubelstr. 90</Address>
-			<City>Brandenburg</City>
-			<PostalCode>14776</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LACOR\">
-		<CompanyName>La corne d'abondance</CompanyName>
-		<ContactName>Daniel Tonini</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>30.59.84.10</Phone>
-		<Fax>30.59.85.11</Fax>
-		<FullAddress>
-			<Address>67, avenue de l'Europe</Address>
-			<City>Versailles</City>
-			<PostalCode>78000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LAMAI\">
-		<CompanyName>La maison d'Asie</CompanyName>
-		<ContactName>Annette Roulet</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>61.77.61.10</Phone>
-		<Fax>61.77.61.11</Fax>
-		<FullAddress>
-			<Address>1 rue Alsace-Lorraine</Address>
-			<City>Toulouse</City>
-			<PostalCode>31000</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LAUGB\">
-		<CompanyName>Laughing Bacchus Wine Cellars</CompanyName>
-		<ContactName>Yoshi Tannamuri</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(604) 555-3392</Phone>
-		<Fax>(604) 555-7293</Fax>
-		<FullAddress>
-			<Address>1900 Oak St.</Address>
-			<City>Vancouver</City>
-			<Region>BC</Region>
-			<PostalCode>V3F 2K1</PostalCode>
-			<Country>Canada</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LAZYK\">
-		<CompanyName>Lazy K Kountry Store</CompanyName>
-		<ContactName>John Steel</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(509) 555-7969</Phone>
-		<Fax>(509) 555-6221</Fax>
-		<FullAddress>
-			<Address>12 Orchestra Terrace</Address>
-			<City>Walla Walla</City>
-			<Region>WA</Region>
-			<PostalCode>99362</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LEHMS\">
-		<CompanyName>Lehmanns Marktstand</CompanyName>
-		<ContactName>Renate Messner</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>069-0245984</Phone>
-		<Fax>069-0245874</Fax>
-		<FullAddress>
-			<Address>Magazinweg 7</Address>
-			<City>Frankfurt a.M.</City>
-			<PostalCode>60528</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LETSS\">
-		<CompanyName>Let's Stop N Shop</CompanyName>
-		<ContactName>Jaime Yorres</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(415) 555-5938</Phone>
-		<FullAddress>
-			<Address>87 Polk St. Suite 5</Address>
-			<City>San Francisco</City>
-			<Region>CA</Region>
-			<PostalCode>94117</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LILAS\">
-		<CompanyName>LILA-Supermercado</CompanyName>
-		<ContactName>Carlos Gonz&#225;lez</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(9) 331-6954</Phone>
-		<Fax>(9) 331-7256</Fax>
-		<FullAddress>
-			<Address>Carrera 52 con Ave. Bol&#237;var #65-98 Llano Largo</Address>
-			<City>Barquisimeto</City>
-			<Region>Lara</Region>
-			<PostalCode>3508</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LINOD\">
-		<CompanyName>LINO-Delicateses</CompanyName>
-		<ContactName>Felipe Izquierdo</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(8) 34-56-12</Phone>
-		<Fax>(8) 34-93-93</Fax>
-		<FullAddress>
-			<Address>Ave. 5 de Mayo Porlamar</Address>
-			<City>I. de Margarita</City>
-			<Region>Nueva Esparta</Region>
-			<PostalCode>4980</PostalCode>
-			<Country>Venezuela</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"LONEP\">
-		<CompanyName>Lonesome Pine Restaurant</CompanyName>
-		<ContactName>Fran Wilson</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(503) 555-9573</Phone>
-		<Fax>(503) 555-9646</Fax>
-		<FullAddress>
-			<Address>89 Chiaroscuro Rd.</Address>
-			<City>Portland</City>
-			<Region>OR</Region>
-			<PostalCode>97219</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MAGAA\">
-		<CompanyName>Magazzini Alimentari Riuniti</CompanyName>
-		<ContactName>Giovanni Rovelli</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>035-640230</Phone>
-		<Fax>035-640231</Fax>
-		<FullAddress>
-			<Address>Via Ludovico il Moro 22</Address>
-			<City>Bergamo</City>
-			<PostalCode>24100</PostalCode>
-			<Country>Italy</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MAISD\">
-		<CompanyName>Maison Dewey</CompanyName>
-		<ContactName>Catherine Dewey</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(02) 201 24 67</Phone>
-		<Fax>(02) 201 24 68</Fax>
-		<FullAddress>
-			<Address>Rue Joseph-Bens 532</Address>
-			<City>Bruxelles</City>
-			<PostalCode>B-1180</PostalCode>
-			<Country>Belgium</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MEREP\">
-		<CompanyName>M&#232;re Paillarde</CompanyName>
-		<ContactName>Jean Fresni&#232;re</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(514) 555-8054</Phone>
-		<Fax>(514) 555-8055</Fax>
-		<FullAddress>
-			<Address>43 rue St. Laurent</Address>
-			<City>Montr&#233;al</City>
-			<Region>Qu&#233;bec</Region>
-			<PostalCode>H1J 1C3</PostalCode>
-			<Country>Canada</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"MORGK\">
-		<CompanyName>Morgenstern Gesundkost</CompanyName>
-		<ContactName>Alexander Feuer</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>0342-023176</Phone>
-		<FullAddress>
-			<Address>Heerstr. 22</Address>
-			<City>Leipzig</City>
-			<PostalCode>04179</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"NORTS\">
-		<CompanyName>North/South</CompanyName>
-		<ContactName>Simon Crowther</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(171) 555-7733</Phone>
-		<Fax>(171) 555-2530</Fax>
-		<FullAddress>
-			<Address>South House 300 Queensbridge</Address>
-			<City>London</City>
-			<PostalCode>SW7 1RZ</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"OCEAN\">
-		<CompanyName>Oc&#233;ano Atl&#225;ntico Ltda.</CompanyName>
-		<ContactName>Yvonne Moncada</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>(1) 135-5333</Phone>
-		<Fax>(1) 135-5535</Fax>
-		<FullAddress>
-			<Address>Ing. Gustavo Moncada 8585 Piso 20-A</Address>
-			<City>Buenos Aires</City>
-			<PostalCode>1010</PostalCode>
-			<Country>Argentina</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"OLDWO\">
-		<CompanyName>Old World Delicatessen</CompanyName>
-		<ContactName>Rene Phillips</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(907) 555-7584</Phone>
-		<Fax>(907) 555-2880</Fax>
-		<FullAddress>
-			<Address>2743 Bering St.</Address>
-			<City>Anchorage</City>
-			<Region>AK</Region>
-			<PostalCode>99508</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"OTTIK\">
-		<CompanyName>Ottilies K&#228;seladen</CompanyName>
-		<ContactName>Henriette Pfalzheim</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>0221-0644327</Phone>
-		<Fax>0221-0765721</Fax>
-		<FullAddress>
-			<Address>Mehrheimerstr. 369</Address>
-			<City>K&#246;ln</City>
-			<PostalCode>50739</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PARIS\">
-		<CompanyName>Paris sp&#233;cialit&#233;s</CompanyName>
-		<ContactName>Marie Bertrand</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(1) 42.34.22.66</Phone>
-		<Fax>(1) 42.34.22.77</Fax>
-		<FullAddress>
-			<Address>265, boulevard Charonne</Address>
-			<City>Paris</City>
-			<PostalCode>75012</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PERIC\">
-		<CompanyName>Pericles Comidas cl&#225;sicas</CompanyName>
-		<ContactName>Guillermo Fern&#225;ndez</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(5) 552-3745</Phone>
-		<Fax>(5) 545-3745</Fax>
-		<FullAddress>
-			<Address>Calle Dr. Jorge Cash 321</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05033</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PICCO\">
-		<CompanyName>Piccolo und mehr</CompanyName>
-		<ContactName>Georg Pipps</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>6562-9722</Phone>
-		<Fax>6562-9723</Fax>
-		<FullAddress>
-			<Address>Geislweg 14</Address>
-			<City>Salzburg</City>
-			<PostalCode>5020</PostalCode>
-			<Country>Austria</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"PRINI\">
-		<CompanyName>Princesa Isabel Vinhos</CompanyName>
-		<ContactName>Isabel de Castro</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(1) 356-5634</Phone>
-		<FullAddress>
-			<Address>Estrada da sa&#250;de n. 58</Address>
-			<City>Lisboa</City>
-			<PostalCode>1756</PostalCode>
-			<Country>Portugal</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"QUEDE\">
-		<CompanyName>Que Del&#237;cia</CompanyName>
-		<ContactName>Bernardo Batista</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(21) 555-4252</Phone>
-		<Fax>(21) 555-4545</Fax>
-		<FullAddress>
-			<Address>Rua da Panificadora, 12</Address>
-			<City>Rio de Janeiro</City>
-			<Region>RJ</Region>
-			<PostalCode>02389-673</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"QUEEN\">
-		<CompanyName>Queen Cozinha</CompanyName>
-		<ContactName>L&#250;cia Carvalho</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(11) 555-1189</Phone>
-		<FullAddress>
-			<Address>Alameda dos Can&#224;rios, 891</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05487-020</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"QUICK\">
-		<CompanyName>QUICK-Stop</CompanyName>
-		<ContactName>Horst Kloss</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>0372-035188</Phone>
-		<FullAddress>
-			<Address>Taucherstra&#223;e 10</Address>
-			<City>Cunewalde</City>
-			<PostalCode>01307</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RANCH\">
-		<CompanyName>Rancho grande</CompanyName>
-		<ContactName>Sergio Guti&#233;rrez</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(1) 123-5555</Phone>
-		<Fax>(1) 123-5556</Fax>
-		<FullAddress>
-			<Address>Av. del Libertador 900</Address>
-			<City>Buenos Aires</City>
-			<PostalCode>1010</PostalCode>
-			<Country>Argentina</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RATTC\">
-		<CompanyName>Rattlesnake Canyon Grocery</CompanyName>
-		<ContactName>Paula Wilson</ContactName>
-		<ContactTitle>Assistant Sales Representative</ContactTitle>
-		<Phone>(505) 555-5939</Phone>
-		<Fax>(505) 555-3620</Fax>
-		<FullAddress>
-			<Address>2817 Milton Dr.</Address>
-			<City>Albuquerque</City>
-			<Region>NM</Region>
-			<PostalCode>87110</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"REGGC\">
-		<CompanyName>Reggiani Caseifici</CompanyName>
-		<ContactName>Maurizio Moroni</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>0522-556721</Phone>
-		<Fax>0522-556722</Fax>
-		<FullAddress>
-			<Address>Strada Provinciale 124</Address>
-			<City>Reggio Emilia</City>
-			<PostalCode>42100</PostalCode>
-			<Country>Italy</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RICAR\">
-		<CompanyName>Ricardo Adocicados</CompanyName>
-		<ContactName>Janete Limeira</ContactName>
-		<ContactTitle>Assistant Sales Agent</ContactTitle>
-		<Phone>(21) 555-3412</Phone>
-		<FullAddress>
-			<Address>Av. Copacabana, 267</Address>
-			<City>Rio de Janeiro</City>
-			<Region>RJ</Region>
-			<PostalCode>02389-890</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"RICSU\">
-		<CompanyName>Richter Supermarkt</CompanyName>
-		<ContactName>Michael Holz</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>0897-034214</Phone>
-		<FullAddress>
-			<Address>Grenzacherweg 237</Address>
-			<City>Gen&#232;ve</City>
-			<PostalCode>1203</PostalCode>
-			<Country>Switzerland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"ROMEY\">
-		<CompanyName>Romero y tomillo</CompanyName>
-		<ContactName>Alejandra Camino</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(91) 745 6200</Phone>
-		<Fax>(91) 745 6210</Fax>
-		<FullAddress>
-			<Address>Gran V&#237;a, 1</Address>
-			<City>Madrid</City>
-			<PostalCode>28001</PostalCode>
-			<Country>Spain</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SANTG\">
-		<CompanyName>Sant&#233; Gourmet</CompanyName>
-		<ContactName>Jonas Bergulfsen</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>07-98 92 35</Phone>
-		<Fax>07-98 92 47</Fax>
-		<FullAddress>
-			<Address>Erling Skakkes gate 78</Address>
-			<City>Stavern</City>
-			<PostalCode>4110</PostalCode>
-			<Country>Norway</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SAVEA\">
-		<CompanyName>Save-a-lot Markets</CompanyName>
-		<ContactName>Jose Pavarotti</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(208) 555-8097</Phone>
-		<FullAddress>
-			<Address>187 Suffolk Ln.</Address>
-			<City>Boise</City>
-			<Region>ID</Region>
-			<PostalCode>83720</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SEVES\">
-		<CompanyName>Seven Seas Imports</CompanyName>
-		<ContactName>Hari Kumar</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(171) 555-1717</Phone>
-		<Fax>(171) 555-5646</Fax>
-		<FullAddress>
-			<Address>90 Wadhurst Rd.</Address>
-			<City>London</City>
-			<PostalCode>OX15 4NB</PostalCode>
-			<Country>UK</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SIMOB\">
-		<CompanyName>Simons bistro</CompanyName>
-		<ContactName>Jytte Petersen</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>31 12 34 56</Phone>
-		<Fax>31 13 35 57</Fax>
-		<FullAddress>
-			<Address>Vinb&#230;ltet 34</Address>
-			<City>Kobenhavn</City>
-			<PostalCode>1734</PostalCode>
-			<Country>Denmark</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SPECD\">
-		<CompanyName>Sp&#233;cialit&#233;s du monde</CompanyName>
-		<ContactName>Dominique Perrier</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(1) 47.55.60.10</Phone>
-		<Fax>(1) 47.55.60.20</Fax>
-		<FullAddress>
-			<Address>25, rue Lauriston</Address>
-			<City>Paris</City>
-			<PostalCode>75016</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SPLIR\">
-		<CompanyName>Split Rail Beer &amp; Ale</CompanyName>
-		<ContactName>Art Braunschweiger</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(307) 555-4680</Phone>
-		<Fax>(307) 555-6525</Fax>
-		<FullAddress>
-			<Address>P.O. Box 555</Address>
-			<City>Lander</City>
-			<Region>WY</Region>
-			<PostalCode>82520</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"SUPRD\">
-		<CompanyName>Supr&#234;mes d&#233;lices</CompanyName>
-		<ContactName>Pascale Cartrain</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>(071) 23 67 22 20</Phone>
-		<Fax>(071) 23 67 22 21</Fax>
-		<FullAddress>
-			<Address>Boulevard Tirou, 255</Address>
-			<City>Charleroi</City>
-			<PostalCode>B-6000</PostalCode>
-			<Country>Belgium</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"THEBI\">
-		<CompanyName>The Big Cheese</CompanyName>
-		<ContactName>Liz Nixon</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>(503) 555-3612</Phone>
-		<FullAddress>
-			<Address>89 Jefferson Way Suite 2</Address>
-			<City>Portland</City>
-			<Region>OR</Region>
-			<PostalCode>97201</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"THECR\">
-		<CompanyName>The Cracker Box</CompanyName>
-		<ContactName>Liu Wong</ContactName>
-		<ContactTitle>Marketing Assistant</ContactTitle>
-		<Phone>(406) 555-5834</Phone>
-		<Fax>(406) 555-8083</Fax>
-		<FullAddress>
-			<Address>55 Grizzly Peak Rd.</Address>
-			<City>Butte</City>
-			<Region>MT</Region>
-			<PostalCode>59801</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TOMSP\">
-		<CompanyName>Toms Spezialit&#228;ten</CompanyName>
-		<ContactName>Karin Josephs</ContactName>
-		<ContactTitle>Marketing Manager</ContactTitle>
-		<Phone>0251-031259</Phone>
-		<Fax>0251-035695</Fax>
-		<FullAddress>
-			<Address>Luisenstr. 48</Address>
-			<City>M&#252;nster</City>
-			<PostalCode>44087</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TORTU\">
-		<CompanyName>Tortuga Restaurante</CompanyName>
-		<ContactName>Miguel Angel Paolino</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(5) 555-2933</Phone>
-		<FullAddress>
-			<Address>Avda. Azteca 123</Address>
-			<City>M&#233;xico D.F.</City>
-			<PostalCode>05033</PostalCode>
-			<Country>Mexico</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TRADH\">
-		<CompanyName>Tradi&#231;&#227;o Hipermercados</CompanyName>
-		<ContactName>Anabela Domingues</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>(11) 555-2167</Phone>
-		<Fax>(11) 555-2168</Fax>
-		<FullAddress>
-			<Address>Av. In&#234;s de Castro, 414</Address>
-			<City>Sao Paulo</City>
-			<Region>SP</Region>
-			<PostalCode>05634-030</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"TRAIH\">
-		<CompanyName>Trail's Head Gourmet Provisioners</CompanyName>
-		<ContactName>Helvetius Nagy</ContactName>
-		<ContactTitle>Sales Associate</ContactTitle>
-		<Phone>(206) 555-8257</Phone>
-		<Fax>(206) 555-2174</Fax>
-		<FullAddress>
-			<Address>722 DaVinci Blvd.</Address>
-			<City>Kirkland</City>
-			<Region>WA</Region>
-			<PostalCode>98034</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"VAFFE\">
-		<CompanyName>Vaffeljernet</CompanyName>
-		<ContactName>Palle Ibsen</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>86 21 32 43</Phone>
-		<Fax>86 22 33 44</Fax>
-		<FullAddress>
-			<Address>Smagsloget 45</Address>
-			<City>&#197;rhus</City>
-			<PostalCode>8200</PostalCode>
-			<Country>Denmark</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"VICTE\">
-		<CompanyName>Victuailles en stock</CompanyName>
-		<ContactName>Mary Saveley</ContactName>
-		<ContactTitle>Sales Agent</ContactTitle>
-		<Phone>78.32.54.86</Phone>
-		<Fax>78.32.54.87</Fax>
-		<FullAddress>
-			<Address>2, rue du Commerce</Address>
-			<City>Lyon</City>
-			<PostalCode>69004</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"VINET\">
-		<CompanyName>Vins et alcools Chevalier</CompanyName>
-		<ContactName>Paul Henriot</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>26.47.15.10</Phone>
-		<Fax>26.47.15.11</Fax>
-		<FullAddress>
-			<Address>59 rue de l'Abbaye</Address>
-			<City>Reims</City>
-			<PostalCode>51100</PostalCode>
-			<Country>France</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WANDK\">
-		<CompanyName>Die Wandernde Kuh</CompanyName>
-		<ContactName>Rita M&#252;ller</ContactName>
-		<ContactTitle>Sales Representative</ContactTitle>
-		<Phone>0711-020361</Phone>
-		<Fax>0711-035428</Fax>
-		<FullAddress>
-			<Address>Adenauerallee 900</Address>
-			<City>Stuttgart</City>
-			<PostalCode>70563</PostalCode>
-			<Country>Germany</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WARTH\">
-		<CompanyName>Wartian Herkku</CompanyName>
-		<ContactName>Pirkko Koskitalo</ContactName>
-		<ContactTitle>Accounting Manager</ContactTitle>
-		<Phone>981-443655</Phone>
-		<Fax>981-443655</Fax>
-		<FullAddress>
-			<Address>Torikatu 38</Address>
-			<City>Oulu</City>
-			<PostalCode>90110</PostalCode>
-			<Country>Finland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WELLI\">
-		<CompanyName>Wellington Importadora</CompanyName>
-		<ContactName>Paula Parente</ContactName>
-		<ContactTitle>Sales Manager</ContactTitle>
-		<Phone>(14) 555-8122</Phone>
-		<FullAddress>
-			<Address>Rua do Mercado, 12</Address>
-			<City>Resende</City>
-			<Region>SP</Region>
-			<PostalCode>08737-363</PostalCode>
-			<Country>Brazil</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WHITC\">
-		<CompanyName>White Clover Markets</CompanyName>
-		<ContactName>Karl Jablonski</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(206) 555-4112</Phone>
-		<Fax>(206) 555-4115</Fax>
-		<FullAddress>
-			<Address>305 - 14th Ave. S. Suite 3B</Address>
-			<City>Seattle</City>
-			<Region>WA</Region>
-			<PostalCode>98128</PostalCode>
-			<Country>USA</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WILMK\">
-		<CompanyName>Wilman Kala</CompanyName>
-		<ContactName>Matti Karttunen</ContactName>
-		<ContactTitle>Owner/Marketing Assistant</ContactTitle>
-		<Phone>90-224 8858</Phone>
-		<Fax>90-224 8858</Fax>
-		<FullAddress>
-			<Address>Keskuskatu 45</Address>
-			<City>Helsinki</City>
-			<PostalCode>21240</PostalCode>
-			<Country>Finland</Country>
-		</FullAddress>
-	</Customers><Customers CustomerID=\"WOLZA\">
-		<CompanyName>Wolski  Zajazd</CompanyName>
-		<ContactName>Zbyszek Piestrzeniewicz</ContactName>
-		<ContactTitle>Owner</ContactTitle>
-		<Phone>(26) 642-7012</Phone>
-		<Fax>(26) 642-7012</Fax>
-		<FullAddress>
-			<Address>ul. Filtrowa 68</Address>
-			<City>Warszawa</City>
-			<PostalCode>01-012</PostalCode>
-			<Country>Poland</Country>
-		</FullAddress>
-	</Customers></root>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+	</Customers></root>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes086'(_Config) ->
    Qry = "<root> {//@*/..} </root>",
    Env = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <root><west mark=\"w0\" /><center mark=\"c0\">Text in center</center><east mark=\"e0\">Text in east</east></root>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<root><west mark=\"w0\" /><center mark=\"c0\">Text in center</center><east mark=\"e0\">Text in east</east></root>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<root><west mark=\"w0\" /><center mark=\"c0\">Text in center</center><east mark=\"e0\">Text in east</east></root>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<root><west mark=\"w0\" /><center mark=\"c0\">Text in center</center><east mark=\"e0\">Text in east</east></root>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes087'(_Config) ->
    Qry = "<root> {/doc/part/*/text()/..} </root>",
    Env = xqerl_test:handle_environment(environment('xq311B')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes088'(_Config) ->
    Qry = "/*/",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes089'(_Config) ->
    Qry = "xquery version \"1.0\"; declare namespace saxon=\"http://example.com/VendorNamespace\"; declare namespace tour=\"http://example.com/Knight'sTour\"; (: XQuery program to perform a knight's tour of the chessboard. Author: Michael H. Kay Date: 26 June 2003 This version modified to use XQuery 1.0, with sequences and functions. This query does not use a source document. There is an optional parameter, start, which can be set to any square on the chessboard, e.g. a3 or h5. XQuery does not allow parameters to be given a default value, so the parameter is mandatory. There is a second optional parameter, end, which indicates that the processing should stop after a given number of steps. This can be used to animate the display of the tour. This works especially well when the query is compiled into a Java servlet. The output is an HTML display of the completed tour. Internally, the following data representations are used: * A square on the chessboard: represented as a number in the range 0 to 63 * A state of the chessboard: a sequence of 64 integers, each containing a move number. A square that has not been visited yet is represented by a zero. * A set of possible moves: represented as a sequence of integers, * each integer representing the number of the destination square :) declare option saxon:default \"'a1'\"; declare variable $start as xs:string := 'a1'; declare option saxon:default \"'64'\"; declare variable $end as xs:string := '64'; declare variable $endd as xs:integer := xs:integer($end); declare variable $start-column as xs:integer := xs:integer(translate(substring($start, 1, 1), 'abcdefgh', '01234567')); declare variable $start-row as xs:integer := 8 - xs:integer(substring($start, 2, 1)); declare function tour:main () as element() { if (not(string-length($start)=2) or not(translate(substring($start,1,1), 'abcdefgh', 'aaaaaaaa')='a') or not(translate(substring($start,2,1), '12345678', '11111111')='1')) then error((), \"Invalid start parameter: try say 'a1' or 'g6'\") else if (not($endd = 1 to 64)) then error((), \"Invalid end parameter: must be in range 1 to 64\") else let $empty-board as xs:integer* := for $i in (1 to 64) return 0 let $initial-board as xs:integer* := tour:place-knight(1, $empty-board, $start-row * 8 + $start-column) let $final-board as xs:integer* := tour:make-moves(2, $initial-board, $start-row * 8 + $start-column) return tour:print-board($final-board) }; declare function tour:place-knight ( $move as xs:integer, $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function places a knight on the board at a given square. The returned value is the supplied board, modified to indicate that the knight reached a given square at a given move :) for $i in 1 to 64 return if ($i = $square + 1) then $move else $board[$i] }; declare function tour:make-moves ( $move as xs:integer, $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function takes the board in a given state, decides on the next move to make, and then calls itself recursively to make further moves, until the knight has completed his tour of the board. It returns the board in its final state. :) let $possible-move-list as xs:integer* := tour:list-possible-moves($board, $square) return tour:try-possible-moves($move, $board, $square, $possible-move-list) }; declare function tour:try-possible-moves ( $move as xs:integer, $board as xs:integer*, $square as xs:integer, $possible-moves as xs:integer* ) as xs:integer* { (: This function tries a set of possible moves that the knight can make from a given position. It determines the best move as the one to the square with fewest exits. If this is unsuccessful then it can backtrack and try another move; however this turns out rarely to be necessary. The function makes the selected move, and then calls make-moves() to make subsequent moves, returning the final state of the board. :) if (count($possible-moves)!=0) then tour:make-best-move($move, $board, $square, one-or-more($possible-moves)) else () (: if there is no possible move, we return the special value () as the final state of the board, to indicate to the caller that we got stuck :) }; declare function tour:make-best-move ( $move as xs:integer, $board as xs:integer*, $square as xs:integer, $possible-moves as xs:integer+ ) as xs:integer* { (: this function, given the state of the board and a set of possible moves, determines which of the moves is the best one. It then makes this move, and proceeds recursively to make further moves, eventually returning the final state of the board. :) let $best-move as xs:integer := tour:find-best-move($board, $possible-moves, 9, 999) let $other-possible-moves as xs:integer* := $possible-moves[. != $best-move] let $next-board as xs:integer* := tour:place-knight($move, $board, $best-move) let $final-board as xs:integer* := if ($move < $endd) then tour:make-moves($move+1, $next-board, $best-move) else $next-board (: if the final board has the special value '()', we got stuck, and have to choose the next best of the possible moves. This is done by a recursive call. I thought that the knight never did get stuck, but it does: if the starting square is f1, the wrong choice is made at move 58, and needs to be reversed. :) return if (empty($final-board)) then tour:try-possible-moves($move, $board, $square, $other-possible-moves) else $final-board }; declare function tour:find-best-move ( $board as xs:integer*, $possible-moves as xs:integer+, $fewest-exits as xs:integer, $best-so-far as xs:integer ) as xs:integer { (: This function finds from among the possible moves, the one with fewest exits. It calls itself recursively. :) let $trial-move as xs:integer := $possible-moves[1] let $other-possible-moves as xs:integer* := $possible-moves[position() > 1] let $trial-board as xs:integer* := tour:place-knight(99, $board, $trial-move) let $trial-move-exit-list as xs:integer* := tour:list-possible-moves($trial-board, $trial-move) let $number-of-exits as xs:integer := count($trial-move-exit-list) let $minimum-exits as xs:integer := min(($number-of-exits, $fewest-exits)) let $new-best-so-far as xs:integer := if ($number-of-exits < $fewest-exits) then $trial-move else $best-so-far (: if there are other possible moves, consider them too, using a recursive call. Otherwise return the best move found. :) return if (count($other-possible-moves)!=0) then tour:find-best-move($board, one-or-more($other-possible-moves), $minimum-exits, $new-best-so-far) else $new-best-so-far }; declare function tour:list-possible-moves ( $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function, given the knight's position on the board, returns the set of squares he can move to. The squares will be ones that have not been visited before :) let $row as xs:integer := $square idiv 8 let $column as xs:integer := $square mod 8 return (if ($row > 1 and $column > 0 and $board[($square - 17) + 1]=0) then $square - 17 else (), if ($row > 1 and $column < 7 and $board[($square - 15) + 1]=0) then $square - 15 else (), if ($row > 0 and $column > 1 and $board[($square - 10) + 1]=0) then $square - 10 else (), if ($row > 0 and $column < 6 and $board[($square - 6) + 1]=0) then $square - 6 else (), if ($row < 6 and $column > 0 and $board[($square + 15) + 1]=0) then $square + 15 else (), if ($row < 6 and $column < 7 and $board[($square + 17) + 1]=0) then $square + 17 else (), if ($row < 7 and $column > 1 and $board[($square + 6) + 1]=0) then $square + 6 else (), if ($row < 7 and $column < 6 and $board[($square + 10) + 1]=0) then $square + 10 else () ) }; declare function tour:print-board ( $board as xs:integer* ) as element() { <html> <head> <title>Knight's tour</title> </head> <body> <div align=\"center\"> <h1>Knight's tour starting at {$start}</h1> <table border=\"1\" cellpadding=\"4\"> {for $row in 0 to 7 return <tr> {for $column in 0 to 7 let $color := if ((($row + $column) mod 2)=1) then 'xffff44' else 'white' return <td align=\"center\" bgcolor=\"{$color}\" width=\"22\">{ let $n := $board[$row * 8 + $column + 1] return if ($endd != 64 and $n = $endd) then <b>{$n}</b> else if ($n = 0) then \"&#xa0;\" else $n }</td> } </tr> } </table> <p>{ if ($endd != 64) then <a href=\"Tour?start={$start}&amp;end={$endd+1}\">Step</a> else () }</p> </div> </body> </html> }; tour:main()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <html><head><title>Knight's tour</title></head><body><div align=\"center\"><h1>Knight's tour starting at a1</h1><table border=\"1\" cellpadding=\"4\"><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">36</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">19</td><td width=\"22\" align=\"center\" bgcolor=\"white\">22</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">5</td><td width=\"22\" align=\"center\" bgcolor=\"white\">38</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">9</td><td width=\"22\" align=\"center\" bgcolor=\"white\">24</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">7</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">21</td><td width=\"22\" align=\"center\" bgcolor=\"white\">4</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">37</td><td width=\"22\" align=\"center\" bgcolor=\"white\">42</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">23</td><td width=\"22\" align=\"center\" bgcolor=\"white\">6</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">39</td><td width=\"22\" align=\"center\" bgcolor=\"white\">10</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">18</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">35</td><td width=\"22\" align=\"center\" bgcolor=\"white\">20</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">49</td><td width=\"22\" align=\"center\" bgcolor=\"white\">44</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">41</td><td width=\"22\" align=\"center\" bgcolor=\"white\">8</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">25</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">3</td><td width=\"22\" align=\"center\" bgcolor=\"white\">50</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">43</td><td width=\"22\" align=\"center\" bgcolor=\"white\">46</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">55</td><td width=\"22\" align=\"center\" bgcolor=\"white\">62</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">11</td><td width=\"22\" align=\"center\" bgcolor=\"white\">40</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">34</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">17</td><td width=\"22\" align=\"center\" bgcolor=\"white\">54</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">59</td><td width=\"22\" align=\"center\" bgcolor=\"white\">48</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">45</td><td width=\"22\" align=\"center\" bgcolor=\"white\">26</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">63</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">51</td><td width=\"22\" align=\"center\" bgcolor=\"white\">2</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">47</td><td width=\"22\" align=\"center\" bgcolor=\"white\">56</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">61</td><td width=\"22\" align=\"center\" bgcolor=\"white\">58</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">29</td><td width=\"22\" align=\"center\" bgcolor=\"white\">12</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">16</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">33</td><td width=\"22\" align=\"center\" bgcolor=\"white\">60</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">53</td><td width=\"22\" align=\"center\" bgcolor=\"white\">14</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">31</td><td width=\"22\" align=\"center\" bgcolor=\"white\">64</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">27</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">1</td><td width=\"22\" align=\"center\" bgcolor=\"white\">52</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">15</td><td width=\"22\" align=\"center\" bgcolor=\"white\">32</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">57</td><td width=\"22\" align=\"center\" bgcolor=\"white\">28</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">13</td><td width=\"22\" align=\"center\" bgcolor=\"white\">30</td></tr></table><p/></div></body></html>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<html><head><title>Knight's tour</title></head><body><div align=\"center\"><h1>Knight's tour starting at a1</h1><table border=\"1\" cellpadding=\"4\"><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">36</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">19</td><td width=\"22\" align=\"center\" bgcolor=\"white\">22</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">5</td><td width=\"22\" align=\"center\" bgcolor=\"white\">38</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">9</td><td width=\"22\" align=\"center\" bgcolor=\"white\">24</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">7</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">21</td><td width=\"22\" align=\"center\" bgcolor=\"white\">4</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">37</td><td width=\"22\" align=\"center\" bgcolor=\"white\">42</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">23</td><td width=\"22\" align=\"center\" bgcolor=\"white\">6</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">39</td><td width=\"22\" align=\"center\" bgcolor=\"white\">10</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">18</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">35</td><td width=\"22\" align=\"center\" bgcolor=\"white\">20</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">49</td><td width=\"22\" align=\"center\" bgcolor=\"white\">44</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">41</td><td width=\"22\" align=\"center\" bgcolor=\"white\">8</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">25</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">3</td><td width=\"22\" align=\"center\" bgcolor=\"white\">50</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">43</td><td width=\"22\" align=\"center\" bgcolor=\"white\">46</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">55</td><td width=\"22\" align=\"center\" bgcolor=\"white\">62</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">11</td><td width=\"22\" align=\"center\" bgcolor=\"white\">40</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">34</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">17</td><td width=\"22\" align=\"center\" bgcolor=\"white\">54</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">59</td><td width=\"22\" align=\"center\" bgcolor=\"white\">48</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">45</td><td width=\"22\" align=\"center\" bgcolor=\"white\">26</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">63</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">51</td><td width=\"22\" align=\"center\" bgcolor=\"white\">2</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">47</td><td width=\"22\" align=\"center\" bgcolor=\"white\">56</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">61</td><td width=\"22\" align=\"center\" bgcolor=\"white\">58</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">29</td><td width=\"22\" align=\"center\" bgcolor=\"white\">12</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">16</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">33</td><td width=\"22\" align=\"center\" bgcolor=\"white\">60</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">53</td><td width=\"22\" align=\"center\" bgcolor=\"white\">14</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">31</td><td width=\"22\" align=\"center\" bgcolor=\"white\">64</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">27</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">1</td><td width=\"22\" align=\"center\" bgcolor=\"white\">52</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">15</td><td width=\"22\" align=\"center\" bgcolor=\"white\">32</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">57</td><td width=\"22\" align=\"center\" bgcolor=\"white\">28</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">13</td><td width=\"22\" align=\"center\" bgcolor=\"white\">30</td></tr></table><p/></div></body></html>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<html><head><title>Knight's tour</title></head><body><div align=\"center\"><h1>Knight's tour starting at a1</h1><table border=\"1\" cellpadding=\"4\"><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">36</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">19</td><td width=\"22\" align=\"center\" bgcolor=\"white\">22</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">5</td><td width=\"22\" align=\"center\" bgcolor=\"white\">38</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">9</td><td width=\"22\" align=\"center\" bgcolor=\"white\">24</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">7</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">21</td><td width=\"22\" align=\"center\" bgcolor=\"white\">4</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">37</td><td width=\"22\" align=\"center\" bgcolor=\"white\">42</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">23</td><td width=\"22\" align=\"center\" bgcolor=\"white\">6</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">39</td><td width=\"22\" align=\"center\" bgcolor=\"white\">10</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">18</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">35</td><td width=\"22\" align=\"center\" bgcolor=\"white\">20</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">49</td><td width=\"22\" align=\"center\" bgcolor=\"white\">44</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">41</td><td width=\"22\" align=\"center\" bgcolor=\"white\">8</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">25</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">3</td><td width=\"22\" align=\"center\" bgcolor=\"white\">50</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">43</td><td width=\"22\" align=\"center\" bgcolor=\"white\">46</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">55</td><td width=\"22\" align=\"center\" bgcolor=\"white\">62</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">11</td><td width=\"22\" align=\"center\" bgcolor=\"white\">40</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">34</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">17</td><td width=\"22\" align=\"center\" bgcolor=\"white\">54</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">59</td><td width=\"22\" align=\"center\" bgcolor=\"white\">48</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">45</td><td width=\"22\" align=\"center\" bgcolor=\"white\">26</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">63</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">51</td><td width=\"22\" align=\"center\" bgcolor=\"white\">2</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">47</td><td width=\"22\" align=\"center\" bgcolor=\"white\">56</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">61</td><td width=\"22\" align=\"center\" bgcolor=\"white\">58</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">29</td><td width=\"22\" align=\"center\" bgcolor=\"white\">12</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">16</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">33</td><td width=\"22\" align=\"center\" bgcolor=\"white\">60</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">53</td><td width=\"22\" align=\"center\" bgcolor=\"white\">14</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">31</td><td width=\"22\" align=\"center\" bgcolor=\"white\">64</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">27</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">1</td><td width=\"22\" align=\"center\" bgcolor=\"white\">52</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">15</td><td width=\"22\" align=\"center\" bgcolor=\"white\">32</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">57</td><td width=\"22\" align=\"center\" bgcolor=\"white\">28</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">13</td><td width=\"22\" align=\"center\" bgcolor=\"white\">30</td></tr></table><p/></div></body></html>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<html><head><title>Knight's tour</title></head><body><div align=\"center\"><h1>Knight's tour starting at a1</h1><table border=\"1\" cellpadding=\"4\"><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">36</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">19</td><td width=\"22\" align=\"center\" bgcolor=\"white\">22</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">5</td><td width=\"22\" align=\"center\" bgcolor=\"white\">38</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">9</td><td width=\"22\" align=\"center\" bgcolor=\"white\">24</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">7</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">21</td><td width=\"22\" align=\"center\" bgcolor=\"white\">4</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">37</td><td width=\"22\" align=\"center\" bgcolor=\"white\">42</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">23</td><td width=\"22\" align=\"center\" bgcolor=\"white\">6</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">39</td><td width=\"22\" align=\"center\" bgcolor=\"white\">10</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">18</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">35</td><td width=\"22\" align=\"center\" bgcolor=\"white\">20</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">49</td><td width=\"22\" align=\"center\" bgcolor=\"white\">44</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">41</td><td width=\"22\" align=\"center\" bgcolor=\"white\">8</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">25</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">3</td><td width=\"22\" align=\"center\" bgcolor=\"white\">50</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">43</td><td width=\"22\" align=\"center\" bgcolor=\"white\">46</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">55</td><td width=\"22\" align=\"center\" bgcolor=\"white\">62</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">11</td><td width=\"22\" align=\"center\" bgcolor=\"white\">40</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">34</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">17</td><td width=\"22\" align=\"center\" bgcolor=\"white\">54</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">59</td><td width=\"22\" align=\"center\" bgcolor=\"white\">48</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">45</td><td width=\"22\" align=\"center\" bgcolor=\"white\">26</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">63</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">51</td><td width=\"22\" align=\"center\" bgcolor=\"white\">2</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">47</td><td width=\"22\" align=\"center\" bgcolor=\"white\">56</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">61</td><td width=\"22\" align=\"center\" bgcolor=\"white\">58</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">29</td><td width=\"22\" align=\"center\" bgcolor=\"white\">12</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">16</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">33</td><td width=\"22\" align=\"center\" bgcolor=\"white\">60</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">53</td><td width=\"22\" align=\"center\" bgcolor=\"white\">14</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">31</td><td width=\"22\" align=\"center\" bgcolor=\"white\">64</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">27</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">1</td><td width=\"22\" align=\"center\" bgcolor=\"white\">52</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">15</td><td width=\"22\" align=\"center\" bgcolor=\"white\">32</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">57</td><td width=\"22\" align=\"center\" bgcolor=\"white\">28</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">13</td><td width=\"22\" align=\"center\" bgcolor=\"white\">30</td></tr></table><p/></div></body></html>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes090'(_Config) ->
    Qry = "let $element as element(foo) := <foo/> return count($element/self::bar)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes091'(_Config) ->
    Qry = "let $element as element(foo) := <foo/> return count($element/self::*:bar)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes092'(_Config) ->
    Qry = "declare namespace ns1 = \"http://www.example.org/ns1\"; declare namespace ns2 = \"http://www.example.org/ns2\"; let $element as element(ns1:foo) := <ns1:foo/> return count($element/self::ns2:*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes093'(_Config) ->
    Qry = "let $attribute as attribute(foo) := attribute foo { } return count($attribute/self::bar)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes094'(_Config) ->
    Qry = "let $attribute as attribute(foo) := attribute foo { } 
             return count($attribute/self::*:bar)
       ",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes095'(_Config) ->
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
@@ -7126,54 +4751,66 @@ end.
         return count($attribute/self::ns2:*)
       ",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes096'(_Config) ->
    Qry = "let $element as element(*) := <foo/> return count($element/self::bar)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes097'(_Config) ->
    Qry = "let $element as element(*) := <foo/> return count($element/self::*:bar)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes098'(_Config) ->
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
@@ -7181,54 +4818,66 @@ end.
         let $element as element(*) := <ns1:foo/> 
         return count($element/self::ns2:*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes099'(_Config) ->
    Qry = "let $attribute as attribute(*) := attribute foo { } return count($attribute/self::bar)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes100'(_Config) ->
    Qry = "let $attribute as attribute(*) := attribute foo { } return count($attribute/self::*:bar)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes101'(_Config) ->
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
@@ -7236,20 +4885,24 @@ end.
         let $attribute as attribute(*) := attribute ns1:foo { } 
         return count($attribute/self::ns2:*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes102'(_Config) ->
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
@@ -7260,165 +4913,196 @@ end.
         return count($element)
       ",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes103'(_Config) ->
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes104'(_Config) ->
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::foo)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes105'(_Config) ->
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::*:foo)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes106'(_Config) ->
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         let $comment as comment() := <!--comment--> 
         return count($comment/self::ns1:*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes107'(_Config) ->
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes108'(_Config) ->
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::processing)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes109'(_Config) ->
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::*:processing)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes110'(_Config) ->
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::ns1:*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            0
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes111'(_Config) ->
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
@@ -7427,29 +5111,30 @@ end.
         let $attribute as attribute(*, xs:untypedAtomic)* := $element/attribute::* 
         return count($attribute)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes112'(_Config) ->
    Qry = "/*/namespace-node()",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes113'(_Config) ->
    {skip,"XP30+"}.
 'Axes114'(_Config) ->
@@ -7458,35 +5143,55 @@ end.
    Qry = "/*/attribute::namespace-node()",
    Env = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-           
-           
-         
-      ",
- case (case xqerl_seq2:is_sequence(Res) andalso xqerl_seq2:is_empty(Res) of true -> true; _ -> false end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes116'(_Config) ->
    {skip,"XP30+"}.
 'Axes117'(_Config) ->
    Qry = "namespace {\"xsl\"}{\"http://www.w3.org/1999/XSL/Transform\"} / self::namespace-node()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-           1
-           namespace-node()
-           http://www.w3.org/1999/XSL/Transform
-           name($result) = \"xsl\"
-           
-      ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"name($result) = \"xsl\"",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso xqerl_test:size(Res) == 1 andalso xqerl_test:string_value(Res) == "http://www.w3.org/1999/XSL/Transform" andalso xqerl_types:type(Res) == 'namespace-node' of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"namespace-node()") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "http://www.w3.org/1999/XSL/Transform") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"name($result) = \"xsl\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'Axes118'(_Config) ->
    {skip,"XP20+"}.
 'Axes119'(_Config) ->
@@ -7510,1131 +5215,1255 @@ end.
 'axis-err-1'(_Config) ->
    Qry = "let $var := <anElement>Some content</anElement> return $var/20[child::text()]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0020" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0020'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-1'(_Config) ->
    Qry = "declare variable $var := document{<e><f>f's value</f></e>}; $var/(/)/(/)//f",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <f>f's value</f>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<f>f's value</f>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<f>f's value</f>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<f>f's value</f>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-2'(_Config) ->
    Qry = "declare variable $var := <e><f>f's value</f></e>; $var/(/)/(/)//f",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0050" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPDY0050'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPDY0050") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-3'(_Config) ->
    Qry = "declare variable $v := <a><b/><b/><b/></a>; deep-equal($v//45, (45, 45, 45, 45))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-4'(_Config) ->
    Qry = "declare variable $v := <a><b/><b/><b/></a>; $v//45",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         45 45 45 45
-      ",
-   case xqerl_test:string_value(Res) of
-             "45 45 45 45" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "45 45 45 45") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-5'(_Config) ->
    Qry = "*:(:hey:)ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-6'(_Config) ->
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-7'(_Config) ->
    Qry = "* :ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-8'(_Config) ->
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-9'(_Config) ->
    Qry = "ncname :*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-10'(_Config) ->
    Qry = "name(:hey:):*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-11'(_Config) ->
    Qry = "* :ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-12'(_Config) ->
    Qry = "ncname: *",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-13'(_Config) ->
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-14'(_Config) ->
    Qry = "ncname:(:hey:)*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-15'(_Config) ->
    Qry = "*(:hey:):(:hey:) ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-16'(_Config) ->
    Qry = "*:(:hey:)ncname",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-17'(_Config) ->
    Qry = "*:",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-18'(_Config) ->
    Qry = "empty(text {\"some text\"}/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-19'(_Config) ->
    Qry = "empty(processing-instruction theName {\"some text\"}/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-20'(_Config) ->
    Qry = "empty(attribute theName {\"some text\"}/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-21'(_Config) ->
    Qry = "empty(element theName {\"some text\"}/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-22'(_Config) ->
    Qry = "empty(comment {\"some text\"}/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-23'(_Config) ->
    Qry = "empty(<elem/>/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-24'(_Config) ->
    Qry = "<e>some text</e>/text()/..",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e>some text</e>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e>some text</e>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e>some text</e>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e>some text</e>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-25'(_Config) ->
    Qry = "<e><b/></e>/b/..",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e><b/></e>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e><b/></e>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e><b/></e>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e><b/></e>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-26'(_Config) ->
    Qry = "<e attr=\"c\"/>/@attr/..",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e attr=\"c\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e attr=\"c\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e attr=\"c\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e attr=\"c\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-27'(_Config) ->
    Qry = "<e><?name data?></e>/processing-instruction()/..",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e><?name data?></e>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e><?name data?></e>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e><?name data?></e>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e><?name data?></e>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-28'(_Config) ->
    Qry = "<e><!--data --></e>/comment()/..",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e><!--data --></e>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e><!--data --></e>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e><!--data --></e>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e><!--data --></e>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-29'(_Config) ->
    Qry = "preceding-or-ancestor::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-30'(_Config) ->
    Qry = "empty(fn:root(<e/>)/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-31'(_Config) ->
    Qry = "empty(<e/>/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-32'(_Config) ->
    Qry = "declare variable $myVar := <e/>; empty(fn:root($myVar/(/)/..))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0050") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0050") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-33'(_Config) ->
    Qry = "declare variable $myVar := document { <e/>}; empty($myVar/(/)/..)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-34'(_Config) ->
    Qry = "nametest//",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-35'(_Config) ->
    Qry = "nametest/",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-36'(_Config) ->
    Qry = "declare variable $myVar := <e/>; $myVar/(/)/",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-37'(_Config) ->
    Qry = "parent::self()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-38'(_Config) ->
    Qry = "123[..]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0020" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0020'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-39'(_Config) ->
    Qry = "1[element()]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0020" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0020'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-40'(_Config) ->
    Qry = "(1, <e/>)[..]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0020" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0020'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-41'(_Config) ->
    Qry = "(<e/>, 1)[..]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0020" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0020'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-42'(_Config) ->
    Qry = "empty(<e/>[parent::node()])",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-43'(_Config) ->
    Qry = "(1, 5 * /)[1]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            1
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("1"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-44'(_Config) ->
    Qry = "(1, /)[1]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            1
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("1"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-45'(_Config) ->
    Qry = "(/, 1)[2]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            1
-            
-         
-      ",
- case ( begin Tst1 = xqerl:run("1"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-46'(_Config) ->
    Qry = "//",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-47'(_Config) ->
    Qry = "declare variable $myVar := <e/>; empty($myVar/descendant-or-self::text())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-48'(_Config) ->
    Qry = "declare variable $myVar := <e/>; $myVar/(<a/>, <b/>, <?d ?>, <!-- e-->, attribute name {}, document {()})/3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         3 3 3 3 3 3
-      ",
-   case xqerl_test:string_value(Res) of
-             "3 3 3 3 3 3" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "3 3 3 3 3 3") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-49'(_Config) ->
    Qry = "declare variable $myVar := <e/>; $myVar/(<a/>, <b/>, <?d ?>, <!-- e-->, attribute name {}, document {()})/number()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         NaN NaN NaN NaN NaN NaN
-      ",
-   case xqerl_test:string_value(Res) of
-             "NaN NaN NaN NaN NaN NaN" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "NaN NaN NaN NaN NaN NaN") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-50'(_Config) ->
    Qry = "1/3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-51'(_Config) ->
    Qry = "string(<e/>)/3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-52'(_Config) ->
    Qry = "
         declare variable $myVar := <e/>; 
         empty($myVar/preceding-sibling::comment()/a/b/c/1/@*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0020") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0020") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-53'(_Config) ->
    Qry = "(1, 2, 3)[1]/(1, 2)[last()]/\"a string\"",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-54'(_Config) ->
    Qry = "namespace::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-55'(_Config) ->
    Qry = "empty(()/@attr)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-56'(_Config) ->
    Qry = "empty(()/name)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-57'(_Config) ->
    Qry = "declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)/.",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <b/><c/><d/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b/><c/><d/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<b/><c/><d/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<b/><c/><d/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-58'(_Config) ->
    Qry = "declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <b/><c/><d/><b/><c/><d/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b/><c/><d/><b/><c/><d/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<b/><c/><d/><b/><c/><d/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<b/><c/><d/><b/><c/><d/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-59'(_Config) ->
    Qry = "declare variable $i := <root> <child/> <child/> <child> <child2> <child3> <leaf/> </child3> </child2> </child> </root>; 1, root($i)//leaf/child::node(), 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            1 1
-            
-         
-      ",
- case (xqerl_test:string_value(Res) == "1 1") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_string_value(Res, "1 1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-60'(_Config) ->
    Qry = "empty(<element attr=\"foo\" attr2=\"foo\"/>/*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-61'(_Config) ->
    Qry = "empty(<element attr=\"foo\" attr2=\"foo\"/>/*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-62'(_Config) ->
    Qry = "<e> <b attr=\"fo\"/> <b/> </e>/descendant-or-self::node()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <e><b attr=\"fo\"/><b/></e><b attr=\"fo\"/><b/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<e><b attr=\"fo\"/><b/></e><b attr=\"fo\"/><b/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<e><b attr=\"fo\"/><b/></e><b attr=\"fo\"/><b/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e><b attr=\"fo\"/><b/></e><b attr=\"fo\"/><b/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-63'(_Config) ->
    Qry = "1, <b attr=\"fo\"/>/child::node(), 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1 1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1 1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-64'(_Config) ->
    Qry = "<e> <b/> <b a=\"\"/> </e>/b",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <b/><b a=\"\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b/><b a=\"\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<b/><b a=\"\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<b/><b a=\"\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-65'(_Config) ->
    Qry = "<e> <b a=\"\"/> <b/> </e>/b",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <b a=\"\"/><b/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b a=\"\"/><b/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<b a=\"\"/><b/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<b a=\"\"/><b/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-66'(_Config) ->
    Qry = "<e> <!-- comment --> <?PA ?>text<b/> <?PB ?> <b/> <?PC ?> </e>/child::node()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <!-- comment --><?PA ?>text<b/><?PB ?><b/><?PC ?>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<!-- comment --><?PA ?>text<b/><?PB ?><b/><?PC ?>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<!-- comment --><?PA ?>text<b/><?PB ?><b/><?PC ?>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<!-- comment --><?PA ?>text<b/><?PB ?><b/><?PC ?>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-67'(_Config) ->
    Qry = "1, <e/>/descendant::node(), 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1 1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1 1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-68'(_Config) ->
    Qry = "1, <e/>/descendant-or-self::node(), 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1<e/>1
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"1<e/>1"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "1<e/>1" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"1<e/>1") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-69'(_Config) ->
    Qry = "1, <e attr=\"\"/>/descendant::node(), 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1 1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1 1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-70'(_Config) ->
    Qry = "1, <e attr=\"\"/>/descendant-or-self::node(), 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1<e attr=\"\"/>1
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"1<e attr=\"\"/>1"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "1<e attr=\"\"/>1" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"1<e attr=\"\"/>1") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-71'(_Config) ->
    Qry = "empty(<e/>/descendant::node())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-72'(_Config) ->
    Qry = "empty(<e/>/descendant-or-self::node())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-73'(_Config) ->
    Qry = "empty(<e attr=\"\"/>/descendant::node())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-74'(_Config) ->
    Qry = "empty(<e attr=\"\"/>/descendant-or-self::node())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',false} -> {comment, "assert-false"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-75'(_Config) ->
    Qry = "<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node()[last()]/ancestor::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <a><b c=\"\"/><d/></a>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a><b c=\"\"/><d/></a>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<a><b c=\"\"/><d/></a>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<a><b c=\"\"/><d/></a>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-76'(_Config) ->
    Qry = "<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node()[last()]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <d/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<d/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<d/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<d/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-77'(_Config) ->
    Qry = "preceeding::node()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-78'(_Config) ->
    Qry = "<a> <b c=\"\"/> <d/> </a>//node()/../count(.)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
- Tst = xqerl:run("1"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-79'(_Config) ->
    Qry = "count(<a> <b c=\"\"/> <d/> </a>//node())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         2
-      ",
- Tst = xqerl:run("2"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-80'(_Config) ->
    Qry = "count(<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         3
-      ",
- Tst = xqerl:run("3"),
-  ResVal = xqerl_types:value(Res),
-  TstVal = xqerl_types:value(Tst),
-  if ResVal == TstVal -> {comment, "assert-eq"};
-    true -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"3") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-81'(_Config) ->
    Qry = "<a> <b id=\"person0\"> <c/> </b> </a>/*[attribute::id eq \"person0\"]/c",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <c/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<c/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<c/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<c/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-82'(_Config) ->
    Qry = "<a> <b id=\"person0\"> <c/> </b> </a>/*[@id eq \"person0\"]/c",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <c/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<c/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<c/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<c/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-83'(_Config) ->
    Qry = "empty(<e/>/attribute::attribute())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-84'(_Config) ->
    Qry = "<e/>/attribute::schema-attribute(foo)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0008" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0008'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-85'(_Config) ->
    Qry = "<e/>/attribute::schema-attribute()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-86'(_Config) ->
    Qry = "
         declare variable $root as document-node() := . treat as document-node(); 
@@ -8726,215 +6555,259 @@ end.
              exists($root//*/attribute()/descendant-or-self::node())",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            <empty/>true
-            
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<empty/>true"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_xml(Res,"<empty/>true") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-87'(_Config) ->
    Qry = "<result> { <e> <a>1</a> <b>2</b> </e>/(b, a)/. } </result>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <result><a>1</a><b>2</b></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><a>1</a><b>2</b></result>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<result><a>1</a><b>2</b></result>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<result><a>1</a><b>2</b></result>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-88'(_Config) ->
    Qry = "declare variable $i := <e> <a>1</a> <b>2</b> </e>; <result> { ($i/b, $i/a)/. } </result>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <result><a>1</a><b>2</b></result>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<result><a>1</a><b>2</b></result>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<result><a>1</a><b>2</b></result>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<result><a>1</a><b>2</b></result>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-89'(_Config) ->
    Qry = "declare default element namespace \"http://typedecl\"; <r> { <e attr=\"foo\"/>/@attr } </r>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <r xmlns=\"http://typedecl\" attr=\"foo\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<r xmlns=\"http://typedecl\" attr=\"foo\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<r xmlns=\"http://typedecl\" attr=\"foo\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<r xmlns=\"http://typedecl\" attr=\"foo\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-90'(_Config) ->
    Qry = "prefix:",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-91'(_Config) ->
    Qry = "prefix:",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-92'(_Config) ->
    Qry = "empty(<e/>/(gt gt gt))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-93'(_Config) ->
    Qry = "< asd />",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-94'(_Config) ->
    Qry = "declare",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPDY0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-95'(_Config) ->
    Qry = "eclare function",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-96'(_Config) ->
    Qry = "declare function name",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0003'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-97'(_Config) ->
    Qry = "declare function local:foo() external;",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0003") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-98'(_Config) ->
    Qry = "xquery, version, encoding, default, declare, function, option, collation, schema, import",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPDY0002" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPDY0002'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-99'(_Config) ->
    Qry = "declare function foo() external; 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XQST0045") orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XQST0045") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-100'(_Config) ->
    Qry = "empty(<a> <b/> <c/> </a>[self::b][last()])",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-101'(_Config) ->
    Qry = "<b/>[self::b][last()]",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            <b/>
-            
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<b/>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_xml(Res,"<b/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-102'(_Config) ->
    Qry = "
         for $a in (/) return 
@@ -8951,257 +6824,266 @@ end.
         /site/people/person[@id eq \"person0\"]/name",
    Env = xqerl_test:handle_environment(environment('XMarkAuction')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-103'(_Config) ->
    Qry = "
         declare function local:isComplexType($typeID) { string($typeID) }; 
         \"|\", //*/local:isComplexType(@type), \"|\"",
    Env = xqerl_test:handle_environment(environment('CPPGlobals')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         |       _17 _17  _11c _11c _11 _11  _17c _17c _17 _17   _11   _23  _17 _11c  |
-      ",
-   case xqerl_test:string_value(Res) of
-             "|       _17 _17  _11c _11c _11 _11  _17c _17c _17 _17   _11   _23  _17 _11c  |" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "|       _17 _17  _11c _11c _11 _11  _17c _17c _17 _17   _11   _23  _17 _11c  |") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-Axes-104'(_Config) ->
    Qry = "<a/>/<b>{.}</b>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <b><a/></b>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<b><a/></b>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<b><a/></b>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<b><a/></b>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'statictypingaxis-1'(_Config) ->
    Qry = "(10)/child::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'statictypingaxis-2'(_Config) ->
    Qry = "(10)/self::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'statictypingaxis-3'(_Config) ->
    Qry = "(10)/attribute::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'statictypingaxis-4'(_Config) ->
    Qry = "(10)/parent::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'statictypingaxis-5'(_Config) ->
    Qry = "(10)/descendant::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'statictypingaxis-6'(_Config) ->
    Qry = "(10)/descendant-or-self::*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-selfAxis-001'(_Config) ->
    Qry = "<a> { <a b=\"blah\"/>/@*/self::attribute(b) } </a>",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <a b=\"blah\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<a b=\"blah\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<a b=\"blah\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<a b=\"blah\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-childAxis-001'(_Config) ->
    Qry = "count(<a b=\"blah\"/>/child::attribute(b))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-           0
-           
-         
-      ",
- case ( begin Tst1 = xqerl:run("0"),
-  ResVal1 = xqerl_types:value(Res),
-  TstVal1 = xqerl_types:value(Tst1),
-  ResVal1 == TstVal1 end) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-followingAxis-001'(_Config) ->
    Qry = "count(<a><b/><b/></a>/b[1]/following-sibling::*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-precedingAxis-001'(_Config) ->
    Qry = "count(<a><b/><b/></a>/b[2]/preceding-sibling::*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-precedingAxis-002'(_Config) ->
    Qry = "count(<a><b/><b/></a>/b[2]/preceding-sibling::b)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-precedingAxis-003'(_Config) ->
    Qry = "count(<a><b/><b/></a>/b[1]/preceding-sibling::b)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         0
-      ",
-   case xqerl_test:string_value(Res) of
-             "0" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-except-001'(_Config) ->
    Qry = "
       let $x := <a><b/><c/><d/></a> return count(($x/(node() except b) | $x/(node() except b)))
    ",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         2
-      ",
-   case xqerl_test:string_value(Res) of
-             "2" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-wild-001'(_Config) ->
    Qry = "
         declare namespace foo=\"test\";
         let $x := <a><foo:b/><c/><d/></a> return count($x/foo:* | $x/foo:*)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         1
-      ",
-   case xqerl_test:string_value(Res) of
-             "1" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-wild-002'(_Config) ->
    Qry = "
         declare namespace foo=\"http://localhost/\";
         <a><foo:b/><foo:c/></a>/foo:b/self::foo:*",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         <foo:b xmlns:foo=\"http://localhost/\"/>
-      ",
-   case catch xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P++"</x>" end ++ " , " ++ "<x>"++"<foo:b xmlns:foo=\"http://localhost/\"/>"++"</x>)")) == "true" of
-           true -> {comment, "assert-xml"};
-           _ -> 
-              case ResXml == "<foo:b xmlns:foo=\"http://localhost/\"/>" of
-                 true -> {comment, "assert-xml"};
-                 _ -> ct:fail({xqerl_node:to_xml(Res),Exp}) 
-              end
-end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<foo:b xmlns:foo=\"http://localhost/\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-path-nodes-and-atomics'(_Config) ->
    Qry = "
         declare function local:f($x) { if ($x mod 2 = 1) then <a/> else \"a\" };
         let $y := for $x in (1 to 10) return <e>{$x}</e> return $y/local:f(.)/a",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0019" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPTY0019'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

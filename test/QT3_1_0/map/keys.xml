@@ -16,7 +16,7 @@
     <test-case name="map-keys-002">
         <description>Keys in empty map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map:new(()))</test>
+        <test>map:keys(map{})</test>
         <result>
             <assert-empty/>
         </result>
@@ -48,7 +48,7 @@
     <test-case name="map-keys-005">
         <description>Keys in two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map:new((map:entry("a", "1"), map:entry("b", 2))))</test>
+        <test>map:keys(map:merge((map:entry("a", "1"), map:entry("b", 2))))</test>
         <result>
             <all-of>
                 <assert>$result = "a"</assert>
@@ -84,7 +84,7 @@
     <test-case name="map-keys-008">
         <description>Elimination of duplicates</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map:new((map:entry("a",1), map:entry("a",2))))</test>
+        <test>map:keys(map:merge((map:entry("a",1), map:entry("a",2))))</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
@@ -148,7 +148,7 @@
     <test-case name="map-keys-014">
         <description>Keys for a large map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map:new(for $n in 1 to 500000 return map:entry($n, $n+1)))</test>
+        <test>map:keys(map:merge(for $n in 1 to 500000 return map:entry($n, $n+1)))</test>
         <result>
             <all-of>
                 <assert>$result = 1</assert>

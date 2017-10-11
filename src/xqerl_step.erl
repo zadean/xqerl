@@ -390,14 +390,18 @@ forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = text}, PredFuns) ->
          end,
    doc_ord(Ctx0, Fun, Seq);
 
-forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = element}, PredFuns) ->
+forward(Ctx0, Seq, 'descendant-or-self', #xqKindTest{kind = element,
+                                                     name = Name,
+                                                     type = Type}, PredFuns) ->
    Fun = fun(Ctx) ->
                #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
                Doc = xqerl_context:get_available_document(F),
                List = [#xqNode{frag_id = F, identity = C} ||
                        C <- [Id] ++ xqerl_node:descendant_ids({Id, Doc}),
                        Child <- [get_node(C, Doc)],
-                       is_record(Child, xqElementNode)],
+                       is_record(Child, xqElementNode),
+                       has_name(Child, Name),
+                       has_type(Child, Type)],
                PreFilterSeq = ?seq:from_list(List),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
@@ -499,7 +503,7 @@ forward(Ctx0, Seq, child, #xqKindTest{kind = 'element',name = Name}, PredFuns) -
          end,
    doc_ord(Ctx0, Fun, Seq);
 
-forward(Ctx0, Seq, attribute, #xqKindTest{kind = 'attribute',name = Name}, PredFuns) ->
+forward(Ctx0, Seq, attribute, #xqKindTest{kind = 'attribute',name = Name, type = Type}, PredFuns) ->
    Fun = fun(Ctx) ->
                #xqNode{frag_id = F, identity = Id} = ?seq:singleton_value(?ctx:get_context_item(Ctx)),
                Doc = xqerl_context:get_available_document(F),
@@ -507,7 +511,8 @@ forward(Ctx0, Seq, attribute, #xqKindTest{kind = 'attribute',name = Name}, PredF
                        C <- xqerl_node:child_ids({Id, Doc}),
                        Child <- [get_node(C, Doc)],
                        is_record(Child, xqAttributeNode),
-                       has_name(Child, Name)],
+                       has_name(Child, Name),
+                       has_type(Child, Type)],
                PreFilterSeq = ?seq:from_list(List),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
@@ -720,15 +725,35 @@ has_name(_, undefined) ->
 has_name(#xqElementNode{name = _Name}, #qname{namespace = undefined,prefix = Px}) when Px =/= "*" ->
    % non-expandable QName
    xqerl_error:error('XPST0081');
-has_name(#xqElementNode{name = Name}, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
+has_name(#xqElementNode{name = Name}, #qname{namespace = Ns, prefix = _Px, local_name = Loc}) ->
    %?dbg("Name,Ns,Px,Loc",{Name,Ns,Px,Loc}),
-   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+   %(Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+   (Ns  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
    (Loc == "*" orelse Loc == Name#qname.local_name);
 has_name(#xqAttributeNode{name = _Name}, undefined) ->
    true;
-has_name(#xqAttributeNode{name = Name}, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
-   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+has_name(#xqAttributeNode{name = Name}, #qname{namespace = Ns, prefix = _Px, local_name = Loc}) ->
+   %(Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+   (Ns  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
    (Loc == "*" orelse Loc == Name#qname.local_name).
+
+has_type(_, []) ->
+   true;
+has_type(_, undefined) ->
+   true;
+has_type(#xqElementNode{type = Av}, #xqSeqType{} = Type) ->
+   xqerl_types:value(xqerl_types:instance_of(Av, Type)) == true;
+has_type(#xqAttributeNode{expr = _Av}, undefined) ->
+   true;
+has_type(#xqAttributeNode{}, #xqSeqType{type = 'xs:untypedAtomic'}) ->
+   true;
+has_type(#xqAttributeNode{}, #xqSeqType{type = 'xs:untyped'}) ->
+   true;
+has_type(#xqAttributeNode{}, #xqSeqType{type = 'xs:anyType'}) ->
+   true;
+has_type(#xqAttributeNode{}, _) ->
+   false.
+
 
 unmask_ns("xqerl_fn") -> "http://www.w3.org/2005/xpath-functions";
 unmask_ns("xqerl_xs") -> "http://www.w3.org/2001/XMLSchema";

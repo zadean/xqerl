@@ -185,402 +185,450 @@ environment('math') ->
 'fn-unordered-mix-args-001'(_Config) ->
    Qry = "fn:unordered( (\"c\",1, \"xzy\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"c\", 1, \"xzy\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"c\", 1, \"xzy\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"c\", 1, \"xzy\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-002'(_Config) ->
    Qry = "fn:unordered( (\"c\", \"b\", \"a\") )",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"c\",  \"b\", \"a\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"c\",  \"b\", \"a\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"c\",  \"b\", \"a\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-003'(_Config) ->
    Qry = "fn:unordered ( (\"a\", \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-004'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:string(\"\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", \"\",  \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", \"\",  \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", \"\",  \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-005'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:anyURI(\"www.example.com\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", \"www.example.com\", \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", \"www.example.com\", \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", \"www.example.com\", \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-006'(_Config) ->
    Qry = "fn:unordered ( (\"a\", (), (), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-007'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:integer(\"100\"), xs:integer(\"-100\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", 100, -100, \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", 100, -100, \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", 100, -100, \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-008'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:decimal(\"-1.000000000001\"), xs:integer(\"-100\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", -1.000000000001, -100, \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", -1.000000000001, -100, \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", -1.000000000001, -100, \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-009'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:float(\"INF\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:float(\"INF\"), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:float(\"INF\"), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:float(\"INF\"), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-010'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:float(\"-INF\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:float('-INF'), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:float('-INF'), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:float('-INF'), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-011'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:float(\"NaN\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:float('NaN'), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:float('NaN'), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:float('NaN'), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-012'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:float(\"1.01\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", 1.01, \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", 1.01, \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", 1.01, \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-013'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:double(\"NaN\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:double('NaN'), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:double('NaN'), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:double('NaN'), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-014'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:double(\"1.01\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", 1.01, \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", 1.01, \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", 1.01, \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-015'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:double(\"-INF\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:double('-INF'), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:double('-INF'), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:double('-INF'), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-016'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:double(\"INF\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:double(\"INF\"), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:double(\"INF\"), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:double(\"INF\"), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-017'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:boolean(\"1\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", true(), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", true(), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", true(), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-018'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:boolean(\"0\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", false(), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", false(), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", false(), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-019'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:boolean(\"true\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", true(), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", true(), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", true(), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-020'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:boolean(\"false\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", false(), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", false(), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", false(), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-021'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:date(\"1993-03-31\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:date('1993-03-31'), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:date('1993-03-31'), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:date('1993-03-31'), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-022'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:dateTime(\"1972-12-31T00:00:00\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:dateTime(\"1972-12-31T00:00:00\"), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:dateTime(\"1972-12-31T00:00:00\"), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:dateTime(\"1972-12-31T00:00:00\"), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-unordered-mix-args-023'(_Config) ->
    Qry = "fn:unordered ( (\"a\", xs:time(\"12:30:00\"), \"b\", \"c\"))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         \"a\", xs:time('12:30:00'), \"b\", \"c\"
-      ",
-   ct:fail(["<result xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-         <assert-permutation>\"a\", xs:time('12:30:00'), \"b\", \"c\"</assert-permutation>
-      </result>", Res]).
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"a\", xs:time('12:30:00'), \"b\", \"c\"") of 
+      true -> {comment, "Correct permutation"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-1'(_Config) ->
    Qry = "unordered()",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-2'(_Config) ->
    Qry = "unordered(1, 2)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0017" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'XPST0017'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-3'(_Config) ->
    Qry = "unordered(1) eq 1",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-4'(_Config) ->
    Qry = "count(unordered((1, 2, 3))) eq 3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-5'(_Config) ->
    Qry = "count(unordered((1, 2, current-time()))) eq 3",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-6'(_Config) ->
    Qry = "empty(unordered(()))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            
-            
-         
-      ",
- case (xqerl_seq2:singleton_value(Res) == {xqAtomicValue,'xs:boolean',true}) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPST0005") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPST0005") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-7'(_Config) ->
    Qry = "deep-equal((1, 2, 3), unordered((1, 2, 3)))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqUnorderedFunc-8'(_Config) ->
    Qry = "unordered(error())",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "FOER0000" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'FOER0000'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-fn-unordered-001'(_Config) ->
    Qry = "boolean(unordered(reverse((1 to 10)[. div 2 = 2])))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_seq2:singleton_value(Res) of {xqAtomicValue,'xs:boolean',true} -> {comment, "assert-true"};
-           _ -> ct:fail({Res,Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-fn-unordered-002'(_Config) ->
    Qry = "local-name(unordered(<a><b/><c/></a>/*[1]))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         b
-      ",
-   case xqerl_test:string_value(Res) of
-             "b" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "b") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-fn-unordered-003'(_Config) ->
    Qry = "floor(unordered((1 to 10)[. div 2 = 0]))",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-      ",
-   case xqerl_test:string_value(Res) of
-             "" -> {comment, "assert-string-value"};
-             _ -> ct:fail({xqerl_test:string_value(Res),Exp}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

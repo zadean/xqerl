@@ -171,31 +171,43 @@ environment('math') ->
         ",
    Env = xqerl_test:handle_environment(environment('')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-                matches($result,'\\n\\s+<title>')
-                matches($result,'\\n\\s+<p>')
-                not(matches($result,'\\n\\s+<code>'))
-            
-        ",
- case    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"matches($result,'\\n\\s+<title>')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"matches($result,'\\n\\s+<p>')",Options)) == {xqAtomicValue,'xs:boolean',true}) andalso    (xqerl_seq2:singleton_value(xqerl:run("declare variable $result external;"++"not(matches($result,'\\n\\s+<code>'))",Options)) == {xqAtomicValue,'xs:boolean',true}) of true -> {comment, "any-of"};
-   _ -> ct:fail(['all-of', {Res,Exp}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"matches($result,'\\n\\s+<title>')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"matches($result,'\\n\\s+<p>')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"not(matches($result,'\\n\\s+<code>'))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'serialize-xml-009'(_Config) ->
    {skip,"Validation Environment"}.
 'serialize-xml-010'(_Config) ->
    Qry = "serialize(name#1)",
    Qry1 = Qry,
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-            
-        ",
-   if is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "SENR0001" -> {comment, "Correct error"};
-           true -> ct:fail({Res, 'SENR0001'}) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'serialize-xml-011'(_Config) ->
    {skip,"Validation Environment"}.
 'serialize-xml-012'(_Config) ->

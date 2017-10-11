@@ -203,7 +203,6 @@ shrink_spaces([WS|T]) when WS == 13;
 shrink_spaces([H|T]) ->
    [H|shrink_spaces(T)].
 
-
 encode_for_uri([]) ->
    [];
 encode_for_uri([H|T]) when H == $-;

@@ -139,14 +139,21 @@ environment('partlist') ->
       ",
    Env = xqerl_test:handle_environment(environment('partlist')),
    Qry1 = lists:flatten(Env ++ Qry),
-   Res = xqerl:run(Qry1),
-   ResXml = xqerl_node:to_xml(Res),
-   Options = [{'result',xqerl_seq2:from_list(Res)}],
-   Exp = "
-         
-            <parttree><part partid=\"0\" name=\"car\"><part partid=\"1\" name=\"engine\"><part partid=\"3\" name=\"piston\"/></part><part partid=\"2\" name=\"door\"><part partid=\"4\" name=\"window\"/><part partid=\"5\" name=\"lock\"/></part></part><part partid=\"10\" name=\"skateboard\"><part partid=\"11\" name=\"board\"/><part partid=\"12\" name=\"wheel\"/></part><part partid=\"20\" name=\"canoe\"/></parttree>
-            
-         
-      ",
- case (xqerl_node:to_xml(xqerl_test:run(case xqerl_node:to_xml(Res) of {xqError,_,_,_,_} -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x></x>"; P1 -> "Q{http://www.w3.org/2005/xpath-functions}deep-equal(<x>"++P1++"</x>" end ++ " , " ++ "<x>" ++ "<parttree><part partid=\"0\" name=\"car\"><part partid=\"1\" name=\"engine\"><part partid=\"3\" name=\"piston\"/></part><part partid=\"2\" name=\"door\"><part partid=\"4\" name=\"window\"/><part partid=\"5\" name=\"lock\"/></part></part><part partid=\"10\" name=\"skateboard\"><part partid=\"11\" name=\"board\"/><part partid=\"12\" name=\"wheel\"/></part><part partid=\"20\" name=\"canoe\"/></parttree>"++ "</x>)" )) == "true" orelse ResXml == Exp) orelse (is_tuple(Res) andalso element(1,Res) == 'xqError' andalso element(4,element(2,Res)) == "XPTY0004") of true -> {comment, "any-of"};
-   Q -> ct:fail(['any-of', {Res,Exp,Q}]) end.
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_xml(Res,"<parttree><part partid=\"0\" name=\"car\"><part partid=\"1\" name=\"engine\"><part partid=\"3\" name=\"piston\"/></part><part partid=\"2\" name=\"door\"><part partid=\"4\" name=\"window\"/><part partid=\"5\" name=\"lock\"/></part></part><part partid=\"10\" name=\"skateboard\"><part partid=\"11\" name=\"board\"/><part partid=\"12\" name=\"wheel\"/></part><part partid=\"20\" name=\"canoe\"/></parttree>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
