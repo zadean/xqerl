@@ -37,7 +37,9 @@
 -export(['function-literal-031'/1]).
 -export(['function-literal-032'/1]).
 -export(['function-literal-033'/1]).
+-export(['function-literal-033a'/1]).
 -export(['function-literal-034'/1]).
+-export(['function-literal-034a'/1]).
 -export(['function-literal-035'/1]).
 -export(['function-literal-036'/1]).
 -export(['function-literal-037'/1]).
@@ -159,7 +161,9 @@
 -export(['function-literal-153'/1]).
 -export(['function-literal-154'/1]).
 -export(['function-literal-155'/1]).
+-export(['function-literal-155a'/1]).
 -export(['function-literal-156'/1]).
+-export(['function-literal-156a'/1]).
 -export(['function-literal-157'/1]).
 -export(['function-literal-158'/1]).
 -export(['function-literal-159'/1]).
@@ -530,6 +534,14 @@
 -export(['function-literal-526'/1]).
 -export(['function-literal-527'/1]).
 -export(['function-literal-528'/1]).
+-export(['function-literal-701'/1]).
+-export(['function-literal-702'/1]).
+-export(['function-literal-703'/1]).
+-export(['function-literal-704'/1]).
+-export(['function-literal-705'/1]).
+-export(['function-literal-706'/1]).
+-export(['function-literal-707'/1]).
+-export(['function-literal-708'/1]).
 -export(['named-function-ref-reserved-function-names-001'/1]).
 -export(['named-function-ref-reserved-function-names-002'/1]).
 -export(['named-function-ref-reserved-function-names-003'/1]).
@@ -546,6 +558,8 @@
 -export(['named-function-ref-reserved-function-names-014'/1]).
 -export(['named-function-ref-reserved-function-names-015'/1]).
 -export(['named-function-ref-reserved-function-names-016'/1]).
+-export(['named-function-ref-reserved-function-names-017'/1]).
+-export(['named-function-ref-reserved-function-names-018'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -584,7 +598,9 @@ all() -> [
    'function-literal-031',
    'function-literal-032',
    'function-literal-033',
+   'function-literal-033a',
    'function-literal-034',
+   'function-literal-034a',
    'function-literal-035',
    'function-literal-036',
    'function-literal-037',
@@ -706,7 +722,9 @@ all() -> [
    'function-literal-153',
    'function-literal-154',
    'function-literal-155',
+   'function-literal-155a',
    'function-literal-156',
+   'function-literal-156a',
    'function-literal-157',
    'function-literal-158',
    'function-literal-159',
@@ -1077,6 +1095,14 @@ all() -> [
    'function-literal-526',
    'function-literal-527',
    'function-literal-528',
+   'function-literal-701',
+   'function-literal-702',
+   'function-literal-703',
+   'function-literal-704',
+   'function-literal-705',
+   'function-literal-706',
+   'function-literal-707',
+   'function-literal-708',
    'named-function-ref-reserved-function-names-001',
    'named-function-ref-reserved-function-names-002',
    'named-function-ref-reserved-function-names-003',
@@ -1092,7 +1118,9 @@ all() -> [
    'named-function-ref-reserved-function-names-013',
    'named-function-ref-reserved-function-names-014',
    'named-function-ref-reserved-function-names-015',
-   'named-function-ref-reserved-function-names-016'].
+   'named-function-ref-reserved-function-names-016',
+   'named-function-ref-reserved-function-names-017',
+   'named-function-ref-reserved-function-names-018'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -1104,8 +1132,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1114,8 +1142,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1124,7 +1152,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1134,7 +1162,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1144,7 +1172,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1154,8 +1182,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1165,7 +1193,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1174,13 +1202,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1198,15 +1227,46 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
-environment('function-lookup') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/function-lookup/function-lookup.xml",".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
+environment('array') ->
+[{sources, []},
 {schemas, []},
-{collections, [{"",["file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/function-lookup/collection-1.xml",
-"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/function-lookup/collection-2.xml"]}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('function-lookup') ->
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/function-lookup.xml",".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
+{schemas, []},
+{collections, [{"",["file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/collection-1.xml",
+"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/collection-2.xml"]}]},
 {'static-base-uri', []},
 {params, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
+{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
 {modules, []}
 ].
 'function-literal-001'(_Config) ->
@@ -1649,8 +1709,34 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'function-literal-033a'(_Config) ->
+   Qry = "exists(Q{http://www.w3.org/2005/xpath-functions}trace#1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'function-literal-034'(_Config) ->
    Qry = "Q{http://www.w3.org/2005/xpath-functions}trace#2(1, 'label')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-034a'(_Config) ->
+   Qry = "Q{http://www.w3.org/2005/xpath-functions}trace#1(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -3238,12 +3324,38 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'function-literal-155a'(_Config) ->
+   Qry = "exists(Q{http://www.w3.org/2005/xpath-functions}tokenize#1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'function-literal-156'(_Config) ->
    Qry = "Q{http://www.w3.org/2005/xpath-functions}tokenize#2('string', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "str ng") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-156a'(_Config) ->
+   Qry = "Q{http://www.w3.org/2005/xpath-functions}tokenize#1('a b c ')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "a b c") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -6433,8 +6545,8 @@ environment('function-lookup') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1 true") of 
-      true -> {comment, "String correct"};
+   Out =    case xqerl_test:assert(Res,"contains($result, \"1 true\")") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
    case Out of
@@ -6459,8 +6571,8 @@ environment('function-lookup') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1 false") of 
-      true -> {comment, "String correct"};
+   Out =    case xqerl_test:assert(Res,"contains($result, \"1 false\")") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
    case Out of
@@ -8115,6 +8227,158 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'function-literal-701'(_Config) ->
+   Qry = "
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        function-name(local:plus#2)  
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"QName(\"http://www.w3.org/2005/xquery-local-functions\", \"plus\")") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-702'(_Config) ->
+   Qry = "
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        function-arity(local:plus#2)  
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-703'(_Config) ->
+   Qry = "
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        let $f := (if (current-date() gt xs:date('1900-01-01')) then local:plus#2 else round#2)
+        return $f(5, 7)  
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"12") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-704'(_Config) ->
+   Qry = "
+        declare variable $v := function-name(local:plus#2);
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        $v 
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"QName(\"http://www.w3.org/2005/xquery-local-functions\", \"plus\")") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-705'(_Config) ->
+   Qry = "
+        declare variable $v := function-arity(local:plus#2);
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        $v
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-706'(_Config) ->
+   Qry = "
+        declare variable $f := (if (current-date() gt xs:date('1900-01-01')) then local:plus#2 else round#2);
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        $f(5, 7)  
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"12") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-707'(_Config) ->
+   Qry = "
+        declare variable $f := (if (current-date() gt xs:date('1900-01-01')) then local:plus#2 else round#2);
+        declare function local:plus($x, $y) {
+          $x + $y + $a
+        };
+        declare variable $a := function-arity($f);
+        $f(3, 4) 
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"9") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'function-literal-708'(_Config) ->
+   Qry = "
+        declare default function namespace \"http://example.com/functions\";
+        declare variable $f := (if (fn:current-date() gt xs:date('1900-01-01')) then plus#2 else fn:round#2);
+        declare function plus($x, $y) {
+          $x + $y
+        };
+        $f(5, 7)  
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"12") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'named-function-ref-reserved-function-names-001'(_Config) ->
    Qry = "
 	fn:exists(attribute#0)
@@ -8344,6 +8608,36 @@ string')",
    Qry = "
 	fn:exists(typeswitch#0)
       ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'named-function-ref-reserved-function-names-017'(_Config) ->
+   Qry = "
+      fn:exists(array#0)
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'named-function-ref-reserved-function-names-018'(_Config) ->
+   Qry = "
+      fn:exists(map#0)
+    ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,

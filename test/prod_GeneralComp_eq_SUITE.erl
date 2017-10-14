@@ -176,6 +176,27 @@
 -export(['GenCompEq-4'/1]).
 -export(['GenCompEq-5'/1]).
 -export(['GenCompEq-6'/1]).
+-export(['GenCompEq-7'/1]).
+-export(['GenCompEq-8'/1]).
+-export(['GenCompEq-9'/1]).
+-export(['GenCompEq-10'/1]).
+-export(['GenCompEq-11'/1]).
+-export(['GenCompEq-12'/1]).
+-export(['GenCompEq-13'/1]).
+-export(['GenCompEq-14'/1]).
+-export(['GenCompEq-15'/1]).
+-export(['GenCompEq-16'/1]).
+-export(['GenCompEq-17'/1]).
+-export(['GenCompEq-18'/1]).
+-export(['GenCompEq-19'/1]).
+-export(['GenCompEq-20'/1]).
+-export(['GenCompEq-21'/1]).
+-export(['GenCompEq-22'/1]).
+-export(['GenCompEq-23'/1]).
+-export(['GenCompEq-24'/1]).
+-export(['GenCompEq-25'/1]).
+-export(['GenCompEq-26'/1]).
+-export(['GenCompEq-27'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -352,7 +373,28 @@ all() -> [
    'GenCompEq-3',
    'GenCompEq-4',
    'GenCompEq-5',
-   'GenCompEq-6'].
+   'GenCompEq-6',
+   'GenCompEq-7',
+   'GenCompEq-8',
+   'GenCompEq-9',
+   'GenCompEq-10',
+   'GenCompEq-11',
+   'GenCompEq-12',
+   'GenCompEq-13',
+   'GenCompEq-14',
+   'GenCompEq-15',
+   'GenCompEq-16',
+   'GenCompEq-17',
+   'GenCompEq-18',
+   'GenCompEq-19',
+   'GenCompEq-20',
+   'GenCompEq-21',
+   'GenCompEq-22',
+   'GenCompEq-23',
+   'GenCompEq-24',
+   'GenCompEq-25',
+   'GenCompEq-26',
+   'GenCompEq-27'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -364,8 +406,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -374,8 +416,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -384,7 +426,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -394,7 +436,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -404,7 +446,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -414,8 +456,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -425,7 +467,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -434,13 +476,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -455,6 +498,47 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('user-defined-types') ->
+[{sources, []},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].
@@ -2614,7 +2698,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'K2-GenCompEq-1'(_Config) ->
-   Qry = "declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; (lower-case($vA) = lower-case($vB))",
+   Qry = "
+         declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         (lower-case($vA) = lower-case($vB))
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2627,7 +2715,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'K2-GenCompEq-2'(_Config) ->
-   Qry = "declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; (upper-case($vA) = upper-case($vB))",
+   Qry = "
+         declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         (upper-case($vA) = upper-case($vB))
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2640,7 +2732,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'K2-GenCompEq-3'(_Config) ->
-   Qry = "declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; declare variable $vB as xs:string := (\"no match\", current-time(), string(<e>content</e>))[1] treat as xs:string; (lower-case($vA) = lower-case($vB))",
+   Qry = "
+         declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         declare variable $vB as xs:string := (\"no match\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         (lower-case($vA) = lower-case($vB))
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2653,7 +2749,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'K2-GenCompEq-4'(_Config) ->
-   Qry = "declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; declare variable $vB as xs:string := (\"no match\", current-time(), string(<e>content</e>))[1] treat as xs:string; (upper-case($vA) = upper-case($vB))",
+   Qry = "
+         declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         declare variable $vB as xs:string := (\"no match\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         (upper-case($vA) = upper-case($vB))
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2666,7 +2766,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'K2-GenCompEq-5'(_Config) ->
-   Qry = "declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; (upper-case($vA) = lower-case($vB))",
+   Qry = "
+         declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         (upper-case($vA) = lower-case($vB))
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2679,7 +2783,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'K2-GenCompEq-6'(_Config) ->
-   Qry = "declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; (lower-case($vA) = upper-case($vB))",
+   Qry = "
+         declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+         (lower-case($vA) = upper-case($vB))
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2811,3 +2919,260 @@ environment('math') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'GenCompEq-7'(_Config) ->
+   Qry = "[3, 4, 5] = 4",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-8'(_Config) ->
+   Qry = "[[3, 4], 5] = [4, [5, 6]]",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-9'(_Config) ->
+   Qry = "[3, 4, 5] = []",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-10'(_Config) ->
+   Qry = "declare variable $p external := 276; $p = (1 to 1000)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-11'(_Config) ->
+   Qry = "declare variable $p external := -276; (1 to 1000) = $p",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-12'(_Config) ->
+   Qry = "declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to 1000)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-13'(_Config) ->
+   Qry = "declare variable $p external := xs:untypedAtomic('4.5'); (1 to 1000) = $p",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-14'(_Config) ->
+   Qry = "declare variable $p external := 17; $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-15'(_Config) ->
+   Qry = "declare variable $p external := -101; (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-16'(_Config) ->
+   Qry = "declare variable $p external := xs:untypedAtomic('-840'); $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-17'(_Config) ->
+   Qry = "declare variable $p external := xs:untypedAtomic('-022e0'); (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-18'(_Config) ->
+   Qry = "declare variable $p external := (105, 22e0); $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-19'(_Config) ->
+   Qry = "declare variable $p external := (105, xs:untypedAtomic('22e0')); (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-20'(_Config) ->
+   Qry = "declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to xs:integer(xs:double($p)))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-21'(_Config) ->
+   Qry = "declare variable $p external := xs:untypedAtomic('860302'); (1 to xs:integer($p)) = $p",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-22'(_Config) ->
+   Qry = "
+        declare namespace z = \"http://example.com/z\";
+        declare variable $p external := xs:untypedAtomic('z:local'); 
+        $p = (<xs:element/>, <z:local/>, <fn:function/>)!node-name(.)
+       ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-23'(_Config) ->
+   Qry = "
+        declare variable $p external := (1 to 10, xs:untypedAtomic('860302'), 83); 
+        $p = (35 to 65, xs:untypedAtomic('082'), xs:untypedAtomic('0010'))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-24'(_Config) ->
+   Qry = "true() = true() = true() = true()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-25'(_Config) ->
+   Qry = "((true() = true()) = true()) = true()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'GenCompEq-26'(_Config) ->
+   {skip,"schemaImport"}.
+'GenCompEq-27'(_Config) ->
+   {skip,"schemaImport"}.

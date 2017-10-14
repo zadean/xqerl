@@ -564,10 +564,125 @@
 -export(['fn-function-lookup-713'/1]).
 -export(['fn-function-lookup-714'/1]).
 -export(['fn-function-lookup-715'/1]).
+-export(['fn-function-lookup-716'/1]).
+-export(['fn-function-lookup-717'/1]).
+-export(['fn-function-lookup-718'/1]).
+-export(['fn-function-lookup-719'/1]).
+-export(['fn-function-lookup-720'/1]).
+-export(['fn-function-lookup-721'/1]).
+-export(['fn-function-lookup-724'/1]).
+-export(['fn-function-lookup-725'/1]).
+-export(['fn-function-lookup-726'/1]).
+-export(['fn-function-lookup-727'/1]).
+-export(['fn-function-lookup-728'/1]).
+-export(['fn-function-lookup-729'/1]).
+-export(['fn-function-lookup-730'/1]).
+-export(['fn-function-lookup-731'/1]).
+-export(['fn-function-lookup-732'/1]).
+-export(['fn-function-lookup-733'/1]).
+-export(['fn-function-lookup-734'/1]).
+-export(['fn-function-lookup-735'/1]).
+-export(['fn-function-lookup-736'/1]).
+-export(['fn-function-lookup-737'/1]).
+-export(['fn-function-lookup-738'/1]).
+-export(['fn-function-lookup-739'/1]).
+-export(['fn-function-lookup-740'/1]).
+-export(['fn-function-lookup-741'/1]).
+-export(['fn-function-lookup-742'/1]).
+-export(['fn-function-lookup-743'/1]).
+-export(['fn-function-lookup-744'/1]).
+-export(['fn-function-lookup-745'/1]).
+-export(['fn-function-lookup-746'/1]).
+-export(['fn-function-lookup-747'/1]).
+-export(['fn-function-lookup-748'/1]).
+-export(['fn-function-lookup-749'/1]).
+-export(['fn-function-lookup-750'/1]).
+-export(['fn-function-lookup-751'/1]).
+-export(['fn-function-lookup-752'/1]).
+-export(['fn-function-lookup-753'/1]).
+-export(['fn-function-lookup-754'/1]).
+-export(['fn-function-lookup-755'/1]).
+-export(['fn-function-lookup-756'/1]).
+-export(['fn-function-lookup-757'/1]).
+-export(['fn-function-lookup-758'/1]).
+-export(['fn-function-lookup-759'/1]).
+-export(['fn-function-lookup-760'/1]).
+-export(['fn-function-lookup-761'/1]).
+-export(['fn-function-lookup-762'/1]).
+-export(['fn-function-lookup-763'/1]).
+-export(['fn-function-lookup-764'/1]).
+-export(['fn-function-lookup-765'/1]).
+-export(['fn-function-lookup-766a'/1]).
+-export(['fn-function-lookup-766b'/1]).
+-export(['fn-function-lookup-767'/1]).
+-export(['fn-function-lookup-768'/1]).
+-export(['fn-function-lookup-769'/1]).
+-export(['fn-function-lookup-770'/1]).
+-export(['fn-function-lookup-771'/1]).
+-export(['fn-function-lookup-772'/1]).
+-export(['fn-function-lookup-773'/1]).
+-export(['fn-function-lookup-774'/1]).
+-export(['fn-function-lookup-775'/1]).
+-export(['fn-function-lookup-776'/1]).
+-export(['fn-function-lookup-777'/1]).
+-export(['fn-function-lookup-778'/1]).
+-export(['fn-function-lookup-779'/1]).
+-export(['fn-function-lookup-780'/1]).
+-export(['fn-function-lookup-781'/1]).
+-export(['fn-function-lookup-782'/1]).
+-export(['fn-function-lookup-783'/1]).
+-export(['fn-function-lookup-784'/1]).
+-export(['fn-function-lookup-785'/1]).
+-export(['fn-function-lookup-786'/1]).
+-export(['fn-function-lookup-787'/1]).
+-export(['fn-function-lookup-788'/1]).
+-export(['fn-function-lookup-789'/1]).
+-export(['fn-function-lookup-790'/1]).
+-export(['fn-function-lookup-791'/1]).
+-export(['fn-function-lookup-792'/1]).
+-export(['fn-function-lookup-793'/1]).
+-export(['fn-function-lookup-794'/1]).
+-export(['fn-function-lookup-795'/1]).
+-export(['fn-function-lookup-796'/1]).
+-export(['fn-function-lookup-797'/1]).
+-export(['fn-function-lookup-798'/1]).
+-export(['fn-function-lookup-799'/1]).
+-export(['fn-function-lookup-800'/1]).
+-export(['fn-function-lookup-801'/1]).
+-export(['fn-function-lookup-802'/1]).
+-export(['fn-function-lookup-803'/1]).
+-export(['fn-function-lookup-804'/1]).
+-export(['fn-function-lookup-805'/1]).
+-export(['fn-function-lookup-806'/1]).
+-export(['fn-function-lookup-807'/1]).
+-export(['fn-function-lookup-808'/1]).
+-export(['fn-function-lookup-809'/1]).
+-export(['fn-function-lookup-810'/1]).
+-export(['fn-function-lookup-811'/1]).
+-export(['fn-function-lookup-812'/1]).
+-export(['fn-function-lookup-813'/1]).
+-export(['fn-function-lookup-814'/1]).
+-export(['fn-function-lookup-815'/1]).
+-export(['fn-function-lookup-816'/1]).
+-export(['fn-function-lookup-817'/1]).
+-export(['fn-function-lookup-818'/1]).
+-export(['fn-function-lookup-819'/1]).
+-export(['fn-function-lookup-820'/1]).
+-export(['fn-function-lookup-821'/1]).
+-export(['fn-function-lookup-822'/1]).
+-export(['fn-function-lookup-823'/1]).
+-export(['fn-function-lookup-824'/1]).
+-export(['fn-function-lookup-825'/1]).
+-export(['fn-function-lookup-826'/1]).
+-export(['fn-function-lookup-827'/1]).
+-export(['fn-function-lookup-828'/1]).
+-export(['fn-function-lookup-829'/1]).
+-export(['fn-function-lookup-830'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-,Config.
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/load-xquery-module/valid-module.xqm") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/load-xquery-module/context-item-module.xqm") catch _:_ -> ok end,Config.
 all() -> [
    'fn-function-lookup-001',
    'fn-function-lookup-002',
@@ -1128,7 +1243,121 @@ all() -> [
    'fn-function-lookup-712',
    'fn-function-lookup-713',
    'fn-function-lookup-714',
-   'fn-function-lookup-715'].
+   'fn-function-lookup-715',
+   'fn-function-lookup-716',
+   'fn-function-lookup-717',
+   'fn-function-lookup-718',
+   'fn-function-lookup-719',
+   'fn-function-lookup-720',
+   'fn-function-lookup-721',
+   'fn-function-lookup-724',
+   'fn-function-lookup-725',
+   'fn-function-lookup-726',
+   'fn-function-lookup-727',
+   'fn-function-lookup-728',
+   'fn-function-lookup-729',
+   'fn-function-lookup-730',
+   'fn-function-lookup-731',
+   'fn-function-lookup-732',
+   'fn-function-lookup-733',
+   'fn-function-lookup-734',
+   'fn-function-lookup-735',
+   'fn-function-lookup-736',
+   'fn-function-lookup-737',
+   'fn-function-lookup-738',
+   'fn-function-lookup-739',
+   'fn-function-lookup-740',
+   'fn-function-lookup-741',
+   'fn-function-lookup-742',
+   'fn-function-lookup-743',
+   'fn-function-lookup-744',
+   'fn-function-lookup-745',
+   'fn-function-lookup-746',
+   'fn-function-lookup-747',
+   'fn-function-lookup-748',
+   'fn-function-lookup-749',
+   'fn-function-lookup-750',
+   'fn-function-lookup-751',
+   'fn-function-lookup-752',
+   'fn-function-lookup-753',
+   'fn-function-lookup-754',
+   'fn-function-lookup-755',
+   'fn-function-lookup-756',
+   'fn-function-lookup-757',
+   'fn-function-lookup-758',
+   'fn-function-lookup-759',
+   'fn-function-lookup-760',
+   'fn-function-lookup-761',
+   'fn-function-lookup-762',
+   'fn-function-lookup-763',
+   'fn-function-lookup-764',
+   'fn-function-lookup-765',
+   'fn-function-lookup-766a',
+   'fn-function-lookup-766b',
+   'fn-function-lookup-767',
+   'fn-function-lookup-768',
+   'fn-function-lookup-769',
+   'fn-function-lookup-770',
+   'fn-function-lookup-771',
+   'fn-function-lookup-772',
+   'fn-function-lookup-773',
+   'fn-function-lookup-774',
+   'fn-function-lookup-775',
+   'fn-function-lookup-776',
+   'fn-function-lookup-777',
+   'fn-function-lookup-778',
+   'fn-function-lookup-779',
+   'fn-function-lookup-780',
+   'fn-function-lookup-781',
+   'fn-function-lookup-782',
+   'fn-function-lookup-783',
+   'fn-function-lookup-784',
+   'fn-function-lookup-785',
+   'fn-function-lookup-786',
+   'fn-function-lookup-787',
+   'fn-function-lookup-788',
+   'fn-function-lookup-789',
+   'fn-function-lookup-790',
+   'fn-function-lookup-791',
+   'fn-function-lookup-792',
+   'fn-function-lookup-793',
+   'fn-function-lookup-794',
+   'fn-function-lookup-795',
+   'fn-function-lookup-796',
+   'fn-function-lookup-797',
+   'fn-function-lookup-798',
+   'fn-function-lookup-799',
+   'fn-function-lookup-800',
+   'fn-function-lookup-801',
+   'fn-function-lookup-802',
+   'fn-function-lookup-803',
+   'fn-function-lookup-804',
+   'fn-function-lookup-805',
+   'fn-function-lookup-806',
+   'fn-function-lookup-807',
+   'fn-function-lookup-808',
+   'fn-function-lookup-809',
+   'fn-function-lookup-810',
+   'fn-function-lookup-811',
+   'fn-function-lookup-812',
+   'fn-function-lookup-813',
+   'fn-function-lookup-814',
+   'fn-function-lookup-815',
+   'fn-function-lookup-816',
+   'fn-function-lookup-817',
+   'fn-function-lookup-818',
+   'fn-function-lookup-819',
+   'fn-function-lookup-820',
+   'fn-function-lookup-821',
+   'fn-function-lookup-822',
+   'fn-function-lookup-823',
+   'fn-function-lookup-824',
+   'fn-function-lookup-825',
+   'fn-function-lookup-826',
+   'fn-function-lookup-827',
+   'fn-function-lookup-828',
+   'fn-function-lookup-829',
+   'fn-function-lookup-830'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -1140,8 +1369,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1150,8 +1379,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1160,7 +1389,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1170,7 +1399,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1180,7 +1409,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1190,8 +1419,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1201,7 +1430,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1210,13 +1439,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1234,15 +1464,47 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
-environment('function-lookup') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/function-lookup/function-lookup.xml",".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
+environment('array') ->
+[{sources, []},
 {schemas, []},
-{collections, [{"",["file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/function-lookup/collection-1.xml",
-"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/function-lookup/collection-2.xml"]}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('function-lookup') ->
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/function-lookup.xml",".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
+{schemas, []},
+{collections, [{"",["file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/collection-1.xml",
+"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/collection-2.xml"]}]},
 {'static-base-uri', []},
 {params, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
+{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"}]},
 {modules, []}
 ].
 'fn-function-lookup-001'(_Config) ->
@@ -6469,8 +6731,8 @@ environment('function-lookup') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1 true") of 
-      true -> {comment, "String correct"};
+   Out =    case xqerl_test:assert(Res,"contains($result, \"1 true\")") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
    case Out of
@@ -6495,8 +6757,8 @@ environment('function-lookup') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1 false") of 
-      true -> {comment, "String correct"};
+   Out =    case xqerl_test:assert(Res,"contains($result, \"1 false\")") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
    case Out of
@@ -8662,6 +8924,1791 @@ string')",
    Out =    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-716'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'banana'), 1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-717'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 2)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-718'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'banana'), 1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-719'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'integer'), 2)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-720'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-ietf-date'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-721'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-ietf-date'), 1)('Wed, 20 Aug 2014 19:36:01 GMT')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"xs:dateTime('2014-08-20T19:36:01Z')") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-724'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'apply'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-725'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'apply'), 2)( abs#1, [-2] )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-726'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-727'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1)( (3, 2, 1) )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"(1, 2, 3)") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-728'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-729'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 2)( (3, 2, 1), () )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"(1,2,3)") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-730'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-731'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 3)( (3, 2, 1), (), fn:data#1 )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"(1,2,3)") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-732'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains-token'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-733'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains-token'), 2)( \"abc\", \"abc\" )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-734'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-language'), 0))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-735'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-language'), 0)()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_type(Res,"xs:language") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-736'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-737'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 1)( 'does-not-exist.txt' )",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-738'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-739'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 2)( 'does-not-exist.txt', map {} )",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-740'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-741'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 1)( '{}' )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"document-node()") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-742'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-743'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 2)( '{}', map {} )",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"document-node()") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-744'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-745'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 1)( 'true' )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-746'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-747'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 2)( 'true', map {} )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-748'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-749'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1)( 'abc' ) eq fn:collation-key('abc')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-750'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-751'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 2)( 'abc', 'http://www.w3.org/2005/xpath-functions/collation/codepoint') eq fn:collation-key('abc')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-752'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-753'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 1)('a b')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"('a', 'b')") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-754'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-755'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1)( 'abc' ) eq fn:collation-key('abc')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-756'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 0))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-757'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 0)()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-758'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 1)( 0 )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-759'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-760'(_Config) ->
+   {skip,"load-xquery-module"}.
+'fn-function-lookup-761'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)( 0 )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-762'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-763'(_Config) ->
+   {skip,"load-xquery-module"}.
+'fn-function-lookup-764'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2)( \"\", map{} )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-765'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-766a'(_Config) ->
+   {skip,"fn-transform-XSLT"}.
+'fn-function-lookup-766b'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( map{} )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOXT0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-767'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'append'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-768'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'append'), 2)([], 3)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[3]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-769'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'filter'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-770'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'filter'), 2)([\"A\", \"B\", 1, 2], function($z) {$z instance of xs:integer})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 2") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[1, 2]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-771'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'flatten'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-772'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'flatten'), 1)([1, 4, 6, 5, 3])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"xs:integer*") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"count($result) eq 5") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"1, 4, 6, 5, 3") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-773'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-left'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-774'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-left'), 3)([1,2,3,4,5,6], 0, function($z,$a){$z + $a})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"xs:integer") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"21") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-775'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-right'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-776'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-right'), 3)([1,2,3,4,5,6], 0, function($a,$z){$a + $z})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"xs:integer") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"21") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-777'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each-pair'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-778'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each-pair'), 3)([\"A\", \"B\", \"C\"], [1, 2, 3], function($x, $y) {[$x, $y]})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 3") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[[\"A\", 1], [\"B\", 2], [\"C\", 3]]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-779'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-780'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each'), 2)([\"A\", \"B\", 1, 2], function($z) {$z instance of xs:integer})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 4") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[false(), false(), true(), true()]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-781'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'get'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-782'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'get'), 2)([5,6,7], 1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"xs:integer") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_eq(Res,"5") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-783'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'head'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-784'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'head'), 1)([5,6,7,8])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"item()*") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_eq(Res,"5") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-785'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'insert-before'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-786'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'insert-before'), 3)([\"a\", \"b\", \"c\", \"d\"], 3, (\"x\", \"y\"))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 5") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", (\"x\", \"y\"), \"c\", \"d\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-787'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'join'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-788'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'join'), 1)(([1,2],[3,4]))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 4") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[1,2,3,4]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-789'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'put'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-790'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'put'), 3)([\"a\", \"b\", \"c\", \"d\"], 3, (\"x\", \"y\"))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 4") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", (\"x\", \"y\"), \"d\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-791'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'remove'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-792'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'remove'), 2)([\"a\",\"b\",\"c\",\"d\"], 1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 3") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[\"b\", \"c\", \"d\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-793'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'reverse'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-794'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'reverse'), 1)([\"a\", \"b\", \"c\", \"d\"])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 4") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[\"d\", \"c\", \"b\", \"a\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-795'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'size'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-796'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'size'), 1)([1])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-797'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-798'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 1)([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-799'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-800'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 2)([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-801'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-802'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 3)([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", fn:string#1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-803'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-804'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 2)([\"a\", \"b\", \"c\", \"d\"], 2)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 3") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[\"b\", \"c\", \"d\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-805'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-806'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 3)([1, (2,2), 3], 3, 0)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-807'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'tail'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-808'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'tail'), 1)([5,6,7,8])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"array(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"array:size($result) eq 3") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"[6,7,8]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-809'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'contains'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-810'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'contains'), 2)(map{}, 0)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-811'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'entry'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-812'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'entry'), 2)(3, 5)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:integer, xs:integer)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"function(xs:anyAtomicType) as xs:integer?") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result(3) eq 5") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size($result) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-813'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'find'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-814'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'find'), 2)((), 17)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-815'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'for-each'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-816'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'for-each'), 2)(map{}, concat#2)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-817'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'get'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-818'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'get'), 2)(map{}, 1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-819'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'keys'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-820'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'keys'), 1)(map{})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-821'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-822'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 1)(())",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:date, element()+)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-823'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-824'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 2)((), map{\"duplicates\":\"use-last\"})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:date, element()+)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-825'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'put'), 3))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-826'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'put'), 3)(map{}, \"foo\", 1 to 5)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(*)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"map(xs:string, xs:integer+)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-827'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'remove'), 2))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-828'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'remove'), 2)(map{},1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"map:size($result) eq 0") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-829'(_Config) ->
+   Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'size'), 1))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-function-lookup-830'(_Config) ->
+   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'size'), 1)(map{})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"xs:integer") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};

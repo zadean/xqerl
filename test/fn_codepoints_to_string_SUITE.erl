@@ -32,6 +32,7 @@
 -export(['K-CodepointToStringFunc-6'/1]).
 -export(['K-CodepointToStringFunc-7'/1]).
 -export(['K-CodepointToStringFunc-8'/1]).
+-export(['K-CodepointToStringFunc-8a'/1]).
 -export(['K-CodepointToStringFunc-9'/1]).
 -export(['K-CodepointToStringFunc-10'/1]).
 -export(['K-CodepointToStringFunc-11'/1]).
@@ -115,6 +116,7 @@ all() -> [
    'K-CodepointToStringFunc-6',
    'K-CodepointToStringFunc-7',
    'K-CodepointToStringFunc-8',
+   'K-CodepointToStringFunc-8a',
    'K-CodepointToStringFunc-9',
    'K-CodepointToStringFunc-10',
    'K-CodepointToStringFunc-11',
@@ -176,8 +178,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -186,8 +188,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -196,7 +198,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -206,7 +208,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -216,7 +218,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -226,8 +228,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -237,7 +239,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -246,13 +248,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -267,6 +270,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].
@@ -627,10 +661,6 @@ environment('math') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_string_value(Res, "&#x8;") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end,
    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -642,6 +672,8 @@ environment('math') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'K-CodepointToStringFunc-8a'(_Config) ->
+   {skip,"XML 1.1"}.
 'K-CodepointToStringFunc-9'(_Config) ->
    Qry = "codepoints-to-string(9) eq \"	\"",
    Qry1 = Qry,
@@ -954,55 +986,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-codepoints-to-string-002'(_Config) ->
-   Qry = "
-        declare function local:test($test as xs:integer) as xs:integer? { 
-          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
-        }; 
-        fn:codepoints-to-string( local:test(2) to 32 )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'cbcl-codepoints-to-string-003'(_Config) ->
-   Qry = "
-      declare function local:test($test as xs:integer) as xs:integer? { 
-        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 )else if ($test = 4) then ( 16 ) else () 
-      }; 
-      fn:codepoints-to-string( local:test(3) to 32 )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'cbcl-codepoints-to-string-004'(_Config) ->
-   Qry = "declare function local:test($test as xs:integer) as xs:integer? { 
-        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
-      }; 
-      fn:codepoints-to-string( local:test(4) to 32 )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'cbcl-codepoints-to-string-005'(_Config) ->
    Qry = "fn:codepoints-to-string( 65536 to 1114112 )",
    Qry1 = Qry,
@@ -1212,7 +1200,26 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-codepoints-to-string-021'(_Config) ->
-   {skip," range "}.
+   Qry = "let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string(65 to $x)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOCH0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0130") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-codepoints-to-string-022'(_Config) ->
    Qry = "let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string($x to $x+10)",
    Qry1 = Qry,

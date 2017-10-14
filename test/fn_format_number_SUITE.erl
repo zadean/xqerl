@@ -75,6 +75,127 @@
 -export(['numberformat89'/1]).
 -export(['numberformat90'/1]).
 -export(['numberformat91'/1]).
+-export(['numberformat92'/1]).
+-export(['numberformat93'/1]).
+-export(['numberformat94'/1]).
+-export(['numberformat95'/1]).
+-export(['numberformat101'/1]).
+-export(['numberformat102'/1]).
+-export(['numberformat103'/1]).
+-export(['numberformat104'/1]).
+-export(['numberformat105'/1]).
+-export(['numberformat106'/1]).
+-export(['numberformat107'/1]).
+-export(['numberformat108'/1]).
+-export(['numberformat109'/1]).
+-export(['numberformat110'/1]).
+-export(['numberformat111'/1]).
+-export(['numberformat112'/1]).
+-export(['numberformat113'/1]).
+-export(['numberformat114'/1]).
+-export(['numberformat115'/1]).
+-export(['numberformat116'/1]).
+-export(['numberformat117'/1]).
+-export(['numberformat118'/1]).
+-export(['numberformat119'/1]).
+-export(['numberformat120'/1]).
+-export(['numberformat121'/1]).
+-export(['numberformat122'/1]).
+-export(['numberformat123'/1]).
+-export(['numberformat124'/1]).
+-export(['numberformat125'/1]).
+-export(['numberformat126'/1]).
+-export(['numberformat127'/1]).
+-export(['numberformat128'/1]).
+-export(['numberformat129'/1]).
+-export(['numberformat130'/1]).
+-export(['numberformat131'/1]).
+-export(['numberformat132'/1]).
+-export(['numberformat133'/1]).
+-export(['numberformat134'/1]).
+-export(['numberformat135'/1]).
+-export(['numberformat136'/1]).
+-export(['numberformat137'/1]).
+-export(['numberformat138'/1]).
+-export(['numberformat139'/1]).
+-export(['numberformat140'/1]).
+-export(['numberformat141'/1]).
+-export(['numberformat142'/1]).
+-export(['numberformat143'/1]).
+-export(['numberformat144'/1]).
+-export(['numberformat145'/1]).
+-export(['numberformat146'/1]).
+-export(['numberformat150'/1]).
+-export(['numberformat151'/1]).
+-export(['numberformat152'/1]).
+-export(['numberformat153'/1]).
+-export(['numberformat154'/1]).
+-export(['numberformat155'/1]).
+-export(['numberformat156'/1]).
+-export(['numberformat157'/1]).
+-export(['numberformat158'/1]).
+-export(['numberformat201'/1]).
+-export(['numberformat202'/1]).
+-export(['numberformat203'/1]).
+-export(['numberformat204'/1]).
+-export(['numberformat205'/1]).
+-export(['numberformat206'/1]).
+-export(['numberformat207'/1]).
+-export(['numberformat208'/1]).
+-export(['numberformat209'/1]).
+-export(['numberformat210'/1]).
+-export(['numberformat211'/1]).
+-export(['numberformat212'/1]).
+-export(['numberformat213'/1]).
+-export(['numberformat214'/1]).
+-export(['numberformat215'/1]).
+-export(['numberformat216'/1]).
+-export(['numberformat217'/1]).
+-export(['numberformat218'/1]).
+-export(['numberformat219'/1]).
+-export(['numberformat220'/1]).
+-export(['numberformat221'/1]).
+-export(['numberformat222'/1]).
+-export(['numberformat223'/1]).
+-export(['numberformat224'/1]).
+-export(['numberformat225'/1]).
+-export(['numberformat226'/1]).
+-export(['numberformat227'/1]).
+-export(['numberformat228'/1]).
+-export(['numberformat229'/1]).
+-export(['numberformat230'/1]).
+-export(['numberformat231'/1]).
+-export(['numberformat232'/1]).
+-export(['numberformat233'/1]).
+-export(['numberformat234'/1]).
+-export(['numberformat235'/1]).
+-export(['numberformat236'/1]).
+-export(['numberformat237'/1]).
+-export(['numberformat238'/1]).
+-export(['numberformat239'/1]).
+-export(['numberformat240'/1]).
+-export(['numberformat241'/1]).
+-export(['numberformat242'/1]).
+-export(['numberformat243'/1]).
+-export(['numberformat244'/1]).
+-export(['numberformat245'/1]).
+-export(['numberformat246'/1]).
+-export(['numberformat247'/1]).
+-export(['numberformat248'/1]).
+-export(['numberformat249'/1]).
+-export(['numberformat250'/1]).
+-export(['numberformat251'/1]).
+-export(['numberformat252'/1]).
+-export(['numberformat253'/1]).
+-export(['numberformat254'/1]).
+-export(['numberformat255'/1]).
+-export(['numberformat261'/1]).
+-export(['numberformat262'/1]).
+-export(['numberformat263'/1]).
+-export(['numberformat301'/1]).
+-export(['numberformat302'/1]).
+-export(['numberformat303'/1]).
+-export(['numberformat304'/1]).
 -export(['numberformat901err'/1]).
 -export(['numberformat902err'/1]).
 -export(['numberformat905err'/1]).
@@ -82,6 +203,58 @@
 -export(['numberformat907InputErr'/1]).
 -export(['numberformatFODF1280'/1]).
 -export(['numberformatNaN'/1]).
+-export(['cbcl-fn-format-number-001'/1]).
+-export(['cbcl-fn-format-number-002'/1]).
+-export(['cbcl-fn-format-number-003'/1]).
+-export(['cbcl-fn-format-number-004'/1]).
+-export(['cbcl-fn-format-number-005'/1]).
+-export(['cbcl-fn-format-number-006'/1]).
+-export(['cbcl-fn-format-number-007'/1]).
+-export(['cbcl-fn-format-number-008'/1]).
+-export(['cbcl-fn-format-number-009'/1]).
+-export(['cbcl-fn-format-number-010'/1]).
+-export(['cbcl-fn-format-number-011'/1]).
+-export(['cbcl-fn-format-number-012'/1]).
+-export(['cbcl-fn-format-number-013'/1]).
+-export(['cbcl-fn-format-number-014'/1]).
+-export(['cbcl-fn-format-number-015'/1]).
+-export(['cbcl-fn-format-number-016'/1]).
+-export(['cbcl-fn-format-number-017'/1]).
+-export(['cbcl-fn-format-number-018'/1]).
+-export(['cbcl-fn-format-number-019'/1]).
+-export(['cbcl-fn-format-number-020'/1]).
+-export(['cbcl-fn-format-number-021'/1]).
+-export(['cbcl-fn-format-number-022'/1]).
+-export(['cbcl-fn-format-number-023'/1]).
+-export(['cbcl-fn-format-number-024'/1]).
+-export(['cbcl-fn-format-number-025'/1]).
+-export(['cbcl-fn-format-number-026'/1]).
+-export(['cbcl-fn-format-number-027'/1]).
+-export(['cbcl-fn-format-number-028'/1]).
+-export(['cbcl-fn-format-number-029'/1]).
+-export(['cbcl-fn-format-number-030'/1]).
+-export(['cbcl-fn-format-number-031'/1]).
+-export(['cbcl-fn-format-number-032'/1]).
+-export(['cbcl-fn-format-number-033'/1]).
+-export(['cbcl-fn-format-number-034'/1]).
+-export(['cbcl-fn-format-number-035'/1]).
+-export(['cbcl-fn-format-number-036'/1]).
+-export(['cbcl-fn-format-number-037'/1]).
+-export(['cbcl-fn-format-number-038'/1]).
+-export(['cbcl-fn-format-number-039'/1]).
+-export(['cbcl-fn-format-number-040'/1]).
+-export(['cbcl-fn-format-number-041'/1]).
+-export(['cbcl-fn-format-number-042'/1]).
+-export(['cbcl-fn-format-number-043'/1]).
+-export(['cbcl-fn-format-number-044'/1]).
+-export(['cbcl-fn-format-number-045'/1]).
+-export(['cbcl-fn-format-number-046'/1]).
+-export(['cbcl-fn-format-number-047'/1]).
+-export(['cbcl-fn-format-number-048'/1]).
+-export(['cbcl-fn-format-number-049'/1]).
+-export(['cbcl-fn-format-number-050'/1]).
+-export(['cbcl-fn-format-number-051'/1]).
+-export(['cbcl-fn-format-number-052'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -158,13 +331,186 @@ all() -> [
    'numberformat89',
    'numberformat90',
    'numberformat91',
+   'numberformat92',
+   'numberformat93',
+   'numberformat94',
+   'numberformat95',
+   'numberformat101',
+   'numberformat102',
+   'numberformat103',
+   'numberformat104',
+   'numberformat105',
+   'numberformat106',
+   'numberformat107',
+   'numberformat108',
+   'numberformat109',
+   'numberformat110',
+   'numberformat111',
+   'numberformat112',
+   'numberformat113',
+   'numberformat114',
+   'numberformat115',
+   'numberformat116',
+   'numberformat117',
+   'numberformat118',
+   'numberformat119',
+   'numberformat120',
+   'numberformat121',
+   'numberformat122',
+   'numberformat123',
+   'numberformat124',
+   'numberformat125',
+   'numberformat126',
+   'numberformat127',
+   'numberformat128',
+   'numberformat129',
+   'numberformat130',
+   'numberformat131',
+   'numberformat132',
+   'numberformat133',
+   'numberformat134',
+   'numberformat135',
+   'numberformat136',
+   'numberformat137',
+   'numberformat138',
+   'numberformat139',
+   'numberformat140',
+   'numberformat141',
+   'numberformat142',
+   'numberformat143',
+   'numberformat144',
+   'numberformat145',
+   'numberformat146',
+   'numberformat150',
+   'numberformat151',
+   'numberformat152',
+   'numberformat153',
+   'numberformat154',
+   'numberformat155',
+   'numberformat156',
+   'numberformat157',
+   'numberformat158',
+   'numberformat201',
+   'numberformat202',
+   'numberformat203',
+   'numberformat204',
+   'numberformat205',
+   'numberformat206',
+   'numberformat207',
+   'numberformat208',
+   'numberformat209',
+   'numberformat210',
+   'numberformat211',
+   'numberformat212',
+   'numberformat213',
+   'numberformat214',
+   'numberformat215',
+   'numberformat216',
+   'numberformat217',
+   'numberformat218',
+   'numberformat219',
+   'numberformat220',
+   'numberformat221',
+   'numberformat222',
+   'numberformat223',
+   'numberformat224',
+   'numberformat225',
+   'numberformat226',
+   'numberformat227',
+   'numberformat228',
+   'numberformat229',
+   'numberformat230',
+   'numberformat231',
+   'numberformat232',
+   'numberformat233',
+   'numberformat234',
+   'numberformat235',
+   'numberformat236',
+   'numberformat237',
+   'numberformat238',
+   'numberformat239',
+   'numberformat240',
+   'numberformat241',
+   'numberformat242',
+   'numberformat243',
+   'numberformat244',
+   'numberformat245',
+   'numberformat246',
+   'numberformat247',
+   'numberformat248',
+   'numberformat249',
+   'numberformat250',
+   'numberformat251',
+   'numberformat252',
+   'numberformat253',
+   'numberformat254',
+   'numberformat255',
+   'numberformat261',
+   'numberformat262',
+   'numberformat263',
+   'numberformat301',
+   'numberformat302',
+   'numberformat303',
+   'numberformat304',
    'numberformat901err',
    'numberformat902err',
    'numberformat905err',
    'numberformat906InputErr',
    'numberformat907InputErr',
    'numberformatFODF1280',
-   'numberformatNaN'].
+   'numberformatNaN',
+   'cbcl-fn-format-number-001',
+   'cbcl-fn-format-number-002',
+   'cbcl-fn-format-number-003',
+   'cbcl-fn-format-number-004',
+   'cbcl-fn-format-number-005',
+   'cbcl-fn-format-number-006',
+   'cbcl-fn-format-number-007',
+   'cbcl-fn-format-number-008',
+   'cbcl-fn-format-number-009',
+   'cbcl-fn-format-number-010',
+   'cbcl-fn-format-number-011',
+   'cbcl-fn-format-number-012',
+   'cbcl-fn-format-number-013',
+   'cbcl-fn-format-number-014',
+   'cbcl-fn-format-number-015',
+   'cbcl-fn-format-number-016',
+   'cbcl-fn-format-number-017',
+   'cbcl-fn-format-number-018',
+   'cbcl-fn-format-number-019',
+   'cbcl-fn-format-number-020',
+   'cbcl-fn-format-number-021',
+   'cbcl-fn-format-number-022',
+   'cbcl-fn-format-number-023',
+   'cbcl-fn-format-number-024',
+   'cbcl-fn-format-number-025',
+   'cbcl-fn-format-number-026',
+   'cbcl-fn-format-number-027',
+   'cbcl-fn-format-number-028',
+   'cbcl-fn-format-number-029',
+   'cbcl-fn-format-number-030',
+   'cbcl-fn-format-number-031',
+   'cbcl-fn-format-number-032',
+   'cbcl-fn-format-number-033',
+   'cbcl-fn-format-number-034',
+   'cbcl-fn-format-number-035',
+   'cbcl-fn-format-number-036',
+   'cbcl-fn-format-number-037',
+   'cbcl-fn-format-number-038',
+   'cbcl-fn-format-number-039',
+   'cbcl-fn-format-number-040',
+   'cbcl-fn-format-number-041',
+   'cbcl-fn-format-number-042',
+   'cbcl-fn-format-number-043',
+   'cbcl-fn-format-number-044',
+   'cbcl-fn-format-number-045',
+   'cbcl-fn-format-number-046',
+   'cbcl-fn-format-number-047',
+   'cbcl-fn-format-number-048',
+   'cbcl-fn-format-number-049',
+   'cbcl-fn-format-number-050',
+   'cbcl-fn-format-number-051',
+   'cbcl-fn-format-number-052'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -176,8 +522,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -186,8 +532,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -196,7 +542,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -206,7 +552,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -216,7 +562,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -226,8 +572,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -237,7 +583,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -246,13 +592,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -267,6 +614,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].
@@ -1523,6 +1901,1885 @@ environment('math') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'numberformat92'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '9.')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12346") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat93'(_Config) ->
+   Qry = "
+      fn:format-number(12345.000, '99999.')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12345") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat94'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '.9')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12345.7") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat95'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat101'(_Config) ->
+   Qry = "format-number(12345.678, '9.9999e999')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346e004") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat102'(_Config) ->
+   Qry = "format-number(12345.678, '9.9999E999')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat103'(_Config) ->
+   Qry = "
+      declare default decimal-format exponent-separator=\"E\";
+      let $x := fn:format-number(12345.678, '9.9999E999')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346E004") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat104'(_Config) ->
+   Qry = "
+      declare default decimal-format exponent-separator=\"E\";
+      let $x := fn:format-number(12345.678, '9.9999e999')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat105'(_Config) ->
+   Qry = "
+      declare decimal-format exp-E exponent-separator=\"E\";
+      let $x := fn:format-number(12345.678, '9.9999E999', 'exp-E')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346E004") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat106'(_Config) ->
+   Qry = "
+      declare decimal-format exp-e exponent-separator=\"e\";
+      let $x := fn:format-number(12345.678, '9.9999E999', 'exp-e')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat107'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(12345.678, '9.9999E999', 'BadFormat')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1280") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat108'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(12345.678, '9.99e99e99')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat109'(_Config) ->
+   Qry = "
+      declare decimal-format exp-bizarre exponent-separator=\"✐\";
+      let $x := fn:format-number(12345.678, '9.9999✐999', 'exp-bizarre')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346✐004") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat110'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(12345.678, '9.9999e999%')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat111'(_Config) ->
+   Qry = "
+      declare decimal-format exp-p exponent-separator=\"%\";
+      let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0098") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat112'(_Config) ->
+   Qry = "
+      declare decimal-format exp-p percent=\"!\" exponent-separator=\"%\";
+      let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346%004") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat113'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(12345.678, '9.9999eDog')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12345.6780eDog") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat114'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(12345.678, '9.9999e,')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat115'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(12345, '9.9999e99')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2345e04") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat116'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(5, '9.9999e99')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "5.0000e00") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat117'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(.05, '9.9999e99')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "5.0000e-02") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat118'(_Config) ->
+   Qry = "
+      let $x := fn:format-number(123.45E7, '9.9999e99')
+      return $x
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2345e09") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat119'(_Config) ->
+   Qry = "
+      fn:format-number(0.900001000020000345, '9.99999999999999999e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "9.00001000020000345e-01") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat120'(_Config) ->
+   Qry = "
+      fn:format-number(123456789012345678, '9.99999999999999999e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.23456789012345678e17") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat121'(_Config) ->
+   Qry = "
+      declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
+        if ($exp eq 0)
+          then $n
+        else if ($exp gt 0)
+          then ($n*10) => local:timesTenToThe($exp - 1)
+        else 
+          ($n div 10) => local:timesTenToThe($exp + 1)  
+      };    
+      fn:format-number(1 => local:timesTenToThe(5000), '9.9999e9999')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_string_value(Res, "1.0000e5000") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FOAR0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat122'(_Config) ->
+   Qry = "
+      declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
+        if ($exp eq 0)
+          then $n
+        else if ($exp gt 0)
+          then ($n*10) => local:timesTenToThe($exp - 1)
+        else 
+          ($n div 10) => local:timesTenToThe($exp + 1)  
+      };    
+      fn:format-number(1 => local:timesTenToThe(-5000), '0.0000e0001')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_string_value(Res, "1.0000e-5000") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "0.0000e0000") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat123'(_Config) ->
+   Qry = "format-number(1.0,'𐒠.𐒠e𐒠')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "𐒡.𐒠e𐒠") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat124'(_Config) ->
+   Qry = "
+      declare decimal-format exp-E exponent-separator=\"x10^\";
+      fn:format-number(12345.678, '9.9999x10^999', 'exp-E')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0097") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat125'(_Config) ->
+   Qry = "
+      declare decimal-format exp-E exponent-separator=\"e\" exponent-separator=\"E\";
+      fn:format-number(12345.678, '9.9999E999', 'exp-E')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0114") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat126'(_Config) ->
+   Qry = "
+      declare decimal-format exp-E exponent-separator=\"#\";
+      fn:format-number(12345.678, '9.9999#999', 'exp-E')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0098") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat127'(_Config) ->
+   Qry = "
+      declare decimal-format exp-E exponent-separator=\"E\";
+      fn:format-number(12345.678, '9.9999E999', 'exp-E')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat128'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '9.9999e999')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat129'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '999.99e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "123.46e02") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat130'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '#99.99e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12.35e03") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat131'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '#.99e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.12e05") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat132'(_Config) ->
+   Qry = "
+      fn:format-number(0045.234, '#.#e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.5e02") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat133'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '.#e9')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat134'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '.999e9')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".200e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat135'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.e9')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat136'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '9e9')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat137'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '999.e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "123e02") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat138'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '999e9')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "123e2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat139'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '.e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat140'(_Config) ->
+   Qry = "
+      fn:format-number(-12345.678, '999.99e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "-123.46e02") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat141'(_Config) ->
+   Qry = "
+      fn:format-number(0.00012345678, '9.99e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.23e-04") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat142'(_Config) ->
+   Qry = "
+      fn:format-number(-0.00012345678, '9.99e99')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "-1.23e-04") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat143'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '9.9999e99end')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346e04end") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat144'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '9.9999e99e')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346e04e") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat145'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '9.9999e99dog')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2346e04dog") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat146'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, 'end9.9999e99end')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "end1.2346e04end") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat150'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '#,.##')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat151'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '#.,##')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat152'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '#,')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat153'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '#,,###')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat154'(_Config) ->
+   Qry = "
+      declare default decimal-format zero-digit = \"٠\";
+      format-number(1, '٠')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "١") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat155'(_Config) ->
+   Qry = "
+      declare default decimal-format zero-digit = \"٠\";
+      format-number(1, '٠')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "١") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat156'(_Config) ->
+   Qry = "
+      fn:format-number(12345.678, '#.#,,#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat157'(_Config) ->
+   Qry = "
+      fn:format-number(12345.6789012345, '#.#,##,#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12345.6,78,9") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat158'(_Config) ->
+   Qry = "
+      fn:format-number(12345.6789012345, '#.##,##,##')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12345.67,89,01") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat201'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat202'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat203'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat204'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat205'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat206'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat207'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat208'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat209'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat210'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat211'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat212'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat213'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat214'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat215'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat216'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat217'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat218'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#.')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat219'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0.')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat220'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0.')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat221'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, 'this.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat222'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, 'this.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat223'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, 'this.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat224'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, 'this.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this1.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat225'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.suffix')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0suffix") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat226'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#.suffix')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1suffix") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat227'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '000.0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "000.2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat228'(_Config) ->
+   Qry = "
+      fn:format-number(0, '#.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat229'(_Config) ->
+   Qry = "
+      fn:format-number(0, '.#')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat230'(_Config) ->
+   Qry = "
+      fn:format-number(xs:integer(0), '###.###')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat231'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat232'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat233'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat234'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat235'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat236'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat237'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat238'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat239'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat240'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat241'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2.0e-1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat242'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat243'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat244'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat245'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat246'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat247'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '#.e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat248'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '#.e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat249'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '0.e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat250'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, '0.e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat251'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, 'this.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat252'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, 'this.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this.1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat253'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, 'this.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this.2e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat254'(_Config) ->
+   Qry = "
+      fn:format-number(1.2, 'this.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "this.1e1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat255'(_Config) ->
+   Qry = "
+      fn:format-number(0.2, '000.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "200.0e-3") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat261'(_Config) ->
+   Qry = "
+      fn:format-number(0.002, '.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".2e-2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat262'(_Config) ->
+   Qry = "
+      fn:format-number(0.002, '.000e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".200e-2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat263'(_Config) ->
+   Qry = "
+      fn:format-number(0.002, '#.###e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.2e-2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat301'(_Config) ->
+   Qry = "
+      fn:format-number(0.99999999, '.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.0e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat302'(_Config) ->
+   Qry = "
+      fn:format-number(0.99999999, '.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.0e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat303'(_Config) ->
+   Qry = "
+      fn:format-number(0.99999999, '#.#e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1e0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'numberformat304'(_Config) ->
+   Qry = "
+      fn:format-number(0.99999999, '0.0e0')
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "10.0e-1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'numberformat901err'(_Config) ->
    Qry = "
         declare default decimal-format decimal-separator=\"!\" grouping-separator=\"!\";
@@ -1663,6 +3920,792 @@ environment('math') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-001'(_Config) ->
+   Qry = "format-number(number(\"abc\"),'PREFIX#SUFFIX')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-002'(_Config) ->
+   Qry = "format-number(0 div xs:double(\"INF\"), '#')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-003'(_Config) ->
+   Qry = "format-number(0 div xs:double(\"-INF\"), '#')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "-0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-004'(_Config) ->
+   Qry = "format-number(1 div 0e0,'PREFIX#SUFFIX')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "PREFIXINFSUFFIX") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-005'(_Config) ->
+   Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "-PREFIXINFSUFFIX") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-006'(_Config) ->
+   Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "prefixINFsuffix") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-007'(_Config) ->
+   Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "prefixINFsuffix") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-008'(_Config) ->
+   Qry = "format-number(1e2,'#,000')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "100") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-009'(_Config) ->
+   Qry = "format-number(100,'#,000')",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "100") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-010'(_Config) ->
+   Qry = "format-number(xs:double('0.9952832031249997'), '###,##0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1.00") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-011'(_Config) ->
+   Qry = "format-number(xs:decimal('123456789'), '#,#')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,2,3,4,5,6,7,8,9") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-012'(_Config) ->
+   Qry = "format-number(xs:decimal('123456789'), '#,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-013'(_Config) ->
+   Qry = "format-number(xs:decimal('123456789'), '##,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-014'(_Config) ->
+   Qry = "format-number(xs:decimal('123456789'), '#,##,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-015'(_Config) ->
+   Qry = "format-number(xs:decimal('123456789'), '###,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12345,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-016'(_Config) ->
+   Qry = "format-number(xs:decimal('123456789'), '####,###,##,0')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "123,456,78,9") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-017'(_Config) ->
+   Qry = "format-number(xs:decimal('79228162514264337593543950335'), '0%')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOCA0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "Infinity%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "7922816251426433759354395033500%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-018'(_Config) ->
+   Qry = "format-number(xs:decimal('0'), '.#')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-019'(_Config) ->
+   Qry = "format-number(xs:decimal('0'), '#.')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-020'(_Config) ->
+   Qry = "format-number(xs:decimal('0'), '.0')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-021'(_Config) ->
+   Qry = "format-number(xs:decimal('0'), '0.')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-022'(_Config) ->
+   Qry = "format-number(xs:decimal('1.10203040506070809'), 
+                                     '0.00000000000000000%')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "110.20304050607080900%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-023'(_Config) ->
+   Qry = "format-number(xs:double('123456789'), '#,#')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,2,3,4,5,6,7,8,9") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-024'(_Config) ->
+   Qry = "format-number(xs:double('123456789'), '#,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-025'(_Config) ->
+   Qry = "format-number(xs:double('123456789'), '##,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-026'(_Config) ->
+   Qry = "format-number(xs:double('123456789'), '#,##,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-027'(_Config) ->
+   Qry = "format-number(xs:double('123456789'), '###,##,00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12345,67,89") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-028'(_Config) ->
+   Qry = "format-number(xs:double('123456789'), '####,###,##,0')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "123,456,78,9") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-029'(_Config) ->
+   Qry = "format-number(xs:double('123456789'), '####,###,##,0')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "123,456,78,9") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-030'(_Config) ->
+   Qry = "format-number(xs:double('0'), '.#')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-031'(_Config) ->
+   Qry = "format-number(xs:double('0'), '#.')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-032'(_Config) ->
+   Qry = "format-number(xs:double('0'), '.0')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-033'(_Config) ->
+   Qry = "format-number(xs:double('0'), '0.')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-034'(_Config) ->
+   Qry = "format-number(xs:double('1e308'), '0%')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "Infinity%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-035'(_Config) ->
+   Qry = "substring-after(
+              format-number(xs:double('1.102030405060708090'),
+                                    '0.00000000000000000‰'),
+              format-number(xs:double('1.102030405060708090') * 1000, 
+                                    '0.00000000000000000')) eq '‰'",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-036'(_Config) ->
+   Qry = "format-number(xs:double('-1e308'), '0%')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "-Infinity%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-037'(_Config) ->
+   Qry = "format-number(xs:decimal('-79228162514264337593543950335'), '0%')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOCA0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "-Infinity%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "-7922816251426433759354395033500%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-038'(_Config) ->
+   Qry = "format-number(xs:double('0.1'), '0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.10") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-039'(_Config) ->
+   Qry = "format-number(xs:double('0.01'), '0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-040'(_Config) ->
+   Qry = "format-number(xs:double('0'), '#.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".00") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-041'(_Config) ->
+   Qry = "format-number(xs:double('0'), '#.##')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-042'(_Config) ->
+   Qry = "format-number(xs:double('0'), '0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.00") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-043'(_Config) ->
+   Qry = "format-number(xs:double('0.1'), '0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.10") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-044'(_Config) ->
+   Qry = "format-number(xs:double('0.01'), '0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-045'(_Config) ->
+   Qry = "format-number(xs:double('0.01'), '0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-046'(_Config) ->
+   Qry = "format-number(xs:double('0.01'), '0.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-047'(_Config) ->
+   Qry = "format-number(xs:double('0'), '#.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".00") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-048'(_Config) ->
+   Qry = "format-number(xs:decimal('0'), '#.00')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".00") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-049'(_Config) ->
+   Qry = "format-number(xs:decimal('0'), '###,###.##')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-050'(_Config) ->
+   Qry = "format-number(xs:double('0'), '###,###.##')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-051'(_Config) ->
+   Qry = "format-number(xs:decimal('0.1'), '###,###.##')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-fn-format-number-052'(_Config) ->
+   Qry = "format-number(xs:double('0.1'), '###,###.##')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, ".1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 

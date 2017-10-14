@@ -27,6 +27,7 @@
 -export(['extvardeclwithouttype-21'/1]).
 -export(['extvardeclwithouttype-22'/1]).
 -export(['extvardeclwithouttype-23'/1]).
+-export(['extvardeclwithouttype-24'/1]).
 -export(['K2-ExternalVariablesWithout-1'/1]).
 -export(['K2-ExternalVariablesWithout-2'/1]).
 -export(['K2-ExternalVariablesWithout-3'/1]).
@@ -73,6 +74,7 @@
 -export(['extvardeclwithtype-21'/1]).
 -export(['extvardeclwithtype-22'/1]).
 -export(['extvardeclwithtype-23'/1]).
+-export(['extvardeclwithtype-24'/1]).
 -export(['K2-ExternalVariablesWith-1'/1]).
 -export(['K2-ExternalVariablesWith-2'/1]).
 -export(['K2-ExternalVariablesWith-3'/1]).
@@ -129,6 +131,7 @@ all() -> [
    'extvardeclwithouttype-21',
    'extvardeclwithouttype-22',
    'extvardeclwithouttype-23',
+   'extvardeclwithouttype-24',
    'K2-ExternalVariablesWithout-1',
    'K2-ExternalVariablesWithout-2',
    'K2-ExternalVariablesWithout-3',
@@ -175,6 +178,7 @@ all() -> [
    'extvardeclwithtype-21',
    'extvardeclwithtype-22',
    'extvardeclwithtype-23',
+   'extvardeclwithtype-24',
    'K2-ExternalVariablesWith-1',
    'K2-ExternalVariablesWith-2',
    'K2-ExternalVariablesWith-3',
@@ -214,8 +218,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -224,8 +228,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -234,7 +238,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -244,7 +248,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -254,7 +258,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -264,8 +268,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -275,7 +279,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -284,13 +288,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -308,8 +313,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('TopMany') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TopMany.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -319,7 +355,7 @@ environment('TopMany') ->
 {modules, []}
 ];
 environment('CPPGlobals') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/CPPGlobals.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -852,21 +888,17 @@ environment('CPPGlobals') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_string_value(Res, "2.333333333333333333") of 
-      true -> {comment, "String correct"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"$result ge 2.33333333333333") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert_string_value(Res, "2.333333333333") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
+   case xqerl_test:assert(Res,"$result lt 2.33333333333334") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end]) of 
-      true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -991,6 +1023,29 @@ environment('CPPGlobals') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'extvardeclwithouttype-24'(_Config) ->
+   Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
+         declare variable $test:x external; $test:x",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, [{"test:x","","2"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -1854,7 +1909,8 @@ declare function local:report() as element()+
                          <ol xmlns=\"http://www.w3.org/1999/xhtml/\">
                             {
                                 (: For each Variable in $complexVariables... :)
-                                $complexVariables/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>
+                                for $v in $complexVariables
+                                return $v/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>
                             }
                          </ol>)
 
@@ -1870,7 +1926,8 @@ declare function local:report() as element()+
                          <ol xmlns=\"http://www.w3.org/1999/xhtml/\">
                             {
                                 (: For each Variable in $complexVariables... :)
-                                $primitiveVariables/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>
+                                for $v in $primitiveVariables
+                                return $v/<li><span class=\"variableName\">{string(@name)}</span> in {local:location(.)}</li>
                             }
                          </ol>)
 
@@ -1925,6 +1982,29 @@ declare function local:report() as element()+
         }
     </style><body><p>The following global, complex variables were found:</p><ol><li><span class=\"variableName\">constComplex2</span> in globals.cpp at line 17</li><li><span class=\"variableName\">constComplex1</span> in globals.cpp at line 16</li><li><span class=\"variableName\">mutableComplex2</span> in globals.cpp at line 15</li><li><span class=\"variableName\">mutableComplex1</span> in globals.cpp at line 14</li></ol><p>The following mutable primitives were found:</p><ol><li><span class=\"variableName\">mutablePrimitive2</span> in globals.cpp at line 2</li><li><span class=\"variableName\">mutablePrimitive1</span> in globals.cpp at line 1</li></ol><p class=\"details\">This report was generated on</p></body></html>") of 
       true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'extvardeclwithtype-24'(_Config) ->
+   Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
+         declare variable $test:x as xs:integer external; $test:x",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, [{"test:x","","2"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of

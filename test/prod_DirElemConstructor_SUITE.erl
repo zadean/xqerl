@@ -11,6 +11,7 @@
 -export(['Constr-elem-empty-5'/1]).
 -export(['Constr-elem-matchtag-1'/1]).
 -export(['Constr-elem-matchtag-2'/1]).
+-export(['Constr-elem-matchtag-2a'/1]).
 -export(['Constr-elem-curlybr-1'/1]).
 -export(['Constr-elem-curlybr-2'/1]).
 -export(['Constr-elem-curlybr-3'/1]).
@@ -72,6 +73,8 @@
 -export(['K2-DirectConElem-53'/1]).
 -export(['K2-DirectConElem-53a'/1]).
 -export(['K2-DirectConElem-54'/1]).
+-export(['cbcl-directconelem-001'/1]).
+-export(['cbcl-directconelem-002'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -84,6 +87,7 @@ all() -> [
    'Constr-elem-empty-5',
    'Constr-elem-matchtag-1',
    'Constr-elem-matchtag-2',
+   'Constr-elem-matchtag-2a',
    'Constr-elem-curlybr-1',
    'Constr-elem-curlybr-2',
    'Constr-elem-curlybr-3',
@@ -144,7 +148,9 @@ all() -> [
    'K2-DirectConElem-52',
    'K2-DirectConElem-53',
    'K2-DirectConElem-53a',
-   'K2-DirectConElem-54'].
+   'K2-DirectConElem-54',
+   'cbcl-directconelem-001',
+   'cbcl-directconelem-002'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -156,8 +162,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -166,8 +172,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -176,7 +182,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -186,7 +192,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -196,7 +202,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -206,8 +212,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -217,7 +223,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -226,13 +232,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -247,6 +254,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].
@@ -337,6 +375,8 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-matchtag-2'(_Config) ->
+   {skip,"XQ10"}.
+'Constr-elem-matchtag-2a'(_Config) ->
    Qry = "<foo:elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" xmlns:bar=\"http://www.w3.org/XQueryTest/Construct\"></bar:elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1149,6 +1189,84 @@ environment('math') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-directconelem-001'(_Config) ->
+   Qry = "
+
+declare default element namespace \"http://example.com/0\"; 
+declare namespace a = \"http://example.com/1\"; 
+declare namespace b = \"http://example.com/2\"; 
+declare copy-namespaces preserve,no-inherit;
+
+declare function local:in-scope-namespace-bindings($arg)
+{
+  for $i in in-scope-prefixes($arg) 
+  order by $i 
+  return 
+  concat(\"xmlns\",
+         if (string-length($i) = 0)
+         then \"\"
+         else \":\",
+         $i,
+         '=\"', namespace-uri-for-prefix($i, $arg), '\"')
+};
+
+<a:outer b:outer=\"attr\" xmlns:c=\"http://example.com/3\" c:outer=\"attr\">
+  <inner a=\"a:attr\" b=\"b:attr\" />
+</a:outer>/(local:in-scope-namespace-bindings(.),
+            '|', 
+            local:in-scope-namespace-bindings((./*)[1]))
+
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "xmlns:a=\"http://example.com/1\" xmlns:b=\"http://example.com/2\" xmlns:c=\"http://example.com/3\" xmlns:xml=\"http://www.w3.org/XML/1998/namespace\" | xmlns=\"http://example.com/0\" xmlns:c=\"http://example.com/3\" xmlns:xml=\"http://www.w3.org/XML/1998/namespace\"") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'cbcl-directconelem-002'(_Config) ->
+   Qry = "
+
+declare default element namespace \"http://example.com/0\"; 
+declare namespace a = \"http://example.com/1\"; 
+declare namespace b = \"http://example.com/2\"; 
+declare copy-namespaces preserve,inherit;
+
+declare function local:in-scope-namespace-bindings($arg)
+{
+  for $i in in-scope-prefixes($arg) 
+  order by $i 
+  return 
+  concat(\"xmlns\",
+         if (string-length($i) = 0)
+         then \"\"
+         else \":\",
+         $i,
+         '=\"', namespace-uri-for-prefix($i, $arg), '\"')
+};
+
+<a:outer b:outer=\"attr\" xmlns:c=\"http://example.com/3\" c:outer=\"attr\">
+  <inner a=\"a:attr\" b=\"b:attr\" />
+</a:outer>/(local:in-scope-namespace-bindings(.),
+            '|', 
+            local:in-scope-namespace-bindings((./*)[1]))
+
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "xmlns:a=\"http://example.com/1\" xmlns:b=\"http://example.com/2\" xmlns:c=\"http://example.com/3\" xmlns:xml=\"http://www.w3.org/XML/1998/namespace\" | xmlns=\"http://example.com/0\" xmlns:c=\"http://example.com/3\" xmlns:xml=\"http://www.w3.org/XML/1998/namespace\"") of 
+      true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
    case Out of

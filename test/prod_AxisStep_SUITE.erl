@@ -710,8 +710,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -720,8 +720,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -730,7 +730,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -740,7 +740,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -750,7 +750,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -760,8 +760,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -771,7 +771,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -780,13 +780,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -804,8 +805,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('TopMany') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TopMany.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -815,7 +847,7 @@ environment('TopMany') ->
 {modules, []}
 ];
 environment('Tree1Child') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/Tree1Child.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Child.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -825,7 +857,7 @@ environment('Tree1Child') ->
 {modules, []}
 ];
 environment('Tree1Text') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/Tree1Text.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Text.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -835,7 +867,7 @@ environment('Tree1Text') ->
 {modules, []}
 ];
 environment('TreeCompass') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TreeCompass.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeCompass.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -845,7 +877,7 @@ environment('TreeCompass') ->
 {modules, []}
 ];
 environment('TreeEmpty') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TreeEmpty.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeEmpty.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -855,7 +887,7 @@ environment('TreeEmpty') ->
 {modules, []}
 ];
 environment('TreeRepeat') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TreeRepeat.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeRepeat.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -865,7 +897,7 @@ environment('TreeRepeat') ->
 {modules, []}
 ];
 environment('TreeStack') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TreeStack.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeStack.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -875,7 +907,7 @@ environment('TreeStack') ->
 {modules, []}
 ];
 environment('TreeTrunc') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TreeTrunc.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeTrunc.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -885,7 +917,7 @@ environment('TreeTrunc') ->
 {modules, []}
 ];
 environment('TreeNS') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TreeNS.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeNS.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -895,7 +927,7 @@ environment('TreeNS') ->
 {modules, []}
 ];
 environment('CPPGlobals') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/CPPGlobals.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -905,7 +937,7 @@ environment('CPPGlobals') ->
 {modules, []}
 ];
 environment('nw_Customers') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/nw_Customers.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/nw_Customers.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -915,7 +947,7 @@ environment('nw_Customers') ->
 {modules, []}
 ];
 environment('XMarkAuction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/XMark/XMarkAuction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/XMark/XMarkAuction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -925,7 +957,7 @@ environment('XMarkAuction') ->
 {modules, []}
 ];
 environment('xq311B') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/xq311B.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/xq311B.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -4624,7 +4656,329 @@ environment('xq311B') ->
       Err -> ct:fail(Err)
    end.
 'Axes089'(_Config) ->
-   Qry = "xquery version \"1.0\"; declare namespace saxon=\"http://example.com/VendorNamespace\"; declare namespace tour=\"http://example.com/Knight'sTour\"; (: XQuery program to perform a knight's tour of the chessboard. Author: Michael H. Kay Date: 26 June 2003 This version modified to use XQuery 1.0, with sequences and functions. This query does not use a source document. There is an optional parameter, start, which can be set to any square on the chessboard, e.g. a3 or h5. XQuery does not allow parameters to be given a default value, so the parameter is mandatory. There is a second optional parameter, end, which indicates that the processing should stop after a given number of steps. This can be used to animate the display of the tour. This works especially well when the query is compiled into a Java servlet. The output is an HTML display of the completed tour. Internally, the following data representations are used: * A square on the chessboard: represented as a number in the range 0 to 63 * A state of the chessboard: a sequence of 64 integers, each containing a move number. A square that has not been visited yet is represented by a zero. * A set of possible moves: represented as a sequence of integers, * each integer representing the number of the destination square :) declare option saxon:default \"'a1'\"; declare variable $start as xs:string := 'a1'; declare option saxon:default \"'64'\"; declare variable $end as xs:string := '64'; declare variable $endd as xs:integer := xs:integer($end); declare variable $start-column as xs:integer := xs:integer(translate(substring($start, 1, 1), 'abcdefgh', '01234567')); declare variable $start-row as xs:integer := 8 - xs:integer(substring($start, 2, 1)); declare function tour:main () as element() { if (not(string-length($start)=2) or not(translate(substring($start,1,1), 'abcdefgh', 'aaaaaaaa')='a') or not(translate(substring($start,2,1), '12345678', '11111111')='1')) then error((), \"Invalid start parameter: try say 'a1' or 'g6'\") else if (not($endd = 1 to 64)) then error((), \"Invalid end parameter: must be in range 1 to 64\") else let $empty-board as xs:integer* := for $i in (1 to 64) return 0 let $initial-board as xs:integer* := tour:place-knight(1, $empty-board, $start-row * 8 + $start-column) let $final-board as xs:integer* := tour:make-moves(2, $initial-board, $start-row * 8 + $start-column) return tour:print-board($final-board) }; declare function tour:place-knight ( $move as xs:integer, $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function places a knight on the board at a given square. The returned value is the supplied board, modified to indicate that the knight reached a given square at a given move :) for $i in 1 to 64 return if ($i = $square + 1) then $move else $board[$i] }; declare function tour:make-moves ( $move as xs:integer, $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function takes the board in a given state, decides on the next move to make, and then calls itself recursively to make further moves, until the knight has completed his tour of the board. It returns the board in its final state. :) let $possible-move-list as xs:integer* := tour:list-possible-moves($board, $square) return tour:try-possible-moves($move, $board, $square, $possible-move-list) }; declare function tour:try-possible-moves ( $move as xs:integer, $board as xs:integer*, $square as xs:integer, $possible-moves as xs:integer* ) as xs:integer* { (: This function tries a set of possible moves that the knight can make from a given position. It determines the best move as the one to the square with fewest exits. If this is unsuccessful then it can backtrack and try another move; however this turns out rarely to be necessary. The function makes the selected move, and then calls make-moves() to make subsequent moves, returning the final state of the board. :) if (count($possible-moves)!=0) then tour:make-best-move($move, $board, $square, one-or-more($possible-moves)) else () (: if there is no possible move, we return the special value () as the final state of the board, to indicate to the caller that we got stuck :) }; declare function tour:make-best-move ( $move as xs:integer, $board as xs:integer*, $square as xs:integer, $possible-moves as xs:integer+ ) as xs:integer* { (: this function, given the state of the board and a set of possible moves, determines which of the moves is the best one. It then makes this move, and proceeds recursively to make further moves, eventually returning the final state of the board. :) let $best-move as xs:integer := tour:find-best-move($board, $possible-moves, 9, 999) let $other-possible-moves as xs:integer* := $possible-moves[. != $best-move] let $next-board as xs:integer* := tour:place-knight($move, $board, $best-move) let $final-board as xs:integer* := if ($move < $endd) then tour:make-moves($move+1, $next-board, $best-move) else $next-board (: if the final board has the special value '()', we got stuck, and have to choose the next best of the possible moves. This is done by a recursive call. I thought that the knight never did get stuck, but it does: if the starting square is f1, the wrong choice is made at move 58, and needs to be reversed. :) return if (empty($final-board)) then tour:try-possible-moves($move, $board, $square, $other-possible-moves) else $final-board }; declare function tour:find-best-move ( $board as xs:integer*, $possible-moves as xs:integer+, $fewest-exits as xs:integer, $best-so-far as xs:integer ) as xs:integer { (: This function finds from among the possible moves, the one with fewest exits. It calls itself recursively. :) let $trial-move as xs:integer := $possible-moves[1] let $other-possible-moves as xs:integer* := $possible-moves[position() > 1] let $trial-board as xs:integer* := tour:place-knight(99, $board, $trial-move) let $trial-move-exit-list as xs:integer* := tour:list-possible-moves($trial-board, $trial-move) let $number-of-exits as xs:integer := count($trial-move-exit-list) let $minimum-exits as xs:integer := min(($number-of-exits, $fewest-exits)) let $new-best-so-far as xs:integer := if ($number-of-exits < $fewest-exits) then $trial-move else $best-so-far (: if there are other possible moves, consider them too, using a recursive call. Otherwise return the best move found. :) return if (count($other-possible-moves)!=0) then tour:find-best-move($board, one-or-more($other-possible-moves), $minimum-exits, $new-best-so-far) else $new-best-so-far }; declare function tour:list-possible-moves ( $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function, given the knight's position on the board, returns the set of squares he can move to. The squares will be ones that have not been visited before :) let $row as xs:integer := $square idiv 8 let $column as xs:integer := $square mod 8 return (if ($row > 1 and $column > 0 and $board[($square - 17) + 1]=0) then $square - 17 else (), if ($row > 1 and $column < 7 and $board[($square - 15) + 1]=0) then $square - 15 else (), if ($row > 0 and $column > 1 and $board[($square - 10) + 1]=0) then $square - 10 else (), if ($row > 0 and $column < 6 and $board[($square - 6) + 1]=0) then $square - 6 else (), if ($row < 6 and $column > 0 and $board[($square + 15) + 1]=0) then $square + 15 else (), if ($row < 6 and $column < 7 and $board[($square + 17) + 1]=0) then $square + 17 else (), if ($row < 7 and $column > 1 and $board[($square + 6) + 1]=0) then $square + 6 else (), if ($row < 7 and $column < 6 and $board[($square + 10) + 1]=0) then $square + 10 else () ) }; declare function tour:print-board ( $board as xs:integer* ) as element() { <html> <head> <title>Knight's tour</title> </head> <body> <div align=\"center\"> <h1>Knight's tour starting at {$start}</h1> <table border=\"1\" cellpadding=\"4\"> {for $row in 0 to 7 return <tr> {for $column in 0 to 7 let $color := if ((($row + $column) mod 2)=1) then 'xffff44' else 'white' return <td align=\"center\" bgcolor=\"{$color}\" width=\"22\">{ let $n := $board[$row * 8 + $column + 1] return if ($endd != 64 and $n = $endd) then <b>{$n}</b> else if ($n = 0) then \"&#xa0;\" else $n }</td> } </tr> } </table> <p>{ if ($endd != 64) then <a href=\"Tour?start={$start}&amp;end={$endd+1}\">Step</a> else () }</p> </div> </body> </html> }; tour:main()",
+   Qry = "
+xquery version \"1.0\";
+declare namespace saxon=\"http://saxon.sf.net/\";
+declare namespace tour=\"http://wrox.com/tour\";
+
+(:
+    XQuery program to perform a knight's tour of the chessboard.
+    Author: Michael H. Kay
+    Date: 26 June 2003
+    
+    This version modified to use XQuery 1.0, with sequences and functions.
+
+    This query does not use a source document.
+    There is an optional parameter, start, which can be set to any square on the
+    chessboard, e.g. a3 or h5. XQuery does not allow parameters to be given a
+    default value, so the parameter is mandatory.
+    
+    There is a second optional parameter, end, which indicates that the processing should stop
+    after a given number of steps. This can be used to animate the display of the tour. This
+    works especially well when the query is compiled into a Java servlet.
+
+    The output is an HTML display of the completed tour.
+
+    Internally, the following data representations are used:
+    * A square on the chessboard: represented as a number in the range 0 to 63
+    * A state of the chessboard: a sequence of 64 integers, each containing a move number. 
+      A square that has not been visited yet is represented by a zero.
+    * A set of possible moves: represented as a sequence of integers,
+    * each integer representing the number of the destination square
+      
+:)
+
+declare variable $start as xs:string := \"a1\";
+
+declare variable $end as xs:string := \"64\";
+declare variable $endd as xs:integer := xs:integer($end); 
+
+(: start-column is an integer in the range 0-7 :)
+
+declare variable $start-column as xs:integer :=
+    xs:integer(translate(substring($start, 1, 1),
+            'abcdefgh', '01234567'));
+
+(: start-row is an integer in the range 0-7, with zero at the top :)
+
+declare variable $start-row as xs:integer :=
+    8 - xs:integer(substring($start, 2, 1));
+    
+declare function tour:main () as element() {
+
+    (: This function controls the processing. It does not access the source document. :)
+
+    (: Validate the input parameter :)
+
+    if (not(string-length($start)=2) or
+        not(translate(substring($start,1,1), 'abcdefgh', 'aaaaaaaa')='a') or
+        not(translate(substring($start,2,1), '12345678', '11111111')='1'))
+    then
+        error((), \"Invalid start parameter: try say 'a1' or 'g6'\")
+    else
+    
+    if (not($endd = 1 to 64)) 
+    then
+        error((), \"Invalid end parameter: must be in range 1 to 64\")
+    else
+
+    (: Set up the empty board :)
+
+    let $empty-board as xs:integer* := 
+        for $i in (1 to 64) return 0
+    
+    (: Place the knight on the board at the chosen starting position :)
+    
+    let $initial-board as xs:integer* :=
+        tour:place-knight(1, $empty-board, $start-row * 8 + $start-column)
+    
+    (: Evaluate the knight's tour :)
+
+    let $final-board as xs:integer* :=
+       tour:make-moves(2, $initial-board, $start-row * 8 + $start-column)
+
+    (: produce the HTML output :)
+    
+    return tour:print-board($final-board)
+};
+
+declare function tour:place-knight (
+                    $move as xs:integer,
+                    $board as xs:integer*,
+                    $square as xs:integer (: range 0 to 63 :)
+                  ) as xs:integer* {
+
+    (: This function places a knight on the board at a given square. The returned value is
+         the supplied board, modified to indicate that the knight reached a given square at a given
+         move :)
+
+    for $i in 1 to 64 return
+        if ($i = $square + 1) then $move else $board[$i]
+
+};
+
+declare function tour:make-moves (
+                    $move as xs:integer,
+                    $board as xs:integer*,
+                    $square as xs:integer (: range 0 to 63 :)
+                ) as xs:integer* {
+
+    (: This function takes the board in a given state, decides on the next move to make,
+         and then calls itself recursively to make further moves, until the knight has completed
+         his tour of the board. It returns the board in its final state. :)
+
+    (: determine the possible moves that the knight can make :)
+
+    let $possible-move-list as xs:integer* := 
+        tour:list-possible-moves($board, $square)
+
+    (: try these moves in turn until one is found that works :)
+
+    return tour:try-possible-moves($move, $board, $square, $possible-move-list)
+};
+
+declare function tour:try-possible-moves (
+                    $move as xs:integer,
+                    $board as xs:integer*,
+                    $square as xs:integer, (: range 0 to 63 :)
+                    $possible-moves as xs:integer* )
+                as xs:integer* {
+
+    (:   This function tries a set of possible moves that the knight can make
+         from a given position. It determines the best move as the one to the square with
+         fewest exits. If this is unsuccessful then it can backtrack and
+         try another move; however this turns out rarely to be necessary. 
+         
+         The function makes the selected move, and then calls make-moves() to make
+         subsequent moves, returning the final state of the board. :)
+
+         if (count($possible-moves)!=0)
+                then tour:make-best-move($move, $board, $square, $possible-moves)
+                else ()
+
+         (: if there is no possible move, we return the special value () as the final state
+             of the board, to indicate to the caller that we got stuck :)
+};
+
+declare function tour:make-best-move (
+                    $move as xs:integer,
+                    $board as xs:integer*,
+                    $square as xs:integer, (: range 0 to 63 :)
+                    $possible-moves as xs:integer* )
+                as xs:integer* {
+                
+    (: this function, given the state of the board and a set of possible moves,
+       determines which of the moves is the best one. It then makes this move,
+       and proceeds recursively to make further moves, eventually returning the
+       final state of the board. :)            
+        
+    (:  if at least one move is possible, find the best one :)
+
+    let $best-move as xs:integer :=
+        tour:find-best-move($board, $possible-moves, 9, 999)
+
+    (: find the list of possible moves excluding the best one :)
+
+    let $other-possible-moves as xs:integer* :=
+        $possible-moves[. != $best-move]
+
+    (: update the board to make the move chosen as the best one :)
+
+    let $next-board as xs:integer* :=
+        tour:place-knight($move, $board, $best-move)
+    
+    (: now make further moves using a recursive call, until the board is complete :)
+
+    let $final-board as xs:integer* :=
+        if ($move < $endd) (:count($next-board[.=0])!=0:) 
+                    then tour:make-moves($move+1, $next-board, $best-move)
+                    else $next-board
+
+    (:   if the final board has the special value '()', we got stuck, and have to choose
+         the next best of the possible moves. This is done by a recursive call. I thought
+         that the knight never did get stuck, but it does: if the starting square is f1,
+         the wrong choice is made at move 58, and needs to be reversed. :)
+
+    return
+        if (empty($final-board))
+        then tour:try-possible-moves($move, $board, $square, $other-possible-moves)
+        else $final-board
+        
+};
+
+declare function tour:find-best-move (
+                    $board as xs:integer*,
+                    $possible-moves as xs:integer*,
+                    $fewest-exits as xs:integer,
+                    $best-so-far as xs:integer )
+                as xs:integer {
+
+    (:  This function finds from among the possible moves, the one with fewest exits.
+         It calls itself recursively. :)
+         
+    (:  split the list of possible moves into the first move and the rest of the moves :)
+
+    let $trial-move as xs:integer := 
+        $possible-moves[1]
+    
+    let $other-possible-moves as xs:integer* :=
+        $possible-moves[position() > 1]
+
+    (: try making the first move :)
+
+    let $trial-board as xs:integer* :=
+        tour:place-knight(99, $board, $trial-move)
+
+    (: see how many moves would be possible the next time :)
+
+    let $trial-move-exit-list as xs:integer* :=
+        tour:list-possible-moves($trial-board, $trial-move)
+
+    let $number-of-exits as xs:integer :=
+        count($trial-move-exit-list)
+
+    (:  determine whether this trial move has fewer exits than those considered up till now :)
+
+    let $minimum-exits as xs:integer :=
+        min(($number-of-exits, $fewest-exits))
+
+    (:  determine which is the best move (the one with fewest exits) so far :)
+
+    let $new-best-so-far as xs:integer :=
+        if ($number-of-exits < $fewest-exits)
+            then $trial-move
+            else $best-so-far  
+
+    (:  if there are other possible moves, consider them too, using a recursive call.
+        Otherwise return the best move found. :)
+
+    return
+        if (count($other-possible-moves)!=0)
+            then tour:find-best-move($board, $other-possible-moves, 
+                                            $minimum-exits, $new-best-so-far)
+            else $new-best-so-far
+
+};
+
+declare function tour:list-possible-moves (
+                $board as xs:integer*,
+                $square as xs:integer )
+            as xs:integer* {
+
+    (:   This function, given the knight's position on the board, returns the set of squares
+         he can move to. The squares will be ones that have not been visited before :)
+            
+    let $row as xs:integer := $square idiv 8
+    let $column as xs:integer := $square mod 8
+
+    return
+        (if ($row > 1 and $column > 0 and $board[($square - 17) + 1]=0)
+            then $square - 17 else (),
+         if ($row > 1 and $column < 7 and $board[($square - 15) + 1]=0)
+            then $square - 15 else (),
+         if ($row > 0 and $column > 1 and $board[($square - 10) + 1]=0)
+            then $square - 10 else (),
+         if ($row > 0 and $column < 6 and $board[($square - 6) + 1]=0)
+            then $square - 6 else (),
+         if ($row < 6 and $column > 0 and $board[($square + 15) + 1]=0)
+            then $square + 15 else (),
+         if ($row < 6 and $column < 7 and $board[($square + 17) + 1]=0)
+            then $square + 17 else (),
+         if ($row < 7 and $column > 1 and $board[($square + 6) + 1]=0)
+            then $square + 6 else (),
+         if ($row < 7 and $column < 6 and $board[($square + 10) + 1]=0)
+            then $square + 10 else () )
+
+};
+
+declare function tour:print-board (
+                $board as xs:integer* )
+            as element()
+{
+    (: Output the board in HTML format :)
+
+    <html>
+    <head>
+        <title>Knight's tour</title>
+    </head>
+    <body>
+    <div align=\"center\">
+    <h1>Knight's tour starting at {$start}</h1>
+    <table border=\"1\" cellpadding=\"4\">
+        {for $row in 0 to 7 return
+           <tr>
+              {for $column in 0 to 7
+                let $color :=
+                          if ((($row + $column) mod 2)=1)
+                          then 'xffff44' 
+                          else 'white' return
+                <td align=\"center\" bgcolor=\"{$color}\" width=\"22\">{
+                  let $n := $board[$row * 8 + $column + 1]
+                  return 
+                      if ($endd != 64 and $n = $endd)
+                      then <b>{$n}</b>
+                      else if ($n = 0)
+                      then \"&#xa0;\"
+                      else $n
+                }</td>
+              }
+           </tr>
+        }
+    </table>
+    <p>{
+        if ($endd != 64) 
+        then
+          <a href=\"Tour?start={$start}&amp;end={$endd+1}\">Step</a>
+        else ()
+    }</p>    
+    </div>
+    </body>
+    </html>
+};
+
+tour:main()
+
+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -5127,7 +5481,7 @@ environment('xq311B') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+   Out =    case xqerl_test:assert_error(Res,"XQST0134") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -6231,11 +6585,11 @@ environment('xq311B') ->
       Err -> ct:fail(Err)
    end.
 'K2-Axes-68'(_Config) ->
-   Qry = "1, <e/>/descendant-or-self::node(), 1",
+   Qry = "<out>{1, <e/>/descendant-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"1<e/>1") of 
+   Out =    case xqerl_test:assert_xml(Res,"<out>1<e/>1</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -6257,11 +6611,11 @@ environment('xq311B') ->
       Err -> ct:fail(Err)
    end.
 'K2-Axes-70'(_Config) ->
-   Qry = "1, <e attr=\"\"/>/descendant-or-self::node(), 1",
+   Qry = "<out>{1, <e attr=\"\"/>/descendant-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"1<e attr=\"\"/>1") of 
+   Out =    case xqerl_test:assert_xml(Res,"<out>1<e attr=\"\"/>1</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -6466,7 +6820,8 @@ environment('xq311B') ->
    end.
 'K2-Axes-86'(_Config) ->
    Qry = "
-        declare variable $root as document-node() := . treat as document-node(); 
+        declare variable $root as document-node() := . treat as document-node();
+        <out>
         <empty> { (: attribute axis, and all other axes that inference can assert might produce attributes. 
              These are placed first, so we don't raise XQTY0024. :) 
              $root/foo/child::attribute(foo), 
@@ -6551,14 +6906,13 @@ environment('xq311B') ->
              $root//document-node()/self::processing-instruction(), 
              $root//document-node()/self::element(), 
              $root//document-node()/self::text(), 
-             $root//document-node()/self::comment() } </empty>, 
-             exists($root//*/attribute()/descendant-or-self::node())",
+             $root//document-node()/self::comment() } </empty><ex>{exists($root//*/attribute()/descendant-or-self::node())}</ex></out>",
    Env = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_xml(Res,"<empty/>true") of 
+   case xqerl_test:assert_xml(Res,"<out><empty/><ex>true</ex></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end,
@@ -7079,9 +7433,17 @@ environment('xq311B') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPTY0018") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0019") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};

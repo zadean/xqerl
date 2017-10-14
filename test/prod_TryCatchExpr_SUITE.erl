@@ -21,6 +21,7 @@
 -export(['try-015'/1]).
 -export(['try-016'/1]).
 -export(['try-017'/1]).
+-export(['try-018'/1]).
 -export(['no-try-catch-1'/1]).
 -export(['no-try-catch-2'/1]).
 -export(['no-try-catch-3'/1]).
@@ -92,6 +93,8 @@
 -export(['try-catch-err-code-variable-10'/1]).
 -export(['try-catch-err-code-variable-11'/1]).
 -export(['try-catch-err-code-variable-12'/1]).
+-export(['try-catch-err-code-variable-13'/1]).
+-export(['try-catch-err-code-variable-14'/1]).
 -export(['try-catch-err-description-variable-1'/1]).
 -export(['try-catch-err-description-variable-2'/1]).
 -export(['try-catch-err-description-variable-3'/1]).
@@ -193,6 +196,7 @@ all() -> [
    'try-015',
    'try-016',
    'try-017',
+   'try-018',
    'no-try-catch-1',
    'no-try-catch-2',
    'no-try-catch-3',
@@ -264,6 +268,8 @@ all() -> [
    'try-catch-err-code-variable-10',
    'try-catch-err-code-variable-11',
    'try-catch-err-code-variable-12',
+   'try-catch-err-code-variable-13',
+   'try-catch-err-code-variable-14',
    'try-catch-err-description-variable-1',
    'try-catch-err-description-variable-2',
    'try-catch-err-description-variable-3',
@@ -354,8 +360,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -364,8 +370,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -374,7 +380,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -384,7 +390,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -394,7 +400,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -404,8 +410,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -415,7 +421,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -424,13 +430,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -445,6 +452,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
@@ -642,12 +680,12 @@ environment('err') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_string_value(Res, "Integer division by zero") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end,
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
@@ -745,6 +783,23 @@ environment('err') ->
    end]) of 
       true -> {comment, "any-of"};
       _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'try-018'(_Config) ->
+   Qry = "
+      try {1 div 0}
+      catch local:foo | local:bar {'first'}
+      catch * {'second'}  
+    ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"second\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1749,6 +1804,39 @@ environment('err') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'try-catch-err-code-variable-13'(_Config) ->
+   Qry = "
+        try { 1 div 0 } catch * { <e code=\"{$e:code}\" xmlns:e=\"http://www.w3.org/2005/xqt-errors\"/> }
+    ",
+   Env = xqerl_test:handle_environment(environment('err')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"ends-with($result[self::e]/@code, 'FOAR0001')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'try-catch-err-code-variable-14'(_Config) ->
+   Qry = "
+      for $p in (\"p1\", \"p2\") return
+         try {parse-xml($p)} catch * {$err:code}
+    ",
+   Env = xqerl_test:handle_environment(environment('err')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "err:FODC0006 err:FODC0006") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'try-catch-err-description-variable-1'(_Config) ->
    Qry = "try { 1 div 0 } catch * { count($err:description) le 1 }",
    Env = xqerl_test:handle_environment(environment('err')),
@@ -2195,7 +2283,15 @@ environment('err') ->
       Err -> ct:fail(Err)
    end.
 'try-catch-variable-binding-outside-4'(_Config) ->
-   Qry = "try { for $x as xs:integer in (0, 1, \"\") return $x } catch err:XPTY0004 { 0 }",
+   Qry = "
+       declare variable $str external := \"\";
+       try {
+          for $x as xs:integer in (0, 1, $str)
+          return $x
+       } catch err:XPTY0004 {
+          0
+       }
+    ",
    Env = xqerl_test:handle_environment(environment('err')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2268,8 +2364,8 @@ environment('err') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"0 1") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_deep_eq(Res,"0, 1") of 
+      true -> {comment, "Deep equal"};
       {false, F} -> F 
    end, 
    case Out of

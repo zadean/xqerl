@@ -144,6 +144,21 @@
 -export(['K2-NumericAdd-2'/1]).
 -export(['K2-NumericAdd-3'/1]).
 -export(['op-numeric-add-1'/1]).
+-export(['op-numeric-add-2'/1]).
+-export(['op-numeric-add-3'/1]).
+-export(['op-numeric-add-4'/1]).
+-export(['op-numeric-add-5'/1]).
+-export(['op-numeric-add-6'/1]).
+-export(['op-numeric-add-7'/1]).
+-export(['op-numeric-add-8'/1]).
+-export(['op-numeric-add-9'/1]).
+-export(['op-numeric-add-10'/1]).
+-export(['op-numeric-add-11'/1]).
+-export(['op-numeric-add-12'/1]).
+-export(['op-numeric-add-13'/1]).
+-export(['op-numeric-add-14'/1]).
+-export(['op-numeric-add-15'/1]).
+-export(['op-numeric-add-16'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -288,7 +303,22 @@ all() -> [
    'K2-NumericAdd-1',
    'K2-NumericAdd-2',
    'K2-NumericAdd-3',
-   'op-numeric-add-1'].
+   'op-numeric-add-1',
+   'op-numeric-add-2',
+   'op-numeric-add-3',
+   'op-numeric-add-4',
+   'op-numeric-add-5',
+   'op-numeric-add-6',
+   'op-numeric-add-7',
+   'op-numeric-add-8',
+   'op-numeric-add-9',
+   'op-numeric-add-10',
+   'op-numeric-add-11',
+   'op-numeric-add-12',
+   'op-numeric-add-13',
+   'op-numeric-add-14',
+   'op-numeric-add-15',
+   'op-numeric-add-16'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -300,8 +330,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -310,8 +340,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -320,7 +350,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -330,7 +360,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -340,7 +370,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -350,8 +380,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -361,7 +391,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -370,13 +400,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -391,6 +422,47 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('user-defined-types') ->
+[{sources, []},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].
@@ -1751,7 +1823,7 @@ environment('math') ->
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert_error(Res,"XPST0005") of 
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end]) of 
@@ -1772,7 +1844,7 @@ environment('math') ->
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert_error(Res,"XPST0005") of 
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end]) of 
@@ -2350,15 +2422,149 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-1'(_Config) ->
-   Qry = "for $x in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) for $y in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) return typeswitch ($x + $y) case xs:integer return \"integer\" case xs:decimal return \"decimal\" case xs:float return \"float\" case xs:double return \"double\" default return error()",
+   Qry = "
+         for $x in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) 
+         for $y in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5))
+         return ($x + $y)
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "integer decimal float double double decimal decimal float double double float float float double double double double double double double double double double double double") of 
-      true -> {comment, "String correct"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"$result[1] instance of xs:integer") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[2] instance of xs:decimal") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[3] instance of xs:float") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[4] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[5] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[6] instance of xs:decimal") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[7] instance of xs:decimal") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[8] instance of xs:float") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[9] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[10] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[11] instance of xs:float") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[12] instance of xs:float") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[13] instance of xs:float") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[14] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[15] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[16] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[17] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[18] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[19] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[20] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[21] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[22] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[23] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[24] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result[25] instance of xs:double") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'op-numeric-add-2'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-3'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-4'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-5'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-6'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-7'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-8'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-9'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-10'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-11'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-12'(_Config) ->
+   {skip,"Validation Environment"}.
+'op-numeric-add-13'(_Config) ->
+   {skip,"schemaImport"}.
+'op-numeric-add-14'(_Config) ->
+   {skip,"schemaImport"}.
+'op-numeric-add-15'(_Config) ->
+   {skip,"schemaImport"}.
+'op-numeric-add-16'(_Config) ->
+   {skip,"schemaImport"}.

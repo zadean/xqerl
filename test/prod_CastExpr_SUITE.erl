@@ -725,6 +725,17 @@
 -export(['CastAs674a'/1]).
 -export(['CastAs675'/1]).
 -export(['CastAs675a'/1]).
+-export(['CastAs676'/1]).
+-export(['CastAs677'/1]).
+-export(['CastAs678'/1]).
+-export(['CastAs679'/1]).
+-export(['CastAs680'/1]).
+-export(['CastAs681'/1]).
+-export(['CastAs682'/1]).
+-export(['CastAs683'/1]).
+-export(['CastAs684'/1]).
+-export(['CastAs685'/1]).
+-export(['CastAs686'/1]).
 -export(['CastAsNamespaceSensitiveType-1'/1]).
 -export(['CastAsNamespaceSensitiveType-2'/1]).
 -export(['CastAsNamespaceSensitiveType-3'/1]).
@@ -3490,6 +3501,17 @@ all() -> [
    'CastAs674a',
    'CastAs675',
    'CastAs675a',
+   'CastAs676',
+   'CastAs677',
+   'CastAs678',
+   'CastAs679',
+   'CastAs680',
+   'CastAs681',
+   'CastAs682',
+   'CastAs683',
+   'CastAs684',
+   'CastAs685',
+   'CastAs686',
    'CastAsNamespaceSensitiveType-1',
    'CastAsNamespaceSensitiveType-2',
    'CastAsNamespaceSensitiveType-3',
@@ -5540,8 +5562,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -5550,8 +5572,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -5560,7 +5582,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -5570,7 +5592,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -5580,7 +5602,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -5590,8 +5612,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -5601,7 +5623,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -5610,13 +5632,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -5634,9 +5657,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('NOTATION-type') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/CastExpr/notation.xsd","http://www.w3.org/XQueryTest/Cast/Notation"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CastExpr/notation.xsd","http://www.w3.org/XQueryTest/Cast/Notation"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -11601,9 +11655,17 @@ environment('NOTATION-type') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "-0012-12-03-05:00") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "-0012-12-03-05:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -11627,9 +11689,17 @@ environment('NOTATION-type') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "-0012-12-03-05:00") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "-0012-12-03-05:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -11770,9 +11840,17 @@ environment('NOTATION-type') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "-0012-12-03-05:00") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "-0012-12-03-05:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -11822,9 +11900,17 @@ environment('NOTATION-type') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "-0012-05:00") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "-0012-05:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -11861,9 +11947,17 @@ environment('NOTATION-type') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "--12-03-05:00") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "--12-03-05:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -11900,9 +11994,17 @@ environment('NOTATION-type') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "--12-05:00") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "--12-05:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -15136,6 +15238,161 @@ environment('NOTATION-type') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0117") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs676'(_Config) ->
+   Qry = "xs:dateTime(\"9999-12-31T23:59:59.9999999\") cast as xs:string",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"starts-with($result, '9999-12-31T23:59:59.999')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_string_value(Res, "10000-01-01T00:00:00") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs677'(_Config) ->
+   Qry = "string-to-codepoints(xs:normalizedString(codepoints-to-string((32, 09, 48, 13, 10, 48, 160, 32, 09))))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"32, 32, 48, 32, 32, 48, 160, 32, 32") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs678'(_Config) ->
+   Qry = "string-to-codepoints(xs:token(codepoints-to-string((32, 09, 48, 13, 10, 48, 160, 32, 09))))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"48, 32, 48, 160") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs679'(_Config) ->
+   Qry = "xs:dateTime('2017-07-19T12:00:00-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2017-07-19T12:00:00-00:30") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs680'(_Config) ->
+   Qry = "xs:time('12:00:00-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "12:00:00-00:30") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs681'(_Config) ->
+   Qry = "xs:date('2017-07-19-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2017-07-19-00:30") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs682'(_Config) ->
+   Qry = "xs:gYear('2017-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2017-00:30") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs683'(_Config) ->
+   Qry = "xs:gYearMonth('2017-07-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "2017-07-00:30") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs684'(_Config) ->
+   Qry = "xs:gMonth('--07-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "--07-00:30") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs685'(_Config) ->
+   Qry = "xs:gMonthDay('--07-12-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "--07-12-00:30") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'CastAs686'(_Config) ->
+   Qry = "xs:gDay('---12-00:30')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "---12-00:30") of 
+      true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
    case Out of
@@ -37528,7 +37785,7 @@ environment('NOTATION-type') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "&#12316;") of 
+   Out =    case xqerl_test:assert_string_value(Res, "〜") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -37537,18 +37794,7 @@ environment('NOTATION-type') ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-210'(_Config) ->
-   Qry = "xs:anyURI(\"http://www.example.com/file%GF.html\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'K2-SeqExprCast-211'(_Config) ->
    Qry = "xs:anyAtomic(\"1\")",
    Qry1 = Qry,
@@ -40317,56 +40563,24 @@ environment('NOTATION-type') ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-422'(_Config) ->
-   Qry = "xs:anyURI(\"%gg\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'K2-SeqExprCast-423'(_Config) ->
-   Qry = "xs:anyURI(\":/cut.jpg\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'K2-SeqExprCast-424'(_Config) ->
-   Qry = "xs:anyURI(\":/images/cut.png\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'K2-SeqExprCast-425'(_Config) ->
-   Qry = "\"START\", 
-      		QName(\"http://example.com\", \"prefix:localName\"), 
-      		QName(\"http://example.com\", \"localName\"), 
-      		QName(\"http://example.com\", \"localName\"), 
-      		QName(\"\", \"localName\"), QName((), \"localName\"), 
-      		\"END\"",
+   Qry = "string-join((\"START\", 
+      		string(QName(\"http://example.com\", \"prefix:localName\")), 
+      		string(QName(\"http://example.com\", \"localName\")), 
+      		string(QName(\"http://example.com\", \"localName\")), 
+      		string(QName(\"\", \"localName\")), 
+      		string(QName((), \"localName\")), 
+      		\"END\"), \" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"START prefix:localName localName localName localName localName END") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"START prefix:localName localName localName localName localName END\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -40374,19 +40588,19 @@ environment('NOTATION-type') ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-426'(_Config) ->
-   Qry = "\"START\", 
+   Qry = "string-join((\"START\", 
       	string(QName(\"http://example.com\", 
       	\"prefix:localName\")), 
       	string(QName(\"http://example.com\", \"localName\")), 
       	string(QName(\"http://example.com\", \"localName\")), 
       	string(QName(\"\", \"localName\")), 
       	string(QName((), \"localName\")), 
-      	\"END\" ",
+      	\"END\"), \" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"START prefix:localName localName localName localName localName END") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"START prefix:localName localName localName localName localName END\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -41418,18 +41632,7 @@ environment('NOTATION-type') ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-505'(_Config) ->
-   Qry = "xs:anyURI(\":/\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'K2-SeqExprCast-506'(_Config) ->
    Qry = "xs:gMonth(\"--02--\")",
    Qry1 = Qry,

@@ -48,6 +48,60 @@
 -export(['K-ValCompTypeChecking-42'/1]).
 -export(['value-comparison-3'/1]).
 -export(['value-comparison-4'/1]).
+-export(['value-comparison-5'/1]).
+-export(['value-comparison-6'/1]).
+-export(['value-comparison-7'/1]).
+-export(['value-comparison-8'/1]).
+-export(['value-comparison-9'/1]).
+-export(['value-comparison-10'/1]).
+-export(['value-comparison-11'/1]).
+-export(['value-comparison-12'/1]).
+-export(['value-comparison-13'/1]).
+-export(['value-comparison-14'/1]).
+-export(['value-comp-eq-string-1'/1]).
+-export(['value-comp-eq-string-2'/1]).
+-export(['value-comp-eq-string-3'/1]).
+-export(['value-comp-eq-string-4'/1]).
+-export(['value-comp-eq-string-5'/1]).
+-export(['value-comp-eq-string-6'/1]).
+-export(['value-comp-eq-string-7'/1]).
+-export(['value-comp-eq-string-8'/1]).
+-export(['value-comp-eq-string-9'/1]).
+-export(['value-comp-eq-string-10'/1]).
+-export(['value-comp-eq-string-11'/1]).
+-export(['value-comp-eq-string-12'/1]).
+-export(['value-comp-eq-string-13'/1]).
+-export(['value-comp-eq-string-14'/1]).
+-export(['value-comp-ne-string-1'/1]).
+-export(['value-comp-ne-string-2'/1]).
+-export(['value-comp-ne-string-3'/1]).
+-export(['value-comp-ne-string-4'/1]).
+-export(['value-comp-ne-string-5'/1]).
+-export(['value-comp-ne-string-6'/1]).
+-export(['value-comp-ne-string-7'/1]).
+-export(['value-comp-ne-string-8'/1]).
+-export(['value-comp-ne-string-9'/1]).
+-export(['value-comp-ne-string-10'/1]).
+-export(['value-comp-ne-string-11'/1]).
+-export(['value-comp-ne-string-12'/1]).
+-export(['value-comp-ne-string-13'/1]).
+-export(['value-comp-ne-string-14'/1]).
+-export(['value-comp-eq-int-1'/1]).
+-export(['value-comp-eq-int-2'/1]).
+-export(['value-comp-eq-int-3'/1]).
+-export(['value-comp-eq-int-4'/1]).
+-export(['value-comp-eq-int-5'/1]).
+-export(['value-comp-eq-int-6'/1]).
+-export(['value-comp-eq-int-7'/1]).
+-export(['value-comp-eq-int-8'/1]).
+-export(['value-comp-eq-double-1'/1]).
+-export(['value-comp-eq-double-2'/1]).
+-export(['value-comp-eq-double-3'/1]).
+-export(['value-comp-eq-double-4'/1]).
+-export(['value-comp-eq-double-5'/1]).
+-export(['value-comp-eq-double-6'/1]).
+-export(['value-comp-eq-double-7'/1]).
+-export(['value-comp-eq-double-8'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -96,7 +150,61 @@ all() -> [
    'K-ValCompTypeChecking-41',
    'K-ValCompTypeChecking-42',
    'value-comparison-3',
-   'value-comparison-4'].
+   'value-comparison-4',
+   'value-comparison-5',
+   'value-comparison-6',
+   'value-comparison-7',
+   'value-comparison-8',
+   'value-comparison-9',
+   'value-comparison-10',
+   'value-comparison-11',
+   'value-comparison-12',
+   'value-comparison-13',
+   'value-comparison-14',
+   'value-comp-eq-string-1',
+   'value-comp-eq-string-2',
+   'value-comp-eq-string-3',
+   'value-comp-eq-string-4',
+   'value-comp-eq-string-5',
+   'value-comp-eq-string-6',
+   'value-comp-eq-string-7',
+   'value-comp-eq-string-8',
+   'value-comp-eq-string-9',
+   'value-comp-eq-string-10',
+   'value-comp-eq-string-11',
+   'value-comp-eq-string-12',
+   'value-comp-eq-string-13',
+   'value-comp-eq-string-14',
+   'value-comp-ne-string-1',
+   'value-comp-ne-string-2',
+   'value-comp-ne-string-3',
+   'value-comp-ne-string-4',
+   'value-comp-ne-string-5',
+   'value-comp-ne-string-6',
+   'value-comp-ne-string-7',
+   'value-comp-ne-string-8',
+   'value-comp-ne-string-9',
+   'value-comp-ne-string-10',
+   'value-comp-ne-string-11',
+   'value-comp-ne-string-12',
+   'value-comp-ne-string-13',
+   'value-comp-ne-string-14',
+   'value-comp-eq-int-1',
+   'value-comp-eq-int-2',
+   'value-comp-eq-int-3',
+   'value-comp-eq-int-4',
+   'value-comp-eq-int-5',
+   'value-comp-eq-int-6',
+   'value-comp-eq-int-7',
+   'value-comp-eq-int-8',
+   'value-comp-eq-double-1',
+   'value-comp-eq-double-2',
+   'value-comp-eq-double-3',
+   'value-comp-eq-double-4',
+   'value-comp-eq-double-5',
+   'value-comp-eq-double-6',
+   'value-comp-eq-double-7',
+   'value-comp-eq-double-8'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -108,8 +216,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -118,8 +226,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -128,7 +236,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -138,7 +246,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -148,7 +256,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -158,8 +266,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -169,7 +277,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -178,13 +286,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -202,9 +311,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('user-defined-types') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -735,9 +875,17 @@ environment('user-defined-types') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -761,9 +909,17 @@ environment('user-defined-types') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -786,3 +942,738 @@ environment('user-defined-types') ->
    {skip,"schemaImport"}.
 'value-comparison-4'(_Config) ->
    {skip,"schemaImport"}.
+'value-comparison-5'(_Config) ->
+   Qry = "[3] eq 3",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-6'(_Config) ->
+   Qry = "[3] le [3]",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-7'(_Config) ->
+   Qry = "[] eq 3",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-8'(_Config) ->
+   Qry = "[3,4] eq 3",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-9'(_Config) ->
+   Qry = "[] eq ()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-10'(_Config) ->
+   Qry = "map{} eq ()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FOTY0013") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-11'(_Config) ->
+   Qry = "map{1:1} eq 1",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-12'(_Config) ->
+   Qry = "//test:comparable[1]/test:int eq //test:comparable[2]/test:int",
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ValueComp/valueComp200.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ValueComp/valueComp200.xsd","http://www.xpathtest.com/test"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.xpathtest.com/test","test"}]},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comparison-13'(_Config) ->
+   {skip,"schemaImport"}.
+'value-comparison-14'(_Config) ->
+   {skip,"schemaImport"}.
+'value-comp-eq-string-1'(_Config) ->
+   Qry = "\"abc\" eq concat(\"a\", \"bc\")",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-2'(_Config) ->
+   Qry = "\"abc\" eq /works/@id",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-3'(_Config) ->
+   Qry = "\"abc\" eq string(/works/@id)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-4'(_Config) ->
+   Qry = "\"abc\" eq xs:string(/works/@id)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-5'(_Config) ->
+   Qry = "works/@id eq \"abc\"",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-6'(_Config) ->
+   Qry = "string(/works/@id) eq \"abc\"",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-7'(_Config) ->
+   Qry = "xs:string(/works/@id) eq \"abc\"",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-8'(_Config) ->
+   Qry = "not(\"abc\" eq concat(\"a\", \"bc\"))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-9'(_Config) ->
+   Qry = "not(\"abc\" eq /works/@id)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-10'(_Config) ->
+   Qry = "not(\"abc\" eq string(/works/@id))",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-11'(_Config) ->
+   Qry = "not(\"abc\" eq xs:string(/works/@id))",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-12'(_Config) ->
+   Qry = "not(works/@id eq \"abc\")",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-13'(_Config) ->
+   Qry = "not(string(/works/@id) eq \"abc\")",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-string-14'(_Config) ->
+   Qry = "not(xs:string(/works/@id) eq \"abc\")",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-1'(_Config) ->
+   Qry = "\"abc\" ne concat(\"a\", \"bc\")",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-2'(_Config) ->
+   Qry = "\"abc\" ne /works/@id",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-3'(_Config) ->
+   Qry = "\"abc\" ne string(/works/@id)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-4'(_Config) ->
+   Qry = "\"abc\" ne xs:string(/works/@id)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-5'(_Config) ->
+   Qry = "works/@id ne \"abc\"",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-6'(_Config) ->
+   Qry = "string(/works/@id) ne \"abc\"",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-7'(_Config) ->
+   Qry = "xs:string(/works/@id) ne \"abc\"",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-8'(_Config) ->
+   Qry = "not(\"abc\" ne concat(\"a\", \"bc\"))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-9'(_Config) ->
+   Qry = "not(\"abc\" ne /works/@id)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-10'(_Config) ->
+   Qry = "not(\"abc\" ne string(/works/@id))",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-11'(_Config) ->
+   Qry = "not(\"abc\" ne xs:string(/works/@id))",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-12'(_Config) ->
+   Qry = "not(works/@id ne \"abc\")",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-13'(_Config) ->
+   Qry = "not(string(/works/@id) ne \"abc\")",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-ne-string-14'(_Config) ->
+   Qry = "not(xs:string(/works/@id) ne \"abc\")",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-1'(_Config) ->
+   Qry = "13 eq 12+1",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-2'(_Config) ->
+   Qry = "13 eq /works/@id",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-3'(_Config) ->
+   Qry = "40 eq xs:integer(/works/employee[1]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-4'(_Config) ->
+   Qry = "40 eq xs:integer(/works/employee[830]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-5'(_Config) ->
+   Qry = "xs:integer(/works/employee[830]/hours) eq 40",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-6'(_Config) ->
+   Qry = "40 eq number(/works/employee[1]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-7'(_Config) ->
+   Qry = "40 eq xs:double(/works/employee[1]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-int-8'(_Config) ->
+   Qry = "40 eq xs:double(/works/employee[830]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-1'(_Config) ->
+   Qry = "13e0 eq 12e0+1",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-2'(_Config) ->
+   Qry = "13e0 eq /works/@id",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-3'(_Config) ->
+   Qry = "40e0 eq xs:double(/works/employee[1]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-4'(_Config) ->
+   Qry = "40e0 eq xs:integer(/works/employee[830]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-5'(_Config) ->
+   Qry = "xs:integer(/works/employee[830]/hours) eq 40e0",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-6'(_Config) ->
+   Qry = "40e0 eq number(/works/employee[1]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-7'(_Config) ->
+   Qry = "40e0 eq xs:double(/works/employee[1]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'value-comp-eq-double-8'(_Config) ->
+   Qry = "40e0 eq xs:double(/works/employee[830]/hours)",
+   Env = xqerl_test:handle_environment(environment('works')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

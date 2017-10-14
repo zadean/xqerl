@@ -24,11 +24,6 @@
 -export(['map-contains-018'/1]).
 -export(['map-contains-019'/1]).
 -export(['map-contains-020'/1]).
--export(['map-contains-021'/1]).
--export(['map-contains-022'/1]).
--export(['map-contains-023'/1]).
--export(['map-contains-024'/1]).
--export(['map-contains-025'/1]).
 -export(['map-contains-901'/1]).
 -export(['map-contains-902'/1]).
 -export(['map-contains-903'/1]).
@@ -60,11 +55,6 @@ all() -> [
    'map-contains-018',
    'map-contains-019',
    'map-contains-020',
-   'map-contains-021',
-   'map-contains-022',
-   'map-contains-023',
-   'map-contains-024',
-   'map-contains-025',
    'map-contains-901',
    'map-contains-902',
    'map-contains-903',
@@ -82,8 +72,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -92,8 +82,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -102,7 +92,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -112,7 +102,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -122,7 +112,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -132,8 +122,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -143,7 +133,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -152,13 +142,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -175,10 +166,42 @@ environment('math') ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
 ].
 'map-contains-001'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -191,7 +214,8 @@ environment('math') ->
    end.
 'map-contains-002'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 23)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
@@ -204,7 +228,8 @@ environment('math') ->
    end.
 'map-contains-003'(_Config) ->
    Qry = "map:contains(map{}, 23)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
@@ -217,7 +242,8 @@ environment('math') ->
    end.
 'map-contains-004'(_Config) ->
    Qry = "map:contains(map:entry(\"foo\", \"bar\"), \"baz\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
@@ -230,7 +256,8 @@ environment('math') ->
    end.
 'map-contains-005'(_Config) ->
    Qry = "map:contains(map:entry(\"foo\", \"bar\"), \"foo\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -243,7 +270,8 @@ environment('math') ->
    end.
 'map-contains-006'(_Config) ->
    Qry = "map:contains(map:entry(\"foo\", \"bar\"), xs:untypedAtomic(\"foo\"))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -256,7 +284,8 @@ environment('math') ->
    end.
 'map-contains-007'(_Config) ->
    Qry = "map:contains(map:entry(xs:untypedAtomic(\"foo\"), \"bar\"), \"foo\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -269,7 +298,8 @@ environment('math') ->
    end.
 'map-contains-008'(_Config) ->
    Qry = "map:contains(map:entry(xs:untypedAtomic(\"12\"), \"bar\"), 12)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
@@ -282,7 +312,8 @@ environment('math') ->
    end.
 'map-contains-009'(_Config) ->
    Qry = "map:contains(map:entry(12, \"bar\"), xs:untypedAtomic(\"12\"))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
@@ -295,7 +326,8 @@ environment('math') ->
    end.
 'map-contains-010'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4.0e0)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -308,7 +340,8 @@ environment('math') ->
    end.
 'map-contains-011'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4.0e0:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -321,7 +354,8 @@ environment('math') ->
    end.
 'map-contains-012'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",\"urn:weds\":\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, xs:anyURI(\"urn:weds\"))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -334,7 +368,8 @@ environment('math') ->
    end.
 'map-contains-013'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",xs:anyURI(\"urn:weds\"):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, \"urn:weds\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -347,7 +382,8 @@ environment('math') ->
    end.
 'map-contains-014'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",xs:anyURI(\"urn:weds\"):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, number('NaN'))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
@@ -360,7 +396,8 @@ environment('math') ->
    end.
 'map-contains-015'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",number('NaN'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, number('NaN'))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -377,7 +414,8 @@ environment('math') ->
                          (for $i in 2000 to 3000 return map:entry($i, $i+30)),
                          (for $i in 2500 to 3500 return map:entry($i, $i+30)))),
                          3260)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -390,7 +428,8 @@ environment('math') ->
    end.
 'map-contains-017'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",xs:duration('P1Y'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, xs:yearMonthDuration('P12M'))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -403,7 +442,8 @@ environment('math') ->
    end.
 'map-contains-018'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",function-name(abs#1):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, xs:QName('fn:abs'))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -416,7 +456,8 @@ environment('math') ->
    end.
 'map-contains-019'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:(),5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -429,7 +470,8 @@ environment('math') ->
    end.
 'map-contains-020'(_Config) ->
    Qry = "map:contains(map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"}, \"TH\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
@@ -440,30 +482,10 @@ environment('math') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'map-contains-021'(_Config) ->
-   Qry = "map:contains(map:merge(map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"}), \"TH\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
-'map-contains-022'(_Config) ->
-   {skip,"Collation Environment"}.
-'map-contains-023'(_Config) ->
-   {skip,"Collation Environment"}.
-'map-contains-024'(_Config) ->
-   {skip,"Collation Environment"}.
-'map-contains-025'(_Config) ->
-   {skip,"Collation Environment"}.
 'map-contains-901'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",number('NaN'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, (1 to 5)[10])",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -476,7 +498,8 @@ environment('math') ->
    end.
 'map-contains-902'(_Config) ->
    Qry = "map:contains(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",number('NaN'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, (1 to 5)[. mod 2 = 0])",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -489,7 +512,8 @@ environment('math') ->
    end.
 'map-contains-903'(_Config) ->
    Qry = "map:contains((\"a\", \"b\", \"c\"), \"a\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -502,7 +526,8 @@ environment('math') ->
    end.
 'map-contains-904'(_Config) ->
    Qry = "map:contains((), \"a\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -515,7 +540,8 @@ environment('math') ->
    end.
 'map-contains-905'(_Config) ->
    Qry = "map:contains(abs#1, \"a\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -528,7 +554,8 @@ environment('math') ->
    end.
 'map-contains-906'(_Config) ->
    Qry = "map:contains((map{}, map{\"a\":\"b\"}), \"a\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 

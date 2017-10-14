@@ -37,6 +37,11 @@
 -export(['annotation-31'/1]).
 -export(['annotation-32'/1]).
 -export(['annotation-33'/1]).
+-export(['annotation-34'/1]).
+-export(['annotation-35'/1]).
+-export(['annotation-36'/1]).
+-export(['annotation-37'/1]).
+-export(['annotation-38'/1]).
 -export(['annotation-assertion-1'/1]).
 -export(['annotation-assertion-2'/1]).
 -export(['annotation-assertion-3'/1]).
@@ -55,6 +60,8 @@
 -export(['annotation-assertion-16'/1]).
 -export(['annotation-assertion-17'/1]).
 -export(['annotation-assertion-18'/1]).
+-export(['annotation-assertion-19'/1]).
+-export(['annotation-assertion-20'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -93,6 +100,11 @@ all() -> [
    'annotation-31',
    'annotation-32',
    'annotation-33',
+   'annotation-34',
+   'annotation-35',
+   'annotation-36',
+   'annotation-37',
+   'annotation-38',
    'annotation-assertion-1',
    'annotation-assertion-2',
    'annotation-assertion-3',
@@ -110,7 +122,9 @@ all() -> [
    'annotation-assertion-15',
    'annotation-assertion-16',
    'annotation-assertion-17',
-   'annotation-assertion-18'].
+   'annotation-assertion-18',
+   'annotation-assertion-19',
+   'annotation-assertion-20'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -122,8 +136,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -132,8 +146,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -142,7 +156,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -152,7 +166,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -162,7 +176,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -172,8 +186,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -183,7 +197,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -192,13 +206,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -215,6 +230,37 @@ environment('math') ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
 ].
 'annotation-1'(_Config) ->
    Qry = "
@@ -227,8 +273,8 @@ environment('math') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"bar") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -244,8 +290,8 @@ environment('math') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"bar") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -260,8 +306,8 @@ environment('math') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"bar") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -770,8 +816,8 @@ environment('math') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"bar") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -786,8 +832,8 @@ environment('math') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"bar") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -802,8 +848,8 @@ environment('math') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"bar") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -820,6 +866,99 @@ environment('math') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'annotation-34'(_Config) ->
+   Qry = "
+         declare default function namespace \"http://example.com\";
+         declare %private function lt() as item()*{
+         ()
+         };
+         ()
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'annotation-35'(_Config) ->
+   Qry = "
+         declare namespace array = \"http://www.w3.org/2005/xpath-functions/array\";
+         declare %array:x function local:foo() {
+            \"bar\"
+         };
+         local:foo()
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'annotation-36'(_Config) ->
+   Qry = "
+         declare namespace map = \"http://www.w3.org/2005/xpath-functions/map\";
+         declare %map:x function local:foo() {
+            \"bar\"
+         };
+         local:foo()
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'annotation-37'(_Config) ->
+   Qry = "
+         declare namespace a = \"http://www.example.org/annotation\";
+         declare %a:translucent(\"true\") %a:translucent(\"false\") function local:foo() {
+            \"bar\"
+         };
+         local:foo()
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'annotation-38'(_Config) ->
+   Qry = "
+         declare namespace a = \"http://www.example.org/annotation\";
+         declare %a:translucent(\"true\") %a:translucent(\"false\") variable $foo := \"bar\";
+         $foo
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of
@@ -1101,6 +1240,47 @@ environment('math') ->
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'annotation-assertion-19'(_Config) ->
+   Qry = "
+         declare namespace eg = \"http://example.com\";
+         () instance of %eg:x(1) %eg:x(2) function(xs:integer) as xs:string
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'annotation-assertion-20'(_Config) ->
+   Qry = "
+         declare namespace eg = \"http://example.com\";
+         declare %public function local:three() as xs:integer {3};
+         local:three#0 instance of %public %private function(xs:integer) as xs:integer
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};

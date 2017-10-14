@@ -30,7 +30,6 @@
 -export(['module-URIs-23'/1]).
 -export(['module-URIs-24'/1]).
 -export(['module-URIs-25'/1]).
--export(['modules-none'/1]).
 -export(['modules-two-import'/1]).
 -export(['modules-two-import-ok'/1]).
 -export(['modules-collide-var-001'/1]).
@@ -130,64 +129,63 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/test1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-urisi1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris3-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris4-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris5-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris6-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris7-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris8-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris9-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris10-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris11-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris12-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris13-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris14-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris15-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris16-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris17-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris18-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris19-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris20-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-uris21-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/empty-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/test1collide1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/test1collide2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/emptyns-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/test1c1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/test2c1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/moduleDefs-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/test2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/modulesdiffns-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module3-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module4-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/modules-recursive1.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/modules-recursive2.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata6-module1.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata6-module2.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata6-module4.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata6-module5.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata6-module6.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata6-module7.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata8-module1a.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata8-module1b.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata8-module2a.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata8-module2b.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata8-module3a.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/errata8-module3b.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-pub-priv.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-pub-priv3.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/module-pub-priv2.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/schemalib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/baseuri-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/variabledeclaration-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/variablereference-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/contextitem-lib.xq") catch _:_ -> ok end,Config.
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/test1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris2-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-urisi1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris3-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris4-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris5-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris6-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris7-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris8-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris9-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris10-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris11-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris12-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris13-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris14-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris15-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris16-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris17-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris18-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris19-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris20-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-uris21-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/test1collide1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/test1collide2-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/emptyns-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/test1c1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/test2c1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/moduleDefs-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/test2-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/modulesdiffns-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module2-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module3-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module4-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/modules-recursive1.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/modules-recursive2.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata6-module1.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata6-module2.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata6-module4.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata6-module5.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata6-module6.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata6-module7.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata8-module1a.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata8-module1b.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata8-module2a.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata8-module2b.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata8-module3a.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/errata8-module3b.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-pub-priv.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-pub-priv3.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/module-pub-priv2.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/schemalib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/baseuri-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/variabledeclaration-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/variablereference-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/contextitem-lib.xq") catch _:_ -> ok end,Config.
 all() -> [
    'K2-ModuleProlog-1',
    'modules-simple',
@@ -215,7 +213,6 @@ all() -> [
    'module-URIs-23',
    'module-URIs-24',
    'module-URIs-25',
-   'modules-none',
    'modules-two-import',
    'modules-two-import-ok',
    'modules-collide-var-001',
@@ -323,8 +320,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -333,8 +330,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -343,7 +340,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -353,7 +350,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -363,7 +360,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -373,8 +370,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -384,7 +381,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -393,13 +390,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -417,9 +415,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('simple-schema') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/simple.xsd","http://www.w3.org/XQueryTest/simple"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/simple.xsd","http://www.w3.org/XQueryTest/simple"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -429,7 +458,7 @@ environment('simple-schema') ->
 ];
 environment('attribute-schema') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ModuleImport/attribute.xsd","http://www.w3.org/XQueryTest/sample"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ModuleImport/attribute.xsd","http://www.w3.org/XQueryTest/sample"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -438,8 +467,8 @@ environment('attribute-schema') ->
 {modules, []}
 ];
 environment('complexData') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/data/complexData.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/data/complexData.xsd","http://www.cbcl.co.uk/XQueryTest/complexData"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/data/complexData.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/data/complexData.xsd","http://www.cbcl.co.uk/XQueryTest/complexData"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -449,7 +478,7 @@ environment('complexData') ->
 ];
 environment('user-defined-types') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -863,22 +892,6 @@ environment('user-defined-types') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
-'modules-none'(_Config) ->
-   Qry = "
-        import module namespace none=\"http://www.w3.org/TestModules/none\" at \"empty-lib.xq\"; 
-        \"abc\"
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
-      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
@@ -1910,7 +1923,7 @@ environment('user-defined-types') ->
 
         declare variable $test := $defs:two;
 
-        <a>{local:test()}</a>
+        <a>93.7</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

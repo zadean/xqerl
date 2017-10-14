@@ -38,10 +38,15 @@
 -export(['Serialization-030'/1]).
 -export(['Serialization-031'/1]).
 -export(['Serialization-032'/1]).
+-export(['Serialization-033'/1]).
+-export(['Serialization-034'/1]).
+-export(['Serialization-035'/1]).
+-export(['Serialization-036'/1]).
+-export(['Serialization-037'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/prod/Serialization/serialization1-lib.xq") catch _:_ -> ok end,Config.
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/prod/Serialization/serialization1-lib.xq") catch _:_ -> ok end,Config.
 all() -> [
    'Serialization-001',
    'Serialization-002',
@@ -76,7 +81,12 @@ all() -> [
    'Serialization-029',
    'Serialization-030',
    'Serialization-031',
-   'Serialization-032'].
+   'Serialization-032',
+   'Serialization-033',
+   'Serialization-034',
+   'Serialization-035',
+   'Serialization-036',
+   'Serialization-037'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -88,8 +98,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -98,8 +108,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -108,7 +118,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -118,7 +128,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -128,7 +138,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -138,8 +148,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -149,7 +159,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -158,13 +168,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -182,9 +193,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('user-defined-types') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -201,7 +243,6 @@ environment('user-defined-types') ->
          declare option output:method \"xml\";
          declare option output:suppress-indentation \"\";
          declare option output:undeclare-prefixes \"no\";
-         declare option output:use-character-maps \"\";
          <result>ok</result>
         ",
    Qry1 = Qry,
@@ -660,23 +701,15 @@ environment('user-defined-types') ->
    end.
 'Serialization-023'(_Config) ->
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:use-character-maps \"INVALID_VALUE\";
+         declare option output:use-character-maps \"...\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
-      true -> {comment, "XML Deep equal"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   Out =    case xqerl_test:assert_error(Res,"XQST0109") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -750,3 +783,101 @@ environment('user-defined-types') ->
    {skip,"serialization"}.
 'Serialization-032'(_Config) ->
    {skip,"serialization"}.
+'Serialization-033'(_Config) ->
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:indent \"&#x6e;&#x6f;\";
+         <result>ok</result>
+        ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'Serialization-034'(_Config) ->
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:indent \" no \";
+         <result>ok</result>
+        ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'Serialization-035'(_Config) ->
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:parameter-document \"Serialization/serialization-eqnames.xml\";
+         <result>
+           <e xmlns=\"http://example.com/a\">ta</e>
+           <e xmlns=\"http://example.com/b\">tb</e>
+           <e xmlns=\"http://example.com/c\">tc</e>
+           <e xmlns=\"http://example.com/d\">td</e>
+           <e xmlns=\"http://example.com/e\">te</e>
+           <e>tt</e>
+         </result>
+        ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[ta\\]</serialization-matches>", Res]),
+   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tb\\]</serialization-matches>", Res]),
+   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tc\\]</serialization-matches>", Res]),
+   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[td\\]</serialization-matches>", Res]),
+   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+  <serialization-matches>CDATA\\[te\\]</serialization-matches>
+</not>", Res]),
+   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
+  <serialization-matches>CDATA\\[tt\\]</serialization-matches>
+</not>", Res])]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'Serialization-036'(_Config) ->
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:indent \" 0 \";
+         <result>ok</result>
+        ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'Serialization-037'(_Config) ->
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:indent \"1\";
+         <result>ok</result>
+        ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

@@ -159,6 +159,7 @@
 -export(['cbcl-cast-gYearMonth-002'/1]).
 -export(['cbcl-cast-gYear-002'/1]).
 -export(['cbcl-cast-gYear-003'/1]).
+-export(['cbcl-cast-gYear-003a'/1]).
 -export(['cbcl-cast-gYearMonth-003'/1]).
 -export(['cbcl-cast-gYearMonth-004'/1]).
 -export(['cbcl-case-anyUri-001'/1]).
@@ -322,6 +323,7 @@ all() -> [
    'cbcl-cast-gYearMonth-002',
    'cbcl-cast-gYear-002',
    'cbcl-cast-gYear-003',
+   'cbcl-cast-gYear-003a',
    'cbcl-cast-gYearMonth-003',
    'cbcl-cast-gYearMonth-004',
    'cbcl-case-anyUri-001'].
@@ -336,8 +338,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -346,8 +348,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -356,7 +358,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -366,7 +368,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -376,7 +378,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -386,8 +388,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -397,7 +399,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -406,13 +408,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -430,9 +433,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('derived') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -441,8 +475,8 @@ environment('derived') ->
 {modules, []}
 ];
 environment('durations') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/CastExpr/durations.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CastExpr/durations.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1899,21 +1933,7 @@ environment('durations') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nmtoken-001b'(_Config) ->
-   Qry = "for $string in (\"
-	 foobar 
-	\" cast as xs:NMTOKEN) return not(contains($string, '	') or contains($string, '
-') or contains($string, '') or string-length($string) ne 6)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20+"}.
 'cbcl-cast-nmtoken-002'(_Config) ->
    Qry = "xs:NMTOKEN('NMTOKEN') cast as xs:NMTOKEN",
    Qry1 = Qry,
@@ -1998,25 +2018,7 @@ environment('durations') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-normalizedString-001b'(_Config) ->
-   Qry = "
-        for $string in (\" foo 	 bar 
-\" cast as xs:normalizedString)
-        return not(contains($string, '	') or 
-                   contains($string, '
-') or 
-                   contains($string, '') or 
-                   string-length($string) ne 13)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20+"}.
 'cbcl-cast-positiveInteger-001'(_Config) ->
    Qry = "xs:positiveInteger(0)",
    Qry1 = Qry,
@@ -2114,25 +2116,7 @@ environment('durations') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-token-001b'(_Config) ->
-   Qry = "
-        for $string in (\" foo 	 bar 
-\" cast as xs:token) 
-        return not(contains($string, '	') or 
-                   contains($string, '
-') or 
-                   contains($string, '') or 
-                   string-length($string) ne 7)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20+"}.
 'cbcl-cast-unsignedByte-001'(_Config) ->
    Qry = "xs:unsignedByte(256)",
    Qry1 = Qry,
@@ -2393,9 +2377,17 @@ environment('durations') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2419,9 +2411,17 @@ environment('durations') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2545,51 +2545,39 @@ environment('durations') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYear-002'(_Config) ->
-   Qry = "\"0000\" cast as xs:gYear",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'cbcl-cast-gYear-003'(_Config) ->
+   {skip,"XSD 1.0"}.
+'cbcl-cast-gYear-003a'(_Config) ->
    Qry = "\"-0000\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_deep_eq(Res,"xs:gYear('0000')") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYearMonth-003'(_Config) ->
-   Qry = "\"0000-05\" cast as xs:gYearMonth",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'cbcl-cast-gYearMonth-004'(_Config) ->
    Qry = "\"-0000-05\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
+   Out =    case xqerl_test:assert_string_value(Res, "0000-05") of 
+      true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
    case Out of

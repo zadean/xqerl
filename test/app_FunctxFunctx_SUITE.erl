@@ -1274,8 +1274,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1284,8 +1284,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1294,7 +1294,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1304,7 +1304,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1314,7 +1314,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1324,8 +1324,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1335,7 +1335,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1344,13 +1344,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1368,8 +1369,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('functx_book') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/FunctxFn/functx_book.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_book.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -2736,7 +2768,7 @@ environment('functx_book') ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Copies attributes from one element to another : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_copy-attributes.html : @param $copyTo the element to copy attributes to : @param $copyFrom the element to copy attributes from :)
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
-                    let $in-xml := <in-xml> <a>123</a> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b))",
+                    let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2752,7 +2784,7 @@ environment('functx_book') ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Copies attributes from one element to another : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_copy-attributes.html : @param $copyTo the element to copy attributes to : @param $copyFrom the element to copy attributes from :)
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
-                    let $in-xml := <in-xml> <a>123</a> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/b, $in-xml/c))",
+                    let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/b, $in-xml/c))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2768,7 +2800,7 @@ environment('functx_book') ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Copies attributes from one element to another : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_copy-attributes.html : @param $copyTo the element to copy attributes to : @param $copyFrom the element to copy attributes from :)
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
-                    let $in-xml := <in-xml> <a>123</a> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/d, $in-xml/c))",
+                    let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/d, $in-xml/c))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -2784,7 +2816,7 @@ environment('functx_book') ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Copies attributes from one element to another : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_copy-attributes.html : @param $copyTo the element to copy attributes to : @param $copyFrom the element to copy attributes from :)
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
-                    let $in-xml := <in-xml> <a>123</a> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b), functx:copy-attributes( $in-xml/b, $in-xml/c), functx:copy-attributes( $in-xml/d, $in-xml/c))",
+                    let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b), functx:copy-attributes( $in-xml/b, $in-xml/c), functx:copy-attributes( $in-xml/d, $in-xml/c))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -3909,14 +3941,32 @@ environment('functx_book') ->
 'functx-functx-dynamic-path-all'(_Config) ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Dynamically evaluates a simple XPath path : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_dynamic-path.html : @param $parent the root to start from : @param $path the path expression :)
-         declare function functx:dynamic-path ( $parent as node() , $path as xs:string ) as item()* { let $nextStep := functx:substring-before-if-contains($path,'/') let $restOfSteps := substring-after($path,'/') for $child in ($parent/*[functx:name-test(name(),$nextStep)], $parent/@*[functx:name-test(name(), substring-after($nextStep,'@'))]) return if ($restOfSteps) then functx:dynamic-path($child, $restOfSteps) else $child } ;
+         declare function functx:dynamic-path ( $parent as node() , $path as xs:string ) as item()* { 
+            let $nextStep := functx:substring-before-if-contains($path,'/') 
+            let $restOfSteps := substring-after($path,'/') 
+            for $child in ($parent/*[functx:name-test(name(),$nextStep)], $parent/@*[functx:name-test(name(), substring-after($nextStep,'@'))]) 
+            return if ($restOfSteps) then functx:dynamic-path($child, $restOfSteps) else $child 
+         } ;
                     (:~ : Whether a name matches a list of names or name wildcards : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_name-test.html : @param $testname the name to test : @param $names the list of names or name wildcards :)
-         declare function functx:name-test ( $testname as xs:string? , $names as xs:string* ) as xs:boolean { $testname = $names or $names = '*' or functx:substring-after-if-contains($testname,':') = (for $name in $names return substring-after($name,'*:')) or substring-before($testname,':') = (for $name in $names[contains(.,':*')] return substring-before($name,':*')) } ;
+         declare function functx:name-test ( $testname as xs:string? , $names as xs:string* ) as xs:boolean { 
+            $testname = $names or $names = '*' or functx:substring-after-if-contains($testname,':') = (
+               for $name in $names return substring-after($name,'*:')) or substring-before($testname,':') = (for $name in $names[contains(.,':*')] 
+               return substring-before($name,':*')) 
+         } ;
                     (:~ : Performs substring-after, returning the entire string if it does not contain the delimiter : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_substring-after-if-contains.html : @param $arg the string to substring : @param $delim the delimiter :)
-         declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
+         declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { 
+            if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg 
+         } ;
                     (:~ : Performs substring-before, returning the entire string if it does not contain the delimiter : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_substring-before-if-contains.html : @param $arg the string to substring : @param $delim the delimiter :)
-         declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg } ;
-                    let $in-xml := <authors> <author test=\"abc\"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a=\"http://a\">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author/first'), name(functx:dynamic-path( $in-xml,'author/@test')), functx:dynamic-path( $in-xml,'author'), functx:dynamic-path( $in-xml,'author/a:last'))",
+         declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { 
+            if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg 
+         } ;
+         let $in-xml := <authors> <author test=\"abc\"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a=\"http://a\">Doe</a:last> </author> </authors> 
+         return document{(functx:dynamic-path( $in-xml,'author/first'), 
+                 name(functx:dynamic-path( $in-xml,'author/@test')), 
+                 functx:dynamic-path( $in-xml,'author'), 
+                 functx:dynamic-path( $in-xml,'author/a:last'))}
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -5401,9 +5451,24 @@ environment('functx_book') ->
    end.
 'functx-functx-index-of-deep-equal-node-all'(_Config) ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
-                    (:~ : The position of a node in a sequence, based on contents and attributes : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_index-of-deep-equal-node.html : @param $nodes the node sequence : @param $nodeToFind the node to find in the sequence :)
-         declare function functx:index-of-deep-equal-node ( $nodes as node()* , $nodeToFind as node() ) as xs:integer* { for $seq in (1 to count($nodes)) return $seq[deep-equal($nodes[$seq],$nodeToFind)] } ;
-                    let $in-xml := <authors> <author> <fName/> <lName>Smith</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return let $anotherAuthor := <author> <fName>John</fName> <lName>Smith</lName> </author> return (functx:index-of-deep-equal-node( $in-xml/author,$anAuthor), functx:index-of-deep-equal-node( $in-xml/author,$anotherAuthor), functx:index-of-deep-equal-node( $in-xml/author/lName,$anAuthor/lName))",
+                    (:~ : The position of a node in a sequence, based on contents and attributes :
+                        : @author Priscilla Walmsley, Datypic
+                        : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_index-of-deep-equal-node.html
+                        : @param $nodes the node sequence : @param $nodeToFind the node to find in the sequence :)
+                        
+         declare function functx:index-of-deep-equal-node ( $nodes as node()* , $nodeToFind as node() ) as xs:integer* { 
+            for $seq in (1 to count($nodes)) 
+            return $seq[deep-equal($nodes[$seq],$nodeToFind)] 
+         } ;
+         let $in-xml := <authors> <author> <fName/> <lName>Smith</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> 
+         return 
+             let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> 
+             return 
+                 let $anotherAuthor := <author> <fName>John</fName> <lName>Smith</lName> </author> 
+                 return (functx:index-of-deep-equal-node( $in-xml/author,$anAuthor), 
+                         functx:index-of-deep-equal-node( $in-xml/author,$anotherAuthor), 
+                         functx:index-of-deep-equal-node( $in-xml/author/lName,$anAuthor/lName))
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -6929,8 +6994,8 @@ environment('functx_book') ->
    end.
 'functx-functx-leaf-elements-1'(_Config) ->
    Qry = "
-         declare namespace functx = \"http://www.example.com/\";
-         declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
+      	declare namespace functx = \"http://www.example.com/\";
+      	declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
         let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> 
                                  <author> <fName>John</fName> <lName>Doe</lName> </author> 
                        </authors> 
@@ -6949,7 +7014,7 @@ environment('functx_book') ->
    end.
 'functx-functx-leaf-elements-2'(_Config) ->
    Qry = "
-         declare namespace functx = \"http://www.example.com/\";
+      	declare namespace functx = \"http://www.example.com/\";
         declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
         let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> 
                                  <author> <fName>John</fName> <lName>Doe</lName> </author> 
@@ -6969,7 +7034,7 @@ environment('functx_book') ->
    end.
 'functx-functx-leaf-elements-all'(_Config) ->
    Qry = "
-         declare namespace functx = \"http://www.example.com/\";
+      	declare namespace functx = \"http://www.example.com/\";
         declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
         let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> 
                                  <author> <fName>John</fName> <lName>Doe</lName> </author> 
@@ -8013,10 +8078,21 @@ let $lines := 'a
       Err -> ct:fail(Err)
    end.
 'functx-functx-node-kind-all'(_Config) ->
-   Qry = "declare namespace functx = \"http://www.example.com/\";
-                    declare variable $input-context1 external;
-                    (:~ : The XML node kind (element, attribute, text, etc.) : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_node-kind.html : @param $nodes the node(s) whose kind you want to determine :)
-         declare function functx:node-kind ( $nodes as node()* ) as xs:string* { for $node in $nodes return if ($node instance of element()) then 'element' else if ($node instance of attribute()) then 'attribute' else if ($node instance of text()) then 'text' else if ($node instance of document-node()) then 'document-node' else if ($node instance of comment()) then 'comment' else if ($node instance of processing-instruction()) then 'processing-instruction' else 'unknown' } ;
+   Qry = "
+      	declare namespace functx = \"http://www.example.com/\";                    
+                    (:~ : The XML node kind (element, attribute, text, etc.) : 
+                        : @author Priscilla Walmsley, Datypic : @version 1.0
+                        : @see http://www.xqueryfunctions.com/xq/functx_node-kind.html
+                        : @param $nodes the node(s) whose kind you want to determine :)
+         declare function functx:node-kind ( $nodes as node()* ) as xs:string* { 
+         	for $node in $nodes return 
+         		if ($node instance of element()) then 'element' 
+         		else if ($node instance of attribute()) then 'attribute' 
+         		else if ($node instance of text()) then 'text' 
+         		else if ($node instance of document-node()) then 'document-node' 
+         		else if ($node instance of comment()) then 'comment' 
+         		else if ($node instance of processing-instruction()) then 'processing-instruction' 
+         		else 'unknown' } ;
          let $in-xml := <in-xml> <!-- this is in-xml --> <?test see?> <a z=\"2\">xyz</a> </in-xml> 
          return (functx:node-kind($in-xml/a), 
                     functx:node-kind($in-xml/a/@z), 
@@ -10096,7 +10172,9 @@ let $lines := 'a
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Sorts a sequence of numeric values or nodes : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort-as-numeric.html : @param $seq the sequence to sort :)
          declare function functx:sort-as-numeric ( $seq as item()* ) as item()* { for $item in $seq order by number($item) return $item } ;
-                    let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> return (functx:sort-as-numeric(('1','100','99')), functx:sort-as-numeric($in-xml/*))",
+         let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> 
+         return document{(functx:sort-as-numeric(('1','100','99')), functx:sort-as-numeric($in-xml/*))}
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -10143,8 +10221,12 @@ let $lines := 'a
 'functx-functx-sort-case-insensitive-all'(_Config) ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Sorts a sequence of values or nodes regardless of capitalization : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort-case-insensitive.html : @param $seq the sequence to sort :)
-         declare function functx:sort-case-insensitive ( $seq as item()* ) as item()* { for $item in $seq order by upper-case(string($item)) return $item } ;
-                    let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> return (functx:sort-case-insensitive(('a','c','B')), functx:sort-case-insensitive($in-xml/*))",
+         declare function functx:sort-case-insensitive ( $seq as item()* ) as item()* { 
+            for $item in $seq order by upper-case(string($item)) return $item 
+         } ;
+         let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> 
+         return document{(functx:sort-case-insensitive(('a','c','B')), functx:sort-case-insensitive($in-xml/*))}
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -10207,8 +10289,12 @@ let $lines := 'a
 'functx-functx-sort-all'(_Config) ->
    Qry = "declare namespace functx = \"http://www.example.com/\";
                     (:~ : Sorts a sequence of values or nodes : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort.html : @param $seq the sequence to sort :)
-         declare function functx:sort ( $seq as item()* ) as item()* { for $item in $seq order by $item return $item } ;
-                    let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> return (functx:sort(('c','a','b')), functx:sort($in-xml/*))",
+         declare function functx:sort ( $seq as item()* ) as item()* { 
+            for $item in $seq order by $item return $item 
+         };
+         let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> 
+         return document{(functx:sort(('c','a','b')), functx:sort($in-xml/*))}
+       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,

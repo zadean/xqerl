@@ -27,14 +27,19 @@
 -export(['K-VersionProlog-4-v3'/1]).
 -export(['K-VersionProlog-2'/1]).
 -export(['K-VersionProlog-2-v3'/1]).
+-export(['K-VersionProlog-2-v31'/1]).
 -export(['prolog-version-4'/1]).
 -export(['prolog-version-4-v3'/1]).
+-export(['prolog-version-4-v31'/1]).
 -export(['prolog-version-5'/1]).
 -export(['prolog-version-5-v3'/1]).
+-export(['prolog-version-5-v31'/1]).
 -export(['prolog-version-6'/1]).
 -export(['prolog-version-6-v3'/1]).
+-export(['prolog-version-6-v31'/1]).
 -export(['prolog-version-7'/1]).
 -export(['prolog-version-7-v3'/1]).
+-export(['prolog-version-7-v31'/1]).
 -export(['version_declaration-005'/1]).
 -export(['prolog-version-1'/1]).
 -export(['prolog-version-1-v3'/1]).
@@ -45,8 +50,10 @@
 -export(['version_declaration-023-v3'/1]).
 -export(['K2-VersionProlog-1'/1]).
 -export(['K2-VersionProlog-2'/1]).
+-export(['K2-VersionProlog-3-v4'/1]).
 -export(['K2-VersionProlog-4'/1]).
 -export(['K2-VersionProlog-5'/1]).
+-export(['K2-VersionProlog-6'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -75,14 +82,19 @@ all() -> [
    'K-VersionProlog-4-v3',
    'K-VersionProlog-2',
    'K-VersionProlog-2-v3',
+   'K-VersionProlog-2-v31',
    'prolog-version-4',
    'prolog-version-4-v3',
+   'prolog-version-4-v31',
    'prolog-version-5',
    'prolog-version-5-v3',
+   'prolog-version-5-v31',
    'prolog-version-6',
    'prolog-version-6-v3',
+   'prolog-version-6-v31',
    'prolog-version-7',
    'prolog-version-7-v3',
+   'prolog-version-7-v31',
    'version_declaration-005',
    'prolog-version-1',
    'prolog-version-1-v3',
@@ -93,8 +105,10 @@ all() -> [
    'version_declaration-023-v3',
    'K2-VersionProlog-1',
    'K2-VersionProlog-2',
+   'K2-VersionProlog-3-v4',
    'K2-VersionProlog-4',
-   'K2-VersionProlog-5'].
+   'K2-VersionProlog-5',
+   'K2-VersionProlog-6'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -106,8 +120,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -116,8 +130,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -126,7 +140,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -136,7 +150,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -146,7 +160,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -156,8 +170,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -167,7 +181,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -176,13 +190,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -200,8 +215,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('bib2') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/op/union/bib2.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/op/union/bib2.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -358,13 +404,21 @@ environment('bib2') ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-021'(_Config) ->
-   Qry = "xquery version \"2.0\"; 1,2",
+   Qry = "xquery version \"2.0\"; 1.2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XQST0031") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"1.2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XQST0031") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -453,6 +507,19 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'K-VersionProlog-2-v31'(_Config) ->
+   Qry = "xquery version \"3.1\" ; 1 eq 1",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'prolog-version-4'(_Config) ->
    {skip,"XQ10"}.
 'prolog-version-4-v3'(_Config) ->
@@ -468,10 +535,36 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'prolog-version-4-v31'(_Config) ->
+   Qry = "xquery version \"3.1\"; 1,2",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1 2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'prolog-version-5'(_Config) ->
    {skip,"XQ10"}.
 'prolog-version-5-v3'(_Config) ->
    Qry = "xquery version \"3.0\"; <bib/>",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<bib/>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'prolog-version-5-v31'(_Config) ->
+   Qry = "xquery version \"3.1\"; <bib/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -505,6 +598,26 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'prolog-version-6-v31'(_Config) ->
+   Qry = "
+         xquery version '3.1'; 
+         declare boundary-space preserve; 
+         declare default order empty greatest; 
+         declare namespace ns = \"http://www.example.org/\"; 
+         for $b in//book stable order by xs:decimal($b/price[1]) empty greatest 
+         return $b/title",
+   Env = xqerl_test:handle_environment(environment('bib2')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'prolog-version-7'(_Config) ->
    {skip,"XQ10"}.
 'prolog-version-7-v3'(_Config) ->
@@ -515,6 +628,26 @@ environment('bib2') ->
         declare namespace ns = \"http://www.example.org/\"; 
         for $b in //book stable order by xs:decimal($b/price[1]) empty greatest 
         return $b/title",
+   Env = xqerl_test:handle_environment(environment('bib2')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'prolog-version-7-v31'(_Config) ->
+   Qry = "
+         xquery version \"3.1\"; 
+         declare boundary-space preserve; 
+         declare default order empty greatest; 
+         declare namespace ns = \"http://www.example.org/\"; 
+         for $b in //book stable order by xs:decimal($b/price[1]) empty greatest 
+         return $b/title",
    Env = xqerl_test:handle_environment(environment('bib2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -626,6 +759,19 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'K2-VersionProlog-3-v4'(_Config) ->
+   Qry = "xquery version '1&#x2e;0' encoding 'UTF-8'; true()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-VersionProlog-4'(_Config) ->
    Qry = "encoding :localName",
    Qry1 = Qry,
@@ -646,6 +792,19 @@ environment('bib2') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K2-VersionProlog-6'(_Config) ->
+   Qry = "xquery version '1.0' encoding 'UTF&#x2d;8'; true()",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
       {false, F} -> F 
    end, 
    case Out of

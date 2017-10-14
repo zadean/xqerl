@@ -719,7 +719,52 @@
 -export(['K2-SeqExprCastable-7'/1]).
 -export(['K2-SeqExprCastable-8'/1]).
 -export(['Castable-UnionType-1'/1]).
+-export(['Castable-UnionType-2'/1]).
+-export(['Castable-UnionType-3'/1]).
+-export(['Castable-UnionType-4'/1]).
+-export(['Castable-UnionType-5'/1]).
+-export(['Castable-UnionType-6'/1]).
+-export(['Castable-UnionType-7'/1]).
+-export(['Castable-UnionType-8'/1]).
+-export(['Castable-UnionType-9'/1]).
+-export(['Castable-UnionType-10'/1]).
+-export(['Castable-UnionType-11'/1]).
+-export(['Castable-UnionType-12'/1]).
+-export(['Castable-UnionType-13'/1]).
+-export(['Castable-UnionType-14'/1]).
+-export(['Castable-UnionType-15'/1]).
+-export(['Castable-UnionType-16'/1]).
+-export(['Castable-UnionType-17'/1]).
+-export(['Castable-UnionType-18'/1]).
+-export(['Castable-UnionType-19'/1]).
+-export(['Castable-UnionType-20'/1]).
+-export(['Castable-UnionType-21'/1]).
+-export(['Castable-UnionType-22'/1]).
+-export(['Castable-UnionType-23'/1]).
+-export(['Castable-UnionType-24'/1]).
+-export(['Castable-UnionType-25'/1]).
+-export(['Castable-UnionType-26'/1]).
+-export(['Castable-UnionType-36'/1]).
+-export(['Castable-UnionType-37'/1]).
+-export(['Castable-UnionType-38'/1]).
 -export(['Castable-ListType-2'/1]).
+-export(['Castable-ListType-3'/1]).
+-export(['Castable-ListType-4'/1]).
+-export(['Castable-ListType-5'/1]).
+-export(['Castable-ListType-6'/1]).
+-export(['Castable-ListType-7'/1]).
+-export(['Castable-ListType-8'/1]).
+-export(['Castable-ListType-9'/1]).
+-export(['Castable-ListType-10'/1]).
+-export(['Castable-ListType-11'/1]).
+-export(['Castable-ListType-12'/1]).
+-export(['Castable-ListType-13'/1]).
+-export(['Castable-ListType-14'/1]).
+-export(['Castable-ListType-15'/1]).
+-export(['Castable-ListType-16'/1]).
+-export(['Castable-ListType-17'/1]).
+-export(['Castable-ListType-18'/1]).
+-export(['Castable-ListType-19'/1]).
 -export(['cbcl-castable-byte-001'/1]).
 -export(['cbcl-castable-byte-002'/1]).
 -export(['cbcl-castable-byte-003'/1]).
@@ -812,6 +857,106 @@
 -export(['cbcl-castable-gYear-003'/1]).
 -export(['cbcl-castable-gYearMonth-003'/1]).
 -export(['cbcl-castable-gYearMonth-004'/1]).
+-export(['cbcl-castable-ENTITIES-001'/1]).
+-export(['cbcl-castable-ENTITIES-002'/1]).
+-export(['cbcl-castable-ENTITIES-003'/1]).
+-export(['cbcl-castable-ENTITIES-004'/1]).
+-export(['cbcl-castable-ENTITIES-005'/1]).
+-export(['cbcl-castable-ENTITIES-006'/1]).
+-export(['cbcl-castable-ENTITIES-007'/1]).
+-export(['cbcl-castable-ENTITIES-008'/1]).
+-export(['cbcl-castable-ENTITIES-009'/1]).
+-export(['cbcl-castable-ENTITIES-010'/1]).
+-export(['cbcl-castable-ENTITIES-011'/1]).
+-export(['cbcl-castable-ENTITIES-012'/1]).
+-export(['cbcl-castable-ENTITIES-013'/1]).
+-export(['cbcl-castable-ENTITIES-014'/1]).
+-export(['cbcl-castable-ENTITIES-015'/1]).
+-export(['cbcl-castable-ENTITIES-016'/1]).
+-export(['cbcl-castable-ENTITIES-017'/1]).
+-export(['cbcl-castable-ENTITIES-018'/1]).
+-export(['cbcl-castable-ENTITIES-019'/1]).
+-export(['cbcl-castable-ENTITIES-020'/1]).
+-export(['cbcl-castable-NMTOKENS-001'/1]).
+-export(['cbcl-castable-NMTOKENS-002'/1]).
+-export(['cbcl-castable-NMTOKENS-003'/1]).
+-export(['cbcl-castable-NMTOKENS-004'/1]).
+-export(['cbcl-castable-NMTOKENS-005'/1]).
+-export(['cbcl-castable-NMTOKENS-006'/1]).
+-export(['cbcl-castable-NMTOKENS-007'/1]).
+-export(['cbcl-castable-NMTOKENS-008'/1]).
+-export(['cbcl-castable-NMTOKENS-009'/1]).
+-export(['cbcl-castable-NMTOKENS-010'/1]).
+-export(['cbcl-castable-NMTOKENS-011'/1]).
+-export(['cbcl-castable-NMTOKENS-012'/1]).
+-export(['cbcl-castable-NMTOKENS-013'/1]).
+-export(['cbcl-castable-NMTOKENS-014'/1]).
+-export(['cbcl-castable-NMTOKENS-015'/1]).
+-export(['cbcl-castable-NMTOKENS-016'/1]).
+-export(['cbcl-castable-NMTOKENS-017'/1]).
+-export(['cbcl-castable-NMTOKENS-018'/1]).
+-export(['cbcl-castable-NMTOKENS-019'/1]).
+-export(['cbcl-castable-NMTOKENS-020'/1]).
+-export(['cbcl-castable-IDREFS-001'/1]).
+-export(['cbcl-castable-IDREFS-002'/1]).
+-export(['cbcl-castable-IDREFS-003'/1]).
+-export(['cbcl-castable-IDREFS-004'/1]).
+-export(['cbcl-castable-IDREFS-005'/1]).
+-export(['cbcl-castable-IDREFS-006'/1]).
+-export(['cbcl-castable-IDREFS-007'/1]).
+-export(['cbcl-castable-IDREFS-008'/1]).
+-export(['cbcl-castable-IDREFS-009'/1]).
+-export(['cbcl-castable-IDREFS-010'/1]).
+-export(['cbcl-castable-IDREFS-011'/1]).
+-export(['cbcl-castable-IDREFS-012'/1]).
+-export(['cbcl-castable-IDREFS-013'/1]).
+-export(['cbcl-castable-IDREFS-014'/1]).
+-export(['cbcl-castable-IDREFS-015'/1]).
+-export(['cbcl-castable-IDREFS-016'/1]).
+-export(['cbcl-castable-IDREFS-017'/1]).
+-export(['cbcl-castable-IDREFS-018'/1]).
+-export(['cbcl-castable-IDREFS-019'/1]).
+-export(['cbcl-castable-IDREFS-020'/1]).
+-export(['cbcl-castable-impure-001'/1]).
+-export(['cbcl-castable-impure-002'/1]).
+-export(['cbcl-castable-impure-003'/1]).
+-export(['cbcl-castable-impure-004'/1]).
+-export(['cbcl-castable-impure-005'/1]).
+-export(['cbcl-castable-impure-006'/1]).
+-export(['cbcl-castable-impure-007'/1]).
+-export(['cbcl-castable-impure-008'/1]).
+-export(['cbcl-castable-impure-009'/1]).
+-export(['cbcl-castable-impure-010'/1]).
+-export(['cbcl-castable-impure-011'/1]).
+-export(['cbcl-castable-impure-012'/1]).
+-export(['cbcl-castable-impure-013'/1]).
+-export(['cbcl-castable-impure-014'/1]).
+-export(['cbcl-castable-impure-015'/1]).
+-export(['cbcl-castable-impure-016'/1]).
+-export(['cbcl-castable-impure-017'/1]).
+-export(['cbcl-castable-impure-018'/1]).
+-export(['cbcl-castable-impure-019'/1]).
+-export(['cbcl-castable-impure-020'/1]).
+-export(['cbcl-castable-restricted-union-001'/1]).
+-export(['cbcl-castable-restricted-union-002'/1]).
+-export(['cbcl-castable-restricted-union-003'/1]).
+-export(['cbcl-castable-restricted-union-004'/1]).
+-export(['cbcl-castable-restricted-union-005'/1]).
+-export(['cbcl-castable-restricted-union-006'/1]).
+-export(['cbcl-castable-restricted-union-007'/1]).
+-export(['cbcl-castable-restricted-union-008'/1]).
+-export(['cbcl-castable-restricted-union-009'/1]).
+-export(['cbcl-castable-restricted-union-010'/1]).
+-export(['cbcl-castable-restricted-union-011'/1]).
+-export(['cbcl-castable-restricted-union-012'/1]).
+-export(['cbcl-castable-restricted-union-013'/1]).
+-export(['cbcl-castable-restricted-union-014'/1]).
+-export(['cbcl-castable-restricted-union-015'/1]).
+-export(['cbcl-castable-restricted-union-016'/1]).
+-export(['cbcl-castable-restricted-union-017'/1]).
+-export(['cbcl-castable-restricted-union-018'/1]).
+-export(['cbcl-castable-restricted-union-019'/1]).
+-export(['cbcl-castable-restricted-union-020'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -1532,7 +1677,52 @@ all() -> [
    'K2-SeqExprCastable-7',
    'K2-SeqExprCastable-8',
    'Castable-UnionType-1',
+   'Castable-UnionType-2',
+   'Castable-UnionType-3',
+   'Castable-UnionType-4',
+   'Castable-UnionType-5',
+   'Castable-UnionType-6',
+   'Castable-UnionType-7',
+   'Castable-UnionType-8',
+   'Castable-UnionType-9',
+   'Castable-UnionType-10',
+   'Castable-UnionType-11',
+   'Castable-UnionType-12',
+   'Castable-UnionType-13',
+   'Castable-UnionType-14',
+   'Castable-UnionType-15',
+   'Castable-UnionType-16',
+   'Castable-UnionType-17',
+   'Castable-UnionType-18',
+   'Castable-UnionType-19',
+   'Castable-UnionType-20',
+   'Castable-UnionType-21',
+   'Castable-UnionType-22',
+   'Castable-UnionType-23',
+   'Castable-UnionType-24',
+   'Castable-UnionType-25',
+   'Castable-UnionType-26',
+   'Castable-UnionType-36',
+   'Castable-UnionType-37',
+   'Castable-UnionType-38',
    'Castable-ListType-2',
+   'Castable-ListType-3',
+   'Castable-ListType-4',
+   'Castable-ListType-5',
+   'Castable-ListType-6',
+   'Castable-ListType-7',
+   'Castable-ListType-8',
+   'Castable-ListType-9',
+   'Castable-ListType-10',
+   'Castable-ListType-11',
+   'Castable-ListType-12',
+   'Castable-ListType-13',
+   'Castable-ListType-14',
+   'Castable-ListType-15',
+   'Castable-ListType-16',
+   'Castable-ListType-17',
+   'Castable-ListType-18',
+   'Castable-ListType-19',
    'cbcl-castable-byte-001',
    'cbcl-castable-byte-002',
    'cbcl-castable-byte-003',
@@ -1624,7 +1814,107 @@ all() -> [
    'cbcl-castable-gYear-002',
    'cbcl-castable-gYear-003',
    'cbcl-castable-gYearMonth-003',
-   'cbcl-castable-gYearMonth-004'].
+   'cbcl-castable-gYearMonth-004',
+   'cbcl-castable-ENTITIES-001',
+   'cbcl-castable-ENTITIES-002',
+   'cbcl-castable-ENTITIES-003',
+   'cbcl-castable-ENTITIES-004',
+   'cbcl-castable-ENTITIES-005',
+   'cbcl-castable-ENTITIES-006',
+   'cbcl-castable-ENTITIES-007',
+   'cbcl-castable-ENTITIES-008',
+   'cbcl-castable-ENTITIES-009',
+   'cbcl-castable-ENTITIES-010',
+   'cbcl-castable-ENTITIES-011',
+   'cbcl-castable-ENTITIES-012',
+   'cbcl-castable-ENTITIES-013',
+   'cbcl-castable-ENTITIES-014',
+   'cbcl-castable-ENTITIES-015',
+   'cbcl-castable-ENTITIES-016',
+   'cbcl-castable-ENTITIES-017',
+   'cbcl-castable-ENTITIES-018',
+   'cbcl-castable-ENTITIES-019',
+   'cbcl-castable-ENTITIES-020',
+   'cbcl-castable-NMTOKENS-001',
+   'cbcl-castable-NMTOKENS-002',
+   'cbcl-castable-NMTOKENS-003',
+   'cbcl-castable-NMTOKENS-004',
+   'cbcl-castable-NMTOKENS-005',
+   'cbcl-castable-NMTOKENS-006',
+   'cbcl-castable-NMTOKENS-007',
+   'cbcl-castable-NMTOKENS-008',
+   'cbcl-castable-NMTOKENS-009',
+   'cbcl-castable-NMTOKENS-010',
+   'cbcl-castable-NMTOKENS-011',
+   'cbcl-castable-NMTOKENS-012',
+   'cbcl-castable-NMTOKENS-013',
+   'cbcl-castable-NMTOKENS-014',
+   'cbcl-castable-NMTOKENS-015',
+   'cbcl-castable-NMTOKENS-016',
+   'cbcl-castable-NMTOKENS-017',
+   'cbcl-castable-NMTOKENS-018',
+   'cbcl-castable-NMTOKENS-019',
+   'cbcl-castable-NMTOKENS-020',
+   'cbcl-castable-IDREFS-001',
+   'cbcl-castable-IDREFS-002',
+   'cbcl-castable-IDREFS-003',
+   'cbcl-castable-IDREFS-004',
+   'cbcl-castable-IDREFS-005',
+   'cbcl-castable-IDREFS-006',
+   'cbcl-castable-IDREFS-007',
+   'cbcl-castable-IDREFS-008',
+   'cbcl-castable-IDREFS-009',
+   'cbcl-castable-IDREFS-010',
+   'cbcl-castable-IDREFS-011',
+   'cbcl-castable-IDREFS-012',
+   'cbcl-castable-IDREFS-013',
+   'cbcl-castable-IDREFS-014',
+   'cbcl-castable-IDREFS-015',
+   'cbcl-castable-IDREFS-016',
+   'cbcl-castable-IDREFS-017',
+   'cbcl-castable-IDREFS-018',
+   'cbcl-castable-IDREFS-019',
+   'cbcl-castable-IDREFS-020',
+   'cbcl-castable-impure-001',
+   'cbcl-castable-impure-002',
+   'cbcl-castable-impure-003',
+   'cbcl-castable-impure-004',
+   'cbcl-castable-impure-005',
+   'cbcl-castable-impure-006',
+   'cbcl-castable-impure-007',
+   'cbcl-castable-impure-008',
+   'cbcl-castable-impure-009',
+   'cbcl-castable-impure-010',
+   'cbcl-castable-impure-011',
+   'cbcl-castable-impure-012',
+   'cbcl-castable-impure-013',
+   'cbcl-castable-impure-014',
+   'cbcl-castable-impure-015',
+   'cbcl-castable-impure-016',
+   'cbcl-castable-impure-017',
+   'cbcl-castable-impure-018',
+   'cbcl-castable-impure-019',
+   'cbcl-castable-impure-020',
+   'cbcl-castable-restricted-union-001',
+   'cbcl-castable-restricted-union-002',
+   'cbcl-castable-restricted-union-003',
+   'cbcl-castable-restricted-union-004',
+   'cbcl-castable-restricted-union-005',
+   'cbcl-castable-restricted-union-006',
+   'cbcl-castable-restricted-union-007',
+   'cbcl-castable-restricted-union-008',
+   'cbcl-castable-restricted-union-009',
+   'cbcl-castable-restricted-union-010',
+   'cbcl-castable-restricted-union-011',
+   'cbcl-castable-restricted-union-012',
+   'cbcl-castable-restricted-union-013',
+   'cbcl-castable-restricted-union-014',
+   'cbcl-castable-restricted-union-015',
+   'cbcl-castable-restricted-union-016',
+   'cbcl-castable-restricted-union-017',
+   'cbcl-castable-restricted-union-018',
+   'cbcl-castable-restricted-union-019',
+   'cbcl-castable-restricted-union-020'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -1636,8 +1926,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1646,8 +1936,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1656,7 +1946,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1666,7 +1956,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1676,7 +1966,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1686,8 +1976,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1697,7 +1987,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1706,13 +1996,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1730,9 +2021,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('union-List-defined-Types') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/SchemaImport/unionListDefined.xsd","http://www.w3.org/XQueryTest/unionListDefined"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/SchemaImport/unionListDefined.xsd","http://www.w3.org/XQueryTest/unionListDefined"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1741,7 +2063,7 @@ environment('union-List-defined-Types') ->
 {modules, []}
 ];
 environment('acme_corp') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/op/union/acme_corp.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/op/union/acme_corp.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1752,7 +2074,7 @@ environment('acme_corp') ->
 ];
 environment('derived') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -7030,9 +7352,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -7056,9 +7386,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -7199,9 +7537,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -7251,9 +7597,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -7290,9 +7644,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -7329,9 +7691,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -10872,31 +11242,9 @@ environment('derived') ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-6'(_Config) ->
-   Qry = "\"%\" castable as xs:anyURI",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'K2-SeqExprCastable-7'(_Config) ->
-   Qry = "xs:untypedAtomic(\"%\") castable as xs:anyURI",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.0"}.
 'K2-SeqExprCastable-8'(_Config) ->
    Qry = "(\"http:\\\\invalid>URI\\someURI\") castable as xs:anyURI",
    Qry1 = Qry,
@@ -10920,7 +11268,97 @@ environment('derived') ->
    end.
 'Castable-UnionType-1'(_Config) ->
    {skip,"schemaImport"}.
+'Castable-UnionType-2'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-3'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-4'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-5'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-6'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-7'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-8'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-9'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-10'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-11'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-12'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-13'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-14'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-15'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-16'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-17'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-18'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-19'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-20'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-21'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-22'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-23'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-24'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-25'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-26'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-36'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-37'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-UnionType-38'(_Config) ->
+   {skip,"schemaImport"}.
 'Castable-ListType-2'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-3'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-4'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-5'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-6'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-7'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-8'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-9'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-10'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-11'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-12'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-13'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-14'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-15'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-16'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-17'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-18'(_Config) ->
+   {skip,"schemaImport"}.
+'Castable-ListType-19'(_Config) ->
    {skip,"schemaImport"}.
 'cbcl-castable-byte-001'(_Config) ->
    Qry = "128 castable as xs:byte",
@@ -11433,9 +11871,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FOAR0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -11446,9 +11892,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FOAR0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -11638,20 +12092,7 @@ environment('derived') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nmtoken-002b'(_Config) ->
-   Qry = "\"
-	 foobar 
-	\" castable as xs:NMTOKEN",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20+"}.
 'cbcl-castable-nonNegativeInteger-001'(_Config) ->
    Qry = "-1 castable as xs:nonNegativeInteger",
    Qry1 = Qry,
@@ -11891,9 +12332,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FOAR0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -12138,9 +12587,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -12151,9 +12608,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -12164,9 +12629,17 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -12177,11 +12650,219 @@ environment('derived') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"FODT0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'cbcl-castable-ENTITIES-001'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-002'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-003'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-004'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-005'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-006'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-007'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-008'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-009'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-010'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-011'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-012'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-013'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-014'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-015'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-016'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-017'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-018'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-019'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-ENTITIES-020'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-001'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-002'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-003'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-004'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-005'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-006'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-007'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-008'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-009'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-010'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-011'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-012'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-013'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-014'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-015'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-016'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-017'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-018'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-019'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-NMTOKENS-020'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-001'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-002'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-003'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-004'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-005'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-006'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-007'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-008'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-009'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-010'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-011'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-012'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-013'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-014'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-015'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-016'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-017'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-018'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-019'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-IDREFS-020'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-001'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-002'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-003'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-004'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-005'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-006'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-007'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-008'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-009'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-010'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-011'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-012'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-013'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-014'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-015'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-016'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-017'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-018'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-019'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-impure-020'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-001'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-002'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-003'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-004'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-005'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-006'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-007'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-008'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-009'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-010'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-011'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-012'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-013'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-014'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-015'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-016'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-017'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-018'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-019'(_Config) ->
+   {skip,"schemaImport"}.
+'cbcl-castable-restricted-union-020'(_Config) ->
+   {skip,"schemaImport"}.

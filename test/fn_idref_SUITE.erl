@@ -8,6 +8,29 @@
 -export(['fn-idref-2'/1]).
 -export(['fn-idref-3'/1]).
 -export(['fn-idref-4'/1]).
+-export(['fn-idref-5'/1]).
+-export(['fn-idref-6'/1]).
+-export(['fn-idref-7'/1]).
+-export(['fn-idref-8'/1]).
+-export(['fn-idref-9'/1]).
+-export(['fn-idref-10'/1]).
+-export(['fn-idref-11'/1]).
+-export(['fn-idref-12'/1]).
+-export(['fn-idref-13'/1]).
+-export(['fn-idref-14'/1]).
+-export(['fn-idref-15'/1]).
+-export(['fn-idref-16'/1]).
+-export(['fn-idref-17'/1]).
+-export(['fn-idref-18'/1]).
+-export(['fn-idref-19'/1]).
+-export(['fn-idref-20'/1]).
+-export(['fn-idref-21'/1]).
+-export(['fn-idref-23'/1]).
+-export(['fn-idref-30'/1]).
+-export(['fn-idref-31'/1]).
+-export(['fn-idref-32'/1]).
+-export(['fn-idref-33'/1]).
+-export(['fn-idref-34'/1]).
 -export(['fn-idref-dtd-5'/1]).
 -export(['fn-idref-dtd-6'/1]).
 -export(['fn-idref-dtd-7'/1]).
@@ -38,12 +61,35 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/fn/id/copy.xq") catch _:_ -> ok end,Config.
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/copy.xq") catch _:_ -> ok end,Config.
 all() -> [
    'fn-idref-1',
    'fn-idref-2',
    'fn-idref-3',
    'fn-idref-4',
+   'fn-idref-5',
+   'fn-idref-6',
+   'fn-idref-7',
+   'fn-idref-8',
+   'fn-idref-9',
+   'fn-idref-10',
+   'fn-idref-11',
+   'fn-idref-12',
+   'fn-idref-13',
+   'fn-idref-14',
+   'fn-idref-15',
+   'fn-idref-16',
+   'fn-idref-17',
+   'fn-idref-18',
+   'fn-idref-19',
+   'fn-idref-20',
+   'fn-idref-21',
+   'fn-idref-23',
+   'fn-idref-30',
+   'fn-idref-31',
+   'fn-idref-32',
+   'fn-idref-33',
+   'fn-idref-34',
    'fn-idref-dtd-5',
    'fn-idref-dtd-6',
    'fn-idref-dtd-7',
@@ -82,8 +128,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -92,8 +138,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -102,7 +148,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -112,7 +158,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -122,7 +168,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -132,8 +178,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -143,7 +189,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -152,13 +198,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -176,8 +223,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('id-idref-dtd') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/id/iddtd.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/iddtd.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -186,8 +264,28 @@ environment('id-idref-dtd') ->
 {resources, []},
 {modules, []}
 ];
+environment('id-idref') ->
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id.xsd","http://www.w3.org/XQueryTest/ididrefs"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('id-idref3') ->
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id2.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id.xsd","http://www.w3.org/XQueryTest/ididrefs"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('functx_book') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/app/FunctxFn/functx_book.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_book.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -253,6 +351,52 @@ environment('functx_book') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'fn-idref-5'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-6'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-7'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-8'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-9'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-10'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-11'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-12'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-13'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-14'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-15'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-16'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-17'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-18'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-19'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-20'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-21'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-23'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-30'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-31'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-32'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-33'(_Config) ->
+   {skip,"Validation Environment"}.
+'fn-idref-34'(_Config) ->
+   {skip,"Validation Environment"}.
 'fn-idref-dtd-5'(_Config) ->
    Qry = "fn:idref(\"id1\",/IDS[1])/name(..)",
    Env = xqerl_test:handle_environment(environment('id-idref-dtd')),

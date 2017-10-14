@@ -25,6 +25,11 @@
 -export(['nametest-16'/1]).
 -export(['nametest-17'/1]).
 -export(['nametest-18'/1]).
+-export(['nametest-19'/1]).
+-export(['nametest-20'/1]).
+-export(['nametest-21'/1]).
+-export(['nametest-22'/1]).
+-export(['nametest-23'/1]).
 -export(['K-NameTest-1'/1]).
 -export(['K-NameTest-2'/1]).
 -export(['K-NameTest-3'/1]).
@@ -152,6 +157,11 @@ all() -> [
    'nametest-16',
    'nametest-17',
    'nametest-18',
+   'nametest-19',
+   'nametest-20',
+   'nametest-21',
+   'nametest-22',
+   'nametest-23',
    'K-NameTest-1',
    'K-NameTest-2',
    'K-NameTest-3',
@@ -264,8 +274,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -274,8 +284,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -284,7 +294,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -294,7 +304,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -304,7 +314,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -314,8 +324,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -325,7 +335,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -334,13 +344,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -358,8 +369,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('nw_Customers') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/nw_Customers.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/nw_Customers.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -660,6 +702,86 @@ environment('nw_Customers') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<ns1:b xmlns:ns1=\"http://example.org\" attr2=\"abc2\">context2</ns1:b>") of 
       true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'nametest-19'(_Config) ->
+   Qry = "
+      let $e := <a attr1 = \"abc1\" xmlns=\"http://example.org/nametest-19\"/> 
+      return exists($e/self::Q{http://example.org/nametest-19}a)
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'nametest-20'(_Config) ->
+   Qry = "
+      let $e := <a attr1 = \"abc1\"/> 
+      return exists($e/self::Q{}a)
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'nametest-21'(_Config) ->
+   Qry = "
+      let $e := <a attr1 = \"abc1\" xmlns=\"http://example.org/nametest-19\"/> 
+      return exists($e/self::Q{http://example.org/nametest-19}*)
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'nametest-22'(_Config) ->
+   Qry = "
+      let $e := <a attr1 = \"abc1\"/> 
+      return exists($e/self::Q{}*)
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'nametest-23'(_Config) ->
+   Qry = "
+      let $e := <a attr1 = \"abc1\"/> 
+      return exists($e/self::Q{}:*)
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
@@ -1195,26 +1317,100 @@ environment('nw_Customers') ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-30'(_Config) ->
-   Qry = "declare namespace a = \"http://example.com/1\"; declare namespace b = \"http://example.com/2\"; let $e := <e a:n1=\"content\" b:n1=\"content\"> <a:n1/> <b:n1/> <?n1 ?> <n1/> </e> return $e/*:n1",
+   Qry = "
+      	declare namespace a = \"http://example.com/1\"; 
+      	declare namespace b = \"http://example.com/2\"; 
+      	let $e := <e a:n1=\"content\" b:n1=\"content\"> 
+      	            <a:n1/> 
+      	            <b:n1/> 
+      	            <?n1 ?> 
+      	            <n1/> 
+      	          </e> 
+      	return $e/*:n1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<a:n1 xmlns:b=\"http://example.com/2\" xmlns:a=\"http://example.com/1\"/><b:n1 xmlns:b=\"http://example.com/2\" xmlns:a=\"http://example.com/1\"/><n1 xmlns:b=\"http://example.com/2\" xmlns:a=\"http://example.com/1\"/>") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"count($result) = 3") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"namespace-uri($result[1]) = \"http://example.com/1\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"namespace-uri-for-prefix(\"a\", $result[1]) = \"http://example.com/1\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty(namespace-uri-for-prefix(\"b\", $result[1]))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"namespace-uri($result[2]) = \"http://example.com/2\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"namespace-uri-for-prefix(\"b\", $result[2]) = \"http://example.com/2\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty(namespace-uri-for-prefix(\"a\", $result[2]))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"namespace-uri($result[3]) = \"\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty(namespace-uri-for-prefix(\"a\", $result[3]))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty(namespace-uri-for-prefix(\"b\", $result[3]))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-31'(_Config) ->
-   Qry = "declare namespace a = \"http://example.com/1\"; declare namespace b = \"http://example.com/2\"; let $e := <e a:n1=\"content\" b:n1=\"content\"> <a:n1/> <b:n1/> <?n1 ?> <n1/> </e> return $e/a:*",
+   Qry = "
+      	declare namespace a = \"http://example.com/1\"; 
+      	declare namespace b = \"http://example.com/2\"; 
+      	let $e := <e a:n1=\"content\" b:n1=\"content\"> 
+      				<a:n1/> 
+      				<b:n1/> 
+      				<?n1 ?> 
+      				<n1/> 
+      			  </e> 
+      	return $e/a:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<a:n1 xmlns:b=\"http://example.com/2\" xmlns:a=\"http://example.com/1\"/>") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"count($result) = 1") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"namespace-uri($result[1]) = \"http://example.com/1\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"namespace-uri-for-prefix(\"a\", $result[1]) = \"http://example.com/1\"") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"empty(namespace-uri-for-prefix(\"b\", $result[1]))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};

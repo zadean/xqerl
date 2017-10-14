@@ -136,8 +136,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -146,8 +146,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -156,7 +156,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -166,7 +166,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -176,7 +176,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -186,8 +186,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -197,7 +197,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -206,13 +206,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -227,6 +228,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].
@@ -703,7 +735,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-34'(_Config) ->
-   Qry = "declare variable $root := ( <b d=\"\"/>, <c d=\"\"> <c d=\"\"/> </c> ); declare function local:function($object) { $root[@d eq $object/@d] }; $root/local:function(c)",
+   Qry = "
+        declare variable $root := ( <b d=\"\"/>, <c d=\"\"> <c d=\"\"/> </c> ); 
+        declare function local:function($object) { $root[@d eq $object/@d] }; 
+        $root!local:function(c)
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -741,7 +777,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-1'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/*5]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[/*5]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -754,7 +792,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-1a'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[(/)*5]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[(/)*5]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -767,7 +807,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-2'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/<a]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[/<a]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -780,7 +822,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-2a'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[(/)<a]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[(/)<a]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -793,7 +837,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-3'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/<5]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[/<5]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -806,7 +852,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-3a'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[(/)<5]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[(/)<5]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -819,7 +867,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-4'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/</b]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[/</b]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -832,7 +882,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-5'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/<a div 3]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[/<a div 3]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -845,7 +897,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-5a'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[(/)<a div 3]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[(/)<a div 3]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -858,7 +912,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-6'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/if ($doclevel) then / else /*]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; $var[/if ($doclevel) then / else /*]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -871,7 +927,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-7'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; declare variable $a := document {<a>123</a>}; $var[/ is $a]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        declare variable $a := document {<a>123</a>}; $var[/ is $a]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -884,7 +943,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-7a'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; declare variable $a := document {<a>123</a>}; $var[(/) is $a]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        declare variable $a := document {<a>123</a>}; $var[(/) is $a]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -897,7 +959,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-8'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/ instance of document-node(element(x))]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[/ instance of document-node(element(x))]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -910,7 +975,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-8a'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[(/) instance of document-node(element(x))]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[(/) instance of document-node(element(x))]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -923,7 +991,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-9'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; let $doc := / return $doc/*",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        let $doc := / return $doc/*
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -936,7 +1007,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-10'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/*]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[/*]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -949,7 +1023,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-11'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/<a/>]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[/<a/>]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -962,7 +1039,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-12'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/<a div=\"3\"/>]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[/<a div=\"3\"/>]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -975,7 +1055,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-13'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/unordered{a}]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[/unordered{a}]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -988,7 +1071,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-14'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/max(a)]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[/max(a)]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -1001,7 +1087,10 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-15'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; $var[/-5]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        $var[/-5]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -1014,7 +1103,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-16'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; declare variable $a := document {<a>123</a>}; $var[/=$a]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        declare variable $a := document {<a>123</a>}; 
+        $var[/=$a]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -1027,7 +1120,11 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-17'(_Config) ->
-   Qry = "declare variable $var := document {<a>123</a>}; declare variable $a := document {<a>123</a>}; $var[5*/]",
+   Qry = "
+        declare variable $var := document {<a>123</a>}; 
+        declare variable $a := document {<a>123</a>}; 
+        $var[5*/]
+        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,

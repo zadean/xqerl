@@ -75,6 +75,7 @@
 -export(['fn-distinct-values-mixed-args-030'/1]).
 -export(['fn-distinct-values-mixed-args-031'/1]).
 -export(['fn-distinct-values-mixed-args-032'/1]).
+-export(['fn-distinct-values-mixed-args-033'/1]).
 -export(['K-SeqDistinctValuesFunc-1'/1]).
 -export(['K-SeqDistinctValuesFunc-2'/1]).
 -export(['K-SeqDistinctValuesFunc-3'/1]).
@@ -185,6 +186,7 @@ all() -> [
    'fn-distinct-values-mixed-args-030',
    'fn-distinct-values-mixed-args-031',
    'fn-distinct-values-mixed-args-032',
+   'fn-distinct-values-mixed-args-033',
    'K-SeqDistinctValuesFunc-1',
    'K-SeqDistinctValuesFunc-2',
    'K-SeqDistinctValuesFunc-3',
@@ -230,8 +232,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -240,8 +242,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -250,7 +252,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -260,7 +262,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -270,7 +272,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -280,8 +282,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -291,7 +293,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -300,13 +302,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -321,6 +324,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].
@@ -1299,6 +1333,26 @@ environment('math') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'fn-distinct-values-mixed-args-033'(_Config) ->
+   Qry = "
+         count(distinct-values((
+          xs:integer(1),
+          xs:gDay(\"---15\"),
+          xs:gDay(\"---10\"), 
+          xs:decimal(1)
+         )))
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"3") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDistinctValuesFunc-1'(_Config) ->
    Qry = "distinct-values()",
    Qry1 = Qry,
@@ -1607,7 +1661,68 @@ environment('math') ->
 'cbcl-distinct-values-002'(_Config) ->
    {skip,"XQ10"}.
 'cbcl-distinct-values-002b'(_Config) ->
-   Qry = "declare function local:create($arg) as xs:anyAtomicType* { ( if ($arg castable as xs:untypedAtomic) then $arg cast as xs:untypedAtomic else () ), ( if ($arg castable as xs:dateTime) then $arg cast as xs:dateTime else () ), ( if ($arg castable as xs:date) then $arg cast as xs:date else () ), ( if ($arg castable as xs:time) then $arg cast as xs:time else () ), ( if ($arg castable as xs:time) then $arg cast as xs:time else () ), ( if ($arg castable as xs:duration) then $arg cast as xs:duration else () ), ( if ($arg castable as xs:yearMonthDuration) then $arg cast as xs:yearMonthDuration else () ), ( if ($arg castable as xs:dayTimeDuration) then $arg cast as xs:dayTimeDuration else () ), ( if ($arg castable as xs:float) then $arg cast as xs:float else () ), ( if ($arg castable as xs:double) then $arg cast as xs:double else () ), ( if ($arg castable as xs:decimal) then $arg cast as xs:decimal else () ), ( if ($arg castable as xs:integer) then $arg cast as xs:integer else () ), ( if ($arg castable as xs:nonPositiveInteger) then $arg cast as xs:nonPositiveInteger else () ), ( if ($arg castable as xs:negativeInteger) then $arg cast as xs:negativeInteger else () ), ( if ($arg castable as xs:long) then $arg cast as xs:long else () ), ( if ($arg castable as xs:int) then $arg cast as xs:int else () ), ( if ($arg castable as xs:short) then $arg cast as xs:short else () ), ( if ($arg castable as xs:byte) then $arg cast as xs:byte else () ), ( if ($arg castable as xs:byte) then $arg cast as xs:byte else () ), ( if ($arg castable as xs:nonNegativeInteger) then $arg cast as xs:nonNegativeInteger else () ), ( if ($arg castable as xs:unsignedLong) then $arg cast as xs:unsignedLong else () ), ( if ($arg castable as xs:unsignedInt) then $arg cast as xs:unsignedInt else () ), ( if ($arg castable as xs:unsignedShort) then $arg cast as xs:unsignedShort else () ), ( if ($arg castable as xs:unsignedByte) then $arg cast as xs:unsignedByte else () ), ( if ($arg castable as xs:positiveInteger) then $arg cast as xs:positiveInteger else () ), ( if ($arg castable as xs:gYearMonth) then $arg cast as xs:gYearMonth else () ), ( if ($arg castable as xs:gYear) then $arg cast as xs:gYear else () ), ( if ($arg castable as xs:gMonthDay) then $arg cast as xs:gMonthDay else () ), ( if ($arg castable as xs:gDay) then $arg cast as xs:gDay else () ), ( if ($arg castable as xs:gMonth) then $arg cast as xs:gMonth else () ), ( if ($arg castable as xs:string) then $arg cast as xs:string else () ), ( if ($arg castable as xs:normalizedString) then $arg cast as xs:normalizedString else () ), ( if ($arg castable as xs:token) then $arg cast as xs:token else () ), ( if ($arg castable as xs:language) then $arg cast as xs:language else () ), ( if ($arg castable as xs:NMTOKEN) then $arg cast as xs:NMTOKEN else () ), ( if ($arg castable as xs:Name) then $arg cast as xs:Name else () ), ( if ($arg castable as xs:NCName) then $arg cast as xs:NCName else () ), ( if ($arg castable as xs:ID) then $arg cast as xs:ID else () ), ( if ($arg castable as xs:IDREF) then $arg cast as xs:IDREF else () ), ( if ($arg castable as xs:ENTITY) then $arg cast as xs:ENTITY else () ), ( if ($arg castable as xs:boolean) then $arg cast as xs:boolean else () ), ( if ($arg castable as xs:base64Binary) then $arg cast as xs:base64Binary else () ), ( if ($arg castable as xs:hexBinary) then $arg cast as xs:hexBinary else () ), ( if ($arg castable as xs:QName) then $arg cast as xs:QName else () ) }; for $value in fn:distinct-values( ( local:create(0), local:create(-1), local:create(1), local:create(3.141), local:create(3.141e0), local:create(3.333), local:create(3.141e0), local:create(3.333e2), local:create('NaN'), local:create('zero'), local:create('false'), local:create('true'), local:create('http://www.example.com/'), local:create('2008-06-01'), local:create('1972-06-01Z'), local:create('2008-06-01T12:00:00'), local:create('1972-06-01T12:00:00+01:00'), local:create('00:00:00'), local:create('12:00:00'), local:create('2008'), local:create('1972Z'), local:create('--06'), local:create('--12Z'), local:create('2008-06'), local:create('1972-12Z'), local:create('--06-01'), local:create('--12-15Z'), local:create('---01'), local:create('---15Z'), local:create('P20Y15M'), local:create('P10Y15M'), local:create('-P2DT15H0M0S'), local:create('-P1DT15H0M0S'), local:create(fn:QName(\"http://www.example.com/example\", \"person\")), local:create(fn:QName(\"http://www.example.com/example\", \"ht:person\")), local:create('-P2DT15H0M0S'), local:create('FFFEFDFC'), local:create('aGVsbG8=') )) order by string($value) return $value",
+   Qry = "
+      	declare function local:create($arg) as xs:anyAtomicType* { 
+      		( if ($arg castable as xs:untypedAtomic) then $arg cast as xs:untypedAtomic else () ), 
+      		( if ($arg castable as xs:dateTime) then $arg cast as xs:dateTime else () ), 
+      		( if ($arg castable as xs:date) then $arg cast as xs:date else () ), 
+      		( if ($arg castable as xs:time) then $arg cast as xs:time else () ), 
+      		( if ($arg castable as xs:time) then $arg cast as xs:time else () ), 
+      		( if ($arg castable as xs:duration) then $arg cast as xs:duration else () ), 
+      		( if ($arg castable as xs:yearMonthDuration) then $arg cast as xs:yearMonthDuration else () ), 
+      		( if ($arg castable as xs:dayTimeDuration) then $arg cast as xs:dayTimeDuration else () ), 
+      		( if ($arg castable as xs:float) then $arg cast as xs:float else () ), 
+      		( if ($arg castable as xs:double) then $arg cast as xs:double else () ), 
+      		( if ($arg castable as xs:decimal) then $arg cast as xs:decimal else () ), 
+      		( if ($arg castable as xs:integer) then $arg cast as xs:integer else () ), 
+      		( if ($arg castable as xs:nonPositiveInteger) then $arg cast as xs:nonPositiveInteger else () ), 
+      		( if ($arg castable as xs:negativeInteger) then $arg cast as xs:negativeInteger else () ), 
+      		( if ($arg castable as xs:long) then $arg cast as xs:long else () ), 
+      		( if ($arg castable as xs:int) then $arg cast as xs:int else () ), 
+      		( if ($arg castable as xs:short) then $arg cast as xs:short else () ), 
+      		( if ($arg castable as xs:byte) then $arg cast as xs:byte else () ), 
+      		( if ($arg castable as xs:byte) then $arg cast as xs:byte else () ), 
+      		( if ($arg castable as xs:nonNegativeInteger) then $arg cast as xs:nonNegativeInteger else () ), 
+      		( if ($arg castable as xs:unsignedLong) then $arg cast as xs:unsignedLong else () ), 
+      		( if ($arg castable as xs:unsignedInt) then $arg cast as xs:unsignedInt else () ), 
+      		( if ($arg castable as xs:unsignedShort) then $arg cast as xs:unsignedShort else () ), 
+      		( if ($arg castable as xs:unsignedByte) then $arg cast as xs:unsignedByte else () ), 
+      		( if ($arg castable as xs:positiveInteger) then $arg cast as xs:positiveInteger else () ), 
+      		( if ($arg castable as xs:gYearMonth) then $arg cast as xs:gYearMonth else () ), 
+      		( if ($arg castable as xs:gYear) then $arg cast as xs:gYear else () ), 
+      		( if ($arg castable as xs:gMonthDay) then $arg cast as xs:gMonthDay else () ), 
+      		( if ($arg castable as xs:gDay) then $arg cast as xs:gDay else () ), 
+      		( if ($arg castable as xs:gMonth) then $arg cast as xs:gMonth else () ), 
+      		( if ($arg castable as xs:string) then $arg cast as xs:string else () ), 
+      		( if ($arg castable as xs:normalizedString) then $arg cast as xs:normalizedString else () ), 
+      		( if ($arg castable as xs:token) then $arg cast as xs:token else () ), 
+      		( if ($arg castable as xs:language) then $arg cast as xs:language else () ), 
+      		( if ($arg castable as xs:NMTOKEN) then $arg cast as xs:NMTOKEN else () ), 
+      		( if ($arg castable as xs:Name) then $arg cast as xs:Name else () ), 
+      		( if ($arg castable as xs:NCName) then $arg cast as xs:NCName else () ), 
+      		( if ($arg castable as xs:ID) then $arg cast as xs:ID else () ), 
+      		( if ($arg castable as xs:IDREF) then $arg cast as xs:IDREF else () ), 
+      		( if ($arg castable as xs:ENTITY) then $arg cast as xs:ENTITY else () ), 
+      		( if ($arg castable as xs:boolean) then $arg cast as xs:boolean else () ), 
+      		( if ($arg castable as xs:base64Binary) then $arg cast as xs:base64Binary else () ), 
+      		( if ($arg castable as xs:hexBinary) then $arg cast as xs:hexBinary else () ), 
+      		( if ($arg castable as xs:QName) then $arg cast as xs:QName else () ) 
+      	}; 
+      	for $value in fn:distinct-values( ( 
+      		local:create(0), local:create(-1), local:create(1), local:create(3.141), 
+      		local:create(3.141e0), local:create(3.333), local:create(3.141e0), 
+      		local:create(3.333e2), local:create('NaN'), local:create('zero'), 
+      		local:create('false'), local:create('true'), local:create('http://www.example.com/'), 
+      		local:create('2008-06-01'), local:create('1972-06-01Z'), local:create('2008-06-01T12:00:00'), 
+      		local:create('1972-06-01T12:00:00+01:00'), local:create('00:00:00'), local:create('12:00:00'), 
+      		local:create('2008'), local:create('1972Z'), local:create('--06'), local:create('--12Z'), 
+      		local:create('2008-06'), local:create('1972-12Z'), local:create('--06-01'), 
+      		local:create('--12-15Z'), local:create('---01'), local:create('---15Z'), 
+      		local:create('P20Y15M'), local:create('P10Y15M'), local:create('-P2DT15H0M0S'), 
+      		local:create('-P1DT15H0M0S'), local:create(fn:QName(\"http://www.example.com/example\", \"person\")), 
+      		local:create(fn:QName(\"http://www.example.com/example\", \"ht:person\")), 
+      		local:create('-P2DT15H0M0S'), local:create('FFFEFDFC'), local:create('aGVsbG8=') )) 
+      	order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,

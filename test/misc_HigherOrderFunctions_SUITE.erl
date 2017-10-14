@@ -130,12 +130,15 @@
 -export(['xqhof17'/1]).
 -export(['xqhof18'/1]).
 -export(['xqhof19'/1]).
+-export(['xqhof20'/1]).
+-export(['xqhof21'/1]).
+-export(['xqhof22'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/HigherOrderFunctions/module-hof-003.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/HigherOrderFunctions/functional.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3_1_0/misc/HigherOrderFunctions/module-xqhof16.xq") catch _:_ -> ok end,Config.
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/misc/HigherOrderFunctions/module-hof-003.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/misc/HigherOrderFunctions/functional.xq") catch _:_ -> ok end
+, try  xqerl:compile("C:/git/zadean/xquery-3.1/QT3-test-suite/misc/HigherOrderFunctions/module-xqhof16.xq") catch _:_ -> ok end,Config.
 all() -> [
    'hof-001',
    'hof-002',
@@ -262,7 +265,10 @@ all() -> [
    'xqhof16',
    'xqhof17',
    'xqhof18',
-   'xqhof19'].
+   'xqhof19',
+   'xqhof20',
+   'xqhof21',
+   'xqhof22'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -274,8 +280,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -284,8 +290,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -294,7 +300,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -304,7 +310,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -314,7 +320,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -324,8 +330,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -335,7 +341,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -344,13 +350,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -368,9 +375,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('user-defined-types') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -971,26 +1009,7 @@ environment('user-defined-types') ->
       Err -> ct:fail(Err)
    end.
 'hof-039'(_Config) ->
-   Qry = "
-      	declare function local:f($x as xs:long, $y as xs:NCName) as element(e)? { <e x=\"{$x}\" y=\"{$y}\"/> }; 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element()?, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element()*, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType?)*, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType?)?, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "true true true true true false") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"typedData"}.
 'hof-040'(_Config) ->
    Qry = "
       declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; 
@@ -1221,30 +1240,7 @@ environment('user-defined-types') ->
       Err -> ct:fail(Err)
    end.
 'hof-053'(_Config) ->
-   Qry = "
-      	declare function local:f($x as xs:long, $y as xs:NCName) as element(e, xs:anyAtomicType) { <e x=\"{$x}\" y=\"{$y}\"/> }; 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(), 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element()+, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element()?, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element()*, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType?)*, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType?)?, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType)*, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType)?, 
-      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "true true true true true true true true true false") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"typedData"}.
 'hof-901'(_Config) ->
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
@@ -2558,6 +2554,77 @@ return string($a)
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lib\", \"main\", \"main\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xqhof20'(_Config) ->
+   Qry = "
+          let $m := map {
+                \"Tuesday\" : true(),
+                \"Wednesday\" : true(),
+                \"Thursday\" : false(),
+                \"Friday\" : true(),
+                \"Monday\" : true(),
+                \"Sunday\" : false(),
+                \"Saturday\" : false() }
+          let $days := (\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\")     
+          return fn:filter($days,$m)        
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"Monday\", \"Tuesday\", \"Wednesday\", \"Friday\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xqhof21'(_Config) ->
+   Qry = "
+          let $m := map {
+                \"Tuesday\" : true(),
+                \"Wednesday\" : true(),
+                \"Friday\" : true(),
+                \"Monday\" : true(),
+                \"Sunday\" : false(),
+                \"Saturday\" : false() }
+          let $days := (\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\")     
+          return fn:filter($days,$m)        
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xqhof22'(_Config) ->
+   Qry = "
+          let $m := array {
+                true(),
+                true(),
+                false(),
+                true(),
+                true(),
+                false(),
+                false() }
+          let $indices := (1 to 7)
+          return fn:filter($indices,$m)        
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
    end, 

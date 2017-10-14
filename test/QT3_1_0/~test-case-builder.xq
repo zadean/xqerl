@@ -138,7 +138,7 @@ declare function local:print-testcase($test-case)
   (: $test-case/../*:environment[*:source[@validation]]/@name :)
   let $inscope-schema-envs := 
     ($test-case/../*:environment[*:source[@validation]]/@name union 
-     doc("catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
+     doc("/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
   let $name := $test-case/@name
   let $deps := $test-case/*:dependency | $test-case/../*:dependency (: < type="feature" value="schemaImport"/> :)
   let $env  := $test-case/*:environment/@ref/string()
@@ -156,6 +156,10 @@ declare function local:print-testcase($test-case)
     "   {skip,""higherOrderFunctions""}" :)
     (: else if ($deps[@type = "feature" and @value = "moduleImport"]) then 
     "   {skip,""moduleImport""}" :)
+    else if ($deps[@type = "feature" and @value = "fn-load-xquery-module" and @satisfied = "true" ]) then
+    "   {skip,""load-xquery-module""}"
+    else if ($deps[@type = "feature" and @value = "fn-transform-XSLT" and @satisfied = "true" ]) then
+    "   {skip,""fn-transform-XSLT""}"
     else if ($deps[@type = "feature" and @value = "schemaValidation"]) then 
     "   {skip,""schemaValidation""}"
     else if ($deps[@type = "feature" and @value = "schemaImport"]) then
@@ -413,7 +417,7 @@ declare function local:mask-string($text)
 
 (: Erlang SUITE :)
 (
-let $doc := doc("catalog.xml")
+let $doc := doc("/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml")
 let $globalEnvs := $doc/*:catalog/*:environment
 for $ts in$doc/*:catalog/*:test-set(: [@name = "prod-AxisStep.abbr"] :)
 let $file := resolve-uri($ts/@file, base-uri($ts)) 

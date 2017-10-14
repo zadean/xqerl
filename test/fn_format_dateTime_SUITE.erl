@@ -72,6 +72,14 @@
 -export(['format-dateTime-016'/1]).
 -export(['format-dateTime-017'/1]).
 -export(['format-dateTime-018'/1]).
+-export(['format-dateTime-019a'/1]).
+-export(['format-dateTime-019b'/1]).
+-export(['format-dateTime-019c'/1]).
+-export(['format-dateTime-019d'/1]).
+-export(['format-dateTime-019e'/1]).
+-export(['format-dateTime-019f'/1]).
+-export(['format-dateTime-019g'/1]).
+-export(['format-dateTime-019h'/1]).
 -export(['format-dateTime-801err'/1]).
 -export(['format-dateTime-en141'/1]).
 -export(['format-dateTime-en142'/1]).
@@ -81,6 +89,7 @@
 -export(['format-dateTime-inpt-er1'/1]).
 -export(['format-dateTime-inpt-er2'/1]).
 -export(['format-dateTime-inpt-er3'/1]).
+-export(['format-dateTime-inpt-er4'/1]).
 -export(['format-dateTime-1340err'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
@@ -155,6 +164,14 @@ all() -> [
    'format-dateTime-016',
    'format-dateTime-017',
    'format-dateTime-018',
+   'format-dateTime-019a',
+   'format-dateTime-019b',
+   'format-dateTime-019c',
+   'format-dateTime-019d',
+   'format-dateTime-019e',
+   'format-dateTime-019f',
+   'format-dateTime-019g',
+   'format-dateTime-019h',
    'format-dateTime-801err',
    'format-dateTime-en141',
    'format-dateTime-en142',
@@ -164,6 +181,7 @@ all() -> [
    'format-dateTime-inpt-er1',
    'format-dateTime-inpt-er2',
    'format-dateTime-inpt-er3',
+   'format-dateTime-inpt-er4',
    'format-dateTime-1340err'].
 environment('empty') ->
 [{sources, []},
@@ -176,8 +194,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -186,8 +204,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -196,7 +214,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -206,7 +224,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -216,7 +234,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -226,8 +244,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -237,7 +255,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -246,13 +264,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -267,6 +286,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].
@@ -570,7 +620,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.5") of 
+   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -592,7 +642,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.5") of 
+   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -614,7 +664,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.46") of 
+   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.45") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -922,7 +972,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.5") of 
+   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -944,7 +994,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.5") of 
+   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -966,7 +1016,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.46") of 
+   Out =    case xqerl_test:assert_string_value(Res, "9:15:06.45") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -1084,7 +1134,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_norm_string_value(Res, "dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii; cmlxx; cmlxxxvii; miv; mxxi; mxxxviii; mlv; mlxxii; mlxxxix; mcvi; mcxxiii; mcxl; mclvii; mclxxiv; mcxci; mccviii; mccxxv; mccxlii; mcclix; mcclxxvi; mccxciii; mcccx; mcccxxvii; mcccxliv; mccclxi; mccclxxviii; mcccxcv; mcdxii; mcdxxix; mcdxlvi; mcdlxiii; mcdlxxx; mcdxcvii; mdxiv; mdxxxi; mdxlviii; mdlxv; mdlxxxii; mdxcix; mdcxvi; mdcxxxiii; mdcl; mdclxvii; mdclxxxiv; mdcci; mdccxviii; mdccxxxv; mdcclii; mdcclxix; mdcclxxxvi; mdccciii; mdcccxx; mdcccxxxvii; mdcccliv; mdccclxxi; mdccclxxxviii; mcmv; mcmxxii; mcmxxxix; mcmlvi; mcmlxxiii; mcmxc; mmvii; mmxxiv; mmxli; mmlviii; mmlxxv; mmxcii; mmcix; mmcxxvi; mmcxliii; mmclx; mmclxxvii; mmcxciv; mmccxi; mmccxxviii; mmccxlv; mmcclxii; mmcclxxix; mmccxcvi; mmcccxiii; mmcccxxx; mmcccxlvii; mmccclxiv; mmccclxxxi; mmcccxcviii; mmcdxv; mmcdxxxii; mmcdxlix; mmcdlxvi; mmcdlxxxiii; mmd") of 
+   Out =    case xqerl_test:assert_norm_string_value(Res, "dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii; cmlxx; cmlxxxvii; iv ; xxi; xxxviii; lv ; lxxii; lxxxix; cvi; cxxiii; cxl; clvii; clxxiv; cxci; ccviii; ccxxv; ccxlii; cclix; cclxxvi; ccxciii; cccx; cccxxvii; cccxliv; ccclxi; ccclxxviii; cccxcv; cdxii; cdxxix; cdxlvi; cdlxiii; cdlxxx; cdxcvii; dxiv; dxxxi; dxlviii; dlxv; dlxxxii; dxcix; dcxvi; dcxxxiii; dcl; dclxvii; dclxxxiv; dcci; dccxviii; dccxxxv; dcclii; dcclxix; dcclxxxvi; dccciii; dcccxx; dcccxxxvii; dcccliv; dccclxxi; dccclxxxviii; cmv; cmxxii; cmxxxix; cmlvi; cmlxxiii; cmxc; vii; xxiv; xli; lviii; lxxv; xcii; cix; cxxvi; cxliii; clx; clxxvii; cxciv; ccxi; ccxxviii; ccxlv; cclxii; cclxxix; ccxcvi; cccxiii; cccxxx; cccxlvii; ccclxiv; ccclxxxi; cccxcviii; cdxv; cdxxxii; cdxlix; cdlxvi; cdlxxxiii; d") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -1179,7 +1229,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_norm_string_value(Res, "[2006-01-01T12:00:00: 5 [2006-02-01T12:00:00: 1 [2006-03-01T12:00:00: 1 [2006-04-01T12:00:00: 5 [2006-05-01T12:00:00: 1 [2006-06-01T12:00:00: 1 [2006-07-01T12:00:00: 5 [2006-08-01T12:00:00: 1 [2006-09-01T12:00:00: 5 [2006-10-01T12:00:00: 5 [2006-11-01T12:00:00: 1 [2006-12-01T12:00:00: 5 [2007-01-01T12:00:00: 1 [2007-02-01T12:00:00: 1 [2007-03-01T12:00:00: 1 [2007-04-01T12:00:00: 5 [2007-05-01T12:00:00: 1 [2007-06-01T12:00:00: 5 [2007-07-01T12:00:00: 5 [2007-08-01T12:00:00: 1 [2007-09-01T12:00:00: 5 [2007-10-01T12:00:00: 1 [2007-11-01T12:00:00: 1 [2007-12-01T12:00:00: 5 [2008-01-01T12:00:00: 1 [2008-02-01T12:00:00: 5 [2008-03-01T12:00:00: 5 [2008-04-01T12:00:00: 1 [2008-05-01T12:00:00: 1 [2008-06-01T12:00:00: 5 [2008-07-01T12:00:00: 1 [2008-08-01T12:00:00: 5 [2008-09-01T12:00:00: 1 [2008-10-01T12:00:00: 1 [2008-11-01T12:00:00: 5 [2008-12-01T12:00:00: 1 [2009-01-01T12:00:00: 1 [2009-02-01T12:00:00: 5 [2009-03-01T12:00:00: 5 [2009-04-01T12:00:00: 1 [2009-05-01T12:00:00: 5 [2009-06-01T12:00:00: 1 [2009-07-01T12:00:00: 1 [2009-08-01T12:00:00: 5 [2009-09-01T12:00:00: 1 [2009-10-01T12:00:00: 1 [2009-11-01T12:00:00: 5 [2009-12-01T12:00:00: 1") of 
+   Out =    case xqerl_test:assert_norm_string_value(Res, "[2006-01-01T12:00:00: 5 [2006-02-01T12:00:00: 1 [2006-03-01T12:00:00: 1 [2006-04-01T12:00:00: 5 [2006-05-01T12:00:00: 1 [2006-06-01T12:00:00: 1 [2006-07-01T12:00:00: 5 [2006-08-01T12:00:00: 1 [2006-09-01T12:00:00: 5 [2006-10-01T12:00:00: 4 [2006-11-01T12:00:00: 1 [2006-12-01T12:00:00: 5 [2007-01-01T12:00:00: 1 [2007-02-01T12:00:00: 1 [2007-03-01T12:00:00: 1 [2007-04-01T12:00:00: 5 [2007-05-01T12:00:00: 1 [2007-06-01T12:00:00: 5 [2007-07-01T12:00:00: 4 [2007-08-01T12:00:00: 1 [2007-09-01T12:00:00: 5 [2007-10-01T12:00:00: 1 [2007-11-01T12:00:00: 1 [2007-12-01T12:00:00: 5 [2008-01-01T12:00:00: 1 [2008-02-01T12:00:00: 5 [2008-03-01T12:00:00: 4 [2008-04-01T12:00:00: 1 [2008-05-01T12:00:00: 1 [2008-06-01T12:00:00: 5 [2008-07-01T12:00:00: 1 [2008-08-01T12:00:00: 5 [2008-09-01T12:00:00: 1 [2008-10-01T12:00:00: 1 [2008-11-01T12:00:00: 5 [2008-12-01T12:00:00: 1 [2009-01-01T12:00:00: 1 [2009-02-01T12:00:00: 5 [2009-03-01T12:00:00: 4 [2009-04-01T12:00:00: 1 [2009-05-01T12:00:00: 5 [2009-06-01T12:00:00: 1 [2009-07-01T12:00:00: 1 [2009-08-01T12:00:00: 5 [2009-09-01T12:00:00: 1 [2009-10-01T12:00:00: 1 [2009-11-01T12:00:00: 5 [2009-12-01T12:00:00: 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -1598,7 +1648,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "46") of 
+   Out =    case xqerl_test:assert_string_value(Res, "45") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -1642,7 +1692,7 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "46") of 
+   Out =    case xqerl_test:assert_string_value(Res, "45") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 
@@ -1797,6 +1847,126 @@ environment('math') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'format-dateTime-019a'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'America/New_York')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 07:00 -05:00'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-019b'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'America/New_York')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 08:00 -04:00'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-019c'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'America/New_York')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 07:00 EST'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-019d'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'America/New_York')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 08:00 EDT'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-019e'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'Europe/Paris')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 13:00 +01:00'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-019f'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'Europe/Paris')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 14:00 +02:00'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-019g'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'Europe/Paris')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 13:00 CET'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-019h'(_Config) ->
+   Qry = "
+         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'Europe/Paris')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 14:00 CEST'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'format-dateTime-801err'(_Config) ->
    Qry = "format-dateTime(current-dateTime(), '[bla]', 'en', (), ())",
    Qry1 = Qry,
@@ -1926,9 +2096,17 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "[Language: en]March") of 
-      true -> {comment, "String correct"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"matches($result, \"en\")") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"matches($result, \"March\")") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1948,9 +2126,17 @@ environment('math') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "[Calendar: AD]03") of 
-      true -> {comment, "String correct"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"matches($result, \"AD\")") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"matches($result, \"03\")") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1988,6 +2174,19 @@ environment('math') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'format-dateTime-inpt-er4'(_Config) ->
+   Qry = "format-dateTime(current-dateTime(), \"[D01]\", \"\")",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 

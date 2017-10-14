@@ -108,6 +108,8 @@
 -export(['K2-DirectConElemContent-24'/1]).
 -export(['K2-DirectConElemContent-25'/1]).
 -export(['K2-DirectConElemContent-26'/1]).
+-export(['K2-DirectConElemContent-26a'/1]).
+-export(['K2-DirectConElemContent-26b'/1]).
 -export(['K2-DirectConElemContent-27'/1]).
 -export(['K2-DirectConElemContent-28'/1]).
 -export(['K2-DirectConElemContent-29'/1]).
@@ -117,6 +119,8 @@
 -export(['K2-DirectConElemContent-33'/1]).
 -export(['K2-DirectConElemContent-34'/1]).
 -export(['K2-DirectConElemContent-35'/1]).
+-export(['K2-DirectConElemContent-35a'/1]).
+-export(['K2-DirectConElemContent-35b'/1]).
 -export(['K2-DirectConElemContent-36'/1]).
 -export(['K2-DirectConElemContent-37'/1]).
 -export(['K2-DirectConElemContent-38'/1]).
@@ -131,6 +135,8 @@
 -export(['K2-DirectConElemContent-47'/1]).
 -export(['K2-DirectConElemContent-48'/1]).
 -export(['cbcl-ns-fixup-1'/1]).
+-export(['ElemContentArray-001'/1]).
+-export(['ElemContentArray-002'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -240,6 +246,8 @@ all() -> [
    'K2-DirectConElemContent-24',
    'K2-DirectConElemContent-25',
    'K2-DirectConElemContent-26',
+   'K2-DirectConElemContent-26a',
+   'K2-DirectConElemContent-26b',
    'K2-DirectConElemContent-27',
    'K2-DirectConElemContent-28',
    'K2-DirectConElemContent-29',
@@ -249,6 +257,8 @@ all() -> [
    'K2-DirectConElemContent-33',
    'K2-DirectConElemContent-34',
    'K2-DirectConElemContent-35',
+   'K2-DirectConElemContent-35a',
+   'K2-DirectConElemContent-35b',
    'K2-DirectConElemContent-36',
    'K2-DirectConElemContent-37',
    'K2-DirectConElemContent-38',
@@ -262,7 +272,9 @@ all() -> [
    'K2-DirectConElemContent-46',
    'K2-DirectConElemContent-47',
    'K2-DirectConElemContent-48',
-   'cbcl-ns-fixup-1'].
+   'cbcl-ns-fixup-1',
+   'ElemContentArray-001',
+   'ElemContentArray-002'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -274,8 +286,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -284,8 +296,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -294,7 +306,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -304,7 +316,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -314,7 +326,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -324,8 +336,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -335,7 +347,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -344,13 +356,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -368,8 +381,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('TopMany') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/AxisStep/TopMany.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -379,7 +423,7 @@ environment('TopMany') ->
 {modules, []}
 ];
 environment('DupNode') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/CompAttrConstructor/DupNode.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompAttrConstructor/DupNode.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -389,7 +433,7 @@ environment('DupNode') ->
 {modules, []}
 ];
 environment('nsmode') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/DirElemContent/nsmode.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/DirElemContent/nsmode.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -399,8 +443,8 @@ environment('nsmode') ->
 {modules, []}
 ];
 environment('namespace-sensitive') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/DirElemContent/namespace-sensitive.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/DirElemContent/namespace-sensitive.xsd","http://www.example.com/test/namespace-sensitive"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/DirElemContent/namespace-sensitive.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/DirElemContent/namespace-sensitive.xsd","http://www.example.com/test/namespace-sensitive"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1242,22 +1286,36 @@ environment('namespace-sensitive') ->
    end.
 'Constr-cont-document-3'(_Config) ->
    Qry = "
-        (:declare variable $codepoints as xs:integer+ := (9, 10, 13, 32 to 55295, 57344 to 65532, 65536 to 1114111 ); 
+        declare variable $codepoints as xs:integer+ := (9, 10, 13, 32 to 55295, 57344 to 65532, 65536 to 1114111 ); 
         declare variable $count as xs:integer := count($codepoints); 
         declare variable $lineWidth as xs:integer := 70;
         <allCodepoints><r>{codepoints-to-string($codepoints)}</r></allCodepoints> 
-        <allCodepoints>{ 
+        (:<allCodepoints>{ 
             for $i in (1 to $count idiv $lineWidth) 
             let $startOffset := (($i - 1) * $lineWidth) + 1 
             return (<r s=\"{$codepoints[$startOffset]}\" e=\"{$codepoints[$startOffset] + $lineWidth}\"> { 
                 codepoints-to-string(subsequence($codepoints, $startOffset, $lineWidth)) } </r>, \"&#xA;\") 
                 } </allCodepoints>:)
-                'skip'
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<assert-string xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">skip</assert-string>", Res]), 
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"sum($result//r/text()/string-length()) = count((9, 10, 13, 32 to 55295, 57344 to 65532, 65536 to 1114111 ))") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"starts-with(($result//r/text())[1], '	')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"ends-with(($result//r/text())[last()], '􏿿')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> ct:fail('all-of') 
+   end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
@@ -1618,7 +1676,33 @@ environment('namespace-sensitive') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"contentcontent") of 
+   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K2-DirectConElemContent-26a'(_Config) ->
+   Qry = "<elem>content{}content</elem>",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<elem>contentcontent</elem>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K2-DirectConElemContent-26b'(_Config) ->
+   Qry = "<elem>content{(:comment:)}content</elem>",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<elem>contentcontent</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -1731,18 +1815,11 @@ environment('namespace-sensitive') ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-35'(_Config) ->
-   Qry = "<e/> instance of element(*, xs:untyped)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XQ10"}.
+'K2-DirectConElemContent-35a'(_Config) ->
+   {skip,"typedData"}.
+'K2-DirectConElemContent-35b'(_Config) ->
+   {skip,"typedData"}.
 'K2-DirectConElemContent-36'(_Config) ->
    Qry = "declare construction strip; <e/> instance of element(*, xs:untyped)",
    Qry1 = Qry,
@@ -1900,11 +1977,11 @@ environment('namespace-sensitive') ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-48'(_Config) ->
-   Qry = "
+   Qry = "document{
       	<e xmlns=\"http://www.example.com/\"> <a xmlns=\"\"/> </e>, 
       	<e xmlns=\"http://www.example.com/\"> <a xmlns=\"\"/> </e>/count(in-scope-prefixes(a)), 
       	<e xmlns=\"http://www.example.com/\"> <a xmlns=\"\"> <b xmlns=\"\"/> </a> </e>
-      ",
+      }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -1928,6 +2005,36 @@ environment('namespace-sensitive') ->
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'ElemContentArray-001'(_Config) ->
+   Qry = " 
+      	<e>{[1, 2, 3]}</e>
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e>1 2 3</e>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'ElemContentArray-002'(_Config) ->
+   Qry = " 
+      	<e>{[<f>{[1,<x/>,3]}</f>, <g>{[4, <x/>, 5]}</g>]}</e>
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,"<e><f>1<x/>3</f><g>4<x/>5</g></e>") of 
+      true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
    case Out of

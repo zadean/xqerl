@@ -102,6 +102,36 @@
 -export(['fn-deep-equal-mix-args-031'/1]).
 -export(['fn-deep-equal-node-args-1'/1]).
 -export(['fn-deep-equal-node-args-2'/1]).
+-export(['fn-deep-equal-arrays-1'/1]).
+-export(['fn-deep-equal-arrays-2'/1]).
+-export(['fn-deep-equal-arrays-3'/1]).
+-export(['fn-deep-equal-arrays-4'/1]).
+-export(['fn-deep-equal-arrays-5'/1]).
+-export(['fn-deep-equal-arrays-6'/1]).
+-export(['fn-deep-equal-arrays-7'/1]).
+-export(['fn-deep-equal-arrays-8'/1]).
+-export(['fn-deep-equal-arrays-9'/1]).
+-export(['fn-deep-equal-arrays-10'/1]).
+-export(['fn-deep-equal-arrays-11'/1]).
+-export(['fn-deep-equal-arrays-12'/1]).
+-export(['fn-deep-equal-arrays-13'/1]).
+-export(['fn-deep-equal-maps-1'/1]).
+-export(['fn-deep-equal-maps-2'/1]).
+-export(['fn-deep-equal-maps-3'/1]).
+-export(['fn-deep-equal-maps-4'/1]).
+-export(['fn-deep-equal-maps-5'/1]).
+-export(['fn-deep-equal-maps-6'/1]).
+-export(['fn-deep-equal-maps-7'/1]).
+-export(['fn-deep-equal-maps-8'/1]).
+-export(['fn-deep-equal-maps-9'/1]).
+-export(['fn-deep-equal-maps-10'/1]).
+-export(['fn-deep-equal-maps-11'/1]).
+-export(['fn-deep-equal-maps-12'/1]).
+-export(['fn-deep-equal-maps-13'/1]).
+-export(['fn-deep-equal-maps-14'/1]).
+-export(['fn-deep-equal-maps-15'/1]).
+-export(['fn-deep-equal-maps-16'/1]).
+-export(['fn-deep-equal-maps-17'/1]).
 -export(['fn-deep-equal-node-args-3'/1]).
 -export(['fn-deep-equal-node-args-4'/1]).
 -export(['fn-deep-equal-node-args-5'/1]).
@@ -168,6 +198,14 @@
 -export(['K-SeqDeepEqualFunc-61'/1]).
 -export(['K-SeqDeepEqualFunc-62'/1]).
 -export(['K-SeqDeepEqualFunc-63'/1]).
+-export(['K-SeqDeepEqualFunc-64'/1]).
+-export(['K-SeqDeepEqualFunc-65'/1]).
+-export(['K-SeqDeepEqualFunc-66'/1]).
+-export(['K-SeqDeepEqualFunc-67'/1]).
+-export(['K-SeqDeepEqualFunc-68'/1]).
+-export(['K-SeqDeepEqualFunc-69'/1]).
+-export(['K-SeqDeepEqualFunc-70'/1]).
+-export(['K-SeqDeepEqualFunc-71'/1]).
 -export(['K2-SeqDeepEqualFunc-1'/1]).
 -export(['K2-SeqDeepEqualFunc-2'/1]).
 -export(['K2-SeqDeepEqualFunc-3'/1]).
@@ -208,6 +246,8 @@
 -export(['K2-SeqDeepEqualFunc-38'/1]).
 -export(['K2-SeqDeepEqualFunc-39'/1]).
 -export(['K2-SeqDeepEqualFunc-40'/1]).
+-export(['K2-SeqDeepEqualFunc-41'/1]).
+-export(['K2-SeqDeepEqualFunc-42'/1]).
 -export(['cbcl-deep-equal-001'/1]).
 -export(['cbcl-deep-equal-002'/1]).
 -export(['cbcl-deep-equal-003'/1]).
@@ -321,6 +361,36 @@ all() -> [
    'fn-deep-equal-mix-args-031',
    'fn-deep-equal-node-args-1',
    'fn-deep-equal-node-args-2',
+   'fn-deep-equal-arrays-1',
+   'fn-deep-equal-arrays-2',
+   'fn-deep-equal-arrays-3',
+   'fn-deep-equal-arrays-4',
+   'fn-deep-equal-arrays-5',
+   'fn-deep-equal-arrays-6',
+   'fn-deep-equal-arrays-7',
+   'fn-deep-equal-arrays-8',
+   'fn-deep-equal-arrays-9',
+   'fn-deep-equal-arrays-10',
+   'fn-deep-equal-arrays-11',
+   'fn-deep-equal-arrays-12',
+   'fn-deep-equal-arrays-13',
+   'fn-deep-equal-maps-1',
+   'fn-deep-equal-maps-2',
+   'fn-deep-equal-maps-3',
+   'fn-deep-equal-maps-4',
+   'fn-deep-equal-maps-5',
+   'fn-deep-equal-maps-6',
+   'fn-deep-equal-maps-7',
+   'fn-deep-equal-maps-8',
+   'fn-deep-equal-maps-9',
+   'fn-deep-equal-maps-10',
+   'fn-deep-equal-maps-11',
+   'fn-deep-equal-maps-12',
+   'fn-deep-equal-maps-13',
+   'fn-deep-equal-maps-14',
+   'fn-deep-equal-maps-15',
+   'fn-deep-equal-maps-16',
+   'fn-deep-equal-maps-17',
    'fn-deep-equal-node-args-3',
    'fn-deep-equal-node-args-4',
    'fn-deep-equal-node-args-5',
@@ -387,6 +457,14 @@ all() -> [
    'K-SeqDeepEqualFunc-61',
    'K-SeqDeepEqualFunc-62',
    'K-SeqDeepEqualFunc-63',
+   'K-SeqDeepEqualFunc-64',
+   'K-SeqDeepEqualFunc-65',
+   'K-SeqDeepEqualFunc-66',
+   'K-SeqDeepEqualFunc-67',
+   'K-SeqDeepEqualFunc-68',
+   'K-SeqDeepEqualFunc-69',
+   'K-SeqDeepEqualFunc-70',
+   'K-SeqDeepEqualFunc-71',
    'K2-SeqDeepEqualFunc-1',
    'K2-SeqDeepEqualFunc-2',
    'K2-SeqDeepEqualFunc-3',
@@ -427,6 +505,8 @@ all() -> [
    'K2-SeqDeepEqualFunc-38',
    'K2-SeqDeepEqualFunc-39',
    'K2-SeqDeepEqualFunc-40',
+   'K2-SeqDeepEqualFunc-41',
+   'K2-SeqDeepEqualFunc-42',
    'cbcl-deep-equal-001',
    'cbcl-deep-equal-002',
    'cbcl-deep-equal-003',
@@ -448,8 +528,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -458,8 +538,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -468,7 +548,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -478,7 +558,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -488,7 +568,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -498,8 +578,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -509,7 +589,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -518,13 +598,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -542,8 +623,39 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('bib') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/bib.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/bib.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -554,7 +666,7 @@ environment('bib') ->
 ];
 environment('perverse') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/fn/deep-equal/perverse.xsd","http://www.w3.org/XQueryTest/perversity"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/deep-equal/perverse.xsd","http://www.w3.org/XQueryTest/perversity"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1838,6 +1950,419 @@ environment('perverse') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'fn-deep-equal-arrays-1'(_Config) ->
+   Qry = "fn:deep-equal([], [])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-2'(_Config) ->
+   Qry = "fn:deep-equal([1,2], [1,2])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-3'(_Config) ->
+   Qry = "fn:deep-equal([[]], [[]])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-4'(_Config) ->
+   Qry = "fn:deep-equal([], [1])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-5'(_Config) ->
+   Qry = "fn:deep-equal([1], 1)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-6'(_Config) ->
+   Qry = "fn:deep-equal([], [()])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-7'(_Config) ->
+   Qry = "fn:deep-equal([()], [()])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-8'(_Config) ->
+   Qry = "fn:deep-equal([map{}], [map{}])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-9'(_Config) ->
+   Qry = "fn:deep-equal([map{1:1, 2:2}], [map{2:2, 1:1}])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-10'(_Config) ->
+   Qry = "
+        fn:deep-equal([<a>1</a>], [<a>1</a>])
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-11'(_Config) ->
+   Qry = "fn:deep-equal([['a', 'b', 'c']], [['a', 'b', 'c']])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-12'(_Config) ->
+   Qry = "fn:deep-equal([['a', 'b', 'c']], [['A', 'B', 'C']])",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-arrays-13'(_Config) ->
+   Qry = "fn:deep-equal([['a', 'b', 'c']], [['A', 'B', 'C']], 'http://www.w3.org/2013/collation/UCA?strength=secondary')",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-1'(_Config) ->
+   Qry = "fn:deep-equal(map{}, map{})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-2'(_Config) ->
+   Qry = "fn:deep-equal(map{1:2}, map{})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-3'(_Config) ->
+   Qry = "fn:deep-equal(map{}, map{1:()})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-4'(_Config) ->
+   Qry = "fn:deep-equal(map{1:true(), 2:false()}, map{2:false(), 1:true()})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-5'(_Config) ->
+   Qry = "fn:deep-equal(map{1:true()}, map{1.0:true()})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-6'(_Config) ->
+   Qry = "fn:deep-equal(map{1:true()}, map{1.0e0:true()})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-7'(_Config) ->
+   Qry = "fn:deep-equal(map{xs:double('NaN'):true()}, map{xs:double('NaN'):true()})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-8'(_Config) ->
+   Qry = "fn:deep-equal(map{xs:double('NaN'):true()}, map{xs:float('NaN'):true()})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-9'(_Config) ->
+   Qry = "fn:deep-equal(map{12:[1,2,3]}, map{12.0:[1.0, 2.0, 3.0]})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-10'(_Config) ->
+   Qry = "fn:deep-equal(map{12:[1,2,3]}, map{12:[3,2,1]})",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-11'(_Config) ->
+   Qry = "
+        fn:deep-equal(map{12:<a x='2' y='3'>23</a>}, map{12:<a y='3' x='2'>23</a>})
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-12'(_Config) ->
+   Qry = "
+        fn:deep-equal(map{12:<a x='2' y='3'>23</a>}, map{12:<a y='3' x='2' z='1'>23</a>})
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-13'(_Config) ->
+   Qry = "
+        fn:deep-equal(map{\"a\":1}, map{\"A\":1}, 
+            'http://www.w3.org/2013/collation/UCA?strength=secondary')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-14'(_Config) ->
+   Qry = "
+        fn:deep-equal(map{1:\"a\"}, map{1:\"A\"}, 
+            'http://www.w3.org/2013/collation/UCA?strength=secondary')
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-15'(_Config) ->
+   Qry = "
+        fn:deep-equal(map{1:\"A\"}, map:remove(map{1:\"A\", 2:\"B\"}, 2))
+      ",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-16'(_Config) ->
+   Qry = "
+        let $t := xs:dateTime('2014-10-14T11:31:12') return
+        let $u := adjust-dateTime-to-timezone($t, implicit-timezone()) return
+        fn:deep-equal(map{$t :()}, map{$u :()})
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-deep-equal-maps-17'(_Config) ->
+   Qry = "
+        let $t := xs:dateTime('2014-10-14T11:31:12') return
+        let $u := adjust-dateTime-to-timezone($t, implicit-timezone()+xs:dayTimeDuration('PT1H')) return
+        fn:deep-equal(map{$t :()}, map{$u :()})
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-deep-equal-node-args-3'(_Config) ->
    Qry = "fn:deep-equal(<a> {/node(), /node()} </a>/node(), <b> {/node(), 'difference', /node()} </b>/node() )",
    Env = xqerl_test:handle_environment(environment('bib')),
@@ -2611,6 +3136,22 @@ environment('perverse') ->
    {skip,"Collation Environment"}.
 'K-SeqDeepEqualFunc-63'(_Config) ->
    {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-64'(_Config) ->
+   {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-65'(_Config) ->
+   {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-66'(_Config) ->
+   {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-67'(_Config) ->
+   {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-68'(_Config) ->
+   {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-69'(_Config) ->
+   {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-70'(_Config) ->
+   {skip,"Collation Environment"}.
+'K-SeqDeepEqualFunc-71'(_Config) ->
+   {skip,"Collation Environment"}.
 'K2-SeqDeepEqualFunc-1'(_Config) ->
    Qry = "not(deep-equal(current-time(), current-date()))",
    Qry1 = Qry,
@@ -3095,6 +3636,10 @@ environment('perverse') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'K2-SeqDeepEqualFunc-41'(_Config) ->
+   {skip,"schemaValidation"}.
+'K2-SeqDeepEqualFunc-42'(_Config) ->
+   {skip,"schemaValidation"}.
 'cbcl-deep-equal-001'(_Config) ->
    Qry = "let $doc1 := <doc><?processing-instruction content ?></doc> let $doc2 := <doc><!--comment--></doc> return deep-equal($doc1, $doc2)",
    Qry1 = Qry,

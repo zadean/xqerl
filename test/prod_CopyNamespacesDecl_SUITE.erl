@@ -92,8 +92,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -102,8 +102,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -112,7 +112,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -122,7 +122,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -132,7 +132,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -142,8 +142,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -153,7 +153,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -162,13 +162,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -183,6 +184,37 @@ environment('math') ->
 {'static-base-uri', []},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
+{resources, []},
+{modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].
@@ -200,7 +232,12 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-2'(_Config) ->
-   Qry = "declare copy-namespaces preserve,no-inherit; declare default element namespace \"http://example.org/names\"; declare variable $input-context1 external; let $new := <newElement xmlns = \"http://www.example.com/mynamespace\">{element original {\"Original Content\"}}</newElement> return $new//*",
+   Qry = "
+      	declare copy-namespaces preserve,no-inherit; 
+      	declare default element namespace \"http://example.org/names\";
+      	let $new := <newElement xmlns = \"http://www.example.com/mynamespace\">{element original {\"Original Content\"}}</newElement> 
+      	return $new//*
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -232,7 +269,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-4'(_Config) ->
-   Qry = "declare namespace foo = \"http://example.org\"; declare copy-namespaces preserve,inherit; declare variable $input-context1 external; let $existingElement := <existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement> let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> for $var in (in-scope-prefixes($new//child::*)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare namespace foo = \"http://example.org\"; 
+      	declare copy-namespaces preserve,inherit; 
+      	let $existingElement := <existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement> 
+      	let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> 
+      	for $var in (in-scope-prefixes($new//child::*)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -245,7 +290,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-5'(_Config) ->
-   Qry = "declare namespace foo = \"http://example.org\"; declare copy-namespaces preserve,no-inherit; declare variable $input-context1 external; let $existingElement := <foo:existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</foo:existingElement> let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> for $var in (in-scope-prefixes($new//child::*)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare namespace foo = \"http://example.org\"; 
+      	declare copy-namespaces preserve,no-inherit; 
+      	let $existingElement := <foo:existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</foo:existingElement> 
+      	let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> 
+      	for $var in (in-scope-prefixes($new//child::*)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -258,7 +311,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-6'(_Config) ->
-   Qry = "declare namespace foo = \"http://example.org\"; declare copy-namespaces preserve,inherit; declare variable $input-context1 external; let $existingElement := <foo:existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</foo:existingElement> let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> for $var in (in-scope-prefixes($new//child::*)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare namespace foo = \"http://example.org\"; 
+      	declare copy-namespaces preserve,inherit; 
+      	let $existingElement := <foo:existingElement xmlns=\"http://www.existingnamespace.com\">{\"Existing Content\"}</foo:existingElement> 
+      	let $new := <foo:newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</foo:newElement> 
+      	for $var in (in-scope-prefixes($new//child::*)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -271,7 +332,13 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-7'(_Config) ->
-   Qry = "declare copy-namespaces no-preserve,no-inherit; declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; declare variable $new := <newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes($new/existingElement)) order by exactly-one($var )ascending return $var",
+   Qry = "
+      	declare copy-namespaces no-preserve,no-inherit; 
+      	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes($new/existingElement)) 
+      	order by exactly-one($var )ascending 
+      	return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -284,7 +351,14 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-8'(_Config) ->
-   Qry = "declare copy-namespaces preserve,no-inherit; declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; declare variable $new := <newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes($new/existingElement)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,no-inherit; 
+      	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement xmlns = \"http://www.mynamespace.com\">{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes($new/existingElement)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -297,7 +371,13 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-9'(_Config) ->
-   Qry = "declare copy-namespaces no-preserve,inherit; declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; declare variable $new := <newElement xmlns:newNamespace = \"http://www.mynamespace.com\">{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes($new/existingElement)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces no-preserve,inherit; 
+      	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement xmlns:newNamespace = \"http://www.mynamespace.com\">{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes($new/existingElement)) 
+      	order by exactly-one($var) ascending 
+      	return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -310,7 +390,14 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-10'(_Config) ->
-   Qry = "declare copy-namespaces preserve,inherit; declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; declare variable $new := <newElement xmlns:newNamespace = \"http://www.mynamespace.com\">{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes($new/existingElement)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,inherit; 
+      	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement xmlns:newNamespace = \"http://www.mynamespace.com\">{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes($new/existingElement)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -323,7 +410,14 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-11'(_Config) ->
-   Qry = "declare copy-namespaces preserve,inherit; declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; declare variable $new := <newElement xmlns:existingNamespace = \"http://www.mynamespace.com\">{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes($new/existingElement)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,inherit; 
+      	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement xmlns:existingNamespace = \"http://www.mynamespace.com\">{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes($new/existingElement)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -336,7 +430,14 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-12'(_Config) ->
-   Qry = "declare copy-namespaces preserve,inherit; declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; declare variable $new := <newElement xmlns:newNamespace = \"http://www.existingnamespace.com\">{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes($new/existingElement)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,inherit; 
+      	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement xmlns:newNamespace = \"http://www.existingnamespace.com\">{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes($new/existingElement)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -349,7 +450,13 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-13'(_Config) ->
-   Qry = "declare copy-namespaces preserve,inherit; declare variable $existingElement := <existingElement>{\"Existing Content\"}</existingElement>; declare variable $new := <newElement>{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes(exactly-one($new/existingElement))) return $var",
+   Qry = "
+      	declare copy-namespaces preserve,inherit; 
+      	declare variable $existingElement := <existingElement>{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement>{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes(exactly-one($new/existingElement))) 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -362,7 +469,14 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-14'(_Config) ->
-   Qry = "declare copy-namespaces preserve,inherit; declare variable $existingElement := <existingElement xmlns:somespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; declare variable $new := <newElement xmlns:SOMESPACE=\"http://www.another.com\">{$existingElement}</newElement>; declare variable $input-context1 external; for $var in (in-scope-prefixes($new/existingElement)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,inherit; 
+      	declare variable $existingElement := <existingElement xmlns:somespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
+      	declare variable $new := <newElement xmlns:SOMESPACE=\"http://www.another.com\">{$existingElement}</newElement>; 
+      	for $var in (in-scope-prefixes($new/existingElement)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -375,7 +489,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-15'(_Config) ->
-   Qry = "declare copy-namespaces preserve,inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2/element1)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2/element1)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -388,7 +510,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-16'(_Config) ->
-   Qry = "declare copy-namespaces no-preserve,inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2/element1)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces no-preserve,inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2/element1)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -401,7 +531,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-17'(_Config) ->
-   Qry = "declare copy-namespaces no-preserve,no-inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2/element1)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces no-preserve,no-inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2/element1)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -414,7 +552,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-18'(_Config) ->
-   Qry = "declare copy-namespaces preserve,no-inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2/element1)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,no-inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2/element1)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -427,7 +573,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-19'(_Config) ->
-   Qry = "declare copy-namespaces preserve,inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -440,7 +594,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-20'(_Config) ->
-   Qry = "declare copy-namespaces no-preserve,inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces no-preserve,inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -453,7 +615,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-21'(_Config) ->
-   Qry = "declare copy-namespaces no-preserve,no-inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces no-preserve,no-inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -466,7 +636,15 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'copynamespace-22'(_Config) ->
-   Qry = "declare copy-namespaces preserve,no-inherit; declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; declare variable $input-context1 external; for $var in (in-scope-prefixes($element3/element2)) order by exactly-one($var) ascending return $var",
+   Qry = "
+      	declare copy-namespaces preserve,no-inherit; 
+      	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
+      	declare variable $element2 := <element2 xmlns:namespace2=\"http://www.namespace2.com\">{$element1}</element2>; 
+      	declare variable $element3 := <element3 xmlns:namespace3=\"http://www.namespace3.com\">{$element2}</element3>; 
+      	for $var in (in-scope-prefixes($element3/element2)) 
+      	order by exactly-one($var) ascending 
+      	return $var
+      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,

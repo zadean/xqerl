@@ -62,13 +62,14 @@
 -export(['typeswitch-union-branch-both'/1]).
 -export(['typeswitch-union-branch-both-dup'/1]).
 -export(['typeswitch-union-multi'/1]).
--export(['typeswitch-in-xpath'/1]).
 -export(['typeswitch-union-in-xquery-10'/1]).
 -export(['typeswitch-112'/1]).
 -export(['typeswitch-113'/1]).
 -export(['typeswitch-114'/1]).
 -export(['typeswitch-115'/1]).
 -export(['typeswitch-116'/1]).
+-export(['typeswitch-117'/1]).
+-export(['typeswitch-118'/1]).
 -export(['cbcl-typeswitch-001'/1]).
 -export(['cbcl-typeswitch-002'/1]).
 -export(['cbcl-typeswitch-003'/1]).
@@ -138,13 +139,14 @@ all() -> [
    'typeswitch-union-branch-both',
    'typeswitch-union-branch-both-dup',
    'typeswitch-union-multi',
-   'typeswitch-in-xpath',
    'typeswitch-union-in-xquery-10',
    'typeswitch-112',
    'typeswitch-113',
    'typeswitch-114',
    'typeswitch-115',
    'typeswitch-116',
+   'typeswitch-117',
+   'typeswitch-118',
    'cbcl-typeswitch-001',
    'cbcl-typeswitch-002',
    'cbcl-typeswitch-003',
@@ -162,8 +164,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -172,8 +174,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -182,7 +184,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -192,7 +194,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -202,7 +204,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -212,8 +214,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -223,7 +225,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -232,13 +234,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -256,9 +259,40 @@ environment('math') ->
 {resources, []},
 {modules, []}
 ];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
 environment('ListUnionTypes') ->
 [{sources, []},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/prod/ValidateExpr/listunion.xsd","http://www.w3.org/XQueryTest/ListUnionTypes"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ValidateExpr/listunion.xsd","http://www.w3.org/XQueryTest/ListUnionTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -267,7 +301,13 @@ environment('ListUnionTypes') ->
 {modules, []}
 ].
 'typeswitchhc1'(_Config) ->
-   Qry = "typeswitch (5) case $i as xs:integer return <wrap>test passed - integer data type</wrap> case $i as xs:date return <wrap>test failed</wrap> case $i as xs:time return <wrap>test failed</wrap> case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (5) 
+        case $i as xs:integer return <wrap>test passed - integer data type</wrap> 
+        case $i as xs:date return <wrap>test failed</wrap> 
+        case $i as xs:time return <wrap>test failed</wrap> 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -280,7 +320,13 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc2'(_Config) ->
-   Qry = "typeswitch (5.1) case $i as xs:decimal return <wrap>test passed - 5.1 is a decimal type</wrap> case $i as xs:float return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (5.1) 
+        case $i as xs:decimal return <wrap>test passed - 5.1 is a decimal type</wrap> 
+        case $i as xs:float return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -293,7 +339,11 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc3'(_Config) ->
-   Qry = "typeswitch (5.1E2) case $i as xs:integer return <wrap>test failed2</wrap> case $i as xs:double return <wrap>test passed - 5.1E2 is a double type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (5.1E2) 
+        case $i as xs:integer return <wrap>test failed2</wrap> 
+        case $i as xs:double return <wrap>test passed - 5.1E2 is a double type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -306,7 +356,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc4'(_Config) ->
-   Qry = "typeswitch (\"A String\") case $i as xs:decimal return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:string return <wrap>test passed - \"A String\" is a string type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (\"A String\") 
+        case $i as xs:decimal return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:string return <wrap>test passed - \"A String\" is a string type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -319,7 +374,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc5'(_Config) ->
-   Qry = "typeswitch (1267.43233E12) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:double return <wrap>test passed - 1267.43233E12 is a double type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (1267.43233E12) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test passed - 1267.43233E12 is a double type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -332,7 +392,11 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc6'(_Config) ->
-   Qry = "typeswitch(1 > 2) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:boolean return <wrap>test passed - 1 > 2 is a boolean type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(1 > 2) case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:boolean return <wrap>test passed - 1 > 2 is a boolean type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -345,7 +409,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc7'(_Config) ->
-   Qry = "typeswitch(xs:date(\"1999-05-31\")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:date return <wrap>test passed - xs:date(\"1999-05-31\")is of date type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(xs:date(\"1999-05-31\")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:date return <wrap>test passed - xs:date(\"1999-05-31\")is of date type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -358,7 +427,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc8'(_Config) ->
-   Qry = "typeswitch(xs:time(\"12:00:00\")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:time return <wrap>test passed - xs:time(\"12:00:00\")is of time type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(xs:time(\"12:00:00\")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:time return <wrap>test passed - xs:time(\"12:00:00\")is of time type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -371,7 +445,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc9'(_Config) ->
-   Qry = "typeswitch(xs:dateTime(\"1999-12-31T19:20:00\")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:dateTime return <wrap>test passed - xs:dateTime(\"1999-12-31T19:20:00\")is of dateTime type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(xs:dateTime(\"1999-12-31T19:20:00\")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:dateTime return <wrap>test passed - xs:dateTime(\"1999-12-31T19:20:00\")is of dateTime type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -384,7 +463,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc10'(_Config) ->
-   Qry = "typeswitch(xs:anyURI(\"http://example.com\")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:anyURI return <wrap>test passed - xs:anyURI(\"http://www.example.com\")is of anyURI type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(xs:anyURI(\"http://example.com\")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:anyURI return <wrap>test passed - xs:anyURI(\"http://www.example.com\")is of anyURI type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -397,7 +481,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc11'(_Config) ->
-   Qry = "typeswitch(123) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:anyURI return <wrap>test failed</wrap> default return <wrap>test passed - 123 is an integer (not an option on any cases)</wrap>",
+   Qry = "
+        typeswitch(123) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:anyURI return <wrap>test failed</wrap> 
+        default return <wrap>test passed - 123 is an integer (not an option on any cases)</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -410,7 +499,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc12'(_Config) ->
-   Qry = "typeswitch(123) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test passed - If a dynamic error is generated, then test failed.</wrap> default return 12 div 0",
+   Qry = "
+        typeswitch(123) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test passed - If a dynamic error is generated, then test failed.</wrap> 
+        default return 12 div 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -423,7 +517,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc13'(_Config) ->
-   Qry = "typeswitch(if (1 lt 2) then 3 else 4.5E4) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test passed - \"(1 lt 2) then 3 else 4.5E4\" should evaluate to an integer</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(if (1 lt 2) then 3 else 4.5E4) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test passed - \"(1 lt 2) then 3 else 4.5E4\" should evaluate to an integer</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -436,7 +535,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc14'(_Config) ->
-   Qry = "typeswitch(fn:true() and fn:true()) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:boolean return <wrap>test passed - \"fn:true() and fn:true()\" should evaluate to boolean type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(fn:true() and fn:true()) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:boolean return <wrap>test passed - \"fn:true() and fn:true()\" should evaluate to boolean type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -449,7 +553,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc15'(_Config) ->
-   Qry = "typeswitch(fn:true() or fn:false()) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:boolean return <wrap>test passed - \"fn:true() or fn:false()\" should evaluate to boolean type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(fn:true() or fn:false()) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:boolean return <wrap>test passed - \"fn:true() or fn:false()\" should evaluate to boolean type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -462,7 +571,13 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc16'(_Config) ->
-   Qry = "typeswitch(typeswitch (1) case $i as xs:integer return $i default return <a>fn:false</a> ) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test passed - the operand expression should evaluate to an integer type</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch(typeswitch (1) 
+        case $i as xs:integer return $i default return <a>fn:false</a> ) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test passed - the operand expression should evaluate to an integer type</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -475,7 +590,13 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc17'(_Config) ->
-   Qry = "typeswitch (5) case $i as xs:integer return xs:integer(1 + 1) case $i as xs:date return <wrap>test failed</wrap> case $i as xs:time return <wrap>test failed</wrap> case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (5) 
+        case $i as xs:integer return xs:integer(1 + 1) 
+        case $i as xs:date return <wrap>test failed</wrap> 
+        case $i as xs:time return <wrap>test failed</wrap> 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -488,7 +609,13 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc18'(_Config) ->
-   Qry = "typeswitch (5.1) case $i as xs:decimal return xs:decimal(1.1 + 3.1) case $i as xs:float return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (5.1) 
+        case $i as xs:decimal return xs:decimal(1.1 + 3.1) 
+        case $i as xs:float return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -501,7 +628,11 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc19'(_Config) ->
-   Qry = "typeswitch (5.1E2) case $i as xs:integer return <wrap>test failed2</wrap> case $i as xs:double return xs:double(5.1E2 + 1.1E2) default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (5.1E2) 
+        case $i as xs:integer return <wrap>test failed2</wrap> 
+        case $i as xs:double return xs:double(5.1E2 + 1.1E2) 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -514,7 +645,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc20'(_Config) ->
-   Qry = "typeswitch (\"A String\") case $i as xs:decimal return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:string return fn:string-length($i) default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (\"A String\") 
+        case $i as xs:decimal return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:string return fn:string-length($i) 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -527,7 +663,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc21'(_Config) ->
-   Qry = "typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return fn:count((1, 2, 3)) case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return fn:count((1, 2, 3)) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -540,7 +681,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc22'(_Config) ->
-   Qry = "typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 5 - 3 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 5 - 3 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -553,7 +699,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc23'(_Config) ->
-   Qry = "typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 5 * 2 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 5 * 2 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -566,7 +717,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc24'(_Config) ->
-   Qry = "typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 10 div 2 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 10 div 2 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -579,7 +735,12 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc25'(_Config) ->
-   Qry = "typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 10 idiv 2 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>",
+   Qry = "
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 10 idiv 2 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -1108,8 +1269,6 @@ environment('ListUnionTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'typeswitch-in-xpath'(_Config) ->
-   {skip,"XP20+"}.
 'typeswitch-union-in-xquery-10'(_Config) ->
    {skip,"XQ10"}.
 'typeswitch-112'(_Config) ->
@@ -1122,6 +1281,60 @@ environment('ListUnionTypes') ->
    {skip,"schemaImport"}.
 'typeswitch-116'(_Config) ->
    {skip,"schemaImport"}.
+'typeswitch-117'(_Config) ->
+   Qry = "
+      	let $x := [map{'x':1, 'y':2}, 'x']
+      	let $y := [array{1, 2, 3}, 1]
+      	let $z := ($x, $y)
+      	for $e in $z return
+      	  typeswitch($e?1)
+      	  case $A as array(*) return array:get($A, $e?2)
+      	  case $M as map(*) return map:get($M, $e?2)
+      	  default return error()
+      ",
+   Env = xqerl_test:handle_environment(environment('array-and-map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"1,1") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'typeswitch-118'(_Config) ->
+   Qry = "
+      	let $x := map{'x':1, 'y':2}
+      	let $y := map{'A':1, 'B':2}
+      	let $z := ($x, $y, [])
+      	for $e in $z(position() lt 3) return
+      	  typeswitch($e)
+      	  case $A as array(*) return array:get($A, 'A')
+      	  case $M as map(*) return map:get($M, 'A')
+      	  default return error()
+      ",
+   Env = xqerl_test:handle_environment(environment('array-and-map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> ct:fail('any-of') 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-typeswitch-001'(_Config) ->
    Qry = "
         upper-case(typeswitch ((1 to 10)[. mod 2 = 0]) case xs:integer+ return \"int\" default return \"false\")

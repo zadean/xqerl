@@ -17,6 +17,11 @@
 -export(['map-remove-012'/1]).
 -export(['map-remove-013'/1]).
 -export(['map-remove-014'/1]).
+-export(['map-remove-015'/1]).
+-export(['map-remove-016'/1]).
+-export(['map-remove-017'/1]).
+-export(['map-remove-018'/1]).
+-export(['map-remove-019'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
@@ -34,7 +39,12 @@ all() -> [
    'map-remove-011',
    'map-remove-012',
    'map-remove-013',
-   'map-remove-014'].
+   'map-remove-014',
+   'map-remove-015',
+   'map-remove-016',
+   'map-remove-017',
+   'map-remove-018',
+   'map-remove-019'].
 environment('empty') ->
 [{sources, []},
 {schemas, []},
@@ -46,8 +56,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -56,8 +66,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -66,7 +76,7 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works-mod.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -76,7 +86,7 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -86,7 +96,7 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -96,8 +106,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/staff.xml","$staff",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -107,7 +117,7 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/auction.xml",".",""}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -116,13 +126,14 @@ environment('auction') ->
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}]},
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-source.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xqerl/test/QT3_1_0/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -139,10 +150,42 @@ environment('math') ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
+];
+environment('array') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
+environment('map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('array-and-map') ->
+[{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
 ].
 'map-remove-001'(_Config) ->
    Qry = "map:remove(map{}, 1)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"map:size($result) eq 0") of 
@@ -154,8 +197,9 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'map-remove-002'(_Config) ->
-   Qry = "map:remove(map{}, \"abcd\")",
-   Qry1 = Qry,
+   Qry = "map:remove(map:merge(()), \"abcd\")",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"map:size($result) eq 0") of 
@@ -168,7 +212,8 @@ environment('math') ->
    end.
 'map-remove-003'(_Config) ->
    Qry = "map:remove(map{\"a\":1}, \"a\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"map:size($result) eq 0") of 
@@ -181,7 +226,8 @@ environment('math') ->
    end.
 'map-remove-005'(_Config) ->
    Qry = "map:remove(map:entry(\"a\", \"1\"), \"b\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -202,7 +248,8 @@ environment('math') ->
    end.
 'map-remove-006'(_Config) ->
    Qry = "map:remove(map:merge((map:entry(\"a\", \"1\"), map:entry(\"b\", 2))), \"b\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -223,7 +270,8 @@ environment('math') ->
    end.
 'map-remove-007'(_Config) ->
    Qry = "map:remove(map:merge((map:entry(\"a\", \"1\"), map:entry(\"b\", 2))), \"c\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -248,7 +296,8 @@ environment('math') ->
    end.
 'map-remove-008'(_Config) ->
    Qry = "map:remove(map:merge((map:entry(12, 1), map:entry(13, 2))), 12e0)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -273,7 +322,8 @@ environment('math') ->
    end.
 'map-remove-009'(_Config) ->
    Qry = "map:remove(map:merge((map:entry(\"a\",1), map:entry(\"b\",2))), xs:untypedAtomic(\"b\"))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -298,7 +348,8 @@ environment('math') ->
    end.
 'map-remove-010'(_Config) ->
    Qry = "map:remove(map{\"a\":1,\"b\":\"xyz\"}, \"b\")",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"map(xs:string, xs:integer)") of 
@@ -311,7 +362,8 @@ environment('math') ->
    end.
 'map-remove-011'(_Config) ->
    Qry = "map:remove(map{\"a\":1,12:\"xyz\"}, 12)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"map(xs:string, xs:integer)") of 
@@ -324,7 +376,8 @@ environment('math') ->
    end.
 'map-remove-012'(_Config) ->
    Qry = "map:remove(map:merge(for $n in 1 to 500000 return map:entry($n, $n+1)), 123456)",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -353,7 +406,8 @@ environment('math') ->
    end.
 'map-remove-013'(_Config) ->
    Qry = "deep-equal(map:remove(map{\"a\":1,\"b\":(2,3)}, \"a\"), map:entry(\"b\", (2,3)))",
-   Qry1 = Qry,
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
@@ -365,4 +419,98 @@ environment('math') ->
       Err -> ct:fail(Err)
    end.
 'map-remove-014'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+            map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101} 
+            => map:remove(current-dateTime()) 
+            => map:get(current-dateTime()=>adjust-dateTime-to-timezone(()))
+        ",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"101") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'map-remove-015'(_Config) ->
+   Qry = "
+            map{xs:double('1.25'):0}
+            => map:remove(xs:float('1.25')) 
+            => map:size()
+        ",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'map-remove-016'(_Config) ->
+   Qry = "
+            map{xs:float('1.0'):0, xs:double('1.00000000001'):1} 
+            => map:remove(xs:decimal('1.0000000000100000000001')) 
+            => map:size()
+        ",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'map-remove-017'(_Config) ->
+   Qry = "deep-equal(map:remove(map{\"a\":1,\"b\":(2,3), \"c\":1 to 5}, (\"a\", \"c\")), map:entry(\"b\", (2,3)))",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'map-remove-018'(_Config) ->
+   Qry = "map:size(map:remove(map{\"a\":1,\"b\":(2,3), \"c\":1 to 5}, ())) = 3",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'map-remove-019'(_Config) ->
+   Qry = "deep-equal(map:remove(map{\"a\":1,\"b\":(2,3), \"c\":1 to 5}, (\"a\", \"c\", \"d\")), map:entry(\"b\", (2,3)))",
+   Env = xqerl_test:handle_environment(environment('map')),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
