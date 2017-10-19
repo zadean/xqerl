@@ -77,311 +77,212 @@
 
 
 %% Returns the arc cosine of the argument. 
-'acos'(_Ctx,Seq) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value="NaN"} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} when abs(X) > 1 ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} ->
-                       case catch math:acos(X) of
-                          {'EXIT',_} ->
-                             #xqAtomicValue{type='xs:double', value="NaN"};
-                          Z ->
-                             #xqAtomicValue{type='xs:double', value=Z}
-                       end
-              end,
-         ?seq:singleton(Av)
+'acos'(_Ctx,[]) -> [];
+'acos'(_Ctx,[Seq]) -> 
+   'acos'(_Ctx,Seq);
+'acos'(_Ctx,#xqAtomicValue{value = "NaN"}) -> 
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'acos'(_Ctx,#xqAtomicValue{value = X}) when abs(X) > 1 -> 
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'acos'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:acos(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the arc sine of the argument. 
-'asin'(_Ctx,Seq) -> 
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value=0} = X ->
-                    X;
-                 #xqAtomicValue{value="NaN"} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} when abs(X) > 1 ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} ->
-                       case catch math:asin(X) of
-                          {'EXIT',_} ->
-                             #xqAtomicValue{type='xs:double', value="NaN"};
-                          Z ->
-                             #xqAtomicValue{type='xs:double', value=Z}
-                       end
-              end,
-         ?seq:singleton(Av)
-   end.
+'asin'(_Ctx,[]) -> [];
+'asin'(_Ctx,[Arg]) -> 
+   'asin'(_Ctx,Arg);
+'asin'(_Ctx,#xqAtomicValue{value = X} = A) when X == 0 -> 
+   A;
+'asin'(_Ctx,#xqAtomicValue{value = "NaN"}) -> 
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'asin'(_Ctx,#xqAtomicValue{value=X}) when abs(X) > 1 -> 
+   #xqAtomicValue{type = 'xs:double', value="NaN"};
+'asin'(_Ctx,#xqAtomicValue{value = X}) ->
+     case catch math:asin(X) of
+        {'EXIT',_} ->
+           #xqAtomicValue{type = 'xs:double', value = "NaN"};
+        Z ->
+           #xqAtomicValue{type = 'xs:double', value = Z}
+     end.
 
 %% Returns the arc tangent of the argument. 
-'atan'(_Ctx,Seq) -> 
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value=0} = X ->
-                    X;
-                 #xqAtomicValue{value="NaN"} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value="INF"} ->
-                    #xqAtomicValue{type='xs:double', value=math:pi() / 2 };
-                 #xqAtomicValue{value="-INF"} ->
-                    #xqAtomicValue{type='xs:double', value= - math:pi() / 2 };
-                 #xqAtomicValue{value=X} ->
-                       case catch math:atan(X) of
-                          {'EXIT',_} ->
-                             #xqAtomicValue{type='xs:double', value="NaN"};
-                          Z ->
-                             #xqAtomicValue{type='xs:double', value=Z}
-                       end
-              end,
-         ?seq:singleton(Av)
+'atan'(_Ctx,[]) -> [];
+'atan'(_Ctx,[Seq]) ->
+   'atan'(_Ctx,Seq);
+'atan'(_Ctx,#xqAtomicValue{value = V} = A) when V == 0 ->
+   A;
+'atan'(_Ctx,#xqAtomicValue{value = "NaN"}) -> 
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'atan'(_Ctx,#xqAtomicValue{value = "INF"}) -> 
+   #xqAtomicValue{type = 'xs:double', value = math:pi() / 2 };
+'atan'(_Ctx,#xqAtomicValue{value = "-INF"}) -> 
+   #xqAtomicValue{type = 'xs:double', value = - math:pi() / 2 };
+'atan'(_Ctx,#xqAtomicValue{value = X}) -> 
+   case catch math:atan(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the angle in radians subtended at the origin by the point on a plane with coordinates (x, y) and the positive x-axis. 
-'atan2'(_Ctx,X,Y) -> 
-   #xqAtomicValue{value = X1} = ?seq:singleton_value(X),
-   #xqAtomicValue{value = Y1} = ?seq:singleton_value(Y),
-   Av = case catch math:atan2(X1,Y1) of
-           {'EXIT',_} ->
-              #xqAtomicValue{type='xs:double', value="NaN"};
-           Z ->
-              #xqAtomicValue{type='xs:double', value=Z}
-        end,
-   ?seq:singleton(Av).
+'atan2'(_Ctx,[X],Y) -> 'atan2'(_Ctx,X,Y);
+'atan2'(_Ctx,X,[Y]) -> 'atan2'(_Ctx,X,Y);
+'atan2'(_Ctx,#xqAtomicValue{value = X},#xqAtomicValue{value = Y}) -> 
+   case catch math:atan2(X,Y) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
+   end.
 
 %% Returns the cosine of the argument. The argument is an angle in radians. 
-'cos'(_Ctx,Seq) -> 
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         #xqAtomicValue{value = X1} = ?seq:singleton_value(Seq),
-         Av = case catch math:cos(X1) of
-                 {'EXIT',_} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 Z ->
-                    #xqAtomicValue{type='xs:double', value=Z}
-              end,
-         ?seq:singleton(Av)
+'cos'(_Ctx,[]) -> [];
+'cos'(_Ctx,[Seq]) -> 'cos'(_Ctx,Seq);
+'cos'(_Ctx,#xqAtomicValue{value = X}) -> 
+   case catch math:cos(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the value of ex. 
-'exp'(_Ctx,Seq) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value="NaN"} = X ->
-                    X;
-                 #xqAtomicValue{value="INF"} = X ->
-                    X;
-                 #xqAtomicValue{value="-INF"} ->
-                    #xqAtomicValue{type='xs:double', value=0.0};
-                 #xqAtomicValue{value=X} ->
-                    case catch math:exp(X) of
-                       {'EXIT',_} ->
-                          #xqAtomicValue{type='xs:double', value="NaN"};
-                       Z ->
-                          #xqAtomicValue{type='xs:double', value=Z}
-                    end
-              end,
-         ?seq:singleton(Av)
+'exp'(_Ctx,[]) -> [];
+'exp'(_Ctx,[Seq]) -> 'exp'(_Ctx,Seq);
+'exp'(_Ctx,#xqAtomicValue{value = "NaN"} = X) -> X;
+'exp'(_Ctx,#xqAtomicValue{value = "INF"} = X) -> X;
+'exp'(_Ctx,#xqAtomicValue{value = "-INF"}) ->
+   #xqAtomicValue{type = 'xs:double', value = 0.0};
+'exp'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:exp(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the value of 10x. 
-'exp10'(_Ctx,Seq) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value="NaN"} = X ->
-                    X;
-                 #xqAtomicValue{value="INF"} = X ->
-                    X;
-                 #xqAtomicValue{value="-INF"} ->
-                    #xqAtomicValue{type='xs:double', value=0.0};
-                 #xqAtomicValue{value=X} ->
-                    case catch math:pow(10, X) of
-                       {'EXIT',_} ->
-                          #xqAtomicValue{type='xs:double', value="NaN"};
-                       Z ->
-                          #xqAtomicValue{type='xs:double', value=Z}
-                    end
-              end,
-         ?seq:singleton(Av)
+'exp10'(_Ctx,[]) -> [];
+'exp10'(_Ctx,[Seq]) -> 'exp10'(_Ctx,Seq);
+'exp10'(_Ctx,#xqAtomicValue{value = "NaN"} = X) -> X;
+'exp10'(_Ctx,#xqAtomicValue{value = "INF"} = X) -> X;
+'exp10'(_Ctx,#xqAtomicValue{value = "-INF"}) ->
+   #xqAtomicValue{type = 'xs:double', value = 0.0};
+'exp10'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:pow(10, X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the natural logarithm of the argument. 
-'log'(_Ctx,Seq) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value="NaN"} = X ->
-                    X;
-                 #xqAtomicValue{value="INF"} = X ->
-                    X;
-                 #xqAtomicValue{value="-INF"} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} when X == 0 ->
-                    #xqAtomicValue{type='xs:double', value="-INF"};
-                 #xqAtomicValue{value=X} when X < 0 ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} ->
-                    case catch math:log(X) of
-                       {'EXIT',_} ->
-                          #xqAtomicValue{type='xs:double', value="NaN"};
-                       Z ->
-                          #xqAtomicValue{type='xs:double', value=Z}
-                    end
-              end,
-         ?seq:singleton(Av)
+'log'(_Ctx,[]) -> [];
+'log'(_Ctx,[Seq]) -> 'log'(_Ctx,Seq);
+'log'(_Ctx,#xqAtomicValue{value = "NaN"} = X) -> X;
+'log'(_Ctx,#xqAtomicValue{value = "INF"} = X) -> X;
+'log'(_Ctx,#xqAtomicValue{value = "-INF"}) -> 
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'log'(_Ctx,#xqAtomicValue{value = X}) when X == 0 ->
+   #xqAtomicValue{type = 'xs:double', value = "-INF"};
+'log'(_Ctx,#xqAtomicValue{value = X}) when X < 0 ->
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'log'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:log(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the base-ten logarithm of the argument. 
-'log10'(_Ctx,Seq) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value="NaN"} = X ->
-                    X;
-                 #xqAtomicValue{value="INF"} = X ->
-                    X;
-                 #xqAtomicValue{value="-INF"} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} when X == 0 ->
-                    #xqAtomicValue{type='xs:double', value="-INF"};
-                 #xqAtomicValue{value=X} when X < 0 ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} ->
-                    case catch math:log10(X) of
-                       {'EXIT',_} ->
-                          #xqAtomicValue{type='xs:double', value="NaN"};
-                       Z ->
-                          #xqAtomicValue{type='xs:double', value=Z}
-                    end
-              end,
-         ?seq:singleton(Av)
+'log10'(_Ctx,[]) -> [];
+'log10'(_Ctx,[Seq]) -> 'log'(_Ctx,Seq);
+'log10'(_Ctx,#xqAtomicValue{value = "NaN"} = X) -> X;
+'log10'(_Ctx,#xqAtomicValue{value = "INF"} = X) -> X;
+'log10'(_Ctx,#xqAtomicValue{value = "-INF"}) -> 
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'log10'(_Ctx,#xqAtomicValue{value = X}) when X == 0 ->
+   #xqAtomicValue{type = 'xs:double', value = "-INF"};
+'log10'(_Ctx,#xqAtomicValue{value = X}) when X < 0 ->
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'log10'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:log10(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns an approximation to the mathematical constant π. 
 'pi'(_Ctx) -> 
-   ?seq:singleton(#xqAtomicValue{type='xs:double', value=math:pi()}).
+   #xqAtomicValue{type = 'xs:double', value = math:pi()}.
 
 %% Returns the result of raising the first argument to the power of the second. 
-'pow'(_Ctx,X,Y) ->
-   case ?seq:is_empty(X) of
-      true ->
-         X;
-      _ ->
-         #xqAtomicValue{value = X1} = ?seq:singleton_value(X),
-         #xqAtomicValue{value = Y1} = ?seq:singleton_value(Y),
-         Av =case {X1,Y1} of
-               {"INF",Y1} when Y1 == 0 ->
-                  #xqAtomicValue{type='xs:double', value= 1.0};
-               {"-INF",Y1} when Y1 == 0 ->
-                  #xqAtomicValue{type='xs:double', value= 1.0};
-               {"NaN",Y1} when Y1 == 0 ->
-                  #xqAtomicValue{type='xs:double', value= 1.0};
-               {X1,Y1} when X1 == 0, Y1 <0 ->
-                  #xqAtomicValue{type='xs:double', value= "INF"}; % -0 missing should give -INF
-               {X1,_} when abs(X1) == 1 ->
-                  #xqAtomicValue{type='xs:double', value= 1.0};
-               _ ->
-                  %?dbg("{X1,Y1}",{X1,Y1}),
-                  case catch math:pow(X1, Y1) of
-                     {'EXIT',_} ->
-                        #xqAtomicValue{type='xs:double', value="NaN"};
-                     Z ->
-                        #xqAtomicValue{type='xs:double', value=Z}
-                  end
-            end,
-         ?seq:singleton(Av)
+'pow'(_Ctx,[],_) -> [];
+'pow'(_Ctx,[X],Y) -> 'pow'(_Ctx,X,Y);
+'pow'(_Ctx,X,[Y]) -> 'pow'(_Ctx,X,Y);
+'pow'(_Ctx,#xqAtomicValue{value = "INF"},#xqAtomicValue{value = Y}) when Y == 0 ->
+   #xqAtomicValue{type = 'xs:double', value = 1.0};
+'pow'(_Ctx,#xqAtomicValue{value = "-INF"},#xqAtomicValue{value = Y}) when Y == 0 ->
+   #xqAtomicValue{type = 'xs:double', value = 1.0};
+'pow'(_Ctx,#xqAtomicValue{value = "NaN"},#xqAtomicValue{value = Y}) when Y == 0 ->
+   #xqAtomicValue{type = 'xs:double', value = 1.0};
+'pow'(_Ctx,#xqAtomicValue{value = X},#xqAtomicValue{value = Y}) when X == 0, Y < 0 ->
+   #xqAtomicValue{type = 'xs:double', value = "INF"}; % -0 missing should give -INF
+'pow'(_Ctx,#xqAtomicValue{value = X},#xqAtomicValue{value = _Y}) when abs(X) == 1 ->
+   #xqAtomicValue{type = 'xs:double', value = 1.0};
+'pow'(_Ctx,#xqAtomicValue{value = X},#xqAtomicValue{value = Y}) ->
+   case catch math:pow(X, Y) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the sine of the argument. The argument is an angle in radians. 
-'sin'(_Ctx,Seq) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value=0} = X ->
-                    X;
-                 #xqAtomicValue{value="NaN"} = X ->
-                    X;
-                 #xqAtomicValue{value="-INF"} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} ->
-                    case catch math:sin(X) of
-                       {'EXIT',_} ->
-                          #xqAtomicValue{type='xs:double', value="NaN"};
-                       Z ->
-                          #xqAtomicValue{type='xs:double', value=Z}
-                    end
-              end,
-         ?seq:singleton(Av)
+'sin'(_Ctx,[]) -> [];
+'sin'(_Ctx,[Seq]) -> 'sin'(_Ctx,Seq);
+'sin'(_Ctx,#xqAtomicValue{value = V} = X) when V == 0 -> X;
+'sin'(_Ctx,#xqAtomicValue{value = "NaN"} = X) -> X;
+'sin'(_Ctx,#xqAtomicValue{value = "-INF"}) ->
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'sin'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:sin(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
-
 %% Returns the non-negative square root of the argument. 
-'sqrt'(_Ctx,Seq) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value="NaN"} = X ->
-                    X;
-                 #xqAtomicValue{value="INF"} = X ->
-                    X;
-                 #xqAtomicValue{value="-INF"} ->
-                    #xqAtomicValue{type='xs:double', value="NaN"};
-                 #xqAtomicValue{value=X} ->
-                    case catch math:sqrt(X) of
-                       {'EXIT',_} ->
-                          #xqAtomicValue{type='xs:double', value="NaN"};
-                       Z ->
-                          #xqAtomicValue{type='xs:double', value=Z}
-                    end
-              end,
-         ?seq:singleton(Av)
+'sqrt'(_Ctx,[]) -> [];
+'sqrt'(_Ctx,[Seq]) -> 'sqrt'(_Ctx,Seq);
+'sqrt'(_Ctx,#xqAtomicValue{value = "NaN"} = X) -> X;
+'sqrt'(_Ctx,#xqAtomicValue{value = "INF"} = X) -> X;
+'sqrt'(_Ctx,#xqAtomicValue{value = "-INF"}) ->
+   #xqAtomicValue{type = 'xs:double', value = "NaN"};
+'sqrt'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:sqrt(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
 
 %% Returns the tangent of the argument. The argument is an angle in radians. 
-'tan'(_Ctx,Seq) -> 
-   case ?seq:is_empty(Seq) of
-      true ->
-         Seq;
-      _ ->
-         Av = case ?seq:singleton_value(Seq) of
-                 #xqAtomicValue{value=X} ->
-                    case catch math:tan(X) of
-                       {'EXIT',_} ->
-                          #xqAtomicValue{type='xs:double', value="NaN"};
-                       Z ->
-                          #xqAtomicValue{type='xs:double', value=Z}
-                    end
-              end,
-         ?seq:singleton(Av)
+'tan'(_Ctx,[]) -> [];
+'tan'(_Ctx,[Seq]) -> 'tan'(_Ctx,Seq);
+'tan'(_Ctx,#xqAtomicValue{value = X}) ->
+   case catch math:tan(X) of
+      {'EXIT',_} ->
+         #xqAtomicValue{type = 'xs:double', value = "NaN"};
+      Z ->
+         #xqAtomicValue{type = 'xs:double', value = Z}
    end.
-
-
-
-
