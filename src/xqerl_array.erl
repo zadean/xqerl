@@ -81,7 +81,7 @@
 -export(['fold-left'/4]).
 -export(['fold-right'/4]).
 -export(['for-each'/3]).
--export(['for-each-pair'/5]).
+-export(['for-each-pair'/4]).
 -export(['get'/3]).
 -export(['head'/2]).
 -export(['insert-before'/4]).
@@ -96,124 +96,125 @@
 
 %internal use
 -export(['from_list'/1]).
+-export([values/1]).
+-export([get_matched/2]).
 
 
 %% Returns an array containing all the members of a supplied array, plus one additional member at the end. 
 'append'(_Ctx,#array{data = List},Appendage) -> 
-   App = if is_list(Appendage) -> Appendage;
-            true -> [Appendage]
-         end,
-   #array{data = List ++ App};
-'append'(Ctx,Seq,Appendage) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'append'(Ctx,?seq:singleton_value(Seq),Appendage);
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+   #array{data = List ++ [Appendage]};
+'append'(_Ctx,_Seq,_Appendage) ->
+   xqerl_error:error('FORG0006').
 
 %% Returns an array containing those members of the $array for which $function returns true. 
 'filter'(_Ctx,#array{data = List},Function) when is_function(Function) -> 
-   Fx = fun(I) ->
-              Val = Function([],I),
-              xqerl_types:value(Val) == true
-        end,
-   Data = lists:filter(Fx, List),
-   #array{data = Data};
-'filter'(Ctx,Seq,Function) when is_function(Function) -> 
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'filter'(Ctx,?seq:singleton_value(Seq),Function);
-      _ ->
-         xqerl_error:error('FORG0006')
+   try
+      Fx = fun(I) ->
+                 Val = Function([],I),
+                 %?dbg("Val",xqerl_types:value(Val)),
+                 xqerl_types:value(Val) == true
+           end,
+      Data = lists:filter(Fx, List),
+      #array{data = Data}
+   catch 
+      _:{badarity,_} ->
+         xqerl_error:error('XPTY0004');
+      _:E ->
+         throw(E)
    end;
 'filter'(Ctx,Array,#xqFunction{body = Function}) when is_function(Function) -> 
-   'filter'(Ctx,Array,Function);
-'filter'(Ctx,Seq,Function) -> 
-   case ?seq:is_sequence(Function) of
-      true ->
-         'filter'(Ctx,Seq,?seq:singleton_value(Function));
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+   'filter'(Ctx,Array,Function).
 
 %% Replaces any array appearing in a supplied sequence with the members of the array, recursively. 
-'flatten'(_Ctx,_Arg1) -> exit(not_implemented).
+'flatten'(_Ctx,#array{data = Data}) ->
+   flatten1(Data);
+'flatten'(_Ctx,Data) when is_list(Data) -> 
+   flatten1(Data);
+'flatten'(_Ctx,Data) -> 
+   Data.
+
+flatten1([]) -> [];
+flatten1([#array{data = H}|T]) ->
+   Head = flatten1(H),
+   flatten1(Head ++ T);
+flatten1([H|T]) ->
+   if is_list(H) ->
+         flatten1(H ++ T);
+      true ->
+         [H|flatten1(T)]
+   end.
+
 
 %% Evaluates the supplied function cumulatively on successive members of the supplied array. 
 'fold-left'(_Ctx,#array{data = List},Zero,Function) when is_function(Function) -> 
    Fx = fun(I,Acc) ->
               Function([], Acc,I)
         end,
-   Data = lists:foldl(Fx, Zero, List),
-   #array{data = Data};
-'fold-left'(Ctx,Seq,Zero,Function) when is_function(Function) -> 
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'fold-left'(Ctx,?seq:singleton_value(Seq),Zero,Function);
-      _ ->
-         xqerl_error:error('FORG0006')
-   end;
+   lists:foldl(Fx, Zero, List);
 'fold-left'(Ctx,Seq,Zero,#xqFunction{body = Function}) when is_function(Function) -> 
-   'fold-left'(Ctx,Seq,Zero,Function);
-'fold-left'(Ctx,Seq,Zero,Function) ->
-   case ?seq:is_sequence(Function) of
-      true ->
-         'fold-left'(Ctx,Seq,Zero,?seq:singleton_value(Function));
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+   'fold-left'(Ctx,Seq,Zero,Function).
 
 %% Evaluates the supplied function cumulatively on successive values of the supplied array. 
 'fold-right'(_Ctx,#array{data = List},Zero,Function) when is_function(Function) -> 
    Fx = fun(I,Acc) ->
               Function([], I, Acc)
         end,
-   Data = lists:foldr(Fx, Zero, List),
-   #array{data = Data};
-'fold-right'(Ctx,Seq,Zero,Function) when is_function(Function) -> 
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'fold-right'(Ctx,?seq:singleton_value(Seq),Zero,Function);
-      _ ->
-         xqerl_error:error('FORG0006')
-   end;
+   lists:foldr(Fx, Zero, List);
 'fold-right'(Ctx,Seq,Zero,#xqFunction{body = Function}) when is_function(Function) -> 
-   'fold-right'(Ctx,Seq,Zero,Function);
-'fold-right'(Ctx,Seq,Zero,Function) ->
-   case ?seq:is_sequence(Function) of
-      true ->
-         'fold-right'(Ctx,Seq,Zero,?seq:singleton_value(Function));
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+   'fold-right'(Ctx,Seq,Zero,Function).
 
 %% Returns an array whose size is the same as array:size($array), in which each member is computed by applying $function to the corresponding member of $array. 
-'for-each'(_Ctx,#array{data = List},Function) when is_function(Function) -> 
-   Data = lists:map(fun(I) ->
-                          Function([],I)
-                    end, List),
-   #array{data = Data};
-'for-each'(Ctx,Seq,Function) when is_function(Function) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'for-each'(Ctx,?seq:singleton_value(Seq),Function);
-      _ ->
-         xqerl_error:error('FORG0006')
-   end;
 'for-each'(Ctx,Seq,#xqFunction{body = Function}) when is_function(Function) ->
    'for-each'(Ctx,Seq,Function);
-'for-each'(Ctx,Seq,Function) ->
-   case ?seq:is_sequence(Function) of
-      true ->
-         'for-each'(Ctx,Seq,?seq:singleton_value(Function));
-      _ ->
-         xqerl_error:error('FORG0006')
+'for-each'(_Ctx,#array{data = List},Function) when is_function(Function) -> 
+   try
+      Data = lists:map(fun(I) ->
+                             case Function([],I) of
+                                [E] ->
+                                   E;
+                                E ->
+                                   E
+                             end
+                       end, List),
+      #array{data = Data}
+   catch 
+      _:{badarity,_} ->
+         xqerl_error:error('XPTY0004');
+      _:badarg ->
+         xqerl_error:error('XPTY0004');
+      _:E ->
+         throw(E)
    end.
 
 
 %% Returns an array obtained by evaluating the supplied function once for each pair of members at the same position in the two supplied arrays. 
-'for-each-pair'(_Ctx,_Arg1,_Arg2,_Arg3,_Arg4) -> exit(not_implemented).
+'for-each-pair'(_Ctx,#array{data = []},_Arg2,_Arg3) -> #array{data = []};
+'for-each-pair'(_Ctx,_Arg1,#array{data = []},_Arg3) -> #array{data = []};
+'for-each-pair'(_Ctx,#array{} = Arr1,#array{} = Arr2,#xqFunction{body = Function}) when is_function(Function) ->
+   'for-each-pair'(_Ctx,Arr1,Arr2,Function);
+'for-each-pair'(_Ctx,#array{data = D1},#array{data = D2},Function) when is_function(Function) ->
+   try
+      #array{data = for_each_pair1(D1, D2, Function)}
+   catch 
+      _:{badarity,_} ->
+         xqerl_error:error('XPTY0004');
+      _:badarg ->
+         xqerl_error:error('XPTY0004');
+      _:E ->
+         throw(E)
+   end.
+
+for_each_pair1([],_,_) -> [];
+for_each_pair1(_,[],_) -> [];
+for_each_pair1([H1|T1],[H2|T2],Fun) ->
+   R = case Fun([],H1,H2) of
+          [E] ->
+             E;
+          E ->
+             E
+       end,   
+   [R|for_each_pair1(T1,T2,Fun)].
+
 
 %% Returns the value at the specified position in the supplied array (counting from 1). 
 'get'(_Ctx,#array{data = List},Position) ->
@@ -224,13 +225,10 @@
       N ->
          N
    end;
-'get'(Ctx,Seq,Position) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'get'(Ctx,?seq:singleton_value(Seq),Position);
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+'get'(Ctx,[Seq],Position) ->
+   'get'(Ctx,Seq,Position);
+'get'(_Ctx,_Seq,_Position) ->
+   xqerl_error:error('FORG0006').
 
 %% Returns the first member of an array, that is $array(1). 
 'head'(_Ctx,#array{data = List}) ->
@@ -239,16 +237,11 @@
          xqerl_error:error('FOAY0001');
       N ->
          N
-   end;
-'head'(Ctx,Seq) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'head'(Ctx,?seq:singleton_value(Seq));
-      _ ->
-         xqerl_error:error('FORG0006')
    end.
 
 %% Returns an array containing all the members of the supplied array, with one additional member at a specified position. 
+'insert-before'(_Ctx,#array{data = List},Position,[Member]) ->
+   'insert-before'(_Ctx,#array{data = List},Position,Member);
 'insert-before'(_Ctx,#array{data = List},Position,Member) -> 
    I = xqerl_types:value(Position),
    if I > length(List) + 1 orelse I < 1 ->
@@ -256,17 +249,7 @@
       true ->
          Hd = lists:sublist(List, I - 1),
          Tl = lists:nthtail(I - 1, List),
-         Mem = if is_list(Member) -> Member;
-                  true -> [Member]
-               end,
-         #array{data = Hd ++ Mem ++ Tl}
-   end;
-'insert-before'(Ctx,Seq,Position,Member) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'insert-before'(Ctx,?seq:singleton_value(Seq),Position,Member);
-      _ ->
-         xqerl_error:error('FORG0006')
+         #array{data = Hd ++ [Member] ++ Tl}
    end.
 
 %% Concatenates the contents of several arrays into a single array. 
@@ -281,6 +264,8 @@
    #array{data = Data}.
 
 %% Returns an array containing all the members of a supplied array, except for one member which is replaced with a new value. 
+'put'(_Ctx,#array{data = List},Position,[Member]) ->
+   'put'(_Ctx,#array{data = List},Position,Member);
 'put'(_Ctx,#array{data = List},Position,Member) -> 
    I = xqerl_types:value(Position),
    if I > length(List) orelse I < 1 ->
@@ -288,17 +273,7 @@
       true ->
          Hd = lists:sublist(List, I - 1),
          Tl = lists:nthtail(I, List),
-         Mem = if is_list(Member) -> Member;
-                  true -> [Member]
-               end,
-         #array{data = Hd ++ Mem ++ Tl}
-   end;
-'put'(Ctx,Seq,Position,Member) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'put'(Ctx,?seq:singleton_value(Seq),Position,Member);
-      _ ->
-         xqerl_error:error('FORG0006')
+         #array{data = Hd ++ [Member] ++ Tl}
    end.
 
 %% Returns an array containing all the members of the supplied array, except for the members at specified positions. 
@@ -308,48 +283,95 @@
    SortPos = ordsets:from_list(IntList),
    RevPos = lists:reverse(ordsets:to_list(SortPos)),
    Arr1 = lists:foldl(fun(P,A) ->
-                            case P > array:size(A) of 
+                            case P > array:size(A) orelse P < 1  of 
                                true -> xqerl_error:error('FOAY0001');
                                _ -> array:reset(P - 1, A)
                             end
                       end, Arr, RevPos),
    Dat = array:sparse_to_list(Arr1),
-   #array{data = Dat};
-'remove'(Ctx,Seq,Positions) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'remove'(Ctx,?seq:singleton_value(Seq),Positions);
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+   #array{data = Dat}.
 
 
 %% Returns an array containing all the members of a supplied array, but in reverse order. 
 'reverse'(_Ctx,#array{data = List}) -> 
    #array{data = lists:reverse(List)};
-'reverse'(Ctx,Seq) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'reverse'(Ctx,?seq:singleton_value(Seq));
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+'reverse'(Ctx,[Seq]) ->
+   'reverse'(Ctx,Seq);
+'reverse'(_Ctx,_Seq) ->
+   xqerl_error:error('FORG0006').
 
 %% Returns the number of members in the supplied array. 
 'size'(_Ctx,#array{data=List}) -> 
    ?atint(erlang:length(List));
-'size'(Ctx,Seq) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         'size'(Ctx,?seq:singleton_value(Seq));
-      _ ->
-         xqerl_error:error('FORG0006')
-   end.
+'size'(Ctx,[Seq]) ->
+   'size'(Ctx,Seq);
+'size'(_Ctx,_Seq) ->
+   xqerl_error:error('FORG0006').
 
 %% Returns an array containing all the members of the supplied array, sorted according to the value of a sort key supplied as a function. 
-'sort'(_Ctx,_Arg1) -> exit(not_implemented).
-'sort'(_Ctx,_Arg1,_Arg2) -> exit(not_implemented).
-'sort'(_Ctx,_Arg1,_Arg2,_Arg3) -> exit(not_implemented).
+'sort'(Ctx,#array{} = Array) -> 
+   Collation = xqerl_context:get_default_collation(Ctx),
+   sort(Ctx,Array, Collation).
+   
+'sort'(Ctx,#array{} = Array,[]) -> 
+   Collation = xqerl_context:get_default_collation(Ctx),
+   'sort'(Ctx,Array,Collation,fun xqerl_fn:data/2);
+'sort'(Ctx,#array{} = Array,Collation) ->
+   'sort'(Ctx,Array,Collation,fun xqerl_fn:data/2).
+
+'sort'(Ctx,#array{} = Array,[],Function) -> 
+   Collation = xqerl_context:get_default_collation(Ctx),
+   'sort'(Ctx,Array,Collation,Function);
+'sort'(Ctx,#array{data = List},Collation,Function) when is_function(Function) -> 
+   SortFun = fun(A,B) ->
+                   KeyA = Function(Ctx,A),
+                   KeyB = Function(Ctx,B),
+                   sort1(Ctx,KeyA,KeyB,Collation)
+             end,
+   SortedList = lists:sort(SortFun, List),
+   #array{data = SortedList};
+'sort'(Ctx,Array,Collation,#xqFunction{body = Function}) when is_function(Function) ->
+   'sort'(Ctx,Array,Collation,Function).
+
+
+sort1(_,[],[],_Coll) -> true;
+sort1(_,[],_B,_Coll) -> true;
+sort1(_,_A,[],_Coll) -> false;
+sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
+   #xqAtomicValue{value = Equal} = xqerl_fn:'deep-equal'(Ctx, hd(A), hd(B), Coll),
+   %?dbg("Equal",Equal),
+   if Equal == true ->
+         sort1(Ctx,tl(A),tl(B),Coll);
+      true ->
+         #xqAtomicValue{value = NotEqual} = xqerl_operators:not_equal(hd(A), hd(A)),
+         %?dbg("NotEqual",NotEqual),
+         if NotEqual == true ->
+               true;
+            true ->
+               TypeA = xqerl_types:type(hd(A)),
+               TypeB = xqerl_types:type(hd(B)),
+               %?dbg("TypeA",TypeA),
+               %?dbg("TypeB",TypeB),
+               if ?string(TypeA) orelse TypeA == 'xs:anyURI' orelse TypeA == 'xs:untypedAtomic',
+                  ?string(TypeB) orelse TypeB == 'xs:anyURI' orelse TypeB == 'xs:untypedAtomic' ->
+                     #xqAtomicValue{value = Comp} = xqerl_fn:compare(Ctx, hd(A), hd(B), Coll),
+                     %?dbg("Comp",Comp),
+                     Comp =< 0;
+                  true ->
+                     #xqAtomicValue{value = LTEqual} = xqerl_operators:less_than_eq(hd(A), hd(B)),
+                     %?dbg("LTEqual",LTEqual),
+                     LTEqual
+               end
+         end
+   end;
+sort1(Ctx,A,B,Coll) when is_list(A) ->
+   sort1(Ctx,A,[B],Coll);
+sort1(Ctx,A,B,Coll) when is_list(B) ->
+   sort1(Ctx,[A],B,Coll);
+sort1(Ctx,A,B,Coll) ->
+   sort1(Ctx,[A],[B],Coll).
+
+   
 
 %% Returns an array containing all members from a supplied array starting at a supplied position, up to a specified length. 
 'subarray'(_Ctx,Array,Start) -> 
@@ -407,3 +429,15 @@
 
 from_list(List) ->
    #array{data = List}.
+
+
+% used in unary lookup
+values(#array{data = List}) ->
+  List.
+
+% used in unary lookup
+get_matched(Array,Keys) ->
+   lists:map(fun(Key) ->
+                   ?MODULE:get([], Array, Key)
+                 end, Keys).
+

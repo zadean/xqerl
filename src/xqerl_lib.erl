@@ -36,6 +36,7 @@
 -export([is_xsncname_start_char/1]).
 -export([escape_uri/1]).
 -export([shrink_spaces/1]).
+-export([normalize_spaces/1]).
 -export([reserved_namespaces/1]).
 -export([encode_for_uri/1]).
 -export([pct_encode3/1]).
@@ -50,7 +51,7 @@
 %% non-space whitespace
 -define(NSWS(H), H==?cr; H==?lf; H==?tab).
 
-% characters allowed in xs:string
+% characters allowed in XML 1.0
 % #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
 % 11 and 12 added to XML 1.1
 is_xschar(16#09) -> true;
@@ -202,6 +203,22 @@ shrink_spaces([WS|T]) when WS == 13;
    shrink_spaces([32|T]);
 shrink_spaces([H|T]) ->
    [H|shrink_spaces(T)].
+
+
+normalize_spaces([]) ->
+   [];
+normalize_spaces([WS|T]) when WS == 13;
+                              WS == 10;
+                              WS == 9 ->
+   [32|normalize_spaces(T)];
+normalize_spaces("&#xD;"++T) ->
+   [32|normalize_spaces(T)];
+normalize_spaces("&#xA;"++T) ->
+   [32|normalize_spaces(T)];
+normalize_spaces("&#x9;"++T) ->
+   [32|normalize_spaces(T)];
+normalize_spaces([H|T]) ->
+   [H|normalize_spaces(T)].
 
 encode_for_uri([]) ->
    [];

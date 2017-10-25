@@ -63,6 +63,12 @@
 -export([all_node/1]).
 -export([all_not_node/1]).
 
+-export([ensure_one/1]).
+-export([ensure_one_or_more/1]).
+-export([ensure_zero_or_one/1]).
+-export([ensure_zero_or_more/1]).
+
+
 -include("xqerl.hrl").
 
 %-define(seq, gb_trees).
@@ -78,23 +84,24 @@
                      is_record(N, xqProcessingInstructionNode);
                      is_record(N, xqNamespaceNode)).
 
-%% construct:
-%% 
-%% list()
+ensure_one([A]) -> A;
+ensure_one(A) when is_list(A) -> xqerl_error:error('XPTY0004');
+ensure_one(A) -> A.
 
--export_type([seq/0]).
--type seq() :: list().
--type ctx() :: term().
+ensure_one_or_more([]) -> xqerl_error:error('XPTY0004');
+ensure_one_or_more([A]) -> A;
+ensure_one_or_more(A) -> A.
 
-%-spec size(seq()|map()|tuple()|list()) -> integer().
-%% size(#xqAtomicValue{}) ->
-%%    1;
-%% size(#xqNode{}) ->
-%%    1;
+ensure_zero_or_one([]) -> [];
+ensure_zero_or_one([A]) -> A;
+ensure_zero_or_one(A) when is_list(A) -> xqerl_error:error('XPTY0004');
+ensure_zero_or_one(A) -> A.
+
+ensure_zero_or_more(A) -> A.
+
+
 size(List) when is_list(List) ->
    length(List);
-%% size(Map) when is_map(Map) ->
-%%    maps:size(Map);
 size(_) ->
    1.
 
@@ -331,20 +338,26 @@ map1(Ctx, Fun, [H|T], Pos) ->
          xqerl_error:error('XPTY0004')
    end.
 
-% TODO ensure nodes
+node_map(Ctx, Fun, Seq) when not is_list(Seq) ->
+   node_map(Ctx, Fun, [Seq]);
 node_map(Ctx, Fun, Seq) ->
-   Nodes = map(Ctx, Fun, Seq),
-   case all_node(Nodes) of
+   case all_node(Seq) of
       true ->
-         from_list(Nodes);
-      _ ->
-         case all_not_node(Nodes) of
+         ?dbg("All node",Seq),
+         Nodes = map(Ctx, Fun, Seq),
+         case all_node(Nodes) orelse all_not_node(Nodes) of
             true ->
+               ?dbg("OK",Nodes),
                from_list(Nodes);
             _ ->
+               % mixed
                xqerl_error:error('XPTY0018')
-         end
+         end;
+      _ ->
+         ?dbg("NOT All node",Seq),
+         xqerl_error:error('XPTY0019')
    end.
+
 
 foldl(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
    foldl1(Ctx,Fun,Acc,Seq);
@@ -486,6 +499,8 @@ filter(Ctx, [#xqAtomicValue{}] = Pos,Seq) ->
    position_filter(Ctx, Pos, Seq);
 filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
    position_filter(Ctx, Pos, Seq);
+filter(Ctx, Fun, Seq) when not is_list(Seq) ->
+   filter(Ctx, Fun, [Seq]);
 filter(Ctx, Fun, Seq) when is_function(Fun,1) ->
    Size = ?MODULE:size(Seq),
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
@@ -495,29 +510,37 @@ filter1(_Ctx, _Fun, [], _Pos) -> [];
 filter1(Ctx, Fun, [H|T], Pos) ->
    NextPos = Pos + 1,
    Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
-   Resp = Fun(Ctx1),
-   %?dbg("Resp",Resp),
-   case Resp of
-      [#xqAtomicValue{type = NType, value = FPos}] when ?numeric(NType) ->
-         if FPos == Pos ->
-               [H|filter1(Ctx, Fun, T, NextPos)];
-            true ->
-               filter1(Ctx, Fun, T, NextPos)
-         end;
-      #xqAtomicValue{type = NType, value = FPos} when ?numeric(NType) ->
-         if FPos == Pos ->
-               [H|filter1(Ctx, Fun, T, NextPos)];
-            true ->
-               filter1(Ctx, Fun, T, NextPos)
-         end;
-      _ ->
-         Bool = xqerl_operators:eff_bool_val(Resp),
-         if Bool ->
-               [H|filter1(Ctx, Fun, T, NextPos)];
-            true ->
-               filter1(Ctx, Fun, T, NextPos)
+   try Fun(Ctx1) of
+      Resp ->
+         %?dbg("Resp",Resp),
+         case Resp of
+            [#xqAtomicValue{type = NType, value = FPos}] when ?numeric(NType) ->
+               if FPos == Pos ->
+                     [H|filter1(Ctx, Fun, T, NextPos)];
+                  true ->
+                     filter1(Ctx, Fun, T, NextPos)
+               end;
+            #xqAtomicValue{type = NType, value = FPos} when ?numeric(NType) ->
+               if FPos == Pos ->
+                     [H|filter1(Ctx, Fun, T, NextPos)];
+                  true ->
+                     filter1(Ctx, Fun, T, NextPos)
+               end;
+            _ ->
+               Bool = xqerl_operators:eff_bool_val(Resp),
+               if Bool ->
+                     [H|filter1(Ctx, Fun, T, NextPos)];
+                  true ->
+                     filter1(Ctx, Fun, T, NextPos)
+               end
          end
-   end.
+   catch 
+      _:#xqError{name = #xqAtomicValue{value = #qname{local_name = "XPTY0019"}}} ->
+         % context was not a node when one was expected
+         xqerl_error:error('XPTY0020');
+      _:#xqError{} = E ->
+         throw(E)
+  end.
 
 concat_seqs([],Seq2) -> Seq2;
 concat_seqs(Seq1,[]) -> Seq1;
@@ -530,13 +553,15 @@ concat_seqs(Seq1,Seq2) when is_list(Seq1) ->
 concat_seqs(Seq1,Seq2) ->
    [Seq1,Seq2].
 
-all_node(Seq) ->
+all_node(Seq) when is_list(Seq) ->
    IsNode = fun(Item) when ?noderecs(Item) ->
                   true;
                (_) ->
                   false
             end,
-   lists:all(IsNode, Seq).
+   lists:all(IsNode, Seq);
+all_node(Seq) ->
+   all_node([Seq]).
 
 all_xqnode(Seq) ->
    IsNode = fun(#xqNode{}) ->
@@ -598,50 +623,6 @@ get_item_type(#xqProcessingInstructionNode{}) -> 'processing-instruction';
 get_item_type(#xqDocumentNode{}) -> 'document-node';
 get_item_type(#xqNode{} = Node) ->
    xqerl_node:get_node_type(Node).
-
-%% combined_type(T1, T2) when T1 == T2 -> T1;
-%% combined_type('item', _T2) -> 'item';
-%% combined_type(T1, 'empty-sequence') -> T1;
-%% combined_type('empty-sequence', T2) -> T2;
-%% combined_type(_T1,'item') -> 'item';
-%% combined_type('function', _T2) -> 'item';
-%% combined_type(_T1,'function') -> 'item';
-%% combined_type('map', _T2) -> 'item';
-%% combined_type(_T1,'map') -> 'item';
-%% combined_type('array', _T2) -> 'item';
-%% combined_type(_T1,'array') -> 'item';
-%% combined_type(T1,T2) when ?node(T1) andalso ?node(T2) -> 'node';
-%% combined_type(T1,_T2) when ?node(T1) -> 'item';
-%% combined_type(_T1,T2) when ?node(T2) -> 'item';
-%% combined_type(T1,T2) when ?NCName(T1) andalso ?NCName(T2) -> 'xs:NCName';
-%% combined_type(T1,T2) when ?Name(T1) andalso ?Name(T2) -> 'xs:Name';
-%% combined_type(T1,T2) when ?token(T1) andalso ?token(T2) -> 'xs:token';
-%% combined_type(T1,T2) when ?normalizedString(T1) andalso ?normalizedString(T2) -> 'xs:normalizedString';
-%% combined_type(T1,T2) when ?string(T1) andalso ?string(T2) -> 'xs:string';
-%% combined_type(T1,T2) when ?duration(T1) andalso ?duration(T2) -> 'xs:duration';
-%% combined_type(T1,T2) when ?nonPositiveInteger(T1) andalso ?nonPositiveInteger(T2) -> 'xs:nonPositiveInteger';
-%% combined_type(T1,T2) when ?short(T1) andalso ?short(T2) -> 'xs:short';
-%% combined_type(T1,T2) when ?int(T1) andalso ?int(T2) -> 'xs:int';
-%% combined_type(T1,T2) when ?long(T1) andalso ?long(T2) -> 'xs:long';
-%% combined_type(T1,T2) when ?nonNegativeInteger (T1) andalso ?nonNegativeInteger (T2) -> 'xs:nonNegativeInteger ';
-%% combined_type(T1,T2) when ?unsignedLong (T1) andalso ?unsignedLong (T2) -> 'xs:unsignedLong ';
-%% combined_type(T1,T2) when ?unsignedInt (T1) andalso ?unsignedInt (T2) -> 'xs:unsignedInt ';
-%% combined_type(T1,T2) when ?unsignedShort (T1) andalso ?unsignedShort (T2) -> 'xs:unsignedShort ';
-%% combined_type(T1,T2) when ?integer(T1) andalso ?integer(T2) -> 'xs:integer';
-%% combined_type(T1,T2) when ?decimal(T1) andalso ?decimal(T2) -> 'xs:decimal';
-%% combined_type(T1,T2) when ?numeric(T1) andalso ?numeric(T2) -> 'xs:numeric';
-%% combined_type(T1,T2) when ?anyAtomicType(T1) andalso ?anyAtomicType(T2) -> 'xs:anyAtomicType';
-%% combined_type(_T1,_T2) ->
-%%    'item'.
-%% 
-%% 
-%% doc_ord(Seq) ->
-%%    case all_node(Seq) of
-%%       true ->
-%%          union(Seq, empty());
-%%       _ ->
-%%          xqerl_error:error('XPTY0019') % only step on nodes
-%%    end.
 
 int_rec(Val) ->
    #xqAtomicValue{type = 'xs:integer', value = Val}.

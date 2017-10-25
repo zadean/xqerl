@@ -120,33 +120,6 @@ expand_nodes(Node, allow_empty) ->
          N
    end.
 
-%% append_position(Stream) ->
-%%    Iter = stream_iter(Stream),
-%%    fun Loop(It, Vars2) ->
-%%                case gb_trees:next(It2) of
-%%                   none -> % list complete
-%%                      ?dbg("Vars2",Vars2), 
-%%                      Vars2; 
-%%                   {K2,V2,I2} ->
-%%                      % innermost loop sets the variable tuple
-%%                      NewVars2 = gb_trees:enter(gb_trees:size(Vars2)+1, [K1,V1,K2,V2], Vars2), 
-%%                      IterFun2(I2, NewVars2)
-%%                end
-%%         end(Iter2,Vars1))   
-%%    append_position(lists:flatten(List), 1, []).
-%% 
-%% append_position([], _Cnt, Acc) ->
-%%    lists:reverse(Acc);
-%% append_position([H|T], Cnt, Acc) ->
-%%    New = case element(1, H) of
-%%       E when is_atom(E) ->
-%%          erlang:append_element({H}, [?atint(Cnt)]);
-%%       _E ->
-%%          erlang:append_element(H, [?atint(Cnt)])
-%%    end,
-%%    append_position(T, Cnt + 1, [New|Acc]).
-
-
 add_position(List) when is_list(List) ->
    add_position(List, 1, []);
 add_position(List) ->
@@ -156,11 +129,9 @@ add_position(List) ->
 add_position([], _Cnt, Acc) ->
    lists:reverse(Acc);
 add_position([H|T], Cnt, Acc) ->
-   %io:format("H CNT ~p ~p~n",[H,Cnt]),
    New = {H, ?atint(Cnt)},
    add_position(T, Cnt + 1, [New|Acc]);
 add_position(H, Cnt, Acc) ->
-   %io:format("H CNT ~p ~p~n",[H,Cnt]),
    New = {H, ?atint(Cnt)},
    add_position([], Cnt + 1, [New|Acc]).
 
@@ -209,7 +180,6 @@ windowclause(L, StartFun) ->
       [] -> stream_from_list([]);
       L1 ->
          Bw = winstart([[]|L1], StartFun, []),
-         % W is still a list, not sequence
          %?dbg("BW",Bw),
          Bw2 = lists:map(fun(B) ->
                                L2 = element(9, B),
@@ -316,6 +286,7 @@ winstart([{SPrev,_}] = L, StartFun, EndFun, _Type, Only) ->
    case bool(StartFun({[],[],SPrev,[]})) of
       true ->
          {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, ?seq:empty(), Only),
+         % could send Win someplace now
          Win;
       _ ->
          []
@@ -324,6 +295,7 @@ winstart([[],{S, SPos},{SNext, _}|_] = L, StartFun, EndFun, Type, Only) ->
    case bool(StartFun({S,SPos,[],SNext})) of
       true ->
          {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, ?seq:empty(), Only),
+         % could send Win someplace now
          if Type == tumbling ->
                winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
             true ->
@@ -336,6 +308,7 @@ winstart([[],{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
    case bool(StartFun({S,SPos,[],[]})) of
       true ->
          {Win, _Rest} = winend([], S, SPos, [], L, EndFun, ?seq:empty(), Only),
+         % could send Win someplace now
          Win;
 %%          if Type == tumbling ->
 %%                winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
@@ -350,6 +323,7 @@ winstart([{SPrev,_},{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
    case bool(StartFun({S,SPos,SPrev,[]})) of
       true ->
          {Win, _Rest} = winend(SPrev, S, SPos, [], L, EndFun, ?seq:empty(), Only),
+         % could send Win someplace now
          Win;
       _ ->
 %%          []
@@ -359,6 +333,7 @@ winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L, StartFun, EndFun, Type, Only) -
    case bool(StartFun({S,SPos,SPrev,SNext})) of
       true ->
          {Win, Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, ?seq:empty(), Only),
+         % could send Win someplace now
          if Type == tumbling ->
                winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
             true ->
@@ -465,7 +440,6 @@ orderbyclause(VarStream, Clauses) ->
    lists:sort(fun(A,B) ->
                     do_order(A,B,Clauses)
               end, stream_to_list(VarStream))).
-
 
 do_order(_A,_B,[]) ->
    true;

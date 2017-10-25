@@ -1227,90 +1227,1041 @@ init() ->
       {xqNamespace, "http://www.w3.org/2005/xpath-functions/array", "array"},
       {xqNamespace, "http://www.w3.org/2005/xqt-errors", "err"}]}.
 
-main(Options) ->
-    Ctx0 = init(),
-    Ctx = begin
-       Local__7 = proplists:get_value(context_item, Options, []),
-       xqerl_context:set_context_item(Ctx0, Local__7, 1, xqerl_seq2:size(Local__7))
-     end,
-    xqerl_types:return_value(begin
-                VarTup__1 = fun Local__5() ->
-                     begin
-                       fun IterLoop__1(Iter__1, Local__2) ->
-                          case xqerl_flwor:stream_next(Iter__1) of
-                            none -> Local__2;
-                            {Local__3, {XQ__var_1, _, _, _, _, _, _, _, Local__1}, []} ->
-                           XQ__var_2 = Local__1,
-                           xqerl_flwor:stream_append({XQ__var_1, XQ__var_2}, Local__2);
-                            {Local__3, {XQ__var_1, _, _, _, _, _, _, _, Local__1}, Iter__2} ->
-                           XQ__var_2 = Local__1,
-                           IterLoop__1(Iter__2,
-                                  xqerl_flwor:stream_append({XQ__var_1, XQ__var_2}, Local__2))
-                          end
-                       end(xqerl_flwor:stream_iter(xqerl_flwor:windowclause(begin
-                                           xqerl_seq2:sort_seq(xqerl_seq2:append({xqAtomicValue,
-                                                         'xs:integer',
-                                                         14},
-                                                        xqerl_seq2:append({xqAtomicValue,
-                                                                 'xs:integer',
-                                                                 12},
-                                                                xqerl_seq2:append({xqAtomicValue,
-                                                                         'xs:integer',
-                                                                         10},
-                                                                        xqerl_seq2:append({xqAtomicValue,
-                                                                            'xs:integer',
-                                                                            8},
-                                                                           xqerl_seq2:append({xqAtomicValue,
+'var$^5'(Ctx0) ->
+    xqerl_operators:subtract({xqAtomicValue, 'xs:integer', 8},
+              xqerl_xs:xs_integer(Ctx0,
+                   xqerl_fn:substring(Ctx0, erlang:get('var$^1'),
+                            xqerl_types:cast_as_seq({xqAtomicValue, 'xs:integer', 2},
+                                     {xqSeqType, 'xs:double', one}),
+                            xqerl_types:cast_as_seq({xqAtomicValue, 'xs:integer', 1},
+                                     {xqSeqType, 'xs:double', one})))).
+
+'var$^4'(Ctx0) ->
+    xqerl_xs:xs_integer(Ctx0,
+         xqerl_fn:translate(Ctx0,
+                  xqerl_fn:substring(Ctx0, erlang:get('var$^1'),
+                           xqerl_types:cast_as_seq({xqAtomicValue, 'xs:integer', 1},
+                                    {xqSeqType, 'xs:double', one}),
+                           xqerl_types:cast_as_seq({xqAtomicValue, 'xs:integer', 1},
+                                    {xqSeqType, 'xs:double', one})),
+                  {xqAtomicValue, 'xs:string', "abcdefgh"},
+                  {xqAtomicValue, 'xs:string', "01234567"})).
+
+'var$^3'(Ctx0) -> xqerl_xs:xs_integer(Ctx0, erlang:get('var$^2')).
+
+'var$^2'(Ctx0) -> {xqAtomicValue, 'xs:string', "64"}.
+
+'var$^1'(Ctx0) -> {xqAtomicValue, 'xs:string', "a1"}.
+
+'fx$^57'(Ctx0, Param__var_52) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    xqerl_node:new_fragment(Ctx__1,
+             {xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "html"},
+              undefined, [], [], [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType',
+              [], undefined,
+              [{xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "head"},
+                undefined, [], [], [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType',
+                [], undefined,
+                {xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "title"},
+            undefined, [], [], [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType',
+            [], undefined,
+            {xqTextNode, undefined, undefined, false, undefined,
+             {xqAtomicValue, 'xs:string', "Knight's tour"}}}},
+               {xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "body"},
+                undefined, [], [], [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType',
+                [], undefined,
+                {xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "div"},
+            undefined, [],
+            {xqAttributeNode, undefined, {qname, 'no-namespace', [], "align"}, undefined,
+             undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "center"}]},
+            [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType', [], undefined,
+            [{xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "h1"},
+              undefined, [], [], [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType',
+              [], undefined,
+              [{xqTextNode, undefined, undefined, false, undefined,
+                {xqAtomicValue, 'xs:string', "Knight's tour starting at "}},
+               [erlang:get('var$^1')]]},
+             {xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "table"},
+              undefined, [],
+              [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "cellpadding"},
+                undefined, undefined, undefined, undefined,
+                [{xqAtomicValue, 'xs:string', "4"}]},
+               {xqAttributeNode, undefined, {qname, 'no-namespace', [], "border"}, undefined,
+                undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "1"}]}],
+              [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType', [], undefined,
+              [begin
+                 VarTup__1 = fun () ->
+                      fun IterLoop__1(_, [], Local__1) -> Local__1;
+                          IterLoop__1(Local__2, [XQ__var_53 | Local__3], Local__1) ->
+                         IterLoop__1(Local__2 + 1, Local__3,
+                                xqerl_flwor:stream_append({XQ__var_53}, Local__1));
+                          IterLoop__1(Local__2, XQ__var_53, Local__1) ->
+                         IterLoop__1(Local__2 + 1, [],
+                                xqerl_flwor:stream_append({XQ__var_53}, Local__1))
+                      end(1,
+                          xqerl_seq3:range({xqAtomicValue, 'xs:integer', 0},
+                                 {xqAtomicValue, 'xs:integer', 7}),
+                          xqerl_flwor:stream_new())
+                   end(),
+                 Local__14 = fun IterLoop__5(Iter__9) ->
+                      case xqerl_flwor:stream_next(Iter__9) of
+                        none -> [];
+                        {_, {XQ__var_53}, Iter__10} ->
+                            [{xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "tr"},
+                         undefined, [], [], [{xqNamespace, 'no-namespace', []}], undefined,
+                         'xs:anyType', [], undefined,
+                         [begin
+                            VarTup__2 = fun () ->
+                                 fun IterLoop__2(_, [], Local__5) -> Local__5;
+                                     IterLoop__2(Local__6, [XQ__var_54 | Local__7],
+                                       Local__5) ->
+                                    IterLoop__2(Local__6 + 1, Local__7,
+                                           begin
+                                             XQ__var_55 =
+                                            xqerl_seq3:ensure_zero_or_more(case
+                                                         xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                                                            xqerl_operators:general_compare('=',
+                                                                                        xqerl_operators:modulo(xqerl_operators:add(XQ__var_53,
+                                                                                                     XQ__var_54),
+                                                                                                {xqAtomicValue,
+                                                                                                 'xs:integer',
+                                                                                                 2}),
+                                                                                        {xqAtomicValue,
                                                                                     'xs:integer',
-                                                                                    6},
-                                                                                   xqerl_seq2:append({xqAtomicValue,
-                                                                                            'xs:integer',
-                                                                                            4},
-                                                                                           xqerl_seq2:append({xqAtomicValue,
-                                                                                                    'xs:integer',
-                                                                                                    2},
-                                                                                                   xqerl_seq2:empty()))))))))
-                                         end,
-                                         fun ({XQ__var_1, _, _, _}) ->
-                                            xqerl_operators:general_compare('=',
-                                                        xqerl_operators:modulo(XQ__var_1,
-                                                                {xqAtomicValue,
-                                                                 'xs:integer',
-                                                                 3}),
-                                                        {xqAtomicValue,
-                                                         'xs:integer',
-                                                         0})
-                                         end,
-                                         fun ({XQ__var_1, _, _, _, _, _, _, _}) ->
-                                            xqerl_operators:general_compare('=',
-                                                        xqerl_operators:modulo(XQ__var_1,
-                                                                {xqAtomicValue,
-                                                                 'xs:integer',
-                                                                 3}),
-                                                        {xqAtomicValue,
-                                                         'xs:integer',
-                                                         0})
-                                         end,
-                                         {tumbling, false})),
-                      xqerl_flwor:stream_new())
-                     end
-                  end(),
-                fun IterLoop__2(Iter__3, Local__6) ->
-                   case xqerl_flwor:stream_next(Iter__3) of
-                none -> xqerl_seq2:sort_seq(Local__6);
-                {_, {XQ__var_1, XQ__var_2}, Iter__4} ->
-                    IterLoop__2(Iter__4,
-                      xqerl_seq2:append(xqerl_node:new_fragment(Ctx,
-                                       {xqElementNode, undefined, undefined,
-                                        {qname, 'no-namespace', [], "window"},
-                                        undefined, [], [],
-                                        [{xqNamespace, 'no-namespace', []},
-                                         {xqNamespace,
-                                          "http://www.w3.org/XML/1998/namespace",
-                                          "xml"}],
-                                        undefined, 'xs:anyType', [], undefined,
-                                        XQ__var_2}),
-                              Local__6))
+                                                                                    1})))
+                                                           of
+                                                         {xqAtomicValue,
+                                                          'xs:boolean',
+                                                          true} ->
+                                                             {xqAtomicValue,
+                                                         'xs:string',
+                                                         "xffff44"};
+                                                         _ ->
+                                                             {xqAtomicValue,
+                                                         'xs:string',
+                                                         "white"}
+                                                       end),
+                                             xqerl_flwor:stream_append({XQ__var_53,
+                                                    XQ__var_54,
+                                                    XQ__var_55},
+                                                   Local__5)
+                                           end);
+                                     IterLoop__2(Local__6, XQ__var_54, Local__5) ->
+                                    IterLoop__2(Local__6 + 1, [],
+                                           begin
+                                             XQ__var_55 =
+                                            xqerl_seq3:ensure_zero_or_more(case
+                                                         xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                                                            xqerl_operators:general_compare('=',
+                                                                                        xqerl_operators:modulo(xqerl_operators:add(XQ__var_53,
+                                                                                                     XQ__var_54),
+                                                                                                {xqAtomicValue,
+                                                                                                 'xs:integer',
+                                                                                                 2}),
+                                                                                        {xqAtomicValue,
+                                                                                    'xs:integer',
+                                                                                    1})))
+                                                           of
+                                                         {xqAtomicValue,
+                                                          'xs:boolean',
+                                                          true} ->
+                                                             {xqAtomicValue,
+                                                         'xs:string',
+                                                         "xffff44"};
+                                                         _ ->
+                                                             {xqAtomicValue,
+                                                         'xs:string',
+                                                         "white"}
+                                                       end),
+                                             xqerl_flwor:stream_append({XQ__var_53,
+                                                    XQ__var_54,
+                                                    XQ__var_55},
+                                                   Local__5)
+                                           end)
+                                 end(1,
+                                     xqerl_seq3:range({xqAtomicValue, 'xs:integer',
+                                             0},
+                                            {xqAtomicValue, 'xs:integer',
+                                             7}),
+                                     xqerl_flwor:stream_new())
+                              end(),
+                            Local__13 = fun IterLoop__4(Iter__7) ->
+                                 case xqerl_flwor:stream_next(Iter__7) of
+                                   none -> [];
+                                   {_, {XQ__var_53, XQ__var_54, XQ__var_55},
+                                    Iter__8} ->
+                                       [{xqElementNode, undefined, undefined,
+                                    {qname, 'no-namespace', [], "td"},
+                                    undefined, [],
+                                    [{xqAttributeNode, undefined,
+                                      {qname, 'no-namespace', [], "width"},
+                                      undefined, undefined, undefined,
+                                      undefined,
+                                      [{xqAtomicValue, 'xs:string', "22"}]},
+                                     {xqAttributeNode, undefined,
+                                      {qname, 'no-namespace', [], "bgcolor"},
+                                      undefined, undefined, undefined,
+                                      undefined, [[XQ__var_55]]},
+                                     {xqAttributeNode, undefined,
+                                      {qname, 'no-namespace', [], "align"},
+                                      undefined, undefined, undefined,
+                                      undefined,
+                                      [{xqAtomicValue, 'xs:string',
+                                        "center"}]}],
+                                    [{xqNamespace, 'no-namespace', []}],
+                                    undefined, 'xs:anyType', [], undefined,
+                                    [begin
+                                       VarTup__3 = fun () ->
+                                                 begin
+                                              XQ__var_56 = begin
+                                                   Local__11 =
+                                                       Param__var_52,
+                                                   xqerl_seq3:position_filter(Ctx__1,
+                                                               fun
+                                                                 (Ctx__1) ->
+                                                                xqerl_operators:add(xqerl_operators:add(xqerl_operators:multiply(XQ__var_53,
+                                                                                         {xqAtomicValue,
+                                                                                          'xs:integer',
+                                                                                          8}),
+                                                                               XQ__var_54),
+                                                                          {xqAtomicValue,
+                                                                           'xs:integer',
+                                                                           1})
+                                                               end,
+                                                               Local__11)
+                                                      end,
+                                              xqerl_flwor:stream_append({XQ__var_53,
+                                                          XQ__var_54,
+                                                          XQ__var_55,
+                                                          XQ__var_56},
+                                                         xqerl_flwor:stream_new())
+                                                 end
+                                              end(),
+                                       Local__12 = fun IterLoop__3(Iter__5) ->
+                                                 case
+                                              xqerl_flwor:stream_next(Iter__5)
+                                                of
+                                              none -> [];
+                                              {_,
+                                               {XQ__var_53,
+                                                XQ__var_54,
+                                                XQ__var_55,
+                                                XQ__var_56},
+                                               Iter__6} ->
+                                                  [case
+                                                xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_fn:boolean(Ctx__1,
+                                                                          xqerl_operators:eff_bool_val(xqerl_operators:general_compare('!=',
+                                                                                               erlang:get('var$^3'),
+                                                                                               {xqAtomicValue,
+                                                                                                'xs:integer',
+                                                                                                64}))
+                                                                            andalso
+                                                                            xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                                 XQ__var_56,
+                                                                                                 erlang:get('var$^3'))))))
+                                                  of
+                                                {xqAtomicValue,
+                                                 'xs:boolean',
+                                                 true} ->
+                                                    {xqElementNode,
+                                                     undefined,
+                                                     undefined,
+                                                     {qname,
+                                                      'no-namespace',
+                                                      [],
+                                                      "b"},
+                                                     undefined,
+                                                     [], [],
+                                                     [{xqNamespace,
+                                                       'no-namespace',
+                                                       []}],
+                                                     undefined,
+                                                     'xs:anyType',
+                                                     [],
+                                                     undefined,
+                                                     [XQ__var_56]};
+                                                _ ->
+                                                    case
+                                                      xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                                                    xqerl_operators:general_compare('=',
+                                                                                XQ__var_56,
+                                                                                {xqAtomicValue,
+                                                                                 'xs:integer',
+                                                                                 0})))
+                                                   of
+                                                      {xqAtomicValue,
+                                                       'xs:boolean',
+                                                       true} ->
+                                                     {xqAtomicValue,
+                                                      'xs:string',
+                                                      "�"};
+                                                      _ ->
+                                                     XQ__var_56
+                                                    end
+                                                   end
+                                                   | IterLoop__3(Iter__6)]
+                                                 end
+                                              end(xqerl_flwor:stream_iter(VarTup__3)),
+                                       xqerl_seq3:flatten(Local__12)
+                                     end]}
+                                        | IterLoop__4(Iter__8)]
+                                 end
+                              end(xqerl_flwor:stream_iter(VarTup__2)),
+                            xqerl_seq3:flatten(Local__13)
+                          end]}
+                        | IterLoop__5(Iter__10)]
+                      end
+                   end(xqerl_flwor:stream_iter(VarTup__1)),
+                 xqerl_seq3:flatten(Local__14)
+               end]},
+             {xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "p"},
+              undefined, [], [], [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType',
+              [], undefined,
+              [case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                  xqerl_operators:general_compare('!=',
+                                              erlang:get('var$^3'),
+                                              {xqAtomicValue,
+                                               'xs:integer', 64})))
+                   of
+                 {xqAtomicValue, 'xs:boolean', true} ->
+                {xqElementNode, undefined, undefined, {qname, 'no-namespace', [], "a"},
+                 undefined, [],
+                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "href"}, undefined,
+                  undefined, undefined, undefined,
+                  [{xqAtomicValue, 'xs:string', "Tour?start="}, [erlang:get('var$^1')],
+                   {xqAtomicValue, 'xs:string', "&end="},
+                   [xqerl_operators:add(erlang:get('var$^3'), {xqAtomicValue, 'xs:integer', 1})]]},
+                 [{xqNamespace, 'no-namespace', []}], undefined, 'xs:anyType', [], undefined,
+                 {xqTextNode, undefined, undefined, false, undefined,
+                  {xqAtomicValue, 'xs:string', "Step"}}};
+                 _ -> xqerl_seq3:empty()
+               end]}]}}]}).
+
+'fx$^51'(Ctx0, Param__var_47, Param__var_48) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    begin
+      VarTup__4 = fun () ->
+           begin
+             XQ__var_49 = xqerl_seq3:ensure_one(xqerl_operators:idivide(Param__var_48,
+                                     {xqAtomicValue, 'xs:integer', 8})),
+             begin
+               XQ__var_50 = xqerl_seq3:ensure_one(xqerl_operators:modulo(Param__var_48,
+                                 {xqAtomicValue, 'xs:integer', 8})),
+               xqerl_flwor:stream_append({XQ__var_49, XQ__var_50}, xqerl_flwor:stream_new())
+             end
+           end
+        end(),
+      Local__25 = fun IterLoop__6(Iter__15) ->
+           case xqerl_flwor:stream_next(Iter__15) of
+             none -> [];
+             {_, {XQ__var_49, XQ__var_50}, Iter__16} ->
+            [xqerl_seq3:flatten([case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       1}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         0}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__17 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__1) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:subtract(Param__var_48,
+                                                                                                                        {xqAtomicValue,
+                                                                                                                         'xs:integer',
+                                                                                                                         17}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__17)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:subtract(Param__var_48, {xqAtomicValue, 'xs:integer', 17});
+                         _ -> xqerl_seq3:empty()
+                       end,
+                       case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       1}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         7}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__18 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__2) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:subtract(Param__var_48,
+                                                                                                                        {xqAtomicValue,
+                                                                                                                         'xs:integer',
+                                                                                                                         15}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__18)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:subtract(Param__var_48, {xqAtomicValue, 'xs:integer', 15});
+                         _ -> xqerl_seq3:empty()
+                       end,
+                       case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       0}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         1}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__19 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__3) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:subtract(Param__var_48,
+                                                                                                                        {xqAtomicValue,
+                                                                                                                         'xs:integer',
+                                                                                                                         10}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__19)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:subtract(Param__var_48, {xqAtomicValue, 'xs:integer', 10});
+                         _ -> xqerl_seq3:empty()
+                       end,
+                       case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       0}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         6}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__20 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__4) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:subtract(Param__var_48,
+                                                                                                                        {xqAtomicValue,
+                                                                                                                         'xs:integer',
+                                                                                                                         6}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__20)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:subtract(Param__var_48, {xqAtomicValue, 'xs:integer', 6});
+                         _ -> xqerl_seq3:empty()
+                       end,
+                       case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       6}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         0}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__21 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__5) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:add(Param__var_48,
+                                                                                                                   {xqAtomicValue,
+                                                                                                                    'xs:integer',
+                                                                                                                    15}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__21)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:add(Param__var_48, {xqAtomicValue, 'xs:integer', 15});
+                         _ -> xqerl_seq3:empty()
+                       end,
+                       case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       6}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         7}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__22 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__6) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:add(Param__var_48,
+                                                                                                                   {xqAtomicValue,
+                                                                                                                    'xs:integer',
+                                                                                                                    17}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__22)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:add(Param__var_48, {xqAtomicValue, 'xs:integer', 17});
+                         _ -> xqerl_seq3:empty()
+                       end,
+                       case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       7}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('>',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         1}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__23 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__7) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:add(Param__var_48,
+                                                                                                                   {xqAtomicValue,
+                                                                                                                    'xs:integer',
+                                                                                                                    6}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__23)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:add(Param__var_48, {xqAtomicValue, 'xs:integer', 6});
+                         _ -> xqerl_seq3:empty()
+                       end,
+                       case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                          xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                      XQ__var_49,
+                                                                      {xqAtomicValue,
+                                                                       'xs:integer',
+                                                                       7}))
+                                              andalso
+                                              xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                                   xqerl_operators:eff_bool_val(xqerl_operators:general_compare('<',
+                                                                                        XQ__var_50,
+                                                                                        {xqAtomicValue,
+                                                                                         'xs:integer',
+                                                                                         6}))
+                                                                andalso
+                                                                xqerl_operators:eff_bool_val(xqerl_operators:general_compare('=',
+                                                                                          begin
+                                                                                       Local__24 =
+                                                                                           Param__var_47,
+                                                                                       xqerl_seq3:position_filter(Ctx__1,
+                                                                                                   fun
+                                                                                                     (Ctx__8) ->
+                                                                                                    xqerl_operators:add(xqerl_operators:add(Param__var_48,
+                                                                                                                   {xqAtomicValue,
+                                                                                                                    'xs:integer',
+                                                                                                                    10}),
+                                                                                                              {xqAtomicValue,
+                                                                                                               'xs:integer',
+                                                                                                               1})
+                                                                                                   end,
+                                                                                                   Local__24)
+                                                                                          end,
+                                                                                          {xqAtomicValue,
+                                                                                           'xs:integer',
+                                                                                           0})))))))
+                      of
+                         {xqAtomicValue, 'xs:boolean', true} ->
+                        xqerl_operators:add(Param__var_48, {xqAtomicValue, 'xs:integer', 10});
+                         _ -> xqerl_seq3:empty()
+                       end])
+             | IterLoop__6(Iter__16)]
+           end
+        end(xqerl_flwor:stream_iter(VarTup__4)),
+      xqerl_seq3:flatten(Local__25)
+    end.
+
+'fx$^46'(Ctx0, Param__var_35, Param__var_36, Param__var_37, Param__var_38) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    begin
+      VarTup__5 = fun () ->
+           begin
+             XQ__var_39 = xqerl_seq3:ensure_one(begin
+                         Local__34 = Param__var_36,
+                         xqerl_seq3:position_filter(Ctx__1,
+                                     fun (Ctx__2) -> {xqAtomicValue, 'xs:integer', 1}
+                                     end,
+                                     Local__34)
+                            end),
+             begin
+               XQ__var_40 = begin
+                    Local__33 = Param__var_36,
+                    xqerl_seq3:filter(Ctx__1,
+                            fun (Ctx__1) ->
+                               xqerl_operators:general_compare('>', xqerl_fn:position(Ctx__1),
+                                           {xqAtomicValue, 'xs:integer', 1})
+                            end,
+                            Local__33)
+                  end,
+               begin
+            XQ__var_41 = 'fx$^15'(Ctx__1, {xqAtomicValue, 'xs:integer', 99}, Param__var_35,
+                        XQ__var_39),
+            begin
+              XQ__var_42 = 'fx$^51'(Ctx__1, XQ__var_41, XQ__var_39),
+              begin
+                XQ__var_43 = xqerl_fn:count(Ctx__1, XQ__var_42),
+                begin
+                  XQ__var_44 = xqerl_seq3:ensure_one(xqerl_fn:min(Ctx__1,
+                                    xqerl_seq3:flatten([XQ__var_43, Param__var_37]))),
+                  begin
+               XQ__var_45 = xqerl_seq3:ensure_one(case
+                                xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                              xqerl_operators:general_compare('<',
+                                                          XQ__var_43,
+                                                          Param__var_37)))
+                                  of
+                                {xqAtomicValue, 'xs:boolean', true} -> XQ__var_39;
+                                _ -> Param__var_38
+                              end),
+               xqerl_flwor:stream_append({XQ__var_39, XQ__var_40, XQ__var_41, XQ__var_42,
+                           XQ__var_43, XQ__var_44, XQ__var_45},
+                          xqerl_flwor:stream_new())
+                  end
+                end
+              end
+            end
+               end
+             end
+           end
+        end(),
+      Local__35 = fun IterLoop__7(Iter__31) ->
+           case xqerl_flwor:stream_next(Iter__31) of
+             none -> [];
+             {_,
+              {XQ__var_39, XQ__var_40, XQ__var_41, XQ__var_42, XQ__var_43, XQ__var_44,
+               XQ__var_45},
+              Iter__32} ->
+            [case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                xqerl_operators:general_compare('!=',
+                                            xqerl_fn:count(Ctx__1,
+                                                 XQ__var_40),
+                                            {xqAtomicValue,
+                                             'xs:integer', 0})))
+                 of
+               {xqAtomicValue, 'xs:boolean', true} ->
+                   'fx$^46'(Ctx__1, Param__var_35, XQ__var_40, XQ__var_44, XQ__var_45);
+               _ -> XQ__var_45
+             end
+             | IterLoop__7(Iter__32)]
+           end
+        end(xqerl_flwor:stream_iter(VarTup__5)),
+      xqerl_seq3:flatten(Local__35)
+    end.
+
+'fx$^34'(Ctx0, Param__var_26, Param__var_27, Param__var_28, Param__var_29) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    begin
+      VarTup__6 = fun () ->
+           begin
+             XQ__var_30 = 'fx$^46'(Ctx__1, Param__var_27, Param__var_29,
+                    {xqAtomicValue, 'xs:integer', 9}, {xqAtomicValue, 'xs:integer', 999}),
+             begin
+               XQ__var_31 = begin
+                    Local__40 = Param__var_29,
+                    xqerl_seq3:filter(Ctx__1,
+                            fun (Ctx__1) ->
+                               xqerl_operators:general_compare('!=',
+                                           xqerl_context:get_context_item(Ctx__1),
+                                           XQ__var_30)
+                            end,
+                            Local__40)
+                  end,
+               begin
+            XQ__var_32 = 'fx$^15'(Ctx__1, Param__var_26, Param__var_27, XQ__var_30),
+            begin
+              XQ__var_33 = xqerl_seq3:ensure_zero_or_more(case
+                              xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                                 xqerl_operators:general_compare('<',
+                                                             Param__var_26,
+                                                             erlang:get('var$^3'))))
+                                of
+                              {xqAtomicValue, 'xs:boolean', true} ->
+                                  'fx$^20'(Ctx__1,
+                                      xqerl_operators:add(Param__var_26,
+                                           {xqAtomicValue,
+                                            'xs:integer', 1}),
+                                      XQ__var_32, XQ__var_30);
+                              _ -> XQ__var_32
+                                 end),
+              xqerl_flwor:stream_append({XQ__var_30, XQ__var_31, XQ__var_32, XQ__var_33},
+                         xqerl_flwor:stream_new())
+            end
+               end
+             end
+           end
+        end(),
+      Local__41 = fun IterLoop__8(Iter__41) ->
+           case xqerl_flwor:stream_next(Iter__41) of
+             none -> [];
+             {_, {XQ__var_30, XQ__var_31, XQ__var_32, XQ__var_33}, Iter__42} ->
+            [case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                {xqAtomicValue, 'xs:boolean', false}))
+                 of
+               {xqAtomicValue, 'xs:boolean', true} ->
+                   'fx$^25'(Ctx__1, Param__var_26, Param__var_27, Param__var_28, XQ__var_31);
+               _ -> XQ__var_33
+             end
+             | IterLoop__8(Iter__42)]
+           end
+        end(xqerl_flwor:stream_iter(VarTup__6)),
+      xqerl_seq3:flatten(Local__41)
+    end.
+
+'fx$^25'(Ctx0, Param__var_21, Param__var_22, Param__var_23, Param__var_24) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                       xqerl_operators:general_compare('!=', xqerl_fn:count(Ctx__1, Param__var_24),
+                                   {xqAtomicValue, 'xs:integer', 0})))
+   of
+      {xqAtomicValue, 'xs:boolean', true} ->
+     'fx$^34'(Ctx__1, Param__var_21, Param__var_22, Param__var_23, Param__var_24);
+      _ -> xqerl_seq3:empty()
+    end.
+
+'fx$^20'(Ctx0, Param__var_16, Param__var_17, Param__var_18) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    begin
+      VarTup__7 = fun () ->
+           begin
+             XQ__var_19 = 'fx$^51'(Ctx__1, Param__var_17, Param__var_18),
+             xqerl_flwor:stream_append({XQ__var_19}, xqerl_flwor:stream_new())
+           end
+        end(),
+      Local__43 = fun IterLoop__9(Iter__45) ->
+           case xqerl_flwor:stream_next(Iter__45) of
+             none -> [];
+             {_, {XQ__var_19}, Iter__46} ->
+            ['fx$^25'(Ctx__1, Param__var_16, Param__var_17, Param__var_18, XQ__var_19)
+             | IterLoop__9(Iter__46)]
+           end
+        end(xqerl_flwor:stream_iter(VarTup__7)),
+      xqerl_seq3:flatten(Local__43)
+    end.
+
+'fx$^15'(Ctx0, Param__var_11, Param__var_12, Param__var_13) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    begin
+      VarTup__8 = fun () ->
+           fun IterLoop__10(_, [], Local__44) -> Local__44;
+               IterLoop__10(Local__45, [XQ__var_14 | Local__46], Local__44) ->
+              IterLoop__10(Local__45 + 1, Local__46,
+                      xqerl_flwor:stream_append({XQ__var_14}, Local__44));
+               IterLoop__10(Local__45, XQ__var_14, Local__44) ->
+              IterLoop__10(Local__45 + 1, [],
+                      xqerl_flwor:stream_append({XQ__var_14}, Local__44))
+           end(1,
+               xqerl_seq3:range({xqAtomicValue, 'xs:integer', 1},
+                      {xqAtomicValue, 'xs:integer', 64}),
+               xqerl_flwor:stream_new())
+        end(),
+      Local__49 = fun IterLoop__11(Iter__47) ->
+           case xqerl_flwor:stream_next(Iter__47) of
+             none -> [];
+             {_, {XQ__var_14}, Iter__48} ->
+            [case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                                xqerl_operators:general_compare('=', XQ__var_14,
+                                            xqerl_operators:add(Param__var_13,
+                                                      {xqAtomicValue,
+                                                       'xs:integer',
+                                                       1}))))
+                 of
+               {xqAtomicValue, 'xs:boolean', true} -> Param__var_11;
+               _ ->
+                   begin
+                Local__48 = Param__var_12,
+                xqerl_seq3:position_filter(Ctx__1, fun (Ctx__1) -> XQ__var_14 end, Local__48)
                    end
-                end(xqerl_flwor:stream_iter(VarTup__1), xqerl_seq2:empty())
-              end).
+             end
+             | IterLoop__11(Iter__48)]
+           end
+        end(xqerl_flwor:stream_iter(VarTup__8)),
+      xqerl_seq3:flatten(Local__49)
+    end.
+
+'fx$^10'(Ctx0) ->
+    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
+    case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                       xqerl_fn:boolean(Ctx__1,
+                              xqerl_operators:eff_bool_val(xqerl_fn:'not'(Ctx__1,
+                                            xqerl_operators:general_compare('=',
+                                                        xqerl_fn:'string-length'(Ctx__1,
+                                                                  erlang:get('var$^1')),
+                                                        {xqAtomicValue,
+                                                         'xs:integer',
+                                                         2})))
+                           orelse
+                           xqerl_operators:eff_bool_val(xqerl_fn:boolean(Ctx__1,
+                                                xqerl_operators:eff_bool_val(xqerl_fn:'not'(Ctx__1,
+                                                              xqerl_operators:general_compare('=',
+                                                                          xqerl_fn:translate(Ctx__1,
+                                                                                   xqerl_fn:substring(Ctx__1,
+                                                                                       erlang:get('var$^1'),
+                                                                                       xqerl_types:cast_as_seq({xqAtomicValue,
+                                                                                                 'xs:integer',
+                                                                                                 1},
+                                                                                                {xqSeqType,
+                                                                                                 'xs:double',
+                                                                                                 one}),
+                                                                                       xqerl_types:cast_as_seq({xqAtomicValue,
+                                                                                                 'xs:integer',
+                                                                                                 1},
+                                                                                                {xqSeqType,
+                                                                                                 'xs:double',
+                                                                                                 one})),
+                                                                                   {xqAtomicValue,
+                                                                                    'xs:string',
+                                                                                    "abcdefgh"},
+                                                                                   {xqAtomicValue,
+                                                                                    'xs:string',
+                                                                                    "aaaaaaaa"}),
+                                                                          {xqAtomicValue,
+                                                                           'xs:string',
+                                                                           "a"})))
+                                             orelse
+                                             xqerl_operators:eff_bool_val(xqerl_fn:'not'(Ctx__1,
+                                                                xqerl_operators:general_compare('=',
+                                                                            xqerl_fn:translate(Ctx__1,
+                                                                                     xqerl_fn:substring(Ctx__1,
+                                                                                         erlang:get('var$^1'),
+                                                                                         xqerl_types:cast_as_seq({xqAtomicValue,
+                                                                                                   'xs:integer',
+                                                                                                   2},
+                                                                                                  {xqSeqType,
+                                                                                                   'xs:double',
+                                                                                                   one}),
+                                                                                         xqerl_types:cast_as_seq({xqAtomicValue,
+                                                                                                   'xs:integer',
+                                                                                                   1},
+                                                                                                  {xqSeqType,
+                                                                                                   'xs:double',
+                                                                                                   one})),
+                                                                                     {xqAtomicValue,
+                                                                                 'xs:string',
+                                                                                 "12345678"},
+                                                                                     {xqAtomicValue,
+                                                                                 'xs:string',
+                                                                                 "11111111"}),
+                                                                            {xqAtomicValue,
+                                                                             'xs:string',
+                                                                             "1"}))))))))
+   of
+      {xqAtomicValue, 'xs:boolean', true} ->
+     xqerl_fn:error(Ctx__1, xqerl_seq3:empty(),
+          {xqAtomicValue, 'xs:string', "Invalid start parameter: try say 'a1' or 'g6'"});
+      _ ->
+     case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx__1,
+                        xqerl_fn:'not'(Ctx__1,
+                             xqerl_operators:general_compare('=', erlang:get('var$^3'),
+                                         xqerl_seq3:range({xqAtomicValue,
+                                                 'xs:integer',
+                                                 1},
+                                                {xqAtomicValue,
+                                                 'xs:integer',
+                                                 64})))))
+         of
+       {xqAtomicValue, 'xs:boolean', true} ->
+      xqerl_fn:error(Ctx__1, xqerl_seq3:empty(),
+                {xqAtomicValue, 'xs:string',
+            "Invalid end parameter: must be in range 1 to 64"});
+       _ ->
+      begin
+        VarTup__10 = fun () ->
+                   begin
+                XQ__var_7 = xqerl_seq3:ensure_zero_or_more(begin
+                                    VarTup__9 = fun () ->
+                                         fun IterLoop__12(_, [],
+                                                Local__53) ->
+                                            Local__53;
+                                             IterLoop__12(Local__54,
+                                                [XQ__var_6
+                                                 | Local__55],
+                                                Local__53) ->
+                                            IterLoop__12(Local__54 +
+                                                 1,
+                                                    Local__55,
+                                                    xqerl_flwor:stream_append({XQ__var_6},
+                                                          Local__53));
+                                             IterLoop__12(Local__54,
+                                                XQ__var_6,
+                                                Local__53) ->
+                                            IterLoop__12(Local__54 +
+                                                 1,
+                                                    [],
+                                                    xqerl_flwor:stream_append({XQ__var_6},
+                                                          Local__53))
+                                         end(1,
+                                             xqerl_seq3:range({xqAtomicValue,
+                                                'xs:integer',
+                                                1},
+                                                    {xqAtomicValue,
+                                                'xs:integer',
+                                                64}),
+                                             xqerl_flwor:stream_new())
+                                      end(),
+                                    Local__57 = fun IterLoop__13(Iter__55) ->
+                                         case
+                                           xqerl_flwor:stream_next(Iter__55)
+                                             of
+                                           none -> [];
+                                           {_, {XQ__var_6}, Iter__56} ->
+                                          [{xqAtomicValue,
+                                            'xs:integer', 0}
+                                           | IterLoop__13(Iter__56)]
+                                         end
+                                      end(xqerl_flwor:stream_iter(VarTup__9)),
+                                    xqerl_seq3:flatten(Local__57)
+                                  end),
+                begin
+                  XQ__var_8 = 'fx$^15'(Ctx__1, {xqAtomicValue, 'xs:integer', 1}, XQ__var_7,
+                        xqerl_operators:add(xqerl_operators:multiply(erlang:get('var$^5'),
+                                            {xqAtomicValue, 'xs:integer',
+                                             8}),
+                                  erlang:get('var$^4'))),
+                  begin
+                    XQ__var_9 = 'fx$^20'(Ctx__1, {xqAtomicValue, 'xs:integer', 2}, XQ__var_8,
+                          xqerl_operators:add(xqerl_operators:multiply(erlang:get('var$^5'),
+                                              {xqAtomicValue, 'xs:integer',
+                                          8}),
+                                    erlang:get('var$^4'))),
+                    xqerl_flwor:stream_append({XQ__var_7, XQ__var_8, XQ__var_9},
+                               xqerl_flwor:stream_new())
+                  end
+                end
+                   end
+                end(),
+        Local__58 = fun IterLoop__14(Iter__57) ->
+                  case xqerl_flwor:stream_next(Iter__57) of
+               none -> [];
+               {_, {XQ__var_7, XQ__var_8, XQ__var_9}, Iter__58} ->
+                   ['fx$^57'(Ctx__1, XQ__var_9) | IterLoop__14(Iter__58)]
+                  end
+               end(xqerl_flwor:stream_iter(VarTup__10)),
+        xqerl_seq3:flatten(Local__58)
+      end
+     end
+    end.
+
+main(Options) ->
+    Ctx0 = maps:merge(init(), Options),
+    Ctx = begin
+       Local__59 = maps:get(context_item, Options, []),
+       xqerl_context:set_context_item(Ctx0, Local__59, 1,
+                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__59)})
+     end,
+    erlang:put('var$^1', 'var$^1'(Ctx)),
+    erlang:put('var$^2', 'var$^2'(Ctx)),
+    erlang:put('var$^3', 'var$^3'(Ctx)),
+    erlang:put('var$^4', 'var$^4'(Ctx)),
+    erlang:put('var$^5', 'var$^5'(Ctx)),
+    xqerl_types:return_value('fx$^10'(Ctx)).

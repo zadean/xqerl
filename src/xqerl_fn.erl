@@ -293,21 +293,21 @@
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-doc"},{xqSeqType, item, zero_or_one}, [], 
  {'json-doc', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-doc"},{xqSeqType, item, zero_or_one}, [], 
- {'json-doc', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {is_map, '*'}, one}]},
+ {'json-doc', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-to-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
  {'json-to-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-to-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
- {'json-to-xml', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {is_map, '*'}, one}]},
+ {'json-to-xml', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","lang"},{xqSeqType, 'xs:boolean', one}, [], 
  {'lang', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","lang"},{xqSeqType, 'xs:boolean', one}, [], 
  {'lang', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","last"},{xqSeqType, 'xs:integer', one}, [], 
  {'last', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","load-xquery-module"},{xqSeqType, {is_map, '*'}, one}, [], 
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","load-xquery-module"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
  {'load-xquery-module', 2}, 1,[{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","load-xquery-module"},{xqSeqType, {is_map, '*'}, one}, [], 
- {'load-xquery-module', 3}, 2,[{xqSeqType, 'xs:string', one},{xqSeqType, {is_map, '*'}, one}]},
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","load-xquery-module"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
+ {'load-xquery-module', 3}, 2,[{xqSeqType, 'xs:string', one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","local-name"},{xqSeqType, 'xs:string', one}, [], 
  {'local-name', 1}, 0,[]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","local-name"},{xqSeqType, 'xs:string', one}, [], 
@@ -383,7 +383,7 @@
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-json"},{xqSeqType, item, zero_or_one}, [], 
  {'parse-json', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-json"},{xqSeqType, item, zero_or_one}, [], 
- {'parse-json', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {is_map, '*'}, one}]},
+ {'parse-json', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-xml"},{xqSeqType, {is_document, {xqKindTest,element,undefined,undefined,undefined}}, one}, [],
  {'parse-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-xml-fragment"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
@@ -502,8 +502,8 @@
  {'trace', 2}, 1,[{xqSeqType, item, zero_or_many}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","trace"},{xqSeqType, item, zero_or_many}, [], 
  {'trace', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","transform"},{xqSeqType, {is_map, '*'}, one}, [], 
- {'transform', 2}, 1,[{xqSeqType, {is_map, '*'}, one}]},
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","transform"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
+ {'transform', 2}, 1,[{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","translate"},{xqSeqType, 'xs:string', one}, [], 
  {'translate', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","true"},{xqSeqType, 'xs:boolean', one}, [], 
@@ -531,7 +531,7 @@
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","xml-to-json"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'xml-to-json', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","xml-to-json"},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'xml-to-json', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one},{xqSeqType, {is_map, '*'}, one}]},
+ {'xml-to-json', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","year-from-date"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'year-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","year-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
@@ -839,6 +839,7 @@
                 {match,List} ->
                    List
              end,
+   ?dbg("Content",Content),
    Frag = #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                        prefix = "fn",
                                        local_name = "analyze-string-result"},
@@ -869,11 +870,15 @@ analyze_string1(List,String) ->
                                {B,_} = hd(Groups),
                                {Es,Ee} = hd(lists:reverse(Groups)),
                                GrpSize = Es+Ee,
-                               Tail = if Start + End > GrpSize -> % missing tail text 
+                               Tail = if (Start + End) > GrpSize -> % missing tail text 
                                             [#xqTextNode{expr = ?str(string:slice(String,GrpSize,Start + End - GrpSize))}];
                                          true ->
                                             []
                                       end,
+                               ?dbg("B",B),
+                               ?dbg("{Es,Ee}",{Es,Ee}),
+                               ?dbg("{Start,End}",{Start,End}),
+                               ?dbg("GrpSize",GrpSize),
                                if B > Start ->
                                      S = string:slice(String,Start,Start + End - B),
                                      [#xqTextNode{expr = ?str(S)}|get_groups(String,Groups,1)] ++ Tail;
@@ -916,8 +921,10 @@ get_groups(String,[{Start,End}],Cnt) ->
 get_groups(String,[{-1,0}|T],Cnt) ->
    get_groups(String,T,Cnt+1);   
 get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
+   ?dbg("{Start,End,NStart,NEnd}",{Start,End,NStart,NEnd}),
    Pos1 = Start + End,
-   if NStart =< Pos1 orelse (NStart == Pos1 andalso NEnd > 0) -> % overlap
+   if NStart < Pos1 orelse NEnd == 0;
+      {Start,End} == {NStart,NEnd} -> % overlap/empty group
          End1 = NStart - Start,
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End1))},
          Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
@@ -925,6 +932,15 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
                                       prefix = "fn",
                                       local_name = "group"},
                         expr = [Att1,Txt1,get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)]}];
+      NStart > Pos1 -> % gap
+         Length = NStart - Pos1,  
+         Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
+         Txt2 = #xqTextNode{expr = ?str(string:slice(String,Pos1,Length))},
+         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
+         [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+                                      prefix = "fn",
+                                      local_name = "group"},
+                        expr = [Att1,Txt1]},Txt2|get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)];
       true -> % no overlap
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
          Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
@@ -944,27 +960,23 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
    ?seq:empty().
 
 %% Returns the average of the values in the input sequence $arg, that is, the sum of the values divided by the number of values. 
+'avg'(_Ctx,[]) -> [];
 'avg'(_Ctx,Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-         Arg1;
-      _ ->
-         {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
-         %?dbg("{Seq,SeqType}", {Seq,SeqType}),
-         try
-            Avg = avg1(Seq, [], 0),
-            %?dbg("Avg", Avg),
-            OutType = case xqerl_types:subtype_of(SeqType, 'xs:integer') of
-                                   true ->
-                                      'xs:decimal';
-                                   _ ->
-                                      SeqType
-                                end,
-             xqerl_types:cast_as(Avg,OutType)
-         catch 
-            _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "XPTY0004"}}} -> xqerl_error:error('FORG0006');
-            E -> throw(E)
-         end
+   {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
+   %?dbg("{Seq,SeqType}", {Seq,SeqType}),
+   try
+      Avg = avg1(Seq, [], 0),
+      %?dbg("Avg", Avg),
+      OutType = case xqerl_types:subtype_of(SeqType, 'xs:integer') of
+                             true ->
+                                'xs:decimal';
+                             _ ->
+                                SeqType
+                          end,
+       xqerl_types:cast_as(Avg,OutType)
+   catch 
+      _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "XPTY0004"}}} -> xqerl_error:error('FORG0006');
+      E -> throw(E)
    end.
 
 avg1([], Sum, Count) ->
@@ -1192,6 +1204,7 @@ avg1([H|T], Sum, Count) ->
 'contains-token'(_Ctx,_Arg1,_Arg2,_Arg3) -> exit({not_implemented,?LINE}).
 
 'count'(_Ctx,#xqNode{}) -> ?atint(1);
+'count'(_Ctx,#array{}) -> ?atint(1);
 'count'(_Ctx,Arg1) ->
    Size = ?seq:size(Arg1),
    ?atint(Size).
@@ -1212,28 +1225,25 @@ avg1([H|T], Sum, Count) ->
 'data'(Ctx) -> 
    Ci = xqerl_context:get_context_item(Ctx),
    'data'(Ctx, Ci).
+'data'(_Ctx,Arg1) when not is_list(Arg1) -> 
+   'data'(_Ctx,[Arg1]);
 'data'(_Ctx,Arg1) -> 
-   Data = ?seq:val_map(fun(I) ->
-                   case I of
-                      #xqAtomicValue{} ->
-                         I;
-                      #xqElementNode{} -> xqerl_node:atomize_nodes(I);
-                      #xqDocumentNode{} -> xqerl_node:atomize_nodes(I);
-                      #xqAttributeNode{} -> xqerl_node:atomize_nodes(I);
-                      #xqCommentNode{} -> xqerl_node:atomize_nodes(I);
-                      #xqTextNode{} -> xqerl_node:atomize_nodes(I);
-                      #xqProcessingInstructionNode{} -> xqerl_node:atomize_nodes(I);
-                      #xqNamespaceNode{} -> xqerl_node:atomize_nodes(I);
-                      #xqNode{} -> 
-                         xqerl_node:atomize_nodes(I);
-                      #xqFunction{} ->
-                         xqerl_error:error('FOTY0013');
-                      I when is_function(I) ->
-                         xqerl_error:error('FOTY0013')
-                   end                      
-             end, Arg1),
-   %?dbg("Data",Data),
-   Data.
+   data1(Arg1).
+
+data1([]) -> [];
+data1([#array{} = H|T]) ->
+   Flat = xqerl_array:flatten([], H),
+   data1(Flat ++ T);
+data1([#xqAtomicValue{} = H|T]) ->
+   [H|data1(T)];
+data1([H|T]) when ?noderecs(H) ->
+   xqerl_node:atomize_nodes(H) ++ data1(T);
+data1(_) ->
+   ?err('FOTY0013').
+
+   
+
+
 
 %% Returns an xs:dateTime value created by combining an xs:date and an xs:time. 
 'dateTime'(_Ctx,#xqAtomicValue{type = 'xs:date', 
@@ -1296,50 +1306,61 @@ avg1([H|T], Sum, Count) ->
 %% or nodes of the same kind, with the same name, whose children are deep-equal, 
 %% or maps with matching entries, or arrays with matching members. 
 %TODO arrays
-%'deep-equal'(_Ctx,[],[]) -> ?bool(true);
+'deep-equal'(_Ctx,[],[]) -> ?bool(true);
+'deep-equal'(Ctx,Arg1,Arg2) when not is_list(Arg1) -> 
+   'deep-equal'(Ctx,[Arg1],Arg2);
+'deep-equal'(Ctx,Arg1,Arg2) when not is_list(Arg2) -> 
+   'deep-equal'(Ctx,Arg1,[Arg2]);
 'deep-equal'(_Ctx,Arg1,Arg2) -> 
-   ?dbg("deep-equal",Arg1),
-   ?dbg("deep-equal",Arg2),
-   case ?seq:is_empty(Arg1) andalso ?seq:is_empty(Arg2) of
+   %?dbg("deep-equal",Arg1),
+   %?dbg("deep-equal",Arg2),
+   case count([], Arg1) =/= count([], Arg2) of
       true ->
-   ?dbg("deep-equal",ok),
-         ?bool(true);
+         ?bool(false);
       _ ->
-         case count([], Arg1) =/= count([], Arg2) of
-            true ->
-   ?dbg("deep-equal",count([], Arg1)),
-   ?dbg("deep-equal",count([], Arg2)),
-               ?bool(false);
-            _ ->
-   ?dbg("deep-equal",ok),
-               Zip = lists:zip(?seq:to_list(Arg1), ?seq:to_list(Arg2)),
-               %?dbg("deep-equal",Zip),
-               try
-                  ?bool(lists:all(fun({#xqNode{} = N1,#xqNode{} = N2}) ->
-   ?dbg("deep-equal",ok),
-                                        A1 = xqerl_node:nodes_equal(N1,N2),
-                                        %?dbg("deep-equal",A1),
-                                        A1 == {xqAtomicValue,'xs:boolean',true};
-                                     ({#xqAtomicValue{value = "NaN"},#xqAtomicValue{value = "NaN"}}) ->
-                                        true;
-                                     ({#xqAtomicValue{value = "INF"},#xqAtomicValue{value = "INF"}}) ->
-                                        true;
-                                     ({#xqAtomicValue{value = "-INF"},#xqAtomicValue{value = "-INF"}}) ->
-                                        true;
-                                     ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
-                                        ?seq:singleton_value(xqerl_operators:equal(N1,N2)) == {xqAtomicValue,'xs:boolean',true};
-                                     ({#xqFunction{},#xqFunction{}}) ->
-                                        xqerl_error:error('FOTY0015');
-                                     ({F1,F2}) when is_function(F1) andalso is_function(F2) ->
-                                        F1 == F2;
-                                     ({M1,M2}) when is_map(M1) andalso is_map(M2) ->
-                                        M1 == M2
-                                  end, Zip))
-               catch
-                  _:_ ->
-   ?dbg("deep-equal",ok),
-                     ?bool(false)
-               end
+         Zip = lists:zip(Arg1, Arg2),
+         %?dbg("deep-equal",Zip),
+         try
+            ?bool(lists:all(fun({X,Y}) when is_list(X),is_list(Y) ->
+                                  'deep-equal'(_Ctx,X,Y) == ?bool(true);
+                               ({X,X}) ->
+                                  true;
+                               ({#xqNode{} = N1,#xqNode{} = N2}) ->
+                                  A1 = xqerl_node:nodes_equal(N1,N2),
+                                  %?dbg("deep-equal",A1),
+                                  A1 == {xqAtomicValue,'xs:boolean',true};
+                               ({#xqAtomicValue{value = "NaN"},#xqAtomicValue{value = "NaN"}}) ->
+                                  true;
+                               ({#xqAtomicValue{value = "INF"},#xqAtomicValue{value = "INF"}}) ->
+                                  true;
+                               ({#xqAtomicValue{value = "-INF"},#xqAtomicValue{value = "-INF"}}) ->
+                                  true;
+                               ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
+                                  xqerl_operators:equal(N1,N2) == {xqAtomicValue,'xs:boolean',true};
+                               ({#xqFunction{},#xqFunction{}}) ->
+                                  xqerl_error:error('FOTY0015');
+                               ({F1,F2}) when is_function(F1) andalso is_function(F2) ->
+                                  F1 == F2;
+                               ({M1,M2}) when is_map(M1) andalso is_map(M2) ->
+                                    Sz1 = xqerl_map:size([], M1),
+                                    Sz2 = xqerl_map:size([], M2),
+                                    if Sz1 == Sz2 ->
+                                          K1 = xqerl_map:keys([],M1),
+                                          F = fun(K) ->
+                                                    xqerl_map:contains([], M2, K) == ?bool(true) andalso
+                                                    'deep-equal'([],xqerl_map:get([], M1, K), xqerl_map:get([], M2, K)) == ?bool(true)
+                                              end,         
+                                          lists:all(F, K1);
+                                       true ->
+                                          false
+                                    end;
+                               ({{array,A1},{array,A2}}) ->
+                                  'deep-equal'(_Ctx,A1,A2) == ?bool(true)
+                               end, Zip))
+            catch
+               _:_ ->
+?dbg("deep-equal",erlang:get_stacktrace()),
+               ?bool(false)
          end
    end.
 
@@ -1378,12 +1399,12 @@ avg1([H|T], Sum, Count) ->
                                             _ ->
                                                hd(?seq:to_list(xqerl_node:atomize_nodes(A)))
                                          end,
-                                    #xqAtomicValue{value = Val1} = At,
+                                    #xqAtomicValue{value = Val1, type = Ty1} = At,
                                     case lists:any(fun(E) ->
                                                          try
-                                                            if Val1 == "NaN" ->
-                                                                  #xqAtomicValue{value = Val2} = E,
-                                                                  if Val2 == "NaN" ->
+                                                            if Val1 == "NaN" andalso ?numeric(Ty1) ->
+                                                                  #xqAtomicValue{value = Val2, type = Ty2} = E,
+                                                                  if Val2 == "NaN" andalso ?numeric(Ty2) ->
                                                                         true;
                                                                      true ->
                                                                         false
@@ -1422,26 +1443,22 @@ avg1([H|T], Sum, Count) ->
    
 %% Retrieves a document using a URI supplied as an xs:string, and returns the corresponding document node. 
 % TODO check for valid Uri else FODC0005
+'doc'(_Ctx,[]) -> [];
 'doc'(_Ctx,Arg1) -> 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         Arg1;
-      _ ->
-         try
-            Uri = xqerl_types:value(Arg1),
-            case catch xqerl_context:get_available_document(Uri) of
-                     {'EXIT',_} ->
-                        Doc = xqerl_doc:read_http(Uri),
-                        ?seq:singleton(xqerl_doc:doc_to_node(Doc));
-                     _ ->
-                        ?seq:singleton(#xqNode{frag_id = Uri, identity = 1})
-                  end
-         catch 
-            _:#xqError{} = E ->
-               exit(E);
-            _:_ ->
-               ?err('FODC0005')
-         end
+   try
+      Uri = xqerl_types:value(Arg1),
+      case catch xqerl_context:get_available_document(Uri) of
+               {'EXIT',_} ->
+                  Doc = xqerl_doc:read_http(Uri),
+                  ?seq:singleton(xqerl_doc:doc_to_node(Doc));
+               _ ->
+                  ?seq:singleton(#xqNode{frag_id = Uri, identity = 1})
+            end
+   catch 
+      _:#xqError{} = E ->
+         exit(E);
+      _:_ ->
+         ?err('FODC0005')
    end.
 
 
@@ -1488,11 +1505,14 @@ avg1([H|T], Sum, Count) ->
 'element-with-id'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
 %% Returns true if the argument is the empty sequence. 
-'empty'(_Ctx,#xqNode{}) -> ?bool(false);
-'empty'(_Ctx,#xqFunction{}) -> ?bool(false);
-'empty'(_Ctx,#xqAtomicValue{}) -> ?bool(false);
-'empty'(_Ctx,Arg1) -> 
-   ?bool(?seq:is_empty(Arg1)).
+'empty'(_Ctx,[]) -> ?bool(true);
+'empty'(_Ctx,_) -> ?bool(false).
+%% ;
+%% 'empty'(_Ctx,#xqNode{}) -> ?bool(false);
+%% 'empty'(_Ctx,#xqFunction{}) -> ?bool(false);
+%% 'empty'(_Ctx,#xqAtomicValue{}) -> ?bool(false);
+%% 'empty'(_Ctx,Arg1) -> 
+%%    ?bool(?seq:is_empty(Arg1)).
 
 %% Encodes reserved characters in a string that is intended to be used in the path segment of a URI. 
 'encode-for-uri'(_Ctx,Arg1) -> 
@@ -1549,33 +1569,18 @@ avg1([H|T], Sum, Count) ->
 %%    }). 
 'error'(_Ctx) -> 
    xqerl_error:error('FOER0000').
+'error'(_Ctx,[]) ->
+   xqerl_error:error('FOER0000');
 'error'(_Ctx,QName) ->
-   case QName == [] orelse ?seq:is_sequence(QName) andalso ?seq:is_empty(QName) of
-      true ->
-         xqerl_error:error('XPTY0004'); % no empty error without description
-      _ ->
-         xqerl_error:error(xqerl_types:value(QName))
-   end.
+   xqerl_error:error(xqerl_types:value(QName)).
+'error'(_Ctx,[],Description) -> 
+   xqerl_error:error('FOER0000',Description);
 'error'(_Ctx,QName,Description) -> 
-   Name = case ?seq:is_sequence(QName) of
-             true ->
-                QName;
-             _ ->
-                ?seq:singleton(QName)
-          end,
-   case QName == [] orelse ?seq:is_empty(Name) of
-      true ->
-         xqerl_error:error('FOER0000',Description);
-      _ ->
-         xqerl_error:error(xqerl_types:value(QName),Description)
-   end.
+   xqerl_error:error(xqerl_types:value(QName),Description).
+'error'(_Ctx,[],Description,Object) ->
+   xqerl_error:error('FOER0000',Description, Object);
 'error'(_Ctx,QName,Description,Object) ->
-   case QName == [] orelse ?seq:is_sequence(QName) andalso ?seq:is_empty(QName) of
-      true ->
-         xqerl_error:error('FOER0000',Description, Object);
-      _ ->
-         xqerl_error:error(xqerl_types:value(QName),Description, Object)
-   end.
+   xqerl_error:error(xqerl_types:value(QName),Description, Object).
 
 
 %% Escapes a URI in the same way that HTML user agents handle attribute values expected to contain URIs. 
@@ -1654,22 +1659,18 @@ pct_encode3([H|T]) ->
             end, Seq).
 
 %% Rounds $arg downwards to a whole number. 
+'floor'(_Ctx,[]) -> [];
 'floor'(_Ctx,Arg1) -> 
-   case ?seq:is_empty(Arg1) of
-      true ->
+   Val = xqerl_types:value(Arg1),
+   if Val == "INF" orelse Val == "-INF" orelse Val == "NaN" ->
          Arg1;
-      _ ->
-         Val = xqerl_types:value(Arg1),
-         if Val == "INF" orelse Val == "-INF" orelse Val == "NaN" ->
-               Arg1;
-            true ->
-               Type = xqerl_types:type(Arg1),
-               T = trunc(Val),
-               case (Val - T) of
-                  Neg when Neg < 0 -> xqerl_types:cast_as(?atint(T - 1), Type) ;
-                  Pos when Pos > 0 -> xqerl_types:cast_as(?atint(T), Type);
-                  _ -> xqerl_types:cast_as(?atint(T), Type)
-               end
+      true ->
+         Type = xqerl_types:type(Arg1),
+         T = trunc(Val),
+         case (Val - T) of
+            Neg when Neg < 0 -> xqerl_types:cast_as(?atint(T - 1), Type) ;
+            Pos when Pos > 0 -> xqerl_types:cast_as(?atint(T), Type);
+            _ -> xqerl_types:cast_as(?atint(T), Type)
          end
    end.
 
@@ -1954,6 +1955,8 @@ unmask_static_mod_ns(T) -> T.
    Ci = xqerl_context:get_context_item(Ctx),
    'id'(Ctx,Refs,Ci).
 
+'id'(Ctx,Refs,Node) when not is_list(Refs) ->
+   'id'(Ctx,[Refs],Node);
 'id'(Ctx,Refs,Node) -> 
    %?dbg("Refs", Refs ),
    %?dbg("Node", Node ),
@@ -1997,11 +2000,12 @@ unmask_static_mod_ns(T) -> T.
       Elems = xqerl_step:reverse(Ctx,Atts, parent, #xqKindTest{kind = element},[]),
       Elems
    catch 
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPDY0050"}} ->
+      
+      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPDY0050"})} ->
             xqerl_error:error('FODC0001');
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPTY0020"}} ->
+      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0020"})} ->
             xqerl_error:error('XPTY0004');
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPTY0019"}} ->
+      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0019"})} ->
             xqerl_error:error('XPTY0004');
       _:E ->
          ?dbg(?LINE,E),
@@ -2089,18 +2093,21 @@ unmask_static_mod_ns(T) -> T.
    ?dbg("in-scope-prefixes",Ns),
    List = lists:filtermap(fun(#xqNamespace{prefix = P}) when is_atom(P) ->
                                 false;
+                             (#xqNamespace{namespace = [], prefix = []}) -> % reset default
+                                false;
                              (#xqNamespace{namespace = 'no-namespace'}) ->
                                 false;
+                             (#xqNamespace{prefix = []}) ->
+                                {true,#xqAtomicValue{type = 'xs:string', value = []}};
                              (#xqNamespace{prefix = P}) ->
-                                {true,#xqAtomicValue{type = 'xs:string', value = P}}
+                                {true,#xqAtomicValue{type = 'xs:NCName', value = P}}
                           end, Ns),
    ?seq:from_list(lists:usort(List)).
 
 %% Returns a sequence constructed by inserting an item or a sequence of items at a given position within an existing sequence. 
-'insert-before'(_Ctx,[],Position,Inserts) ->
-   'insert-before'(_Ctx,?seq:empty(),Position,Inserts);
 'insert-before'(_Ctx,Target,Position,Inserts) ->
-   ?seq:insert(Target,Inserts,Position).
+   Pos = xqerl_types:value(Position),
+   ?seq:insert(Target,Inserts,Pos).
 
 %% Converts a string containing an IRI into a URI according to the rules of [rfc3987]. 
 'iri-to-uri'(_Ctx,Arg1) -> 
@@ -2158,7 +2165,7 @@ unmask_static_mod_ns(T) -> T.
 
 %% Returns the context size from the dynamic context. 
 'last'(Ctx) ->
-   ?seq:singleton(xqerl_context:get_context_size(Ctx)).
+   xqerl_context:get_context_size(Ctx).
 
 %% Provides access to the public functions and global variables of a dynamically-loaded XQuery library module. 
 'load-xquery-module'(_Ctx,_Arg1) -> xqerl_error:error('FOQM0006').
@@ -2248,10 +2255,14 @@ unmask_static_mod_ns(T) -> T.
 %% Returns a value that is equal to the highest value appearing in the input sequence. 
 'max'(_Ctx,Arg1) -> 
    {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
-   %?dbg("max", {Seq,SeqType}),
+   ?dbg("max", {Seq,SeqType}),
    Max1 = max1(Seq, []),
    %?dbg("max1", Max1),
-   xqerl_types:cast_as(Max1, SeqType).
+   if ?numeric(SeqType) ->
+         xqerl_types:cast_as(Max1, SeqType);
+      true ->
+         Max1
+   end.
 
 %TODO collation
 'max'(Ctx,Arg1,Collation) -> 
@@ -2273,7 +2284,8 @@ max1([#xqAtomicValue{type = 'xs:float', value = "NaN"} = H|_], _) ->
 max1([H|T], []) ->
    max1(T, H);
 max1([H|T], Max) ->
-   case ?seq:singleton_value(xqerl_operators:less_than(H, Max)) of
+   %?dbg("H,Max",{H,Max}),
+   case xqerl_operators:less_than(H, Max) of
       ?inbool(true) ->
          max1(T, Max);
       ?inbool(false) ->
@@ -2290,7 +2302,7 @@ min1([H|T], []) ->
    min1(T, H);
 min1([H|T], Min) ->
    %?dbg("min1",H),
-   case ?seq:singleton_value(xqerl_operators:greater_than(H, Min)) of
+   case xqerl_operators:greater_than(H, Min) of
       ?inbool(true) ->
          min1(T, Min);
       ?inbool(false) ->
@@ -2301,9 +2313,11 @@ compare_convert_seq([], Acc, SeqType) ->
    {Acc,SeqType};
 compare_convert_seq([H|T], Acc, SeqType) ->
    case H of
+      #array{data = L} ->
+         compare_convert_seq(L ++ T, Acc, SeqType);
       #xqNode{} ->
-         H1 = ?seq:singleton_value(xqerl_node:atomize_nodes(H)),
-         compare_convert_seq([H1|T], Acc, SeqType);
+         H1 = ?seq:singleton(xqerl_node:atomize_nodes(H)),
+         compare_convert_seq(H1 ++ T, Acc, SeqType);
       #xqAtomicValue{type = 'xs:untypedAtomic'} ->
          try xqerl_types:cast_as(H,'xs:double') of
             H1 ->
@@ -2318,21 +2332,48 @@ compare_convert_seq([H|T], Acc, SeqType) ->
          end;
       #xqAtomicValue{type = 'xs:anyURI'} ->
          H1 = xqerl_types:cast_as(H,'xs:string'),
-         if SeqType == 'xs:string' orelse SeqType == [] ->
+         if ?string(SeqType) orelse SeqType == [] ->
                compare_convert_seq(T, [H1|Acc], 'xs:string');
             true ->
                xqerl_error:error('FORG0006')
          end;
-      #xqAtomicValue{type = 'xs:string'} ->
-         if SeqType == 'xs:string' orelse SeqType == [] ->
-               compare_convert_seq(T, [H|Acc], 'xs:string');
+      #xqAtomicValue{type = StrType} when ?string(StrType), ?string(SeqType) ->
+         NewType = if SeqType == [] ->
+                         StrType;
+                      SeqType == 'xs:string' ->
+                         SeqType;
+                      true ->
+                         BType = xqerl_btypes:get_type(StrType),
+                         BSeqType = xqerl_btypes:get_type(SeqType),
+                         xqerl_btypes:get_type(BType band BSeqType)
+                   end,
+         if NewType == 'item' ->
+               xqerl_error:error('FORG0006');
             true ->
-               xqerl_error:error('FORG0006')
+               compare_convert_seq(T, [H|Acc], NewType)
+         end;
+      #xqAtomicValue{type = StrType} when ?integer(StrType), ?integer(SeqType) ->
+         %?dbg("StrType",StrType),
+         %?dbg("SeqType",SeqType),
+         NewType = if SeqType == [] ->
+                         StrType;
+                      SeqType == 'xs:integer' ->
+                         SeqType;
+                      true ->
+                         BType = xqerl_btypes:get_type(StrType),
+                         BSeqType = xqerl_btypes:get_type(SeqType),
+                         xqerl_btypes:get_type(BType band BSeqType)
+                   end,
+         %?dbg("NewType",NewType),
+         if NewType == 'item' ->
+               xqerl_error:error('FORG0006');
+            true ->
+               compare_convert_seq(T, [H|Acc], NewType)
          end;
       #xqAtomicValue{type = 'xs:double'} ->
             compare_convert_seq(T, [H|Acc], 'xs:double');
       #xqAtomicValue{type = 'xs:float'} ->
-         if SeqType == 'xs:float' orelse SeqType == 'xs:decimal' orelse SeqType == 'xs:integer' orelse SeqType == [] ->
+         if SeqType == 'xs:float' orelse SeqType == 'xs:decimal' orelse ?integer(SeqType) orelse SeqType == [] ->
                compare_convert_seq(T, [H|Acc], 'xs:float');
             SeqType == 'xs:double' ->
                compare_convert_seq(T, [H|Acc], 'xs:double');
@@ -2340,7 +2381,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                xqerl_error:error('FORG0006')
          end;
       #xqAtomicValue{type = 'xs:decimal'} ->
-         if SeqType == 'xs:decimal' orelse SeqType == 'xs:integer' orelse SeqType == [] ->
+         if SeqType == 'xs:decimal' orelse ?integer(SeqType) orelse SeqType == [] ->
                compare_convert_seq(T, [H|Acc], 'xs:decimal');
             SeqType == 'xs:float' ->
                compare_convert_seq(T, [H|Acc], 'xs:float');
@@ -2389,7 +2430,11 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    %?dbg("min", {Seq,SeqType,Arg1}),
    Min1 = min1(Seq, []),
    %?dbg("min1", Min1),
-   xqerl_types:cast_as(Min1, SeqType).
+   if ?numeric(SeqType) ->
+         xqerl_types:cast_as(Min1, SeqType);
+      true ->
+         Min1
+   end.
 
 %TODO collation
 'min'(Ctx,Arg1,Collation) -> 
@@ -2466,8 +2511,8 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    end.
 'name'(Ctx,Arg1) -> 
    Q = 'node-name'(Ctx,Arg1),
-   ?dbg("Q",Q),
-   ?dbg("Arg1",Arg1),
+   %?dbg("Q",Q),
+   %?dbg("Arg1",Arg1),
    S = xqerl_types:cast_as( Q, 'xs:string' ),
    if S == [] ->
          ?str("");
@@ -2481,23 +2526,19 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    'namespace-uri'(Ctx,Item).
 'namespace-uri'(_Ctx,[]) -> ?atm('xs:anyURI',"");
 'namespace-uri'(_Ctx,Arg1) ->
-   case ?seq:is_sequence(Arg1) andalso ?seq:is_empty(Arg1) of 
-      true ->
+   Node = ?seq:singleton_value(Arg1),
+   %?dbg("Node",Node),
+   case xqerl_node:get_node_name(Node) of
+      #qname{namespace = 'no-namespace'} ->
          ?atm('xs:anyURI',"");
-      _ ->
-         Node = ?seq:singleton_value(Arg1),
-         case xqerl_node:get_node_name(Node) of
-            #qname{namespace = 'no-namespace'} ->
-               ?atm('xs:anyURI',"");
-            #qname{namespace = Uri} ->
-               ?atm('xs:anyURI',Uri);
-            #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = 'no-namespace'}} ->
-               ?atm('xs:anyURI',"");
-            #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = Uri}} ->
-               ?atm('xs:anyURI',Uri);
-            [] ->
-               ?atm('xs:anyURI',"")
-         end
+      #qname{namespace = Uri} ->
+         ?atm('xs:anyURI',Uri);
+      #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = 'no-namespace'}} ->
+         ?atm('xs:anyURI',"");
+      #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = Uri}} ->
+         ?atm('xs:anyURI',Uri);
+      [] ->
+         ?atm('xs:anyURI',"")
    end.
 
 %% Returns the namespace URI of one of the in-scope namespaces for $element, identified by its namespace prefix. 
@@ -2744,19 +2785,96 @@ shrink_spaces([H|T]) ->
 %% Parses a string containing the date and time in IETF format, returning the corresponding xs:dateTime value. 
 'parse-ietf-date'(_Ctx,Arg1) -> 
    Str = xqerl_types:string_value(Arg1),
-   case ietf_date:string(Str) of
-      {ok,L,_} ->
-         {ok,Dt} = ietf_date_parse:parse(L),
-         DtStr = xqerl_datetime:to_string(Dt, 'xs:dateTime'),
-         ?atm('xs:dateTime', Dt#xsDateTime{string_value = DtStr});
-      _E ->
-         %?dbg("E",E),
+   Strip = string:strip(Str),
+   try 
+      {ok,L,_} = ietf_date:string(Strip),
+      ?dbg("L",L),
+      {ok,Dt} = ietf_date_parse:parse(L),
+      DtStr = xqerl_datetime:to_string(Dt, 'xs:dateTime'),
+      _ = xqerl_datetime:ymd_is_valid(Dt#xsDateTime.year, Dt#xsDateTime.month, Dt#xsDateTime.day),
+      ?atm('xs:dateTime', Dt#xsDateTime{string_value = DtStr})
+   catch
+      _:E ->
+         ?dbg("E",E),
          xqerl_error:error('FORG0010')
    end.
 
 %% Parses a string supplied in the form of a JSON text, returning the results typically in the form of a map or array. 
-'parse-json'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'parse-json'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'parse-json'(Ctx,Arg1) -> 
+   'parse-json'(Ctx,Arg1,#{}).
+% fn:parse-json($json-text as xs:string?, $options as map(*)) as item()?
+'parse-json'(_Ctx,[],_Arg2) -> [];
+'parse-json'(_Ctx,#xqAtomicValue{value = "null"},_Arg2) -> [];
+'parse-json'(Ctx,#xqAtomicValue{value = JSON},Arg2) -> 
+   Options = map_options_to_list(Ctx, Arg2),
+   xqerl_json:string(JSON, Options).
+
+map_options_to_list(Ctx, Map) ->
+   Liberal    = maps:get("liberal", Map, []),
+   Duplicates = maps:get("duplicates", Map, []),
+   Escape     = maps:get("escape", Map, []),
+   Fallback   = maps:get("fallback", Map, []),
+   [
+    if Liberal == [] ->
+          [];
+       true ->
+          Lib = xqerl_types:string_value(element(2, Liberal)),
+          if Lib == "true" ->
+                {liberal, true};
+             Lib == "false" ->
+                {liberal, false};
+             true ->
+                ?err('FOJS0005')
+          end          
+    end ,
+    if Duplicates == [] ->
+          [];
+       true ->
+          Dup = xqerl_types:string_value(element(2, Duplicates)),
+          if Dup == "reject" ->
+                {duplicates, reject};
+             Dup == "use-first" ->
+                {duplicates, use_first};
+             Dup == "use-last" ->
+                {duplicates, use_last};
+             true ->
+                ?err('FOJS0005')
+          end
+    end ,
+    if Escape == [] ->
+          [];
+       true ->
+          Esc = xqerl_types:string_value(element(2, Escape)),
+          if Esc == "true" ->
+                {escape, true};
+             Esc == "false" ->
+                {escape, false};
+             true ->
+                ?err('FOJS0005')
+          end          
+    end,      
+    if Fallback == [] ->
+          [];
+       true ->
+          Fbk = xqerl_types:value(element(2, Fallback)),
+          if is_function(Fbk) ->
+                case erlang:fun_info(Fbk, arity) of
+                   {arity,2} ->
+                      {fallback, fun(C) -> Fbk(Ctx,C) end};
+                   %{arity,1} ->
+                   %   {fallback, fun(C) -> Fbk(C) end};
+                   A ->
+                      ?dbg("A",A),
+                      ?err('XPTY0004')
+                end;
+             true ->
+                ?dbg("Fbk",Fbk),
+                ?err('XPTY0004')
+          end          
+    end      
+   ].
+
+   
 
 %% This function takes as input an XML document represented as a string, and returns the document node at the root of an XDM tree representing the parsed document. 
 'parse-xml'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
@@ -2885,13 +3003,15 @@ string_value(At) -> xqerl_types:string_value(At).
 %% resolving it using the in-scope namespaces for a given element.
 %% 
 %% fn:resolve-QName($qname as xs:string?, $element as element()) as xs:QName? 
+'resolve-QName'(_Ctx,[],_Element) -> [];
 'resolve-QName'(_Ctx,String,Element) -> 
    #xqElementNode{inscope_ns = IsNs} = xqerl_node:get_node(?seq:singleton_value(Element)),
    ?dbg("IsNs",IsNs),
    try
       xqerl_types:cast_as(String, 'xs:QName', IsNs)
-   catch _:_ ->
-      ?err('FOCA0002')
+   catch 
+      _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FONS0004"}}} -> ?err('FONS0004');
+      _:_ -> ?err('FOCA0002')
    end.
 
 %% Resolves a relative IRI reference against an absolute IRI. 
@@ -2922,24 +3042,24 @@ string_value(At) -> xqerl_types:string_value(At).
 %% Reverses the order of items in a sequence. 
 'reverse'(_Ctx,[]) -> 
    ?seq:empty();
-'reverse'(_Ctx,Arg1) -> 
-   ?seq:from_list(lists:reverse(?seq:to_list(Arg1))).
+'reverse'(_Ctx,Arg1) when is_list(Arg1) -> 
+   lists:reverse(Arg1);
+'reverse'(_Ctx,Arg1) ->
+   Arg1.
 
 %% Returns the root of the tree to which $arg belongs. This will usually, but not necessarily, be a document node. 
 'root'(Ctx) -> 
    Ci = xqerl_context:get_context_item(Ctx),
    ?MODULE:root(Ctx,Ci).
-'root'(Ctx,Arg1) -> 
-   case ?seq:is_empty(Arg1) of
+'root'(_Ctx,[]) -> [];
+'root'(Ctx,Arg1) when not is_list(Arg1) ->
+   ?MODULE:root(Ctx,[Arg1]);
+'root'(Ctx,Arg1) ->  
+   case ?seq:all_node(Arg1) of
       true ->
-         Arg1;
+         xqerl_step:any_root(Ctx,Arg1);
       _ ->
-         case ?seq:all_node(Arg1) of
-            true ->
-               xqerl_step:any_root(Ctx,Arg1);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end
+         xqerl_error:error('XPTY0004')
    end.
 
 %% Rounds a value to a specified number of decimal places, rounding upwards if two such values are equally near. 
@@ -3243,30 +3363,21 @@ string_value(At) -> xqerl_types:string_value(At).
    'string'(Ctx, Ci).
 
 'string'(_Ctx,Fx) when is_function(Fx) -> ?err('FOTY0014');
+'string'(_Ctx,Fx) when is_map(Fx) -> ?err('FOTY0014');
+'string'(_Ctx,#array{}) -> ?err('FOTY0014');
 'string'(_Ctx,#xqAtomicValue{} = Av) ->
-   ?seq:singleton(xqerl_types:cast_as(Av, 'xs:string'));
+   xqerl_types:cast_as(Av, 'xs:string');
 
 'string'(_Ctx,Node) when ?noderecs(Node) ->
-   ?dbg("Node",Node),
+   %?dbg("Node",Node),
    Atomized = xqerl_node:atomize_nodes(Node),
-   ?dbg("Atomized",Atomized),
-   ?seq:singleton(xqerl_types:cast_as(Atomized, 'xs:string'));
+   %?dbg("Atomized",Atomized),
+   xqerl_types:cast_as(Atomized, 'xs:string');
 
+'string'(_Ctx,[]) -> ?str(""); 
 'string'(_Ctx,Arg1) -> 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         ?str("");
-      _ ->
-         case ?seq:get_seq_type(Arg1) of
-            #xqSeqType{type = function} ->
-               ?err('FOTY0014');
-            _ ->
-               %?dbg("Arg1",T),
-               Val = xqerl_types:cast_as(Arg1, 'xs:string'),
-               %?dbg("Val",Val),
-               ?seq:singleton(Val)
-         end
-   end.
+   %?dbg("Arg1",T),
+   xqerl_types:cast_as(Arg1, 'xs:string').
 
 %% Returns a string created by concatenating the items in a sequence, with a defined separator between adjacent items. 
 'string-join'(_Ctx,Arg1) ->
@@ -3369,7 +3480,7 @@ string_value(At) -> xqerl_types:string_value(At).
 'substring'(Ctx,SourceString,Start) ->
    'substring'(Ctx,SourceString,Start, []).
 
-'substring'(_Ctx,SourceString,Start,Length) -> 
+'substring'(_Ctx,SourceString,Start,Length) ->
    Val = xqerl_types:value(xqerl_types:cast_as(SourceString, 'xs:string')),
    VLen = xqerl_types:value(Length),
    VStart = xqerl_types:value(Start),
@@ -3552,9 +3663,13 @@ sum1([H|T], Sum) ->
    end.
 
 %% Returns a sequence of strings constructed by splitting the input wherever a separator is found; the separator is any substring that matches a given regular expression. 
-'tokenize'(Ctx,Arg1) -> 'tokenize'(Ctx,Arg1,?str(" ")).
-'tokenize'(_Ctx,Arg1,Arg2) ->
-   'tokenize'(_Ctx,Arg1,Arg2,[]).
+'tokenize'(Ctx,Input) -> 
+   Str = xqerl_types:cast_as(Input, 'xs:string'),
+   Input1 = string_value(Str),
+   Stripped = string:trim(Input1),   
+   'tokenize'(Ctx,?atm('xs:string',Stripped),?str("(\\x{09}|\\x{0A}|\\x{0D}|\\x{20})+")).
+'tokenize'(_Ctx,Input,Pattern) ->
+   'tokenize'(_Ctx,Input,Pattern,[]).
 'tokenize'(_Ctx,Input,Pattern,Flags) -> 
    MP = xqerl_regex:regex_comp(Pattern,Flags),
    Str = xqerl_types:cast_as(Input, 'xs:string'),
@@ -3562,14 +3677,19 @@ sum1([H|T], Sum) ->
    if Input1 == "" ->
          ?seq:empty();
       true ->
-         List = re:split(Input1, MP, [group, {return,list}]),
-         %?dbg("List",List),
-         Out = ?seq:sort_seq(lists:foldl(fun(S, Seq) -> 
-                             H = lists:flatten(hd(S)),
-                             ?seq:append(#xqAtomicValue{type = 'xs:string', value = H}, Seq)
-                     end, ?seq:empty(), List)),
-         %?dbg(?LINE,Out),
-         Out
+         case re:run("", MP) of
+            nomatch ->
+               List = re:split(Input1, MP, [group, {return,list}]),
+               ?dbg("List",List),
+               Out = lists:map(fun(S) -> 
+                                       H = lists:flatten(hd(S)),
+                                       #xqAtomicValue{type = 'xs:string', value = H}
+                                   end, List),
+               %?dbg(?LINE,Out),
+               Out;
+            _ ->
+               ?err('FORX0003')
+         end
    end.
    
 %% Provides an execution trace intended to be used in debugging queries. 
@@ -3654,15 +3774,13 @@ zip_map_trans([H|T],[TH|TT]) ->
                Str = string_value(Arg1),
                Upp = string:to_upper(Str),
                #xqAtomicValue{type = 'xs:string', value = Upp};
-            #xqAtomicValue{type = Type} ->
-               case xqerl_types:subtype_of(Type, 'xs:string') of
-                  true ->
-                     Str = string_value(Arg1),
-                     Upp = string:to_upper(Str),
-                     #xqAtomicValue{type = 'xs:string', value = Upp};
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end
+            #xqAtomicValue{type = Type} when ?string(Type);
+                                             Type == 'xs:anyURI' ->
+               Str = string_value(Arg1),
+               Upp = string:to_upper(Str),
+               #xqAtomicValue{type = 'xs:string', value = Upp};
+            _ ->
+               xqerl_error:error('XPTY0004')
          end
    end,
    ?seq:singleton(Out).   
@@ -3685,37 +3803,23 @@ zip_map_trans([H|T],[TH|TT]) ->
    'years-from-duration'(Ctx, Arg1).
 
 %% Returns the number of years in a duration. 
-'years-from-duration'(_Ctx, Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-        Arg1;
-      _ ->
-         #xqAtomicValue{value = #xsDateTime{sign = Sn, year = Yr}} = ?seq:singleton_value(Arg1),
-         Yr1 = if Sn =:= '-' ->
-                     Yr * -1;
-                  true ->
-                     Yr
-               end,
-         ?atint(Yr1)
-   end.
+'years-from-duration'(_Ctx, []) -> [];
+'years-from-duration'(_Ctx, [Arg1]) ->
+   'years-from-duration'(_Ctx, Arg1);
+'years-from-duration'(_Ctx, #xqAtomicValue{value = #xsDateTime{sign = Sn, year = Yr}}) ->
+   Yr1 = if Sn =:= '-' ->
+               Yr * -1;
+            true ->
+               Yr
+         end,
+   ?atint(Yr1).
 
 %% Returns $arg if it contains zero or one items. Otherwise, raises an error. 
 'zero-or-one'(_Ctx,[]) -> [];
-'zero-or-one'(_Ctx,L) when is_list(L) -> L;
-'zero-or-one'(_Ctx,Arg1) -> 
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               Arg1;
-            _ ->
-            xqerl_error:error('FORG0003')
-         end;
-      _ ->
-         ?seq:singleton(Arg1)
-   end.
+'zero-or-one'(_Ctx,[L]) -> [L];
+'zero-or-one'(_Ctx,Arg1) when not is_list(Arg1) -> Arg1;
+'zero-or-one'(_Ctx,_Arg1) ->
+   xqerl_error:error('FORG0003').
 
 %% The external effects of fn:put are implementation-defined, since they occur outside the domain of XQuery. The intent is that, if fn:put is invoked on a document node and no error is raised, a subsequent query can access the stored document by invoking fn:doc with the same URI. 
 %% TODO NO TEST

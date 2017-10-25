@@ -123,12 +123,15 @@ handle_tree(#xqModule{version = {Version,Encoding},
    ok = has_cycle(DiGraph),
    OrderedGraph = case digraph_utils:topsort(DiGraph) of
                      false ->
-                        digraph_utils:reaching([ModuleType],DiGraph);
+                        ?dbg("topsort?", false),
+                        lists:sort(digraph_utils:reaching([ModuleType],DiGraph));
                      Ord ->
+                        ?dbg("topsort?", true),
                         lists:filter(fun(OV) ->
                                            lists:member(OV, digraph_utils:reaching([ModuleType],DiGraph))
                                      end, Ord)
                   end,
+   ?dbg("OrderedGraph",OrderedGraph),
    OrderedGraph1 = case lists:member(context_item, OrderedGraph) of
                       true ->
                          OrderedGraph;
@@ -264,7 +267,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
    EmptyMap.
 
 
-handle_node(State, #qname{namespace = NsExpr, prefix = PxExpr, local_name = LnExpr} = Node) ->
+handle_node(State, #qname{namespace = NsExpr, prefix = PxExpr, local_name = LnExpr}) ->
    %?dbg("Node",Node),
    NsExpr1 = if is_tuple(NsExpr) ->
                    NS1 = handle_node(State, NsExpr),
@@ -272,6 +275,7 @@ handle_node(State, #qname{namespace = NsExpr, prefix = PxExpr, local_name = LnEx
                    %?dbg("NTy",NTy),
                    NewSt1 = case check_type_match(NTy, #xqSeqType{type = 'xs:string', occur = one}) of
                                false ->
+                                  ?dbg("04",{NTy, #xqSeqType{type = 'xs:string', occur = one}}),
                                   ?err('XPTY0004');
                                _ ->
                                   St1 = case get_statement(NS1) of
@@ -291,6 +295,8 @@ handle_node(State, #qname{namespace = NsExpr, prefix = PxExpr, local_name = LnEx
                             end,
                   %?dbg("NewSt1",NewSt1),
                   NewSt1;
+                NsExpr == default ->
+                   State#state.default_elem_ns;
                 true ->
                    NsExpr
              end,
@@ -300,6 +306,7 @@ handle_node(State, #qname{namespace = NsExpr, prefix = PxExpr, local_name = LnEx
                    %?dbg("PTy",PTy),
                    case check_type_match(PTy, #xqSeqType{type = 'xs:string', occur = one}) of
                       false ->
+                         ?dbg("PTy",PTy),
                          ?err('XPTY0004');
                       _ ->
                          ok
@@ -314,6 +321,7 @@ handle_node(State, #qname{namespace = NsExpr, prefix = PxExpr, local_name = LnEx
                    %?dbg("LTy",LTy),
                    case check_type_match(LTy, #xqSeqType{type = 'xs:string', occur = one}) of
                       false ->
+                         ?dbg("LTy",LTy),
                          ?err('XPTY0004');
                       _ ->
                          ok
@@ -336,7 +344,7 @@ handle_node(State, Nodes) when is_list(Nodes) ->
                      %?dbg("C",C),
                      {S,T,C}
                    end, Nodes),
-   Statements = [S || {S,T,_} <- All, T =/= #xqSeqType{type = 'empty-sequence', occur = zero}],
+   Statements = [S || {S,_,_} <- All],%, T =/= #xqSeqType{type = 'empty-sequence', occur = zero}],
    Types  = [T || {_S,T,_} <- All, T =/= #xqSeqType{type = 'empty-sequence', occur = zero}],
    Counts = [C || {_S,T,C} <- All, T =/= #xqSeqType{type = 'empty-sequence', occur = zero}],
   %?dbg("Types",Types),
@@ -367,7 +375,7 @@ handle_node(State, #xqAtomicValue{type = T} = At) ->
 handle_node(State, #xqVarRef{name = Name}) -> 
    %?dbg("Name",Name),
    St = get_variable(State, Name),
-   %?dbg("St",St),
+   ?dbg("St",St),
    Val = element(4, St), % ErlVar
    Type = element(2, St),
    set_statement_and_type(State, {variable, Val}, Type);
@@ -378,13 +386,14 @@ handle_node(State, {sequence, Expr}) ->
    St = get_statement(S),
    T = get_statement_type(S),
    %?dbg("{St,T}",{St,T}),
+   Cnt = get_static_count(S),
    if is_list(St) ->
-         Cnt = get_static_count(S),
          %?dbg("Cnt",Cnt),
          set_static_count(
            set_statement_and_type(State, {sequence, St}, T), Cnt);
       true ->
-         set_statement_and_type(State, St, T)
+         set_static_count(
+         set_statement_and_type(State, St, T), Cnt)
    end;
 %% 3.1.4 Context Item Expression
 handle_node(State = #state{context_item_type = CIType}, 'context-item') -> 
@@ -406,12 +415,76 @@ handle_node(State, {'context-item', {Type,External,Expr}} )->
                       External == external ->
                ok;
             _ ->
+               ?dbg("ST",ST),
                ?err('XPTY0004')
          end,
          set_statement_and_type(State, {'context-item', {Type,External,St1}}, ST)
    end;
 %% 3.1.5 Static Function Calls
-handle_node(State, {'partial-function-call', {name, Name}, {arity, Arity}, {args, Args}} = Node) -> default_return(State, Node);
+handle_node(State, {'partial-function', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+                                               local_name = "concat"} = Name, Arity, Args}) ->
+   if Arity == 1 ->
+         ?err('XPST0017');
+      true ->
+         ok
+   end,
+   F = get_static_function(State, {Name, Arity}),
+   StateC = set_in_constructor(State, false),
+   SimpArgs = handle_list(StateC, Args),
+   % zero_or_one to allow empty sequence
+   CheckArgs = check_fun_arg_types(State, SimpArgs, lists:duplicate(Arity, {xqSeqType,'xs:anyAtomicType',zero_or_one})),
+   NewArgs = lists:map(fun({S,undefined}) -> % unknown size
+                           S;
+                          ({S,C}) when C =< 1 ->
+                           S;
+                          ({_S,_C}) -> % no known sequences
+                             ?dbg("F",F),
+                             ?err('XPTY0004')
+                       end, CheckArgs),
+   % NewArgs wrapped as list on purpose!
+   PlaceHolders = [#xqVar{id = Id, 
+                          name = #qname{local_name = "aVeryLongBogusName__"++integer_to_list(Id)}}
+                  || {'?',Id} <- Args],
+   AnonArity = length(PlaceHolders),
+   AnonFun = #xqFunction{params = PlaceHolders,
+                         arity = AnonArity,
+                         body = {'function-call',F#xqFunction{params = [{sequence, NewArgs}]}},
+                         type = #xqSeqType{type = 'xs:string', occur = one}},
+   ST = #xqSeqType{type = #xqFunTest{kind = function,
+                                     params = lists:duplicate(AnonArity, {xqSeqType,'xs:anyAtomicType',zero_or_one}),
+                                     type = #xqSeqType{type = 'xs:string', occur = one}}, occur = one} ,
+   set_statement_and_type(State, AnonFun, ST);
+
+handle_node(State, {'partial-function', Name, Arity, Args}) -> 
+   ?dbg("Name",Name),
+   ?dbg("Arity",Arity),
+   ?dbg("Args",Args),
+   #xqFunction{params = Params, type = Type} = F = get_static_function(State, {Name, Arity}),
+   StateC = set_in_constructor(State, false),
+   SimpArgs = handle_list(StateC, Args),
+   CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
+   NewArgs = lists:map(fun({S,_C}) ->
+                           S
+                       end, CheckArgs),
+   PlaceHolders = [#xqVar{id = Id, 
+                          type = P,
+                          name = #qname{local_name = "aVeryLongBogusName__"++integer_to_list(Id)}}
+                  || {P, {'?',Id}} <- lists:zip(Params, Args)],
+   AnonArity = length(PlaceHolders),
+   AnonParamTypes = lists:filtermap(fun({P,{'?',_}}) ->
+                                          {true,P};
+                                       (_) ->
+                                          false
+                                    end, lists:zip(Params, Args)),
+   AnonFun = #xqFunction{params = PlaceHolders,
+                         arity = AnonArity,
+                         body = {'function-call',F#xqFunction{params = NewArgs}},
+                         type = Type},
+   ST = #xqSeqType{type = #xqFunTest{kind = function,
+                                     params = AnonParamTypes,
+                                     type = Type}, occur = one} ,
+   set_statement_and_type(State, AnonFun, ST);
+
 %% 3.1.5.1 Evaluating Static and Dynamic Function Calls
 %% 3.1.5.2 Function Conversion Rules
 %% 3.1.5.3 Function Coercion
@@ -420,13 +493,15 @@ handle_node(State, {'function-ref', #qname{} = Name, Arity}) ->
    F = get_static_function(State, {Name, Arity}),
    set_statement_and_type(State, F, #xqSeqType{type = 'function', occur = one});
 %% 3.1.7 Inline Function Expressions
+% this is a global variable
 handle_node(State,#xqVar{id = Id,
                          name = Name, 
                          type = Type, 
                          external = true,
                          expr = undefined} = Node) ->
-   ErlVarName = local_variable_name(Id),
-   NewVar  = {Name,Type,[],ErlVarName},
+   %ErlVarName = local_variable_name(Id),
+   GlobVarName = global_variable_name(Id),
+   NewVar  = {Name,Type,[],{GlobVarName,1}},
    State1 = add_inscope_variable(State, NewVar),
    NewStatement = Node#xqVar{expr = undefined},
    set_statement_and_type(State1, NewStatement, Type);
@@ -435,7 +510,8 @@ handle_node(State,#xqVar{id = Id,
                          name = Name, 
                          type = Type, 
                          expr = Expr}) ->
-   ErlVarName = local_variable_name(Id),
+   %ErlVarName = local_variable_name(Id),
+   GlobVarName = global_variable_name(Id),
    VarState = handle_node(State, Expr),
    VarType = get_statement_type(VarState), % for loop type is one out of a sequence
    VarStmt = get_statement(VarState),
@@ -443,18 +519,23 @@ handle_node(State,#xqVar{id = Id,
    %?dbg("{VarType, Type}",{VarType, Type}),
    case check_type_match(VarType, Type) of
       false ->
+         ?dbg("F",{VarType, Type}),
+         ?err('XPTY0004');
+      cast ->
+         ?dbg("F",{VarType, Type}),
          ?err('XPTY0004');
       _ ->
          ok
    end,
    case check_type_match(VarType, SVarType) of
       false ->
+         ?dbg("F",{VarType, SVarType}),
          ?err('XPTY0004');
       _ ->
          ok
    end,
   %?dbg("OkType",OkType),
-   NewVar  = {Name,SVarType,[],ErlVarName},
+   NewVar  = {Name,SVarType,[],{GlobVarName,1}},
    %?dbg("NewVar",NewVar),
    State1 = add_inscope_variable(State, NewVar),
    
@@ -464,11 +545,11 @@ handle_node(State,#xqVar{id = Id,
                          name = Name, 
                          type = SVarType, 
                          expr = VarStmt},
-   set_statement_and_type(State1, NewStatement, SVarType);
+   set_statement_and_type(State1, NewStatement, VarType);
 
 
 
-handle_node(State, #xqFunction{type = FType, params = Params, body = Expr} = Node) -> 
+handle_node(State, #xqFunction{name = FName, type = FType, params = Params, body = Expr} = Node) -> 
    % add parameters to state
    {State1,_} = lists:foldl(fun(#xqVar{id = Id,name = Name,type = Type}, {TState,Pos}) ->
                            ErlVarName = param_variable_name(Id),
@@ -487,40 +568,50 @@ handle_node(State, #xqFunction{type = FType, params = Params, body = Expr} = Nod
          end,
    Sty = get_statement_type(S1),
    ParamTypes = [T || #xqVar{type = T} <- Params],
-   ST  = #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = Sty}, occur = one} ,
+   ST  = #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = Sty}, occur = one},
+%%          if FName == undefined ->
+%%                #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = Sty}, occur = one};
+%%             true ->
+%%                Sty
+%%          end,
    SC = case get_static_count(S1) of
-           0 when St1 =/= 'empty-sequence' ->
-              ?err('XPST0005');
+           %0 when St1 =/= 'empty-sequence' ->
+           %   ?err('XPST0005');
            C ->
               C
         end,
-%?dbg("ST", ST),
 %?dbg("SC", SC),
-   NoCast = check_type_match(ST, FType),
+   FType1 = #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = FType}, occur = one},
+?dbg("ST", ST),
+?dbg("FType", FType1),
+   NoCast = check_type_match(ST, FType1),
    %?dbg("NoCast", NoCast),
-   %?dbg("NoCast", {ST, FType}),
    St2 = if NoCast == true ->
                St1;
             NoCast == cast ->
-               {cast_as, St1, FType}; % the function return type promotes the output
+               {promote_to, St1, FType}; % the function return type promotes the output
             NoCast == atomize ->
                Promote = check_type_match(atomized_node_type(ST),FType),
                if Promote == cast ->
                      {promote_to,{atomize, St1},FType};
+                  Promote == true ->
+                     {promote_to,St1,FType};
                   true ->
+                     ?dbg("NoCast", {NoCast,Promote,ST, FType}),
                      ?err('XPTY0004')
                end; % namespace PI and comment are strings, rest untypeAtomic
             true ->
+               ?dbg("F",{ST, FType1}),
                ?err('XPTY0004') 
          end,
    if element(2, Sty) == item ->
          Node1 = Node#xqFunction{type = Sty, body = St2},
          update_function_type(State, Node1),
-         set_static_count(set_statement_and_type(State1, Node1, Sty),SC);
+         set_static_count(set_statement_and_type(State1, Node1, ST),SC);
       true ->
          Node1 = Node#xqFunction{type = FType, body = St2},
          update_function_type(State, Node1),
-         set_static_count(set_statement_and_type(State1, Node1, FType),SC)
+         set_static_count(set_statement_and_type(State1, Node1, ST),SC)
    end;
 
 %% 3.1.8 Enclosed Expressions
@@ -536,11 +627,21 @@ handle_node(State, {postfix, {'function-call', _, _, _} = Fx, PostFixArgs}) ->
    S1 = handle_node(State, Fx),
    St = get_statement(S1),
    Ty = get_statement_type(S1),
-   Ty1 = maybe_zero_type(Ty),
+   IsFun = check_type_match(Ty, #xqSeqType{type = function, occur = one}),
+   IsArgs = element(1,hd(PostFixArgs)) == arguments,
+   if IsArgs == true, IsFun =/= true ->
+         ?dbg("F",{IsArgs, IsFun}),
+         ?err('XPTY0004');
+      true ->
+         ok
+   end,
+   %Ty1 = maybe_zero_type(Ty),
    NewPreds = handle_predicates(S1, PostFixArgs),
    NewPredSt = get_statement(NewPreds),
-  %?dbg("postfix Ty", Ty),
-   set_statement_and_type(State, {postfix, St, NewPredSt}, Ty1);
+   NewPredTy = get_statement_type(NewPreds),
+   ?dbg("postfix Ty", Ty),
+   ?dbg("NewPredTy", NewPredTy),
+   set_statement_and_type(State, {postfix, St, NewPredSt}, NewPredTy);
 
 handle_node(State, {postfix, {'function-ref',#qname{namespace = "http://www.w3.org/2001/XMLSchema"} = Name,1}, [{arguments,[Arg]}]}) -> 
    S1 = handle_node(State, Arg),
@@ -566,6 +667,7 @@ handle_node(State, {postfix, {'function-ref',#qname{namespace = "http://www.w3.o
 handle_node(State, {postfix, {'function-ref',#qname{} = Name, Arity}, [{arguments,Args}]}) -> 
    %?dbg("Name, Arity, Args",{Name, Arity, Args}),
    if Arity =/= length(Args) ->
+         ?dbg("F",{Arity}),
          ?err('XPTY0004');
       true ->
          ok
@@ -592,15 +694,25 @@ handle_node(State, {postfix, {'function-ref',#qname{} = Name, Arity}, [{argument
    %?dbg("NewArgs",NewArgs),
    set_statement_and_type(State, {'function-call', F#xqFunction{params = NewArgs}}, NewType1);
 
-% this could be a function variable
+% this could be a function/map/array variable
 handle_node(State, {postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}]}) ->
-   {_Name,FType,_Annos,_VarName} = get_variable(State, Name),
+   {_Name,FType,_Annos,_VarName} = V = get_variable(State, Name),
+   ?dbg("V",V),
+   ?dbg("Args",Args),
    {Params,Type} = case FType of
+                      #xqSeqType{type = #xqFunTest{kind = map, params = IParams, type = IType}} ->
+                         if IType == any ->
+                               {IParams, #xqSeqType{type = item, occur = one}};
+                            true ->
+                               {IParams, IType}
+                         end;
                       #xqSeqType{type = #xqFunTest{params = IParams, type = IType}} ->
                          {IParams, IType};
-                      #xqSeqType{} ->
+                      #xqSeqType{type = UType} ->
+                         ?dbg("UType",UType),
                          {[],FType}
                    end,
+   ?dbg("Type",Type),
    SimpArgs = handle_list(State, Args),
    CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
    NewArgs = lists:map(fun({S,_C}) ->
@@ -610,11 +722,11 @@ handle_node(State, {postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}]}) 
 handle_node(State, {postfix, Sequence, Filters }) -> 
    S1 = handle_node(State, Sequence),
    St = get_statement(S1),
-   Ty = get_statement_type(S1),
    %?dbg("Ty",Ty),
    F1 = handle_predicates(S1, Filters),
    Ft = get_statement(F1),
-   set_statement_and_type(State, {postfix, St, Ft}, maybe_zero_type(Ty));
+   Ty = get_statement_type(F1),
+   set_statement_and_type(State, {postfix, St, Ft}, Ty);
 
 %% 3.2.1 Filter Expressions
 %% 3.2.2 Dynamic Function Calls
@@ -623,6 +735,18 @@ handle_node(State, {postfix, Sequence, Filters }) ->
 %% 3.3.1.1 Path operator (/)
 %% 3.3.2 Steps
 %% the type of a step path is the last steps type as 0 or many
+% Steps is a list of steps to take in order
+handle_node(State, {path_expr, Steps}) ->
+   StateC = set_in_constructor(State, false),
+   Fold = fun(Step, LastType) ->
+               State2 = set_statement_type(StateC, LastType),
+               State1 = handle_node(State2, Step),
+               Val = get_statement(State1),
+               Typ = get_statement_type(State1),
+               {Val, Typ}
+          end,
+   {Statements, Type} = lists:mapfoldl(Fold, get_statement_type(State), Steps),
+   set_statement_and_type(State, {path_expr, Statements}, Type);
 handle_node(State, {'any-root', Step}) ->
    State1 = handle_node(State, Step),
    Val = get_statement(State1),
@@ -633,8 +757,12 @@ handle_node(State, {root, Step}) ->
    Val = get_statement(State1),
    Typ = get_statement_type(State1),
    set_statement_and_type(State, {'root', Val}, Typ);
-handle_node(State, {root}) ->
+
+handle_node(State, root) ->
    set_statement_and_type(State, {'root'}, #xqSeqType{type = 'document-node', occur = zero_or_one});
+handle_node(State, 'any-root') ->
+   set_statement_and_type(State, {'any-root'}, #xqSeqType{type = 'node', occur = zero_or_one});
+
 handle_node(State, {step, #xqVarRef{} = Var, Step}) ->
    StateC = set_in_constructor(State, false),
    State2 = handle_node(StateC, Var),
@@ -767,18 +895,16 @@ handle_node(State, #xqAxisStep{direction = Direction,
               %?dbg("QName",QName),
               resolve_element_name(State, QName)
         end,
-   State1 = if Direction == forward andalso Axis == attribute ->
-                 %?dbg("{Direction, Axis}",{Direction, Axis}),
-                  set_statement_and_type(State, Node, #xqSeqType{type = attribute, occur = zero_or_one});
+   Type  = if Direction == forward andalso Axis == attribute ->
+                  #xqSeqType{type = attribute, occur = zero_or_one};
                Direction == forward ->
-                 %?dbg("{Direction, Axis}",{Direction, Axis}),
-                  set_statement_and_type(State, Node, #xqSeqType{type = element, occur = zero_or_one});
+                  #xqSeqType{type = element, occur = zero_or_one};
                true ->
-                 %?dbg("{Direction, Axis}",{Direction, Axis}),
-                  default_return(State, Node)
+                  #xqSeqType{type = node, occur = zero_or_one}
             end,
+   State1 = set_statement_type(State, Type),
    NewPreds = get_statement(handle_predicates(State1, Preds)),
-   set_statement(State1, Node#xqAxisStep{predicates = NewPreds, node_test = Nt#xqNameTest{name = Q1}});
+   set_statement_and_type(State, Node#xqAxisStep{predicates = NewPreds, node_test = Nt#xqNameTest{name = Q1}},Type);
 %% 3.3.3 Predicates within Steps
 %% 3.3.4 Unabbreviated Syntax
 %% 3.3.5 Abbreviated Syntax
@@ -788,12 +914,12 @@ handle_node(State, 'empty-expr') ->
    S2 = set_static_count(S1, 0),
    set_statement_type(S2, #xqSeqType{type = 'empty-sequence', occur = zero});
 handle_node(State, 'empty-sequence') ->
-   S1 = set_statement(State, []),
+   S1 = set_statement(State, 'empty-sequence'),
    S2 = set_static_count(S1, 0),
    set_statement_type(S2, #xqSeqType{type = 'empty-sequence', occur = zero});
 %% 3.4.1 Constructing Sequences
 handle_node(State, {range, Expr1, Expr2} = _Node) -> 
-   Type = #xqSeqType{type = 'xs:integer', occur = one},
+   Type = #xqSeqType{type = 'xs:integer', occur = zero_or_one},
    S1 = handle_node(State, Expr1),
    S2 = handle_node(State, Expr2),
    T1 = get_statement_type(S1),
@@ -808,6 +934,7 @@ handle_node(State, {range, Expr1, Expr2} = _Node) ->
             NC1 == atomize ->
                {promote_to, {atomize, get_statement(S1)}, Type};
             true ->
+               ?dbg("F",{T1, Type}),
                ?err('XPTY0004')
          end,
    St2 = if NC2 ->
@@ -817,6 +944,7 @@ handle_node(State, {range, Expr1, Expr2} = _Node) ->
             NC2 == atomize ->
                {promote_to, {atomize, get_statement(S2)}, Type};
             true ->
+               ?dbg("F",{T2, Type}),
                ?err('XPTY0004')
          end,
    S3 = set_statement(State, {range, St1, St2}),
@@ -826,6 +954,7 @@ handle_node(State, {range, Expr1, Expr2} = _Node) ->
          if Diff < 0 ->
                set_statement_and_type(State, 'empty-sequence', #xqSeqType{type = 'empty-sequence', occur = zero});
             true ->
+               ?dbg("Diff",Diff),
                set_static_count(
                   set_statement_type(S3, #xqSeqType{type = 'xs:integer', occur = one_or_many}), Diff + 1)
          end;
@@ -950,7 +1079,16 @@ handle_node(State, {'modulo', Expr1, Expr2}) ->
          set_statement_and_type(State, {'modulo', St1, St2}, #xqSeqType{type = T3, occur = zero_or_one})
    end; 
 handle_node(State, {'unary', '+', Expr1} = _Node) ->
-   St1 = get_statement(handle_node(State, Expr1)),
+   S1 = handle_node(State, Expr1),
+   St1 = get_statement(S1),
+   Sty = get_statement_type(S1),
+   CheckNum = check_type_match(Sty, #xqSeqType{type = 'xs:numeric', occur = zero_or_one}),
+   if CheckNum == false ->
+         ?dbg("F",{Sty}),
+         ?err('XPTY0004');
+      true ->
+         ok
+   end,
    Atomic = all_atomics(St1),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:unary_plus(St1),
@@ -959,7 +1097,16 @@ handle_node(State, {'unary', '+', Expr1} = _Node) ->
          set_statement_and_type(State, {'unary', '+', St1}, #xqSeqType{type = 'xs:numeric', occur = zero_or_one})
    end; 
 handle_node(State, {'unary', '-', Expr1} = _Node) -> 
-   St1 = get_statement(handle_node(State, Expr1)),
+   S1 = handle_node(State, Expr1),
+   St1 = get_statement(S1),
+   Sty = get_statement_type(S1),
+   CheckNum = check_type_match(Sty, #xqSeqType{type = 'xs:numeric', occur = zero_or_one}),
+   if CheckNum == false ->
+         ?dbg("F",{Sty}),
+         ?err('XPTY0004');
+      true ->
+         ok
+   end,
    Atomic = all_atomics(St1),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:unary_minus(St1),
@@ -1067,6 +1214,8 @@ handle_node(State, {Comp, Expr1, Expr2}) when Comp =:= 'is';
    if A == true andalso B == true ->
          set_statement_and_type(State, {Comp, St1, St2}, #xqSeqType{type = 'xs:boolean', occur = zero_or_one});
       true ->
+         ?dbg("F",{Sty1, ArgType}),
+         ?dbg("F",{Sty2, ArgType}),
          ?err('XPTY0004')
    end;
 
@@ -1138,7 +1287,7 @@ handle_node(State, {comp_cons, Cons} = _Node) ->
               true ->
                  {comp_cons,St}
            end,
-   set_statement_and_type(State, NewSt, #xqSeqType{type = Typ, occur = zero_or_one});
+   set_statement_and_type(State, NewSt, #xqSeqType{type = Typ, occur = one});
 %% 3.10 String Constructors
 handle_node(State, {'string-constructor', Expr} = Node) -> default_return(State, Node);
 %% 3.11 Maps and Arrays
@@ -1151,7 +1300,12 @@ handle_node(State, {'map', Vals}) ->
                                    KVSty = get_statement_type(KVS1),
                                    {KVSt,[KVSty|Types]}
                              end, [], Vals),
-   Sty = get_list_type(KVTys),
+   Sty = case get_list_type(KVTys) of
+            #xqSeqType{type = item} ->
+               any;
+            O ->
+               O
+         end,
    set_statement_and_type(State, {'map', KVSts}, #xqSeqType{type = #xqFunTest{kind = map, type = Sty}, occur = one});
 
 handle_node(State, {'map-key-val', Key, Val}) -> 
@@ -1170,7 +1324,7 @@ handle_node(State, {'map-key-val', Key, Val}) ->
 handle_node(State, {'array', Expr}) -> 
    S1 = handle_node(State, Expr),
    St = get_statement(S1),
-   set_statement(State, {'array', l(St)});
+   set_statement_and_type(State, {'array', l(St)}, #xqSeqType{type = #xqFunTest{kind = array}, occur = one});
 %% 3.11.2.2 Array Lookup using Function Call Syntax
 %% 3.11.3 The Lookup Operator ("?") for Maps and Arrays
 %% 3.11.3.1 Unary Lookup
@@ -1230,7 +1384,9 @@ handle_node(State,{'for',#xqVar{id = Id,
    ForStmt = get_statement(ForState),
    SForType = ForType#xqSeqType{occur = zero_or_one},
    OkType = check_type_match(SForType, Type),
-   if OkType == false ->
+   if OkType == false;
+      OkType == cast ->
+         ?dbg("{OkType, SForType, Type}",{OkType, SForType, Type}),
          ?err('XPTY0004');
       true ->
          ok
@@ -1241,7 +1397,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    
    NewStatement = {'for',#xqVar{id = Id,
                                 name = Name, 
-                                type = SForType, 
+                                type = Type, 
                                 empty = Empty,
                                 expr = ForStmt, 
                                 position = undefined}},
@@ -1265,7 +1421,9 @@ handle_node(State,{'for',#xqVar{id = Id,
    ForStmt = get_statement(ForState),
    SForType = ForType#xqSeqType{occur = zero_or_one},
    OkType = check_type_match(SForType, Type),
-   if OkType == false ->
+   if OkType == false;
+      OkType == cast  ->
+         ?dbg("{SForType, Type}",{SForType, Type}),
          ?err('XPTY0004');
       true ->
          ok
@@ -1275,10 +1433,10 @@ handle_node(State,{'for',#xqVar{id = Id,
    
    State1 = add_inscope_variable(State, NewVar),
    State2 = add_inscope_variable(State1, NewPos),
-   
+
    NewStatement = {'for',#xqVar{id = Id,
                                 name = Name, 
-                                type = SForType, 
+                                type = Type, 
                                 empty = Empty,
                                 expr = ForStmt, 
                                 position = #xqPosVar{id = Pid, name = PName}}},
@@ -1295,15 +1453,25 @@ handle_node(State, {'let',#xqVar{id = Id,
    LetState = handle_node(StateC, Expr),
    LetType = get_statement_type(LetState),
    LetStmt = get_statement(LetState),
-   %?dbg("{LetType, Type}",{LetType, Type}),
    OkType = check_type_match(LetType, Type),
-   %?dbg("OkType",OkType),
-   if OkType == false;
-      OkType == cast ->
+   if OkType == false ->
+         ?dbg("{LetType, Type}",{LetType, Type}),
+         ?err('XPTY0004');
+      OkType == cast , element(2, Type) =/= item ->
+         ?dbg("{LetType, Type}",{LetType, Type}),
          ?err('XPTY0004');
       true ->
+         ?dbg("OkType",OkType),
          ok
    end,
+   
+   LetStmt1 = if OkType =/= true;
+                 Type#xqSeqType.occur =/= LetType#xqSeqType.occur ->
+                    {ensure, LetStmt, Type};
+                 true ->
+                    LetStmt
+              end,
+   
    NewVar  = {Name,LetType,[],ErlVarName},
    
    State1 = add_inscope_variable(State, NewVar),
@@ -1311,7 +1479,7 @@ handle_node(State, {'let',#xqVar{id = Id,
    NewStatement = {'let',#xqVar{id = Id, 
                                 name = Name, 
                                 type = LetType, 
-                                expr = LetStmt}},
+                                expr = LetStmt1}},
    set_statement_and_type(State1, NewStatement, LetType);
 
 %% 3.12.4 Window Clause
@@ -1337,13 +1505,14 @@ handle_node(State, #xqWindow{type = WindowType,
    WinState = handle_node(StateC, Expr),
    WinType = get_statement_type(WinState), 
    WinStmt = get_statement(WinState),
-   SWinType = WinType#xqSeqType{occur = zero_or_one},
-   %?dbg("SWinType",SWinType),
-   %?dbg("WType",WType),
+   SWinType = WinType#xqSeqType{occur = zero_or_many},
    OkType = check_type_match(SWinType, WType),
    if OkType == false ->
+         ?dbg("SWinType",SWinType),
+         ?dbg("WType",WType),
          ?err('XPTY0004');
       true ->
+         ?dbg("OkType",OkType),
          ok
    end,
    PosType = #xqSeqType{type = 'xs:integer', occur = one},
@@ -1558,7 +1727,7 @@ handle_node(State, {'if-then-else', If, Then, Else}) ->
                  true ->
                     get_list_type([ThTy,ElTy])
               end,
-   %?dbg("BothType",BothType),
+   ?dbg("BothType",BothType),
    BothCount = if ThCt == ElCt ->
                      ElCt;
                   true ->
@@ -1566,7 +1735,7 @@ handle_node(State, {'if-then-else', If, Then, Else}) ->
                end,
    %?dbg("ThCt",ThCt),
    %?dbg("ElCt",ElCt),
-   %?dbg("BothCount",BothCount),
+   ?dbg("BothCount",BothCount),
    set_static_count(set_statement_and_type(State, {'if-then-else', IfSt, ThSt, ElSt}, BothType), BothCount);
 %% 3.15 Switch Expression
 handle_node(State, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) -> 
@@ -1596,15 +1765,19 @@ handle_node(State, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) ->
 handle_node(State, {some, Vars, Test}) -> 
    State0 = set_statement(State, []),
    State1 = lists:foldl(fun(Var, TempState) ->
+                              ?dbg("Var",Var),
                               TempSt = get_statement(TempState),
-                              NewState = handle_node(TempState, Var),
+                              NewState = handle_internal_var_node(TempState, Var),
                               NewSt = get_statement(NewState),
+                              NewSty = get_statement_type(NewState),
+                              ?dbg("NewSt",NewSt),
+                              ?dbg("NewSty",NewSty),
                               set_statement(NewState, TempSt ++ [NewSt])
                         end, State0, Vars),
-   VarsS1 = handle_node(State1, Vars),
-   TestS1 = handle_node(VarsS1, Test),
+   %VarsS1 = handle_node(State1, Vars),
+   TestS1 = handle_node(State1, Test),
 
-   VarsSt = get_statement(VarsS1),
+   VarsSt = get_statement(State1),
    TestSt = get_statement(TestS1),
    
    set_statement_and_type(State, {some, l(VarsSt), TestSt}, #xqSeqType{type = 'xs:boolean', occur = one});
@@ -1614,15 +1787,15 @@ handle_node(State, {every, Vars, Test}) ->
    State1 = lists:foldl(fun(Var, TempState) ->
                               %?dbg("Var",Var),
                               TempSt = get_statement(TempState),
-                              NewState = handle_node(TempState, Var),
+                              NewState = handle_internal_var_node(TempState, Var),
                               NewSt = get_statement(NewState),
-                              %?dbg("NewSt",NewSt),
+                              ?dbg("NewSt",NewSt),
                               set_statement(NewState, TempSt ++ [NewSt])
                         end, State0, Vars),
-   VarsS1 = handle_node(State1, Vars),
-   TestS1 = handle_node(VarsS1, Test),
+   %VarsS1 = handle_node(State1, Vars),
+   TestS1 = handle_node(State1, Test),
 
-   VarsSt = get_statement(VarsS1),
+   VarsSt = get_statement(State1),
    TestSt = get_statement(TestS1),
    
    set_statement_and_type(State, {every, l(VarsSt), TestSt}, #xqSeqType{type = 'xs:boolean', occur = one});
@@ -1671,6 +1844,8 @@ handle_node(State, {instance_of, Expr1, Expr2}) ->
          ok;
       #xqFunTest{} ->
          ok;
+      'empty-sequence' ->
+         ok;
       _ ->
          try xqerl_btypes:get_type(TType) of %just check if it exists
             _ -> ok
@@ -1716,6 +1891,24 @@ handle_node(State, {cast_as, 'empty-sequence', #xqSeqType{type = #qname{local_na
    set_statement(State, 'empty-sequence');
 handle_node(State, {cast_as, 'empty-sequence', #xqSeqType{type = T, occur = zero_or_one}}) when T =/= 'xs:NOTATION' ->
    set_statement(State, 'empty-sequence');
+handle_node(State, {cast_as, #xqAtomicValue{} = Av, #xqSeqType{type = #qname{local_name = Ln} = Name}}) -> 
+   if Ln == "NOTATION";
+      Ln == "anyAtomicType";
+      Ln == "anySimpleType" ->
+         ?err('XPST0080');
+      true ->
+         ok
+   end,
+   St2 = get_statement(handle_node(State, Name)),
+   try
+      handle_node(State, {'function-call',St2, 1, [Av]})
+   catch
+      %_:#xqError{name = #xqAtomicValue{value = #qname{local_name = "FORG0001"}}} = E -> throw(E);
+      _:#xqError{} = E -> throw(E);
+      _:_ ->
+         ?dbg("XQST0052",St2),
+         ?err('XQST0052') % unknown type in cast
+  end;
 handle_node(State, {cast_as, Expr1, #xqSeqType{type = #qname{local_name = Ln}} = Expr2}) -> 
    if Ln == "NOTATION";
       Ln == "anyAtomicType";
@@ -1743,13 +1936,13 @@ handle_node(State, {cast_as, Expr1, #xqSeqType{type = TypeAtom} = Expr2}) ->
    set_statement_and_type(State, NewStatement1, Expr2#xqSeqType{type = TypeAtom});
 %% 3.18.4 Castable
 handle_node(State, {castable_as, 'empty-sequence', #xqSeqType{type = #qname{local_name = L}, occur = zero_or_one}}) when L =/= "NOTATION" ->
-   set_statement(State, #xqAtomicValue{type = 'xs:boolean', value = true});
-handle_node(State, {castable_as, 'empty-sequence', #xqSeqType{type = T, occur = zero_or_one}}) when T =/= 'xs:NOTATION' ->
-   set_statement(State, #xqAtomicValue{type = 'xs:boolean', value = true});
+   set_statement_and_type(State, #xqAtomicValue{type = 'xs:boolean', value = true}, #xqSeqType{type = 'xs:boolean', occur = one});
+handle_node(State, {castable_as, 'empty-sequence', #xqSeqType{type = T, occur = zero_or_one}}) when is_atom(T), T =/= 'xs:NOTATION' ->
+   set_statement_and_type(State, #xqAtomicValue{type = 'xs:boolean', value = true}, #xqSeqType{type = 'xs:boolean', occur = one});
 handle_node(State, {castable_as, 'empty-sequence', #xqSeqType{type = #qname{local_name = L}, occur = one}}) when L =/= "NOTATION" ->
-   set_statement(State, #xqAtomicValue{type = 'xs:boolean', value = false});
-handle_node(State, {castable_as, 'empty-sequence', #xqSeqType{type = T, occur = one}}) when T =/= 'xs:NOTATION' ->
-   set_statement(State, #xqAtomicValue{type = 'xs:boolean', value = false});
+   set_statement_and_type(State, #xqAtomicValue{type = 'xs:boolean', value = false}, #xqSeqType{type = 'xs:boolean', occur = one});
+handle_node(State, {castable_as, 'empty-sequence', #xqSeqType{type = T, occur = one}}) when is_atom(T), T =/= 'xs:NOTATION' ->
+   set_statement_and_type(State, #xqAtomicValue{type = 'xs:boolean', value = false}, #xqSeqType{type = 'xs:boolean', occur = one});
 handle_node(State, {castable_as, Expr1, #xqSeqType{type = #qname{local_name = Ln}} = Expr2}) -> 
    if Ln == "NOTATION";
       Ln == "anyAtomicType";
@@ -1799,7 +1992,7 @@ handle_node(State, {'function-call',#qname{namespace = "http://www.w3.org/2001/X
                 Type == "NMTOKENS" ->
                    {sequence,xqerl_types:cast_as(Av, TypeAtom)};
                 true ->
-                  %?dbg("Av",Av),
+                   %?dbg("Av",Av),
                    xqerl_types:cast_as(Av, TypeAtom)
              end,
    %?dbg("NewNode",NewNode),
@@ -1848,9 +2041,10 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    NoCastC = check_type_match(CtxType, TargetType),
    %?dbg("NoCast",NoCastC),
    if NoCastC == false ->
-            ?err('XPTY0004');
-         true ->
-            []                        
+         ?dbg("CtxType, TargetType",{CtxType, TargetType}),
+         ?err('XPTY0004');
+      true ->
+         []                        
    end,
    F = get_static_function(State, {Name, 0}),
    OutStatement = {'function-call',F},
@@ -1879,6 +2073,8 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    %?dbg("NoCast",{NoCastA,NoCastC}),
    NewStatement = if NoCastA == false;
                      NoCastC == false ->
+                        ?dbg("CtxType, TargetType",{CtxType, TargetType1}),
+                        ?dbg("CtxType, TargetType",{CtxType, TargetType2}),
                         ?err('XPTY0004');
                      NoCastA == cast ->
                         {cast_as, SimArgSt, TargetType1};
@@ -1934,21 +2130,38 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
 handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                             local_name = "function-arity"} = FName, 1, [Arg]}) -> 
    Type = #xqSeqType{type = 'xs:integer', occur = one},
+   ?dbg("Arg",Arg),
    case Arg of
-      {'function-call', _Name,Arity,_Args} ->
-         set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', value = Arity}, Type);
-      {'partial-function-call', _Name,_Arity,Args} ->
-         PlaceHolders = [P || P <- Args, P == '?'],
+%%       {'function-call', _Name,Arity,_Args} ->
+%%          set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', value = Arity}, Type);
+      {'partial-function', _Name,_Arity,Args} ->
+         PlaceHolders = [P || {'?',P} <- Args],
          Cnt = length(PlaceHolders),
          set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', value = Cnt}, Type);
       {'function-ref', _Name,Arity} ->
          set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', value = Arity}, Type);
       #xqVarRef{name = Name} ->
          St = get_variable(State, Name),
-         %?dbg("St",St),
-         Val = element(4, St), % ErlVar
-         VType = element(2, St),
-         set_statement_and_type(State, {'function-call', FName,1,[{variable, Val}]} , VType);
+         ?dbg("St",St),
+         Val = element(4, St), % xqSeqType
+         case element(2, St) of
+            #xqSeqType{type = #xqFunTest{params = Ps}} ->
+               set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', value = length(Ps)}, Type);
+            VType ->
+               set_statement_and_type(State, {'function-call', FName,1,[{variable, Val}]} , VType)
+         end;
+      {variable,Name} ->
+         St = get_variable(State, {variable,Name}),
+         ?dbg("St",St),
+         Val = element(4, St), % xqSeqType
+         case element(2, St) of
+            #xqSeqType{type = #xqFunTest{params = Ps}} ->
+               set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', value = length(Ps)}, Type);
+            VType ->
+               set_statement_and_type(State, {'function-call', FName,1,[{variable, Val}]} , VType)
+         end;
+      {sequence,_} ->
+         ?err('XPTY0004');
       _ ->
          StateC = set_in_constructor(State, false),
          SimpArg = handle_node(StateC, Arg),
@@ -1963,16 +2176,17 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
                                             local_name = "function-name"} = FName, 1, [Arg]}) -> 
    Type = #xqSeqType{type = 'xs:QName', occur = one},
    case Arg of
-      {'partial-function-call', _Name,_Arity,_Args} ->
+      {'partial-function', _Name,_Arity,_Args} ->
          set_statement_and_type(State, 'empty-sequence', #xqSeqType{type = 'empty-sequence', occur = zero});
       {'function-ref', Name,_Arity} ->
          set_statement_and_type(State, #xqAtomicValue{type = 'xs:QName', value = Name}, Type);
-      #xqVarRef{name = Name} ->
-         %?dbg("Name",Name),
-         St = get_variable(State, Name),
-         %?dbg("St",St),
-         Name1 = element(1, St),
-         set_statement_and_type(State, #xqAtomicValue{type = 'xs:QName', value = Name1}, Type);
+      #xqVarRef{name = _Name} ->
+         set_statement_and_type(State, 'empty-sequence', #xqSeqType{type = 'empty-sequence', occur = zero});
+%%          %?dbg("Name",Name),
+%%          St = get_variable(State, Name),
+%%          %?dbg("St",St),
+%%          Name1 = element(1, St),
+%%          set_statement_and_type(State, #xqAtomicValue{type = 'xs:QName', value = Name1}, Type);
       #xqFunction{} ->
          set_statement_and_type(State, 'empty-sequence', #xqSeqType{type = 'empty-sequence', occur = zero});
       _ ->
@@ -1995,6 +2209,26 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    Type = get_statement_type(SimpArg),
    ArgSt = get_statement(SimpArg),
    set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
+
+handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+                                            local_name = "filter"} = Name, 2, [Arg,#xqFunction{} = Fun]}) -> 
+   Fun1 = case Fun#xqFunction.type of
+             #xqSeqType{type = item} -> % generic type
+                Fun#xqFunction{type = #xqSeqType{type = 'xs:boolean', occur = one}};
+             _ ->
+                Fun
+          end,
+   F = get_static_function(State, {Name, 2}),
+   StateC = set_in_constructor(State, false),
+   SimpArg = handle_node(StateC, Arg),
+   SimpFun = handle_node(StateC, Fun1),
+   %SimpFun = handle_node(StateC, Fun#xqFunction{type = #xqSeqType{type = 'xs:boolean', occur = one}}),
+   Type = maybe_zero_type(get_statement_type(SimpArg)),
+   ArgSt = get_statement(SimpArg),
+   FunSt = get_statement(SimpFun),
+   FunTy = get_statement_type(SimpFun),
+   ?dbg("FunTy",FunTy),
+   set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt,FunSt], type = Type}}, Type);
 
 % static context functions
 handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
@@ -2133,19 +2367,10 @@ handle_node(State, {'function-call', Name, Arity, Args}) ->
    #xqFunction{params = Params, type = Type} = F = get_static_function(State, {Name, Arity}),
    StateC = set_in_constructor(State, false),
    SimpArgs = handle_list(StateC, Args),
-%%    NewType = if is_list(Type) ->
-%%                    lists:map(fun({parameter, P}) ->
-%%                                    get_statement_type(lists:nth(P, SimpArgs));
-%%                                 (T) ->
-%%                                    T
-%%                              end, Type);
-%%                 true ->
-%%                   Type
-%%              end,
    NewType1 = Type, %get_list_type(NewType),
-   %?dbg("{Name,Params,NewType1}",{Name,Params,NewType1}),
+   ?dbg("SimpArgs, Params",{Args, Params}),
    CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
-   %?dbg("CheckArgs",CheckArgs),
+   ?dbg("CheckArgs",CheckArgs),
    NewArgs = lists:map(fun({S,_C}) ->
                            S
                        end, CheckArgs),
@@ -2206,9 +2431,16 @@ handle_node(State, {pragma, Pragmas, Exprs}) ->
    St = get_statement(S1),
    Sty = get_statement_type(S1),
    % just resolve any names
-   P = lists:map(fun({Name,Contents}) ->
-                       QName = resolve_qname(Name, State),
-                       {QName,Contents}
+   P = lists:filtermap(fun({Name,Contents}) ->
+                       #qname{namespace = Ns} = QName = resolve_pragma_qname(Name, State),
+                       if Ns == [] ->
+                             false;
+                          Ns == undefined ->
+                             ?err('XPST0081');
+                          true ->
+                             ?dbg("QName",QName),
+                             {true, {QName,Contents}}
+                       end
                  end, Pragmas),
    set_statement_and_type(State, {pragma, P, St}, Sty);
 
@@ -2235,17 +2467,28 @@ handle_node(State, {content_expr, Expr}) ->
 %% handle_node(State, undefined) ->
 %%    State;
 
+handle_node(State, {'?',Id}) ->
+   set_statement_and_type(State, {variable,param_variable_name(Id)}, #xqSeqType{type = item, occur = zero_or_many});
+
 handle_node(State, Node) ->
-   %?dbg("UNKNOWN NODE", Node),
+   ?dbg("UNKNOWN NODE", Node),
+   ?dbg("UNKNOWN NODE", State#state.context),
    State.
 
+% TODO make this a foldr to wrap up chained calls and get correct return type
+handle_predicates(State, []) -> 
+   set_statement(State,[]);
 handle_predicates(State, Predicates) ->
-   PredStatements = lists:map(fun(P) ->
-                                    get_statement(handle_predicate(State, P))
-                              end, Predicates),
-   set_statement(State, PredStatements).
+   {PredStatements,OutType} = lists:mapfoldl(fun(P,_InType) ->
+                                         State1 = handle_predicate(State, P),
+                                         Type = get_statement_type(State1),
+                                         {get_statement(State1),Type}
+                                   end, [],Predicates),
+   set_statement_and_type(State, PredStatements,OutType).
 
 handle_predicate(State, {predicate, Expr}) ->
+   PreFilterType = get_statement_type(State),
+   PostFilterType = maybe_zero_type(PreFilterType), 
    ContextType = (get_statement_type(State))#xqSeqType{occur = one},
    State1 = State#state{context_item_type = ContextType},
    %?dbg("ContextType",ContextType),
@@ -2260,40 +2503,67 @@ handle_predicate(State, {predicate, Expr}) ->
            end,
    %?dbg("SimSt",SimSt),
    #xqSeqType{type = SimTy} = Type = get_statement_type(SimExpr),
+   SimCnt = get_static_count(SimExpr),
    %?dbg("SimTy",SimTy),
-   if SimTy == item ->
-         set_statement(State, {predicate, SimSt});
-      ?node(SimTy) ->
-         set_statement(State, {predicate, SimSt});
+   if SimTy == item;
+      ?node(SimTy);
       SimTy == 'xs:boolean' ->
-         set_statement(State, {predicate, SimSt});
+         set_statement_and_type(State, {predicate, SimSt}, PostFilterType);
       true ->
-         IsNum = check_type_match(Type, #xqSeqType{type = 'xs:numeric'}),
-         %?dbg("IsNum",IsNum),
-         if IsNum ->
-               set_statement(State, {predicate, SimSt});
-               %set_statement(State, {predicate, {cast_as, SimSt, #xqSeqType{type = #qname{prefix = "xs",local_name = "double"}, occur = zero_or_one}}});
+         IsNum = check_type_match(Type, #xqSeqType{type = 'xs:numeric',occur = zero_or_one}),
+         ?dbg("IsNum",IsNum),
+         ?dbg("SimCnt",SimCnt),
+         if IsNum andalso (SimCnt == undefined orelse SimCnt < 2) ->
+               set_statement_and_type(State, {positional_predicate, SimSt}, PostFilterType);
             true ->
-               set_statement(State, {predicate, SimSt})
+               set_statement_and_type(State, {predicate, SimSt}, PostFilterType)
          end
-         %set_statement(State, {predicate, {cast_as, SimSt, Type#xqSeqType{type = 'xs:integer'}}}) --- cannot cast to more than one
    end;
    
 handle_predicate(State, {arguments, Args}) ->
+   ?dbg("pred",get_statement_type(State) ),
    SimpArgs = handle_list(State, Args),
    NewArgs = lists:map(fun(Arg) ->
                              get_statement(Arg)
                        end, SimpArgs),
-   set_statement(State, {arguments, NewArgs}).
+   set_statement(State, {arguments, NewArgs});
+% unary lookups
+handle_predicate(State, {lookup, wildcard}) ->
+   NewType = #xqSeqType{type = item, occur = zero_or_many}, 
+   % what type of lookup? map/array
+   #xqSeqType{type = #xqFunTest{kind = Kind}} = get_statement_type(State),
+   if Kind == map ->
+         set_statement_and_type(State, {map_lookup, wildcard},NewType);
+      true ->
+         set_statement_and_type(State, {array_lookup, wildcard},NewType)
+   end;
+handle_predicate(State, {lookup, Args}) ->
+   NewType = #xqSeqType{type = item, occur = zero_or_many}, 
+   SimpArgs = handle_node(State, Args),
+   NewArgs = get_statement(SimpArgs),
+   Type = get_statement_type(SimpArgs),
+   LUType = case get_statement_type(State) of
+               #xqSeqType{type = #xqFunTest{kind = Kind}} ->
+                  Kind;
+               _ ->
+                  unknown
+            end,
+   if LUType == map ->
+         set_statement_and_type(State, {map_lookup, NewArgs},NewType);
+      LUType == array ->
+         set_statement_and_type(State, {array_lookup, NewArgs},NewType);
+      true ->
+         set_statement_and_type(State, {array_lookup, NewArgs},NewType)
+   end.
    
 handle_internal_var_node(State,#xqVar{id = Id,
                                       name = Name, 
                                       type = Type, 
                                       expr = Expr}) ->
    ErlVarName = local_variable_name(Id),
-   NewVar  = {Name,Type,[],ErlVarName},
-   State1 = add_inscope_variable(State, NewVar),
-   VarState = handle_node(State1, Expr),
+   NewVar0  = {Name,Type,[],ErlVarName},
+   State0 = add_inscope_variable(State, NewVar0),
+   VarState = handle_node(State0, Expr),
    VarType = get_statement_type(VarState), % for loop type is one out of a sequence
    VarStmt = get_statement(VarState),
    case check_type_match(VarType, Type) of
@@ -2302,11 +2572,13 @@ handle_internal_var_node(State,#xqVar{id = Id,
       _ ->
          ok
    end,
+   NewVar  = {Name,VarType,[],ErlVarName},
+   State1 = add_inscope_variable(State, NewVar),
    NewStatement = #xqVar{id = Id,
                          name = Name, 
                          type = VarType, 
                          expr = VarStmt},
-   set_statement_and_type(State, NewStatement, VarType).
+   set_statement_and_type(State1, NewStatement, VarType).
 
 
 default_return(State, Node) ->
@@ -2485,7 +2757,8 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
                add_edge(G, {Id,Nm}, Parent),
                Map
          end;
-      {'function-call', Nm, Ar, Args } ->
+      {FC, Nm, Ar, Args } when FC == 'function-call';
+                                            FC == 'partial-function'->
          %?dbg("{{Nm,Ar}, Parent}",{{Nm,Ar}, Parent}),
          Properties = xqerl_static_fn_props:get_props(Nm, Ar),
          %?dbg("Properties",Properties),
@@ -2897,11 +3170,15 @@ scan_variables(State, Variables) ->
 
 scan_namespaces(State, Namespaces) ->
    NsList = [begin
-                %_ = xqerl_context:add_statically_known_namespace(Ns, Px),
                 #xqNamespace{namespace = Ns, prefix = Px}
              end
             || {Px,Ns} <- Namespaces],
-   State#state{known_ns = NsList}.
+   Default = [begin
+                #xqNamespace{namespace = Ns, prefix = Px}
+             end
+            || {Px,Ns} <- Namespaces, Px == []],
+   State1 = set_inscope_ns(State, Default),
+   State1#state{known_ns = NsList}.
 
 scan_options(Options,library) ->
    %?dbg(?LINE,Options),
@@ -2974,6 +3251,25 @@ resolve_qname(#qname{namespace = undefined, prefix = Px, local_name = Ln}, #stat
          #qname{namespace = Ns, prefix = Px, local_name = Ln}
    end;
 resolve_qname(Name, _Ctx) ->
+   Name.
+
+resolve_pragma_qname(#qname{namespace = undefined, prefix = Px, local_name = Ln}, #state{known_ns = Nss}) ->
+   case lists:keyfind(Px, 3, Nss) of
+      false ->
+         ?err('XPST0081'); % unable to expand
+      #xqNamespace{namespace = Ns} ->
+         #qname{namespace = Ns, prefix = Px, local_name = Ln}
+   end;
+resolve_pragma_qname(#qname{namespace = default, local_name = Ln}, #state{known_ns = Nss}) ->
+   case lists:keyfind([], 3, Nss) of
+      false ->
+         #qname{namespace = [], prefix = [], local_name = Ln};
+      #xqNamespace{namespace = undefined} ->
+         ?err('XPST0081');
+      #xqNamespace{namespace = Ns, prefix = Px} ->
+         #qname{namespace = Ns, prefix = Px, local_name = Ln}
+   end;
+resolve_pragma_qname(Name, _Ctx) ->
    Name.
 
 param_types(Params) ->
@@ -3104,7 +3400,11 @@ check_direct_namespaces(Namespaces) ->
    lists:foreach(
      fun(#xqNamespaceNode{name = #qname{namespace = N2x, prefix = P2x}}) ->
            P2 = xqerl_types:string_value(P2x),
-           N2 = xqerl_types:string_value(N2x),
+           N2 = if is_atom(N2x) -> % no-namespace
+                      N2x;
+                   true ->
+                      xqerl_types:string_value(N2x)
+                end,
            % attempt to reset xml or xsi namespace
            if P2 == "xml" andalso N2 =/= "http://www.w3.org/XML/1998/namespace" ->
                  ?err('XQST0070');
@@ -3127,8 +3427,10 @@ check_direct_namespaces(Namespaces) ->
 handle_direct_constructor(State, #xqElementNode{name = QName, attributes = AttsNs, expr = Content} = Node) ->
    InscopeNs = get_inscope_ns(State),
    Namespaces = namespace_nodes(AttsNs),
+   %NewDefault = [Ns || #xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}} <- Namespaces, Px == [] ],
    Attributes = attribute_nodes(AttsNs),
    State1 = override_namespaces(State, Namespaces),
+   %?dbg("Namespaces", State1#state.default_elem_ns),
    QName1 = resolve_element_name(State1, QName),
    Attributes1 = resolve_attribute_names(State1, Attributes),
    Attributes2 = lists:map(fun(Att) ->
@@ -3137,7 +3439,6 @@ handle_direct_constructor(State, #xqElementNode{name = QName, attributes = AttsN
    %?dbg(?LINE, Content),
    SContent = get_statement(handle_element_content(State1, Content)),
    %?dbg(?LINE, SContent),
-   %?dbg(?LINE, Attributes2),
    %?dbg(?LINE, QName1),
    ok = check_unique_att_names(Attributes2),
    ok = check_direct_namespaces(Namespaces),
@@ -3267,12 +3568,16 @@ handle_element_content(State, Content) ->
    set_statement(State, Content3).
 
 handle_attribute_content(State, Content) ->
-   Content1 = maybe_strip_whitespace(State,Content),
-   Content2 = combine_literals(Content1),
+   %Content1 = maybe_strip_whitespace(State,Content),
+   Content2 = combine_literals(Content),
    CFun = fun(C) ->
                 get_statement(handle_direct_constructor(State, C))
           end,
    Content3 = lists:map(CFun, Content2), 
+   %?dbg("Content",Content),
+   %?dbg("Content1",Content1),
+   %?dbg("Content2",Content2),
+   %?dbg("Content3",Content3),
    set_statement(State, Content3).
 
 %{char_ref, [value_of('$1')]}
@@ -3289,9 +3594,28 @@ maybe_strip_whitespace(#state{boundary_space = strip}, Content) ->
    lists:reverse(Content2).
 
 remove_empty_head([]) -> [];
+remove_empty_head([{content_expr, _} = C1,#xqAtomicValue{type = 'xs:string', value = Val} = S|T]) -> 
+   case string:trim(Val) of
+      [] ->
+         remove_empty_head([C1|T]);
+      _ ->
+         [C1|remove_empty_head([S|T])]
+   end;
+%% remove_empty_head([{content_expr, _} = C1,#xqAtomicValue{type = 'xs:string', value = Val} = S,{content_expr, _} = C2|T]) -> 
+%%    case string:trim(Val) of
+%%       [] ->
+%%          remove_empty_head([C1,C2|T]);
+%%       _ ->
+%%          [C1|remove_empty_head([S,C2|T])]
+%%    end;
+remove_empty_head([{content_expr, _}|_] = All) -> All;
 remove_empty_head([#xqAtomicValue{} = H1,{char_ref, _} = H2|T]) ->
    [H1|remove_empty_head([H2|T])];
+remove_empty_head([#xqAtomicValue{} = H1,{entity_ref, _} = H2|T]) ->
+   [H1|remove_empty_head([H2|T])];
 remove_empty_head([{char_ref, _} = H1,#xqAtomicValue{} = H2|T]) ->
+   [H1,H2|remove_empty_head(T)];
+remove_empty_head([{entity_ref, _} = H1,#xqAtomicValue{} = H2|T]) ->
    [H1,H2|remove_empty_head(T)];
 remove_empty_head([#xqAtomicValue{} = H1,#xqTextNode{} = H2|T]) ->
    [H1|remove_empty_head([H2|T])];
@@ -3344,8 +3668,8 @@ combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1},
                                            RefType =:= entity_ref ->
    combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1++Val2}|T]);
 combine_literals([{RefType1, Val1},
-                  {RefType2, Val2}|T]) when RefType1 =:= char_ref orelse RefType1 =:= entity_ref andalso 
-                                            RefType2 =:= char_ref orelse RefType2 =:= entity_ref ->
+                  {RefType2, Val2}|T]) when (RefType1 =:= char_ref orelse RefType1 =:= entity_ref) andalso 
+                                            (RefType2 =:= char_ref orelse RefType2 =:= entity_ref) ->
    combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1++Val2}|T]);
 
 combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1},
@@ -3416,6 +3740,14 @@ handle_list(State, NodeList) ->
 % the statements will tell the code builder what casts (if any)
 % need to happen
 % returns [{Stmnt, Cnt}|...]
+check_fun_arg_types(_State, Args, []) -> % this is when anonymous function called with anon function argument
+   lists:map(fun(Arg) ->
+                   {get_statement(Arg),get_static_count(Arg)}
+             end, Args);
+check_fun_arg_types(_State, Args, any) ->
+   lists:map(fun(Arg) ->
+                   {get_statement(Arg),get_static_count(Arg)}
+             end, Args);
 check_fun_arg_types(State, Args, ArgTypes) ->
    Arg_ArgTypes = lists:zip(Args, ArgTypes),
    Fun = fun({Arg, ArgType}) ->
@@ -3434,7 +3766,7 @@ check_fun_arg_type(State, Arg, TargetType) ->
    %?dbg("Arg",get_statement(Arg)),
    ParamType = get_statement_type(Arg),
    Param = get_statement(Arg),
-   %?dbg("Param",Param),
+   ?dbg("Param",Param),
    %?dbg("ParamType",ParamType),
    %?dbg("TargetType",TargetType),
    ParamType1 = 
@@ -3445,6 +3777,8 @@ check_fun_arg_type(State, Arg, TargetType) ->
               if Param == 'context-item' ->
                     %?dbg("State#state.context_item_type",State#state.context_item_type),
                     State#state.context_item_type;
+                 element(1,Param) == 'variable' -> % comes from partial function
+                    TargetType;
                  true ->
                     ParamType
               end
@@ -3453,18 +3787,24 @@ check_fun_arg_type(State, Arg, TargetType) ->
    ok = check_occurance_match(ParamType1, TargetType, StatCnt),
    % now check the types
    NoCast = check_type_match(ParamType1, TargetType),
-   %?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
+   ?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
+   #xqSeqType{type = TT} = TargetType,
    if NoCast ->
          Arg;
       NoCast == cast ->
-         set_statement(Arg, {cast_as, Param, TargetType});
+         %?err('XPTY0004');
+         set_statement(Arg, {promote_to, Param, TargetType});
+      NoCast == atomize andalso (TT == 'xs:QName' orelse TT == 'xs:NOTATION') ->
+         ?err('XPTY0117');
       NoCast == atomize ->
          set_statement(Arg, {promote_to, {atomize, Param}, TargetType});
       true ->
-         #xqSeqType{type = TT} = TargetType,
-         #xqSeqType{type = PT} = ParamType,
-         if PT == 'xs:untypedAtomic' andalso TT == 'xs:QName';
-            PT == 'xs:untypedAtomic' andalso TT == 'xs:NOTATION' ->
+         #xqSeqType{type = PT} = ParamType1,
+         if PT == 'xs:untypedAtomic' andalso (TT == 'xs:QName' orelse TT == 'xs:NOTATION');
+            PT == 'text' andalso (TT == 'xs:QName' orelse TT == 'xs:NOTATION');
+            PT == 'attribute' andalso (TT == 'xs:QName' orelse TT == 'xs:NOTATION');
+            PT == 'element' andalso (TT == 'xs:QName' orelse TT == 'xs:NOTATION');
+            PT == 'document-node' andalso (TT == 'xs:QName' orelse TT == 'xs:NOTATION') ->
                ?err('XPTY0117');
             true ->
                %oops
@@ -3512,17 +3852,20 @@ get_list_type([#xqSeqType{type = H}|Types], []) ->
 get_list_type([#xqSeqType{type = H}|Types], BType) ->
    if H == 'empty-sequence' ->
          get_list_type(Types, BType);
-      %is_tuple(H) ->
-      %   [H|[get_list_type(Types, BType)]];
       true ->
          H1 = case H of
             #xqKindTest{kind = K} ->
                K;
+            #xqFunTest{kind = map} ->
+               map;
+            #xqFunTest{kind = array} ->
+               array;
             #xqFunTest{type = any} ->
                item;
             #xqFunTest{type = #xqSeqType{type = K}} ->
                K;
             _ ->
+               %?dbg("H",H),
                H
          end,
          HType = xqerl_btypes:get_type(H1),
@@ -3543,7 +3886,25 @@ get_list_type([#xqSeqType{type = H}|Types], BType) ->
 % for now until other stuff fixed
 check_type_match(A, A) -> 
    true;
-check_type_match(#xqSeqType{type = item}, #xqSeqType{type = item}) -> 
+
+% everything is an item
+check_type_match(#xqSeqType{}, #xqSeqType{type = item}) -> 
+   true;
+% items are not everything
+ check_type_match(#xqSeqType{type = item}, _) -> 
+    cast;
+%%  check_type_match(#xqSeqType{type = item}, #xqSeqType{type = #xqFunTest{}}) -> 
+%%     true;
+%% check_type_match(#xqSeqType{type = item}, #xqSeqType{type = #xqKindTest{kind = TargetType}}) when ?node(TargetType) -> 
+%%    true;
+%% check_type_match(#xqSeqType{type = item}, #xqSeqType{type = TargetType}) when ?node(TargetType) -> 
+%%    true;
+%% check_type_match(#xqSeqType{type = item}, #xqSeqType{type = 'xs:anyAtomicType'}) -> 
+%%    atomize;
+%% check_type_match(#xqSeqType{type = item}, #xqSeqType{type = TargetType}) when not ?node(TargetType) -> 
+%%    cast;
+
+check_type_match(#xqSeqType{type = 'empty-sequence'}, #xqSeqType{type = 'xs:error'}) -> 
    true;
 check_type_match(#xqSeqType{type = 'empty-sequence'}, #xqSeqType{occur = O}) when O == one;
                                                                                   O == one_or_many -> 
@@ -3551,37 +3912,26 @@ check_type_match(#xqSeqType{type = 'empty-sequence'}, #xqSeqType{occur = O}) whe
 check_type_match(#xqSeqType{occur = O}, #xqSeqType{type = 'empty-sequence'}) when O == one;
                                                                                   O == one_or_many -> 
    false;
-check_type_match(#xqSeqType{type = item}, #xqSeqType{type = #xqFunTest{}}) -> 
-   true;
-check_type_match(#xqSeqType{type = item}, #xqSeqType{type = #xqKindTest{kind = TargetType}}) when ?node(TargetType) -> 
-   true;
 check_type_match(#xqSeqType{type = node}, #xqSeqType{type = #xqKindTest{kind = TargetType}}) when ?node(TargetType) -> 
    true;
-check_type_match(#xqSeqType{type = item}, #xqSeqType{type = TargetType}) when ?node(TargetType) -> 
+check_type_match(#xqSeqType{type = 'xs:anyAtomicType'}, #xqSeqType{type = 'xs:anyAtomicType'}) -> 
    true;
-check_type_match(#xqSeqType{type = item}, #xqSeqType{type = 'xs:anyAtomicType'}) -> 
-   atomize;
-check_type_match(#xqSeqType{type = item}, #xqSeqType{type = TargetType}) when not ?node(TargetType) -> 
-   cast;
 check_type_match(#xqSeqType{type = 'xs:anyAtomicType'}, #xqSeqType{type = TargetType}) when ?anyAtomicType(TargetType) -> 
-   true;
-
-% everything is an item
-check_type_match(#xqSeqType{}, #xqSeqType{type = item}) -> 
-   true;
+   cast;
 
 % check if the types are compatable with/out cast or atomization
 check_type_match(#xqSeqType{type = #xqKindTest{kind = ParamType}}, #xqSeqType{type = TargetType}) when ?node(ParamType) andalso ?anyAtomicType(TargetType) -> 
    atomize;
 check_type_match(#xqSeqType{type = ParamType}, #xqSeqType{type = TargetType}) when ?node(ParamType) andalso ?anyAtomicType(TargetType) -> 
    atomize;
-check_type_match(#xqSeqType{type = function}, #xqSeqType{type = #xqFunTest{}}) -> % function coercion 
-   true;
 check_type_match(#xqSeqType{type = function}, #xqSeqType{type = TargetType}) when ?anyAtomicType(TargetType) -> 
    ?err('FOTY0013');
 
 % untyped to number
 check_type_match(#xqSeqType{type = 'xs:untypedAtomic'}, #xqSeqType{type = TargetType}) when ?numeric(TargetType) -> 
+   cast;
+% untyped to boolean
+check_type_match(#xqSeqType{type = 'xs:untypedAtomic'}, #xqSeqType{type = 'xs:boolean'}) -> 
    cast;
 
 check_type_match(#xqSeqType{type = 'empty-sequence'}, _TargetType) -> true;
@@ -3597,6 +3947,19 @@ check_type_match(#xqSeqType{type = #xqFunTest{kind = map, params = _Params1, typ
 check_type_match(#xqSeqType{type = #xqFunTest{kind = array, params = _Params1, type = _Type1}}, 
                  #xqSeqType{type = #xqFunTest{kind = array, params = any, type = any}}) ->
    true;   
+
+check_type_match(#xqSeqType{type = #xqFunTest{kind = function, params = Params1, type = Type1}}, 
+                 #xqSeqType{type = #xqFunTest{kind = function, params = Params2, type = Type2}}) ->
+   ?dbg("{Type1,Type2}",{Type1,Type2}),
+   if length(Params1) == length(Params2) ->
+         check_type_match(Type1,Type2);
+      true ->
+         false
+   end;
+check_type_match(#xqSeqType{type = #xqFunTest{kind = function}}, #xqSeqType{type = #xqFunTest{}}) -> % function coercion 
+   true;
+check_type_match(#xqSeqType{type = function}, #xqSeqType{type = #xqFunTest{}}) -> % function coercion 
+   true;
 
 % types can come in as EQNames
 check_type_match(#xqSeqType{type = #qname{namespace = "http://www.w3.org/2001/XMLSchema", local_name = Ln}} = A, B) ->
@@ -3643,13 +4006,22 @@ check_type_match(#xqSeqType{type = #xqKindTest{kind = ParamType}}, TargetType) -
 
 check_type_match(ParamType, #xqSeqType{type = #xqFunTest{type = any}}) -> % needs type checking
    check_type_match(ParamType, #xqSeqType{type = function, occur = one});   
-check_type_match(ParamType, #xqSeqType{type = #xqFunTest{type = TargetType}}) -> % needs type checking
-   check_type_match(ParamType, TargetType);   
-check_type_match(#xqSeqType{type = #xqFunTest{type = ParamType}}, TargetType) -> % needs type checking
-   check_type_match(ParamType, TargetType);   
+
+check_type_match(ParamType, #xqSeqType{type = #xqFunTest{type = _TargetType}}) -> % needs type checking
+   check_type_match(ParamType, #xqSeqType{type = function, occur = one});   
+check_type_match(#xqSeqType{type = #xqFunTest{type = _ParamType}}, TargetType) -> % needs type checking
+   check_type_match(#xqSeqType{type = function, occur = one}, TargetType);   
+
+%% check_type_match(ParamType, #xqSeqType{type = #xqFunTest{type = TargetType}}) -> % needs type checking
+%%    check_type_match(ParamType, TargetType);   
+%% check_type_match(#xqSeqType{type = #xqFunTest{type = ParamType}}, TargetType) -> % needs type checking
+%%    check_type_match(ParamType, TargetType);   
+
+check_type_match(any, _TargetType) ->
+   true;
 
 check_type_match(ParamType, TargetType) ->
-   %?dbg("{ParamType, TargetType}",{ParamType, TargetType}),
+   ?dbg("{ParamType, TargetType}",{ParamType, TargetType}),
    BP = xqerl_btypes:get_type(ParamType#xqSeqType.type),
    try xqerl_btypes:get_type(TargetType#xqSeqType.type) of 
       BT ->
@@ -3776,18 +4148,27 @@ param_variable_name(Id) ->
 
 % {Name,Type,Annos,ErlVarName}
 add_inscope_variable(#state{inscope_vars = Vars} = State, {#qname{namespace = Ns, local_name = Ln},_,_,_} = NewVar) ->
-   %?dbg("NewVar",NewVar),
+   ?dbg("NewVar",NewVar),
    %?dbg("Vars",Vars),
    NewVars = [NewVar | [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_} = Var  <- Vars, {Ns1,Ln1} =/= {Ns,Ln}]],
    State#state{inscope_vars = NewVars}.
 
 get_variable(#state{inscope_vars = Vars}, #qname{namespace = Ns, local_name = Ln}) ->
-   %?dbg("Vars",{Ns,Ln}),
-   %?dbg("Vars",Vars),
    case [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_} = Var  <- Vars, {Ns1,Ln1} == {Ns,Ln}] of
       [O] ->
          O;
       [] ->
+         ?dbg("Vars",{Ns,Ln}),
+         ?dbg("Vars",Vars),
+         ?err('XPST0008')
+   end;
+get_variable(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
+   case [Var || {_,_,_,VarAtom1} = Var <- Vars, VarAtom1 = VarAtom] of
+      [O] ->
+         O;
+      [] ->
+         ?dbg("VarAtom",VarAtom),
+         ?dbg("Vars",Vars),
          ?err('XPST0008')
    end.
 

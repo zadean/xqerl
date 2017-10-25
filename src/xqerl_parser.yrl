@@ -271,7 +271,7 @@ Terminals
 '#)' '(#'
 '!=' 'StringLiteral' '$' '(' ')'
 '*' '+' ',' '-' '-->' '.' '..' '/' '//' '/>'
-':' '::' ':=' ';' '<' '<!--' '<![CDATA[' '</'
+':' ': ' ' :' '::' ':=' ';' '<' '<!--' '<![CDATA[' '</'
 '<<' '<=' '<?' '=' '>' '>=' '>>' '?' '?>' '@'
 '[' ']' ']]>' '{' '|' '}'
 % non-terminating
@@ -378,6 +378,7 @@ Endsymbol '$end'.
 Left  100   ','.
 Left 101 'Expr'.
 Left 102 'ExprSingle'.
+Left 103 'MapKeyExpr' ':'.
 Right 200   ':='.
 Left  200   'for' 'some' 'every' 'switch' 'typeswitch' 'try' 'if'.
 Left  300   'or'.
@@ -1015,12 +1016,13 @@ Left  2000  '[' ']' '?'.
 %% 'PathExpr'               -> 'lone-slash' 'RelativePathExpr'  : ?dbg("1017",'$2'),{step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash'           : {step, {'root'}}.              %/* xgs: leading-lone-slash */
 %'PathExpr'               -> '/'                    : {step, {'root'}}.              %/* xgs: leading-lone-slash */
-'PathExpr'               -> '/' 'RelativePathExpr'  : {step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
+'PathExpr'               -> '/' 'RelativePathExpr'  : {path_expr, ['root' | '$2']}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash' 'RelativePathExpr'  : {step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
-'PathExpr'               -> '//' 'RelativePathExpr' : {step, {'any-root', 
-                                                             {step, #xqAxisStep{axis = 'descendant-or-self'},
-                                                                    '$2'}}}.
-'PathExpr'               -> 'RelativePathExpr'     : '$1'.
+'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, ['any-root',#xqAxisStep{axis = 'descendant-or-self'}|'$2']}.
+%% 'PathExpr'               -> '//' 'RelativePathExpr' : {step, {'any-root', 
+%%                                                              {step, #xqAxisStep{axis = 'descendant-or-self'},
+%%                                                                     '$2'}}}.
+'PathExpr'               -> 'RelativePathExpr'     : case '$1' of [V] -> V; V -> {path_expr, V} end.
 %% 
 %% 'PathExpr'               -> 'lone-slash' '/'  'RelativePathExpr' : ?dbg("1021",{step, {'root', '$3'}}),{step, {'root', '$3'}}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash' '//' 'RelativePathExpr' : ?dbg("1022",'$3'),{step, {'root', 
@@ -1034,23 +1036,22 @@ Left  2000  '[' ']' '?'.
 %% 'RelativePathExpr'      -> 'lone-slash'  'RelativePathExpr' : {step, '$2'}.
 %% 'RelativePathExpr'      -> '//' 'RelativePathExpr' : {step, #xqAxisStep{axis = 'descendant-or-self'},'$2'}.
 %% 'RelativePathExpr'       -> 'StepExpr' 'RelativePathExpr' : {step, '$1', '$2'}.
-'RelativePathExpr'       -> 'StepExpr' '/'  'RelativePathExpr' : {step, '$1', '$3'}.
-'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : {step, '$1', 
-                                                                        {step, #xqAxisStep{axis = 'descendant-or-self'},
-                                                                                '$3'}}.
-'RelativePathExpr'       -> 'StepExpr' :  case '$1' of 
-                                             #xqAxisStep{} ->
-                                                {step, 'context-item', '$1'};
-                                             #xqPostfixStep{} ->
-                                                {step, '$1'};
-                                             _ ->
-                                                '$1'
-                                          end.
+'RelativePathExpr'       -> 'StepExpr' '/'  'RelativePathExpr' : ['$1' | '$3'].
+'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : ['$1',#xqAxisStep{axis = 'descendant-or-self'} | '$3'].
+'RelativePathExpr'       -> 'StepExpr' :  ['$1'].
+%% case '$1' of 
+%%                                              #xqAxisStep{} ->
+%%                                                 {step, 'context-item', '$1'};
+%%                                              #xqPostfixStep{} ->
+%%                                                 {step, '$1'};
+%%                                              _ ->
+%%                                                 '$1'
+%%                                           end.
 
 % [110]    StepExpr    ::=      PostfixExpr | AxisStep  
 'StepExpr'               -> 'PostfixExpr' : '$1'.
 'StepExpr'               -> 'AxisStep'   : '$1'.
-'StepExpr'               -> 'lone-slash'   : {step, {'root'}}.
+'StepExpr'               -> 'lone-slash'   : ['root'].
 %% -record(xqPostfixStep, {
 %%    predicates :: []
 %% }).
@@ -1128,7 +1129,12 @@ Left  2000  '[' ']' '?'.
 'Wildcard'               -> '*:' 'NCName' : #'qname'{prefix = "*", local_name = value_of('$2')}.
 'Wildcard'               -> 'BracedURILiteral' '*'  : #'qname'{namespace = '$1', local_name = "*"}.
 % [121]    PostfixExpr    ::=      PrimaryExpr (Predicate | ArgumentList | Lookup)*   
-'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : {postfix, '$1', '$2'}.
+'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : case is_partial_impl('$2') of
+                                                            true ->
+                                                               {partial_postfix, '$1', '$2'};
+                                                            _ ->
+                                                               {postfix, '$1', '$2'}
+                                                         end.
 'PostfixExpr'            -> 'PrimaryExpr'              : '$1'.
 'PostFixes'              -> 'Predicate'    : [{'predicate', '$1'}].
 'PostFixes'              -> 'ArgumentList' : [{'arguments', '$1'}].
@@ -1150,8 +1156,8 @@ Left  2000  '[' ']' '?'.
 % [125]    Lookup      ::=      "?" KeySpecifier
 'Lookup'                 -> '?' 'KeySpecifier' : '$2'.
 % [126]    KeySpecifier      ::=      NCName | IntegerLiteral | ParenthesizedExpr | "*"
-'KeySpecifier'           -> 'NCName' : value_of('$1').
-'KeySpecifier'           -> 'IntegerLiteral' : value_of('$1').
+'KeySpecifier'           -> 'NCName'         : #xqAtomicValue{type = 'xs:NCName', value = value_of('$1')}.
+'KeySpecifier'           -> 'IntegerLiteral' : #xqAtomicValue{type = 'xs:integer', value = value_of('$1')}.
 'KeySpecifier'           -> 'ParenthesizedExpr' : '$1'.
 'KeySpecifier'           -> '*'        : 'wildcard'.
 'KeySpecifier'           -> 'wildcard' : 'wildcard'.
@@ -1204,9 +1210,9 @@ Left  2000  '[' ']' '?'.
 'UnorderedExpr'          -> 'unordered' 'EnclosedExpr' : {'unordered-expr', '$2'}.
 % [137]    FunctionCall      ::=      EQName ArgumentList  /* xgc: reserved-function-names *//* gn: parens */
 'FunctionCall'           -> 'EQName' 'ArgumentList' : 
-         case lists:any(fun(A) -> A == '?' end, '$2') of
+         case lists:any(fun({'?',_}) -> true; (_) -> false end, '$2') of
             true ->
-               {'partial-function-call', qname(func, '$1'),length('$2'),  '$2'};
+               {'partial-function', qname(func, '$1'),length('$2'),  '$2'};
             _ ->
                {'function-call', qname(func, '$1'),length('$2'), '$2'}
          end.
@@ -1214,7 +1220,7 @@ Left  2000  '[' ']' '?'.
 'Argument'               -> 'ExprSingle' : '$1'.
 'Argument'               -> 'ArgumentPlaceholder' : '$1'.
 % [139]    ArgumentPlaceholder     ::=      "?"
-'ArgumentPlaceholder'    -> '?' : value_of('$1').
+'ArgumentPlaceholder'    -> '?' : {value_of('$1'), next_id()}.
 % [140]    NodeConstructor      ::=      DirectConstructor | ComputedConstructor   
 'NodeConstructor'        -> 'DirectConstructor'   : {direct_cons, '$1'}.
 'NodeConstructor'        -> 'ComputedConstructor' : {comp_cons, '$1'}.
@@ -1277,14 +1283,14 @@ Left  2000  '[' ']' '?'.
 'DirAttribute'           -> 'S' : [].
 % [144]    DirAttributeValue    ::=      ('"' (EscapeQuot | QuotAttrValueContent)* '"') | ("'" (EscapeApos | AposAttrValueContent)* "'")   /* ws: explicit */
 'DirAttributeValuesQuot' -> 'QuotAttrValueContent' 'DirAttributeValuesQuot' : ['$1' | '$2'].
-'DirAttributeValuesQuot' -> 'EscapeQuot'           'DirAttributeValuesQuot' : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')} | '$2'].
+'DirAttributeValuesQuot' -> 'EscapeQuot'           'DirAttributeValuesQuot' : [{entity_ref,"\""} | '$2'].
 'DirAttributeValuesQuot' -> 'QuotAttrValueContent' : ['$1'].
-'DirAttributeValuesQuot' -> 'EscapeQuot'           : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')}].
+'DirAttributeValuesQuot' -> 'EscapeQuot'           : [{entity_ref,"\""}].
 
 'DirAttributeValuesApos' -> 'AposAttrValueContent' 'DirAttributeValuesApos' : ['$1' | '$2'].
-'DirAttributeValuesApos' -> 'EscapeApos'           'DirAttributeValuesApos' : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')} | '$2'].
+'DirAttributeValuesApos' -> 'EscapeApos'           'DirAttributeValuesApos' : [{entity_ref,"'"} | '$2'].
 'DirAttributeValuesApos' -> 'AposAttrValueContent' : ['$1'].
-'DirAttributeValuesApos' -> 'EscapeApos'           : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')}].
+'DirAttributeValuesApos' -> 'EscapeApos'           : [{entity_ref,"'"}].
 
 'DirAttributeValue'      -> 'quot' 'DirAttributeValuesQuot' 'quot' : '$2'.
 'DirAttributeValue'      -> 'quot'                          'quot' : [].
@@ -1399,6 +1405,8 @@ Left  2000  '[' ']' '?'.
 'MapConstructor'         -> 'map' '{' '}' : {'map', []}.
 % [171]    MapConstructorEntry     ::=      MapKeyExpr ":" MapValueExpr   
 'MapConstructorEntry'    -> 'MapKeyExpr' ':' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
+'MapConstructorEntry'    -> 'MapKeyExpr' ' :' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
+'MapConstructorEntry'    -> 'MapKeyExpr' ': ' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
 'MapConstructorEntries'  -> 'MapConstructorEntry' : ['$1'].
 'MapConstructorEntries'  -> 'MapConstructorEntry' ',' 'MapConstructorEntries' : ['$1'|'$3'].
 % [172]    MapKeyExpr     ::=      ExprSingle  
@@ -1549,7 +1557,7 @@ Left  2000  '[' ']' '?'.
 % [211]    AnyMapTest     ::=      "map" "(" "*" ")" 
 'AnyMapTest'              -> 'map' '(' '*' ')' : #xqFunTest{kind = map, annotations = [], params = any, type = any} .
 % [212]    TypedMapTest      ::=      "map" "(" AtomicOrUnionType "," SequenceType ")"   
-'TypedMapTest'            -> 'map' '(' 'AtomicOrUnionType' ',' 'SequenceType' ')' : #xqFunTest{kind = map, annotations = [], params = '$3', type = '$5'} .
+'TypedMapTest'            -> 'map' '(' 'AtomicOrUnionType' ',' 'SequenceType' ')' : #xqFunTest{kind = map, annotations = [], params = [#xqSeqType{type = '$3', occur = one}], type = '$5'} .
 % [213]    ArrayTest      ::=      AnyArrayTest | TypedArrayTest 
 'ArrayTest'               -> 'AnyArrayTest' : '$1'.
 'ArrayTest'               -> 'TypedArrayTest' : '$1'.
@@ -1839,21 +1847,26 @@ next_node_id() ->
 
 at_value([]) ->
    [];
-at_value([#xqAtomicValue{} = At]) ->
-   %?dbg("1705",At),
-   element(3,At);
+at_value([#xqAtomicValue{value = At}]) ->
+   At;
 at_value(A) when is_list(A) ->
-   %?dbg("1708",A),
    try
       lists:flatmap( fun(#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,E}) ->
-                            at_value(E)
+                            at_value(E);
+                        ({entity_ref,E}) ->
+                            E;
+                        ({char_ref,E}) ->
+                            E
                      end, A)
-   catch _:_ ->
+   catch _:E ->
+      ?dbg("XQST0022",E),
       ?dbg("XQST0022",A),
       xqerl_error:error('XQST0022')
    end;
+at_value(#xqAtomicValue{value = V}) ->
+   V;
 at_value({expr,A}) ->
    at_value(A);
 at_value(A) ->
@@ -1874,7 +1887,11 @@ ns_value(A) when is_list(A) ->
       L = lists:flatmap( fun(#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,_E}) ->
-                            xqerl_error:error('XQST0022')
+                            xqerl_error:error('XQST0022');
+                        ({entity_ref,E}) ->
+                            E;
+                        ({char_ref,E}) ->
+                            E
                      end, A),
       xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
    catch _:_ ->
@@ -1930,3 +1947,12 @@ normalize_whitespace([H|T]) ->
    [H|normalize_whitespace(T)];
 normalize_whitespace([]) ->
    [].
+
+is_partial_impl(PostFixes) ->
+   lists:any(fun({arguments,Args}) ->
+                  lists:any(fun({'?',_}) -> true;
+                               (_) -> false
+                            end, Args);
+                (_) -> false
+             end,PostFixes).
+

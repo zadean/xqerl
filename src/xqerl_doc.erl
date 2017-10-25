@@ -266,13 +266,14 @@ handle_event({startPrefixMapping, Prefix1, Uri1}, _Ln, #state{add_in_element = T
 handle_event({endPrefixMapping, Prefix1}, _Ln, #state{inscope_ns = IsNs} = State) ->
    %Prefix1 = list_to_binary(Prefix),
    [_|Val] = maps:get(Prefix1, IsNs),
-   NewDict = case Val of 
+   NewIsNs = case Val of 
                 [] ->
                    maps:remove(Prefix1, IsNs);
                 _ ->
                    maps:put(Prefix1, Val, IsNs)
              end,
-   State#state{inscope_ns = NewDict};
+   State#state{inscope_ns = NewIsNs,
+               inscope_nsl = inscope_namespaces(NewIsNs)};
 
 handle_event({startElement, Uri, LocalName, QualifiedName, Attributes}, _Ln, #state{add_in_element = A,
                                                                                     counter = C, 
@@ -375,8 +376,9 @@ handle_event({characters, String}, _Ln, #state{counter = C,
    NodeTab1 = maps:put(K, V, NodeTab),
    State#state{counter = C +1, children = Children1, texts = TextTab1, nodes = NodeTab1};   
 
-handle_event({ignorableWhitespace, _String}, _Ln, State) -> State;
-   %handle_event({characters, " "}, _Ln, State);
+% TODO not sure if this should happen
+handle_event({ignorableWhitespace, _String}, _Ln, State) -> %State;
+   handle_event({characters, " "}, _Ln, State);
 
 handle_event({processingInstruction, "xml", _Data}, _Ln, State) -> State;
 handle_event({processingInstruction, Target, Data}, _Ln, #state{counter = C, 

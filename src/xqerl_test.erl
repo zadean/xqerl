@@ -28,7 +28,12 @@
 
 %% assert                 (: run test query with result as variable == true :)
 assert(Result, QueryString) ->
-   NewQueryString = "declare variable $result as item() external; " ++ QueryString,
+   Type = if is_map(Result) ->
+                " as map(*)";
+             true ->
+                " as item()"
+          end,
+   NewQueryString = "declare variable $result" ++ Type ++ " external; " ++ QueryString,
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, Res};
@@ -36,8 +41,12 @@ assert(Result, QueryString) ->
          StrVal = string_value(Res1),
          if StrVal == "true" ->
                true;
+            StrVal == "false" ->
+               {false, {assert,Res1,QueryString}};
+            StrVal == "" ->
+               {false, {assert,Res1,QueryString}};
             true ->
-               {false, {assert,Res1,QueryString}}
+               true
          end
    end.
 
@@ -51,7 +60,7 @@ assert_empty(Result) ->
    end.
 %% assert_type            (: result instance of type :)
 assert_type(Result, TypeString) ->
-   NewQueryString = "declare variable $result as item() external; $result instance of " ++ TypeString,
+   NewQueryString = "declare variable $result as item() external; ($result) instance of " ++ TypeString,
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, {assert_type,Res}};
@@ -95,13 +104,16 @@ assert_eq(Result, TypeString) ->
          if StrVal == "true" ->
                true;
             true ->
+               %?dbg("Res1",Res1),
+               %?dbg("NewQueryString",NewQueryString),
+               %?dbg("Result",Result),
                {false, {assert_eq,Res1,TypeString}}
          end
    end.
 %% assert_deep_eq         (: fn:deep-equal(result, run test query) :)
 assert_deep_eq(Result, QueryString) ->
    NewQueryString = "declare variable $result as item() external; fn:deep-equal($result,(" ++ QueryString ++ "))",
-   case catch xqerl:run(NewQueryString, #{"result" => ?seq:from_list(Result)}) of
+   case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, Res};
       Res1 ->
@@ -136,7 +148,20 @@ assert_permutation(Result, PermuteString) ->
       {'EXIT',Res} ->
          {false, Res};
       Res1 ->
-         Rest = Result -- Res1,
+         Res2 = lists:map(fun(I) ->
+                                {xqerl_types:value(I)}
+                          end, Res1),
+         Res3 = lists:map(fun(I) ->
+                                {xqerl_types:value(I)}
+                          end, Result),
+         ?dbg("{Res2,Res3}",{Res2,Res3}),
+         Rest1 = lists:foldl(fun({I},L) ->
+                                  lists:keydelete(I, 1, L)
+                            end, Res2, Res3),
+         Rest2 = lists:foldl(fun({I},L) ->
+                                  lists:keydelete(I, 1, L)
+                            end, Res3, Res2),
+         Rest = Rest1 ++ Rest2,
          if Rest == [] ->
                true;
             true ->
@@ -166,7 +191,7 @@ assert_string_value(Result, String) ->
          {false, {assert_string_value,StrVal,String}}
    end.
 assert_norm_string_value(Result, String) ->
-   StrVal = string:trim(string_value(Result)),
+   StrVal = string:trim(xqerl_lib:shrink_spaces(string_value(Result))),
    if StrVal == String ->
          true;
       true ->
@@ -258,34 +283,6 @@ run(misc) ->
    run_suite(math_sin_SUITE),
    run_suite(math_sqrt_SUITE),
    run_suite(math_tan_SUITE),
-   run_suite(map_merge_SUITE),
-   run_suite(map_contains_SUITE),
-   run_suite(map_find_SUITE),
-   run_suite(map_get_SUITE),
-   run_suite(map_entry_SUITE),
-   run_suite(map_size_SUITE),
-   run_suite(map_keys_SUITE),
-   run_suite(map_put_SUITE),
-   run_suite(map_remove_SUITE),
-   run_suite(map_for_each_SUITE),
-   run_suite(array_append_SUITE),
-   run_suite(array_filter_SUITE),
-   run_suite(array_flatten_SUITE),
-   run_suite(array_fold_left_SUITE),
-   run_suite(array_fold_right_SUITE),
-   run_suite(array_for_each_SUITE),
-   run_suite(array_for_each_pair_SUITE),
-   run_suite(array_get_SUITE),
-   run_suite(array_head_SUITE),
-   run_suite(array_insert_before_SUITE),
-   run_suite(array_join_SUITE),
-   run_suite(array_put_SUITE),
-   run_suite(array_remove_SUITE),
-   run_suite(array_reverse_SUITE),
-   run_suite(array_size_SUITE),
-   run_suite(array_sort_SUITE),
-   run_suite(array_subarray_SUITE),
-   run_suite(array_tail_SUITE),
    run_suite(xs_anyURI_SUITE),
    run_suite(xs_base64Binary_SUITE),
    run_suite(xs_dateTimeStamp_SUITE),
@@ -530,7 +527,8 @@ run(fn) ->
    run_suite(fn_string_SUITE),
    run_suite(fn_string_join_SUITE),
    run_suite(fn_string_length_SUITE),
-   run_suite(fn_string_to_codepoints_SUITE),
+   run_suite(fn_string_to_codepoints_SUITE);
+run(fn2) ->
    run_suite(fn_subsequence_SUITE),
    run_suite(fn_substring_SUITE),
    run_suite(fn_substring_after_SUITE),
@@ -556,6 +554,38 @@ run(fn) ->
    run_suite(fn_years_from_duration_SUITE),
    run_suite(fn_year_from_dateTime_SUITE),
    run_suite(fn_zero_or_one_SUITE);
+
+run(map) ->
+   run_suite(map_merge_SUITE),
+   run_suite(map_contains_SUITE),
+   run_suite(map_find_SUITE),
+   run_suite(map_get_SUITE),
+   run_suite(map_entry_SUITE),
+   run_suite(map_size_SUITE),
+   run_suite(map_keys_SUITE),
+   run_suite(map_put_SUITE),
+   run_suite(map_remove_SUITE),
+   run_suite(map_for_each_SUITE);
+
+run(array) ->
+   run_suite(array_append_SUITE),
+   run_suite(array_filter_SUITE),
+   run_suite(array_flatten_SUITE),
+   run_suite(array_fold_left_SUITE),
+   run_suite(array_fold_right_SUITE),
+   run_suite(array_for_each_SUITE),
+   run_suite(array_for_each_pair_SUITE),
+   run_suite(array_get_SUITE),
+   run_suite(array_head_SUITE),
+   run_suite(array_insert_before_SUITE),
+   run_suite(array_join_SUITE),
+   run_suite(array_put_SUITE),
+   run_suite(array_remove_SUITE),
+   run_suite(array_reverse_SUITE),
+   run_suite(array_size_SUITE),
+   run_suite(array_sort_SUITE),
+   run_suite(array_subarray_SUITE),
+   run_suite(array_tail_SUITE);
 
 run(op) ->
    run_suite(op_add_dayTimeDurations_SUITE),

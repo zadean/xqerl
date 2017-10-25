@@ -37,6 +37,7 @@
 -define(tab,   9).
 %% whitespace consists of 'space', 'carriage return', 'line feed' or 'tab'
 -define(whitespace(H), H==?space ; H==?cr ; H==?lf ; H==?tab).
+-define(notws(H), H=/=?space , H=/=?cr , H=/=?lf , H=/=?tab).
 
 -include("xqerl.hrl").
 
@@ -168,13 +169,13 @@ scan_dc_token("<?" ++ T, _A, Depth) ->
 scan_dc_token("?>" ++ T, _A, 0) -> {computed, T};
 scan_dc_token("?>" ++ T, _A, _Depth) -> {rescan, T};
 % direct element can trigger direct scanning, T should start with a QName and no whitespace
-scan_dc_token("</" ++ T, _A, Depth) -> 
-   {QName, T1} = scan_name(T), 
+scan_dc_token("</" ++ [H|T], _A, Depth) when ?notws(H) -> 
+   {QName, T1} = scan_name([H|T]), 
    A1 = {'</', ?L, '</'},
    A2 = [A1, QName],
    {A2, T1, Depth -1};
-scan_dc_token("<" ++ T, _A, Depth) -> 
-   {QName, T1} = scan_name(T),
+scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) -> 
+   {QName, T1} = scan_name([H|T]),
    {Atts, T2} = scan_dir_attr_list(T1, []),
    {[{'<', ?L, '<'},QName, Atts  ], T2, Depth +1};
 
@@ -218,13 +219,8 @@ scan_dc_token([H|T], _Acc, Depth) -> %when not ?whitespace(H) ->
       true ->
          {{'ElementContentChar', ?L, H}, T, Depth};
       _ ->
-         exit(unknown_token, {[H|T]})
+         xqerl_error:error('XPST0003')
    end.
-%% ;
-%% scan_dc_token([_H|T], _Acc, Depth) ->
-%%    scan_dc_token(strip_ws(T), _Acc, Depth).
-
-
 
 scan_dir_attr_list(Str = "/>" ++ _T, Acc) ->
    {Acc, Str};
@@ -981,7 +977,12 @@ scan_token(Str = "element" ++ T, A) ->
       true ->
          case lookback(A) of
             '/' when Curly == false ->
-               scan_name(Str);
+               case lookforward_is_return(T) of
+                  true ->
+                     scan_name(Str);
+                  _ ->
+                     {{'element', ?L, 'element'}, T}
+               end;
             'element' ->
                scan_name(Str);
             _ ->
@@ -1033,18 +1034,23 @@ scan_token(Str = "xquery" ++ T, []) ->
          scan_name(Str)
    end;
 scan_token("stable" ++ T, A) -> qname_if_path("stable", T, lookback(A));
-scan_token(Str = "return" ++ T, A) -> 
-   case lookback(A) of
-      'element' ->
-         scan_name(Str);
-      'attribute' ->
-         scan_name(Str);
-      'processing-instruction' ->
-         scan_name(Str);
-      '/' ->
-         qname_if_path("return", T, lookback(A));
+scan_token(Str = "return" ++ T, A) ->
+   case lookforward_is_var(T) of
+      true ->
+         {{'return',1,'return'}, T};
       _ ->
-         {{'return',1,'return'}, T}
+         case lookback(A) of
+            'element' ->
+               scan_name(Str);
+            'attribute' ->
+               scan_name(Str);
+            'processing-instruction' ->
+               scan_name(Str);
+            '/' ->
+               qname_if_path("return", T, lookback(A));
+            _ ->
+               {{'return',1,'return'}, T}
+         end
    end;
 scan_token(Str = "option" ++ T, A) -> 
    case lookback(A) of
@@ -1311,7 +1317,17 @@ scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) ->
       _ ->
          {{'and',1,'and'}, T}
    end;
-scan_token("to" ++ T, A) -> qname_if_path("to", T, lookback(A));
+scan_token(Str = "to" ++ [H|T], A) when ?whitespace(H) -> 
+   case lookback(A) of
+      '/' ->
+         scan_name(Str);
+      'function' ->
+         scan_name(Str);
+      '(' ->
+         scan_name(Str);
+      _ ->
+         {{'to',1,'to'}, T}
+   end;
 scan_token(Str = "or" ++ [H|T], A) when ?whitespace(H) -> 
    case lookback(A) of
       '/' ->
@@ -1648,7 +1664,7 @@ scan_token([H,$:|T], A) when ?whitespace(H) ->
          ?dbg(?LINE,'XPST0003'),
          xqerl_error:error('XPST0003');
       _ ->
-         {{':', ?L, ':'}, T}
+         {{' :', ?L, ' :'}, T}
    end;
 scan_token([$:,H|T], A) when ?whitespace(H) -> 
    case lookback(A) of
@@ -1656,7 +1672,7 @@ scan_token([$:,H|T], A) when ?whitespace(H) ->
          ?dbg(?LINE,'XPST0003'),
          xqerl_error:error('XPST0003');
       _ ->
-         {{':', ?L, ':'}, T}
+         {{': ', ?L, ': '}, T}
    end;
 scan_token(":" ++ T, _A) ->  {{':', ?L, ':'}, T};
 scan_token(";" ++ T, _A) ->  {{';', ?L, ';'}, T};
@@ -1676,12 +1692,17 @@ scan_token(Str = "<" ++ T, A) ->
          %?dbg("lone-slash",A),
          {{'<', ?L, '<'}, T};
       _ ->
-         case scan_name(T) of
+         case scan_name(string:trim(T)) of
             {invalid_name, _} ->
-               %?dbg("Line",?LINE),
+               %?dbg("T",T),
                {{'<', ?L, '<'}, T};
             _ -> 
-               {direct, Str, 0}
+               case scan_name(T) of
+                  {invalid_name, _} ->
+                     {{'<', ?L, '<'}, T};
+                  _ -> 
+                     {direct, Str, 0}
+               end
          end
    end;
 scan_token("=" ++ T, _A) ->  {{'=', ?L, '='}, T};
@@ -1986,6 +2007,12 @@ lookforward_is_axis(T) ->
 %%       "(" ++ _ -> true;
 %%       % or constructor
 %%       "{" ++ _ -> true;
+      _ -> false
+   end.
+
+lookforward_is_return(T) ->
+   case strip_ws(T) of
+      "return" ++ _ -> true;
       _ -> false
    end.
 

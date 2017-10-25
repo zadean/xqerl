@@ -101,12 +101,44 @@
          node_is/2,
          general_compare/3,
          % effective boolean value
-         eff_bool_val/1
+         eff_bool_val/1,
+         lookup/3
         ]).
 
 
 
 -include("xqerl.hrl").
+
+lookup(_Ctx,Map,all) when is_map(Map) ->
+   xqerl_map:values(Map);
+lookup(_Ctx,Map,Values) when is_map(Map), is_list(Values) ->
+   xqerl_map:get_matched(Map, Values);
+lookup(Ctx,Map,Value) when is_map(Map) ->
+   xqerl_map:get(Ctx, Map, Value);
+lookup(_Ctx,{array,_} = Array,all) ->
+   xqerl_array:values(Array);
+lookup(_Ctx,{array,_} = Array,Values) when is_list(Values) ->
+   xqerl_array:get_matched(Array, Values);
+lookup(Ctx,{array,_} = Array,Value) ->
+   xqerl_array:get(Ctx, Array, Value).
+
+%% % array unary lookups
+%% expr_do(Ctx, {postfix, Map, [{array_lookup, {sequence,_} = Val}]}) ->
+%%    MapExpr = expr_do(Ctx, Map),
+%%    ValExp =  expr_do(Ctx, Val),
+%%    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,get_matched}},
+%%     [MapExpr, ValExp]};
+%% expr_do(Ctx, {postfix, Map, [{array_lookup, wildcard}]}) ->
+%%    MapExpr = expr_do(Ctx, Map),
+%%    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,values}},
+%%     [MapExpr]};
+%% expr_do(Ctx, {postfix, Map, [{array_lookup, #xqAtomicValue{} = Val}]}) ->
+%%    CtxVar = get_context_variable_name(Ctx),
+%%    MapExpr = expr_do(Ctx, Map),
+%%    ValExp =  expr_do(Ctx, Val),
+%%    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,get}},
+%%     [{var,?L,CtxVar},MapExpr,ValExp]};
+
 
 is_comparable('xs:base64Binary') -> true;
 is_comparable('xs:boolean') -> true;
@@ -117,7 +149,8 @@ is_comparable('xs:hexBinary') -> true;
 is_comparable('xs:string') -> true;
 is_comparable('xs:time') -> true;
 is_comparable('xs:yearMonthDuration') -> true;
-is_comparable(Type) when ?numeric(Type) -> true;
+is_comparable(Type) when ?numeric(Type);
+                         ?string(Type) -> true;
 is_comparable(_)-> false.
 
 add(_, []) -> ?seq:empty();
@@ -169,33 +202,12 @@ add(#xqAtomicValue{type = 'xs:duration'}, #xqAtomicValue{type = _}) ->
    xqerl_error:error('XPTY0004');
 add(#xqAtomicValue{type = 'xs:time'}, #xqAtomicValue{type = _}) ->
    xqerl_error:error('XPTY0004');
-
+add([Arg1], Arg2) ->
+   add(Arg1, Arg2);
+add(Arg1, [Arg2]) ->
+   add(Arg1, Arg2);
 add(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               add(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     add(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_add(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_add(Arg1, Arg2)).
 
 subtract(_, []) -> ?seq:empty();
 subtract([], _) -> ?seq:empty();
@@ -248,32 +260,12 @@ subtract(#xqAtomicValue{type = 'xs:yearMonthDuration'}, #xqAtomicValue{type = _}
 
 subtract(#xqAtomicValue{type = 'xs:duration'}, #xqAtomicValue{type = _}) ->
    xqerl_error:error('XPTY0004');
+subtract([Arg1], Arg2) ->
+   subtract(Arg1, Arg2);
+subtract(Arg1, [Arg2]) ->
+   subtract(Arg1, Arg2);
 subtract(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               subtract(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     subtract(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_subtract(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_subtract(Arg1, Arg2)).
 
 
 multiply(_, []) -> ?seq:empty();
@@ -297,32 +289,12 @@ multiply(#xqAtomicValue{type = 'xs:yearMonthDuration'} = Arg1, #xqAtomicValue{} 
    ?sing(multiply_yearMonthDuration(Arg1,Arg2));
 multiply(#xqAtomicValue{} = Arg1, #xqAtomicValue{type = 'xs:yearMonthDuration'} = Arg2) ->
    ?sing(multiply_yearMonthDuration(Arg2,Arg1));
+multiply([Arg1], Arg2) ->
+   multiply(Arg1, Arg2);
+multiply(Arg1, [Arg2]) ->
+   multiply(Arg1, Arg2);
 multiply(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               multiply(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     multiply(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_multiply(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_multiply(Arg1, Arg2)).
 
 divide(_, []) -> ?seq:empty();
 divide([], _) -> ?seq:empty();
@@ -345,32 +317,12 @@ divide(#xqAtomicValue{type = 'xs:yearMonthDuration'} = Arg1, #xqAtomicValue{type
    ?sing(divide_yearMonthDuration_by_yearMonthDuration(Arg1,Arg2));
 divide(#xqAtomicValue{type = 'xs:yearMonthDuration'} = Arg1, #xqAtomicValue{} = Arg2) ->
    ?sing(divide_yearMonthDuration(Arg1,Arg2));
+divide([Arg1], Arg2) ->
+   divide(Arg1, Arg2);
+divide(Arg1, [Arg2]) ->
+   divide(Arg1, Arg2);
 divide(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               divide(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     divide(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_divide(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_divide(Arg1, Arg2)).
 
 idivide(_, []) -> ?seq:empty();
 idivide([], _) -> ?seq:empty();
@@ -384,33 +336,12 @@ idivide(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    idivide(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
 idivide(Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    idivide(Arg1,xqerl_types:cast_as(Arg2, 'xs:double'));
-
+idivide([Arg1], Arg2) ->
+   idivide(Arg1, Arg2);
+idivide(Arg1, [Arg2]) ->
+   idivide(Arg1, Arg2);
 idivide(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               idivide(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     idivide(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_integer_divide(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_integer_divide(Arg1, Arg2)).
 
 modulo(_, []) -> ?seq:empty();
 modulo([], _) -> ?seq:empty();
@@ -425,45 +356,29 @@ modulo(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
 modulo(Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    modulo(Arg1,xqerl_types:cast_as(Arg2, 'xs:double'));
 
+modulo([Arg1], Arg2) ->
+   modulo(Arg1, Arg2);
+modulo(Arg1, [Arg2]) ->
+   modulo(Arg1, Arg2);
 modulo(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               modulo(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     modulo(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_mod(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_mod(Arg1, Arg2)).
 
-equal(undefined, undefined) -> ?seq:empty(); %op_numeric_equal_SUITE ?sing(?bool(true));
-equal([], []) -> ?seq:empty(); %op_numeric_equal_SUITE ?sing(?bool(true));
-equal([], _) -> ?seq:empty(); % prod_ValueComp_SUITE
+equal(Arg1, Arg2) when is_map(Arg1);
+                       is_map(Arg2) -> xqerl_error:error('FOTY0013');
+equal(undefined, undefined) -> ?seq:empty();
+equal([], []) -> ?seq:empty();
+equal([], _) -> ?seq:empty();
 equal(_, []) -> ?seq:empty();
-%% equal([], _) -> ?sing(?bool(false));
-%% equal(_, []) -> ?sing(?bool(false));
 equal(#xqNode{} = Arg1, Arg2) ->
    At = xqerl_node:atomize_nodes([Arg1]),
    equal(At, Arg2);
 equal(Arg1, #xqNode{} = Arg2) ->
    At = xqerl_node:atomize_nodes([Arg2]),
    equal(Arg1, At);
+equal(#array{data = Arg1}, Arg2) ->
+   equal(Arg1, Arg2);
+equal(Arg1, #array{data = Arg2}) ->
+   equal(Arg1, Arg2);
 
 equal(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
    ?sing(string_equal(Arg2,Arg1));
@@ -551,66 +466,34 @@ equal(#xqAtomicValue{type = 'xs:untypedAtomic'}, #xqAtomicValue{}) ->
 equal(#xqAtomicValue{}, #xqAtomicValue{}) ->
    xqerl_error:error('XPTY0004');
 
-equal(Arg1, Arg2) ->
-   A1 = case ?seq:is_sequence(Arg1) of
-            true ->
-               case ?seq:size(Arg1) of
-                  0 ->
-                     [];
-                  1 ->
-                     ?seq:singleton_value(Arg1);
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               Arg1
-        end,
-   A2 = case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     [];
-                  1 ->
-                     ?seq:singleton_value(Arg2);
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               Arg2
-        end,
-   equal(A1, A2).
+equal([Arg1], Arg2) ->
+   equal(Arg1, Arg2);
+equal(Arg1, [Arg2]) ->
+   equal(Arg1, Arg2);
+equal(_, _) ->
+   xqerl_error:error('XPTY0004').
 
+not_equal(Arg1, Arg2) when is_map(Arg1);
+                           is_map(Arg2) -> xqerl_error:error('FOTY0013');
 not_equal(undefined, undefined) -> ?seq:empty();
 not_equal([], []) -> ?seq:empty();
 not_equal([], _) -> ?seq:empty();
 not_equal(_, []) -> ?seq:empty();
-not_equal(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               not_equal(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     not_equal(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(negate(equal(Arg1, Arg2)))
-         end
-   end.
 
+not_equal(#array{data = Arg1}, Arg2) ->
+   not_equal(Arg1, Arg2);
+not_equal(Arg1, #array{data = Arg2}) ->
+   not_equal(Arg1, Arg2);
+
+not_equal([Arg1], Arg2) ->
+   not_equal(Arg1, Arg2);
+not_equal(Arg1, [Arg2]) ->
+   not_equal(Arg1, Arg2);
+not_equal(Arg1, Arg2) ->
+   ?sing(negate(equal(Arg1, Arg2))).
+
+greater_than(Arg1, Arg2) when is_map(Arg1);
+                              is_map(Arg2) -> xqerl_error:error('FOTY0013');
 greater_than([], _) -> ?seq:empty();
 greater_than(_, []) -> ?seq:empty();
 greater_than(#xqNode{} = Arg1, Arg2) ->
@@ -619,6 +502,10 @@ greater_than(#xqNode{} = Arg1, Arg2) ->
 greater_than(Arg1, #xqNode{} = Arg2) ->
    At = xqerl_node:atomize_nodes([Arg2]),
    greater_than(Arg1, At);
+greater_than(#array{data = Arg1}, Arg2) ->
+   greater_than(Arg1, Arg2);
+greater_than(Arg1, #array{data = Arg2}) ->
+   greater_than(Arg1, Arg2);
 
 greater_than(#xqAtomicValue{type = 'xs:NCName'} = Arg1, #xqAtomicValue{type = 'xs:string'} = Arg2) ->
    string_greater_than(Arg1, Arg2);
@@ -644,6 +531,8 @@ greater_than(#xqAtomicValue{type = 'xs:time'} = Arg1, #xqAtomicValue{type = 'xs:
    time_greater_than(Arg1, Arg2);
 greater_than(#xqAtomicValue{type = 'xs:string'} = Arg1, #xqAtomicValue{type = 'xs:string'} = Arg2) ->
    string_greater_than(Arg1, Arg2);
+greater_than(#xqAtomicValue{type = T1} = Arg1, #xqAtomicValue{type = T2} = Arg2) when ?string(T1),?string(T2) ->
+   string_greater_than(Arg1,Arg2);
 greater_than(#xqAtomicValue{type = 'xs:string'} = Arg1, #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
    string_greater_than(Arg1, Arg2);
 greater_than(#xqAtomicValue{type = 'xs:string'} = Arg1, #xqAtomicValue{type = 'xs:NCName'} = Arg2) ->
@@ -657,33 +546,15 @@ greater_than(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{ty
 greater_than(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    string_greater_than(Arg1,Arg2);
 
+greater_than([Arg1], Arg2) ->
+   greater_than(Arg1, Arg2);
+greater_than(Arg1, [Arg2]) ->
+   greater_than(Arg1, Arg2);
 greater_than(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               greater_than(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     greater_than(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_greater_than(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_greater_than(Arg1, Arg2)).
 
+less_than(Arg1, Arg2) when is_map(Arg1);
+                           is_map(Arg2) -> xqerl_error:error('FOTY0013');
 less_than([], _) -> ?seq:empty();
 less_than(_, []) -> ?seq:empty();
 less_than(#xqNode{} = Arg1, Arg2) ->
@@ -692,6 +563,10 @@ less_than(#xqNode{} = Arg1, Arg2) ->
 less_than(Arg1, #xqNode{} = Arg2) ->
    At = xqerl_node:atomize_nodes([Arg2]),
    less_than(Arg1, At);
+less_than(#array{data = Arg1}, Arg2) ->
+   less_than(Arg1, Arg2);
+less_than(Arg1, #array{data = Arg2}) ->
+   less_than(Arg1, Arg2);
 
 less_than(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
    string_less_than(Arg1, Arg2);
@@ -715,6 +590,8 @@ less_than(#xqAtomicValue{type = 'xs:time'} = Arg1, #xqAtomicValue{type = 'xs:tim
    time_less_than(Arg1,Arg2);
 less_than(#xqAtomicValue{type = 'xs:string'} = Arg1, #xqAtomicValue{type = 'xs:string'} = Arg2) ->
    string_less_than(Arg1, Arg2);
+less_than(#xqAtomicValue{type = Type1} = Arg1, #xqAtomicValue{type = Type2} = Arg2) when ?string(Type1), ?string(Type2) ->
+   string_less_than(Arg1, Arg2);
 less_than(#xqAtomicValue{type = 'xs:string'} = Arg1, #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
    string_less_than(Arg1, Arg2);
 less_than(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -724,33 +601,15 @@ less_than(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type 
 less_than(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    string_less_than(Arg1,Arg2);
 
+less_than([Arg1], Arg2) ->
+   less_than(Arg1, Arg2);
+less_than(Arg1, [Arg2]) ->
+   less_than(Arg1, Arg2);
 less_than(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               less_than(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     less_than(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               ?sing(numeric_less_than(Arg1, Arg2))
-         end
-   end.
+   ?sing(numeric_less_than(Arg1, Arg2)).
 
+greater_than_eq(Arg1, Arg2) when is_map(Arg1);
+                                 is_map(Arg2) -> xqerl_error:error('FOTY0013');
 greater_than_eq([], _) -> ?seq:empty();
 greater_than_eq(_, []) -> ?seq:empty();
 greater_than_eq(#xqNode{} = Arg1, Arg2) ->
@@ -759,6 +618,10 @@ greater_than_eq(#xqNode{} = Arg1, Arg2) ->
 greater_than_eq(Arg1, #xqNode{} = Arg2) ->
    At = xqerl_node:atomize_nodes([Arg2]),
    greater_than_eq(Arg1, At);
+greater_than_eq(#array{data = Arg1}, Arg2) ->
+   greater_than_eq(Arg1, Arg2);
+greater_than_eq(Arg1, #array{data = Arg2}) ->
+   greater_than_eq(Arg1, Arg2);
 
 greater_than_eq(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
    negate(string_less_than(Arg1,Arg2));
@@ -787,34 +650,15 @@ greater_than_eq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue
 greater_than_eq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    negate(string_less_than(Arg1,Arg2));
 
+greater_than_eq([Arg1], Arg2) ->
+   greater_than_eq(Arg1, Arg2);
+greater_than_eq(Arg1, [Arg2]) ->
+   greater_than_eq(Arg1, Arg2);
 greater_than_eq(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               greater_than_eq(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     greater_than_eq(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               Res = numeric_greater_than(Arg1,Arg2) == ?bool(true) orelse numeric_equal(Arg1, Arg2) == ?bool(true),
-               ?bool(Res)
-         end
-   end.
+   ?bool(numeric_greater_than(Arg1,Arg2) == ?bool(true) orelse numeric_equal(Arg1, Arg2) == ?bool(true)).
 
+less_than_eq(Arg1, Arg2) when is_map(Arg1);
+                              is_map(Arg2) -> xqerl_error:error('FOTY0013');
 less_than_eq([], _) -> ?seq:empty();
 less_than_eq(_, []) -> ?seq:empty();
 less_than_eq(#xqNode{} = Arg1, Arg2) ->
@@ -823,6 +667,10 @@ less_than_eq(#xqNode{} = Arg1, Arg2) ->
 less_than_eq(Arg1, #xqNode{} = Arg2) ->
    At = xqerl_node:atomize_nodes([Arg2]),
    less_than_eq(Arg1, At);
+less_than_eq(#array{data = Arg1}, Arg2) ->
+   less_than_eq(Arg1, Arg2);
+less_than_eq(Arg1, #array{data = Arg2}) ->
+   less_than_eq(Arg1, Arg2);
 
 less_than_eq(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
    negate(string_greater_than(Arg1,Arg2));
@@ -855,33 +703,13 @@ less_than_eq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{ty
 less_than_eq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    negate(string_greater_than(Arg1,Arg2));
 
+less_than_eq([Arg1], Arg2) ->
+   less_than_eq(Arg1, Arg2);
+less_than_eq(Arg1, [Arg2]) ->
+   less_than_eq(Arg1, Arg2);
 less_than_eq(Arg1, Arg2) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               less_than_eq(?seq:singleton_value(Arg1), Arg2);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         case ?seq:is_sequence(Arg2) of
-            true ->
-               case ?seq:size(Arg2) of
-                  0 ->
-                     Arg2;
-                  1 ->
-                     less_than_eq(Arg1, ?seq:singleton_value(Arg2));
-                  _ ->
-                     xqerl_error:error('XPTY0004')
-               end;
-            _ ->
-               Res = numeric_less_than(Arg1,Arg2) == ?bool(true) orelse numeric_equal(Arg1, Arg2) == ?bool(true),
-               ?bool(Res)
-         end
-   end.
+   ?bool(numeric_less_than(Arg1,Arg2) == ?bool(true) orelse numeric_equal(Arg1, Arg2) == ?bool(true)).
+
 %% unary returns sequence
 unary_plus([]) -> ?seq:empty();
 unary_plus([Arg1]) ->
@@ -891,81 +719,17 @@ unary_plus(#xqNode{} = Arg1) ->
 unary_plus(#xqAtomicValue{type = T} = Arg1) when ?numeric(T) ->
    ?sing(numeric_unary_plus(Arg1));
 unary_plus(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1) ->
-   ?sing(numeric_unary_plus(xqerl_types:cast_as(Arg1, 'xs:double') ));
-unary_plus(Arg1) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               ?sing(unary_plus(?seq:singleton_value(Arg1)));
-               %?sing(numeric_unary_plus(?seq:singleton_value(Arg1)));
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+   ?sing(numeric_unary_plus(xqerl_types:cast_as(Arg1, 'xs:double') )).
 
 unary_minus([]) -> ?seq:empty();
+unary_minus([Arg1]) ->
+   unary_minus(Arg1);
 unary_minus(#xqNode{} = Arg1) ->
    unary_minus(atomize_list(Arg1));
 unary_minus(#xqAtomicValue{type = T} = Arg1) when ?numeric(T) ->
    ?sing(numeric_unary_minus(Arg1));
 unary_minus(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1) ->
-   ?sing(numeric_unary_minus(xqerl_types:cast_as(Arg1, 'xs:double') ));
-unary_minus(Arg1) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            0 ->
-               Arg1;
-            1 ->
-               ?sing(unary_minus(?seq:singleton_value(Arg1)));
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
-
-%% union(Arg1, {1,_}) -> 
-%%    D1 = node_list_to_dict(?seq:to_list(Arg1)),
-%%    ?seq:from_list(dict_to_node_list(D1));
-%% union({1,_}, Arg2) ->
-%%    D1 = node_list_to_dict(?seq:to_list(Arg2)),
-%%    ?seq:from_list(dict_to_node_list(D1));
-%% union(Arg1, Arg2) ->
-%%    D1 = node_list_to_dict(?seq:to_list(Arg1)),
-%%    D2 = node_list_to_dict(?seq:to_list(Arg2)),
-%%    M1 = orddict:merge(fun(_K,V1,_V2) ->
-%%                             V1
-%%                       end, D1, D2),
-%%    ?seq:from_list(dict_to_node_list(M1)).
-%% 
-%% intersect(_, {1,_} = Arg2) -> Arg2;
-%% intersect({1,_} = Arg1,_) -> Arg1;
-%% intersect(Arg1, Arg2) ->
-%%    D1 = node_list_to_dict(?seq:to_list(Arg1)),
-%%    Keys = [Node#xqNode.identity||Node<-?seq:to_list(Arg2)],
-%%    List = lists:flatmap(fun(K) ->
-%%                             case orddict:find(K, D1) of
-%%                                {ok,V} ->
-%%                                   [V];
-%%                                _ ->
-%%                                   []
-%%                             end
-%%                       end, Keys),
-%%    ?seq:from_list(List).
-%% 
-%% except(Arg1, Arg2) ->
-%%    D1 = node_list_to_dict(?seq:to_list(Arg1)),
-%%    Keys = [Node#xqNode.identity||Node<- ?seq:to_list(Arg2)],
-%%    Dict = lists:foldl(fun(K,D) ->
-%%                             orddict:erase(K, D)
-%%                       end, D1, Keys),
-%%    ?seq:from_list(dict_to_node_list(Dict)).
+   ?sing(numeric_unary_minus(xqerl_types:cast_as(Arg1, 'xs:double') )).
 
 node_before([], _) ->
    ?seq:empty();
@@ -1045,35 +809,33 @@ node_is(O1, O2) ->
 
 
 % returns xs:boolean
-% rule 1 if singleton boolean, then both boolean
-general_compare(Op,[#xqAtomicValue{type = 'xs:boolean'}= Val],List2) ->
-   Ebv = xqerl_fn:boolean([], List2),
-   value_compare(Op,Val,Ebv);
-general_compare(Op,List2,[#xqAtomicValue{type = 'xs:boolean'}= Val]) ->
-   Ebv = xqerl_fn:boolean([], List2),
-   value_compare(Op,Val,Ebv);
-% rule 2+ 
+general_compare(_Op,[],_) -> ?sing(#xqAtomicValue{type = 'xs:boolean', value = false});
+general_compare(_Op,_,[]) -> ?sing(#xqAtomicValue{type = 'xs:boolean', value = false});
+%% % rule 1 if singleton boolean, then both boolean
+%% general_compare(Op,[#xqAtomicValue{type = 'xs:boolean'}= Val],List2) ->
+%%    Ebv = xqerl_fn:boolean([], List2),
+%%    value_compare(Op,Val,Ebv);
+%% general_compare(Op,List2,[#xqAtomicValue{type = 'xs:boolean'}= Val]) ->
+%%    Ebv = xqerl_fn:boolean([], List2),
+%%    value_compare(Op,Val,Ebv);
+%% % rule 2+ 
 general_compare(Op,#xqAtomicValue{} = List1,List2) ->
    general_compare(Op,?seq:singleton(List1),List2);
 general_compare(Op,List1,#xqAtomicValue{} = List2) ->
    general_compare(Op,List1,?seq:singleton(List2));
 
-general_compare(Op,List1,List2) when is_list(List1) ->
-   general_compare(Op,?seq:from_list(List1),List2);
-general_compare(Op,List1,List2) when is_list(List2) ->
-   general_compare(Op,List1,?seq:from_list(List2));
-
 general_compare(Op,List1,List2) ->
+   %?dbg("general_compare List1", List1),
+   %?dbg("general_compare List2", List2),
    AList1 = atomize_list(List1),
    AList2 = atomize_list(List2),
    %?dbg("general_compare AList1", AList1),
    %?dbg("general_compare AList2", AList2),
    Bool = lists:any(fun(V1) ->
                           lists:any(fun(V2) ->
-                                          ?seq:singleton_value(value_compare(Op,V1,V2)) == 
-                                            #xqAtomicValue{type = 'xs:boolean',value = true}
-                                    end, ?seq:to_list(AList2))
-                    end, ?seq:to_list(AList1)),
+                                          xqerl_types:value(value_compare(Op,V1,V2))
+                                    end, AList2)
+                    end, AList1),
    ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool}).
 
 %2a both are untyped
@@ -1082,6 +844,8 @@ value_compare(Op,#xqAtomicValue{type = 'xs:untypedAtomic'} = Val1,#xqAtomicValue
    S2 = xqerl_xs:xs_string([], Val2),
    value_compare(Op,S1,S2);
 %2b one is untyped
+value_compare(Op,#xqAtomicValue{type = 'xs:untypedAtomic'} = Val1, #xqAtomicValue{type = 'xs:QName'} = Val2) ->
+   value_compare(Op,Val1, xqerl_types:cast_as(Val2,'xs:string'));
 value_compare(Op,#xqAtomicValue{type = 'xs:untypedAtomic'} = Val1, #xqAtomicValue{type = Type} = Val2) ->
    V1 = case Type of
            'xs:dayTimeDuration' ->
@@ -1099,6 +863,8 @@ value_compare(Op,#xqAtomicValue{type = 'xs:untypedAtomic'} = Val1, #xqAtomicValu
               end
         end,
    value_compare(Op,V1,Val2);
+value_compare(Op,#xqAtomicValue{type = 'xs:QName'} = Val1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Val2) ->
+   value_compare(Op, xqerl_types:cast_as(Val1,'xs:string'),Val2);
 value_compare(Op,#xqAtomicValue{type = Type} = Val1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Val2) ->
    V2 = case Type of
            'xs:dayTimeDuration' ->
@@ -1131,14 +897,18 @@ value_compare(Op,Val1,Val2) ->
    end.
 
 
-atomize_list(Seq) ->
-   ?seq:val_map(fun(#xqAtomicValue{} = V) ->
+atomize_list(#array{data = List}) ->
+   atomize_list(List);
+atomize_list(Seq) when is_list(Seq) ->
+   ?seq:val_map(fun(#array{data = List}) ->
+                      atomize_list(List);
+                   (#xqAtomicValue{} = V) ->
                       V;
                    (#xqNode{} = N) ->
                       ?seq:singleton_value(xqerl_node:atomize_nodes(N))
-                end, Seq).
-
-
+                end, Seq);
+atomize_list(Seq) ->
+   atomize_list([Seq]).
 
 % returns: numeric
 numeric_add(A,B) when is_integer(A) -> 
@@ -1174,7 +944,7 @@ numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      X
+                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
                 end;
              true ->
                 ValA + ValB
@@ -1216,7 +986,7 @@ numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      X
+                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
                 end;
              true ->
                 ((ValA * 100000000) - (ValB * 100000000)) / 100000000
@@ -1258,7 +1028,7 @@ numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      X
+                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
                 end;
             true ->
                 ValA * ValB
@@ -1315,7 +1085,7 @@ numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      X
+                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
                 end;
              true ->
                 ValA / ValB
@@ -1357,7 +1127,7 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       xqerl_error:error('FOAR0002');
                    X ->
-                      X
+                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
                 end;
              true ->
                 trunc(float(ValA) / float(ValB))
@@ -2366,14 +2136,13 @@ duration_loop(Year,Month,Day) ->
          duration_loop(OutYear,OutMonth,OutDay)
    end.
 
+key_val([Val]) ->
+   key_val(Val);
 key_val(Val) ->
-   Atomic = ?seq:singleton_value(Val),
-   case Atomic of
-      #xqAtomicValue{type = 'xs:string', value = V} ->
-         V;
-      #xqAtomicValue{type = 'xs:anyURI', value = V} ->
-         V;
-      #xqAtomicValue{type = 'xs:untypedAtomic', value = V} ->
+   case Val of
+      #xqAtomicValue{type = Type, value = V} when ?string(Type);
+                                                  Type == 'xs:anyURI';
+                                                  Type == 'xs:untypedAtomic'  ->
          V;
       #xqAtomicValue{type = 'xs:integer', value = V} ->
          {number,float(V)};
@@ -2391,10 +2160,8 @@ key_val(Val) ->
          {duration,V};
       #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = N,local_name = L}} ->
          {N,L};
-      [] ->
-         xqerl_error:error('XPTY0004');
       _ ->
-         Atomic
+         xqerl_error:error('XPTY0004')
    end.
 
 
@@ -2438,16 +2205,5 @@ eff_bool_val(#xqAtomicValue{type = _Type, value = Val}) when Val == 0;
 eff_bool_val(#xqAtomicValue{} = A) ->
    ?dbg("boolean", {?LINE,A}),
    xqerl_error:error('FORG0006');
-eff_bool_val(Seq) ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         case ?seq:is_empty(Seq) of
-            true ->
-               false;
-            _ ->
-               eff_bool_val(?seq:to_list(Seq))
-         end;
-      _ ->
-         ?dbg("boolean", Seq),
-         xqerl_error:error('FORG0006')
-   end.
+eff_bool_val(_Seq) ->
+   xqerl_error:error('FORG0006').

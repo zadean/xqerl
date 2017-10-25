@@ -565,7 +565,7 @@ singleton(Item) ->
    Seq = empty(),
    append(Item, Seq).
 
-append({Id,Doc}, Seq) -> % new document fragment
+append({Id,Doc}, Seq) when not is_atom(Id) -> % new document fragment
    _ = xqerl_context:add_available_document(Id, Doc),
    Node = #xqNode{frag_id = Id,identity = 1},
    append(Node, Seq);
@@ -599,7 +599,7 @@ append(#xqAtomicValue{type = ItemType} = Item, {#xqSeqType{type = OldType, occur
    List2 = [NewVal|List],
    {SeqType,Pos,List2};   
 append(Item, {#xqSeqType{type = OldType, occur = OldOccur} = Type,Size,List}) ->
-   %?dbg("append not atomic",?LINE),
+   ?dbg("append not atomic",?LINE),
    Pos = Size + 1,
    ItemType = get_item_type(Item),
    NewType = if OldType == ItemType ->
@@ -905,6 +905,8 @@ get_seq_iter({Type,Size,List} = Seq) ->
          {0,Seq}
    end.
 
+get_item_type([Item]) ->
+   get_item_type(Item);
 get_item_type(#xqAtomicValue{type = Type}) ->
    Type;
 get_item_type(Item) when is_function(Item) ->

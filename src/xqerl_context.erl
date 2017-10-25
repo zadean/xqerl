@@ -72,8 +72,10 @@
 
 -export([get_default_language/0]).
 -export([set_default_language/1]).
--export([get_default_collation/0]).
--export([set_default_collation/1]).
+
+-export([get_default_collation/1]).
+-export([set_default_collation/2]).
+
 -export([get_construction_mode/0]).
 -export([set_construction_mode/1]).
 -export([get_default_order_for_empty_sequences/0]).
@@ -345,13 +347,13 @@ get_default_language() ->
    erlang:get('default-language').
 set_default_language(Value) ->
    erlang:put('default-language', Value).
-get_default_collation() ->
-   erlang:get('default-collation').
-set_default_collation(Value) ->
+get_default_collation(Ctx) ->
+   maps:get('default-collation', Ctx).
+set_default_collation(Ctx, Value) ->
    All = ?MODULE:get_statically_known_collations(),
    case lists:any(fun(U) -> U == Value end, All) of
       true ->
-         erlang:put('default-collation', Value);
+         Ctx#{'default-collation' => Value};
       _ ->
          xqerl_error:error('XQST0038')
    end.
@@ -517,23 +519,13 @@ get_context_item(Ctx) when is_map(Ctx) ->
    case catch maps:get('context-item', Ctx) of
       {'EXIT',_} -> xqerl_error:error('XPDY0002');
       C ->
-         case ?seq:is_sequence(C) of
-            true ->
-               C;
-            _ ->
-               ?seq:singleton(C)
-         end
+         C
    end;
 % KLUDGE
 get_context_item(Ctx) when is_list(Ctx) ->
-   ?seq:from_list(Ctx);
+   Ctx;
 get_context_item(Ctx) ->
-   case ?seq:is_sequence(Ctx) of
-      true ->
-         Ctx;
-      _ ->
-         ?seq:singleton(Ctx)
-   end.
+   Ctx.
 
 %% merge_context_items([]) -> [];
 %% merge_context_items([#xqAtomicValue{} = H|T]) ->
@@ -564,6 +556,10 @@ set_empty_context_item(Ctx) ->
 % returns new Ctx map
 set_context_item(Ctx, [], _Pos, _Size) ->
    set_empty_context_item(Ctx);
+set_context_item(Ctx, CI, Pos, Size) when is_integer(Size) ->
+   Ctx#{'context-item' => CI,
+        'context-position' => Pos,
+        'context-item-count' => #xqAtomicValue{type = 'xs:integer',value = Size}};
 set_context_item(Ctx, CI, Pos, Size) ->
    Ctx#{'context-item' => CI,
         'context-position' => Pos,

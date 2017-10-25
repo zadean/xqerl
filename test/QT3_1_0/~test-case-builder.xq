@@ -18,7 +18,7 @@ declare function local:print-result($result)
     (for $t in $result/*
      return local:print-result($t)) => string-join(',&#10;')||"]) of "||'&#10;'|| 
     "      true -> {comment, ""all-of""};" ||'&#10;'|| 
-    "      _ -> ct:fail('all-of') " ||'&#10;'|| 
+    "      _ -> false " ||'&#10;'|| 
     "   end"
      
   else if ($name = "any-of") then 
@@ -26,7 +26,7 @@ declare function local:print-result($result)
     (for $t in $result/*
      return local:print-result($t)) => string-join(',&#10;')||"]) of "||'&#10;'|| 
     "      true -> {comment, ""any-of""};" ||'&#10;'|| 
-    "      _ -> ct:fail('any-of') " ||'&#10;'|| 
+    "      _ -> false " ||'&#10;'|| 
     "   end"
 
   else if ($name = "assert-empty") then
@@ -146,10 +146,12 @@ declare function local:print-testcase($test-case)
   "'"||$name||"'(_Config) ->"||'&#10;'||
   (
     (: Collation environments :)
-    if ($test-case/*:environment/*:collation) then 
-    "   {skip,""Collation Environment""}" (: => trace() :)
+    (: if ($test-case/*:environment/*:collation) then 
+    "   {skip,""Collation Environment""}" (: => trace() :) :)
     (: validation environments :)
-    else if ($env = $inscope-schema-envs) then 
+    if ($env = $inscope-schema-envs) then 
+    "   {skip,""Validation Environment""}" (: => trace() :)
+    else if ($test-case/*:environment/*:schema) then 
     "   {skip,""Validation Environment""}" (: => trace() :)
     (: features :)
     (: else if ($deps[@type = "feature" and @value = "higherOrderFunctions"]) then 
@@ -187,6 +189,14 @@ declare function local:print-testcase($test-case)
     (: older specs :)
     else if ($deps[@type = "spec" and @value = "XP10 XQ10"]) then
     "   {skip,""XP10 XQ10""}"
+    else if ($deps[@type = "spec" and @value = "XP20 XP30 XQ10 XQ30"]) then
+    "   {skip,""XP20 XP30 XQ10 XQ30""}"
+    else if ($deps[@type = "spec" and @value = "XQ10 XP20 XQ30 XP30"]) then
+    "   {skip,""XQ10 XP20 XQ30 XP30""}"
+    else if ($deps[@type = "spec" and @value = "XP20 XQ10 XP30 XQ30"]) then
+    "   {skip,""XP20 XQ10 XP30 XQ30""}"
+    else if ($deps[@type = "spec" and @value = "XQ10 XQ30"]) then
+    "   {skip,""XQ10 XQ30""}"
     else if ($deps[@type = "spec" and @value = "XP20"]) then
     "   {skip,""XP20""}"
     else if ($deps[@type = "spec" and @value = "XP20 XQ10"]) then
@@ -203,10 +213,10 @@ declare function local:print-testcase($test-case)
     else if ($deps[@type = "problem"]) then
     "   {skip,"" "||$deps[@type = "problem"]/@value||" ""}"
     (: XSD 1.1 stuff :) 
-    (: else if ($deps[@type = "xsd-version" and @value = "1.1"]) then
-    "   {skip,""XSD 1.1""}" :)
-    else if ($deps[@type = "xsd-version" and @value = "1.0"]) then
-    "   {skip,""XSD 1.0""}"
+    else if ($deps[@type = "xsd-version" and @value = "1.1"]) then
+    "   {skip,""XSD 1.1""}"
+    (: else if ($deps[@type = "xsd-version" and @value = "1.0"]) then
+    "   {skip,""XSD 1.0""}" :)
     (: XML 1.1 stuff :) 
     else if ($deps[@type = "xml-version" and @value = "1.1"]) then
     "   {skip,""XML 1.1""}"

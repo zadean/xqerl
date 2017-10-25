@@ -58,7 +58,7 @@ root(Ctx0, {Id,Doc}) ->
    Node = #xqNode{frag_id = Id,identity = 1},
    root(Ctx0, Node);
 root(Ctx0, Seq) ->
-   Seq1 = case ?seq:is_sequence(Seq) of
+   Seq1 = case is_list(Seq) of
              true ->
                 ?seq:singleton_value(Seq);
              _ ->
@@ -73,16 +73,15 @@ root(Ctx0, Seq) ->
                Roots = xqerl_node:child_ids({0, Doc}),
                %?dbg("Line",?LINE),
                % can get more than one root, but is an error if it is
-               List = lists:map(fun(I) ->
-                                    case xqerl_node:get_node_type({I,Doc}) of
-                                       'document-node' ->
-                                          %?dbg("Line",?LINE),
-                                          #xqNode{frag_id = F, identity = I};
-                                       _ ->
-                                          xqerl_error:error('XPDY0050')
-                                    end
-                                end, Roots),
-               ?seq:from_list(List)
+               lists:map(fun(I) ->
+                              case xqerl_node:get_node_type({I,Doc}) of
+                                 'document-node' ->
+                                    %?dbg("Line",?LINE),
+                                    #xqNode{frag_id = F, identity = I};
+                                 _ ->
+                                    xqerl_error:error('XPDY0050')
+                              end
+                          end, Roots)
          end,
    %?dbg("Line",?LINE),
    doc_ord(Ctx0, Fun, Seq1).
@@ -553,7 +552,7 @@ reverse(Ctx0, Seq, 'ancestor-or-self', #qname{} = Name, PredFuns) ->
                        ANode <- [get_node(A, Doc)],
                        is_record(ANode, xqElementNode),
                        has_name(ANode, Name)],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -567,7 +566,7 @@ reverse(Ctx0, Seq, 'ancestor', #qname{} = Name, PredFuns) ->
                        ANode <- [get_node(A, Doc)],
                        is_record(ANode, xqElementNode),
                        has_name(ANode, Name)],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -581,7 +580,7 @@ reverse(Ctx0, Seq, 'parent', #qname{} = Name, PredFuns) ->
                        ANode <- [get_node(A, Doc)],
                        is_record(ANode, xqElementNode),
                        has_name(ANode, Name)],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -598,7 +597,7 @@ reverse(Ctx0, Seq, 'preceding', #qname{} = Name, PredFuns) ->
                        ANode <- [get_node(A, Doc)],
                        is_record(ANode, xqElementNode),
                        has_name(ANode, Name) ],
-               PreFilterSeq = ?seq:from_list(lists:reverse(lists:sort(List))),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -613,7 +612,7 @@ reverse(Ctx0, Seq, 'preceding-sibling', #qname{} = Name, PredFuns) ->
                        ANode <- [get_node(A, Doc)],
                        is_record(ANode, xqElementNode),
                        has_name(ANode, Name)],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                All = do_preds(Ctx0, PreFilterSeq, PredFuns),
                All
          end,
@@ -631,7 +630,7 @@ reverse(Ctx0, Seq, 'ancestor-or-self', #xqKindTest{kind = node}, PredFuns) ->
                        %ANode <- [get_node(A, Doc)],
                        %is_record(ANode, xqElementNode)
                       ],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -642,7 +641,7 @@ reverse(Ctx0, Seq, 'ancestor', #xqKindTest{kind = node}, PredFuns) ->
                Doc = xqerl_context:get_available_document(F),
                List = [#xqNode{frag_id = F, identity = A} ||
                        A <- xqerl_node:ancestor_ids({Id, Doc}) -- [Id] ],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -659,7 +658,7 @@ reverse(Ctx0, Seq, 'preceding', #xqKindTest{kind = node}, PredFuns) ->
                        ANode <- [get_node(A, Doc)],
                        not is_record(ANode, xqAttributeNode),
                        not is_record(ANode, xqNamespaceNode)],
-               PreFilterSeq = ?seq:from_list(lists:reverse(lists:sort(List))),
+               PreFilterSeq = lists:reverse(?seq:from_list(lists:sort(List))),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -674,7 +673,7 @@ reverse(Ctx0, Seq, 'preceding-sibling', #xqKindTest{kind = node}, PredFuns) ->
                        ANode <- [get_node(A, Doc)],
                        not is_record(ANode, xqAttributeNode),
                        not is_record(ANode, xqNamespaceNode)],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                All = do_preds(Ctx0, PreFilterSeq, PredFuns),
                All
          end,
@@ -689,7 +688,7 @@ reverse(Ctx0, Seq, 'preceding-sibling', #xqKindTest{kind = comment}, PredFuns) -
                        A < Id,
                        ANode <- [get_node(A, Doc)],
                        is_record(ANode, xqCommentNode)],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                All = do_preds(Ctx0, PreFilterSeq, PredFuns),
                All
          end,
@@ -704,7 +703,7 @@ reverse(Ctx0, Seq, 'parent', #xqKindTest{kind = Type}, PredFuns) when Type == no
                List = [#xqNode{frag_id = F, identity = A} ||
                        A <- xqerl_node:parent_id({Id, Doc}),
                        A > 0],
-               PreFilterSeq = ?seq:from_list(lists:reverse(List)),
+               PreFilterSeq = lists:reverse(?seq:from_list(List)),
                do_preds(Ctx0, PreFilterSeq, PredFuns)
          end,
    doc_ord(Ctx0, Fun, Seq);
@@ -767,30 +766,35 @@ get_node(Id,Doc) ->
    gb_trees:get(Id, Doc).
 %TODO move to seq
 doc_ord(Ctx, Fun, Seq) ->
-   NewSeq = case ?seq:is_sequence(Seq) of
-               true ->
+   ?dbg("Seq",Seq),
+   NewSeq = if is_list(Seq) ->
                   Seq;
-               _ ->
-                  ?seq:singleton(Seq)
+               true ->
+                  [Seq]
             end,
    case ?seq:all_node(NewSeq) of
       true ->
          %?dbg("Line",?LINE),
          Res = ?seq:map(Ctx, Fun, NewSeq),
-         %?dbg("Res",Res),
-         % unique in doc order
-         ?seq:union(Res, ?seq:empty());
-      _ -> % only step on nodes
-         case ?seq:all_not_node(NewSeq) of
+         case ?seq:all_node(Res) of
             true ->
-               xqerl_error:error('XPTY0020');
+               ?seq:union(Res, ?seq:empty());
             _ ->
                xqerl_error:error('XPTY0019')
+         end;
+      _ -> % only step on nodes
+         ?dbg("Seq",Seq),
+         ?dbg("NewSeq",NewSeq),
+         case ?seq:all_not_node(NewSeq) of 
+            true ->
+               xqerl_error:error('XPTY0019');
+            _ ->
+               xqerl_error:error('XPTY0018')
          end
    end.
 
 filter(Ctx, PredFuns,PreFilterSeq) ->
-   case ?seq:is_sequence(PreFilterSeq) of
+   case is_list(PreFilterSeq) of
       true ->
          do_preds(Ctx, PreFilterSeq, PredFuns);
       _ -> % can be called from abs code
@@ -799,10 +803,16 @@ filter(Ctx, PredFuns,PreFilterSeq) ->
 
 
 do_preds(Ctx, PreFilterSeq, PredFuns) ->
-   %?dbg("Line",PredFuns),
-   lists:foldl(fun(Pred,SeqAcc) ->
-                     %?dbg("Line",PreFilterSeq),
-                     ?seq:filter(Ctx, Pred, SeqAcc)
-               end, PreFilterSeq, PredFuns).
+   ?dbg("PreFilterSeq",PreFilterSeq),
+   AllNodes = ?seq:all_node(PreFilterSeq),
+   if AllNodes == false , PredFuns =/= [] ->
+         xqerl_error:error('XPTY0020');
+      true ->
+         %?dbg("Line",PredFuns),
+         lists:foldl(fun(Pred,SeqAcc) ->
+                           %?dbg("Line",PreFilterSeq),
+                           ?seq:filter(Ctx, Pred, SeqAcc)
+                     end, PreFilterSeq, PredFuns)
+   end.
 
   

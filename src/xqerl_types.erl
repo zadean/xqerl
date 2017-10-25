@@ -54,9 +54,10 @@
 -define(digit(H), H >= $0; H =< $9).
 -define(MINFLOAT, -3.4028235e38).
 -define(MAXFLOAT,  3.4028235e38).
+-define(MAXFLOATPREC,  1.175494351e-38).
 -define(true,  ?xav('xs:boolean',true)).
 -define(false, ?xav('xs:boolean',false)).
--define(xav(T,V),  ?seq:singleton(#xqAtomicValue{type = T, value = V}) ).
+-define(xav(T,V),  #xqAtomicValue{type = T, value = V}).
 
 is_numeric_type('xs:double') -> true;
 is_numeric_type('xs:numeric') -> true;
@@ -105,33 +106,31 @@ return_value(#xqNode{frag_id = FragId,identity = Id}) ->
    case xqerl_node:new_fragment({Id,Doc}) of
       #xqNode{frag_id = NewFragId,identity = _NewId} ->
          NewDoc = xqerl_context:get_available_document(NewFragId),
-         {1,NewDoc};
+         {0,NewDoc};
          %{NewId,NewDoc};
       X ->
          X
    end;
 return_value(#xqAtomicValue{} = A) -> A;
+return_value(#array{} = A) -> A;
+return_value(Fun) when is_function(Fun) -> Fun;
+return_value(Map) when is_map(Map) -> Map;
 return_value(Other) -> 
-   %?dbg("Other",Other),
-   case ?seq:is_sequence(Other) of
-      true ->
-         case ?seq:size(Other) of
-            0 ->
-               Other;
-            _ ->
-               List = ?seq:to_list(Other),
-               case lists:map(fun return_value/1,List) of
-                  [S] ->
-                     S;
-                  X ->
-                     X
-               end
-         end;
+   case ?seq:size(Other) of
+      0 ->
+         Other;
       _ ->
-         Other
+         case lists:map(fun return_value/1,Other) of
+            [S] ->
+               S;
+            X ->
+               ?seq:flatten(X)
+         end
    end.
 
 string_value([]) -> [];
+string_value([H|T]) when is_integer(H) -> [H|T];
+string_value(#xqError{} = E) -> E;
 string_value([V]) when not is_integer(V) -> string_value(V);
 string_value({Id,Doc}) when is_integer(Id) ->
    _ = xqerl_context:add_available_document(Id, Doc),
@@ -160,39 +159,19 @@ string_value(N) when is_record(N, xqElementNode);
 string_value(#xqNode{} = Nd) ->
    string_value(cast_as(Nd, 'xs:string'));
 
-%% string_value(List) when is_list(List) ->
-%%    AllAtom = lists:all(fun(#xqAtomicValue{}) ->
-%%                              true;
-%%                           (_) ->
-%%                              false
-%%                        end, List),
-%%    if AllAtom ->
-%%          string_value(lists:concat([string_value(hd(List))|[" "++ string_value(Av) || Av <- tl(List) ] ]));
-%%       true ->
-%%          lists:map(fun(O) ->
-%%                          ?dbg("O",O),
-%%                          string_value(O)
-%%                    end, List)
-%%    end;
 string_value(Seq) ->
+   %?dbg("Seq",Seq),
    case Seq of 
       {S,T} when is_integer(S) andalso is_tuple(T) ->
          string_value(xqerl_node:new_fragment(Seq));
       _ ->
-         case ?seq:is_sequence(Seq) of
-            true ->
-               case ?seq:size(Seq) of
-                  0 ->
-                     "";
-                  1 ->
-                     string_value(?seq:singleton_value(Seq));
-                  _ ->
-                     List = ?seq:to_list(Seq),
-                     ?dbg("O",List),
-                     lists:concat([string_value(hd(List))|[" "++ string_value(Av) || Av <- tl(List) ] ])
-               end;
+         case ?seq:size(Seq) of
+            0 ->
+               "";
+            1 when is_list(Seq) ->
+               string_value(hd(Seq));
             _ ->
-               Seq
+               lists:concat([string_value(hd(Seq))|[" "++ string_value(Av) || Av <- tl(Seq) ] ])
          end
    end.
 
@@ -200,9 +179,9 @@ value(#xqFunction{body = V}) ->
    V;
 value(#xqAtomicValue{value = V}) ->
    V;
-value({_,0,[]}) -> [];
-value({_,1,_} = Seq) ->
-   case ?seq:singleton_value(Seq) of
+value([]) -> [];
+value([Seq]) ->
+   case Seq of
       #xqAtomicValue{value = V} ->
          V;
       #xqFunction{body = V} ->
@@ -232,17 +211,54 @@ as_seq({Id,Doc}, SeqType) -> % new document fragment
 as_seq(Vals, _) ->
    Vals.
 
-
+% this function is for promoting/checking sequences for their types
+cast_as_seq([Vals], SeqType) ->
+   cast_as_seq(Vals, SeqType);
 cast_as_seq(Vals, []) ->
    Vals;
-cast_as_seq(#xqAtomicValue{} = Av, SeqType) ->
-   cast_as_seq(?seq:singleton(Av), SeqType);
+cast_as_seq(#array{} = Array, #xqSeqType{type = #xqFunTest{kind = array}}) ->
+   Array;
+cast_as_seq(Map, #xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
+   Map;
+cast_as_seq(Av, #xqSeqType{type = 'xs:boolean'}) ->
+   cast_as(Av, 'xs:boolean');
+cast_as_seq(#xqAtomicValue{} = Av, #xqSeqType{type = 'xs:anyAtomicType'}) ->
+   Av;
+cast_as_seq(#xqAtomicValue{type = AType} = Av, #xqSeqType{type = Type}) ->
+   SubType = subtype_of(AType, Type),
+   if SubType ->
+         Av;
+      AType == 'xs:untypedAtomic' ->
+         cast_as(Av,Type);
+      ?numeric(AType), ?numeric(Type) ->
+         cast_as(Av,Type);
+      true ->
+         xqerl_error:error('XPTY0004')
+   end;
 cast_as_seq(#xqNode{} = Av, SeqType) ->
-   cast_as_seq(?seq:singleton(Av), SeqType);
+   cast_as(Av, SeqType);
 cast_as_seq(Vals, []) ->
    Vals;
 cast_as_seq(Vals, _SeqType) when is_function(Vals) ->
    Vals;
+cast_as_seq(Seq, #xqSeqType{type = 'xs:anyAtomicType'}) when is_list(Seq) ->
+   lists:map(fun(#xqAtomicValue{} = Av) ->
+                   Av;
+                (Item) ->
+                   cast_as(Item, 'xs:anyAtomicType')
+             end, Seq);
+cast_as_seq(Seq, #xqSeqType{type = Type}) when is_list(Seq) ->
+   lists:map(fun(#xqAtomicValue{type = AType} = Av) ->
+                   case subtype_of(AType, Type) of
+                      true ->
+                         Av;
+                      _ ->
+                         xqerl_error:error('XPTY0004')
+                   end;
+                (Item) ->
+                   cast_as(Item, Type)
+             end, Seq);
+
 
 cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occur} = TargetSeqType) ->
    
@@ -637,6 +653,7 @@ castable(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
                   _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FODT0002"}}} -> ?false;
                   _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FOCA0002"}}} -> ?false;
                   _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "XPST0081"}}} -> ?false;
+                  _:badarg -> ?false;
                   _:E -> throw(E)            
                end;
             _ ->
@@ -714,202 +731,234 @@ castable( Av, Type, Namespaces) ->
          end
    end.
 
-instance_of( #xqNode{} = Seq, TargetSeqType ) ->
-   instance_of( ?seq:singleton(Seq), TargetSeqType);
-instance_of( #xqAtomicValue{} = Seq, TargetSeqType ) ->
-   instance_of( ?seq:singleton(Seq), TargetSeqType);
-instance_of( Seq0, TargetSeqType ) ->
-   Seq = case ?seq:is_sequence(Seq0) of
-            true ->
-               Seq0;
-            _ when is_list(Seq0) ->
-               ?seq:from_list(Seq0);
-            _ ->
-               ?seq:singleton(Seq0)
-         end,         
-   SeqType = ?seq:get_seq_type(Seq),
-   case seq_type_val_match(TargetSeqType, SeqType) of
-      nocast ->
+%% %% type can be
+%% 'empty-sequence'
+%% 'item'
+%% some btype
+
+instance_of( [], #xqSeqType{type = _TType, occur = TOccur}) when TOccur == none;
+                                                                 TOccur == zero;
+                                                                 TOccur == zero_or_one;
+                                                                 TOccur == zero_or_many -> ?true;
+instance_of( [], #xqSeqType{type = _TType, occur = _TOccur}) -> ?false;
+
+instance_of( [Seq], #xqSeqType{type = #xqKindTest{} = TType, 
+                               occur = TOccur}) when TOccur == one;
+                                                     TOccur == one_or_many;
+                                                     TOccur == zero_or_one;
+                                                     TOccur == zero_or_many ->
+   ?xav('xs:boolean',instance_of1(Seq, TType));
+instance_of(  Seq , #xqSeqType{type = #xqFunTest{} = TType, 
+                               occur = TOccur}) when TOccur == one;
+                                                     TOccur == one_or_many;
+                                                     TOccur == zero_or_one;
+                                                     TOccur == zero_or_many ->
+   ?xav('xs:boolean',instance_of1(Seq, TType));
+
+instance_of( Seq, #xqSeqType{type = TType, 
+                             occur = TOccur}) when is_map(Seq), TOccur == one;
+                                                   is_map(Seq), TOccur == one_or_many;
+                                                   is_map(Seq), TOccur == zero_or_one;
+                                                   is_map(Seq), TOccur == zero_or_many -> 
+   ?xav('xs:boolean',instance_of1(Seq, TType));
+instance_of( #xqNode{} = Seq, #xqSeqType{type = TType, 
+                                         occur = TOccur}) when TOccur == one;
+                                                               TOccur == one_or_many;
+                                                               TOccur == zero_or_one;
+                                                               TOccur == zero_or_many -> 
+   ?xav('xs:boolean',instance_of1(Seq, TType));
+instance_of( #array{} = Seq, #xqSeqType{type = TType, 
+                                        occur = TOccur}) when TOccur == one;
+                                                              TOccur == one_or_many;
+                                                              TOccur == zero_or_one;
+                                                              TOccur == zero_or_many -> 
+   ?xav('xs:boolean',instance_of1(Seq, TType));
+instance_of( #xqAtomicValue{}, #xqSeqType{type = #xqKindTest{}}) ->
+   ?false;
+instance_of( #xqAtomicValue{}, #xqSeqType{type = #xqFunTest{}}) ->
+   ?false;
+instance_of( #xqAtomicValue{} = Seq, #xqSeqType{type = TType, 
+                                                occur = TOccur}) when TOccur == one;
+                                                                      TOccur == one_or_many;
+                                                                      TOccur == zero_or_one;
+                                                                      TOccur == zero_or_many -> 
+   IType = get_item_type(Seq),
+   BIType = xqerl_btypes:get_type(IType),
+   BTType = xqerl_btypes:get_type(TType),
+   ?xav('xs:boolean',xqerl_btypes:can_substitute(BIType, BTType));
+instance_of( [Seq], #xqSeqType{type = TType, occur = TOccur}) when TOccur == one;
+                                                                   TOccur == one_or_many;
+                                                                   TOccur == zero_or_one;
+                                                                   TOccur == zero_or_many -> 
+   IType = get_item_type(Seq),
+   BIType = xqerl_btypes:get_type(IType),
+   BTType = xqerl_btypes:get_type(TType),
+   %?dbg("IType",IType),
+   %?dbg("BIType",BIType),
+   %?dbg("TType",TType),
+   %?dbg("BTType",BTType),
+   ?xav('xs:boolean',xqerl_btypes:can_substitute(BIType, BTType));
+%instance_of( [_Seq], #xqSeqType{type = _TType, occur = _TOccur}) -> ?false;
+
+
+instance_of( Seq, #xqSeqType{type = TType, occur = TOccur}) when TOccur == one_or_many;
+                                                                 TOccur == zero_or_many -> 
+   ?dbg("Seq",Seq),
+   ?dbg("TType",TType),
+   F = fun(Item) ->
+             instance_of1(Item, TType)
+       end,
+   AllOk = if is_list(Seq) ->
+                 lists:all(F, Seq);
+              true ->
+                 instance_of1(Seq, TType)
+           end,
+   if AllOk ->
          ?true;
       true ->
-         case TargetSeqType#xqSeqType.type of
-            #xqFunTest{kind = function, name = Name, type = RetType, params = Params}  ->
-               B = lists:all(
-                     fun(#xqFunction{name = _FName, type = FRetType, params = FParams}) ->
-                           %NameCheck = has_name(FName, Name),
-                           %?dbg(?LINE, {NameCheck, FName, Name}),
-                           TypeCheck = type_check(FRetType,RetType),
-                           ?dbg(?LINE, {TypeCheck, FRetType, RetType}),
-                           ParamCheck = if Name == undefined -> % anon fun has no param types
-                                              true;
-                                           true ->
-                                              param_check(FParams, Params)
-                                        end,
-                           ?dbg(?LINE, {ParamCheck, FParams, Params}),
-                           %NameCheck andalso 
-                           TypeCheck andalso ParamCheck;
-                        (_) ->
-                           false
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            #xqKindTest{kind = 'document-node', test = #xqKindTest{name = #qname{namespace = Ns,local_name = Ln}}}  ->
-               B = lists:all(fun(#xqNode{frag_id = F, identity = Id}) ->
-                                   ChildIds = xqerl_node:get_node_children(#xqNode{frag_id = F, identity = Id}),
-                                   case ChildIds of
-                                      [] ->
-                                         false;
-                                      [C] ->
-                                         Doc = xqerl_context:get_available_document(F),
-                                         #qname{namespace = Ns1,local_name = Ln1} = xqerl_node:get_node_name({C,Doc}),
-                                         Ns == Ns1 andalso Ln == Ln1;
-                                      _ ->
-                                         false
-                                    end;
-                                (#xqDocumentNode{}) ->
-                                   true;
-                                (_) ->
-                                   false
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            #xqKindTest{kind = element, type = ETy, name = #qname{} = Name}  ->
-               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
-                                   derives_from( ATy, ETy );
-                                (#xqNode{frag_id = F, identity = Id}) ->
-                                   Doc = xqerl_context:get_available_document(F),
-                                   Node = xqerl_node:get_node({Id,Doc}),
-                                   NodeType = xqerl_node:get_node_type(Node),
-                                   element == NodeType andalso has_name(Node, Name);
-                                (#xqElementNode{} = Node) ->
-                                   has_name(Node, Name)
-                             end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            #xqKindTest{kind = attribute, type = ETy, name = #qname{} = Name}  ->
-               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
-                                   derives_from( ATy, ETy );
-                                (#xqNode{frag_id = F, identity = Id}) ->
-                                   Doc = xqerl_context:get_available_document(F),
-                                   Node = xqerl_node:get_node({Id,Doc}),
-                                   NodeType = xqerl_node:get_node_type(Node),
-                                   attribute == NodeType andalso has_name(Node, Name);
-                                (#xqAttributeNode{} = Node) ->
-                                   has_name(Node, Name)
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            #xqKindTest{kind = Kind, type = ETy, name = undefined}  ->
-               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
-                                   derives_from( ATy, ETy );
-                                (#xqNode{frag_id = F, identity = Id}) ->
-                                   Doc = xqerl_context:get_available_document(F),
-                                   NodeType = xqerl_node:get_node_type({Id,Doc}),
-                                   Kind == 'node' orelse 
-                                   Kind == NodeType;
-                                (#xqNamespaceNode{}) ->
-                                   Kind == 'node' orelse 
-                                   Kind == 'namespace'
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            #xqKindTest{kind = Kind, type = ETy, name = #qname{} = Name}  ->
-               B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
-                                   derives_from( ATy, ETy );
-                                (#xqNode{frag_id = F, identity = Id}) ->
-                                   Doc = xqerl_context:get_available_document(F),
-                                   Node = xqerl_node:get_node({Id,Doc}),
-                                   NodeType = xqerl_node:get_node_type(Node),
-                                   Kind == NodeType andalso 
-                                   case has_name(Node, Name) of
-                                      true ->
-                                         #xqSeqType{type = ExTy} = ETy,
-                                         Node#xqElementNode.type == ExTy;
-                                      _ ->
-                                         false
-                                   end
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            {function,[],undefined,any,any} ->
-               %?dbg("Fx1",Fx1),
-               B = lists:all(fun(Fun) when is_function(Fun) ->
-                                   true;
-                                (#xqFunction{}) ->
-                                   true;
-                                (_) ->
-                                   false
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            {function,_,_,Args,Ret}  ->
-               %?dbg("Fx",Fx),
-               % only checking argument count ...
-               B = lists:all(fun(Fun) when is_function(Fun) ->
-                                   Cnt = erlang:length(Args) + 1,
-                                   {_,Ary} = erlang:fun_info(Fun, arity),
-                                   %?dbg("{Cnt,Ary}",{Cnt,Ary}),
-                                   if Cnt == Ary ->
-                                         true;
-                                      true ->
-                                         false
-                                   end;
-                                (#xqFunction{params = Par,
-                                             type = Ty} )  ->
-                                   %?dbg("Fx2",{Args,Par}),
-                                   if Args == Par ->
-                                         if Ty == any ->
-                                               true;
-                                            Ty == Ret ->
-                                               true;
-                                            true ->
-                                               kind_test_match(Ty,Ret)
-                                         end;
-                                      true ->
-                                         false
-                                   end;
-                                
-                                (_) ->
-                                   false
-                   end, ?seq:to_list(Seq)),
-               if B == false -> ?false;
-                  true -> ?true
-               end;
-            T ->
-%?dbg(?LINE,Seq0),
-%?dbg(?LINE,TargetSeqType),
-%?dbg(?LINE,seq_type_val_match(TargetSeqType, SeqType)),
-               case is_known_type(T) of
-                  true ->
-                     B = lists:all(fun(#xqAtomicValue{type = ATy}) ->
-                                         derives_from( ATy, T );
-                                      (#xqNode{frag_id = F, identity = Id}) ->
-                                         Doc = xqerl_context:get_available_document(F),
-                                         T == 'node' orelse 
-                                          T == xqerl_node:get_node_type({Id,Doc});
-                                      (#xqFunction{}) ->
-                                         false;
-                                      (Fx) when is_function(Fx) ->
-                                         false
-                         end, ?seq:to_list(Seq)),
-                     if B == false -> ?false;
-                        true -> ?true
-                     end;
-                  _ ->
-                     ?dbg("unknown type",T),
-                     xqerl_error:error('XPST0051')
-               end
-         end;
-      _ ->
-         ?false            
-  end.
+         ?false
+   end;
+instance_of(Seq,TType) ->
+   %?dbg("Seq",Seq),
+   %?dbg("TType",TType),
+   ?false.
+
+
+check_param_types(_Params, any) -> true;
+check_param_types(Params, TargetParams) -> true.
+
+check_annotations(_Annos, []) -> true;
+check_annotations(Annos, TargetAnnos) -> true.
+
+check_return_type(_Type, any) -> true;
+check_return_type(Type, ReturnType) -> true.
+
+%% #xqKindTest{kind = 'document-node',    test = Test} where test is undefined | elemen test, schema element test
+%% #xqKindTest{kind = 'element',          name = undefined | WQName, type = undefined | #xqSeqType{type = BType, occur = one|zero_or_one}.
+%% #xqKindTest{kind = 'attribute',        name = undefined | WQName, type = undefined | #xqSeqType{type = BType, occur = one}}.
+%% #xqKindTest{kind = 'schema-element',   name = WQName}.
+%% #xqKindTest{kind = 'schema-attribute', name = WQName}.
+%% #xqKindTest{kind = 'processing-instruction', name = undefined | QName}.
+%% #xqKindTest{kind = 'comment'}.
+%% #xqKindTest{kind = 'text'}.
+%% #xqKindTest{kind = 'namespace'}.
+%% #xqKindTest{kind = 'node'}.
+
+%% #xqFunTest{kind = function, annotations = AnnoList, params = any | ListOfSeqTypes, type = any | SeqType} .
+%% #xqFunTest{kind = map, params = any | #xqSeqType{type = BType, occur = one}, type = any | SeqType} .
+%% #xqFunTest{kind = array, params = any, type = any | SeqType} .
+
+instance_of1(Fun, 
+             #xqFunTest{kind = function, annotations = _AnnoList, params = any, type = any}) when is_function(Fun) ->
+   true;
+  
+instance_of1(#xqFunction{annotations = Annos, params = Params, type = Type}, 
+             #xqFunTest{kind = function, annotations = AnnoList, params = ListOfSeqTypes, type = SeqType}) ->
+   AnnoOk = check_annotations(Annos, AnnoList),
+   ParamOk = check_param_types(Params, ListOfSeqTypes),
+   TypeOk = check_return_type(Type, SeqType),
+   if AnnoOk andalso ParamOk andalso TypeOk ->
+         true;
+      true ->
+         false
+   end;
+instance_of1(Map, #xqFunTest{kind = function, type = SeqType}) when is_map(Map) -> % map is function(anyAtomic,V)
+   instance_of1(Map, #xqFunTest{kind = map, params = #xqSeqType{type = 'xs:anyAtomicType', occur = one}, type = SeqType});
+instance_of1(Map, #xqFunTest{kind = map, params = Param, type = SeqType}) when is_map(Map) ->
+   ParamOk = if Param == any -> % this means return type is also any
+                   true;
+                true ->
+                   KVs = maps:values(Map),
+                   ?dbg("KVs",KVs),
+                   lists:all(fun({K,V}) ->
+                                   KType = get_item_type(K),
+                                   VType = get_item_type(V),
+                                   ?dbg("KType",KType),
+                                   ?dbg("VType",VType),
+                                   check_param_types([KType,VType], [Param,SeqType])
+                             end, KVs)
+             end,
+   if ParamOk ->
+         true;
+      true ->
+         false
+   end;
+
+instance_of1({array,Array}, #xqFunTest{kind = function, params = SeqType}) -> % array is a function arity 1
+   instance_of1({array,Array}, #xqFunTest{kind = array, type = SeqType});
+instance_of1({array,Array}, #xqFunTest{kind = array, type = SeqType}) ->
+   TypeOk = if SeqType == any ->
+                  true;
+               true ->
+                  ListType = get_array_type(Array),
+                  check_return_type(ListType, SeqType)
+            end,
+   if TypeOk ->
+         true;
+      true ->
+         false
+   end;
+
+instance_of1(Seq, Type) ->
+   IType = get_item_type(Seq),
+   TType = get_type(Type),
+   BIType = xqerl_btypes:get_type(IType),
+   BTType = xqerl_btypes:get_type(TType),
+   %?dbg("IType",IType),
+   %?dbg("BIType",BIType),
+   %?dbg("TType",TType),
+   %?dbg("BTType",BTType),
+   xqerl_btypes:can_substitute(BIType, BTType);
+
+instance_of1(Singleton, Type) ->
+   false;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true;
+instance_of1(Singleton, Type) ->
+   true.
+
+
+get_type(Type) when is_atom(Type) ->
+   Type;
+get_type(#xqKindTest{kind = Type}) ->
+   Type;
+get_type(#xqFunTest{kind = Type}) ->
+   Type.
+
+get_item_type(#xqAtomicValue{type = Type}) ->
+   Type;
+get_item_type(#xqNode{} = Node) ->
+   xqerl_node:get_node_type(Node);
+get_item_type(Fun) when is_function(Fun) ->
+   function;
+get_item_type(Map) when is_map(Map) ->
+   map;
+get_item_type(O) ->
+   ?dbg("get_item_type",O),
+   item.
+
+get_item_list_type(_) ->
+   item.
+
+get_array_type(_) ->
+   item.
+
 
 construct_as(At,#xqSeqType{type = 'xs:error'}) ->
    xqerl_xs:xs_error([], At);
@@ -965,6 +1014,8 @@ fun_check(#xqFunTest{}=A,#xqFunTest{}=B) ->
 
 cast_as( At, [] ) -> 
    At;
+cast_as( At, #xqSeqType{type = item}) -> 
+   At;
 cast_as( At, 'item' ) -> 
    At;
 cast_as( #xqNode{} = N, 'xs:anyAtomicType' ) -> 
@@ -976,6 +1027,8 @@ cast_as( [], 'empty-sequence' ) ->
    [];
 cast_as( _, 'empty-sequence' ) -> 
    xqerl_error:error('XPTY0004');
+cast_as( [], #xqSeqType{occur = zero_or_one} ) -> 
+   [];
 cast_as( [], #xqSeqType{type = 'empty-sequence'} ) -> 
    [];
 cast_as( _, #xqSeqType{type = 'empty-sequence'} ) -> 
@@ -994,15 +1047,14 @@ cast_as( #xqFunction{}, _ ) ->
    xqerl_error:error('FOTY0013');
 cast_as( Fx, _ ) when is_function(Fx) -> 
    xqerl_error:error('FOTY0013');
-cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type, occur = one} ) -> 
+cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type} ) -> 
    cast_as(At,Type);
-cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type, occur = zero_or_one} ) -> 
-   cast_as(At,Type);
-
-cast_as( List, #xqSeqType{occur = zero_or_many} = SType ) -> 
-   cast_as_seq(List,SType);
-cast_as( List, #xqSeqType{occur = one_or_many} = SType ) -> 
-   cast_as_seq(List,SType);
+%% cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type, occur = zero_or_one} ) -> 
+%%    cast_as(At,Type);
+%% cast_as( List, #xqSeqType{occur = zero_or_many} = SType ) -> 
+%%    cast_as_seq(List,SType);
+%% cast_as( List, #xqSeqType{occur = one_or_many} = SType ) -> 
+%%    cast_as_seq(List,SType);
 
 cast_as( #xqNode{} = At, #xqKindTest{kind = node} ) -> 
    At;
@@ -1277,16 +1329,16 @@ cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:integer' ) ->
    #xqAtomicValue{type = 'xs:integer', value = trunc(Val)};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:string' ) -> 
    SVal = if is_list(Val) -> Val;
+             erlang:round(Val) == Val ->
+                erlang:integer_to_list(erlang:round(Val));
              true ->
-                if erlang:round(Val) == Val ->
-                      erlang:integer_to_list(erlang:round(Val));
-                   true ->
-                      lists:flatten(io_lib:format("~w", [Val]))
-                end               
+                lists:flatten(io_lib:format("~w", [Val]))
           end,
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:untypedAtomic' ) ->
    SVal = if is_list(Val) -> Val;
+             erlang:round(Val) == Val ->
+                erlang:integer_to_list(erlang:round(Val));
              true ->
                 lists:flatten(io_lib:format("~w", [Val]))
           end,
@@ -1304,13 +1356,14 @@ cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:decimal' ) -> % MA
       true -> #xqAtomicValue{type = 'xs:decimal', value = Val}
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:float' ) ->
-   if Val == "NaN"  -> #xqAtomicValue{type = 'xs:double', value = Val};
-      Val == "-INF" -> #xqAtomicValue{type = 'xs:double', value = Val};
-      Val == "INF"  -> #xqAtomicValue{type = 'xs:double', value = Val};
+   if Val == "NaN"  -> #xqAtomicValue{type = 'xs:float', value = Val};
+      Val == "-INF" -> #xqAtomicValue{type = 'xs:float', value = Val};
+      Val == "INF"  -> #xqAtomicValue{type = 'xs:float', value = Val};
       Val < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = "-INF"};
       Val > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = "INF"};
+      abs(Val) < ?MAXFLOATPREC -> #xqAtomicValue{type = 'xs:float', value = 0.0};
       true -> #xqAtomicValue{type = 'xs:float', value = 
-                               list_to_float(float_to_list(erlang:float(Val), [{scientific,8}]))}
+                               list_to_float(format_float(erlang:float(Val)))}
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:integer' ) -> % MAYBE castable
    if Val == "NaN" -> xqerl_error:error('FOCA0002');
@@ -1320,38 +1373,27 @@ cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:integer' ) -> % MA
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:string' ) -> 
    SVal = if is_list(Val) -> Val;
+             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
+                erlang:integer_to_list(erlang:round(Val));
              abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
-                if erlang:round(Val) == Val ->
-                      erlang:integer_to_list(erlang:round(Val));
-                   abs(Val) < 10 ->
-                      %format_float(float_to_list(Val, [{decimals,16}]));
-                      string:trim(lists:flatten(io_lib:format("~w", [Val])), trailing, [$0]);
-                   true ->
-                      %format_float(float_to_list(erlang:float(Val), [{decimals,15},compact]))
-                      string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0])
-                end;
+                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
              Val == 0 ->
                 "0";
              true ->
-                format_float(float_to_list(erlang:float(Val), [{scientific,16}]))
+                format_double(erlang:float(Val))
           end,
+?dbg("SVal",SVal),
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:untypedAtomic' ) -> 
    SVal = if is_list(Val) -> Val;
-             Val < 1000000 andalso Val >= 0.000001 ->
-                if erlang:round(Val) == Val ->
-                      erlang:integer_to_list(erlang:round(Val));
-                   abs(Val) < 1 ->
-                      format_float(float_to_list(erlang:float(Val), [{decimals,16},compact]));
-                      %string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, $0)
-                   true ->
-                      format_float(float_to_list(erlang:float(Val), [{decimals,15},compact]))
-                      %string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, $0)
-                end;
+             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
+                erlang:integer_to_list(erlang:round(Val));
+             abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
+                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
              Val == 0 ->
                 "0";
              true ->
-                format_float(float_to_list(erlang:float(Val), [{scientific,16}]))
+                format_double(erlang:float(Val))
           end,
    #xqAtomicValue{type = 'xs:untypedAtomic', value = SVal};
 
@@ -1392,30 +1434,26 @@ cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:integer' ) -> % MAY
    end;
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:string' ) -> 
    SVal = if is_list(Val) -> Val;
-             erlang:abs(Val) < 1000000 andalso erlang:abs(Val) >= 0.000001 ->
-                if erlang:round(Val) == Val ->
-                      erlang:integer_to_list(erlang:round(Val));
-                   true ->
-                      string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0])
-                end;
+             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
+                erlang:integer_to_list(erlang:round(Val));
+             abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
+                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
              Val == 0 ->
                 "0";
              true ->
-                format_float(float_to_list(erlang:float(Val), [{scientific,8}]))
+                format_float(erlang:float(Val))
           end,
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:untypedAtomic' ) -> 
    SVal = if is_list(Val) -> Val;
-             erlang:abs(Val) < 1000000 andalso erlang:abs(Val) >= 0.000001 ->
-                if erlang:round(Val) == Val ->
-                      erlang:integer_to_list(erlang:round(Val));
-                   true ->
-                      string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0])
-                end;
+             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
+                erlang:integer_to_list(erlang:round(Val));
+             abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
+                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
              Val == 0 ->
                 "0";
              true ->
-                format_float(float_to_list(erlang:float(Val), [{scientific,8}]))
+                format_float(erlang:float(Val))
           end,
    #xqAtomicValue{type = 'xs:untypedAtomic', value = SVal};
 
@@ -1735,7 +1773,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
    try
       if Val == "NaN"  -> #xqAtomicValue{type = 'xs:double', value = Val};
          Val == "-INF" -> #xqAtomicValue{type = 'xs:double', value = Val};
-         Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = "INF"}; % schema 1.1 
+         %Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = "INF"}; % schema 1.1 
          Val == "INF"  -> #xqAtomicValue{type = 'xs:double', value = Val};
          true ->
          Bin = list_to_binary(string:trim(Val)),
@@ -1814,8 +1852,9 @@ cast_as( #xqAtomicValue{type = 'xs:string'} = Av,
    if is_float(DblVal) ->
          if DblVal < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = "-INF"};
             DblVal > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = "INF"};
+            abs(DblVal) < ?MAXFLOATPREC -> #xqAtomicValue{type = 'xs:float', value = 0.0};
             true -> #xqAtomicValue{type = 'xs:float', value = 
-                                     list_to_float(float_to_list(DblVal, [{decimals,38},compact]))}
+                                     list_to_float(float_to_list(DblVal, [{scientific,8}]))}
          end;
       true -> #xqAtomicValue{type = 'xs:float', value = DblVal}
    end;
@@ -1841,8 +1880,8 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
          true ->
             throw({error,bad_date})
       end
-   catch
-      G:Err -> xqerl_error:error('FORG0001', ["xs:gDay", Val,G,Err] )
+   catch _:#xqError{} = E -> throw(E);
+         _:_ -> xqerl_error:error('FORG0001')
    end;
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 
          'xs:gMonth' ) -> % MAYBE castable
@@ -1864,8 +1903,8 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
          true ->
             throw({error,bad_date})
       end
-   catch
-      G:Err -> xqerl_error:error('FORG0001', ["xs:gMonth", Val,G,Err] )
+   catch _:#xqError{} = E -> throw(E);
+         _:_ -> xqerl_error:error('FORG0001')
    end;
 
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 
@@ -1890,8 +1929,8 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
          _ ->
             throw({error,bad_date})
       end
-   catch
-      _:_ -> xqerl_error:error('FORG0001')
+   catch _:#xqError{} = E -> throw(E);
+         _:_ -> xqerl_error:error('FORG0001')
    end;
 
 %In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types derived from these), 
@@ -1920,12 +1959,16 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                         offset = Offset},
       if Year == 0 ->
             xqerl_error:error('FORG0001');
+         Year > 9999 ->
+            xqerl_error:error('FODT0001');
          true ->
             #xqAtomicValue{type = 'xs:gYear',
                            value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gYear')}}
       end
-   catch
-      G:Err -> xqerl_error:error('FORG0001', ["xs:gYear", Val,G,Err] )
+   catch _:#xqError{} = E -> throw(E);
+         %_:{badmatch,_} -> xqerl_error:error('FODT0001');
+         _:E -> ?dbg("E",E), 
+            xqerl_error:error('FORG0001')
    end;
 
 %In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types derived from these), 
@@ -2047,11 +2090,12 @@ cast_as( #xqAtomicValue{type = 'xs:ENTITY', value = Val}, 'xs:untypedAtomic' ) -
 
 cast_as( #xqAtomicValue{} = Arg1,'xs:normalizedString' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:string' )),
-   Norm = xqerl_lib:shrink_spaces(StrVal),
+   Norm = xqerl_lib:normalize_spaces(StrVal),
+   %Norm = xqerl_lib:shrink_spaces(StrVal),
    #xqAtomicValue{type = 'xs:normalizedString', value = Norm};
 cast_as( #xqAtomicValue{} = Arg1,'xs:token' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:normalizedString' )),
-   Token = string:trim(StrVal),
+   Token = xqerl_lib:shrink_spaces(string:trim(StrVal)),
    #xqAtomicValue{type = 'xs:token', value = Token};
 
 cast_as( #xqAtomicValue{} = Arg1,'xs:language' ) -> 
@@ -2359,7 +2403,7 @@ cast_as( #xqAtomicValue{type = 'xs:byte'} = Arg1, TT ) ->
    xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
 
 % block known types
-cast_as( #xqAtomicValue{type = Intype}, T ) when 
+cast_as( #xqAtomicValue{type = Intype} = I, T ) when 
    Intype == 'xs:unsignedInt';Intype == 'xs:string';Intype == 'xs:boolean';Intype == 'xs:decimal';
    Intype == 'xs:float';Intype == 'xs:double';Intype == 'xs:duration';Intype == 'xs:dateTime';
    Intype == 'xs:time';Intype == 'xs:date';Intype == 'xs:gYearMonth';Intype == 'xs:gYear';
@@ -2400,8 +2444,8 @@ cast_as( #xqAtomicValue{type = Intype}, T ) when
    case is_known_type(T) of
       true ->
          xqerl_error:error('XPTY0004');
-      Huh ->
-         ?dbg("unknown type",Huh),
+      _ ->
+         ?dbg("unknown type",{I,T}),
          xqerl_error:error('XQST0052')
    end;
 
@@ -2422,21 +2466,10 @@ cast_as(Seq,#xqSeqType{type = T, occur = Occur}) when Occur == one ->
       _ ->
          xqerl_error:error('XPTY0004')
    end;
-cast_as(Seq,T)  ->
-   case ?seq:is_sequence(Seq) of
-      true ->
-         case ?seq:size(Seq) of
-            0 ->
-               cast_as([],T);
-            1 ->
-               cast_as(?seq:singleton_value(Seq),T);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end;
-      _ ->
-         ?dbg("Bad Cast ST/TT: ",{Seq,T}),
-         Seq
-   end.
+cast_as(Seq,T) ->
+   ?dbg("Seq",Seq),
+   ?dbg("T",T),
+   xqerl_error:error('XPTY0004').
 
 % namespace sensitive
 cast_as( #xqNode{} = N, TT, Namespaces ) ->
@@ -2486,6 +2519,7 @@ cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when 
             end
       end
    catch
+      _:#xqError{} when AType == 'xs:untypedAtomic' -> xqerl_error:error('FORG0001');
       _:#xqError{} = E -> throw(E);
       G:E -> xqerl_error:error('FORG0001', ["xs:QName", Val,G,E] )
    end;
@@ -2840,8 +2874,8 @@ b64bin_to_str(Bin) -> base64:encode_to_string(Bin).
 
 str_to_hexbin(Str) -> << << (erlang:list_to_integer([H], 16)):4 >> || H <- Str >>.
 str_to_b64bin(Str) -> 
-   Str1 = re:replace(Str, "(\\s+)", "", [global,{return,list}]),
    try
+      Str1 = re:replace(Str, "(\\s+)", "", [global,{return,list}]),
       Bin = base64:decode(list_to_binary(Str1)),
       case base64:encode_to_string(Bin) of
          Str1 -> % invalid base64 that is 'fixed' in base64 module
@@ -2893,8 +2927,17 @@ derives_from( AT, ET ) ->
 
 
 format_float(Val) ->
-   ?dbg("format_float",Val),
-   strip_zero_and_plus(lists:reverse(Val),[]).
+   strip_zero_and_plus(
+     lists:reverse(
+       float_to_list(Val, [{scientific,8},compact])),[]).
+
+format_double(Val) ->
+   strip_zero_and_plus(
+     lists:reverse(
+       float_to_list(Val, [{scientific,16},compact])),[]).
+
+%%    ?dbg("format_float",Val),
+%%    strip_zero_and_plus(lists:reverse(Val),[]).
 
 strip_zero_and_plus([], Acc) -> Acc;
 
