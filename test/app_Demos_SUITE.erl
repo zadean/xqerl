@@ -371,7 +371,7 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
       Err -> ct:fail(Err)
    end.
 'itunes'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'raytracer'(_Config) ->
    Qry = "
         import module namespace raytracer=\"http://www.xqsharp.com/raytracer\";
@@ -418,7 +418,7 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

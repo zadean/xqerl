@@ -1450,7 +1450,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1471,7 +1471,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1492,7 +1492,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1513,7 +1513,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1690,7 +1690,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1711,7 +1711,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1732,7 +1732,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1753,7 +1753,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1787,7 +1787,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1808,7 +1808,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2236,7 +2236,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2387,7 +2387,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2421,7 +2421,7 @@ environment('durations') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2545,45 +2545,48 @@ environment('durations') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYear-002'(_Config) ->
-   {skip,"XSD 1.0"}.
+   Qry = "\"0000\" cast as xs:gYear",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-cast-gYear-003'(_Config) ->
-   {skip,"XSD 1.0"}.
-'cbcl-cast-gYear-003a'(_Config) ->
    Qry = "\"-0000\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"FODT0001") of 
+   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
-   case xqerl_test:assert_deep_eq(Res,"xs:gYear('0000')") of 
-      true -> {comment, "Deep equal"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'cbcl-cast-gYear-003a'(_Config) ->
+   {skip,"XSD 1.1"}.
 'cbcl-cast-gYearMonth-003'(_Config) ->
-   {skip,"XSD 1.0"}.
-'cbcl-cast-gYearMonth-004'(_Config) ->
-   Qry = "\"-0000-05\" cast as xs:gYearMonth",
+   Qry = "\"0000-05\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "0000-05") of 
-      true -> {comment, "String correct"};
+   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'cbcl-cast-gYearMonth-004'(_Config) ->
+   {skip,"XSD 1.1"}.
 'cbcl-case-anyUri-001'(_Config) ->
    Qry = "\"http://example.com?query=\" cast as xs:anyURI",
    Qry1 = Qry,

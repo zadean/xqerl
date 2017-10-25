@@ -310,7 +310,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -351,7 +351,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -375,7 +375,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -399,7 +399,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -423,7 +423,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -451,7 +451,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -475,7 +475,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -499,7 +499,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -523,7 +523,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -548,7 +548,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -573,7 +573,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -597,7 +597,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -621,7 +621,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -645,7 +645,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -669,7 +669,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -693,7 +693,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -734,7 +734,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -759,7 +759,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -843,7 +843,7 @@ environment('user-defined-types') ->
   <serialization-matches>CDATA\\[tt\\]</serialization-matches>
 </not>", Res])]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

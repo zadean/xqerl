@@ -595,7 +595,7 @@ environment('validate') ->
 'schema-import-30'(_Config) ->
    {skip,"Validation Environment"}.
 'modules-schema-context'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'schema-import-31'(_Config) ->
    {skip,"Validation Environment"}.
 'qischema001'(_Config) ->
@@ -623,19 +623,19 @@ environment('validate') ->
 'qischema012'(_Config) ->
    {skip,"schemaImport"}.
 'qischema016'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema030'(_Config) ->
    {skip,"schemaImport"}.
 'qischema031'(_Config) ->
    {skip,"schemaImport"}.
 'qischema032'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema032a'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema032b'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema032c'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema040'(_Config) ->
    {skip,"schemaImport"}.
 'qischema040a'(_Config) ->
@@ -663,17 +663,17 @@ environment('validate') ->
 'qischema070'(_Config) ->
    {skip,"schemaImport"}.
 'qischema072-01'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema072-02'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema072-03'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema072-04'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema072-05'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema072-06'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema080'(_Config) ->
    {skip,"schemaImport"}.
 'qischema083'(_Config) ->
@@ -711,9 +711,9 @@ environment('validate') ->
 'qischema90151-err'(_Config) ->
    {skip,"schemaImport"}.
 'qischema90171-err'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema90172-err'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema90401-err'(_Config) ->
    {skip,"schemaImport"}.
 'qischema90431-err'(_Config) ->
@@ -725,9 +725,9 @@ environment('validate') ->
 'qischema90613-err'(_Config) ->
    {skip,"schemaImport"}.
 'qischema90614-err'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema90621-err'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'qischema90631-err'(_Config) ->
    {skip,"schemaImport"}.
 'qischema90701-err'(_Config) ->

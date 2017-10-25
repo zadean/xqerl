@@ -313,7 +313,7 @@ environment('analyze-string-schema') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -438,7 +438,7 @@ it put its sooty foot.\"
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -463,7 +463,7 @@ it put its sooty foot.\"
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -488,7 +488,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -690,7 +690,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

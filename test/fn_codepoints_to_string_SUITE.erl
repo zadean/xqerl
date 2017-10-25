@@ -666,7 +666,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -759,7 +759,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -780,7 +780,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -986,11 +986,55 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-codepoints-to-string-002'(_Config) ->
-   {skip,"XSD 1.0"}.
+   Qry = "
+        declare function local:test($test as xs:integer) as xs:integer? { 
+          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+        }; 
+        fn:codepoints-to-string( local:test(2) to 32 )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-codepoints-to-string-003'(_Config) ->
-   {skip,"XSD 1.0"}.
+   Qry = "
+      declare function local:test($test as xs:integer) as xs:integer? { 
+        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 )else if ($test = 4) then ( 16 ) else () 
+      }; 
+      fn:codepoints-to-string( local:test(3) to 32 )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-codepoints-to-string-004'(_Config) ->
-   {skip,"XSD 1.0"}.
+   Qry = "declare function local:test($test as xs:integer) as xs:integer? { 
+        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+      }; 
+      fn:codepoints-to-string( local:test(4) to 32 )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-codepoints-to-string-005'(_Config) ->
    Qry = "fn:codepoints-to-string( 65536 to 1114112 )",
    Qry1 = Qry,
@@ -1200,39 +1244,9 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'cbcl-codepoints-to-string-021'(_Config) ->
-   Qry = "let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string(65 to $x)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"FOCH0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"XPDY0130") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip," HUGE RANGE "}.
 'cbcl-codepoints-to-string-022'(_Config) ->
-   Qry = "let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string($x to $x+10)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip," HUGE RANGE "}.
 'cbcl-codepoints-to-string-023'(_Config) ->
    Qry = "for $x in 9 to 15 return codepoints-to-string($x to $x)",
    Qry1 = Qry,

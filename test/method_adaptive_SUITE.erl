@@ -633,7 +633,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{\"one\":1,Q\\{\\}one:1\\}</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{Q\\{\\}one:1,\"one\":1\\}</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -845,7 +845,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">2015:2</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">xs:gYear\\(\"2015\"\\):3</serialization-matches>", Res])]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -867,7 +867,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{\"O'Neil says \"\"no\"\"\":1\\}</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{'O''Neil says \"no\"':1\\}</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -889,7 +889,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{1:\"O'Neil says \"\"no\"\"\"\\}</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{1:'O''Neil says \"no\"'\\}</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -942,19 +942,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'Serialization-adaptive-37'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:dateTimeStamp(\"2011-07-28T12:34:56-08:00\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:dateTime\\(\"2011-07-28T12:34:56-08:00\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.1"}.
 'Serialization-adaptive-38'(_Config) ->
    Qry = "
      	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
@@ -1337,7 +1325,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1356,7 +1344,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1375,7 +1363,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1394,7 +1382,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1413,7 +1401,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1432,7 +1420,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1451,7 +1439,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1470,7 +1458,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1489,7 +1477,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1508,7 +1496,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1598,7 +1586,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"'\"$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^''''$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1617,7 +1605,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'\"'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"\"\"\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1636,7 +1624,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"'\"$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^''''$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1655,7 +1643,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'\"'$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"\"\"\"$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1674,7 +1662,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"'\"$</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^''''$</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1697,7 +1685,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

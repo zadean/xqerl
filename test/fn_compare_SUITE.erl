@@ -886,7 +886,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -907,7 +907,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1018,7 +1018,27 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-010'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "compare(\"a\", \"A\", \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'compare-011'(_Config) ->
    Qry = "compare(123, 456)",
    Qry1 = Qry,
@@ -1059,11 +1079,71 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-014'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "compare(\"a\", \"A\", \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'compare-015'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "compare(\"123 - ; ^ a\", \"123 -  ; ^ a\", \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\") eq 0",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'compare-016'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "compare(\"Á\", \"á\", \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\") eq 0",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'compare-017'(_Config) ->
    Qry = "fn:compare(\"database\", \"DATABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,

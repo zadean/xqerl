@@ -460,7 +460,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -545,18 +545,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'K-TraceFunc-2'(_Config) ->
-   Qry = "trace(.)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20 XP30 XQ10 XQ30"}.
 'K-TraceFunc-3'(_Config) ->
    Qry = "trace(., \"message\", \"wrong parameter\")",
    Qry1 = Qry,
@@ -598,7 +587,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

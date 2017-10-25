@@ -420,7 +420,7 @@ environment('DupNode') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert(Res,"$result[self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']]") of 
+   Out =    case xqerl_test:assert(Res,"exists($result[self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']])") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
@@ -798,7 +798,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1313,7 +1313,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1453,7 +1453,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1504,7 +1504,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1542,7 +1542,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1628,7 +1628,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1649,7 +1649,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1683,7 +1683,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

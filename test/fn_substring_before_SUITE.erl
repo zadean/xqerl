@@ -269,7 +269,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -290,7 +290,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -311,7 +311,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -332,7 +332,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -353,7 +353,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -374,7 +374,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -395,7 +395,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -429,7 +429,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -450,7 +450,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -497,7 +497,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -518,7 +518,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -539,7 +539,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -560,7 +560,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -581,7 +581,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -602,7 +602,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -623,7 +623,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -644,7 +644,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -665,7 +665,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -708,7 +708,28 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-24'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "substring-before(\"banana\", \"A\",
+         \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"b\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-substring-before-25'(_Config) ->
    Qry = "substring-before(\"𐀁𐀂𐀃\", \"𐀂\")",
    Qry1 = Qry,
@@ -723,7 +744,28 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-26'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "substring-before(\"banana\", \"A\",
+         \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"b\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-substring-before-27'(_Config) ->
    Qry = "fn:substring-before(\"banana\", \"ana\", \"http://www.w3.org/2013/collation/UCA?lang=en\")",
    Qry1 = Qry,
@@ -934,7 +976,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -955,7 +997,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

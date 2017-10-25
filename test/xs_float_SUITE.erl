@@ -159,46 +159,24 @@ environment('array-and-map') ->
 {modules, []}
 ].
 'xs-float-001'(_Config) ->
-   Qry = "fn:string(xs:float(\"-0\"))",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"fn:string(\"-0\")") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.1"}.
 'xs-float-002'(_Config) ->
-   Qry = "1 div xs:float(\"-0\") ne 1 div xs:float(\"0\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.1"}.
 'xs-float-003'(_Config) ->
+   {skip,"XSD 1.1"}.
+'xs-float-004'(_Config) ->
    Qry = "exists(xs:float(\"+INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xs-float-004'(_Config) ->
-   {skip,"XSD 1.0"}.
 'cbcl-float-001'(_Config) ->
    Qry = "count(xs:float(()))",
    Qry1 = Qry,

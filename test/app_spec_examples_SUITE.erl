@@ -4648,7 +4648,31 @@ environment('global') ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-compare-002'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+        fn:compare('Strasse', 'Straße')
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"},
+{"http://www.w3.org/2005/xpath-functions/map","map"},
+{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fo-test-fn-compare-003'(_Config) ->
    Qry = "
         fn:compare('Strasse', 'Straße',
@@ -4667,7 +4691,31 @@ environment('global') ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-compare-004'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+        fn:compare('Strassen', 'Straße')
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"},
+{"http://www.w3.org/2005/xpath-functions/map","map"},
+{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fo-test-fn-codepoint-equal-001'(_Config) ->
    Qry = "
         fn:codepoint-equal(\"abcd\", \"abcd\")

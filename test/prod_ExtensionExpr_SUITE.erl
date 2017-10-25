@@ -654,18 +654,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'K-ExtensionExpression-4'(_Config) ->
-   Qry = "(#name content #) {1}",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XQ10 XQ30"}.
 'K-ExtensionExpression-4a'(_Config) ->
    Qry = "(#name content #) {1}",
    Qry1 = Qry,

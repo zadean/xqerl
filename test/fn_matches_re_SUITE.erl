@@ -2882,20 +2882,20 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 're00056'(_Config) ->
-   {skip,"XSD 1.0"}.
-'re00056a'(_Config) ->
    Qry = "(every $s in tokenize('', ',') satisfies matches($s, '^(?:[^a-d-b-c])$')) and (every $s in tokenize('a-b,c-c,ab,cc', ',') satisfies not(matches($s, '^(?:[^a-d-b-c])$')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+   Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'re00056a'(_Config) ->
+   {skip,"XSD 1.1"}.
 're00057'(_Config) ->
    Qry = "(every $s in tokenize('abcxyz}', ',') satisfies matches($s, '^(?:[a-\\}]+)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:[a-\\}]+)$')))",
    Qry1 = Qry,
@@ -3276,20 +3276,20 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
       Err -> ct:fail(Err)
    end.
 're00086'(_Config) ->
-   {skip,"XSD 1.0"}.
-'re00086a'(_Config) ->
    Qry = "(every $s in tokenize(',a-1x-7,c-4z-9,a-1z-8a-1z-9,a1z-9,a-1z8,a-1,z-9', ',') satisfies matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+   Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
+'re00086a'(_Config) ->
+   {skip,"XSD 1.1"}.
 're00087'(_Config) ->
    Qry = "matches('qwerty','[a-\\\\]')",
    Qry1 = Qry,
@@ -3487,27 +3487,27 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
 're00102'(_Config) ->
+   {skip,"XSD 1.1"}.
+'re00102a'(_Config) ->
    Qry = "(every $s in tokenize('a-x', ',') satisfies matches($s, '^(?:[a-a-x-x]+)$')) and (every $s in tokenize('j,a-b', ',') satisfies not(matches($s, '^(?:[a-a-x-x]+)$')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+   Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'re00102a'(_Config) ->
-   {skip,"XSD 1.0"}.
 're00103'(_Config) ->
    Qry = "(every $s in tokenize('\\|.-^?*+[]{}()*[[]{}}))
 		

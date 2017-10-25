@@ -401,7 +401,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -435,7 +435,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -559,18 +559,7 @@ environment('DupNode') ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-5'(_Config) ->
-   Qry = "text{}",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XQ10 XQ30"}.
 'K2-ConText-5a'(_Config) ->
    Qry = "text{}",
    Qry1 = Qry,

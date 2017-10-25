@@ -222,7 +222,7 @@ environment('array-and-map') ->
    end,
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;Ϳnode/&gt;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -289,7 +289,7 @@ xquery version \"1.0\" encoding \"utf-8\";
    end,
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;eggſ/&gt;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

@@ -947,18 +947,7 @@ abracadabra\", \"\\n\")",
       Err -> ct:fail(Err)
    end.
 'K-TokenizeFunc-1'(_Config) ->
-   Qry = "tokenize(\"input\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20 XP30 XQ10 XQ30"}.
 'K-TokenizeFunc-2'(_Config) ->
    Qry = "tokenize(\"input\", ())",
    Qry1 = Qry,

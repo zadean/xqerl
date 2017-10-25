@@ -1314,7 +1314,7 @@ environment('namespace-sensitive') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1672,18 +1672,7 @@ environment('namespace-sensitive') ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-26'(_Config) ->
-   Qry = "<elem>content{}content</elem>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XQ10 XQ30"}.
 'K2-DirectConElemContent-26a'(_Config) ->
    Qry = "<elem>content{}content</elem>",
    Qry1 = Qry,

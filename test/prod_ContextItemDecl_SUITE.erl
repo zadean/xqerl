@@ -269,7 +269,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -330,7 +330,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -355,7 +355,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -407,7 +407,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -857,7 +857,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -908,57 +908,9 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'contextDecl-056'(_Config) ->
-   Qry = "
-      import module namespace m=\"http://www.w3.org/TestModules/libmodule4\";
-      declare context item as xs:numeric external;
-      $m:v eq 4
-    ",
-   Env = xqerl_test:handle_environment([{sources, []},
-{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/SchemaImport/unionListDefined.xsd","http://www.w3.org/XQueryTest/unionListDefined"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ContextItemDecl/libmodule-4.xq","http://www.w3.org/TestModules/libmodule4"}]}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"Validation Environment"}.
 'contextDecl-057'(_Config) ->
-   Qry = "
-      import module namespace m=\"http://www.w3.org/TestModules/libmodule4\";
-      declare context item as xs:date external;
-      $m:v eq 4
-    ",
-   Env = xqerl_test:handle_environment([{sources, []},
-{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/SchemaImport/unionListDefined.xsd","http://www.w3.org/XQueryTest/unionListDefined"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ContextItemDecl/libmodule-4.xq","http://www.w3.org/TestModules/libmodule4"}]}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"Validation Environment"}.
 'contextDecl-058'(_Config) ->
    Qry = "
       import module namespace m=\"http://www.w3.org/TestModules/libmodule5\";

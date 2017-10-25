@@ -523,7 +523,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -544,7 +544,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -565,7 +565,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -885,7 +885,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -919,7 +919,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1022,7 +1022,7 @@ environment('user-defined-types') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1042,27 +1042,7 @@ environment('user-defined-types') ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-12'(_Config) ->
-   Qry = "//test:comparable[1]/test:int eq //test:comparable[2]/test:int",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ValueComp/valueComp200.xml",".",""}]},
-{schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/ValueComp/valueComp200.xsd","http://www.xpathtest.com/test"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{namespaces, [{"http://www.xpathtest.com/test","test"}]},
-{resources, []},
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"Validation Environment"}.
 'value-comparison-13'(_Config) ->
    {skip,"schemaImport"}.
 'value-comparison-14'(_Config) ->

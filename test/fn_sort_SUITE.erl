@@ -502,7 +502,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -775,18 +775,196 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-sort-collation-1'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
+         fn:sort((\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"))
+     ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-sort-collation-2'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
+         fn:sort((\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"), ())
+     ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-sort-collation-3'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
+         fn:sort((\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"), (), string#1)
+     ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-sort-collation-4'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "fn:sort((\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"),
+         \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-sort-collation-5'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "fn:sort((\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"),
+         \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\", fn:string#1)",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-sort-collation-6'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "fn:sort((\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"),
+         \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-sort-collation-7'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "fn:sort((\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"),
+         \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", fn:string#1)",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-sort-collation-8'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare function local:key($n as xs:integer) as xs:string {
+             (\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\")[$n]
+         };
+         fn:sort((1 to 5), \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\", local:key#1)
+         ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"3, 2, 5, 4, 1") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

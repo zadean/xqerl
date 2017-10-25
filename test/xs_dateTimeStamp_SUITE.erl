@@ -153,41 +153,8 @@ environment('array-and-map') ->
 {modules, []}
 ].
 'xs-dateTimeStamp-1'(_Config) ->
-   Qry = "exists(fn:timezone-from-dateTime(fn:current-dateTime()))",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"true()") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.1"}.
 'xs-dateTimeStamp-2'(_Config) ->
-   Qry = "exists(fn:timezone-from-dateTime(xs:dateTimeStamp(\"2011-07-28T12:34:56-08:00\")))",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"true()") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.1"}.
 'xs-dateTimeStamp-3'(_Config) ->
-   Qry = "xs:dateTimeStamp(\"2011-07-28T12:34:56\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XSD 1.1"}.

@@ -547,18 +547,7 @@ environment('DupNode') ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConComment-4'(_Config) ->
-   Qry = "comment{}",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XQ10 XQ30"}.
 'K2-ComputeConComment-4a'(_Config) ->
    Qry = "comment{}",
    Qry1 = Qry,
@@ -578,7 +567,7 @@ environment('DupNode') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

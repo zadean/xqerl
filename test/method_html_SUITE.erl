@@ -443,7 +443,7 @@ declare option output:version  \"4.0\";
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;html/&gt;</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;html&gt;&lt;/html&gt;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -465,7 +465,7 @@ declare option output:version  \"5.0\";
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;html/&gt;</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;html&gt;&lt;/html&gt;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

@@ -651,18 +651,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-string-join-27'(_Config) ->
-   Qry = "fn:string-join(1 to 5, \"\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20 XQ10 XP30 XQ30"}.
 'fn-string-join-28'(_Config) ->
    Qry = "fn:string-join(1 to 5, \"\")",
    Qry1 = Qry,

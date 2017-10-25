@@ -1432,11 +1432,11 @@ environment('user-defined-types') ->
 'errata6-004'(_Config) ->
    {skip,"schemaImport"}.
 'errata6-005'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'errata6-006'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'errata6-007'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'errata8-001'(_Config) ->
    {skip,"XQ10"}.
 'errata8-001a'(_Config) ->

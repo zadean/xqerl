@@ -439,7 +439,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -743,7 +743,7 @@ environment('array-and-map') ->
                <assert-type>function(item()*, item()*, item()*) as item()*</assert-type>
             </not>", Res])]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -780,7 +780,7 @@ environment('array-and-map') ->
                <assert-type>function(xs:integer, xs:decimal) as xs:integer</assert-type>
             </not>", Res])]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

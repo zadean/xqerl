@@ -529,7 +529,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -561,7 +561,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -587,7 +587,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -833,7 +833,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -893,7 +893,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -989,7 +989,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1010,7 +1010,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1031,7 +1031,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1052,7 +1052,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1700,7 +1700,7 @@ environment('ListUnionTypes') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1970,22 +1970,7 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'function-call-reserved-function-names-039'(_Config) ->
-   Qry = "
-	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
-	declare function local:array() { fn:true() };
-	array()
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XQ10 XQ30"}.
 'function-call-reserved-function-names-040'(_Config) ->
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
@@ -2004,20 +1989,7 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'function-call-reserved-function-names-041'(_Config) ->
-   Qry = "
-	array()
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20 XP30 XQ10 XQ30"}.
 'function-call-reserved-function-names-042'(_Config) ->
    Qry = "
 	array()
@@ -2034,22 +2006,7 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'function-call-reserved-function-names-043'(_Config) ->
-   Qry = "
-	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
-	declare function local:map() { fn:true() };
-	map()
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XQ10 XQ30"}.
 'function-call-reserved-function-names-044'(_Config) ->
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
@@ -2068,20 +2025,7 @@ environment('ListUnionTypes') ->
       Err -> ct:fail(Err)
    end.
 'function-call-reserved-function-names-045'(_Config) ->
-   Qry = "
-	map()
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP20 XP30 XQ10 XQ30"}.
 'function-call-reserved-function-names-046'(_Config) ->
    Qry = "
 	map()

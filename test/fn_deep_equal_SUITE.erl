@@ -3121,37 +3121,395 @@ environment('perverse') ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDeepEqualFunc-56'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "deep-equal((\"a\", \"A\"), (\"A\", \"a\"), \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-57'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "deep-equal((\"a\", \"A\"), (\"A\", \"b\"), \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-58'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b x=\"abc\"/></a>, <a><b x=\"ABC\"/></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-59'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b>abc</b></a>, <a><b>ABC</b></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-60'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b>abc</b></a>, <a><B>abc</B></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-61'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b x=\"abc\"/></a>, <a><b X=\"abc\"/></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-62'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         let $deep := deep-equal(?, ?, \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>)
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-63'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         let $deep := deep-equal#3 
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>, 
+                      \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-64'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "deep-equal((\"a\", \"A\"), (\"A\", \"a\"), \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-65'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "deep-equal((\"a\", \"A\"), (\"A\", \"b\"), \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-66'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b x=\"abc\"/></a>, <a><b x=\"ABC\"/></a>,
+             \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-67'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b>abc</b></a>, <a><b>ABC</b></a>,
+             \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-68'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b>abc</b></a>, <a><B>abc</B></a>,
+             \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-69'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         deep-equal(<a><b x=\"abc\"/></a>, <a><b X=\"abc\"/></a>,
+             \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-70'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         let $deep := deep-equal(?, ?, \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>)
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-71'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         let $deep := deep-equal#3 
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>, 
+                      \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
+      ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-SeqDeepEqualFunc-1'(_Config) ->
    Qry = "not(deep-equal(current-time(), current-date()))",
    Qry1 = Qry,

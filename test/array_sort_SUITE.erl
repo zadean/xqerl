@@ -244,7 +244,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -270,7 +270,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -296,7 +296,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -322,7 +322,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -348,7 +348,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -374,7 +374,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -414,7 +414,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -440,7 +440,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -466,7 +466,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -492,7 +492,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -518,7 +518,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -544,7 +544,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -570,7 +570,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -596,7 +596,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -622,7 +622,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -648,7 +648,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -674,7 +674,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -753,7 +753,7 @@ environment('array-with-collation') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -827,11 +827,86 @@ environment('array-with-collation') ->
       Err -> ct:fail(Err)
    end.
 'array-sort-collation-1'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
+         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
+         declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
+         array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"])
+     ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'array-sort-collation-2'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
+         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
+         declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
+         array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], ())
+     ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'array-sort-collation-3'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
+         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
+         declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
+         array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], (), string#1)
+     ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'array-sort-collation-4'(_Config) ->
    Qry = "array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
    Env = xqerl_test:handle_environment(environment('array-with-collation')),
@@ -889,4 +964,31 @@ environment('array-with-collation') ->
       Err -> ct:fail(Err)
    end.
 'array-sort-collation-8'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
+         declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
+         declare function local:key($n as xs:integer) as xs:string {
+             (\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\")[$n]
+         };
+         array:sort([1,2,3,4,5], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\", local:key#1)
+         ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"[3, 2, 5, 4, 1]") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

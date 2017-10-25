@@ -412,7 +412,7 @@ environment('GroupByUseCases') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -526,7 +526,7 @@ environment('GroupByUseCases') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -593,7 +593,7 @@ environment('GroupByUseCases') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -656,9 +656,61 @@ environment('GroupByUseCases') ->
       Err -> ct:fail(Err)
    end.
 'group-017'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+      count(
+         for $y in (\"ax\", \"bx\", \"cx\", \"Ay\", \"By\", \"Cy\")
+         group by $k := substring($y, 1, 1) collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\"
+         return <group>{$y}</group>
+       )
+       ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"3") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'group-018'(_Config) ->
-   {skip,"Collation Environment"}.
+   Qry = "
+      count(
+         for $y in (\"ax\", \"bx\", \"cx\", \"Ay\", \"By\", \"Cy\")
+         group by $k := substring($y, 1, 1) collation \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\"
+         return <group>{$y}</group>
+       )
+       ",
+   Env = xqerl_test:handle_environment([{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"3") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'group-019'(_Config) ->
    Qry = "
            let $without_tz := xs:dateTime('2015-04-08T01:30:00') 

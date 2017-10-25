@@ -1235,7 +1235,45 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-50'(_Config) ->
-   {skip,"XSD 1.0"}.
+   Qry = "
+        declare namespace err=\"http://www.w3.org/2005/xqt-errors\";
+      	<results>{
+      		for $t in /tests/test
+      		return try {
+      		    let $matches := matches($t/@input, $t/@regex, string($t/@flags))
+      		    return
+      		       if ($matches (:trace($matches, $t/@id):) and $t/@result ne 'y')
+      		         then <fail>{$t}</fail>
+      		       else if (not($matches) and $t/@result ne 'n') 
+      		         then <fail>{$t}</fail>
+      		       else ()
+      	    } catch * {
+      	        if ($t/@result = ('y', 'n'))
+      	        then <fail error=\"{$err:code}\">{$t}</fail>
+      	        else ()
+      	    }   
+      	}</results>
+      ",
+   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/matches/perl-tests.xml",".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"empty($result//fail)") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-matches-51'(_Config) ->
    Qry = "fn:matches(\"ab()cd()ef()gh\", \"^(ab)([()]*)(cd)([)(]*)ef\\4gh$\")",
    Qry1 = Qry,
@@ -1731,20 +1769,20 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-16'(_Config) ->
+   {skip,"XSD 1.1"}.
+'K2-MatchesFunc-16a'(_Config) ->
    Qry = "fn:matches(\"input\", \"[0-9-.]*/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "false") of 
-      true -> {comment, "String correct"};
+   Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-16a'(_Config) ->
-   {skip,"XSD 1.0"}.
 'K2-MatchesFunc-17'(_Config) ->
    Qry = "matches('aA', '(a)\\1', 'i')",
    Qry1 = Qry,

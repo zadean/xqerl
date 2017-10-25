@@ -291,7 +291,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#xD;&amp;#x85;&amp;#x2028;</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#13;&amp;#133;&amp;#8232;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -306,7 +306,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#xD;&amp;#xA;&amp;#x9;&amp;#x85;&amp;#x2028;</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#13;&amp;#10;&amp;#9;&amp;#133;&amp;#8232;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -325,7 +325,7 @@ environment('array-and-map') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -355,7 +355,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#x7f;&amp;#x80;&amp;#x81;&amp;#x82;&amp;#x83;&amp;#x84;&amp;#x85;&amp;#x86;&amp;#x87;&amp;#x88;&amp;#x89;&amp;#x8a;&amp;#x8b;&amp;#x8c;&amp;#x8d;&amp;#x8e;&amp;#x8f;&amp;#x90;&amp;#x91;&amp;#x92;&amp;#x93;&amp;#x94;&amp;#x95;&amp;#x96;&amp;#x97;&amp;#x98;&amp;#x99;&amp;#x9a;&amp;#x9b;&amp;#x9c;&amp;#x9d;&amp;#x9e;&amp;#x9f;</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#127;&amp;#128;&amp;#129;&amp;#130;&amp;#131;&amp;#132;&amp;#133;&amp;#134;&amp;#135;&amp;#136;&amp;#137;&amp;#138;&amp;#139;&amp;#140;&amp;#141;&amp;#142;&amp;#143;&amp;#144;&amp;#145;&amp;#146;&amp;#147;&amp;#148;&amp;#149;&amp;#150;&amp;#151;&amp;#152;&amp;#153;&amp;#154;&amp;#155;&amp;#156;&amp;#157;&amp;#158;&amp;#159;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -370,7 +370,7 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#x7f;&amp;#x80;&amp;#x81;&amp;#x82;&amp;#x83;&amp;#x84;&amp;#x85;&amp;#x86;&amp;#x87;&amp;#x88;&amp;#x89;&amp;#x8a;&amp;#x8b;&amp;#x8c;&amp;#x8d;&amp;#x8e;&amp;#x8f;&amp;#x90;&amp;#x91;&amp;#x92;&amp;#x93;&amp;#x94;&amp;#x95;&amp;#x96;&amp;#x97;&amp;#x98;&amp;#x99;&amp;#x9a;&amp;#x9b;&amp;#x9c;&amp;#x9d;&amp;#x9e;&amp;#x9f;</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#127;&amp;#128;&amp;#129;&amp;#130;&amp;#131;&amp;#132;&amp;#133;&amp;#134;&amp;#135;&amp;#136;&amp;#137;&amp;#138;&amp;#139;&amp;#140;&amp;#141;&amp;#142;&amp;#143;&amp;#144;&amp;#145;&amp;#146;&amp;#147;&amp;#148;&amp;#149;&amp;#150;&amp;#151;&amp;#152;&amp;#153;&amp;#154;&amp;#155;&amp;#156;&amp;#157;&amp;#158;&amp;#159;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -386,11 +386,11 @@ environment('array-and-map') ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">a&amp;#xD;aa&amp;#xD;</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">a&amp;#13;aa&amp;#13;</serialization-matches>", Res])]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end,
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\\r?\\n.*\\r?\\n</serialization-matches>", Res])]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

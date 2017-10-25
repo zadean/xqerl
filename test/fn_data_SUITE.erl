@@ -889,7 +889,7 @@ environment('complexData') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -936,7 +936,7 @@ environment('complexData') ->
 'ST-Data001'(_Config) ->
    {skip,"Validation Environment"}.
 'fn-data-1'(_Config) ->
-   {skip,"schemaImport"}.
+   {skip,"Validation Environment"}.
 'fn-data-2'(_Config) ->
    Qry = "data([])",
    Qry1 = Qry,
@@ -978,7 +978,7 @@ environment('complexData') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "all-of"};
-      _ -> ct:fail('all-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1038,7 +1038,7 @@ environment('complexData') ->
       {false, F} -> F 
    end]) of 
       true -> {comment, "any-of"};
-      _ -> ct:fail('any-of') 
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
