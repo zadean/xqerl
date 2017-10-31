@@ -2140,6 +2140,8 @@ key_val([Val]) ->
    key_val(Val);
 key_val(Val) ->
    case Val of
+      #xqNode{} ->
+         key_val(xqerl_node:atomize_nodes(Val));
       #xqAtomicValue{type = Type, value = V} when ?string(Type);
                                                   Type == 'xs:anyURI';
                                                   Type == 'xs:untypedAtomic'  ->
@@ -2158,6 +2160,15 @@ key_val(Val) ->
          {duration,V};
       #xqAtomicValue{type = 'xs:duration', value = V} ->
          {duration,V};
+      #xqAtomicValue{type = 'xs:date'} ->
+         #xqAtomicValue{type = 'xs:date', value = V} = xqerl_fn:'adjust-date-to-timezone'([],Val),
+         {time,V};
+      #xqAtomicValue{type = 'xs:dateTime'} ->
+         #xqAtomicValue{type = 'xs:dateTime', value = V} = xqerl_fn:'adjust-dateTime-to-timezone'([],Val),
+         {time,V};
+      #xqAtomicValue{type = 'xs:time'} ->
+         #xqAtomicValue{type = 'xs:time', value = V} = xqerl_fn:'adjust-time-to-timezone'([],Val),
+         {time,V};
       #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = N,local_name = L}} ->
          {N,L};
       _ ->

@@ -13,6 +13,7 @@ Terminals
    null 
    number 
    string 
+   esc_string 
    array_begin 
    array_end 
    object_begin 
@@ -22,13 +23,14 @@ Terminals
 
 Rootsymbol root.
 
-root -> object : '$1'.
-root -> array  : '$1'.
-root -> string : str_val('$1').
-root -> number : list_to_number(val('$1')).
-root -> false  : false.
-root -> null   : [].
-root -> true   : true.
+root -> object     : '$1'.
+root -> array      : '$1'.
+root -> string     : val('$1').
+root -> esc_string : str_val('$1').
+root -> number     : list_to_number(val('$1')).
+root -> false      : false.
+root -> null       : null.
+root -> true       : true.
 
 object -> object_begin members object_end : {object, '$2'}.
 object -> object_begin         object_end : {object, []}.
@@ -38,18 +40,20 @@ array  -> array_begin        array_end    : {array, []}.
 members -> member value_sep members : ['$1'|'$3'].
 members -> member                   : ['$1'].
 
-member -> string name_sep value : {str_val('$1'), '$3'}.
+member -> string     name_sep value : {val('$1'), '$3'}.
+member -> esc_string name_sep value : {str_val('$1'), '$3'}.
 
 values -> value value_sep values : ['$1'|'$3'].
 values -> value                  : ['$1'].
  
 value -> false  : false.
-value -> null   : [].
+value -> null   : null.
 value -> true   : true.
 value -> object : '$1'.
 value -> array  : '$1' .
 value -> number : list_to_number(val('$1')).
-value -> string : str_val('$1').
+value -> string : val('$1').
+value -> esc_string : str_val('$1').
 
 
 Erlang code.

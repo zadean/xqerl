@@ -766,7 +766,6 @@ get_node(Id,Doc) ->
    gb_trees:get(Id, Doc).
 %TODO move to seq
 doc_ord(Ctx, Fun, Seq) ->
-   ?dbg("Seq",Seq),
    NewSeq = if is_list(Seq) ->
                   Seq;
                true ->
@@ -803,7 +802,7 @@ filter(Ctx, PredFuns,PreFilterSeq) ->
 
 
 do_preds(Ctx, PreFilterSeq, PredFuns) ->
-   ?dbg("PreFilterSeq",PreFilterSeq),
+   %?dbg("PreFilterSeq",PreFilterSeq),
    AllNodes = ?seq:all_node(PreFilterSeq),
    if AllNodes == false , PredFuns =/= [] ->
          xqerl_error:error('XPTY0020');

@@ -29,6 +29,7 @@
 -export([init/1]).
 -export([init/0]).
 -export([static_namespaces/0]).
+-export([static_collations/0]).
 
 -export([add_inscope_namespace/3]).
 -export([get_inscope_namespace/2]).
@@ -98,8 +99,8 @@
 -export([set_statically_known_collections/1]).
 -export([get_statically_known_default_collection_type/0]).
 -export([set_statically_known_default_collection_type/1]).
--export([get_statically_known_collations/0]).
--export([set_statically_known_collations/1]).
+-export([get_statically_known_collations/1]).
+-export([set_statically_known_collations/2]).
 -export([get_xpath_1_compatibility_mode/0]).
 -export([set_xpath_1_compatibility_mode/1]).
 -export([get_serial_allow_duplicate_names/0]).
@@ -350,7 +351,7 @@ set_default_language(Value) ->
 get_default_collation(Ctx) ->
    maps:get('default-collation', Ctx).
 set_default_collation(Ctx, Value) ->
-   All = ?MODULE:get_statically_known_collations(),
+   All = ?MODULE:get_statically_known_collations(Ctx),
    case lists:any(fun(U) -> U == Value end, All) of
       true ->
          Ctx#{'default-collation' => Value};
@@ -409,14 +410,15 @@ get_statically_known_default_collection_type() ->
    erlang:get('statically-known-default-collection-type').
 set_statically_known_default_collection_type(Value) ->
    erlang:put('statically-known-default-collection-type', Value).
-get_statically_known_collations() ->
-   erlang:get('statically-known-collations').
-set_statically_known_collations(Value) ->
-   erlang:put('statically-known-collations', Value).
 get_xpath_1_compatibility_mode() ->
    erlang:get('xpath-1-compatibility-mode').
 set_xpath_1_compatibility_mode(Value) ->
    erlang:put('xpath-1-compatibility-mode', Value).
+
+get_statically_known_collations(Ctx) ->
+   maps:get('statically-known-collations', Ctx).
+set_statically_known_collations(Ctx, Value) ->
+   Ctx#{'statically-known-collations' => Value}.
 
 %%% STATIC SERIALIZATION CONTEXT
 get_serial_allow_duplicate_names() ->
@@ -699,6 +701,12 @@ static_namespaces() ->
      {"array","http://www.w3.org/2005/xpath-functions/array"},
      {"err","http://www.w3.org/2005/xqt-errors"}].
 
+static_collations() ->
+   ["http://www.w3.org/2005/xpath-functions/collation/codepoint",
+    "http://www.w3.org/2013/collation/UCA",
+    "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"].
+
+
 %% remove_key(Key) ->
 %%    catch ets:match_delete(?MODULE, {{Key,'_'},'_'}).
 
@@ -742,20 +750,6 @@ add_default_static_values({_, RawCdt} = Key) ->
    %set_current_datetime(xqerl_datetime:get_from_now(RawCdt)),
    set_current_datetime(xqerl_datetime:get_from_now_local(RawCdt)),
    Key.
-
-%% lookup_ns_from_prefix(Key, Prefix) ->
-%%    [{_,Ns}] = ets:match_object(?MODULE, {{Key,known_ns},'_'}),
-%%    Fx = fun(#xqNamespace{prefix = Px}) ->
-%%            Px =:= Prefix;
-%%          (_) ->
-%%            false
-%%          end,
-%%    case lists:filter(Fx, Ns) of
-%%       [] ->
-%%          #xqNamespace{};
-%%       F ->
-%%          (hd(F))#xqNamespace{}
-%%    end.
 
 %TODO annotations (private)
 get_module_exports(Imports) ->

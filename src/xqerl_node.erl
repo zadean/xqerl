@@ -41,6 +41,7 @@
 %% -export([position_range/2]).
 %% -export([position_single/2]).
 
+-export([get_doc/1]).
 -export([get_node/1]).
 -export([get_node_id/1]).
 -export([get_node_children/1]).
@@ -57,8 +58,7 @@
 -export([to_xml/1]).
 -export([nodes_equal/2]).
 
-
-
+-export([merge_content/2]).
 
 
 %%% identity + desc_count == last desc
@@ -886,7 +886,7 @@ merge_content([H|T], Acc) when is_list(H) ->
 merge_content([H1,#xqNode{frag_id = F, identity = I}|T], Acc) ->
    Doc = xqerl_context:get_available_document(F),
    Content = build_contents(I, Doc),
-   ?dbg("merge_content",Content),
+   %?dbg("merge_content",Content),
    merge_content([H1|Content] ++ T, Acc);
 
 merge_content([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs:untypedAtomic' ->
@@ -927,8 +927,8 @@ merge_content([#xqTextNode{expr = S1} = H1,#xqAtomicValue{} = H2|T], Acc) ->
 
 merge_content([#xqTextNode{} = H1,H2|T], Acc) when is_list(H2) ->
    NewH = merge_content(H2,[]),
-   ?dbg("H1",H1),
-   ?dbg("NewH",NewH),
+   %?dbg("H1",H1),
+   %?dbg("NewH",NewH),
    merge_content([H1|NewH] ++ T, Acc);
 
 merge_content([#xqTextNode{expr = S1} = H|T], Acc) ->
@@ -942,14 +942,14 @@ merge_content([#xqTextNode{expr = S1} = H|T], Acc) ->
 merge_content([#xqNode{frag_id = F, identity = I}|T], Acc) ->
    Doc = xqerl_context:get_available_document(F),
    Content = build_contents(I, Doc),
-   ?dbg("merge_content",Content),
+   %?dbg("merge_content",Content),
    merge_content(Content ++ T, Acc);
 
 merge_content([#xqDocumentNode{expr = E}|T], Acc) when length(Acc) > 0 ->
    merge_content([E|T], Acc);
 merge_content([H|T], Acc) when is_list(H) ->
    H3 = maybe_merge_seq(H),
-   ?dbg(?LINE,H3),
+   %?dbg(?LINE,H3),
    merge_content(H3 ++ T, Acc);
 merge_content([H|T], Acc) ->
    merge_content(T, [H|Acc]).
@@ -1338,6 +1338,15 @@ get_node(#xqNode{frag_id = F, identity = Id}) ->
    gb_trees:get(Id, Doc);
 get_node({Id,Doc}) ->
    gb_trees:get(Id, Doc).
+
+get_doc(#xqNode{frag_id = F, identity = Id}) ->
+   Doc = xqerl_context:get_available_document(F),
+   case build_contents(Id, Doc) of
+      [Cont] ->
+         [Cont];
+      Cont ->
+         Cont
+   end.
 
 
 get_node_name(#xqElementNode{name = Nm}) -> Nm;
@@ -1765,7 +1774,9 @@ to_xml(#xqElementNode{identity = Id, name = QName, inscope_ns = IsNs}, Doc, InUs
    % inscope namespaces can override those that were in scope and use.
    Atts = get_attribute_nodes({Id,Doc}),
    % all QNames in use on this element
-   QNames = lists:foldl(fun(#xqAttributeNode{name = AQName},Acc) ->
+   QNames = lists:foldl(fun(#xqAttributeNode{name = #qname{prefix = []}},Acc) ->
+                              Acc;
+                           (#xqAttributeNode{name = AQName},Acc) ->
                               [AQName|Acc];
                            (#xqNamespace{} = Ns3,Acc) ->
                               [Ns3|Acc]

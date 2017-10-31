@@ -527,7 +527,13 @@ scan_token(Str = "count" ++ T, _A) -> % done
    end;
 
 scan_token("group" ++ T, A) ->  qname_if_path("group", T, lookback(A));
-scan_token("switch" ++ T, A) ->  qname_if_path("switch", T, lookback(A));
+scan_token("switch" ++ T, A) -> 
+   case lookback(A) of
+      ',' ->
+         {{'switch', ?L, 'switch'}, T};
+      _ ->
+         qname_if_path("switch", T, lookback(A))
+   end;
 scan_token("catch" ++ T, A) ->  qname_if_path("catch", T, lookback(A));
 scan_token(Str = "try" ++ T, _A) ->  
    case lookforward_is_curly(strip_ws(T)) of
@@ -1556,18 +1562,21 @@ scan_token("//" ++ T, _A) ->  {{'//', ?L, '//'}, T};
 %scan_token("/>" ++ T, _A) ->  {{'/>', ?L, '/>'}, T};
 scan_token("::" ++ T, _A) ->  {{'::', ?L, '::'}, T};
 scan_token(":=" ++ T, _A) ->  {{':=', ?L, ':='}, T};
-scan_token(":*" ++ T, _A) ->  {{':*', ?L, ':*'}, T};
+scan_token(Str = ":*" ++ _T, _A) ->  
+   {Name,T1} = scan_name(tl(Str)),
+   {[{':', ?L, ':'},Name], T1};
 scan_token("*:=" ++ T, _A) ->  
    {[{'*', ?L, '*'},{':=', ?L, ':='}], T}
    ;
-scan_token("*:" ++ T, _A) ->  
-   case lookforward_is_ws(T) of
-      true ->
-         ?dbg(?LINE,'XPST0003'),
-         xqerl_error:error('XPST0003');
-      _ ->
-         {{'*:', ?L, '*:'}, T}
-   end;
+scan_token(Str = "*:" ++ _T, _A) ->
+   scan_name(Str);
+%%    case lookforward_is_ws(T) of
+%%       true ->
+%%          ?dbg(?LINE,'XPST0003'),
+%%          xqerl_error:error('XPST0003');
+%%       _ ->
+%%          {{'*:', ?L, '*:'}, T}
+%%    end;
 %scan_token("</" ++ T, _A) ->  {{'</', ?L, '</'}, T};
 scan_token("<<" ++ T, _A) ->  {{'<<', ?L, '<<'}, T};
 scan_token("<=" ++ T, _A) ->  {{'<=', ?L, '<='}, T};
@@ -1658,22 +1667,10 @@ scan_token(":)" ++ _T, _A) -> % unbalanced comment
    xqerl_error:error('XPST0003');
 scan_token([H,$:,$=|T], _A) when ?whitespace(H) ->
    {{':=', ?L, ':='}, T};
-scan_token([H,$:|T], A) when ?whitespace(H) ->
-   case lookback(A) of
-      'NCName' ->
-         ?dbg(?LINE,'XPST0003'),
-         xqerl_error:error('XPST0003');
-      _ ->
-         {{' :', ?L, ' :'}, T}
-   end;
-scan_token([$:,H|T], A) when ?whitespace(H) -> 
-   case lookback(A) of
-      'NCName' ->
-         ?dbg(?LINE,'XPST0003'),
-         xqerl_error:error('XPST0003');
-      _ ->
-         {{': ', ?L, ': '}, T}
-   end;
+scan_token([H,$:|T], _A) when ?whitespace(H) ->
+   {{' :', ?L, ' :'}, T};
+scan_token([$:,H|T], _A) when ?whitespace(H) -> 
+   {{': ', ?L, ': '}, T};
 scan_token(":" ++ T, _A) ->  {{':', ?L, ':'}, T};
 scan_token(";" ++ T, _A) ->  {{';', ?L, ';'}, T};
 scan_token("?" ++ T, _A) ->  {{'?', ?L, '?'}, T};
@@ -1844,7 +1841,7 @@ scan_name([H1, H2 | T]) when H1 == $: ; H1 == $_ ->
           scan_prefix([H2|T], [H1])
     end;
 scan_name([H|T]) when H == $* ->
-    scan_prefix(T, [H]);
+    scan_prefix([H|T], []);
 scan_name([$_|T]) ->
    scan_prefix(T, [$_]);
 scan_name([H|T]) ->
@@ -1868,16 +1865,31 @@ scan_prefix(T = "::" ++ _, Acc) ->
 scan_prefix(":" ++ T, Acc) ->
     {LocalPart, T1} = scan_local_part(T, []),
     case LocalPart of
+       {'*',_, _} ->
+          Prefix = {'NCName',?L, lists:reverse(Acc)},
+          {[Prefix,{':*',?L, ':*'}], T1};
        {'NCName',_, []} ->
           {{'NCName',?L, lists:reverse(Acc)}, ":" ++ T1};
+       {'NCName',_, [H2|_] = L1} ->
+          case xmerl_lib:is_letter(H2) of
+             true ->
+                ?dbg("LocalPart",LocalPart),
+                Prefix = {'NCName',?L, lists:reverse(Acc)},
+                {[Prefix, {':',?L, ':'}, LocalPart], T1};
+             _ ->
+                {{'NCName',?L, lists:reverse(Acc)}, ": " ++ L1 ++ T1}
+          end;
        _ ->
+          %?dbg("LocalPart",LocalPart),
           Prefix = {'NCName',?L, lists:reverse(Acc)},
           {[Prefix, {':',?L, ':'}, LocalPart], T1}
     end;
 scan_prefix("*:" ++ T, _Acc) ->
     {LocalPart, T1} = scan_local_part(T, []),
-    Prefix = {'*',?L, '*'},
-    {[Prefix, {':',?L, ':'}, LocalPart], T1};
+    Prefix = {'*:',?L, '*:'},
+    {[Prefix, LocalPart], T1};
+scan_prefix("*" ++ T, []) ->
+    {{'*',?L, '*'}, T};
 scan_prefix(Str = [H|T], Acc) ->
     case xmerl_lib:is_namechar(H) of
    true ->
@@ -1889,16 +1901,19 @@ scan_prefix(Str = [H|T], Acc) ->
 scan_local_part([], Acc) ->
    {{'NCName',?L, lists:reverse(Acc)}, []};
 scan_local_part([H|T], []) when H == $* ->
-   {{'*',1, '*'}, T};
+   {{'*',?L, '*'}, T};
 scan_local_part(Str = [H|_], Acc) when ?whitespace(H) ->
    {{'NCName',?L, lists:reverse(Acc)}, Str};
+scan_local_part(Str = [H|_], Acc) when H == $: ->
+   {{'NCName',?L, lists:reverse(Acc)}, Str};
 scan_local_part(Str = [H|T], Acc) ->
-    case xmerl_lib:is_namechar(H) of
-   true ->
-       scan_local_part(T, [H|Acc]);
-   false ->
-       {{'NCName',?L, lists:reverse(Acc)}, Str}
-    end.
+   case xmerl_lib:is_namechar(H) of
+      true ->
+         scan_local_part(T, [H|Acc]);
+      false ->
+         %?dbg("Acc",Acc),
+         {{'NCName',?L, lists:reverse(Acc)}, Str}
+   end.
 
 special_token('@') -> true;
 special_token('::') -> true;

@@ -141,7 +141,7 @@ declare function local:print-testcase($test-case)
      doc("/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
   let $name := $test-case/@name
   let $deps := $test-case/*:dependency | $test-case/../*:dependency (: < type="feature" value="schemaImport"/> :)
-  let $env  := $test-case/*:environment/@ref/string()
+  let $env  := $test-case/*:environment/(@ref|@name)/string()
   return
   "'"||$name||"'(_Config) ->"||'&#10;'||
   (
@@ -299,9 +299,12 @@ declare function local:print-environment($env)
   ||"]},"|| '&#10;' ||
   "{'static-base-uri', ["||
   (
-    for $res in $static-base-uri
+    for $res allowing empty in $static-base-uri
     return
+    if (not(empty($res))) then
     "{"""||$res/@uri||"""}"
+    else
+    "{"""||base-uri($env)||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{params, ["||

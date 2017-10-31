@@ -30,12 +30,16 @@
 assert(Result, QueryString) ->
    Type = if is_map(Result) ->
                 " as map(*)";
+             element(1,Result) == array ->
+                " as array(*)";
              true ->
                 " as item()"
           end,
    NewQueryString = "declare variable $result" ++ Type ++ " external; " ++ QueryString,
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
+         {false, Res};
+      #xqError{} = Res ->
          {false, Res};
       Res1 ->
          StrVal = string_value(Res1),

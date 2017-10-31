@@ -739,78 +739,70 @@
    end.
 
 %% Adjusts an xs:dateTime value to a specific timezone, or to no timezone at all. 
+'adjust-dateTime-to-timezone'(_Ctx,[]) -> [];
 'adjust-dateTime-to-timezone'(Ctx,Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-         Arg1;
-      _ ->
-         Itz = xqerl_context:get_implicit_timezone(),
-         'adjust-dateTime-to-timezone'(Ctx,Arg1, #xqAtomicValue{type = 'xs:dayTimeDuration', 
-                                                               value = #xsDateTime{month = 0,
-                                                                                   day = 0,
-                                                                                   offset = Itz,
-                                                                                   string_value = xqerl_datetime:to_string(Itz,'xs:dayTimeDuration')}}
-                                                )
-   end.
+   Itz = xqerl_context:get_implicit_timezone(),
+   'adjust-dateTime-to-timezone'(Ctx,Arg1, #xqAtomicValue{type = 'xs:dayTimeDuration', 
+                                                         value = #xsDateTime{month = 0,
+                                                                             day = 0,
+                                                                             offset = Itz,
+                                                                             string_value = xqerl_datetime:to_string(Itz,'xs:dayTimeDuration')}}
+                                          ).
 
+'adjust-dateTime-to-timezone'(_Ctx,[],_Arg2) -> [];
 'adjust-dateTime-to-timezone'(_Ctx,Arg1,Arg2) ->
-   case ?seq:is_empty(Arg1) of
+   #xqAtomicValue{type = Type, value = #xsDateTime{offset = Os} = Val} = ?seq:singleton_value(Arg1),
+   case ?seq:is_empty(Arg2) of
       true ->
-         Arg1;
-      _ ->
-         #xqAtomicValue{type = Type, value = #xsDateTime{offset = Os} = Val} = ?seq:singleton_value(Arg1),
-         case ?seq:is_empty(Arg2) of
-            true ->
-               NewDtTmWOs = Val#xsDateTime{offset = []},
-               %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
-               Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-               %?dbg("adjust-dateTime-to-timezone Str",Str),
-               ?seq:singleton(#xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}});
-         _ ->
-            ArgDurStr  = case Os of 
-                           [] ->
-                              [];
-                           _ ->
-                              xqerl_datetime:to_string(Os,'xs:dayTimeDuration')
-                        end,
-            AdjDurStr = case ?seq:singleton_value(Arg2) of
-                           #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{second = Sec}} when Sec > 0 ->
-                              xqerl_error:error('FODT0003');
-                           #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{string_value = DStr}} ->
-                              ?str(DStr);
-                           O ->
-                              ?str(xqerl_datetime:to_string(O,'xs:dayTimeDuration'))
-                        end,
-            ?dbg("ArgDurStr",ArgDurStr),
-            ?dbg("AdjDurStr",AdjDurStr),
-            ?dbg("Arg2",Arg2),
-            if ArgDurStr == [] andalso AdjDurStr == [] ->
-                  Arg1;
-               ArgDurStr == [] ->
-                  AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
-                  #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
-                  NewOffset = #off_set{sign = S, hour = H, min = M},
-                  NewDtTmWOs = Val#xsDateTime{offset = NewOffset},
-                  Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-                  ?seq:singleton(#xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}});
-               true ->
-                  DtDur  = xqerl_types:cast_as(?str(ArgDurStr), 'xs:dayTimeDuration'),
-                  %?dbg("adjust-dateTime-to-timezone DtDur",DtDur),
-                  AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
-                  %?dbg("adjust-dateTime-to-timezone AdjDur",AdjDur),
-                  #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
-                  Diff = xqerl_operators:subtract(AdjDur, DtDur),
-                  %?dbg("adjust-dateTime-to-timezone Diff",Diff),
-                  #xqAtomicValue{value = NewDtTm} = ?seq:singleton_value(xqerl_operators:add(Arg1, Diff)),
-                  %?dbg("adjust-dateTime-to-timezone NewDtTm",NewDtTm),
-                  NewOffset = #off_set{sign = S, hour = H, min = M},
-                  NewDtTmWOs = NewDtTm#xsDateTime{offset = NewOffset},
-                  %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
-                  Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-                  %?dbg("adjust-dateTime-to-timezone Str",Str),
-                  ?seq:singleton(#xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}})
-            end
-         end
+         NewDtTmWOs = Val#xsDateTime{offset = []},
+         %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
+         Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
+         %?dbg("adjust-dateTime-to-timezone Str",Str),
+         #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
+   _ ->
+      ArgDurStr  = case Os of 
+                     [] ->
+                        [];
+                     _ ->
+                        xqerl_datetime:to_string(Os,'xs:dayTimeDuration')
+                  end,
+      AdjDurStr = case ?seq:singleton_value(Arg2) of
+                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{second = Sec}} when Sec > 0 ->
+                        xqerl_error:error('FODT0003');
+                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{string_value = DStr}} ->
+                        ?str(DStr);
+                     O ->
+                        ?str(xqerl_datetime:to_string(O,'xs:dayTimeDuration'))
+                  end,
+      ?dbg("ArgDurStr",ArgDurStr),
+      ?dbg("AdjDurStr",AdjDurStr),
+      ?dbg("Arg2",Arg2),
+      if ArgDurStr == [] andalso AdjDurStr == [] ->
+            Arg1;
+         ArgDurStr == [] ->
+            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
+            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
+            NewOffset = #off_set{sign = S, hour = H, min = M},
+            NewDtTmWOs = Val#xsDateTime{offset = NewOffset},
+            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
+            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
+         true ->
+            DtDur  = xqerl_types:cast_as(?str(ArgDurStr), 'xs:dayTimeDuration'),
+            %?dbg("adjust-dateTime-to-timezone DtDur",DtDur),
+            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
+            %?dbg("adjust-dateTime-to-timezone AdjDur",AdjDur),
+            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
+            Diff = xqerl_operators:subtract(AdjDur, DtDur),
+            %?dbg("adjust-dateTime-to-timezone Diff",Diff),
+            #xqAtomicValue{value = NewDtTm} = ?seq:singleton_value(xqerl_operators:add(Arg1, Diff)),
+            %?dbg("adjust-dateTime-to-timezone NewDtTm",NewDtTm),
+            NewOffset = #off_set{sign = S, hour = H, min = M},
+            NewDtTmWOs = NewDtTm#xsDateTime{offset = NewOffset},
+            %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
+            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
+            %?dbg("adjust-dateTime-to-timezone Str",Str),
+            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}}
+      end
    end.
 
 
@@ -1385,66 +1377,78 @@ data1(_) ->
    ?seq:singleton(xqerl_context:get_default_language()).
 
 %% Returns the values that appear in a sequence, with duplicates eliminated. 
-'distinct-values'(_Ctx,Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-         Arg1;
-      _ ->
-         Vals = xqerl_context:get_context_item(Arg1),
-        %?dbg("distinct-values ",Vals),
-         Unique = lists:foldl(fun(A, S) ->
-                                    At = case A of
-                                            #xqAtomicValue{} ->
-                                               A;
-                                            _ ->
-                                               hd(?seq:to_list(xqerl_node:atomize_nodes(A)))
-                                         end,
-                                    #xqAtomicValue{value = Val1, type = Ty1} = At,
-                                    case lists:any(fun(E) ->
-                                                         try
-                                                            if Val1 == "NaN" andalso ?numeric(Ty1) ->
-                                                                  #xqAtomicValue{value = Val2, type = Ty2} = E,
-                                                                  if Val2 == "NaN" andalso ?numeric(Ty2) ->
-                                                                        true;
-                                                                     true ->
-                                                                        false
-                                                                  end;
-                                                               true ->
-                                                                  Equ = ?seq:singleton_value(xqerl_operators:equal(E, At)),
-                                                                  %?dbg("Equ",Equ),
-                                                                  Equ == {xqAtomicValue,'xs:boolean',true}
-                                                            end
-                                                         catch
-                                                            _:_ ->
-                                                               false
-                                                         end
-                                                   end, S) of
-                                       true ->
-                                          %?dbg("D",true),
-                                          S;
-                                       false ->
-                                          %?dbg("D",false),
-                                          [At|S]
-                                    end
-                              end, [], ?seq:to_list(Vals)),
-         %?dbg("distinct-values", Unique),
-         ?seq:from_list(lists:reverse(Unique))
-   end.
+'distinct-values'(_Ctx,[]) -> [];
+'distinct-values'(Ctx,Arg1) ->
+   Collation = xqerl_context:get_default_collation(Ctx),
+   'distinct-values'(Ctx,Arg1, Collation).
 
 'distinct-values'(Ctx,Arg1,Collation) ->
    Coll = xqerl_types:value(Collation),
    All = maps:get(known_collations, Ctx),
    case lists:any(fun(U) -> U == Coll end, All) of
       true ->
-         'distinct-values'(Ctx,Arg1);
+         ok;
       _ ->
          xqerl_error:error('FOCH0002')
-   end.
+   end,
+   Vals = if is_list(Arg1) ->
+                Arg1;
+             true ->
+                [Arg1]
+          end,
+   NewColl = xqerl_coll:parse(Coll),
    
+   CompVal = fun(#xqAtomicValue{type = T} = A) when ?string(T) ->
+                   Key = xqerl_coll:sort_key(xqerl_types:value(A), NewColl),
+                   {Key, A};
+                (#xqAtomicValue{} = A) ->
+                   {A, A};
+                (#xqNode{} = N) ->
+                   A = hd(xqerl_node:atomize_nodes(N)),
+                   Key = xqerl_coll:sort_key(xqerl_types:value(A), NewColl),
+                   {Key, A}
+             end,                   
+   
+   Unique = lists:foldl(
+              fun(Value, Acc) ->
+                    {Key,ActVal} = CompVal(Value),
+                    InList = lists:any(fun({#xqAtomicValue{type = AccType} = AccKey,_}) ->
+                                             case Key of
+                                                #xqAtomicValue{type = KeyType, value = "NaN"} when ?numeric(KeyType) ->
+                                                   ?numeric(AccType) andalso AccKey#xqAtomicValue.value == "NaN";
+                                                #xqAtomicValue{type = KeyType} when ?string(KeyType), ?string(AccType) ->
+                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                                                #xqAtomicValue{type = KeyType} when ?numeric(KeyType), ?numeric(AccType) ->
+                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                                                #xqAtomicValue{type = KeyType} when ?duration(KeyType), ?duration(AccType) ->
+                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                                                #xqAtomicValue{type = AccType} ->
+                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                                                _ ->
+                                                   false
+                                             end;                                             
+                                          ({AccKey,_}) ->
+                                             Key == AccKey                                             
+                                       end, Acc),
+                    if InList ->
+                          Acc;
+                       true ->
+                          [{Key,ActVal}|Acc]
+                    end
+              end,[],Vals),
+   val_reverse(Unique, []).
+
+val_reverse([],Acc) -> Acc;
+val_reverse([{_,V}|T], Acc) -> 
+   val_reverse(T,[V|Acc]).
+
+   
+
 %% Retrieves a document using a URI supplied as an xs:string, and returns the corresponding document node. 
 % TODO check for valid Uri else FODC0005
 'doc'(_Ctx,[]) -> [];
 'doc'(_Ctx,Arg1) -> 
+   ?dbg("Arg1",Arg1),
    try
       Uri = xqerl_types:value(Arg1),
       case catch xqerl_context:get_available_document(Uri) of
@@ -2125,9 +2129,12 @@ unmask_static_mod_ns(T) -> T.
 'json-doc'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
 %% Parses a string supplied in the form of a JSON text, returning the results in the form of an XML document node. 
-%% TODO NO TEST
-'json-to-xml'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'json-to-xml'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'json-to-xml'(Ctx,Arg1) -> 
+   'json-to-xml'(Ctx,Arg1,#{}).
+'json-to-xml'(_Ctx,[],_Arg2) -> [];
+'json-to-xml'(Ctx,#xqAtomicValue{value = JSON},Arg2) -> 
+   Options = map_options_to_list(Ctx, Arg2),
+   xqerl_json:string_to_xml(JSON, Options).
 
 %% This function tests whether the language of $node, or the context item if the second argument is omitted, as specified by xml:lang attributes is the same as, or is a sublanguage of, the language specified by $testlang. 
 'lang'(Ctx,Arg1) -> 
@@ -2809,19 +2816,31 @@ shrink_spaces([H|T]) ->
    Options = map_options_to_list(Ctx, Arg2),
    xqerl_json:string(JSON, Options).
 
+get_bool(#xqAtomicValue{type = 'xs:boolean', value = B}) ->
+   B;
+get_bool(_) ->
+   ?err('XPTY0004').
+
+get_str(#xqAtomicValue{type = 'xs:string', value = B}) ->
+   B;
+get_str(_) ->
+   ?err('XPTY0004').
+
 map_options_to_list(Ctx, Map) ->
    Liberal    = maps:get("liberal", Map, []),
    Duplicates = maps:get("duplicates", Map, []),
    Escape     = maps:get("escape", Map, []),
    Fallback   = maps:get("fallback", Map, []),
+   Validate   = maps:get("validate", Map, []),
+   Indent     = maps:get("indent", Map, []),
    [
     if Liberal == [] ->
           [];
        true ->
-          Lib = xqerl_types:string_value(element(2, Liberal)),
-          if Lib == "true" ->
+          Lib = get_bool(element(2, Liberal)),
+          if Lib == true ->
                 {liberal, true};
-             Lib == "false" ->
+             Lib == false ->
                 {liberal, false};
              true ->
                 ?err('FOJS0005')
@@ -2830,7 +2849,7 @@ map_options_to_list(Ctx, Map) ->
     if Duplicates == [] ->
           [];
        true ->
-          Dup = xqerl_types:string_value(element(2, Duplicates)),
+          Dup = get_str(element(2, Duplicates)),
           if Dup == "reject" ->
                 {duplicates, reject};
              Dup == "use-first" ->
@@ -2844,10 +2863,10 @@ map_options_to_list(Ctx, Map) ->
     if Escape == [] ->
           [];
        true ->
-          Esc = xqerl_types:string_value(element(2, Escape)),
-          if Esc == "true" ->
+          Esc = get_bool(element(2, Escape)),
+          if Esc == true ->
                 {escape, true};
-             Esc == "false" ->
+             Esc == false ->
                 {escape, false};
              true ->
                 ?err('FOJS0005')
@@ -2870,6 +2889,30 @@ map_options_to_list(Ctx, Map) ->
              true ->
                 ?dbg("Fbk",Fbk),
                 ?err('XPTY0004')
+          end          
+    end ,
+    if Validate == [] ->
+          [];
+       true ->
+          Val = get_bool(element(2, Validate)),
+          if Val == true ->
+                ?err('FOJS0004');
+             Val == false ->
+                {validate, false};
+             true ->
+                ?err('FOJS0005')
+          end          
+    end ,
+    if Indent == [] ->
+          [];
+       true ->
+          Ind = get_bool(element(2, Indent)),
+          if Ind == true ->
+                {indent, true};
+             Ind == false ->
+                {indent, false};
+             true ->
+                ?err('FOJS0005')
           end          
     end      
    ].
@@ -3314,7 +3357,8 @@ string_value(At) -> xqerl_types:string_value(At).
 'seconds-from-time'(Ctx,Arg1) -> 
    'seconds-from-duration'(Ctx, Arg1).
 
-%% This function serializes the supplied input sequence $arg as described in [xslt-xquery-serialization-31], returning the serialized representation of the sequence as a string. 
+%% This function serializes the supplied input sequence $arg as described in [xslt-xquery-serialization-31], 
+%% returning the serialized representation of the sequence as a string. 
 'serialize'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'serialize'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
@@ -3751,6 +3795,15 @@ zip_map_trans([H|T],[TH|TT]) ->
 %%    exit({not_implemented,?LINE}). % set order in the context, do expr, set context back DONE IN-LINE
 
 %% The fn:unparsed-text function reads an external resource (for example, a file) and returns a string representation of the resource. 
+%% 'unparsed-text'(_Ctx,#xqAtomicValue{value = "http://www.w3.org/qt3/json/data001-json"}) ->
+%%    {ok,Bin} = file:read_file("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json"),
+%%    #xqAtomicValue{value = binary_to_list(Bin)};
+%% 'unparsed-text'(_Ctx,#xqAtomicValue{value = "http://www.w3.org/qt3/json/escapeText-json"}) ->
+%%    {ok,Bin} = file:read_file("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/escapeText.json"),
+%%    #xqAtomicValue{value = binary_to_list(Bin)};
+%% 'unparsed-text'(_Ctx,#xqAtomicValue{value = "http://www.w3.org/qt3/json/data005-json"}) ->
+%%    {ok,Bin} = file:read_file("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data005.json"),
+%%    #xqAtomicValue{value = binary_to_list(Bin)};
 'unparsed-text'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'unparsed-text'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
@@ -3790,9 +3843,15 @@ zip_map_trans([H|T],[TH|TT]) ->
 'uri-collection'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 
 %% Converts an XML tree, whose format corresponds to the XML representation of JSON defined in this specification, into a string conforming to the JSON grammar. 
-%% NO TEST
-'xml-to-json'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'xml-to-json'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'xml-to-json'(Ctx,Arg1) -> 
+   'xml-to-json'(Ctx,Arg1,#{}).
+'xml-to-json'(_Ctx,[],_Arg2) -> [];
+'xml-to-json'(Ctx,[V],Arg2) -> 'xml-to-json'(Ctx,V,Arg2);
+'xml-to-json'(Ctx,#xqNode{} = XML,Arg2) -> 
+   Options = map_options_to_list(Ctx, Arg2),
+   xqerl_json:xml_to_string(XML, Options);
+'xml-to-json'(_Ctx,_Arg1,_Arg2) -> 
+   ?err('XPTY0004').
 
 %% Returns the year component of an xs:date. 
 'year-from-date'(Ctx, Arg1) -> 

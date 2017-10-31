@@ -135,43 +135,60 @@ add_position(H, Cnt, Acc) ->
    New = {H, ?atint(Cnt)},
    add_position([], Cnt + 1, [New|Acc]).
 
-%% takes {{K1,KN}, {V1,V2,VN}} and returns {K1,KN,V1,V2,VN} grouped
+%% takes {{{K1,C1},{KN,CN}}, {V1,V2,VN}} and returns {K1,KN,V1,V2,VN} grouped
 groupbyclause(KeyVals) ->
-   %?dbg("KeyVals",KeyVals),
-   KeyVals1 = [
-               {
-                list_to_tuple(
-                  [case ?seq:singleton_value(K2) of
-                      #xqNode{} = N ->
-                         ?seq:singleton_value(xqerl_node:atomize_nodes(N));
-                      #xqAtomicValue{} = A ->
-                         A;
-                      [] ->
-                         []
-                   end || 
-                   K2 <- tuple_to_list(K1)
-                  ]
-                 ),V} || 
-               {K1,V} <- KeyVals
-             ],
+   % atomize where needed
+   KeyVals1 = 
+     lists:map(fun({K1,V}) ->
+                     KC = tuple_to_list(K1),
+                     {
+                      lists:map(fun({K,C}) ->
+                                     Coll = xqerl_coll:parse(C),
+                                     case ?seq:singleton_value(K) of
+                                        #xqNode{} = N ->
+                                           #xqAtomicValue{value = Val} = A = ?seq:singleton_value(xqerl_node:atomize_nodes(N)),
+                                           {xqerl_coll:sort_key(Val, Coll), A};
+                                        #xqAtomicValue{value = Val} = A ->
+                                           {xqerl_coll:sort_key(Val, Coll), A};
+                                        [] ->
+                                           []
+                                     end
+                               end, KC), 
+                      list_to_tuple(lists:map(fun({Va,_}) -> Va;
+                                   (Va) -> Va
+                                end, tuple_to_list(V)))
+                     }
+               end, KeyVals),
+    
+   ?dbg("KeyVals1",KeyVals1),
    Keys = [K || {K,_V} <- KeyVals1],
+   %Keys = [grouped_key(K) || {K,_V} <- KeyVals1],
 
-   %dbg("KeyVals1",KeyVals1),
+   ?dbg("Keys",Keys),
+   ?dbg("KeyVals",KeyVals),
    UKeys = unique(Keys),
-   %?dbg("UKeys",UKeys),
+   ?dbg("UKeys",UKeys),
    Mapped = lists:foldl(fun({K,V},Acc) ->
                      upsert(K,V,Acc)
                end, maps:new(), KeyVals1),
-   All = lists:foldl(fun(K,Acc) ->
+   ?dbg("Mapped",Mapped),
+   All = lists:foldl(fun(Ks,Acc) ->
+                           K = [K || {K,_V} <- Ks],
+                           Vs = [V || {_K,V} <- Ks],
                   V = reverse(maps:get(K, Mapped)),
                   V1 = lists:map(fun(ListVal) ->
                                        ?seq:from_list(ListVal)
                                  end, V),
-                  New = list_to_tuple(tuple_to_list(K) ++ V1) ,
+                  New = list_to_tuple(Vs ++ V1) ,
                   %?dbg("V1",V1),
                   [New|Acc]
                end, [], UKeys),
+   ?dbg("All",All),
    lists:reverse(All).
+
+grouped_key(Keys) ->
+   list_to_tuple([K || {K,_} <- tuple_to_list(Keys)]).
+
 
 %% takes single list from expression and the start function and returns {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% can only be tumbling with no end function
@@ -401,19 +418,23 @@ unique(KeysAll) ->
 unique([], _Map, Acc) ->
    lists:reverse(Acc);
 unique([H|T], Map, Acc) ->
-   case maps:is_key(H, Map) of 
+   H1 = [Q || {Q,_} <- H],
+   case maps:is_key(H1, Map) of 
       true ->
          unique(T, Map, Acc);
       _ ->
-         unique(T, maps:put(H, true, Map), [H|Acc])
+         unique(T, maps:put(H1, true, Map), [H|Acc])
    end.
 
 upsert(K,V,Map) ->
-   case maps:find(K, Map) of
+   H1 = [Q || {Q,_} <- K],
+   case maps:find(H1, Map) of
       error ->
-         maps:put(K, append(V,[]), Map);
+   ?dbg("H1",H1),
+         maps:put(H1, append(V,[]), Map);
       {ok, Val} ->
-         maps:put(K, append(V,Val), Map)
+   ?dbg("H1",H1),
+         maps:put(H1, append(V,Val), Map)
    end.
 
 append(Tup,[]) ->

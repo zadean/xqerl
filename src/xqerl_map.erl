@@ -43,6 +43,7 @@
 -export([equal/2]).
 -export([values/1]).
 -export([get_matched/2]).
+-export([construct/2]).
 
 -'module-namespace'({"http://www.w3.org/2005/xpath-functions/map","map"}).
 -namespaces([{"http://www.w3.org/2005/xpath-functions", "fn"}, {"xqerl_xs", "xs"},{"http://www.w3.org/2005/xpath-functions/map","map"}]).
@@ -116,7 +117,7 @@ find1([_|T], Key) ->
 %% Applies a supplied function to every entry in a map, returning the concatenation of the results. 
 'for-each'(_Ctx,Map,[]) when is_map(Map) -> Map;
 'for-each'(Ctx,Map,Action) when is_map(Map), is_function(Action) ->
-   ?dbg("Map",Map),
+   %?dbg("Map",Map),
    lists:map(fun({K,V}) ->
                    Action(Ctx,K,V)
              end, maps:values(Map));
@@ -126,7 +127,7 @@ find1([_|T], Key) ->
 %% Returns the value associated with a supplied key in a given map. 
 'get'(_Ctx,Map,Key) when is_map(Map) -> 
    MKey = xqerl_operators:key_val(Key),
-   ?dbg("MKey",MKey),
+   %?dbg("MKey",MKey),
    case maps:find(MKey, Map) of
            error ->
               ?seq:empty();
@@ -260,3 +261,15 @@ get_matched(Map,Keys) when is_map(Map) ->
                              V
                        end
                  end, Keys).
+
+construct(Ctx, KeyValList) ->
+   lists:foldl(fun({Key,Val},Map) ->
+                  Key1 = xqerl_operators:key_val(Key),
+                  case maps:is_key(Key1, Map) of
+                     true ->
+                        xqerl_error:error('XQDY0137');
+                     _ ->
+                        maps:put(Key1, {Key, Val}, Map)
+                  end
+               end, #{}, KeyValList).
+

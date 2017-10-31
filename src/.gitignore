@@ -1,2 +1,3 @@
 /xqerl_parser.erl
 /ietf_date_parse.erl
+/json_parser.erl

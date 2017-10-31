@@ -8,7 +8,7 @@ Nonterminals
 % QName
 'PrefixedName'
 'UnprefixedName'
-'LocalPart'
+%'LocalPart'
 'BracedURILiteral'
 % 3.1
 'AllowingEmpty'
@@ -78,7 +78,7 @@ Nonterminals
 'PostFixes'
 'Pragma'
 'Pragmas'
-'Prefix'
+%'Prefix'
 'PreviousItem'
 'ReturnClause'
 'SchemaAttributeTest'
@@ -376,29 +376,38 @@ Rootsymbol 'Module'.
 Endsymbol '$end'.
 
 Left  100   ','.
-Left 101 'Expr'.
-Left 102 'ExprSingle'.
-Left 103 'MapKeyExpr' ':'.
-Right 200   ':='.
-Left  200   'for' 'some' 'every' 'switch' 'typeswitch' 'try' 'if'.
+%Left 101 'Expr'.
+
+%Left 2103 ':'.
+%Left 2104 'Prefix' ':' 'ExprSingle'.
+%Left 104 'ExprSingle'.
+%Right 200   ':='.
+
+Left     102 'UnprefixedName'.
+Left     101 'PrefixedName'.
+Nonassoc 2200 ':' ' :' ': '.
+%Nonassoc 103 'MapKeyExpr' ':' 'MapValueExpr'.
+
+Nonassoc  200   'for' 'some' 'every' 'switch' 'typeswitch' 'try' 'if'.
 Left  300   'or'.
 Left  400   'and'.
-Left  500   'eq' 'ne' 'lt' 'le' 'gt' 'ge' '=' '!=' '<' '<=' '>' '>=' 'is' '<<' '>>'.
+Nonassoc  500   'eq' 'ne' 'lt' 'le' 'gt' 'ge' '=' '!=' '<' '<=' '>' '>=' 'is' '<<' '>>'.
 Left  600   '||'.
-Left  700   'to'.
+Nonassoc  700   'to'.
 Left  800   '+' '-'.
 Left  900   '*' 'div' 'idiv' 'mod'.
 Left  1000  'union' '|'.
 Left  1100  'intersect' 'except'.
-Left  1200  'instance'.
-Left  1300  'treat'.
-Left  1400  'castable'.
-Left  1500  'cast'.
+Nonassoc  1200  'instance'.
+Nonassoc  1300  'treat'.
+Nonassoc  1400  'castable'.
+Nonassoc  1500  'cast'.
 Left 1600  '=>'.
 Right 1700  'uminus' 'uplus'.
 Left  1800  '!'.
 Left  1900  'lone-slash' '/' '//'.
 Left  2000  '[' ']' '?'.
+Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'.
 
 'Module'                 -> 'VersionDecl' 'MainModule'   : erlang:put(var_id, 1), #xqModule{version = '$1',            type = main,    declaration = [],               prolog = element(2, '$2'), body = element(3, '$2')}.
 'Module'                 -> 'VersionDecl' 'LibraryModule': erlang:put(var_id, 1), #xqModule{version = '$1',            type = library, declaration = element(1, '$2'), prolog = element(2, '$2'), body = []}.
@@ -1127,6 +1136,8 @@ Left  2000  '[' ']' '?'.
 'Wildcard'               -> '*'           : #'qname'{prefix = "*", local_name = "*"}. 
 'Wildcard'               -> 'NCName' ':*' : #'qname'{prefix = value_of('$1'), local_name = "*"}.
 'Wildcard'               -> '*:' 'NCName' : #'qname'{prefix = "*", local_name = value_of('$2')}.
+'Wildcard'               -> '*' ':*' : #'qname'{prefix = "*", local_name = "*"}.
+'Wildcard'               -> '*:' '*' : #'qname'{prefix = "*", local_name = "*"}.
 'Wildcard'               -> 'BracedURILiteral' '*'  : #'qname'{namespace = '$1', local_name = "*"}.
 % [121]    PostfixExpr    ::=      PrimaryExpr (Predicate | ArgumentList | Lookup)*   
 'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : case is_partial_impl('$2') of
@@ -1368,10 +1379,10 @@ Left  2000  '[' ']' '?'.
 'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{name = qname(other,'$2'), expr = {content_expr, '$3'}}.
 'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{name = '$3', expr = {content_expr, '$5'}}.
 % [160]    CompNamespaceConstructor      ::=      "namespace" (Prefix | EnclosedPrefixExpr) EnclosedURIExpr
-'CompNamespaceConstructor'-> 'namespace' 'Prefix'             'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2', local_name = []}}.
+'CompNamespaceConstructor'-> 'namespace' 'NCName'             'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = value_of('$2'), local_name = []}}.
 'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2', local_name = []}}.
 % [161]    Prefix      ::=      NCName
-'Prefix'                 -> 'NCName' : value_of('$1').
+% block due to conflict with LocalPart 'Prefix'                 -> 'NCName' : value_of('$1').
 % [162]    EnclosedPrefixExpr      ::=      EnclosedExpr
 'EnclosedPrefixExpr'     -> 'EnclosedExpr' : {expr, '$1'}.
 %'EnclosedPrefixExpr'     -> 'EnclosedExpr' : {prefix_expr, '$1'}.
@@ -1404,13 +1415,14 @@ Left  2000  '[' ']' '?'.
 'MapConstructor'         -> 'map' '{' 'MapConstructorEntries' '}' : {'map', '$3'}.
 'MapConstructor'         -> 'map' '{' '}' : {'map', []}.
 % [171]    MapConstructorEntry     ::=      MapKeyExpr ":" MapValueExpr   
-'MapConstructorEntry'    -> 'MapKeyExpr' ':' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
+'MapConstructorEntry'    -> 'MapKeyExpr' ':'  'MapValueExpr' : {'map-key-val', '$1', '$3'}.
 'MapConstructorEntry'    -> 'MapKeyExpr' ' :' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
 'MapConstructorEntry'    -> 'MapKeyExpr' ': ' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
 'MapConstructorEntries'  -> 'MapConstructorEntry' : ['$1'].
 'MapConstructorEntries'  -> 'MapConstructorEntry' ',' 'MapConstructorEntries' : ['$1'|'$3'].
 % [172]    MapKeyExpr     ::=      ExprSingle  
 'MapKeyExpr'             -> 'ExprSingle' : '$1'.
+%'MapKeyExpr'             -> 'NCName'     : #'qname'{namespace = 'default', prefix = 'default', local_name = value_of('$1')}.
 % [173]    MapValueExpr      ::=      ExprSingle  
 'MapValueExpr'           -> 'ExprSingle' : '$1'.
 % [174]    ArrayConstructor     ::=      SquareArrayConstructor | CurlyArrayConstructor
@@ -1466,8 +1478,8 @@ Left  2000  '[' ']' '?'.
                                              Q;
                                           #qname{namespace = _, prefix = "xs", local_name = _} = Q ->
                                              qname_to_atom(Q);
-                                          #qname{namespace = _, prefix = default, local_name = _} = Q ->
-                                             qname_to_atom(Q#qname{prefix = "xs"});
+                                          #qname{namespace = default, prefix = default, local_name = _} = Q ->
+                                             qname(wildcard,Q#qname{prefix = []});
                                           Q ->
                                              Q
                                        end.
@@ -1577,11 +1589,12 @@ Left  2000  '[' ']' '?'.
 
 'QName'                  -> 'PrefixedName'   : '$1'.
 'QName'                  -> 'UnprefixedName' : '$1'.
-'PrefixedName'           -> '*' ':' 'LocalPart'      : #'qname'{prefix = "*", local_name = '$3'}.
-'PrefixedName'           -> 'Prefix' ':' '*'         : #'qname'{prefix = '$1', local_name = "*"}.
-'PrefixedName'           -> 'Prefix' ':' 'LocalPart' : #'qname'{prefix = '$1', local_name = '$3'}.
-'UnprefixedName'         -> 'LocalPart'              : #'qname'{namespace = 'default', prefix = 'default', local_name = '$1'}.
-'LocalPart'              -> 'Prefix' : '$1'.
+%'PrefixedName'           -> '*'      ':' 'NCName'    : #'qname'{prefix = "*", local_name = value_of('$3')}.
+%'PrefixedName'           -> 'NCName' ':' '*'         : #'qname'{prefix = value_of('$1'), local_name = "*"}.
+'PrefixedName'           -> 'NCName' ':' 'NCName'    : #'qname'{prefix = value_of('$1'), local_name = value_of('$3')}.
+'UnprefixedName'         -> 'NCName'                 : #'qname'{namespace = 'default', prefix = 'default', local_name = value_of('$1')}.
+%'LocalPart'              -> 'NCName' : value_of('$1').
+%'LocalPart'              -> 'Prefix' : '$1'.
 
 
 'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : #'qname'{namespace = '$1', local_name = value_of('$2')}.
