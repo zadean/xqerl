@@ -201,7 +201,7 @@ environment('empty') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -211,7 +211,7 @@ environment('atomic') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
@@ -221,7 +221,7 @@ environment('atomic-xq') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -231,7 +231,7 @@ environment('works-mod') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -241,7 +241,7 @@ environment('works') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -251,7 +251,7 @@ environment('staff') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -262,7 +262,7 @@ environment('works-and-staff') ->
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -272,7 +272,7 @@ environment('auction') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
@@ -287,7 +287,7 @@ environment('qname') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
@@ -297,7 +297,7 @@ environment('math') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
@@ -307,7 +307,7 @@ environment('array') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
@@ -317,7 +317,7 @@ environment('map') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -327,7 +327,7 @@ environment('array-and-map') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
@@ -338,7 +338,7 @@ environment('json-files') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
 {resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"},
@@ -348,9 +348,9 @@ environment('json-files') ->
 ];
 environment('json-ns') ->
 [{sources, []},
-{schemas, [{"","http://www.w3.org/2005/xpath-functions"}]},
+{schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
 {resources, []},
@@ -419,7 +419,7 @@ environment('json-ns') ->
       true -> {comment, "Count correct"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert_type(Res,"document-node(element(j:array))") of 
+   case xqerl_test:assert_type(Res,"document-node(element(Q{http://www.w3.org/2005/xpath-functions}array))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end,
@@ -427,7 +427,7 @@ environment('json-ns') ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(j:number,xs:untyped)") of 
+   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}number,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
@@ -465,7 +465,7 @@ environment('json-ns') ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(j:string,xs:untyped)") of 
+   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}string,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
@@ -503,7 +503,7 @@ environment('json-ns') ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(j:boolean,xs:untyped)") of 
+   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}boolean,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
@@ -541,7 +541,7 @@ environment('json-ns') ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(j:boolean,xs:untyped)") of 
+   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}boolean,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
@@ -579,7 +579,7 @@ environment('json-ns') ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(j:null,xs:untyped)") of 
+   case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}null,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
@@ -609,7 +609,7 @@ environment('json-ns') ->
       true -> {comment, "Count correct"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert_type(Res,"document-node(element(j:map))") of 
+   case xqerl_test:assert_type(Res,"document-node(element(Q{http://www.w3.org/2005/xpath-functions}map))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end,
@@ -617,11 +617,11 @@ environment('json-ns') ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/j:map/j:map[@key='glossary']/j:string[@key='title']") of 
+   case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='glossary']/Q{http://www.w3.org/2005/xpath-functions}string[@key='title']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/j:map/j:map[@key='glossary']/j:map[@key='GlossDiv']") of 
+   case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='glossary']/Q{http://www.w3.org/2005/xpath-functions}map[@key='GlossDiv']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end]) of 
@@ -639,11 +639,11 @@ environment('json-ns') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"$result/j:map/j:map[@key='menu']/j:string[@key='header'][.='SVG Viewer']") of 
+   case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}string[@key='header'][.='SVG Viewer']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end,
-   case xqerl_test:assert(Res,"$result/j:map/j:map[@key='menu']/j:array[@key='items']/j:map[not(@*)]/j:string[@key='id'][.='Open']") of 
+   case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}array[@key='items']/Q{http://www.w3.org/2005/xpath-functions}map[not(@*)]/Q{http://www.w3.org/2005/xpath-functions}string[@key='id'][.='Open']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end]) of 
@@ -669,7 +669,7 @@ environment('json-ns') ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-011'(_Config) ->
-   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//j:string",
+   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string",
    Env = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -684,14 +684,14 @@ environment('json-ns') ->
    end.
 'json-to-xml-012'(_Config) ->
    Qry = "
-         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//j:string
+         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//Q{http://www.w3.org/2005/xpath-functions}string
       ",
    Env = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_type(Res,"element(j:string)") of 
+   case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end,
@@ -716,14 +716,14 @@ environment('json-ns') ->
    end.
 'json-to-xml-013'(_Config) ->
    Qry = "
-         fn:json-to-xml('[\"Data with \\\" within it\"]')//j:string
+         fn:json-to-xml('[\"Data with \\\" within it\"]')//Q{http://www.w3.org/2005/xpath-functions}string
       ",
    Env = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_type(Res,"element(j:string)") of 
+   case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end,
@@ -740,14 +740,14 @@ environment('json-ns') ->
    end.
 'json-to-xml-014'(_Config) ->
    Qry = "
-         fn:json-to-xml('{\"Key \\\" with quote\":\"Data with \\\" within it\"}')//j:string
+         fn:json-to-xml('{\"Key \\\" with quote\":\"Data with \\\" within it\"}')//Q{http://www.w3.org/2005/xpath-functions}string
       ",
    Env = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_type(Res,"element(j:string)") of 
+   case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end,
@@ -906,9 +906,9 @@ environment('json-ns') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<j:map 
+   Out =    case xqerl_test:assert_xml(Res,"<Q{http://www.w3.org/2005/xpath-functions}map 
          xmlns:j=\"http://www.w3.org/2005/xpath-functions\"
-         ><j:string escaped=\"true\" key=\"a\">\\uDA00</j:string><j:string escaped-key=\"true\" key=\"\\uDD00\">bell</j:string></j:map>") of 
+         ><Q{http://www.w3.org/2005/xpath-functions}string escaped=\"true\" key=\"a\">\\uDA00</Q{http://www.w3.org/2005/xpath-functions}string><Q{http://www.w3.org/2005/xpath-functions}string escaped-key=\"true\" key=\"\\uDD00\">bell</Q{http://www.w3.org/2005/xpath-functions}string></Q{http://www.w3.org/2005/xpath-functions}map>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 

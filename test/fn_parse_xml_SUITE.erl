@@ -43,7 +43,7 @@ environment('empty') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -53,7 +53,7 @@ environment('atomic') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
@@ -63,7 +63,7 @@ environment('atomic-xq') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -73,7 +73,7 @@ environment('works-mod') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -83,7 +83,7 @@ environment('works') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -93,7 +93,7 @@ environment('staff') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -104,7 +104,7 @@ environment('works-and-staff') ->
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -114,7 +114,7 @@ environment('auction') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
@@ -129,7 +129,7 @@ environment('qname') ->
 [{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
@@ -139,7 +139,7 @@ environment('math') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
@@ -149,7 +149,7 @@ environment('array') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
@@ -159,7 +159,7 @@ environment('map') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -169,7 +169,7 @@ environment('array-and-map') ->
 [{sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
@@ -178,7 +178,7 @@ environment('array-and-map') ->
 ].
 'parse-xml-001'(_Config) ->
    Qry = "parse-xml(unparsed-text(\"../docs/atomic.xml\"))",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -192,7 +192,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-002'(_Config) ->
    Qry = "parse-xml(unparsed-text(\"../docs/atomic.xml\"),'###/atomic.xml')",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -206,7 +206,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-003'(_Config) ->
    Qry = "parse-xml(unparsed-text(\"../docs/atomic.xml\"),'file:/test/fots/../docs/atomic.xml')",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -220,7 +220,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-004'(_Config) ->
    Qry = "parse-xml(\"<a>Test123\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -234,7 +234,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-005'(_Config) ->
    Qry = "parse-xml(\"<?xml version='1.0' encoding='iso-8859-1'?><a>foo</a>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -248,7 +248,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-006'(_Config) ->
    Qry = "parse-xml(\"<?xml version='1.0' encoding='iso-8859-1'?><!DOCTYPE a [<!ELEMENT a (#PCDATA)>]><a>foo</a>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -262,7 +262,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-007'(_Config) ->
    Qry = "base-uri(parse-xml(\"<a>foo</a>\")) eq static-base-uri()",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -276,7 +276,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-008'(_Config) ->
    Qry = "parse-xml(\"<!DOCTYPE a SYSTEM 'parse-xml/a.dtd'><a>foo</a>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -290,7 +290,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-009'(_Config) ->
    Qry = "parse-xml(\"<?xml version='1.0' encoding='iso-8859-1'?><!DOCTYPE a SYSTEM 'parse-xml/a.dtd'><a>foo</a>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -306,7 +306,7 @@ environment('array-and-map') ->
    Qry = "parse-xml(\"<!DOCTYPE a [<!ELEMENT a (#PCDATA)><!ENTITY foo SYSTEM 'parse-xml/foo.entity'>]><a>\" ||
             codepoints-to-string(38) || \"foo;</a>\")
         ",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -320,7 +320,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-011'(_Config) ->
    Qry = "document-uri(parse-xml(\"<a>foo</a>\"))",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -334,7 +334,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-012'(_Config) ->
    Qry = "parse-xml(\"<a>foo</a>\") is parse-xml(\"<a>foo</a>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -356,7 +356,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-013'(_Config) ->
    Qry = "parse-xml(\"<!DOCTYPE a [<!ELEMENT a (#PCDATA)>]><a><b/></a>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -378,7 +378,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-014'(_Config) ->
    Qry = "parse-xml(\"<a>foo</a>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
@@ -392,7 +392,7 @@ environment('array-and-map') ->
    end.
 'parse-xml-015'(_Config) ->
    Qry = "parse-xml(\"<p:a/>\")",
-   Env = xqerl_test:handle_environment(environment('')),
+   Env = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="http://www.example.org/2007/schema/XQDY0084"
-            xmlns:foo="http://www.example.org/2007/schema/XQDY0084"
-            xmlns="http://www.example.org/2007/schema/XQDY0084">
-
-	    <xsd:element name="element" type="xsd:QName" />
-
-</xsd:schema>
