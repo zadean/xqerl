@@ -749,60 +749,11 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-contains-32'(_Config) ->
-   Qry = "fn:contains(\"Chapter-001\", \"Chapter-1\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FOCH0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'fn-contains-33'(_Config) ->
-   Qry = "fn:contains(\"Chapter-100\", \"Chapter-10\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FOCH0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'fn-contains-34'(_Config) ->
-   Qry = "fn:contains(\"abc-def\", \"abcdef\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked\") (::)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'fn-contains-35'(_Config) ->
    Qry = "fn:contains(\"abc-def\", \"c-d\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked\")",
    Qry1 = Qry,
@@ -817,18 +768,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-contains-36'(_Config) ->
-   Qry = "fn:contains(\"abcdef\", \"c-d\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'fn-contains-37'(_Config) ->
    Qry = "fn:contains(\"---\", \"-\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked\")",
    Qry1 = Qry,
@@ -843,18 +783,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-contains-38'(_Config) ->
-   Qry = "fn:contains(\"-\", \"----\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'K-ContainsFunc-1'(_Config) ->
    Qry = "contains()",
    Qry1 = Qry,

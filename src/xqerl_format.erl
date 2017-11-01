@@ -508,6 +508,7 @@ format_datetime_part(#xsDateTime{offset = Offset}, _Type, {tz, {First,Second,{_,
 format_datetime_part(_Date, _Type, {_Other, _Part}) -> not_ok.
 
 format_datetime_part_as_fract(Fract,{First,Second,{MinLen,MaxLen}}) ->
+   ?dbg("Fract,{First,Second,{MinLen,MaxLen}}",{Fract,{First,Second,{MinLen,MaxLen}}}),
    Format = parse_decimal_digit_pattern(First),
    FormLen = length(Format),
    SepLen = length([S || {separator, _} = S <- Format]),
@@ -540,7 +541,7 @@ format_datetime_part_as_fract(Fract,{First,Second,{MinLen,MaxLen}}) ->
                            F2
                      end
              end,
-   %?dbg("Format1",Format1),
+   ?dbg("Format1",Format1),
    Format1.
                          
 optional_to_mandatory([],_Cnt,_ManChar) ->
@@ -705,7 +706,8 @@ is_separator_template([_|T],Cnt,{P,S}) ->
    is_separator_template(T,Cnt + 1,{P,S}).
 
 format_decimal(Str1, Format) ->
-   %?dbg("Str1",Str1),
+   ?dbg("Str1",Str1),
+   ?dbg("Format",Format),
    Digits = lists:filter(fun({digit, _}) ->
                                  true;
                               (_) ->
@@ -735,10 +737,13 @@ format_decimal(Str1, Format) ->
 format_decimal(Str3, Format, irreg) ->
    Str4 = lists:reverse(Str3),
    Format1 = lists:reverse(Format),
+   %?dbg("Str4",Str4),
+   %?dbg("Format1",Format1),
    build_irregular_pattern(Str4,Format1, []);
 
 format_decimal(Str3, {Width,Char}, regular) ->
    Str4 = lists:reverse(Str3),
+   %?dbg("Str4",Str4),
    build_regular_pattern(Str4,0,{Width,Char}, []).
 
 build_regular_pattern([],_Pos,{_Width,_Char}, Acc) ->
@@ -751,6 +756,7 @@ build_regular_pattern([H|T],Pos,{Width,Char}, Acc) ->
    end.
 
 build_irregular_pattern([],[], Acc) ->
+   %?dbg("Acc",Acc),
    Acc;
 build_irregular_pattern([],[{optional_digit}|_], Acc) ->
    Acc;

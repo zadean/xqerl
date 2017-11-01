@@ -81,7 +81,7 @@
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","analyze-string"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
  {'analyze-string', 4},3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","apply"},{xqSeqType, item, zero_or_many}, [], 
- {'apply', 3}, 2,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one},{xqSeqType, {is_array, '*'}, one}]},
+ {'apply', 3}, 2,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one},{xqSeqType, {xqFunTest,array,[],undefined,any,any}, one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","available-environment-variables"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'available-environment-variables', 1}, 0, []},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","avg"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
@@ -443,7 +443,7 @@
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
  {'sort', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
- {'sort', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType,{is_function, {annotations, undefined},{{xqSeqType, 'xs:anyAtomicType', zero_or_many},{parameters, [{xqSeqType, item, one}]}}},one}]},
+ {'sort', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","sort"},[{xqSeqType, item, one}],{xqSeqType, 'xs:anyAtomicType', zero_or_many}},one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","starts-with"},{xqSeqType, 'xs:boolean', one}, [], 
  {'starts-with', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","starts-with"},{xqSeqType, 'xs:boolean', one}, [], 
@@ -705,36 +705,22 @@
 
 
 %% Returns the absolute value of $arg. 
-'abs'(_Ctx,Arg01) ->
-   Arg1 = case ?seq:is_sequence(Arg01) of
-             true ->
-                Arg01;
-             _ ->
-               ?seq:singleton(Arg01)
-          end,
-   case ?seq:is_empty(Arg1) of
-      true ->
+'abs'(_Ctx,[]) -> [];
+'abs'(_Ctx,Arg1) ->
+   #xqAtomicValue{type = Type, value = Val} = ?seq:singleton_value(Arg1),
+   case Val of
+      "INF" ->
+         Arg1;
+      "-INF" ->
+         #xqAtomicValue{type = Type, value = "INF"};
+      "NaN" ->
          Arg1;
       _ ->
-         #xqAtomicValue{type = Type, value = Val} = ?seq:singleton_value(Arg1),
-         case Val of
-            "INF" ->
-               Arg1;
-            "-INF" ->
-               ?seq:singleton(#xqAtomicValue{type = Type, value = "INF"});
-            "NaN" ->
-               Arg1;
+         case xqerl_types:subtype_of(Type, 'xs:integer') of
+            true ->
+               #xqAtomicValue{type = 'xs:integer', value = xqerl_numeric:abs_val(Val)};
             _ ->
-               case xqerl_types:subtype_of(Type, 'xs:integer') of
-                  true ->
-                     ?seq:singleton(#xqAtomicValue{type = 'xs:integer', value = erlang:abs(Val)});
-                  _ ->
-                     if is_list(Val) ->
-                           ?seq:singleton(#xqAtomicValue{type = 'xs:double', value = erlang:abs(erlang:list_to_float(Val))});
-                        true ->
-                           ?seq:singleton(#xqAtomicValue{type = Type, value = erlang:abs(Val)})
-                     end
-               end
+               #xqAtomicValue{type = Type, value = xqerl_numeric:abs_val(Val)}
          end
    end.
 
@@ -751,59 +737,7 @@
 
 'adjust-dateTime-to-timezone'(_Ctx,[],_Arg2) -> [];
 'adjust-dateTime-to-timezone'(_Ctx,Arg1,Arg2) ->
-   #xqAtomicValue{type = Type, value = #xsDateTime{offset = Os} = Val} = ?seq:singleton_value(Arg1),
-   case ?seq:is_empty(Arg2) of
-      true ->
-         NewDtTmWOs = Val#xsDateTime{offset = []},
-         %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
-         Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-         %?dbg("adjust-dateTime-to-timezone Str",Str),
-         #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
-   _ ->
-      ArgDurStr  = case Os of 
-                     [] ->
-                        [];
-                     _ ->
-                        xqerl_datetime:to_string(Os,'xs:dayTimeDuration')
-                  end,
-      AdjDurStr = case ?seq:singleton_value(Arg2) of
-                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{second = Sec}} when Sec > 0 ->
-                        xqerl_error:error('FODT0003');
-                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{string_value = DStr}} ->
-                        ?str(DStr);
-                     O ->
-                        ?str(xqerl_datetime:to_string(O,'xs:dayTimeDuration'))
-                  end,
-      ?dbg("ArgDurStr",ArgDurStr),
-      ?dbg("AdjDurStr",AdjDurStr),
-      ?dbg("Arg2",Arg2),
-      if ArgDurStr == [] andalso AdjDurStr == [] ->
-            Arg1;
-         ArgDurStr == [] ->
-            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
-            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
-            NewOffset = #off_set{sign = S, hour = H, min = M},
-            NewDtTmWOs = Val#xsDateTime{offset = NewOffset},
-            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
-         true ->
-            DtDur  = xqerl_types:cast_as(?str(ArgDurStr), 'xs:dayTimeDuration'),
-            %?dbg("adjust-dateTime-to-timezone DtDur",DtDur),
-            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
-            %?dbg("adjust-dateTime-to-timezone AdjDur",AdjDur),
-            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
-            Diff = xqerl_operators:subtract(AdjDur, DtDur),
-            %?dbg("adjust-dateTime-to-timezone Diff",Diff),
-            #xqAtomicValue{value = NewDtTm} = ?seq:singleton_value(xqerl_operators:add(Arg1, Diff)),
-            %?dbg("adjust-dateTime-to-timezone NewDtTm",NewDtTm),
-            NewOffset = #off_set{sign = S, hour = H, min = M},
-            NewDtTmWOs = NewDtTm#xsDateTime{offset = NewOffset},
-            %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
-            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-            %?dbg("adjust-dateTime-to-timezone Str",Str),
-            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}}
-      end
-   end.
+   xqerl_datetime:align_to_timezone(Arg1,Arg2).
 
 
 %% Adjusts an xs:date value to a specific timezone, or to no timezone at all; the result is the date in the target timezone that contains the starting instant of the supplied date. 
@@ -942,9 +876,20 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
                         expr = [Att1,Txt1]}|get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)]
   end.
 
-%% TODO NO TEST
 %% Makes a dynamic call on a function with an argument list supplied in the form of an array. 
-'apply'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'apply'(Ctx,Function,#array{data = Args}) when is_function(Function) ->
+   try
+      erlang:apply(Function, [Ctx|Args])
+   catch
+      _:{badarity,_} ->
+         ?err('FOAP0001')
+   end;
+'apply'(Ctx,#xqFunction{params = Params, body = Function},#array{data = Args}) when is_function(Function) -> 
+   if length(Params) == length(Args) ->
+         erlang:apply(Function, [Ctx|Args]);
+      true ->
+         ?err('FOAP0001')
+    end.
 
 %% Returns a list of environment variable names that are suitable for passing to fn:environment-variable, as a (possibly empty) sequence of strings. 
 'available-environment-variables'(_Ctx) -> 
@@ -977,18 +922,6 @@ avg1([#xqAtomicValue{type = 'xs:double', value = "NaN"} = H|_], _, _) ->
    H;
 avg1([#xqAtomicValue{type = 'xs:float', value = "NaN"} = H|_], _, _) ->
    H;
-%% avg1([#xqAtomicValue{type = 'xs:double', value = "INF"} = H|_], _, _) ->
-%%    H;
-%%    %H#xqAtomicValue{value = "NaN"};
-%% avg1([#xqAtomicValue{type = 'xs:float', value = "INF"} = H|_], _, _) ->
-%%    H;
-%%    %H#xqAtomicValue{value = "NaN"};
-%% avg1([#xqAtomicValue{type = 'xs:double', value = "-INF"} = H|_], _, _) ->
-%%    H;
-%%    %H#xqAtomicValue{value = "NaN"};
-%% avg1([#xqAtomicValue{type = 'xs:float', value = "-INF"} = H|_], _, _) ->
-%%    H;
-%%    %H#xqAtomicValue{value = "NaN"};
 avg1([H|T], [], 0) ->
    avg1(T, H, 1);
 avg1([H|T], Sum, Count) ->
@@ -1059,23 +992,15 @@ avg1([H|T], Sum, Count) ->
    ?bool(xqerl_operators:eff_bool_val(Arg)).
 
 %% Rounds $arg upwards to a whole number. 
+'ceiling'(_Ctx,[]) -> [];
 'ceiling'(_Ctx,Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
+   Val = xqerl_types:value(Arg1),
+   if Val == "INF" orelse Val == "-INF" orelse Val == "NaN" ->
          Arg1;
-      _ ->
-         Val = xqerl_types:value(Arg1),
-         if Val == "INF" orelse Val == "-INF" orelse Val == "NaN" ->
-               Arg1;
-            true ->
-               Type = xqerl_types:type(Arg1),
-               T = trunc(Val),
-               case (Val - T) of
-                  Neg when Neg < 0 -> xqerl_types:cast_as(?atint(T), Type) ;
-                  Pos when Pos > 0 -> xqerl_types:cast_as(?atint(T + 1), Type);
-                  _ -> xqerl_types:cast_as(?atint(T), Type)
-               end
-         end
+      true ->
+         Type = xqerl_types:type(Arg1),
+         T = xqerl_numeric:ceiling(Val),
+         xqerl_types:cast_as(?atint(T), Type)
    end.
 
 %% Returns true if two strings are equal, considered codepoint-by-codepoint. 
@@ -1120,38 +1045,35 @@ avg1([H|T], Sum, Count) ->
 
 %% Given a string value and a collation, generates an internal value called a collation key, with the property that 
 %% the matching and ordering of collation keys reflects the matching and ordering of strings under the specified collation. 
-%% TODO NO TEST
-'collation-key'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'collation-key'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'collation-key'(Ctx,Arg1) -> 
+   Coll = xqerl_context:get_default_collation(Ctx),
+   'collation-key'(Ctx,Arg1,Coll).
+'collation-key'(_Ctx,Arg1,Arg2) -> 
+   StrVal = xqerl_types:string_value(Arg1),
+   ColVal = xqerl_coll:parse(xqerl_types:string_value(Arg2)),
+   Bin = xqerl_coll:sort_key(StrVal, ColVal),
+   ?atm('xs:base64Binary',Bin).
 
 %% Returns a sequence of items identified by a collection URI; or a default collection if no URI is supplied. 
 'collection'(_Ctx) -> exit({not_implemented_maybe_later,?LINE}).
 'collection'(_Ctx,_Arg1) -> exit({not_implemented_maybe_later,?LINE}).
 
 %% Returns -1, 0, or 1, depending on whether $comparand1 collates before, equal to, or after $comparand2 according to the rules of a selected collation. 
-'compare'(_Ctx,Arg1,Arg2) -> 
-   case ?seq:is_empty(Arg1) of true -> Arg1;
-      _ ->
-         case ?seq:is_empty(Arg2) of true -> Arg2;
-         _ ->
-            Str1 = xqerl_types:string_value(Arg1),
-            Str2 = xqerl_types:string_value(Arg2),
-            if Str1 < Str2 -> ?atint(-1);
-               Str1 > Str2 -> ?atint(1);
-               true -> ?atint(0)
-            end
-         end
-   end.
+'compare'(Ctx,Arg1,Arg2) -> 
+   Coll = xqerl_context:get_default_collation(Ctx),
+   'compare'(Ctx,Arg1,Arg2,Coll).
 
-%TODO collation
-'compare'(Ctx,Arg1,Arg2,Collation) -> 
-   Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         ?MODULE:'compare'(Ctx,Arg1,Arg2);
-      _ ->
-         xqerl_error:error('FOCH0002')
+'compare'(_Ctx,[],_Arg2,_Collation) -> [];
+'compare'(_Ctx,_Arg1,[],_Collation) -> [];
+'compare'(_Ctx,Arg1,Arg2,Collation) -> 
+   ColVal = xqerl_coll:parse(xqerl_types:string_value(Collation)),
+   StrVal1 = xqerl_types:string_value(Arg1),
+   StrVal2 = xqerl_types:string_value(Arg2),
+   Bin1 = xqerl_coll:sort_key(StrVal1, ColVal),
+   Bin2 = xqerl_coll:sort_key(StrVal2, ColVal),
+   if Bin1 < Bin2 -> ?atint(-1);
+      Bin1 > Bin2 -> ?atint(1);
+      true -> ?atint(0)
    end.
 
 %% Returns the concatenation of the string values of the arguments. 
@@ -1169,31 +1091,46 @@ avg1([H|T], Sum, Count) ->
 
 
 %% Returns true if the string $arg1 contains $arg2 as a substring, taking collations into account. 
-'contains'(_Ctx,Arg1,Arg2) -> 
-   S1 = string_value(data(_Ctx, Arg1)),
-   S2 = xqerl_types:value(Arg2),
-   case string:find(S1,S2) of
+'contains'(Ctx,Arg1,Arg2) ->
+   Coll = xqerl_context:get_default_collation(Ctx),
+   'contains'(Ctx,Arg1,Arg2,Coll).
+
+'contains'(_Ctx,Arg1,Arg2,Collation) -> 
+   Coll = xqerl_coll:parse(xqerl_types:value(Collation)),
+   S1 = xqerl_types:string_value(Arg1),
+   S2 = xqerl_types:string_value(Arg2),
+   B1 = xqerl_coll:sort_key(S1, Coll),
+   B2 = xqerl_coll:sort_key(S2, Coll),
+   case string:find(B1,B2) of
       nomatch when S2 =/= [] ->
          ?bool(false);
       _ ->
          ?bool(true)
    end.
-%TODO collation
-'contains'(Ctx,Arg1,Arg2,Collation) -> 
-   Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         'contains'(Ctx,Arg1,Arg2);
-      _ ->
-         xqerl_error:error('FOCH0002')
-   end.
 
 %% Determines whether or not any of the supplied strings, when tokenized at whitespace boundaries, 
 %% contains the supplied token, under the rules of the supplied collation. 
-%% TODO NO TEST
-'contains-token'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
-'contains-token'(_Ctx,_Arg1,_Arg2,_Arg3) -> exit({not_implemented,?LINE}).
+'contains-token'(Ctx,InputList,Token) -> 
+   Coll = xqerl_context:get_default_collation(Ctx),
+   'contains-token'(Ctx,InputList,Token, Coll).
+
+'contains-token'(_Ctx,[],_Token,_Collation) -> ?bool(false);
+'contains-token'(Ctx,InputList,Token,Collation) when not is_list(InputList) ->
+   'contains-token'(Ctx,[InputList],Token,Collation);
+'contains-token'(Ctx,InputList,Token,Collation) -> 
+   Token1 = string:trim(xqerl_types:string_value(Token)),
+   if Token1 == [] ->
+         ?bool(false);
+      true ->
+         Token2 = ?str(Token1),
+         Bool = lists:any(fun(Str) ->
+                                Strs = tokenize(Ctx, Str),
+                                lists:any(fun(S) ->
+                                                compare(Ctx, S, Token2, Collation) == ?atint(0)
+                                          end, Strs)
+                          end, InputList),
+         ?bool(Bool)
+   end.
 
 'count'(_Ctx,#xqNode{}) -> ?atint(1);
 'count'(_Ctx,#array{}) -> ?atint(1);
@@ -1297,15 +1234,17 @@ data1(_) ->
 %% and for two items to be deep-equal, they must either be atomic values that compare equal, 
 %% or nodes of the same kind, with the same name, whose children are deep-equal, 
 %% or maps with matching entries, or arrays with matching members. 
-%TODO arrays
-'deep-equal'(_Ctx,[],[]) -> ?bool(true);
-'deep-equal'(Ctx,Arg1,Arg2) when not is_list(Arg1) -> 
-   'deep-equal'(Ctx,[Arg1],Arg2);
-'deep-equal'(Ctx,Arg1,Arg2) when not is_list(Arg2) -> 
-   'deep-equal'(Ctx,Arg1,[Arg2]);
-'deep-equal'(_Ctx,Arg1,Arg2) -> 
-   %?dbg("deep-equal",Arg1),
-   %?dbg("deep-equal",Arg2),
+'deep-equal'(Ctx,Arg1,Arg2) ->
+   Coll = xqerl_context:get_default_collation(Ctx),
+   'deep-equal'(Ctx,Arg1,Arg2,Coll).
+
+'deep-equal'(_Ctx,[],[],_) -> ?bool(true);
+'deep-equal'(Ctx,Arg1,Arg2,Collation) when not is_list(Arg1) -> 
+   'deep-equal'(Ctx,[Arg1],Arg2,Collation);
+'deep-equal'(Ctx,Arg1,Arg2,Collation) when not is_list(Arg2) -> 
+   'deep-equal'(Ctx,Arg1,[Arg2],Collation);
+'deep-equal'(Ctx,Arg1,Arg2,Collation) -> 
+   _ = xqerl_coll:parse(xqerl_types:string_value(Collation)),
    case count([], Arg1) =/= count([], Arg2) of
       true ->
          ?bool(false);
@@ -1314,11 +1253,11 @@ data1(_) ->
          %?dbg("deep-equal",Zip),
          try
             ?bool(lists:all(fun({X,Y}) when is_list(X),is_list(Y) ->
-                                  'deep-equal'(_Ctx,X,Y) == ?bool(true);
-                               ({X,X}) ->
-                                  true;
+                                  'deep-equal'(Ctx,X,Y,Collation) == ?bool(true);
+                               %({X,X}) ->
+                               %   true;
                                ({#xqNode{} = N1,#xqNode{} = N2}) ->
-                                  A1 = xqerl_node:nodes_equal(N1,N2),
+                                  A1 = xqerl_node:nodes_equal(N1,N2,Collation),
                                   %?dbg("deep-equal",A1),
                                   A1 == {xqAtomicValue,'xs:boolean',true};
                                ({#xqAtomicValue{value = "NaN"},#xqAtomicValue{value = "NaN"}}) ->
@@ -1327,6 +1266,8 @@ data1(_) ->
                                   true;
                                ({#xqAtomicValue{value = "-INF"},#xqAtomicValue{value = "-INF"}}) ->
                                   true;
+                               ({#xqAtomicValue{type = T1} = N1,#xqAtomicValue{type = T2} = N2}) when ?string(T1) andalso ?string(T2) ->
+                                  compare(Ctx, N1, N2, Collation) == ?atint(0);
                                ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
                                   xqerl_operators:equal(N1,N2) == {xqAtomicValue,'xs:boolean',true};
                                ({#xqFunction{},#xqFunction{}}) ->
@@ -1340,31 +1281,20 @@ data1(_) ->
                                           K1 = xqerl_map:keys([],M1),
                                           F = fun(K) ->
                                                     xqerl_map:contains([], M2, K) == ?bool(true) andalso
-                                                    'deep-equal'([],xqerl_map:get([], M1, K), xqerl_map:get([], M2, K)) == ?bool(true)
+                                                    'deep-equal'([],xqerl_map:get([], M1, K), xqerl_map:get([], M2, K),Collation) == ?bool(true)
                                               end,         
                                           lists:all(F, K1);
                                        true ->
                                           false
                                     end;
                                ({{array,A1},{array,A2}}) ->
-                                  'deep-equal'(_Ctx,A1,A2) == ?bool(true)
+                                  'deep-equal'(Ctx,A1,A2,Collation) == ?bool(true)
                                end, Zip))
             catch
                _:_ ->
 ?dbg("deep-equal",erlang:get_stacktrace()),
                ?bool(false)
          end
-   end.
-
-%TODO collation
-'deep-equal'(Ctx,Arg1,Arg2,Collation) -> 
-   Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         ?MODULE:'deep-equal'(Ctx,Arg1,Arg2);
-      _ ->
-         xqerl_error:error('FOCH0002')
    end.
 
 %% Returns the value of the default collation property from the static context. 
@@ -1398,7 +1328,9 @@ data1(_) ->
           end,
    NewColl = xqerl_coll:parse(Coll),
    
-   CompVal = fun(#xqAtomicValue{type = T} = A) when ?string(T) ->
+   CompVal = fun(#xqAtomicValue{type = T} = A) when ?string(T);
+                                                    T == 'xs:untypedAtomic';
+                                                    T == 'xs:anyURI' ->
                    Key = xqerl_coll:sort_key(xqerl_types:value(A), NewColl),
                    {Key, A};
                 (#xqAtomicValue{} = A) ->
@@ -1670,12 +1602,8 @@ pct_encode3([H|T]) ->
          Arg1;
       true ->
          Type = xqerl_types:type(Arg1),
-         T = trunc(Val),
-         case (Val - T) of
-            Neg when Neg < 0 -> xqerl_types:cast_as(?atint(T - 1), Type) ;
-            Pos when Pos > 0 -> xqerl_types:cast_as(?atint(T), Type);
-            _ -> xqerl_types:cast_as(?atint(T), Type)
-         end
+         T = xqerl_numeric:floor(Val),
+         xqerl_types:cast_as(?atint(T), Type)
    end.
 
 %% Processes the supplied sequence from left to right, applying the supplied function repeatedly to each item in turn, 
@@ -1733,7 +1661,8 @@ pct_encode3([H|T]) ->
 'format-integer'(_Ctx,Int,Picture,_Lang) -> 
    'format-integer'(_Ctx,Int,Picture).
 
-%% Returns a string containing a number formatted according to a given picture string, taking account of decimal formats specified in the static context. 
+%% Returns a string containing a number formatted according to a given picture string, 
+%% taking account of decimal formats specified in the static context. 
 'format-number'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
    %'format-number'(Ctx,Arg1,Arg2,[]).
 'format-number'(_Ctx,_Arg1,_Arg2,_Arg3) -> 
@@ -2752,7 +2681,7 @@ shrink_spaces([H|T]) ->
       true ->
          NVal = xqerl_types:value(Val),
          if is_integer(NVal) ->
-               ?dbl(NVal);
+               ?dbl(xqerl_numeric:double(NVal));
             true ->
                case catch xqerl_types:cast_as(Val, 'xs:double') of
                   {'EXIT',_} ->
@@ -3110,108 +3039,18 @@ string_value(At) -> xqerl_types:string_value(At).
    'round'(Ctx,Arg1, ?atint(0)).
 'round'(_Ctx,[],_Precision) -> ?seq:empty();
 'round'(_Ctx,Arg,Precision) -> 
-   Half = fun([$5|Rest]) ->
-                case lists:all(fun($0) -> true; (_) -> false end, Rest) of
-                   true ->
-                      middle;
-                   _ ->
-                      greater
-                end;
-             ([C|_Rest]) when C < $5 ->
-                less;
-             ([C|_Rest]) when C > $5 ->
-                greater;
-             ([]) ->
-                less
-          end,
-   Val1 = xqerl_types:value(Arg),
-   Typ1 = xqerl_types:type(Arg),
-   Prec1 = xqerl_types:value(Precision),
-   if Val1 == "NaN" ->
-         Arg;
-      Val1 == "-INF" ->
-         Arg;
-      Val1 == "INF" ->
-         Arg;
-      Val1 == [] ->
+   Prec = xqerl_types:value(Precision),
+   ArgType = xqerl_types:type(Arg),
+   ArgVal = xqerl_types:value(Arg),
+   if ArgVal == [];
+      ArgVal == "NaN";
+      ArgVal == "-INF";
+      ArgVal == "INF";
+      abs(Prec) > 308 ->
          Arg;
       true ->
-         if Prec1 == 0 ->
-               if Val1 < 0 ->
-                     Abs = abs(Val1),
-                     List = List = lists:flatten(io_lib:format("~w", [Abs])),
-                     [_I1,F1] = case string:split(List,[$.]) of
-                                  [I2,F2] ->
-                                     [I2,F2];
-                                  [I2] ->
-                                     [I2,""]
-                               end,
-                     H = Half(F1),
-                     %?dbg("Middle",{H,List,Abs}),
-                     if H == middle ->
-                           Val = round(Val1 + 1),
-                           ?seq:singleton(xqerl_types:cast_as(?atm('xs:decimal', Val), Typ1));
-                        true ->
-                           Val = round(Val1),
-                           ?seq:singleton(xqerl_types:cast_as(?atm('xs:decimal', Val), Typ1))
-                     end;
-                  true ->
-                     Val = round(Val1),
-                     ?seq:singleton(xqerl_types:cast_as(?atm('xs:decimal', Val), Typ1))
-               end;
-            Prec1 < 0 ->
-               Prec2 = math:pow(10, -Prec1),
-               %?dbg("Prec1",Prec1),
-               Val = round(Val1 / Prec2) * Prec2,
-               ?seq:singleton(xqerl_types:cast_as(?atm('xs:decimal', Val), Typ1));
-            true ->
-               if Val1 < 0 ->
-                     List = lists:flatten(io_lib:format("~w", [Val1])),
-                     [I1,F1] = case string:split(List,[$.]) of
-                                  [I2,F2] ->
-                                     [I2,F2];
-                                  [I2] ->
-                                     [I2,""]
-                               end,
-                     Len = length(F1),
-                     I3 = I1 ++ lists:sublist(F1, 1, Prec1),
-                     %?dbg("All",{I3,Len,I1,F1}),
-                     F3 = if Len < Prec1 ->
-                                "0";
-                             true ->
-                                lists:sublist(F1, Prec1 + 1, Len)
-                          end,
-                     H = Half(F3),
-                     if H == middle ->
-                           Val = case catch list_to_float(I3) of
-                                    {'EXIT',_} ->
-                                       list_to_integer(I3) * math:pow(10, - Prec1);
-                                    D ->
-                                       D * math:pow(10, - Prec1)
-                                 end,
-                           %?dbg("All",{Val,H,F3,I3,Len,I1,F1}),
-                           ?seq:singleton(xqerl_types:cast_as(?atm('xs:decimal', Val), Typ1));
-                        true ->
-                           List1 = float_to_list(float(Val1), [{decimals,Prec1},compact]),
-                           Val = case catch list_to_float(List1) of
-                                    {'EXIT',_} ->
-                                       list_to_integer(List1);
-                                    D ->
-                                       D
-                                 end,
-                           ?seq:singleton(xqerl_types:cast_as(?atm('xs:decimal', Val), Typ1))
-                     end;
-                  true ->
-                     List = float_to_list(float(Val1), [{decimals,Prec1},compact]),
-                     Val = case catch list_to_float(List) of
-                              {'EXIT',_} ->
-                                 list_to_integer(List);
-                              D ->
-                                 D
-                           end,
-                     ?seq:singleton(xqerl_types:cast_as(?atm('xs:decimal', Val), Typ1))
-               end
-         end
+         Rounded = xqerl_numeric:round_half(xqerl_numeric:decimal(ArgVal), Prec),
+         xqerl_types:cast_as(?atm('xs:decimal', Rounded), ArgType)
    end.
 
 %% Rounds a value to a specified number of decimal places, rounding to make the last digit even if two such values are equally near. 
@@ -3219,119 +3058,18 @@ string_value(At) -> xqerl_types:string_value(At).
 'round-half-to-even'(Ctx,Arg1) -> 'round-half-to-even'(Ctx,Arg1,?atint(0)).
 'round-half-to-even'(_Ctx,[],_Precision) -> ?seq:empty();
 'round-half-to-even'(_Ctx,Arg,Precision) -> 
-   Pres = xqerl_types:value(Precision),
+   Prec = xqerl_types:value(Precision),
    ArgType = xqerl_types:type(Arg),
    ArgVal = xqerl_types:value(Arg),
    if ArgVal == [];
       ArgVal == "NaN";
       ArgVal == "-INF";
       ArgVal == "INF";
-      abs(Pres) > 308 ->
+      abs(Prec) > 308 ->
          Arg;
       true ->
-         Half = fun([$5|Rest]) ->
-                      case lists:all(fun($0) -> true; (_) -> false end, Rest) of
-                         true ->
-                            less;
-                         _ ->
-                            greater
-                      end;
-                   ([C|_Rest]) when C < $5 ->
-                      less;
-                   ([C|_Rest]) when C > $5 ->
-                      greater;
-                   ([]) ->
-                      less
-                end,
-         Sign = if ArgVal < 0 -> -1; true -> 1 end,
-         FltVal = abs(ArgVal),
-         {Int, Fract} = if ArgType =/= 'xs:float',
-                           ArgType =/= 'xs:double' ->
-                              List = if is_integer(FltVal) ->
-                                           lists:flatten(io_lib:format("~w", [FltVal]));
-                                        true ->
-                                           lists:flatten(io_lib:format("~f", [FltVal]))
-                                     end,
-                              %?dbg("ArgVal",ArgVal),
-                              %?dbg("FltVal",FltVal),
-                              %?dbg("List",List),
-                              %?dbg("ArgType",ArgType),
-                              [I1,F1] = case string:split(List,[$.]) of
-                                           [I2,F2] ->
-                                              [I2,F2];
-                                           [I2] ->
-                                              [I2,""]
-                                        end,
-                              %?dbg("{I1,F1}",{I1,F1}),
-                              {I1,F1};
-                           true ->
-                              I = trunc(FltVal),
-                              F = float(FltVal),
-                              List = lists:flatten(io_lib:format("~w", [F])),
-                              %?dbg("List",List),
-                              [_,Fl] = string:split(List,[$.]),
-                              %?dbg("I",I),
-                              %?dbg("F",F),
-                              %?dbg("List",List),
-                              %?dbg("Fl",Fl),
-                              {integer_to_list(I), Fl}
-                        end,
-         {Int1,Fract1} = if Pres == 0 ->
-                               {Int, Fract};
-                            Pres < 1 ->
-                               Len = length(Int),
-                               AbsPres = abs(Pres),
-                               if Len < abs(Pres) ->
-                                     {"0", "0"++Int++Fract};
-                                  true ->
-                                     NewInt = lists:sublist(Int, Len - AbsPres),
-                                     NewFract = lists:sublist(Int, Len - AbsPres + 1, AbsPres) ++ Fract,
-                                     {NewInt, NewFract}
-                               end;
-                            true ->
-                               Len = length(Fract),
-                               if Len < Pres ->
-                                     TempFract = lists:flatten(string:pad(Fract,Pres,trailing,[$0])),
-                                     %?dbg("TempFract",TempFract),
-                                     {Int++TempFract,""};
-                                  true ->
-                                     NewInt = Int ++ lists:sublist(Fract, 1, Pres),
-                                     NewFract = lists:sublist(Fract, Pres + 1, Len),
-                                     {NewInt, NewFract}
-                               end
-                         end,
-         Int2 = case catch list_to_integer(Int1) of
-                   {'EXIT',_} ->
-                      trunc(list_to_float(Int1));
-                   Int21 ->
-                      Int21
-                end,
-         Mod1 = Int2 rem 2,
-         %?dbg("All",{Int1,Int,Fract1,Fract,Int2,Mod1}),
-         Int3 = case {Mod1, Half(Fract1)} of
-                   {_, less} ->
-                      Int2;
-%%                    {1, less} ->
-%%                       if Fract1 == [] ->
-%%                             Int2;
-%%                          true ->
-%%                             Int2 + 1
-%%                       end;
-                   _ ->
-                      Int2 + 1
-                end,
-         Factor = if Pres < 1 ->
-                        trunc(math:pow(10, - Pres));
-                     true ->
-                        math:pow(10, - Pres)
-                  end,
-         Value = if (ArgType =/= 'xs:float' andalso ArgType =/= 'xs:double' andalso ArgType =/= 'xs:decimal') ->
-                       trunc(Int3 * Factor * Sign);
-                    true ->
-                       Int3 * Factor * Sign
-                 end,
-         %?dbg("All",{Pres,Value,Factor,Int3,Int2,Int1,Int,Fract1,Fract}),
-         ?atm(ArgType,Value)
+         Rounded = xqerl_numeric:round_half_even(xqerl_numeric:decimal(ArgVal), Prec),
+         xqerl_types:cast_as(?atm('xs:decimal', Rounded), ArgType)
    end.
 
 %% Returns the seconds component of an xs:dateTime. 
@@ -3363,10 +3101,72 @@ string_value(At) -> xqerl_types:string_value(At).
 'serialize'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
 %% Sorts a supplied sequence, based on the value of a sort key supplied as a function. 
-%% NO TEST
-'sort'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'sort'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
-'sort'(_Ctx,_Arg1,_Arg2,_Arg3) -> exit({not_implemented,?LINE}).
+'sort'(Ctx,List) when not is_list(List) ->
+   'sort'(Ctx,[List]);
+'sort'(Ctx,List) -> 
+   Collation = xqerl_context:get_default_collation(Ctx),
+   sort(Ctx,List, Collation).
+   
+'sort'(Ctx,List,[]) -> 
+   Collation = xqerl_context:get_default_collation(Ctx),
+   'sort'(Ctx,List,Collation,fun xqerl_fn:data/2);
+'sort'(Ctx,List,Collation) when not is_list(List) ->
+   'sort'(Ctx,[List],Collation);
+'sort'(Ctx,List,Collation) ->
+   'sort'(Ctx,List,Collation,fun xqerl_fn:data/2).
+
+'sort'(Ctx,List,[],Function) -> 
+   Collation = xqerl_context:get_default_collation(Ctx),
+   'sort'(Ctx,List,Collation,Function);
+'sort'(Ctx,List,Collation,Function) when not is_list(List) ->
+   'sort'(Ctx,[List],Collation,Function);
+'sort'(Ctx,List,Collation,Function) when is_function(Function), is_list(List) -> 
+   SortFun = fun(A,B) ->
+                   KeyA = Function(Ctx,A),
+                   KeyB = Function(Ctx,B),
+                   sort1(Ctx,KeyA,KeyB,Collation)
+             end,
+   SortedList = lists:sort(SortFun, List),
+   SortedList;
+'sort'(Ctx,Array,Collation,#xqFunction{body = Function}) when is_function(Function) ->
+   'sort'(Ctx,Array,Collation,Function).
+
+sort1(_,[],[],_Coll) -> true;
+sort1(_,[],_B,_Coll) -> true;
+sort1(_,_A,[],_Coll) -> false;
+sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
+   #xqAtomicValue{value = Equal} = xqerl_fn:'deep-equal'(Ctx, hd(A), hd(B), Coll),
+   %?dbg("Equal",Equal),
+   if Equal == true ->
+         sort1(Ctx,tl(A),tl(B),Coll);
+      true ->
+         #xqAtomicValue{value = NotEqual} = xqerl_operators:not_equal(hd(A), hd(A)),
+         %?dbg("NotEqual",NotEqual),
+         if NotEqual == true ->
+               true;
+            true ->
+               TypeA = xqerl_types:type(hd(A)),
+               TypeB = xqerl_types:type(hd(B)),
+               %?dbg("TypeA",TypeA),
+               %?dbg("TypeB",TypeB),
+               if ?string(TypeA) orelse TypeA == 'xs:anyURI' orelse TypeA == 'xs:untypedAtomic',
+                  ?string(TypeB) orelse TypeB == 'xs:anyURI' orelse TypeB == 'xs:untypedAtomic' ->
+                     #xqAtomicValue{value = Comp} = xqerl_fn:compare(Ctx, hd(A), hd(B), Coll),
+                     %?dbg("Comp",Comp),
+                     Comp =< 0;
+                  true ->
+                     #xqAtomicValue{value = LTEqual} = xqerl_operators:less_than_eq(hd(A), hd(B)),
+                     %?dbg("LTEqual",LTEqual),
+                     LTEqual
+               end
+         end
+   end;
+sort1(Ctx,A,B,Coll) when is_list(A) ->
+   sort1(Ctx,A,[B],Coll);
+sort1(Ctx,A,B,Coll) when is_list(B) ->
+   sort1(Ctx,[A],B,Coll);
+sort1(Ctx,A,B,Coll) ->
+   sort1(Ctx,[A],[B],Coll).
 
 %% Returns true if the string $arg1 contains $arg2 as a leading substring, taking collations into account. 
 'starts-with'(Ctx,[],Arg2) -> 'starts-with'(Ctx,?str(""),Arg2);
@@ -3457,6 +3257,10 @@ string_value(At) -> xqerl_types:string_value(At).
 'string-length'(Ctx) -> 
    Val = xqerl_context:get_context_item(Ctx),
    ?atint(length(xqerl_types:string_value(Val))).
+'string-length'(_Ctx,[Arg1]) ->
+   'string-length'(_Ctx,Arg1);
+'string-length'(_Ctx,Arg1) when is_list(Arg1) ->
+   ?err('XPTY0004');
 'string-length'(_Ctx,Arg1) -> 
    ?atint(length(xqerl_types:string_value(Arg1))).
 

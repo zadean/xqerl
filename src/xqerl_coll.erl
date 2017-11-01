@@ -24,6 +24,8 @@
 
 -module(xqerl_coll).
 
+-include("xqerl.hrl").
+
 %% ====================================================================
 %% API functions
 %% ====================================================================
@@ -36,26 +38,48 @@ parse("http://www.w3.org/2005/xpath-functions/collation/codepoint") ->
 parse("http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive") ->
    ascii;
 parse("http://www.w3.org/2013/collation/UCA" ++ Query) ->
-   {uca, parse_query_string(Query)}.
+   {uca, parse_query_string(Query)};
+parse(_) ->
+  xqerl_error:error('FOCH0002').
 
 
+sort_key(Val, Type) when Type == 'xs:date';
+                         Type == 'xs:dateTime';
+                         Type == 'xs:time' ->
+   #xqAtomicValue{value = V} = xqerl_datetime:align_to_timezone(#xqAtomicValue{type = Type, value = Val},[]),
+   V;
+sort_key(Val, Type) when Type == 'xs:gYearMonth';
+                         Type == 'xs:gYear';
+                         Type == 'xs:gMonthDay';
+                         Type == 'xs:gDay';
+                         Type == 'xs:gMonth' ->
+   Val#xsDateTime{hour = 0, minute = 0, second = 0, offset = [], string_value = []};
+sort_key({xsDecimal,_,_} = Item, _) ->
+   xqerl_numeric:double(Item);
 sort_key(Item, _) when is_float(Item);
                        is_integer(Item);
                        is_tuple(Item) ->
    Item;
+sort_key([], _) ->
+   <<>>;
+sort_key(Atom, _) when is_atom(Atom) ->
+   Atom;
 sort_key(Str, codepoint) ->
-   Str;
+   unicode:characters_to_binary(Str);
 sort_key(Str, ascii) ->
-   [ if C >= $A, C=< $Z ->
+   unicode:characters_to_binary(
+     [ if C >= $A, C=< $Z ->
            C + 32;
         true ->
            C
-     end   || C <- Str ];
+     end   || C <- Str ]);
+%% sort_key(Str, {uca, #{strength := "primary", lang := "en"}}) ->
+%%    sort_key(Str, ascii);
 sort_key(Str, {uca,Map}) ->
    % if fallback is okay, use codepoint for now, until collations implemented
    case maps:get(fallback,Map) of
       "yes" ->
-         Str;
+         unicode:characters_to_binary(Str);
       _ ->
          xqerl_error:error('FOCH0002')
    end.

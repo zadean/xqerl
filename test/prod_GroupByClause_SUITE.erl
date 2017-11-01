@@ -656,33 +656,7 @@ environment('GroupByUseCases') ->
       Err -> ct:fail(Err)
    end.
 'group-017'(_Config) ->
-   Qry = "
-      count(
-         for $y in (\"ax\", \"bx\", \"cx\", \"Ay\", \"By\", \"Cy\")
-         group by $k := substring($y, 1, 1) collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\"
-         return <group>{$y}</group>
-       )
-       ",
-   Env = xqerl_test:handle_environment([{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"3") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"non_unicode_codepoint_collation"}.
 'group-018'(_Config) ->
    Qry = "
       count(

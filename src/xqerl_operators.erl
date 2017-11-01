@@ -84,6 +84,7 @@
          divide/2,
          idivide/2,
          modulo/2,
+         equal/3,
          equal/2,
          not_equal/2,
          greater_than/2,
@@ -120,25 +121,11 @@ lookup(_Ctx,{array,_} = Array,all) ->
 lookup(_Ctx,{array,_} = Array,Values) when is_list(Values) ->
    xqerl_array:get_matched(Array, Values);
 lookup(Ctx,{array,_} = Array,Value) ->
-   xqerl_array:get(Ctx, Array, Value).
-
-%% % array unary lookups
-%% expr_do(Ctx, {postfix, Map, [{array_lookup, {sequence,_} = Val}]}) ->
-%%    MapExpr = expr_do(Ctx, Map),
-%%    ValExp =  expr_do(Ctx, Val),
-%%    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,get_matched}},
-%%     [MapExpr, ValExp]};
-%% expr_do(Ctx, {postfix, Map, [{array_lookup, wildcard}]}) ->
-%%    MapExpr = expr_do(Ctx, Map),
-%%    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,values}},
-%%     [MapExpr]};
-%% expr_do(Ctx, {postfix, Map, [{array_lookup, #xqAtomicValue{} = Val}]}) ->
-%%    CtxVar = get_context_variable_name(Ctx),
-%%    MapExpr = expr_do(Ctx, Map),
-%%    ValExp =  expr_do(Ctx, Val),
-%%    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,get}},
-%%     [{var,?L,CtxVar},MapExpr,ValExp]};
-
+   xqerl_array:get(Ctx, Array, Value);
+lookup(Ctx,List,Value) ->
+   lists:map(fun(I) ->
+                   lookup(Ctx,I,Value)
+             end, List).
 
 is_comparable('xs:base64Binary') -> true;
 is_comparable('xs:boolean') -> true;
@@ -363,6 +350,32 @@ modulo(Arg1, [Arg2]) ->
 modulo(Arg1, Arg2) ->
    ?sing(numeric_mod(Arg1, Arg2)).
 
+equal([Arg1], Arg2, Collation) ->
+   equal(Arg1, Arg2, Collation);
+equal(Arg1, [Arg2], Collation) ->
+   equal(Arg1, Arg2, Collation);
+equal(#xqAtomicValue{type = T2, value = Val2}, #xqAtomicValue{type = T1, value = Val1}, Collation) when ?string(T1),?string(T2);
+                                                                                                        ?string(T1), T2 == 'xs:anyURI';
+                                                                                                        ?string(T1), T2 == 'xs:NCName';
+                                                                                                        ?string(T1), T2 == 'xs:untypedAtomic';
+                                                                                                        ?string(T2), T1 == 'xs:anyURI';
+                                                                                                        ?string(T2), T1 == 'xs:NCName';
+                                                                                                        ?string(T2), T1 == 'xs:untypedAtomic';
+                                                                                                        T1 == 'xs:anyURI', T2 == 'xs:anyURI';
+                                                                                                        T1 == 'xs:anyURI', T2 == 'xs:NCName';
+                                                                                                        T1 == 'xs:anyURI', T2 == 'xs:untypedAtomic';
+                                                                                                        T1 == 'xs:NCName', T2 == 'xs:anyURI';
+                                                                                                        T1 == 'xs:NCName', T2 == 'xs:NCName';
+                                                                                                        T1 == 'xs:NCName', T2 == 'xs:untypedAtomic';
+                                                                                                        T1 == 'xs:untypedAtomic', T2 == 'xs:anyURI';
+                                                                                                        T1 == 'xs:untypedAtomic', T2 == 'xs:NCName';
+                                                                                                        T1 == 'xs:untypedAtomic', T2 == 'xs:untypedAtomic' ->
+   Coll = xqerl_coll:parse(xqerl_types:string_value(Collation)),
+   Eq = xqerl_coll:sort_key(Val1, Coll) == xqerl_coll:sort_key(Val2, Coll),
+   ?bool(Eq);
+equal(#xqAtomicValue{} = Arg1, #xqAtomicValue{} = Arg2, _Collation) ->
+   equal(Arg1, Arg2).
+
 equal(Arg1, Arg2) when is_map(Arg1);
                        is_map(Arg2) -> xqerl_error:error('FOTY0013');
 equal(undefined, undefined) -> ?seq:empty();
@@ -457,7 +470,7 @@ equal(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type = T2
 equal(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    ?sing(string_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = T1} = Arg1, #xqAtomicValue{type = T2} = Arg2) when ?numeric(T1),?numeric(T2) ->
-   ?sing(numeric_equal(Arg2,Arg1));
+   ?sing(numeric_equal(Arg1,Arg2));
 
 equal(#xqAtomicValue{type = 'xs:boolean'}, #xqAtomicValue{}) ->
    xqerl_error:error('XPTY0004');
@@ -911,10 +924,6 @@ atomize_list(Seq) ->
    atomize_list([Seq]).
 
 % returns: numeric
-numeric_add(A,B) when is_integer(A) -> 
-   numeric_add(#xqAtomicValue{type = 'xs:integer', value = A},B);
-numeric_add(A,B) when is_integer(B) -> 
-   numeric_add(A,#xqAtomicValue{type = 'xs:integer', value = B});
 numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
             #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) -> 
    Prec = max(?num(TypeA), ?num(TypeB)),
@@ -937,17 +946,21 @@ numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
                 "NaN";
              ValA == "NaN" orelse ValB == "NaN" ->
                 "NaN";
+             ValA == "INF" orelse ValB == "INF" ->
+                "INF";
+             ValA == "-INF" orelse ValB == "-INF" ->
+                "-INF";
              Prec == 15 -> % float could be overflowed
-                case ValA + ValB of
+                case xqerl_numeric:double(ValA) + xqerl_numeric:double(ValB) of
                    X when X > ?MAXFLOAT ->
                       "INF";
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
+                      xqerl_numeric:float(X)
                 end;
              true ->
-                ValA + ValB
+                xqerl_numeric:add(ValA, ValB)
           end,
    
    #xqAtomicValue{type = TypeC, value = ValC};
@@ -986,10 +999,10 @@ numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
+                      xqerl_numeric:float(X)
                 end;
              true ->
-                ((ValA * 100000000) - (ValB * 100000000)) / 100000000
+                xqerl_numeric:subtract(ValA, ValB)
           end,
    %?dbg("numeric_subtract",{ValA,ValB,ValC}),
    #xqAtomicValue{type = TypeC, value = ValC};
@@ -1028,11 +1041,10 @@ numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
+                      xqerl_numeric:float(X)
                 end;
             true ->
-                ValA * ValB
-                %((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000
+                xqerl_numeric:multiply(ValA, ValB)
           end,
    #xqAtomicValue{type = TypeC, value = ValC};
 numeric_multiply(_,_) ->
@@ -1085,14 +1097,17 @@ numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       "-INF";
                    X ->
-                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
+                      xqerl_numeric:float(X)
                 end;
              true ->
-                ValA / ValB
+                case xqerl_numeric:equal(ValB, 0) of
+                   true ->
+                      xqerl_error:error('FOAR0001');
+                   _ ->
+                      xqerl_numeric:divide(ValA, ValB)
+                end
           end,
    #xqAtomicValue{type = TypeC, value = ValC};
-%% {'EXIT',_} ->
-%%    xqerl_error:error('FOAR0002');
 numeric_divide(_,_) ->
    xqerl_error:error('XPTY0004').
 
@@ -1127,10 +1142,15 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       xqerl_error:error('FOAR0002');
                    X ->
-                      list_to_float(float_to_list(erlang:float(X), [{scientific,8}]))
+                      xqerl_numeric:float(X)
                 end;
              true ->
-                trunc(float(ValA) / float(ValB))
+                case xqerl_numeric:equal(ValB, 0) of
+                   true ->
+                      xqerl_error:error('FOAR0001');
+                   _ ->
+                      xqerl_numeric:integer(xqerl_numeric:divide(ValA, ValB))
+                end
           end,
    #xqAtomicValue{type = 'xs:integer', value = ValC};
 numeric_integer_divide(_,_) ->
@@ -1181,24 +1201,33 @@ numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
                 false;
              (ValA == "INF") andalso (ValB == "INF") ->
                 true;
+             (ValA == "INF") orelse (ValB == "INF") ->
+                false;
              (ValA == "-INF") andalso (ValB == "-INF") ->
                 true;
-             (ValA == ValB) andalso TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
-                true;
-             (ValA == ValB) andalso TypeB == 'xs:float' andalso TypeA == 'xs:double' ->
-                true;
+             (ValA == "-INF") orelse (ValB == "-INF") ->
+                false;
+             ?decimal(TypeA) andalso TypeB == 'xs:float' ->
+                xqerl_numeric:float(ValA) == ValB;
+             ?decimal(TypeA) andalso TypeB == 'xs:double' ->
+                xqerl_numeric:double(ValA) == ValB;
+             ?decimal(TypeB) andalso TypeA == 'xs:float' ->
+                xqerl_numeric:float(ValB) == ValA;
+             ?decimal(TypeB) andalso TypeA == 'xs:double' ->
+                xqerl_numeric:double(ValB) == ValA;
+             TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
+                ?dbg("equal",{ValA,ValB}),
+                ValA == ValB;
+             TypeB == 'xs:float' andalso TypeA == 'xs:double' ->
+                ValA == ValB;
              true ->
-                ValA == ValB %andalso TypeA == TypeB
+                xqerl_numeric:equal(ValA, ValB)
           end,
    ?bool(ValC);
 numeric_equal(_,_) ->
    xqerl_error:error('XPTY0004').
 
 % returns: xs:boolean
-numeric_less_than(A,B) when is_integer(A) -> 
-   numeric_less_than(#xqAtomicValue{type = 'xs:integer', value = A},B);
-numeric_less_than(A,B) when is_integer(B) -> 
-   numeric_less_than(A,#xqAtomicValue{type = 'xs:integer', value = B});
 numeric_less_than(#xqAtomicValue{type = TypeA, value = ValA},
                   #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
    ValC = if (ValA == "NaN") or(ValB == "NaN") ->
@@ -1212,7 +1241,7 @@ numeric_less_than(#xqAtomicValue{type = TypeA, value = ValA},
              (ValB == "-INF") ->
                 false;
              true ->
-                ValA < ValB
+                xqerl_numeric:less_than(ValA, ValB)
           end,
    ?bool(ValC);
 numeric_less_than(_,_) ->
@@ -1232,7 +1261,7 @@ numeric_greater_than(#xqAtomicValue{type = TypeA, value = ValA},
              (ValB == "-INF") ->
                 true;
              true ->
-                ValA > ValB
+                xqerl_numeric:greater_than(ValA, ValB)
           end,
    ?bool(ValC);
 numeric_greater_than(_,_) ->
@@ -1352,11 +1381,13 @@ multiply_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                           value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                            #xqAtomicValue{value = Dbl}) -> 
    MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonC = erlang:round(MonA * Dbl),
-   SnC = if MonC < 0 -> '-';
-            true -> '+'
+   MonC = xqerl_numeric:truncate(xqerl_numeric:round_half(xqerl_numeric:multiply(MonA,Dbl), 0)),
+   SnC = case xqerl_numeric:less_than(MonC, 0)of
+            true -> '-';
+            _ -> '+'
          end,  
-   {Mon, Year} = {abs(MonC) rem 12, abs(MonC) div 12},
+   AbsMon = xqerl_numeric:abs_val(MonC),
+   {Mon, Year} = {AbsMon rem 12, AbsMon div 12},
    RecDt = #xsDateTime{sign = SnC, year = Year, month = Mon, day = 0},
    Str = xqerl_datetime:to_string(RecDt,'xs:yearMonthDuration'),
    #xqAtomicValue{type = 'xs:yearMonthDuration',
@@ -1375,13 +1406,16 @@ divide_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                         value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                          #xqAtomicValue{type = Type, value = Dbl}) when ?numeric(Type) ->
    MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonC = if (MonA / Dbl) < 0 -> erlang:trunc(MonA / Dbl);
-             true -> erlang:round(MonA / Dbl)
+   MonT = xqerl_numeric:divide(MonA , Dbl),
+   MonC = if MonT < 0 -> xqerl_numeric:truncate(MonA / Dbl);
+             true -> xqerl_numeric:truncate(xqerl_numeric:round_half(MonT,0))
           end,
-   SnC = if MonC < 0 -> '-';
-            true -> '+'
+   SnC = case xqerl_numeric:less_than(MonC, 0) of
+            true -> '-';
+            _ -> '+'
          end,  
-   {Mon, Year} = {abs(MonC) rem 12, abs(MonC) div 12},
+   AbsMon = xqerl_numeric:abs_val(MonC),
+   {Mon, Year} = {AbsMon rem 12, AbsMon div 12},
    RecDt = #xsDateTime{sign = SnC, year = Year, month = Mon, day = 0},
    Str = xqerl_datetime:to_string(RecDt,'xs:yearMonthDuration'),
    #xqAtomicValue{type = 'xs:yearMonthDuration',
@@ -1414,9 +1448,10 @@ add_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
    SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
    SecC = erlang:float(SecA + SecB),
    ?dbg("SecA,SecB,SecC",{SecA,SecB,SecC,SnA,SnB}),
-   Str = if SecC < 0 -> "-";
-            true -> ""
-         end ++ "PT" ++ erlang:float_to_list(erlang:abs(SecC), [{decimals, 18}]) ++ "S",
+   Str = case xqerl_numeric:less_than(SecC, 0) of
+            true -> "-";
+            _ -> ""
+         end ++ "PT" ++ xqerl_numeric:string(xqerl_numeric:abs_val(SecC)) ++ "S",
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ).
 
 % returns: xs:dayTimeDuration
@@ -1429,9 +1464,10 @@ subtract_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
    SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
    SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
    SecC = erlang:float(SecA - SecB),
-   Str = if SecC < 0 -> "-";
-            true -> ""
-         end ++ "PT" ++ erlang:float_to_list(erlang:abs(SecC), [{decimals, 18}]) ++ "S",
+   Str = case xqerl_numeric:less_than(SecC, 0) of
+            true -> "-";
+            _ -> ""
+         end ++ "PT" ++ xqerl_numeric:string(xqerl_numeric:abs_val(SecC)) ++ "S",
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ).
 
 % returns: xs:dayTimeDuration
@@ -1446,14 +1482,15 @@ multiply_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                                             minute = MiA, second = SdA}},
                          #xqAtomicValue{value = Dbl}) -> 
    SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecC = SecA * Dbl,
-   Str = if SecC < 0 -> "-";
-            true -> ""
+   SecC = xqerl_numeric:multiply(SecA,Dbl),
+   Str = case xqerl_numeric:less_than(SecC, 0) of
+            true -> "-";
+            _ -> ""
          end ++ "PT" ++ 
            if is_integer(SecC) ->
                  erlang:integer_to_list(erlang:abs(SecC));
               true ->
-                 erlang:float_to_list(erlang:abs(SecC), [{decimals, 18}])
+                 xqerl_numeric:string(xqerl_numeric:abs_val(SecC))
            end ++ "S",
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ).
    
@@ -1471,10 +1508,11 @@ divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                                           minute = MiA, second = SdA}},
                        #xqAtomicValue{type = Type, value = Dbl}) when ?numeric(Type) ->
    SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecC = SecA / Dbl,
-   Str = if SecC < 0 -> "-";
-            true -> ""
-         end ++ "PT" ++ erlang:float_to_list(erlang:abs(SecC), [{decimals, 18}]) ++ "S",
+   SecC = xqerl_numeric:divide(SecA, Dbl),
+   Str = case xqerl_numeric:less_than(SecC, 0) of
+            true -> "-";
+            _ -> ""
+         end ++ "PT" ++ xqerl_numeric:string(xqerl_numeric:abs_val(SecC)) ++ "S",
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' );
 divide_dayTimeDuration(_,_) ->
    xqerl_error:error('XPTY0004').
@@ -1489,7 +1527,7 @@ divide_dayTimeDuration_by_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDurat
    try
       SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
       SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
-      SecC = SecA / SecB,
+      SecC = xqerl_numeric:divide(SecA, SecB),
       #xqAtomicValue{type = 'xs:decimal', value = SecC}
    catch
       _:_ ->
@@ -2000,7 +2038,7 @@ numeric_unary_minus(#xqAtomicValue{type = Type, value = "-INF"} = Arg) when ?num
 numeric_unary_minus(#xqAtomicValue{type = Type, value = "NaN"} = Arg) when ?numeric(Type) ->
    Arg#xqAtomicValue{value = "NaN"};
 numeric_unary_minus(#xqAtomicValue{type = Type, value = Val} = Arg) when ?numeric(Type) ->
-   Arg#xqAtomicValue{value = Val * -1};
+   Arg#xqAtomicValue{value = xqerl_numeric:unary_minus(Val)};
 numeric_unary_minus(_) ->
    xqerl_error:error('XPTY0004').
 
@@ -2147,13 +2185,21 @@ key_val(Val) ->
                                                   Type == 'xs:untypedAtomic'  ->
          V;
       #xqAtomicValue{type = 'xs:integer', value = V} ->
-         {number,float(V)};
+         {number,xqerl_numeric:decimal(V)};
       #xqAtomicValue{type = 'xs:decimal', value = V} ->
          {number,V};
+      #xqAtomicValue{type = 'xs:double', value = V} when V == "NaN";
+                                                         V == "INF";
+                                                         V == "-INF" ->
+         {number,V};
+      #xqAtomicValue{type = 'xs:float', value = V} when V == "NaN";
+                                                        V == "INF";
+                                                        V == "-INF" ->
+         {number,V};
       #xqAtomicValue{type = 'xs:double', value = V} ->
-         {number,V};
+         {number,xqerl_numeric:decimal(V)};
       #xqAtomicValue{type = 'xs:float', value = V} ->
-         {number,V};
+         {number,xqerl_numeric:decimal(V)};
       #xqAtomicValue{type = 'xs:yearMonthDuration', value = V} ->
          {duration,V};
       #xqAtomicValue{type = 'xs:dayTimeDuration', value = V} ->
@@ -2161,16 +2207,22 @@ key_val(Val) ->
       #xqAtomicValue{type = 'xs:duration', value = V} ->
          {duration,V};
       #xqAtomicValue{type = 'xs:date'} ->
-         #xqAtomicValue{type = 'xs:date', value = V} = xqerl_fn:'adjust-date-to-timezone'([],Val),
+         S = #off_set{sign = '+', hour = 0, min = 0},
+         #xqAtomicValue{type = 'xs:date', value = V} = xqerl_fn:'adjust-date-to-timezone'([],Val,S),
          {time,V};
       #xqAtomicValue{type = 'xs:dateTime'} ->
-         #xqAtomicValue{type = 'xs:dateTime', value = V} = xqerl_fn:'adjust-dateTime-to-timezone'([],Val),
+         S = #off_set{sign = '+', hour = 0, min = 0},
+         #xqAtomicValue{type = 'xs:dateTime', value = V} = xqerl_fn:'adjust-dateTime-to-timezone'([],Val,S),
          {time,V};
       #xqAtomicValue{type = 'xs:time'} ->
-         #xqAtomicValue{type = 'xs:time', value = V} = xqerl_fn:'adjust-time-to-timezone'([],Val),
+         S = #off_set{sign = '+', hour = 0, min = 0},
+         #xqAtomicValue{type = 'xs:time', value = V} = xqerl_fn:'adjust-time-to-timezone'([],Val,S),
          {time,V};
       #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = N,local_name = L}} ->
          {N,L};
+      #xqAtomicValue{type = Type, value = Value} ->
+         ?dbg("{Type,Value}",{Type,Value}),
+         {Type,Value};
       _ ->
          xqerl_error:error('XPTY0004')
    end.
@@ -2205,7 +2257,8 @@ eff_bool_val(#xqAtomicValue{type = Type, value = Val}) when ?string(Type);
       true -> true
    end;
 % 5 + 6
-eff_bool_val(#xqAtomicValue{type = Type, value = Val}) when ?numeric(Type), Val == 0;
+eff_bool_val(#xqAtomicValue{type = Type, value = Val}) when ?numeric(Type), Val == {xsDecimal,0,0};
+                                                            ?numeric(Type), Val == 0;
                                                             ?numeric(Type), Val == "NaN"->
    false;
 eff_bool_val(#xqAtomicValue{type = Type}) when ?numeric(Type) ->

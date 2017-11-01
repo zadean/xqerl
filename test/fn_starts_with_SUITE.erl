@@ -727,47 +727,9 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-starts-with-32'(_Config) ->
-   Qry = "fn:starts-with(\"Chapter-001\", \"Chapter-1\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FOCH0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'fn-starts-with-33'(_Config) ->
-   Qry = "fn:starts-with(\"Chapter-100\", \"Chapter-10\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FOCH0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'K-StartsWithFunc-1'(_Config) ->
    Qry = "starts-with()",
    Qry1 = Qry,

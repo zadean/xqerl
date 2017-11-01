@@ -333,20 +333,7 @@ environment('primary') ->
       Err -> ct:fail(Err)
    end.
 'collation-key-009u'(_Config) ->
-   Qry = "let $C := \"http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper\"
-         return collation-key(\"abc\", $C) gt collation-key(\"ABC\", $C)
-        ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'collation-key-009l'(_Config) ->
    Qry = "let $C := \"http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=lower\"
          return collation-key(\"abc\", $C) lt collation-key(\"ABC\", $C) 

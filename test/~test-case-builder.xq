@@ -150,6 +150,7 @@ declare function local:print-testcase($test-case)
     "   {skip,""Validation Environment""}" (: => trace() :)
     else if ($test-case/*:environment/*:schema) then 
     "   {skip,""Validation Environment""}" (: => trace() :)
+    
     (: features :)
     (: else if ($deps[@type = "feature" and @value = "higherOrderFunctions"]) then 
     "   {skip,""higherOrderFunctions""}" :)
@@ -177,12 +178,17 @@ declare function local:print-testcase($test-case)
     "   {skip,""collection-stability""}"
     else if ($deps[@type = "feature" and @value = "directory-as-collection-uri"]) then 
     "   {skip,""directory-as-collection-uri""}"
+    else if ($deps[@type = "feature" and @value = "non_unicode_codepoint_collation"]) then 
+    "   {skip,""non_unicode_codepoint_collation""}"
+    else if ($deps[@type = "feature" and @value = "advanced-uca-fallback"]) then 
+    "   {skip,""advanced-uca-fallback""}"
     (: else if ($deps[@type = "feature" and @value = "staticTyping"]) then 
     "   {skip,""staticTyping""}" :)
     else if ($deps[@type = "feature" and @value = "typedData"]) then 
     "   {skip,""typedData""}"
     else if ($deps[@type = "feature" and @value = "schema-location-hint"]) then 
     "   {skip,""schema-location-hint""}"    
+
     (: older specs :)
     else if ($deps[@type = "spec" and @value = "XP10 XQ10"]) then
     "   {skip,""XP10 XQ10""}"
@@ -206,6 +212,13 @@ declare function local:print-testcase($test-case)
     "   {skip,""XP20+""}"
     else if ($deps[@type = "spec" and @value = "XP30+"]) then
     "   {skip,""XP30+""}"
+
+    else if ($deps[@type = "default-language" and @value = "fr-CA"]) then
+    "   {skip,""default-language fr-CA""}"
+    else if ($deps[@type = "unicode-normalization-form" and @value = "FULLY-NORMALIZED"
+                   and not(exists(@satisfied)) ]) then
+    "   {skip,""unicode-normalization-form FULLY-NORMALIZED""}"
+
     (: added znd :)
     else if ($deps[@type = "problem"]) then
     "   {skip,"" "||$deps[@type = "problem"]/@value||" ""}"
@@ -219,9 +232,6 @@ declare function local:print-testcase($test-case)
     "   {skip,""XML 1.1""}"
     (: else if ($deps[@type = "xml-version" and @value = "1.0"]) then
     "   {skip,""XML 1.0""}" :)
-    else if ($deps[@type = "unicode-normalization-form" and @value = "FULLY-NORMALIZED"
-                   and not(exists(@satisfied)) ]) then
-    "   {skip,""unicode-normalization-form FULLY-NORMALIZED""}"
     else
     "   Qry = "||
     (

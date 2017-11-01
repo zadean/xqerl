@@ -30,8 +30,10 @@
 -export([ymd_is_valid/3]).
 
 -export([to_string/2]).
+-export([align_to_timezone/2]).
 
 -define(digit(H), H >= $0; H =< $9).
+-define(str(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
 
 -include("xqerl.hrl").
 
@@ -216,6 +218,62 @@ ymd_is_valid(Y,M,D) ->
    catch _:_ ->
             xqerl_error:error('FORG0001')
    end.
+
+align_to_timezone(Arg1,Arg2) ->
+   #xqAtomicValue{type = Type, value = #xsDateTime{offset = Os} = Val} = ?seq:singleton_value(Arg1),
+   case ?seq:is_empty(Arg2) of
+      true ->
+         NewDtTmWOs = Val#xsDateTime{offset = []},
+         %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
+         Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
+         %?dbg("adjust-dateTime-to-timezone Str",Str),
+         #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
+   _ ->
+      ArgDurStr  = case Os of 
+                     [] ->
+                        [];
+                     _ ->
+                        xqerl_datetime:to_string(Os,'xs:dayTimeDuration')
+                  end,
+      AdjDurStr = case ?seq:singleton_value(Arg2) of
+                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{second = Sec}} when Sec > 0 ->
+                        xqerl_error:error('FODT0003');
+                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{string_value = DStr}} ->
+                        ?str(DStr);
+                     O ->
+                        ?str(xqerl_datetime:to_string(O,'xs:dayTimeDuration'))
+                  end,
+      %?dbg("ArgDurStr",ArgDurStr),
+      %?dbg("AdjDurStr",AdjDurStr),
+      %?dbg("Arg2",Arg2),
+      if ArgDurStr == [] andalso AdjDurStr == [] ->
+            Arg1;
+         ArgDurStr == [] ->
+            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
+            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
+            NewOffset = #off_set{sign = S, hour = H, min = M},
+            NewDtTmWOs = Val#xsDateTime{offset = NewOffset},
+            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
+            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
+         true ->
+            DtDur  = xqerl_types:cast_as(?str(ArgDurStr), 'xs:dayTimeDuration'),
+            %?dbg("adjust-dateTime-to-timezone DtDur",DtDur),
+            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
+            %?dbg("adjust-dateTime-to-timezone AdjDur",AdjDur),
+            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
+            Diff = xqerl_operators:subtract(AdjDur, DtDur),
+            %?dbg("adjust-dateTime-to-timezone Diff",Diff),
+            #xqAtomicValue{value = NewDtTm} = ?seq:singleton_value(xqerl_operators:add(Arg1, Diff)),
+            %?dbg("adjust-dateTime-to-timezone NewDtTm",NewDtTm),
+            NewOffset = #off_set{sign = S, hour = H, min = M},
+            NewDtTmWOs = NewDtTm#xsDateTime{offset = NewOffset},
+            %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
+            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
+            %?dbg("adjust-dateTime-to-timezone Str",Str),
+            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}}
+      end
+   end.
+   
 
 
 

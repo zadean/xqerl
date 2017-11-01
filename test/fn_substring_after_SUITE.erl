@@ -685,27 +685,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-after-24'(_Config) ->
-   Qry = "substring-after(\"banana\", \"A\", \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
-   Env = xqerl_test:handle_environment([{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"\"nana\"") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"non_unicode_codepoint_collation"}.
 'fn-substring-after-25'(_Config) ->
    Qry = "substring-after(\"𐀁𐀂𐀃\", \"𐀂\")",
    Qry1 = Qry,
@@ -937,47 +917,9 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-after-42'(_Config) ->
-   Qry = "fn:substring-after(\"Chapter-001-section-2\", \"ter-1\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"\"-section-2\"") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FOCH0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'fn-substring-after-43'(_Config) ->
-   Qry = "fn:substring-after(\"Chapter-100-bis\", \"Chapter-10\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"\"\"") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FOCH0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'K-SubstringAfterFunc-1'(_Config) ->
    Qry = "substring-after()",
    Qry1 = Qry,

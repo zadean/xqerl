@@ -148,10 +148,19 @@ groupbyclause(KeyVals) ->
                                         #xqNode{} = N ->
                                            #xqAtomicValue{value = Val} = A = ?seq:singleton_value(xqerl_node:atomize_nodes(N)),
                                            {xqerl_coll:sort_key(Val, Coll), A};
+                                        #xqAtomicValue{value = Val, type = T} = A when T == 'xs:gYearMonth';
+                                                                                       T == 'xs:gYear';
+                                                                                       T == 'xs:gMonthDay';
+                                                                                       T == 'xs:gDay';
+                                                                                       T == 'xs:gMonth';
+                                                                                       T == 'xs:date';
+                                                                                       T == 'xs:dateTime';
+                                                                                       T == 'xs:time' ->
+                                           {xqerl_coll:sort_key(Val, T), A};
                                         #xqAtomicValue{value = Val} = A ->
                                            {xqerl_coll:sort_key(Val, Coll), A};
                                         [] ->
-                                           []
+                                           {<<>>, []}
                                      end
                                end, KC), 
                       list_to_tuple(lists:map(fun({Va,_}) -> Va;
@@ -160,18 +169,18 @@ groupbyclause(KeyVals) ->
                      }
                end, KeyVals),
     
-   ?dbg("KeyVals1",KeyVals1),
+   %?dbg("KeyVals1",KeyVals1),
    Keys = [K || {K,_V} <- KeyVals1],
    %Keys = [grouped_key(K) || {K,_V} <- KeyVals1],
 
-   ?dbg("Keys",Keys),
-   ?dbg("KeyVals",KeyVals),
+   %?dbg("Keys",Keys),
+   %?dbg("KeyVals",KeyVals),
    UKeys = unique(Keys),
-   ?dbg("UKeys",UKeys),
+   %?dbg("UKeys",UKeys),
    Mapped = lists:foldl(fun({K,V},Acc) ->
                      upsert(K,V,Acc)
                end, maps:new(), KeyVals1),
-   ?dbg("Mapped",Mapped),
+   %?dbg("Mapped",Mapped),
    All = lists:foldl(fun(Ks,Acc) ->
                            K = [K || {K,_V} <- Ks],
                            Vs = [V || {_K,V} <- Ks],
@@ -183,7 +192,7 @@ groupbyclause(KeyVals) ->
                   %?dbg("V1",V1),
                   [New|Acc]
                end, [], UKeys),
-   ?dbg("All",All),
+   %?dbg("All",All),
    lists:reverse(All).
 
 grouped_key(Keys) ->
@@ -430,10 +439,10 @@ upsert(K,V,Map) ->
    H1 = [Q || {Q,_} <- K],
    case maps:find(H1, Map) of
       error ->
-   ?dbg("H1",H1),
+   %?dbg("H1",H1),
          maps:put(H1, append(V,[]), Map);
       {ok, Val} ->
-   ?dbg("H1",H1),
+   %?dbg("H1",H1),
          maps:put(H1, append(V,Val), Map)
    end.
 

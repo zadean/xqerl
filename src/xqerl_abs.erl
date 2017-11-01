@@ -1252,6 +1252,11 @@ expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
                                 ValExp =  expr_do(Ctx, Val),
                                 {call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
                                  [{var,?L,CtxVar},Abs,ValExp]};
+                             ({LU, Val}, Abs) when LU == map_lookup;
+                                                   LU == array_lookup ->
+                                ValExp =  expr_do(Ctx, Val),
+                                {call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+                                 [{var,?L,CtxVar},Abs,ValExp]};
                              ({positional_predicate, P}, Abs) ->
                               NextCtxVar = next_ctx_var_name(),
                               Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
@@ -2236,6 +2241,17 @@ group_do(Ctx0, Clauses) ->
 
    KeyTuple = {tuple,?L,KeyVars},
    AllNames = maps:get(variables, Ctx0),
+   
+   Vis = [N || {_,_,_,N} <- AllNames],
+   AllVisible = lists:all(fun({_,_,Nm}) ->
+                                lists:member(Nm, Vis)
+                          end, KeyNames),
+   if AllVisible ->
+         ok;
+      true ->
+         xqerl_error:error('XQST0094') % out of scope grouping variable
+   end,
+   
    AllVars = [ {var,?L,Name} || {_,_,_,Name} <- AllNames, is_atom(Name)],
    RestVars = lists:filter(fun({var,_,V}) ->
                                  not lists:any(fun({var,_,V1}) ->
@@ -2840,6 +2856,9 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
                Qn#qname{prefix = ""}
          end,
    Variable1 = erlang:setelement(1, Variable, Qn1),
+   
+   _ = xqerl_context:add_in_scope_variable(Variable1),
+   
    Vars = maps:get(variables, Map),
    Key = Qn1,
    Vars1 = lists:keydelete(Key, 1, Vars),

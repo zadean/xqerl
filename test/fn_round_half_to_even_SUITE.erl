@@ -1739,7 +1739,7 @@ environment('array-and-map') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"0.1") of 
+   case xqerl_test:assert_eq(Res,"xs:float(0.1)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end,
@@ -1760,7 +1760,7 @@ environment('array-and-map') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"-0.1") of 
+   case xqerl_test:assert_eq(Res,"xs:float(-0.1)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end,
@@ -1781,7 +1781,7 @@ environment('array-and-map') ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"3.8") of 
+   case xqerl_test:assert_eq(Res,"xs:float(3.8)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end,

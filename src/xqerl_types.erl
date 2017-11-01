@@ -893,7 +893,7 @@ instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1}) ->
          false
    end;
 instance_of1(Node, #xqKindTest{kind = element}) ->
-   ?dbg("Node",Node),
+   %?dbg("Node",Node),
    case xqerl_node:get_node_type(Node) of
       element ->
          true;
@@ -901,6 +901,23 @@ instance_of1(Node, #xqKindTest{kind = element}) ->
          false
    end;
 %% #xqKindTest{kind = 'attribute',        name = undefined | WQName, type = undefined | #xqSeqType{type = BType, occur = one}}.
+instance_of1(Node, #xqKindTest{kind = attribute, name = #qname{} = Q1}) ->
+   case xqerl_node:get_node_type(Node) of
+      attribute ->
+         Q2 = xqerl_node:get_node_name(Node),
+         has_name(Q2, Q1);
+      _ ->
+         false
+   end;
+instance_of1(Node, #xqKindTest{kind = attribute}) ->
+   %?dbg("Node",Node),
+   case xqerl_node:get_node_type(Node) of
+      attribute ->
+         true;
+      _ ->
+         false
+   end;
+
 %% #xqKindTest{kind = 'schema-element',   name = WQName}.
 %% #xqKindTest{kind = 'schema-attribute', name = WQName}.
 %% #xqKindTest{kind = 'processing-instruction', name = undefined | QName}.
@@ -927,7 +944,7 @@ instance_of1(#xqFunction{annotations = Annos, params = Params, type = Type},
          false
    end;
 instance_of1(Map, #xqFunTest{kind = function, type = SeqType}) when is_map(Map) -> % map is function(anyAtomic,V)
-   instance_of1(Map, #xqFunTest{kind = map, params = #xqSeqType{type = 'xs:anyAtomicType', occur = one}, type = SeqType});
+   instance_of1(Map, #xqFunTest{kind = map, params = [#xqSeqType{type = 'xs:anyAtomicType', occur = one}], type = SeqType});
 instance_of1(Map, #xqFunTest{kind = map, params = Param, type = SeqType}) when is_map(Map) ->
    ParamOk = if Param == any -> % this means return type is also any
                    true;
@@ -1190,7 +1207,8 @@ cast_as( #xqAtomicValue{type = _}, 'xs:numeric' ) ->
 cast_as( [At], TT ) -> 
    cast_as( At, TT );
 
-cast_as( #xqAtomicValue{type = Type,value = _} = ST, TType ) when Type == TType -> 
+% force float to cast
+cast_as( #xqAtomicValue{type = Type,value = _} = ST, TType ) when Type == TType, Type =/= 'xs:float' -> 
    ST;
 
 cast_as( #xqAtomicValue{type = 'xs:anyURI', value = 'no-namespace'}, 'xs:string' ) -> 
@@ -1388,30 +1406,20 @@ cast_as( #xqAtomicValue{type = 'xs:dayTimeDuration', value = _Val},
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration')}};
 
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:boolean' ) -> 
-   if Val == 0 -> #xqAtomicValue{type = 'xs:boolean', value = false};
+   if Val == {xsDecimal,0,0} -> #xqAtomicValue{type = 'xs:boolean', value = false};
       true -> #xqAtomicValue{type = 'xs:boolean', value = true}
    end;
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:double' ) -> 
-   #xqAtomicValue{type = 'xs:double', value = Val};
+   #xqAtomicValue{type = 'xs:double', value = xqerl_numeric:double(Val)};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:float' ) -> 
-   #xqAtomicValue{type = 'xs:float', value = Val};
+   #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(Val)};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:integer' ) -> 
-   #xqAtomicValue{type = 'xs:integer', value = trunc(Val)};
+   #xqAtomicValue{type = 'xs:integer', value = xqerl_numeric:integer(Val)};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:string' ) -> 
-   SVal = if is_list(Val) -> Val;
-             erlang:round(Val) == Val ->
-                erlang:integer_to_list(erlang:round(Val));
-             true ->
-                lists:flatten(io_lib:format("~w", [Val]))
-          end,
+   SVal = xqerl_numeric:string(Val),
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:untypedAtomic' ) ->
-   SVal = if is_list(Val) -> Val;
-             erlang:round(Val) == Val ->
-                erlang:integer_to_list(erlang:round(Val));
-             true ->
-                lists:flatten(io_lib:format("~w", [Val]))
-          end,
+   SVal = xqerl_numeric:string(Val),
    #xqAtomicValue{type = 'xs:untypedAtomic', value = SVal};
 
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:boolean' ) -> 
@@ -1423,8 +1431,11 @@ cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:decimal' ) -> % MA
    if Val == "NaN" -> xqerl_error:error('FOCA0002');
       Val == "-INF" -> xqerl_error:error('FOCA0002');
       Val == "INF" -> xqerl_error:error('FOCA0002');
-      true -> #xqAtomicValue{type = 'xs:decimal', value = Val}
+      true -> #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)}
    end;
+% ensure float is 32 bit
+cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:float' ) ->
+   cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:float' );
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:float' ) ->
    if Val == "NaN"  -> #xqAtomicValue{type = 'xs:float', value = Val};
       Val == "-INF" -> #xqAtomicValue{type = 'xs:float', value = Val};
@@ -1432,8 +1443,8 @@ cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:float' ) ->
       Val < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = "-INF"};
       Val > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = "INF"};
       abs(Val) < ?MAXFLOATPREC -> #xqAtomicValue{type = 'xs:float', value = 0.0};
-      true -> #xqAtomicValue{type = 'xs:float', value = 
-                               list_to_float(format_float(erlang:float(Val)))}
+      true -> 
+         #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(Val)}
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:integer' ) -> % MAYBE castable
    if Val == "NaN" -> xqerl_error:error('FOCA0002');
@@ -1443,27 +1454,15 @@ cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:integer' ) -> % MA
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:string' ) -> 
    SVal = if is_list(Val) -> Val;
-             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
-                erlang:integer_to_list(erlang:round(Val));
-             abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
-                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
-             Val == 0 ->
-                "0";
              true ->
-                format_double(erlang:float(Val))
+                xqerl_numeric:string(Val)
           end,
 ?dbg("SVal",SVal),
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:untypedAtomic' ) -> 
    SVal = if is_list(Val) -> Val;
-             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
-                erlang:integer_to_list(erlang:round(Val));
-             abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
-                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
-             Val == 0 ->
-                "0";
              true ->
-                format_double(erlang:float(Val))
+                xqerl_numeric:string(Val)
           end,
    #xqAtomicValue{type = 'xs:untypedAtomic', value = SVal};
 
@@ -1492,8 +1491,10 @@ cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:decimal' ) -> % MAY
    if Val == "NaN" -> xqerl_error:error('FOCA0002');
       Val == "-INF" -> xqerl_error:error('FOCA0002');
       Val == "INF" -> xqerl_error:error('FOCA0002');
-      true -> #xqAtomicValue{type = 'xs:decimal', value = Val}
+      true -> #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)}
    end;
+cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:double' ) when is_list(Val) ->
+   #xqAtomicValue{type = 'xs:double', value = Val};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:double' ) -> 
    #xqAtomicValue{type = 'xs:double', value = Val};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:integer' ) -> % MAYBE castable
@@ -1504,26 +1505,14 @@ cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:integer' ) -> % MAY
    end;
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:string' ) -> 
    SVal = if is_list(Val) -> Val;
-             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
-                erlang:integer_to_list(erlang:round(Val));
-             abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
-                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
-             Val == 0 ->
-                "0";
              true ->
-                format_float(erlang:float(Val))
+                xqerl_numeric:float_string(Val)
           end,
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:untypedAtomic' ) -> 
    SVal = if is_list(Val) -> Val;
-             erlang:round(Val) == Val andalso abs(Val) < 1000000 ->
-                erlang:integer_to_list(erlang:round(Val));
-             abs(Val) < 1000000 andalso abs(Val) >= 0.000001 ->
-                string:trim(lists:flatten(io_lib:format("~f", [Val])), trailing, [$0]);
-             Val == 0 ->
-                "0";
              true ->
-                format_float(erlang:float(Val))
+                xqerl_numeric:float_string(Val)
           end,
    #xqAtomicValue{type = 'xs:untypedAtomic', value = SVal};
 
@@ -1578,12 +1567,13 @@ cast_as( #xqAtomicValue{type = 'xs:integer', value = Val},
       true -> #xqAtomicValue{type = 'xs:boolean', value = true}
    end;
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:decimal' ) -> 
-   #xqAtomicValue{type = 'xs:decimal', value = erlang:float(Val)};
+   #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:double' ) ->
    Val1 = list_to_float(float_to_list(erlang:float(Val), [compact,{scientific,16}])),
    #xqAtomicValue{type = 'xs:double', value = Val1};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:float' ) -> 
-   #xqAtomicValue{type = 'xs:float', value = Val};
+   Val1 = list_to_float(float_to_list(erlang:float(Val), [compact,{scientific,16}])),
+   #xqAtomicValue{type = 'xs:float', value = Val1};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 
          'xs:string' ) -> 
    #xqAtomicValue{type = 'xs:string', value = integer_to_list(Val)};
@@ -1799,39 +1789,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
          'xs:decimal' ) -> % MAYBE castable
    Val = string:trim(Val1),
    try
-      Bin = list_to_binary(string:trim(Val)),
-      {Sign, Rest} = case Bin of
-                        <<"-",R/binary>> ->
-                           {'-', R};
-                        <<"+",R/binary>> ->
-                           {'+', R};
-                        R ->
-                           {'+', R}
-                     end,
-      Rest1 = case binary:first(Rest) == $.  of
-                 true -> <<$0,Rest/binary>>;
-                 _ -> Rest
-              end,
-      Num = case binary:match(Rest1, <<".">>) of
-                     nomatch ->
-                        binary_to_integer(Rest1);
-                     _ ->
-                        case binary:last(Rest1) of
-                           $. ->
-                              Bin1 = binary:part(Rest1,{0, byte_size(Rest1) -1}),
-                              binary_to_integer(Bin1);
-                           _ ->
-                              case binary:match(Rest1, [<<"E">>,<<"e">>]) of
-                                 nomatch ->
-                                    binary_to_float(Rest1);
-                                 _ ->
-                                    throw('FORG0001')
-                              end
-                        end
-                  end,
-      NNum = if Sign == '-' -> - Num;
-                true -> Num
-             end,
+      NNum = xqerl_numeric:decimal(Val),
       #xqAtomicValue{type = 'xs:decimal', value = NNum}
    catch
       _:_ -> xqerl_error:error('FORG0001' )
@@ -1840,59 +1798,76 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val1}, 
          'xs:double' ) -> % MAYBE castable
    Val = string:trim(Val1),
-   try
-      if Val == "NaN"  -> #xqAtomicValue{type = 'xs:double', value = Val};
-         Val == "-INF" -> #xqAtomicValue{type = 'xs:double', value = Val};
-         %Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = "INF"}; % schema 1.1 
-         Val == "INF"  -> #xqAtomicValue{type = 'xs:double', value = Val};
-         true ->
-         Bin = list_to_binary(string:trim(Val)),
-         {Sign, Rest} = case Bin of
-                           <<"-",R/binary>> ->
-                              {'-', R};
-                           <<"+",R/binary>> ->
-                              {'+', R};
-                           R ->
-                              {'+', R}
-                        end,
-         Rest1 = case binary:first(Rest) == $.  of
-                    true -> <<$0,Rest/binary>>;
-                    _ -> Rest
-                 end,
-         {Man, Exp} = case binary:split(Rest1, [<<"e">>,<<"E">>]) of
-                         [M,E] ->
-                            {M,binary_to_integer(E)};
-                         [M] ->
-                            {M,0}
-                      end,
-         Num = case binary:match(Man, <<".">>) of
-                        nomatch ->
-                           binary_to_integer(Man);
-                        _ ->
-                           case binary:last(Man) of
-                              $. ->
-                                 Bin1 = binary:part(Man,{0, byte_size(Man) -1}),
-                                 binary_to_integer(Bin1);
-                              _ ->
-                                 binary_to_float(Man)
-                           end
-                     end,
-         NNum = if Sign == '-' -> - Num;
-                   true -> Num
-                end,
-         try
-            ENum = NNum * math:pow(10, Exp),
-            #xqAtomicValue{type = 'xs:double', value = ENum}
-         catch
-            _:badarith -> #xqAtomicValue{type = 'xs:double', 
-                                         value = case Sign of 
-                                                    '-' -> atom_to_list(Sign) ++ "INF";
-                                                    _ -> "INF"
-                                                 end}
+   case string:find(Val, "--") of
+      nomatch ->
+         ok;
+      _ ->
+         xqerl_error:error('FORG0001')
+   end,
+   if Val == "NaN"  -> #xqAtomicValue{type = 'xs:double', value = Val};
+      Val == "-INF" -> #xqAtomicValue{type = 'xs:double', value = Val};
+      %Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = "INF"}; % schema 1.1 
+      Val == "INF"  -> #xqAtomicValue{type = 'xs:double', value = Val};
+      true ->
+         case catch list_to_float(Val) of
+            Flt when is_float(Flt) ->
+               #xqAtomicValue{type = 'xs:double', value = Flt};
+            _ ->
+               case catch list_to_integer(Val) of
+                  Int when is_integer(Int) ->
+                     #xqAtomicValue{type = 'xs:double', value = float(Int)};
+                  _ ->
+                     try
+                        Bin = list_to_binary(Val),
+                        {Sign, Rest} = case Bin of
+                                          <<"-",R/binary>> ->
+                                             {'-', R};
+                                          <<"+",R/binary>> ->
+                                             {'+', R};
+                                          R ->
+                                             {'+', R}
+                                       end,
+                        Rest1 = case binary:first(Rest) == $.  of
+                                   true -> <<$0,Rest/binary>>;
+                                   _ -> Rest
+                                end,
+                        {Man, Exp} = case binary:split(Rest1, [<<"e">>,<<"E">>]) of
+                                        [M,E] ->
+                                           {M,binary_to_integer(E)};
+                                        [M] ->
+                                           {M,0}
+                                     end,
+                        Num = case binary:match(Man, <<".">>) of
+                                       nomatch ->
+                                          float(binary_to_integer(Man));
+                                       _ ->
+                                          case binary:last(Man) of
+                                             $. ->
+                                                Bin1 = binary:part(Man,{0, byte_size(Man) -1}),
+                                                float(binary_to_integer(Bin1));
+                                             _ ->
+                                                binary_to_float(Man)
+                                          end
+                                    end,
+                        NNum = if Sign == '-' -> - Num;
+                                  true -> Num
+                               end,
+                        try
+                           Str = float_to_list(NNum, [{decimals,18}]) ++ "e" ++ integer_to_list(Exp),
+                           ENum = list_to_float(Str),
+                           #xqAtomicValue{type = 'xs:double', value = ENum}
+                        catch
+                           _:_ -> #xqAtomicValue{type = 'xs:double', 
+                                                        value = case Sign of 
+                                                                   '-' -> atom_to_list(Sign) ++ "INF";
+                                                                   _ -> "INF"
+                                                                end}
+                        end
+                     catch
+                        G:Err -> xqerl_error:error('FORG0001', ["xs:double", Val,G,Err] )
+                     end
+               end
          end
-      end
-   catch
-      G:Err -> xqerl_error:error('FORG0001', ["xs:double", Val,G,Err] )
    end;
 %% In casting to a duration value, if the value is too large or too small to be represented 
 %% by the implementation, a dynamic error [err:FODT0002] is raised.
@@ -1923,8 +1898,7 @@ cast_as( #xqAtomicValue{type = 'xs:string'} = Av,
          if DblVal < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = "-INF"};
             DblVal > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = "INF"};
             abs(DblVal) < ?MAXFLOATPREC -> #xqAtomicValue{type = 'xs:float', value = 0.0};
-            true -> #xqAtomicValue{type = 'xs:float', value = 
-                                     list_to_float(float_to_list(DblVal, [{scientific,8}]))}
+            true -> #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(DblVal)}
          end;
       true -> #xqAtomicValue{type = 'xs:float', value = DblVal}
    end;
@@ -2994,47 +2968,6 @@ derives_from( AT, ET ) ->
       _ ->
          false
    end.
-
-
-format_float(Val) ->
-   strip_zero_and_plus(
-     lists:reverse(
-       float_to_list(Val, [{scientific,8},compact])),[]).
-
-format_double(Val) ->
-   strip_zero_and_plus(
-     lists:reverse(
-       float_to_list(Val, [{scientific,16},compact])),[]).
-
-%%    ?dbg("format_float",Val),
-%%    strip_zero_and_plus(lists:reverse(Val),[]).
-
-strip_zero_and_plus([], Acc) -> Acc;
-
-strip_zero_and_plus("E0." ++ T, []) -> 
-   strip_zero_and_plus(T, ".0");
-strip_zero_and_plus("e0." ++ T, []) -> 
-   strip_zero_and_plus(T, ".0");
-
-strip_zero_and_plus("E0." ++ T, Acc) -> 
-   strip_zero_and_plus(T, ".0E" ++ Acc);
-strip_zero_and_plus("e0." ++ T, Acc) -> 
-   strip_zero_and_plus(T, ".0E" ++ Acc);
-strip_zero_and_plus("0+" ++ T, Acc) -> 
-   strip_zero_and_plus("+"++T, Acc);
-strip_zero_and_plus("0-" ++ T, Acc) -> 
-   strip_zero_and_plus("-"++T, Acc);
-strip_zero_and_plus("E0" ++ T, Acc) -> 
-   strip_zero_and_plus("E"++T, Acc);
-strip_zero_and_plus("e0" ++ T, Acc) -> 
-   strip_zero_and_plus("E"++T, Acc);
-strip_zero_and_plus([$e|T], Acc) -> 
-   strip_zero_and_plus(T, [$E|Acc]);
-strip_zero_and_plus([$+|T], Acc) -> 
-   strip_zero_and_plus(T, Acc);
-strip_zero_and_plus([H|T], Acc) -> 
-   strip_zero_and_plus(T, [H|Acc]).
-
 
 is_valid_month_day(1,Day) when Day >= 1, Day =< 31 -> true;
 is_valid_month_day(2,Day) when Day >= 1, Day =< 29 -> true;

@@ -1018,27 +1018,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-010'(_Config) ->
-   Qry = "compare(\"a\", \"A\", \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
-   Env = xqerl_test:handle_environment([{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"0") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"non_unicode_codepoint_collation"}.
 'compare-011'(_Config) ->
    Qry = "compare(123, 456)",
    Qry1 = Qry,
@@ -1327,18 +1307,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-031'(_Config) ->
-   Qry = "fn:compare(\"database\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=upper\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"1") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-032'(_Config) ->
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")",
    Qry1 = Qry,
@@ -1366,31 +1335,9 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-034'(_Config) ->
-   Qry = "fn:compare(\"Chap2\", \"Chap10\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"-1") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-035'(_Config) ->
-   Qry = "fn:compare(\"Chap2-b\", \"Chap10-b\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"-1") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-036'(_Config) ->
    Qry = "fn:compare(\"DATABASE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes\")",
    Qry1 = Qry,
@@ -1405,18 +1352,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-037'(_Config) ->
-   Qry = "fn:compare(\"DATABASE\", \"DÃTAbase\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes;caseFirst=lower\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"1") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-038'(_Config) ->
    Qry = "fn:compare(\"DATABÃSE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")",
    Qry1 = Qry,
@@ -1431,44 +1367,11 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-039'(_Config) ->
-   Qry = "fn:compare(\"DATABÃSE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;backwards=yes\")",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"1") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-040'(_Config) ->
-   Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=tertiary\") = 0",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-041'(_Config) ->
-   Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=quaternary\") = 0",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-042'(_Config) ->
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=identical\") = 0",
    Qry1 = Qry,
@@ -1483,18 +1386,7 @@ environment('array-and-map') ->
       Err -> ct:fail(Err)
    end.
 'compare-043'(_Config) ->
-   Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=tertiary\") = 0",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"advanced-uca-fallback"}.
 'compare-044'(_Config) ->
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=quaternary\") = 0",
    Qry1 = Qry,

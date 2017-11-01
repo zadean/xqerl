@@ -110,7 +110,7 @@ assert_eq(Result, TypeString) ->
             true ->
                %?dbg("Res1",Res1),
                %?dbg("NewQueryString",NewQueryString),
-               %?dbg("Result",Result),
+               ?dbg("Result",Result),
                {false, {assert_eq,Res1,TypeString}}
          end
    end.

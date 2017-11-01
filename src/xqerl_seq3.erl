@@ -457,8 +457,9 @@ get_unique_values(Seq) ->
    get_unique_values1([Seq]).
 
 get_unique_values1([]) -> [];
+get_unique_values1([#xqAtomicValue{value = {xsDecimal,H,0}}|T]) ->
+   [H|get_unique_values1(T)];
 get_unique_values1([#xqAtomicValue{value = H}|T]) ->
-   %?dbg("H",H),
    [H|get_unique_values1(T)].
   
    
@@ -502,9 +503,10 @@ filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
 filter(Ctx, Fun, Seq) when not is_list(Seq) ->
    filter(Ctx, Fun, [Seq]);
 filter(Ctx, Fun, Seq) when is_function(Fun,1) ->
-   Size = ?MODULE:size(Seq),
+   Seq2 = flatten(Seq),
+   Size = ?MODULE:size(Seq2),
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
-   filter1(Ctx1, Fun, Seq, 1).
+   filter1(Ctx1, Fun, Seq2, 1).
 
 filter1(_Ctx, _Fun, [], _Pos) -> [];
 filter1(Ctx, Fun, [H|T], Pos) ->

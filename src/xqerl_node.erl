@@ -56,7 +56,7 @@
 
 -export([atomize_nodes/1]).
 -export([to_xml/1]).
--export([nodes_equal/2]).
+-export([nodes_equal/3]).
 
 -export([merge_content/2]).
 
@@ -255,7 +255,8 @@ augment_inscope_namespaces(#xqElementNode{name = #qname{namespace = Ns, prefix =
             not PxAlreadyInUse ->
                [NewNs|InscopeNamespaces];
             true ->
-               NewPx = Px ++ "_",
+               NewPx = if Px == [] -> "ns_";
+                          true -> Px ++ "_" end,
                NewNs1 = NewNs#xqNamespace{prefix = NewPx},
                case lists:member(NewNs1, InscopeNamespaces) of
                   true ->
@@ -295,7 +296,8 @@ augment_inscope_namespaces(#xqAttributeNode{name = #qname{namespace = Ns, prefix
          if not PxAlreadyInUse andalso Px =/= [] ->
                [NewNs|InscopeNamespaces];
             true ->
-               NewPx = Px ++ "_",
+               NewPx = if Px == [] -> "ns_";
+                          true -> Px ++ "_" end,
                NewNs1 = NewNs#xqNamespace{prefix = NewPx},
                %?dbg("NewNs1",NewNs1),
                case lists:member(NewNs1, InscopeNamespaces) of
@@ -1520,23 +1522,25 @@ atomize_node(Seq) ->
 
 
 nodes_equal({#xqDocumentNode{identity = Id1, children = _C1}, Doc1},
-            {#xqDocumentNode{identity = Id2, children = _C2}, Doc2}) ->
+            {#xqDocumentNode{identity = Id2, children = _C2}, Doc2},
+            Collation) ->
    Nodes1 = get_comparable_child_nodes({Id1, Doc1}),
    Nodes2 = get_comparable_child_nodes({Id2, Doc2}),
    %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
    length(Nodes1) == length(Nodes2)
    andalso
    lists:all(fun({Ci1,Ci2}) ->
-                   nodes_equal({Ci1, Doc1},{Ci2, Doc2})
+                   nodes_equal({Ci1, Doc1},{Ci2, Doc2},Collation)
              end, lists:zip(Nodes1, Nodes2));
 
 nodes_equal({#xqElementNode{identity = Id1, children = _C1, name = Q1}, Doc1},
-            {#xqElementNode{identity = Id2, children = _C2, name = Q2}, Doc2}) ->
+            {#xqElementNode{identity = Id2, children = _C2, name = Q2}, Doc2},
+            Collation) ->
    xqerl_operators:equal(#xqAtomicValue{type = 'xs:QName', value = Q1},
                          #xqAtomicValue{type = 'xs:QName', value = Q2}) == ?bool(true)
   andalso
    attributes_equal(get_attribute_nodes({Id1, Doc1}),
-                    get_attribute_nodes({Id2, Doc2}))
+                    get_attribute_nodes({Id2, Doc2}), Collation)
   andalso
    begin
       Nodes1 = get_comparable_child_nodes({Id1, Doc1}),
@@ -1545,64 +1549,65 @@ nodes_equal({#xqElementNode{identity = Id1, children = _C1, name = Q1}, Doc1},
       length(Nodes1) == length(Nodes2)
       andalso
       lists:all(fun({Ci1,Ci2}) ->
-                      nodes_equal({Ci1, Doc1},{Ci2, Doc2})
+                      nodes_equal({Ci1, Doc1},{Ci2, Doc2},Collation)
                 end, lists:zip(Nodes1, Nodes2))      
    end;
 
 nodes_equal({#xqAttributeNode{name = Q1, expr = E1}, _Doc1},
-            {#xqAttributeNode{name = Q2, expr = E2}, _Doc2}) ->
+            {#xqAttributeNode{name = Q2, expr = E2}, _Doc2}, Collation) ->
    %?dbg("{E1,E2}",{E1,E2}),
    %?dbg("{Q1,Q2}",{Q1,Q2}),
    xqerl_operators:equal(#xqAtomicValue{type = 'xs:QName', value = Q1},
                          #xqAtomicValue{type = 'xs:QName', value = Q2}) == ?bool(true)
   andalso
      % E1 == E2 to catch [] == []
-   (E1 == E2 orelse xqerl_operators:equal(E1,E2) == ?bool(true));
+   %(E1 == E2 orelse xqerl_operators:equal(E1,E2,Collation) == ?bool(true));
+   xqerl_operators:equal(E1,E2,Collation) == ?bool(true);
 
 nodes_equal({#xqProcessingInstructionNode{name = Q1, expr = V1}, _Doc1},
-            {#xqProcessingInstructionNode{name = Q2, expr = V2}, _Doc2}) ->
+            {#xqProcessingInstructionNode{name = Q2, expr = V2}, _Doc2}, _Collation) ->
    xqerl_operators:equal(#xqAtomicValue{type = 'xs:QName', value = Q1},
                          #xqAtomicValue{type = 'xs:QName', value = Q2}) == ?bool(true)
    andalso 
    xqerl_operators:equal(V1,V2) == ?bool(true);
 
 nodes_equal({#xqNamespaceNode{name = Q1}, _Doc1},
-            {#xqNamespaceNode{name = Q2}, _Doc2}) ->
+            {#xqNamespaceNode{name = Q2}, _Doc2}, _Collation) ->
    ?seq:singleton_value(
    xqerl_operators:equal(#xqAtomicValue{type = 'xs:QName', value = Q1},
                          #xqAtomicValue{type = 'xs:QName', value = Q2})) == ?bool(true);
 
 nodes_equal({#xqCommentNode{expr = V1}, _Doc1},
-            {#xqCommentNode{expr = V2}, _Doc2}) ->
-   xqerl_operators:equal(V1,V2) == ?bool(true);
+            {#xqCommentNode{expr = V2}, _Doc2}, Collation) ->
+   xqerl_operators:equal(V1,V2, Collation) == ?bool(true);
 
 nodes_equal({#xqTextNode{expr = V1}, _Doc1},
-            {#xqTextNode{expr = V2}, _Doc2}) ->
-   xqerl_operators:equal(V1,V2) == ?bool(true);
+            {#xqTextNode{expr = V2}, _Doc2}, Collation) ->
+   xqerl_operators:equal(V1,V2,Collation) == ?bool(true);
 
 % mixed types, no attributes
-nodes_equal({#xqDocumentNode{},_},_) -> false;
-nodes_equal({#xqElementNode{},_},_) -> false;
-nodes_equal({#xqProcessingInstructionNode{},_},_) -> false;
-nodes_equal({#xqNamespaceNode{},_},_) -> false;
-nodes_equal({#xqCommentNode{},_},_) -> false;
-nodes_equal({#xqTextNode{},_},_) -> false;
+nodes_equal({#xqDocumentNode{},_},_,_) -> false;
+nodes_equal({#xqElementNode{},_},_,_) -> false;
+nodes_equal({#xqProcessingInstructionNode{},_},_,_) -> false;
+nodes_equal({#xqNamespaceNode{},_},_,_) -> false;
+nodes_equal({#xqCommentNode{},_},_,_) -> false;
+nodes_equal({#xqTextNode{},_},_,_) -> false;
 
-nodes_equal(#xqNode{frag_id = F1, identity = I1},#xqNode{frag_id = F1, identity = I1}) ->
+nodes_equal(#xqNode{frag_id = F1, identity = I1},#xqNode{frag_id = F1, identity = I1},_) ->
    ?bool(true);
-nodes_equal(#xqNode{frag_id = F1, identity = I1},#xqNode{frag_id = F2, identity = I2}) ->
+nodes_equal(#xqNode{frag_id = F1, identity = I1},#xqNode{frag_id = F2, identity = I2},Collation) ->
    D1 = xqerl_context:get_available_document(F1),
    D2 = xqerl_context:get_available_document(F2),
    N1 = gb_trees:get(I1, D1),
    N2 = gb_trees:get(I2, D2),
-   Eq = nodes_equal({N1, D1},{N2, D2}),
+   Eq = nodes_equal({N1, D1},{N2, D2},Collation),
    %?dbg("Eq",Eq),
    ?bool(Eq).
 
 % takes actual nodes, not ids
-attributes_equal([], []) -> 
+attributes_equal([], [], _) -> 
    true;
-attributes_equal(Atts1, Atts2) ->
+attributes_equal(Atts1, Atts2, Collation) ->
    length(Atts1) == length(Atts2) 
    andalso
    lists:all(
@@ -1612,7 +1617,7 @@ attributes_equal(Atts1, Atts2) ->
                        Names =   xqerl_operators:equal(
                                    #xqAtomicValue{type = 'xs:QName', value = Q1},
                                    #xqAtomicValue{type = 'xs:QName', value = Q2}) == ?bool(true),
-                       Val = ?seq:singleton_value(xqerl_operators:equal(V1,V2)),
+                       Val = ?seq:singleton_value(xqerl_operators:equal(V1,V2, Collation)),
                        Values = (Val == ?bool(true) orelse Val == []),
                        Names andalso Values
                  end, Atts2)
@@ -1648,20 +1653,6 @@ get_comparable_child_nodes({Id, Doc}) ->
     not is_record(Child, xqNamespaceNode),
     not is_record(Child, xqCommentNode),
     not is_record(Child, xqProcessingInstructionNode)].
-
-
-%% to_xml1([],_) -> [];
-%% to_xml1([#xqNode{} = H|T],node) ->
-%%    [to_xml(H)|to_xml1(T,node)];
-%% to_xml1([#xqNode{} = H|T],_) ->
-%%    [to_xml(H)|to_xml1(T,node)];
-%% to_xml1([#xqAtomicValue{} = H|T],atomic) ->
-%%    [" ",to_xml(H)|to_xml1(T,atomic)];
-%% to_xml1([#xqAtomicValue{} = H|T],_) ->
-%%    [to_xml(H)|to_xml1(T,atomic)];
-%% to_xml1([H|T],_) ->
-%%    %?dbg("to_xml1",H),
-%%    [to_xml(H)|to_xml1(T,atomic)].
 
 
 to_xml({Id,Doc}) ->

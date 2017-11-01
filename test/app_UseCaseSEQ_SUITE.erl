@@ -232,8 +232,7 @@ environment('report1') ->
       The fascia was identified and
       <action>#2 0 Maxon stay sutures were placed on each side of the midline.
       </action>#2 0 Maxon stay sutures were placed on each side of the midline.
-      
-      </critical_sequence>") of 
+       </critical_sequence>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 

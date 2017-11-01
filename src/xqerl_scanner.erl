@@ -752,7 +752,10 @@ scan_token(Str = "namespace" ++ T, A) ->
          qname_if_path("namespace", T, lookback(A))
    end;
 scan_token("intersect" ++ T, A) -> qname_if_path("intersect", T, lookback(A));
-scan_token("collation" ++ T, A) -> qname_if_path("collation", T, lookback(A));
+scan_token(Str = "collation-" ++ _T, _A) ->
+   scan_name(Str);
+scan_token("collation" ++ T, A) -> 
+   qname_if_path("collation", T, lookback(A));
 scan_token(Str = "ascending" ++ T, A) -> 
    case lookforward_is_paren(T) of
       true ->
@@ -1312,6 +1315,8 @@ scan_token(Str = "for" ++ T, _A) ->
                scan_name(Str)
          end
    end;
+scan_token("and" ++ [$$|T], _A) -> 
+   {{'and',?L,'and'}, [$$|T]};
 scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) -> 
    case lookback(A) of
       '/' ->
@@ -1321,7 +1326,7 @@ scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) ->
       '(' ->
          scan_name(Str);
       _ ->
-         {{'and',1,'and'}, T}
+         {{'and',?L,'and'}, T}
    end;
 scan_token(Str = "to" ++ [H|T], A) when ?whitespace(H) -> 
    case lookback(A) of
@@ -1727,7 +1732,7 @@ scan_integer(".e" ++ T, Acc) ->
 scan_integer(".E" ++ T, Acc) ->
    scan_decimal("E" ++ T, "0."++Acc);
 scan_integer([H], Acc) when H == $. ->
-   {{decimal, ?L, float(list_to_integer(lists:reverse(Acc)))}, []};
+   {{decimal, ?L, xqerl_numeric:decimal(lists:reverse(Acc))}, []};
 scan_integer([H|T], Acc) when H == $. ->
    scan_decimal(T, [H|Acc]);
 scan_integer(Str = [H|_], Acc) when H == $e;
@@ -1737,7 +1742,7 @@ scan_integer(T, Acc) ->
    {{integer, ?L, list_to_integer(lists:reverse(Acc))}, T}.
 
 scan_decimal([], Acc) ->
-   {{decimal, ?L, list_to_float(lists:reverse(Acc))}, []};
+   {{decimal, ?L, xqerl_numeric:decimal(lists:reverse(Acc))}, []};
 scan_decimal([H|T], Acc) when H >= $0, H =< $9 ->
    scan_decimal(T, [H|Acc]);
 scan_decimal("e+" ++ T, Acc) ->
@@ -1753,11 +1758,7 @@ scan_decimal("e" ++ T, Acc) ->
 scan_decimal("E" ++ T, Acc) ->
    scan_double(T, "+e" ++ Acc);
 scan_decimal(T, Acc) ->
-   if hd(Acc) == $. ->
-         {{decimal, ?L, list_to_float(lists:reverse([$0|Acc]))}, T};
-      true ->
-         {{decimal, ?L, list_to_float(lists:reverse([$0|Acc]))}, T}
-   end.
+   {{decimal, ?L, xqerl_numeric:decimal(lists:reverse([$0|Acc]))}, T}.
 
 scan_double([], Acc) ->
     case catch list_to_float(lists:reverse(Acc)) of
