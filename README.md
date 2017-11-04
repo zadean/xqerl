@@ -55,7 +55,7 @@ No real concept for saving XML documents and other resources. Will most likely b
 
 Text is handled as string and not binary, yet.
 
-The XDM is a kind of rough. Should possibly be made a positional binary format for quick random access. 
+The XDM is kind of rough. Should possibly be made a positional binary format for quick random access. 
 
 Number formatting is only partially implemented.
 
