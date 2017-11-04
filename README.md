@@ -3,8 +3,8 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing (yet)!
 
-It is passing about 93% its (~25k) test cases. The other 7% are mainly functions that have not been 
-implemented, and tests that rely on decimal precision.
+It is passing about 92% its (~29k) test cases. The other 8% are mainly functions that have not been 
+implemented.
 
 
 ### Features it has:
@@ -17,7 +17,7 @@ implemented, and tests that rely on decimal precision.
 * XQuery Update Facility
 * Schema Aware Feature
 * Typed Data Feature
-* Static Typing Feature (only maybe, the static errors this creates are somewhat annoying)
+* Static Typing Feature
 * Serialization Feature
 
 ### Using
@@ -46,8 +46,6 @@ To make it 100% will take building a regex parser that rewrites XML Schema regex
 
 Query rewrite and optimization phases are still missing.
 
-Data flow uses iterators, this should change to tail-recursive functions.
-
 It needs a code server! Currently, main modules are compiled as an Erlang module and run with `xqerl_main:main(Options)`.
 This is okay for debugging and test suites I guess, but not cool at all for a running system!
 
@@ -59,11 +57,7 @@ Text is handled as string and not binary, yet.
 
 The XDM is a kind of rough. Should possibly be made a positional binary format for quick random access. 
 
-The JSON functions are not implemented at all yet.
-
 Number formatting is only partially implemented.
-
-The xs:decimal does not work correctly. It will lose precision. (1.1 + 2.2 =/= 3.3)
 
 There is no concept of negative-zero (but who cares right?).
 
