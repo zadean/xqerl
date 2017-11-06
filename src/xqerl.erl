@@ -31,6 +31,7 @@
 compile(FileName) ->
    % saving the docs between runs to not have to reparse
    Docs = erlang:get('available-documents'),
+   Txts = erlang:get('available-text-resources'),
    erlang:erase(),
    {ok, Bin} = file:read_file(FileName),
    Str = binary_to_list(Bin),
@@ -73,6 +74,7 @@ compile(FileName) ->
    end,
    erlang:erase(),
    erlang:put('available-documents', Docs),
+   erlang:put('available-text-resources', Txts),
    ok.   
 
 %%  f() ->
@@ -90,6 +92,7 @@ run(Str) -> run(Str, #{}).
 run(Str, Options) ->
    % saving the docs between runs to not have to reparse
    Docs = erlang:get('available-documents'),
+   Txts = erlang:get('available-text-resources'),
    erlang:erase(),
    
    catch code:purge(xqerl_main),
@@ -104,14 +107,19 @@ run(Str, Options) ->
       _ = compile_abstract(Abstract),
       erlang:erase(),
       erlang:put('available-documents', Docs),
+      erlang:put('available-text-resources', Txts),
       xqerl_main:main(Options)
 %%    .
 
    catch
       _:#xqError{} = E ->
+         erlang:put('available-documents', Docs),
+         erlang:put('available-text-resources', Txts),
          ?dbg("run",E),
          E;
       _:E ->
+         erlang:put('available-documents', Docs),
+         erlang:put('available-text-resources', Txts),
          ?dbg("run",E),
          {'EXIT',E1} = (catch xqerl_error:error('XPST0003')),
          E1
@@ -223,7 +231,7 @@ print_erl(B) ->
 
 compile_main(Str) ->
    % saving the docs between runs to not have to reparse
-   erlang:erase(),
+   %erlang:erase(),
    
    catch code:purge(xqerl_main),
    catch code:delete(xqerl_main),
@@ -234,13 +242,14 @@ compile_main(Str) ->
    Abstract = scan_tree(Tree),
    B = compile_abstract(Abstract),
    print_erl(B),
-   erlang:erase(),
+   %erlang:erase(),
    ok.   
 
 trun(Str) -> trun(Str, #{}).
 trun(Str, Opt) ->
    % saving the docs between runs to not have to reparse
    Docs = erlang:get('available-documents'),
+   Txts = erlang:get('available-text-resources'),
    erlang:erase(),
    catch code:purge(xqerl_main),
    catch code:delete(xqerl_main),
@@ -256,7 +265,8 @@ trun(Str, Opt) ->
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
-%      print_erl(B),
+      print_erl(B),
       erlang:erase(),
       erlang:put('available-documents', Docs),
+      erlang:put('available-text-resources', Txts),
       xqerl_main:main(Opt).

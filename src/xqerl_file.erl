@@ -24,8 +24,13 @@
 
 -module(xqerl_file).
 
+-include("xqerl.hrl").
+
 -export([doc_file/1]).
 -export([rec_list_dir/1]).
+-export([bin_to_utf8/1]).
+-export([bin_to_utf8/2]).
+
 
 doc_file(File) ->
    {ok, Io} = file:open(File, [compressed, read]),
@@ -79,3 +84,61 @@ rec_list_dir([Path|Paths], FilesOnly, Acc) ->
 
 is_xml(Path) ->
   filename:extension(Path) == ".xml".
+
+
+
+bin_to_utf8(<<>>) ->
+    ?err('FOUT1200'); 
+bin_to_utf8(Binary) ->
+   case unicode:bom_to_encoding(Binary) of
+      % no BOM UTF-8 assumed
+      {latin1, 0} ->
+         case unicode:characters_to_list(Binary, utf8) of
+            {error,_,_} ->
+               ?err('FOUT1190');
+            {incomplete,_,_} ->
+               ?err('FOUT1190');
+            List ->
+               valid_unicode(List)
+         end;
+      {Enc, L} ->
+         ?dbg("Enc",Enc),
+         <<_:L/binary, Bin/binary>> = Binary,
+         case unicode:characters_to_list(Bin, Enc) of
+            {error,_,_} ->
+               ?err('FOUT1190');
+            {incomplete,_,_} ->
+               ?err('FOUT1190');
+            List ->
+               valid_unicode(List)
+         end
+    end.
+
+bin_to_utf8(<<>>,_) ->
+    ?err('FOUT1200'); 
+bin_to_utf8(Binary,Enc) ->
+   Enc1 = case string:lowercase(Enc) of
+             "utf-8" ->
+                utf8;
+             "utf-16" ->
+                utf16;
+             _ ->
+                ?err('FOUT1190')
+          end,  
+   case unicode:characters_to_list(Binary, Enc1) of
+      {error,_,_} ->
+         ?err('FOUT1190');
+      {incomplete,_,_} ->
+         ?err('FOUT1190');
+      List ->
+         valid_unicode(List)
+   end.
+
+valid_unicode([]) -> [];
+valid_unicode([H|_T]) when H == 16#FFFE;
+                           H == 16#FFFF;
+                           H == 0 ->
+  ?err('FOUT1190');
+valid_unicode([H|T]) ->
+  [H|valid_unicode(T)].
+

@@ -30,6 +30,7 @@
 -module(xqerl_doc).
 
 -export([read_file/2]).
+-export([read_text/1]).
 -export([read_file/3]).
 -export([read_http/1]).
 -export([read_http/2]).
@@ -103,6 +104,50 @@ read_http(Uri0,Name) ->
          %?dbg("XML",Xml),
          read_stream(Xml, Name)
    end.
+
+read_text(Uri0) ->
+   read_text(Uri0,Uri0).
+
+read_text(Uri0,Name) ->
+   Uri = case lists:prefix("file:///", Uri0) of
+             true ->
+                lists:subtract(Uri0, "file:///");
+             _ ->
+                Uri0
+          end,
+   case filelib:is_file(Uri) of
+      true ->
+         read_text_file(self(), Uri, Name);
+      _ ->
+         case inets:services() of
+            {error,inets_not_started} ->
+               inets:start();
+            _ ->
+               ok
+         end,
+         Xml = case catch httpc:request(Uri) of
+                  {ok,{{_,404,_},_Head,_Body}} ->
+                     xqerl_error:error('FOUT1170');
+                  {ok,{_Stat,_Head,Body}} ->
+                     list_to_binary(Body);
+                  {ok,{{_,404,_},_Body}} ->
+                     xqerl_error:error('FOUT1170');
+                  {ok,{_Stat,Body}} ->
+                     list_to_binary(Body);
+                  {error,no_scheme} ->
+                     xqerl_error:error('FOUT1170');
+                  {'EXIT',_} ->
+                     xqerl_error:error('FOUT1170');
+                  Other ->
+                     ?dbg("Other",Other),
+                     xqerl_error:error('FOUT1170')
+               end,
+         Xml
+   end.
+
+read_text_file(_Pid, File,_) ->
+   {ok, Txt} = file:read_file(File),
+   Txt.
 
 read_files(Tab, FileList) ->
    %process_flag(trap_exit, true),

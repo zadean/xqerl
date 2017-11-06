@@ -33,8 +33,6 @@
                    scf}).
 
 -export([test/0]).
--export([test2/2]).
--export([test3/0]).
 
 %% ====================================================================
 %% API functions
@@ -67,108 +65,31 @@
 -export([abs_val/1]).
 
 test() ->
-   Range = lists:seq(0, 12),
-   {ok,File} = file:open("/git/zadean/xqerl/data/binary2.txt", [write]),
-   {O1,O2,O3,O4} = 
-   lists:foldl(fun(A,{On1,On2,On3,On4} = N1) ->
-                     file:write(File,lists:flatten(io_lib:format("~3.B: ~15.B ~15.B ~15.B ~15.B ~n",[A, On1,On2,On3,On4]) ) ),
-   lists:foldl(fun(B,N2) ->
-   lists:foldl(fun(C,N3) ->
-   lists:foldl(fun(D,{N6,N7,N8,N9}) ->
-                   try
-                      <<Bin:32/float>> = list_to_binary([A,B,C,D]),
-                      if abs(Bin) >= 9.999999974752427e-7, abs(Bin) < 1000000 ->
-                            {N6,N7,N8,N9};
-                         true ->
-                            Str6 = lists:flatten(io_lib:format("~.6e",[Bin])),
-                            <<Flt6:32/float>> = <<(list_to_float(Str6)):32/float>>,
-                            if Flt6 == Bin ->
-                                  {N6+1,N7,N8,N9};
-                               true ->
-                                  Str7 = lists:flatten(io_lib:format("~.7e",[Bin])),
-                                  <<Flt7:32/float>> = <<(list_to_float(Str7)):32/float>>,
-                                  if Flt7 == Bin ->
-                                        {N6,N7+1,N8,N9};
-                                     true ->
-                                        Str8 = lists:flatten(io_lib:format("~.8e",[Bin])),
-                                        <<Flt8:32/float>> = <<(list_to_float(Str8)):32/float>>,
-                                        if Flt8 == Bin ->
-                                              {N6,N7,N8+1,N9};
-                                           true ->
-                                              {N6,N7,N8,N9+1}
-                                        end
-                                  end
-                            end
-                      end
-                   catch _:_ ->
-                            {N6,N7,N8,N9}
-                   end
-                 end, N3, Range)
-                 end, N2, Range)
-                 end, N1, Range)
-                 end, {0,0,0,0}, Range),
-   file:write(File,lists:flatten(io_lib:format("  O: ~15.B ~15.B ~15.B ~15.B ~n",[O1,O2,O3,O4]) ) ),
-   file:close(File).
-
-test3() ->
-   {ok,File} = file:open("/git/zadean/xqerl/data/binary2.txt", [write]),
-   Range = lists:seq(0, 255),
-   Pids = lists:map(fun(I) ->
-                          erlang:spawn(?MODULE, test2, [self(), I])
-                    end, Range),
-   lists:foreach(fun(_) ->
-                       receive {D,{N6,N7,N8,N9}} ->
-                                  file:write(File,lists:flatten(io_lib:format("~3.B: ~15.B ~15.B ~15.B ~15.B ~n",[D, N6,N7,N8,N9]) ) )
-                       end
-                  end , Pids),
-   file:close(File).
-
-
-test2(Pid, A) ->
-   Range = lists:seq(0, 255),
-   Pid !
-     {A,
-   lists:foldl(fun(B,N2) ->
-   lists:foldl(fun(C,N3) ->
-   lists:foldl(fun(D,{N6,N7,N8,N9}) ->
-                   try
-                      <<Bin:32/float>> = list_to_binary([A,B,C,D]),
-                      if abs(Bin) >= 9.999999974752427e-7, abs(Bin) < 1000000 ->
-                            {N6,N7,N8,N9};
-                         true ->
-                            Str6 = lists:flatten(io_lib:format("~.6e",[Bin])),
-                            <<Flt6:32/float>> = <<(list_to_float(Str6)):32/float>>,
-                            if Flt6 == Bin ->
-                                  {N6+1,N7,N8,N9};
-                               true ->
-                                  Str7 = lists:flatten(io_lib:format("~.7e",[Bin])),
-                                  <<Flt7:32/float>> = <<(list_to_float(Str7)):32/float>>,
-                                  if Flt7 == Bin ->
-                                        {N6,N7+1,N8,N9};
-                                     true ->
-                                        Str8 = lists:flatten(io_lib:format("~.8e",[Bin])),
-                                        <<Flt8:32/float>> = <<(list_to_float(Str8)):32/float>>,
-                                        if Flt8 == Bin ->
-                                              {N6,N7,N8+1,N9};
-                                           true ->
-                                              Str9 = lists:flatten(io_lib:format("~.9e",[Bin])),
-                                              <<Flt9:32/float>> = <<(list_to_float(Str9)):32/float>>,
-                                              if Flt9 == Bin ->
-                                                    {N6,N7,N8,N9+1};
-                                                 true ->
-                                                    ?dbg("Bin",Bin),
-                                                    {N6,N7,N8,N9+1}
-                                              end
-                                        end
-                                  end
-                            end
-                      end
-                   catch _:_ ->
-                            {N6,N7,N8,N9}
-                   end
-                 end, N3, Range)
-                 end, N2, Range)
-                 end, {0,0,0,0}, Range)}.
+   F1 = fun L() ->
+               receive
+                  {[P|T],none} ->
+                     P ! {T, none};
+                  {[P|T],N} ->
+                     P ! {T, (N * N)},
+                     L()
+               end
+        end,
+   Var2 = lists:seq(1, 50000) ++ [none],
+   P1 = erlang:spawn_link(F1),
+   P2 = erlang:spawn_link(F1),
+   P3 = erlang:spawn_link(F1),
+   P4 = self(),
+   F3 = fun F([]) ->
+                [0];
+            F([H|T]) ->
+               P1 ! {[P2,P3,P4],H},
+               receive 
+                  {D,V} ->
+                     %?dbg("D",D),
+                     [V|F(T)]
+               end
+        end,
+   F3(Var2).
 
 
 decimal(0.0) ->

@@ -14,6 +14,7 @@
 
 -define(dbg(M,P), io:format("~s ~p ~p: ~p~n", [?MODULE,?LINE, M,P])).
 -define(seq, xqerl_seq3).
+-define(err(Code),xqerl_error:error(Code)).
 
 -define(node(I), (I=='node' orelse I=='document' orelse I=='document-node' orelse I=='element' orelse I=='attribute' orelse I=='namespace' orelse I=='text' orelse I=='comment' orelse I=='processing-instruction')).
 -define(duration(I),(I=='xs:duration' orelse I=='xs:yearMonthDuration' orelse I=='xs:dayTimeDuration')).

@@ -169,7 +169,8 @@
 -export([get_available_document/1]).
 -export([add_available_document/2]).
 -export([get_available_text_resources/0]).
--export([set_available_text_resources/1]).
+-export([get_available_text_resource/1]).
+-export([add_available_text_resource/2]).
 -export([get_available_collections/0]).
 -export([get_available_collection/1]).
 -export([set_available_collections/1]).
@@ -181,7 +182,7 @@
 -export([get_default_uri_collection/0]).
 -export([set_default_uri_collection/1]).
 
--define(STORAGE, ets).
+%-define(STORAGE, ets).
 %-define(STORAGE, maps).
 
 
@@ -191,8 +192,10 @@ init() -> init(self()).
 
 init(Pid) ->
    Docs = erlang:get('available-documents'),
+   Txts = erlang:get('available-text-resources'),
    erlang:erase(),
    erlang:put('available-documents', Docs),
+   erlang:put('available-text-resources', Txts),
    
    Now = erlang:timestamp(),
    Key = {Pid, Now},
@@ -612,6 +615,20 @@ add_available_document(Id, Tree) ->
             end,
    erlang:put('available-documents', NewAll).
 
+get_available_text_resources() ->
+   erlang:get('available-text-resources').
+get_available_text_resource(Uri) ->
+   All = get_available_text_resources(),
+   gb_trees:get(Uri, All).
+add_available_text_resource(Uri, Tree) ->
+   NewAll = case get_available_text_resources() of
+               undefined ->
+                  gb_trees:enter(Uri, Tree, gb_trees:empty());
+               All ->
+                  gb_trees:enter(Uri, Tree, All)
+            end,
+   erlang:put('available-text-resources', NewAll).
+
 get_variable_values() ->
    erlang:get('variable-values').
 
@@ -656,10 +673,6 @@ get_implicit_timezone() ->
    erlang:get('implicit-timezone').
 set_implicit_timezone(#off_set{} = Value) ->
    erlang:put('implicit-timezone', Value).
-get_available_text_resources() ->
-   erlang:get('available-text-resources').
-set_available_text_resources(Value) ->
-   erlang:put('available-text-resources', Value).
 get_available_collections() ->
    erlang:get('available-collections').
 get_available_collection(Name) ->
@@ -729,22 +742,9 @@ add_default_static_values({_, RawCdt} = Key) ->
    set_default_element_type_namespace('no-namespace'),
    
    StaticNsList = static_namespaces(),
-%%    Imports = [{"xqerl_fn", "fn"},
-%%               {"xqerl_xs", "xs"},
-%%               {"xqerl_math", "math"},
-%%               {"xqerl_map", "map"},
-%%               {"xqerl_array", "array"},
-%%               {"xqerl_error", "error"}
-%%              ],
-%%    {StatFunctions, StatVariables} = get_module_exports(Imports),
-%%    ok = import_variables(StatVariables),
-%%    ok = import_functions(StatFunctions),   
    StaticNsDict = dict:from_list(StaticNsList),
    set_statically_known_namespaces(StaticNsDict),
-%%    set_statically_known_collations(["http://www.w3.org/2005/xpath-functions/collation/codepoint"]),
    set_default_language(#xqAtomicValue{type = 'xs:language', value = "en"}),
-%%    set_default_collation("http://www.w3.org/2005/xpath-functions/collation/codepoint"),
-   %add_available_document(0, gb_trees:empty()), % erlang:put(0, gb_trees:empty()),
    
    %% non-augmentable values from dynamic context can be put here as well.
    %set_current_datetime(xqerl_datetime:get_from_now(RawCdt)),

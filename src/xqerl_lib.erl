@@ -265,33 +265,33 @@ resolve_against_base_uri(Base,[]) ->
 resolve_against_base_uri(Base,Path) ->
    case filename:pathtype(Path) of
       absolute ->
-         ?dbg("Path",Path),
+         %?dbg("Path",Path),
          {absolute,Path};
       relative ->
-         ?dbg("Base",Base),
-         ?dbg("Path",Path),
+         %?dbg("Base",Base),
+         %?dbg("Path",Path),
          case http_uri:parse(Path) of
             {ok,_} ->
-               ?dbg("parse",http),
+               %?dbg("parse",http),
                {absolute,Path};
             _ ->
                case filename:pathtype(Base) of
                   absolute ->
                      case filename:safe_relative_path(Path) of
                         unsafe ->
-                           ?dbg("parse",unsafe),
+                           %?dbg("parse",unsafe),
                            {absolute, Base ++ Path};
                         O ->
-                           ?dbg("safe",O),
+                           %?dbg("safe",O),
                            {absolute,Base ++ O}
                      end;
                   _ ->
                      case http_uri:parse(Base) of
                         {ok,_} ->
-                           ?dbg("parse",http),
+                           %?dbg("parse",http),
                            {absolute,Base ++ Path};
                         _ ->
-                           ?dbg("relative",Base ++ Path),
+                           %?dbg("relative",Base ++ Path),
                            {relative, filename:join(Base,Path)}
                      end
                end

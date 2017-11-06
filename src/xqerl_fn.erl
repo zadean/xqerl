@@ -1,4 +1,3 @@
-%% -------------------------------------------------------------------
 %%
 %% xqerl - XQuery processor
 %%
@@ -38,7 +37,6 @@
 %% -define(str(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
 %% -define(atm(Typ,Val), ?seq:singleton(#xqAtomicValue{type = Typ, value = Val})).
 %% -define(node_test, ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
--define(err(Code),xqerl_error:error(Code)).
 -define(atint(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
 -define(dec(Val), #xqAtomicValue{type = 'xs:decimal', value = Val}).
 -define(dbl(Val), #xqAtomicValue{type = 'xs:double', value = Val}).
@@ -398,9 +396,9 @@
  {'prefix-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","QName"},{xqSeqType, 'xs:QName', one}, [], 
  {'QName', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","random-number-generator"},{xqSeqType,{is_map,{'map-type', 'xs:string', {xqSeqType, item, one}}},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","random-number-generator"},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
  {'random-number-generator', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","random-number-generator"},{xqSeqType,{is_map,{'map-type', 'xs:string', {xqSeqType, item, one}}},one},[], 
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","random-number-generator"},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
  {'random-number-generator', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","remove"},{xqSeqType, item, zero_or_many}, [], 
  {'remove', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:integer', one}]},
@@ -877,6 +875,8 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
   end.
 
 %% Makes a dynamic call on a function with an argument list supplied in the form of an array. 
+'apply'(Ctx,Function,#array{data = Args}) when is_map(Function) ->
+   xqerl_operators:lookup(Ctx, Function, Args);
 'apply'(Ctx,Function,#array{data = Args}) when is_function(Function) ->
    try
       erlang:apply(Function, [Ctx|Args])
@@ -1097,8 +1097,8 @@ avg1([H|T], Sum, Count) ->
 
 'contains'(_Ctx,Arg1,Arg2,Collation) -> 
    Coll = xqerl_coll:parse(xqerl_types:value(Collation)),
-   S1 = xqerl_types:string_value(Arg1),
-   S2 = xqerl_types:string_value(Arg2),
+   S1 = xqerl_types:value(Arg1),
+   S2 = xqerl_types:value(Arg2),
    B1 = xqerl_coll:sort_key(S1, Coll),
    B2 = xqerl_coll:sort_key(S2, Coll),
    case string:find(B1,B2) of
@@ -1144,7 +1144,7 @@ avg1([H|T], Sum, Count) ->
 
 %% Returns the current date and time (with timezone). 
 'current-dateTime'(_Ctx) -> 
-   ?seq:singleton(xqerl_context:get_current_datetime()).
+   xqerl_context:get_current_datetime().
 
 %% Returns the current time. 
 'current-time'(_Ctx) -> 
@@ -2053,7 +2053,6 @@ unmask_static_mod_ns(T) -> T.
    end.
 
 %% Reads an external resource containing JSON, and returns the result of parsing the resource as JSON. 
-%% TODO NO TEST
 'json-doc'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
 'json-doc'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 
@@ -2918,9 +2917,32 @@ map_options_to_list(Ctx, Map) ->
    end.
 
 %% Returns a random number generator, which can be used to generate sequences of random numbers. 
-%% NO TEST
-'random-number-generator'(_Ctx) -> exit({not_implemented,?LINE}).
-'random-number-generator'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
+'random-number-generator'(Ctx) -> 
+   'random-number-generator'(Ctx, ?atm('xs:double',31.13)).
+
+'random-number-generator'(Ctx,[]) ->
+   'random-number-generator'(Ctx, ?atm('xs:double',31.13));
+'random-number-generator'(Ctx,#xqAtomicValue{value = Seed}) when not is_integer(Seed), not is_float(Seed) ->
+   'random-number-generator'(Ctx,#xqAtomicValue{value = erlang:phash2(Seed)});
+'random-number-generator'(Ctx,#xqAtomicValue{value = Seed}) ->
+   S = rand:seed(exs1024s, 
+                 {erlang:phash2([Seed]),1,2}), 
+   {Num,S2} = rand:uniform_s(S),
+   Permute = #xqFunction{params = [#xqSeqType{type = item, occur = zero_or_many}], 
+                         type = #xqSeqType{type = item, occur = zero_or_many},
+                         body = fun(_,List) ->
+                                      {List1,_} = lists:mapfoldl(fun(I,S3) ->
+                                        {Num1,S4} = rand:uniform_s(S3),
+                                        {{Num1,I},S4}
+                                end, S2, List),
+                           List2 = lists:keysort(1, List1),
+                           [I || {_,I} <- List2]
+                           end},
+   xqerl_map:construct(
+     Ctx, 
+     [{?str("number"), ?atm('xs:double',Num)},
+      {?str("next"), fun(_) -> 'random-number-generator'(Ctx,#xqAtomicValue{value = Seed + 1}) end},
+      {?str("permute"),Permute}]).
 
 %% Returns a new sequence containing all the items of $target except the item at position $position. 
 'remove'(_Ctx,[],_Position) -> [];
@@ -3171,31 +3193,55 @@ sort1(Ctx,A,B,Coll) ->
 %% Returns true if the string $arg1 contains $arg2 as a leading substring, taking collations into account. 
 'starts-with'(Ctx,[],Arg2) -> 'starts-with'(Ctx,?str(""),Arg2);
 'starts-with'(_Ctx,_Arg1,[]) -> ?bool(true);
-'starts-with'(_Ctx,Arg1,Arg2) -> 
+'starts-with'(#{'default-collation' := DefColl} = Ctx,Arg1,Arg2) -> 
+   'starts-with'(Ctx,Arg1,Arg2,DefColl).
+
+'starts-with'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) -> 
    Str1 = xqerl_types:string_value(Arg1),
    Str2 = xqerl_types:string_value(Arg2),
+   Uri = xqerl_types:value(Collation),
+   BaseUri = xqerl_types:value(BaseUri0),
+   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
    if Str2 == [] ->
          ?bool(true);
       Str1 == [] ->
          ?bool(false);
       true ->
-         case lists:prefix(Str2, Str1) of
-            true ->
+         ColVal = xqerl_coll:parse(Coll),
+         VBin = xqerl_coll:sort_key(Str1, ColVal),
+         SBin = xqerl_coll:sort_key(Str2, ColVal),
+         L = size(SBin),
+         case VBin of
+            SBin ->
+               ?bool(true);
+            <<SBin:L/binary,_/binary>> ->
                ?bool(true);
             _ ->
                ?bool(false)
          end
    end.
-%TODO collation
-'starts-with'(Ctx,Arg1,Arg2,Collation) -> 
-   Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         ?MODULE:'starts-with'(Ctx,Arg1,Arg2);
-      _ ->
-         xqerl_error:error('FOCH0002')
-   end.
+
+%% 'substring-before'(#{'default-collation' := DefColl} = Ctx,Arg1,Arg2) -> 
+%%    'substring-before'(Ctx,Arg1,Arg2,DefColl).
+%%    
+%% 'substring-before'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) ->
+%%    Uri = xqerl_types:value(Collation),
+%%    BaseUri = xqerl_types:value(BaseUri0),
+%%    {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+%% 
+%%    StrVal = xqerl_types:string_value(Arg1),
+%%    SplVal = xqerl_types:string_value(Arg2),
+%%    ColVal = xqerl_coll:parse(Coll),
+%%    VBin = xqerl_coll:sort_key(StrVal, ColVal),
+%%    SBin = xqerl_coll:sort_key(SplVal, ColVal),
+%%    Str3 = string:split(VBin,SBin),
+%%    case Str3 of
+%%       [_] ->
+%%          ?str("");
+%%       _ ->
+%%          ?str(unicode:characters_to_list(hd(Str3)))
+%%    end.
+
 
 %% This function returns the value of the static base URI property from the static context. 
 'static-base-uri'(Ctx) -> 
@@ -3257,6 +3303,8 @@ sort1(Ctx,A,B,Coll) ->
 'string-length'(Ctx) -> 
    Val = xqerl_context:get_context_item(Ctx),
    ?atint(length(xqerl_types:string_value(Val))).
+'string-length'(_Ctx,[]) ->
+   ?atint(0);
 'string-length'(_Ctx,[Arg1]) ->
    'string-length'(_Ctx,Arg1);
 'string-length'(_Ctx,Arg1) when is_list(Arg1) ->
@@ -3366,50 +3414,53 @@ sort1(Ctx,A,B,Coll) ->
    end.
 
 %% Returns the part of $arg1 that follows the first occurrence of $arg2, taking collations into account. 
-'substring-after'(_Ctx,Arg1,Arg2) ->
-   Str1 = string_value(Arg1),
-   Str2 = string_value(Arg2),
-   if Str1 == "" orelse Str2 == "" ->
-         ?str(Str1);
+'substring-after'(#{'default-collation' := DefColl} = Ctx,Arg1,Arg2) -> 
+   'substring-after'(Ctx,Arg1,Arg2,DefColl).
+
+'substring-after'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) ->
+   Uri = xqerl_types:value(Collation),
+   BaseUri = xqerl_types:value(BaseUri0),
+   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+
+   StrVal = xqerl_types:string_value(Arg1),
+   SplVal = xqerl_types:string_value(Arg2),
+   if StrVal == [] ->
+         ?str("");
+      SplVal == [] ->
+         ?str(StrVal);
       true ->
-         case string:split(Str1,Str2) of
+         ColVal = xqerl_coll:parse(Coll),
+         VBin = xqerl_coll:sort_key(StrVal, ColVal),
+         SBin = xqerl_coll:sort_key(SplVal, ColVal),
+         Str3 = string:split(VBin,SBin),
+         case Str3 of
             [_] ->
                ?str("");
             [_,A] ->
-               ?str(A)
+               ?str(unicode:characters_to_list(A))
          end
-   end.
-
-'substring-after'(Ctx,Arg1,Arg2,Collation) ->
-   Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         'substring-after'(Ctx,Arg1,Arg2);
-      _ ->
-         xqerl_error:error('FOCH0002')
    end.
    
 %% Returns the part of $arg1 that precedes the first occurrence of $arg2, taking collations into account. 
-'substring-before'(_Ctx,Arg1,Arg2) -> 
-   Str1 = string_value(Arg1),
-   Str2 = string_value(Arg2),
-   Str3 = string:split(Str1,Str2),
+'substring-before'(#{'default-collation' := DefColl} = Ctx,Arg1,Arg2) -> 
+   'substring-before'(Ctx,Arg1,Arg2,DefColl).
+   
+'substring-before'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) ->
+   Uri = xqerl_types:value(Collation),
+   BaseUri = xqerl_types:value(BaseUri0),
+   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+
+   StrVal = xqerl_types:string_value(Arg1),
+   SplVal = xqerl_types:string_value(Arg2),
+   ColVal = xqerl_coll:parse(Coll),
+   VBin = xqerl_coll:sort_key(StrVal, ColVal),
+   SBin = xqerl_coll:sort_key(SplVal, ColVal),
+   Str3 = string:split(VBin,SBin),
    case Str3 of
       [_] ->
          ?str("");
       _ ->
-         ?str(hd(Str3))
-   end.
-%TODO collation
-'substring-before'(Ctx,Arg1,Arg2,Collation) ->
-   Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         'substring-before'(Ctx,Arg1,Arg2);
-      _ ->
-         xqerl_error:error('FOCH0002')
+         ?str(unicode:characters_to_list(hd(Str3)))
    end.
    
 
@@ -3596,28 +3647,74 @@ zip_map_trans([H|T],[TH|TT]) ->
 %% Returns the items of $sourceSeq in an implementation-dependent order. 
 'unordered'(_Ctx,Arg1) ->
    Arg1.
-%%    exit({not_implemented,?LINE}). % set order in the context, do expr, set context back DONE IN-LINE
+% set order in the context, do expr, set context back DONE IN-LINE
 
-%% The fn:unparsed-text function reads an external resource (for example, a file) and returns a string representation of the resource. 
-%% 'unparsed-text'(_Ctx,#xqAtomicValue{value = "http://www.w3.org/qt3/json/data001-json"}) ->
-%%    {ok,Bin} = file:read_file("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json"),
-%%    #xqAtomicValue{value = binary_to_list(Bin)};
-%% 'unparsed-text'(_Ctx,#xqAtomicValue{value = "http://www.w3.org/qt3/json/escapeText-json"}) ->
-%%    {ok,Bin} = file:read_file("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/escapeText.json"),
-%%    #xqAtomicValue{value = binary_to_list(Bin)};
-%% 'unparsed-text'(_Ctx,#xqAtomicValue{value = "http://www.w3.org/qt3/json/data005-json"}) ->
-%%    {ok,Bin} = file:read_file("C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data005.json"),
-%%    #xqAtomicValue{value = binary_to_list(Bin)};
-'unparsed-text'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'unparsed-text'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'unparsed-text'(Ctx,Uri) -> 
+   'unparsed-text'(Ctx,Uri,[]).
+'unparsed-text'(#{'base-uri' := BaseUri0},Uri0,Encoding) -> 
+   try
+      Uri = xqerl_types:value(Uri0),
+      BaseUri = xqerl_types:value(BaseUri0),
+      {_, ResVal} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+      case lists:member($#, ResVal) of
+         true ->
+            ?err('FOUT1170');
+         _ ->
+            ok
+      end,
+      ?dbg("ResVal",ResVal),
+      case catch xqerl_context:get_available_text_resource(ResVal) of
+               {'EXIT',_} ->
+                  %?dbg("All",xqerl_context:get_available_text_resources()),
+                  Binary = xqerl_doc:read_text(ResVal),
+                  _ = xqerl_context:add_available_text_resource(ResVal, Binary),
+                  if Encoding == [] ->
+                        ?str( xqerl_file:bin_to_utf8(Binary));
+                     true ->
+                        ?str( xqerl_file:bin_to_utf8(Binary, xqerl_types:string_value(Encoding)))
+                  end;
+               Binary ->
+                  if Encoding == [] ->
+                        ?str( xqerl_file:bin_to_utf8(Binary));
+                     true ->
+                        ?str( xqerl_file:bin_to_utf8(Binary, xqerl_types:string_value(Encoding)))
+                  end
+            end
+   catch 
+      _:#xqError{} = E ->
+         exit(E);
+      _:_ ->
+         ?err('FOUT1170')
+   end.
+
 
 %% Because errors in evaluating the fn:unparsed-text function are non-recoverable, these two functions are provided to allow an application to determine whether a call with particular arguments would succeed. 
-'unparsed-text-available'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'unparsed-text-available'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'unparsed-text-available'(Ctx,Arg1) -> 
+   'unparsed-text-available'(Ctx,Arg1,[]).
+'unparsed-text-available'(Ctx,Arg1,Arg2) -> 
+   case catch 'unparsed-text'(Ctx,Arg1,Arg2) of
+            {'EXIT',_} ->
+               ?bool(false);
+            _ ->
+               ?bool(true)
+         end.
 
 %% The fn:unparsed-text-lines function reads an external resource (for example, a file) and returns its contents as a sequence of strings, one for each line of text in the string representation of the resource. 
-'unparsed-text-lines'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'unparsed-text-lines'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'unparsed-text-lines'(Ctx,Arg1) -> 
+   'unparsed-text-lines'(Ctx,Arg1,[]).
+'unparsed-text-lines'(Ctx,Arg1,Arg2) ->
+   #xqAtomicValue{value = Str} = 'unparsed-text'(Ctx,Arg1,Arg2),
+   {ok,MP} = re:compile("\\r\\n|\\r|\\n",[unicode]),
+   List = re:split(Str, MP,[{return,list}]),
+   List1 = case List =/= [] andalso lists:last(List) of
+              [] ->
+                 lists:droplast(List);
+              _ ->
+                 List
+           end,
+   lists:map(fun(L) ->
+                   ?str(L)
+             end, List1).
 
 %% Converts a string to upper case. 
 'upper-case'(_Ctx,Arg1) ->
@@ -3684,7 +3781,8 @@ zip_map_trans([H|T],[TH|TT]) ->
 'zero-or-one'(_Ctx,_Arg1) ->
    xqerl_error:error('FORG0003').
 
-%% The external effects of fn:put are implementation-defined, since they occur outside the domain of XQuery. The intent is that, if fn:put is invoked on a document node and no error is raised, a subsequent query can access the stored document by invoking fn:doc with the same URI. 
-%% TODO NO TEST
+%% The external effects of fn:put are implementation-defined, since they occur outside the domain of XQuery. 
+%% The intent is that, if fn:put is invoked on a document node and no error is raised, a subsequent 
+%% query can access the stored document by invoking fn:doc with the same URI. 
 'put'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
 

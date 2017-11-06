@@ -26,7 +26,6 @@
 
 -include("xqerl.hrl").
 
--define(err(Code),xqerl_error:error(Code)).
 -define(ns, "http://www.w3.org/2005/xpath-functions").
 -define(qn(Local), #qname{namespace = ?ns, prefix = [], local_name = Local}).
 -define(key(Value),#xqAttributeNode{name = #qname{namespace = 'no-namespace', 

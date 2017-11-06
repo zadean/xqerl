@@ -47,7 +47,6 @@
 -define(true,#xqAtomicValue{type = 'xs:boolean', value = true}).
 -define(false,#xqAtomicValue{type = 'xs:boolean', value = false}).
 -define(atomic(Type,Val),#xqAtomicValue{type = Type, value = Val}).
--define(err(Code),xqerl_error:error(Code)).
 
 % state should hold the entire static context, augmented by statements that can do it in their own scope.
 -record(context,{statement,      % possibly optimized statement
@@ -599,7 +598,7 @@ handle_node(State, #xqFunction{name = FName, type = FType, params = Params, body
                   true ->
                      ?dbg("NoCast", {NoCast,Promote,ST, FType}),
                      ?err('XPTY0004')
-               end; % namespace PI and comment are strings, rest untypeAtomic
+               end; % namespace PI and comment are strings, rest untypedAtomic
             true ->
                ?dbg("F",{ST, FType1}),
                ?err('XPTY0004') 
@@ -631,6 +630,7 @@ handle_node(State, {postfix, {'function-call', _, _, _} = Fx, PostFixArgs}) ->
    IsArgs = element(1,hd(PostFixArgs)) == arguments,
    if IsArgs == true, IsFun =/= true ->
          ?dbg("F",{IsArgs, IsFun}),
+         ?dbg("Ty",{Ty,St}),
          ?err('XPTY0004');
       true ->
          ok
@@ -2063,7 +2063,8 @@ handle_node(State, {'function-call',#qname{namespace = "http://www.w3.org/2001/X
                 Type == "NMTOKENS" ->
                    {sequence,xqerl_types:cast_as(Av, TypeAtom)};
                 true ->
-                   %?dbg("Av",Av),
+                   ?dbg("Av",Av),
+                   ?dbg("TypeAtom",TypeAtom),
                    xqerl_types:cast_as(Av, TypeAtom)
              end,
    %?dbg("NewNode",NewNode),
@@ -2282,6 +2283,38 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    Type = get_statement_type(SimpArg),
    ArgSt = get_statement(SimpArg),
    set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
+
+handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+                                            local_name = "head"} = Name, 1, [Arg]}) -> 
+   F = get_static_function(State, {Name, 1}),
+   StateC = set_in_constructor(State, false),
+   SimpArg = handle_node(StateC, Arg),
+   Type = (get_statement_type(SimpArg))#xqSeqType{occur = zero_or_one},
+   ArgSt = get_statement(SimpArg),
+   set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
+
+handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+                                            local_name = "tail"} = Name, 1, [Arg]}) -> 
+   F = get_static_function(State, {Name, 1}),
+   StateC = set_in_constructor(State, false),
+   SimpArg = handle_node(StateC, Arg),
+   Type = (get_statement_type(SimpArg))#xqSeqType{occur = zero_or_many},
+   ArgSt = get_statement(SimpArg),
+   set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
+
+handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+                                            local_name = "count"} = Name, 1, [Arg]}) -> 
+   F = get_static_function(State, {Name, 1}),
+   StateC = set_in_constructor(State, false),
+   SimpArg = handle_node(StateC, Arg),
+   Type = #xqSeqType{type = 'xs:integer', occur = one},
+   ArgSt = get_statement(SimpArg),
+   ArgCt = get_static_count(SimpArg),
+   if ArgCt == undefined ->
+         set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
+      true ->
+         set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', value = ArgCt}, Type)
+   end;
 
 handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                             local_name = "filter"} = Name, 2, [Arg,#xqFunction{} = Fun]}) -> 
@@ -3349,10 +3382,13 @@ function_function_name(Id, Arity) ->
 %%    #qname{namespace = 'no-namespace', prefix = "", local_name = Ln};
 resolve_qname(#qname{namespace = Ns, prefix = undefined, local_name = Ln}, _) ->
    #qname{namespace = Ns, prefix = "*", local_name = Ln};
+resolve_qname(#qname{prefix = "*"} = N, _) ->
+   N;
 resolve_qname(#qname{namespace = _undefined, prefix = Px, local_name = Ln}, #state{known_ns = Nss}) ->
    case lists:keyfind(Px, 3, Nss) of
       false ->
          ?dbg("Nss",Nss),
+         ?dbg("Px",Px),
          ?err('XPST0081'); % unable to expand
       #xqNamespace{namespace = Ns} ->
          #qname{namespace = Ns, prefix = Px, local_name = Ln}
@@ -3879,6 +3915,8 @@ check_fun_arg_type(State, Arg, TargetType) ->
         case ParamType of
            #xqSeqType{type = {parameter,_}} -> % passed in as 'item'
               ParamType#xqSeqType{type = item};
+           undefined ->
+              #xqSeqType{type = item, occur = zero_or_many};
            _ ->
               if Param == 'context-item' ->
                     %?dbg("State#state.context_item_type",State#state.context_item_type),
@@ -3997,6 +4035,8 @@ check_type_match(A, A) ->
 check_type_match(#xqSeqType{}, #xqSeqType{type = item}) -> 
    true;
 % items are not everything
+check_type_match(#xqSeqType{type = item}, #xqSeqType{type = function}) -> % hack HOF function parameters
+   true;
 check_type_match(#xqSeqType{type = item}, #xqSeqType{type = TargetType}) when ?node(TargetType) -> 
    true;
 check_type_match(#xqSeqType{type = item}, #xqSeqType{type = #xqKindTest{kind = TargetType}}) when ?node(TargetType) -> 

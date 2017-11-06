@@ -477,6 +477,8 @@ scan_token(Str = "only" ++ T, A) ->
          end
    end;
 scan_token("%" ++ T, _A) ->  {{'%', ?L, '%'}, T};
+scan_token(Str = "starts" ++ _T, _A) -> 
+   scan_name(Str);
 scan_token("start" ++ T, A) ->  qname_if_path("start", T, lookback(A));
 % function names
 %% scan_token(Str = "in-scope-prefixes" ++ _T, _A) ->  scan_name(Str);

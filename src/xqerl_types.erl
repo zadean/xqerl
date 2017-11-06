@@ -113,6 +113,7 @@ return_value(#xqNode{frag_id = FragId,identity = Id}) ->
    end;
 return_value(#xqAtomicValue{} = A) -> A;
 return_value(#array{} = A) -> A;
+return_value(#xqFunction{body = Fun} = F) when is_function(Fun) -> F;
 return_value(Fun) when is_function(Fun) -> Fun;
 return_value(Map) when is_map(Map) -> Map;
 return_value(Other) -> 
@@ -216,6 +217,12 @@ cast_as_seq([Vals], SeqType) ->
    cast_as_seq(Vals, SeqType);
 cast_as_seq(Vals, []) ->
    Vals;
+cast_as_seq(Fn, #xqSeqType{type = #xqFunTest{kind = function}}) when is_function(Fn) ->
+   Fn;
+cast_as_seq(Fn, #xqSeqType{type = #xqFunTest{kind = function}}) when is_map(Fn) ->
+   Fn;
+cast_as_seq(#xqFunction{} = Fn, #xqSeqType{type = #xqFunTest{kind = function}}) ->
+   Fn;
 cast_as_seq(#array{} = Array, #xqSeqType{type = #xqFunTest{kind = array}}) ->
    Array;
 cast_as_seq(Map, #xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
@@ -744,6 +751,12 @@ instance_of( [], #xqSeqType{type = _TType, occur = TOccur}) when TOccur == none;
                                                                  TOccur == zero_or_many -> ?true;
 instance_of( [], #xqSeqType{type = _TType, occur = _TOccur}) -> ?false;
 
+instance_of( _Se, #xqSeqType{type = item, 
+                             occur = TOccur}) when TOccur == one;
+                                                   TOccur == one_or_many;
+                                                   TOccur == zero_or_one;
+                                                   TOccur == zero_or_many ->
+   ?true;
 instance_of( [Seq], #xqSeqType{type = #xqKindTest{} = TType, 
                                occur = TOccur}) when TOccur == one;
                                                      TOccur == one_or_many;
@@ -833,6 +846,7 @@ instance_of(Seq,TType) ->
 
 
 check_param_types(_Params, any) -> true;
+check_param_types(Params, Params) -> true;
 check_param_types(Params, TargetParams) -> 
    lists:all(fun({P,#xqSeqType{type = T}}) ->
                    P == T
@@ -941,6 +955,8 @@ instance_of1(#xqFunction{annotations = Annos, params = Params, type = Type},
    if AnnoOk andalso ParamOk andalso TypeOk ->
          true;
       true ->
+         %?dbg("{AnnoOk,ParamOk,TypeOk}",{AnnoOk,ParamOk,TypeOk}),
+         %?dbg("Params, ListOfSeqTypes",{Params, ListOfSeqTypes}),
          false
    end;
 instance_of1(Map, #xqFunTest{kind = function, type = SeqType}) when is_map(Map) -> % map is function(anyAtomic,V)
@@ -953,8 +969,9 @@ instance_of1(Map, #xqFunTest{kind = map, params = Param, type = SeqType}) when i
                    ?dbg("KVs",KVs),
                    [Param1] = Param, 
                    lists:all(fun({K,V}) ->
-                                   instance_of(K, Param1) == #xqAtomicValue{type = 'xs:boolean', value = true}
-                                   andalso instance_of(V, SeqType) == #xqAtomicValue{type = 'xs:boolean', value = true}
+                                   Aok = instance_of(K, Param1) == #xqAtomicValue{type = 'xs:boolean', value = true},
+                                   Bok = instance_of(V, SeqType) == #xqAtomicValue{type = 'xs:boolean', value = true},
+                                   Aok andalso Bok 
                              end, KVs)
              end,
    if ParamOk ->
@@ -1201,6 +1218,8 @@ cast_as( #xqAtomicValue{type = Type} = ST, 'xs:numeric' ) when ?numeric(Type) ->
    ST;
 cast_as( #xqAtomicValue{type = 'xs:untypedAtomic'} = ST, 'xs:numeric' ) ->
    cast_as(ST,'xs:double');
+cast_as( #xqAtomicValue{type = 'xs:string'} = ST, 'xs:numeric' ) ->
+   cast_as(ST,'xs:double');
 cast_as( #xqAtomicValue{type = _}, 'xs:numeric' ) ->
    xqerl_error:error('XPTY0004');
 
@@ -1409,6 +1428,12 @@ cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:boolean' ) ->
    if Val == {xsDecimal,0,0} -> #xqAtomicValue{type = 'xs:boolean', value = false};
       true -> #xqAtomicValue{type = 'xs:boolean', value = true}
    end;
+cast_as( #xqAtomicValue{type = 'xs:float'} = At, 'xs:numeric' ) ->
+   At;
+cast_as( #xqAtomicValue{type = 'xs:double'} = At, 'xs:numeric' ) ->
+   At;
+cast_as( #xqAtomicValue{type = 'xs:decimal'} = At, 'xs:numeric' ) ->
+   At;
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:double' ) -> 
    #xqAtomicValue{type = 'xs:double', value = xqerl_numeric:double(Val)};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:float' ) -> 
@@ -1796,8 +1821,12 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
    end;
 
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val1}, 
+         'xs:numeric' ) -> % MAYBE castable
+   cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},'xs:double' );
+cast_as( #xqAtomicValue{type = 'xs:string', value = Val1}, 
          'xs:double' ) -> % MAYBE castable
    Val = string:trim(Val1),
+   ?dbg("Val",Val),
    case string:find(Val, "--") of
       nomatch ->
          ok;

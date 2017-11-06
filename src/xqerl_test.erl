@@ -174,17 +174,20 @@ assert_permutation(Result, PermuteString) ->
    end.
 %% assert_count           (: fn:count(result) == cnt :)
 assert_count(Result, TypeString) ->
-   NewQueryString = "declare variable $result as item() external; fn:count($result) eq " ++ TypeString,
-   case catch xqerl:run(NewQueryString, #{"result" => Result}) of
-      {'EXIT',Res} ->
-         {false, Res};
-      Res1 ->
-         StrVal = string_value(Res1),
-         if StrVal == "true" ->
+   %NewQueryString = "declare variable $result as item() external; fn:count($result) eq " ++ TypeString,
+   %case catch xqerl:run(NewQueryString, #{"result" => Result}) of
+   %   {'EXIT',Res} ->
+   %      {false, Res};
+   %   Res1 ->
+   %      StrVal = string_value(Res1),
+   Cnt = list_to_integer(TypeString),
+         if is_list(Result), length(Result) == Cnt ->
+               true;
+            Cnt == 1 ->
                true;
             true ->
-               {false, {assert_count,Res1,TypeString}}
-         end
+               {false, {assert_count,Result,TypeString}}
+   %      end
    end.
 %% assert_string_value    (: string value of result == Str :)
 assert_string_value(Result, String) ->
@@ -723,6 +726,19 @@ handle_environment(List) ->
 %%              'copy-namespaces' => FinalState#state.copy_ns_mode,
 %%              body => Mod#xqModule{prolog = ContextItem ++ VarFunPart, % just for now
 %%                                   body = S1}
+   _ = lists:foreach(
+                  fun({File,Uri}) ->
+                        case catch xqerl_context:get_available_text_resource(Uri) of
+                           {'EXIT',_} ->
+                              ?dbg("{File,Uri}",{File,Uri}),
+                              Binary = xqerl_doc:read_text(File),
+                              ?dbg("Binary",Binary),
+                              _ = xqerl_context:add_available_text_resource(Uri, Binary),
+                              ok;
+                           _Binary ->
+                              ok
+                        end
+                  end, Resources),
    
    Sources1 = lists:map(fun({File,Role,Uri}) ->
                               if Uri == [] ->
