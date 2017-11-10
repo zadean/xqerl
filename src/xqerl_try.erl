@@ -1230,12 +1230,16 @@ init() ->
 main(Options) ->
     Ctx0 = maps:merge(init(), Options),
     Ctx = begin
-       Local__2 = maps:get(context_item, Options, []),
-       xqerl_context:set_context_item(Ctx0, Local__2, 1,
-                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__2)})
+       Local__1 = maps:get(context_item, Options, []),
+       xqerl_context:set_context_item(Ctx0, Local__1, 1,
+                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__1)})
      end,
-    xqerl_types:return_value(
-                   xqerl_operators:lookup(Ctx,xqerl_operators:lookup(Ctx,
-                           xqerl_fn:'random-number-generator'(Ctx,
-                                          {xqAtomicValue, 'xs:double', "NaN"}),
-                           {xqAtomicValue, 'xs:NCName', "permute"}), {xqAtomicValue, 'xs:integer', 1})).
+    xqerl_types:return_value(xqerl_array:filter(Ctx,
+                  xqerl_array:from_list([{xqAtomicValue, 'xs:string', "apple"},
+                               {xqAtomicValue, 'xs:string', "banana"},
+                               {xqAtomicValue, 'xs:string', "cherry"}]),
+                  {xqFunction, undefined, undefined, undefined, 1,
+                   [{xqSeqType, 'xs:string', zero_or_one}], {xqSeqType, 'xs:boolean', one},
+                   fun (Ctx__1, Param__var_1) ->
+                      xqerl_fn:contains(Ctx__1, Param__var_1, {xqAtomicValue, 'xs:string', "e"})
+                   end})).

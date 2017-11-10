@@ -707,11 +707,13 @@
 'abs'(_Ctx,Arg1) ->
    #xqAtomicValue{type = Type, value = Val} = ?seq:singleton_value(Arg1),
    case Val of
-      "INF" ->
+      infinity ->
          Arg1;
-      "-INF" ->
-         #xqAtomicValue{type = Type, value = "INF"};
-      "NaN" ->
+      neg_infinity ->
+         #xqAtomicValue{type = Type, value = infinity};
+      neg_zero ->
+         #xqAtomicValue{type = Type, value = 0.0};
+      nan ->
          Arg1;
       _ ->
          case xqerl_types:subtype_of(Type, 'xs:integer') of
@@ -755,7 +757,7 @@
    'analyze-string'(Ctx,Input,Pattern,[]).
 
 'analyze-string'(Ctx,Input,Pattern,Flags) -> 
-   MP = xqerl_regex:regex_comp(Pattern,Flags),
+   {_,MP} = xqerl_regex:regex_comp(Pattern,Flags),
    Input1 = string_value(Input),
    Content = case re:run(Input1, MP, [global]) of
                 nomatch ->
@@ -918,9 +920,9 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
 
 avg1([], Sum, Count) ->
    xqerl_operators:divide(Sum, ?atint(Count));
-avg1([#xqAtomicValue{type = 'xs:double', value = "NaN"} = H|_], _, _) ->
+avg1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _, _) ->
    H;
-avg1([#xqAtomicValue{type = 'xs:float', value = "NaN"} = H|_], _, _) ->
+avg1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _, _) ->
    H;
 avg1([H|T], [], 0) ->
    avg1(T, H, 1);
@@ -995,7 +997,10 @@ avg1([H|T], Sum, Count) ->
 'ceiling'(_Ctx,[]) -> [];
 'ceiling'(_Ctx,Arg1) ->
    Val = xqerl_types:value(Arg1),
-   if Val == "INF" orelse Val == "-INF" orelse Val == "NaN" ->
+   if Val == infinity;
+      Val == neg_infinity;
+      Val == neg_zero;
+      Val == nan ->
          Arg1;
       true ->
          Type = xqerl_types:type(Arg1),
@@ -1260,11 +1265,11 @@ data1(_) ->
                                   A1 = xqerl_node:nodes_equal(N1,N2,Collation),
                                   %?dbg("deep-equal",A1),
                                   A1 == {xqAtomicValue,'xs:boolean',true};
-                               ({#xqAtomicValue{value = "NaN"},#xqAtomicValue{value = "NaN"}}) ->
+                               ({#xqAtomicValue{value = nan},#xqAtomicValue{value = nan}}) ->
                                   true;
-                               ({#xqAtomicValue{value = "INF"},#xqAtomicValue{value = "INF"}}) ->
+                               ({#xqAtomicValue{value = infinity},#xqAtomicValue{value = infinity}}) ->
                                   true;
-                               ({#xqAtomicValue{value = "-INF"},#xqAtomicValue{value = "-INF"}}) ->
+                               ({#xqAtomicValue{value = neg_infinity},#xqAtomicValue{value = neg_infinity}}) ->
                                   true;
                                ({#xqAtomicValue{type = T1} = N1,#xqAtomicValue{type = T2} = N2}) when ?string(T1) andalso ?string(T2) ->
                                   compare(Ctx, N1, N2, Collation) == ?atint(0);
@@ -1346,8 +1351,8 @@ data1(_) ->
                     {Key,ActVal} = CompVal(Value),
                     InList = lists:any(fun({#xqAtomicValue{type = AccType} = AccKey,_}) ->
                                              case Key of
-                                                #xqAtomicValue{type = KeyType, value = "NaN"} when ?numeric(KeyType) ->
-                                                   ?numeric(AccType) andalso AccKey#xqAtomicValue.value == "NaN";
+                                                #xqAtomicValue{type = KeyType, value = nan} when ?numeric(KeyType) ->
+                                                   ?numeric(AccType) andalso AccKey#xqAtomicValue.value == nan;
                                                 #xqAtomicValue{type = KeyType} when ?string(KeyType), ?string(AccType) ->
                                                     xqerl_operators:equal(AccKey, Key) == ?bool(true);
                                                 #xqAtomicValue{type = KeyType} when ?numeric(KeyType), ?numeric(AccType) ->
@@ -1464,30 +1469,32 @@ val_reverse([{_,V}|T], Acc) ->
 %% Returns true if the string $arg1 contains $arg2 as a trailing substring, taking collations into account. 
 'ends-with'(Ctx,[],Arg2) -> 'ends-with'(Ctx,?str(""),Arg2);
 'ends-with'(_Ctx,_Arg1,[]) -> ?bool(true);
-'ends-with'(_Ctx,Arg1,Arg2) -> 
+'ends-with'(#{'default-collation' := DefColl} = Ctx,Arg1,Arg2) -> 
+   'ends-with'(Ctx,Arg1,Arg2,DefColl).
+
+'ends-with'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) -> 
    Str1 = xqerl_types:string_value(Arg1),
    Str2 = xqerl_types:string_value(Arg2),
+   Uri = xqerl_types:value(Collation),
+   BaseUri = xqerl_types:value(BaseUri0),
+   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
    if Str2 == [] ->
          ?bool(true);
       Str1 == [] ->
          ?bool(false);
       true ->
-         case lists:suffix(Str2, Str1) of
-            true ->
+         ColVal = xqerl_coll:parse(Coll),
+         VBin = xqerl_coll:sort_key(lists:reverse(Str1), ColVal),
+         SBin = xqerl_coll:sort_key(lists:reverse(Str2), ColVal),
+         L = size(SBin),
+         case VBin of
+            SBin ->
+               ?bool(true);
+            <<SBin:L/binary,_/binary>> ->
                ?bool(true);
             _ ->
                ?bool(false)
          end
-   end.
-
-'ends-with'(Ctx,Arg1,Arg2,Collation) -> 
-   Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         ?MODULE:'ends-with'(Ctx,Arg1,Arg2);
-      _ ->
-         xqerl_error:error('FOCH0002')
    end.
 
 
@@ -1598,7 +1605,10 @@ pct_encode3([H|T]) ->
 'floor'(_Ctx,[]) -> [];
 'floor'(_Ctx,Arg1) -> 
    Val = xqerl_types:value(Arg1),
-   if Val == "INF" orelse Val == "-INF" orelse Val == "NaN" ->
+   if Val == infinity;
+      Val == neg_infinity;
+      Val == neg_zero;
+      Val == nan ->
          Arg1;
       true ->
          Type = xqerl_types:type(Arg1),
@@ -1663,10 +1673,55 @@ pct_encode3([H|T]) ->
 
 %% Returns a string containing a number formatted according to a given picture string, 
 %% taking account of decimal formats specified in the static context. 
-'format-number'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
-   %'format-number'(Ctx,Arg1,Arg2,[]).
-'format-number'(_Ctx,_Arg1,_Arg2,_Arg3) -> 
-   exit({not_implemented,?LINE}).
+'format-number'(#{known_dec_formats := Dfs} = Ctx,Arg1,Arg2) ->
+   [DF] = [D || {[],D} <- Dfs],
+   'format-number'(Ctx,Arg1,Arg2,DF).
+'format-number'(_Ctx,Number,PicString,#dec_format{} = DF) ->
+   Num = xqerl_types:value(Number),
+   PicStr = xqerl_types:value(PicString),
+   {PosFun,NegFun} = xqerl_format:parse_picture_string(PicStr, DF),
+   Str = if Num == [] ->
+               PosFun([],[]);
+            Num == neg_zero ->
+               NegFun(0,[]);
+            Num == nan ->
+               PosFun(nan,[]);
+            Num == infinity ->
+               PosFun(infinity,[]);
+            Num == neg_infinity ->
+               NegFun(infinity,[]);
+            true ->
+               ?dbg("Num",Num),
+               case xqerl_numeric:less_than(Num, 0) of
+                  true ->
+                     NegFun(Num,[]);
+                  _ ->
+                     PosFun(Num,[])
+               end
+         end,
+   ?str(Str);
+'format-number'(Ctx,Number,PicString,[]) ->
+   'format-number'(Ctx,Number,PicString);
+'format-number'(#{known_dec_formats := Dfs,
+                  namespaces        := Nss} = Ctx,Number,PicString,Name) ->
+   S1 = xqerl_types:string_value(Name),
+   S2 = string:trim(S1),
+   try xqerl_types:value(xqerl_types:cast_as(?str(S2), 'xs:QName', Nss)) of
+      #qname{namespace = N,local_name = L} ->
+         case [D || {#qname{namespace = N1, local_name = L1},D} <- Dfs, L == L1, N == N1] of
+            [DF] ->
+               'format-number'(Ctx,Number,PicString,DF);
+            _ ->
+               ?err('FODF1280')
+         end
+   catch _:_ ->
+            ?err('FODF1280')
+   end.
+
+
+
+%% 'format-number'(_Ctx,Number,PicString,Format) -> 
+%%    exit({not_implemented,?LINE}).
 
 %% Returns a string containing an xs:time value formatted for display. 
 'format-time'(_Ctx,Date,Picture) -> 
@@ -2168,22 +2223,12 @@ unmask_static_mod_ns(T) -> T.
 'matches'(_Ctx,String,Pattern) ->
    'matches'(_Ctx,String,Pattern,[]).
 'matches'(_Ctx,String,Pattern,Flags) ->
-   Pattern1 = xqerl_regex:regex_back_ref(xqerl_types:value(Pattern),0),
-   ?dbg("Pattern", Pattern),
-   ?dbg("Pattern1", Pattern1),
-   MP = xqerl_regex:regex_comp(Pattern1,Flags),
-   ?dbg("MP", MP),
+   {_,MP} = xqerl_regex:regex_comp(xqerl_types:value(Pattern),Flags),
    Input1 = xqerl_types:value(String),
-   ?dbg("Input1", Input1),
    case re:run(Input1, MP, [global]) of
       nomatch ->
-         ?dbg(?LINE,Input1),
          ?bool(false);
-      {match,[[{0,0}]]} when Input1 =/= [] ->
-         ?dbg(?LINE,Input1),
-         ?bool(false);
-      X ->
-         ?dbg(?LINE,X),
+      _X ->
          ?bool(true)
    end.
 
@@ -2212,9 +2257,9 @@ unmask_static_mod_ns(T) -> T.
 
 max1([], Max) ->
    Max;
-max1([#xqAtomicValue{type = 'xs:double', value = "NaN"} = H|_], _) ->
+max1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _) ->
    H;
-max1([#xqAtomicValue{type = 'xs:float', value = "NaN"} = H|_], _) ->
+max1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _) ->
    H;
 max1([H|T], []) ->
    max1(T, H);
@@ -2229,9 +2274,9 @@ max1([H|T], Max) ->
 
 min1([], Min) ->
    Min;
-min1([#xqAtomicValue{type = 'xs:double', value = "NaN"} = H|_], _) ->
+min1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _) ->
    H;
-min1([#xqAtomicValue{type = 'xs:float', value = "NaN"} = H|_], _) ->
+min1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _) ->
    H;
 min1([H|T], []) ->
    min1(T, H);
@@ -2480,6 +2525,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
 'namespace-uri-for-prefix'(_Ctx,Prefix,Element) -> 
    P1 = xqerl_types:string_value(Prefix),
    Node = ?seq:singleton_value(Element),
+   %?dbg("Node",Node),
    #xqElementNode{inscope_ns = InScopeNamespaces} = xqerl_node:get_node(Node),
    ?dbg("namespace-uri-for-prefix", P1),
    ?dbg("namespace-uri-for-prefix", InScopeNamespaces),
@@ -2676,7 +2722,7 @@ shrink_spaces([H|T]) ->
 'number'(_Ctx,Arg1) -> 
    Val = ?seq:singleton_value(Arg1),
    if Val == [] ->
-         ?dbl("NaN");
+         ?dbl(nan);
       true ->
          NVal = xqerl_types:value(Val),
          if is_integer(NVal) ->
@@ -2684,7 +2730,7 @@ shrink_spaces([H|T]) ->
             true ->
                case catch xqerl_types:cast_as(Val, 'xs:double') of
                   {'EXIT',_} ->
-                     ?dbl("NaN");
+                     ?dbl(nan);
                   V ->
                      ?seq:singleton(V)
                end
@@ -2972,14 +3018,23 @@ remove1([H|T],Position,Current) ->
 'replace'(_Ctx,Input,Pattern,Replacement) -> 
    'replace'(_Ctx,Input,Pattern,Replacement,[]).
 'replace'(_Ctx,Input,Pattern,Replacement,Flags) ->
-   %Pattern1 = xqerl_regex:regex_back_ref(xqerl_types:value(Pattern),0),
-   %?dbg("Pattern1", Pattern1),
-   MP = xqerl_regex:regex_comp(Pattern,Flags),
+   Pattern1 = xqerl_types:value(Pattern),
+   {Zero,MP} = xqerl_regex:regex_comp(Pattern1,Flags),
+   if Zero ->
+         ?err('FORX0003');
+      true ->
+         ok
+   end,
    Repl = string_value(Replacement),
-   Repl1 = xqerl_regex:regex_back_ref(Repl,0),
+   Repl1 = case lists:member($q, xqerl_types:value(Flags)) of
+              true ->
+                 xqerl_regex:esc_esc(Repl);
+              _ ->
+                 Depth = xqerl_regex:get_depth(Pattern1),
+                 xqerl_regex:parse_repl(Repl,Depth)
+           end,
+   ?dbg("Repl1",Repl1),
    Input1 = string_value(Input),
-   %?dbg("Input1 replace", Input1),
-   %?dbg("Repl1 replace", Repl1),
    try
       Str = re:replace(Input1, MP, Repl1, [{return,list},global]),
       ?str(Str)
@@ -3065,14 +3120,20 @@ string_value(At) -> xqerl_types:string_value(At).
    ArgType = xqerl_types:type(Arg),
    ArgVal = xqerl_types:value(Arg),
    if ArgVal == [];
-      ArgVal == "NaN";
-      ArgVal == "-INF";
-      ArgVal == "INF";
+      ArgVal == nan;
+      ArgVal == neg_infinity;
+      ArgVal == infinity;
+      ArgVal == neg_zero;
       abs(Prec) > 308 ->
          Arg;
       true ->
          Rounded = xqerl_numeric:round_half(xqerl_numeric:decimal(ArgVal), Prec),
-         xqerl_types:cast_as(?atm('xs:decimal', Rounded), ArgType)
+         if Rounded == {xsDecimal,0,0} andalso ArgVal < 0 andalso ArgType == 'xs:double';
+            Rounded == {xsDecimal,0,0} andalso ArgVal < 0 andalso ArgType == 'xs:float' ->
+               #xqAtomicValue{type = ArgType, value = neg_zero};
+            true ->
+               xqerl_types:cast_as(?atm('xs:decimal', Rounded), ArgType)
+         end
    end.
 
 %% Rounds a value to a specified number of decimal places, rounding to make the last digit even if two such values are equally near. 
@@ -3084,9 +3145,10 @@ string_value(At) -> xqerl_types:string_value(At).
    ArgType = xqerl_types:type(Arg),
    ArgVal = xqerl_types:value(Arg),
    if ArgVal == [];
-      ArgVal == "NaN";
-      ArgVal == "-INF";
-      ArgVal == "INF";
+      ArgVal == nan;
+      ArgVal == neg_infinity;
+      ArgVal == neg_zero;
+      ArgVal == infinity;
       abs(Prec) > 308 ->
          Arg;
       true ->
@@ -3221,28 +3283,6 @@ sort1(Ctx,A,B,Coll) ->
          end
    end.
 
-%% 'substring-before'(#{'default-collation' := DefColl} = Ctx,Arg1,Arg2) -> 
-%%    'substring-before'(Ctx,Arg1,Arg2,DefColl).
-%%    
-%% 'substring-before'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) ->
-%%    Uri = xqerl_types:value(Collation),
-%%    BaseUri = xqerl_types:value(BaseUri0),
-%%    {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-%% 
-%%    StrVal = xqerl_types:string_value(Arg1),
-%%    SplVal = xqerl_types:string_value(Arg2),
-%%    ColVal = xqerl_coll:parse(Coll),
-%%    VBin = xqerl_coll:sort_key(StrVal, ColVal),
-%%    SBin = xqerl_coll:sort_key(SplVal, ColVal),
-%%    Str3 = string:split(VBin,SBin),
-%%    case Str3 of
-%%       [_] ->
-%%          ?str("");
-%%       _ ->
-%%          ?str(unicode:characters_to_list(hd(Str3)))
-%%    end.
-
-
 %% This function returns the value of the static base URI property from the static context. 
 'static-base-uri'(Ctx) -> 
    maps:get('base-uri', Ctx).
@@ -3323,7 +3363,7 @@ sort1(Ctx,A,B,Coll) ->
 %% Returns the contiguous sequence of items in the value of $sourceSeq beginning at the position indicated by the value of $startingLoc and continuing for the number of items indicated by the value of $length. 
 'subsequence'(_Ctx,SourceSeq,StartingLoc) -> 
    VStart = xqerl_types:value(StartingLoc),
-   if VStart == "-INF" ->
+   if VStart == neg_infinity ->
          SourceSeq;
       VStart < 1 ->
          SourceSeq;
@@ -3334,22 +3374,22 @@ sort1(Ctx,A,B,Coll) ->
 'subsequence'(_Ctx,SourceSeq,StartingLoc,Length) -> 
    VLen = xqerl_types:value(Length),
    VStart = xqerl_types:value(StartingLoc),
-   if VLen == "INF" andalso VStart == "-INF" ->
+   if VLen == infinity andalso VStart == neg_infinity ->
          ?seq:empty();
-      %VLen == "INF" ->
+      %VLen == infinity ->
       %   SourceSeq;
-      VLen == "-INF" ->
+      VLen == neg_infinity ->
          ?seq:empty();
-      VLen == "NaN" ->
+      VLen == nan ->
          ?seq:empty();
-      VStart == "INF" ->
+      VStart == infinity ->
          ?seq:empty();
-      VStart == "-INF" ->
+      VStart == neg_infinity ->
          ?seq:empty();
-      VStart == "NaN" ->
+      VStart == nan ->
          ?seq:empty();
       true ->
-         Len = if VLen == "INF" ->
+         Len = if VLen == infinity ->
                      ?seq:size(SourceSeq);
                   true ->
                      erlang:round(VLen)
@@ -3380,16 +3420,16 @@ sort1(Ctx,A,B,Coll) ->
    Val = xqerl_types:value(xqerl_types:cast_as(SourceString, 'xs:string')),
    VLen = xqerl_types:value(Length),
    VStart = xqerl_types:value(Start),
-   if VLen == "-INF";
-      VLen == "NaN";
-      VStart == "INF";
-      VStart == "-INF";
-      VStart == "NaN" ->
+   if VLen == neg_infinity;
+      VLen == nan;
+      VStart == infinity;
+      VStart == neg_infinity;
+      VStart == nan ->
          ?str("");
       true ->
          Start2 = erlang:round(VStart)-1,
          Len = if VLen == [];
-                  VLen == "INF" -> 99;
+                  VLen == infinity -> 99;
                   true ->
                      erlang:round(VLen)
                end,
@@ -3404,7 +3444,7 @@ sort1(Ctx,A,B,Coll) ->
                ?str("");
             true ->
                Sub = if VLen == [];
-                        VLen == "INF" ->
+                        VLen == infinity ->
                            string:slice(Val, Start1);
                         true ->
                            string:slice(Val, Start1, End)
@@ -3493,9 +3533,9 @@ sort1(Ctx,A,B,Coll) ->
 
 sum1([], Sum) ->
    Sum;
-sum1([#xqAtomicValue{type = 'xs:double', value = "NaN"} = H|_], _) ->
+sum1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _) ->
    H;
-sum1([#xqAtomicValue{type = 'xs:float', value = "NaN"} = H|_], _) ->
+sum1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _) ->
    H;
 sum1([H|T], []) ->
    %?dbg("sum1[]",H),
@@ -3570,25 +3610,25 @@ sum1([H|T], Sum) ->
 'tokenize'(_Ctx,Input,Pattern) ->
    'tokenize'(_Ctx,Input,Pattern,[]).
 'tokenize'(_Ctx,Input,Pattern,Flags) -> 
-   MP = xqerl_regex:regex_comp(Pattern,Flags),
+   {Zero,MP} = xqerl_regex:regex_comp(Pattern,Flags),
+   if Zero ->
+         ?err('FORX0003');
+      true ->
+         ok
+   end,
    Str = xqerl_types:cast_as(Input, 'xs:string'),
    Input1 = string_value(Str),
    if Input1 == "" ->
          ?seq:empty();
       true ->
-         case re:run("", MP) of
-            nomatch ->
-               List = re:split(Input1, MP, [group, {return,list}]),
-               ?dbg("List",List),
-               Out = lists:map(fun(S) -> 
-                                       H = lists:flatten(hd(S)),
-                                       #xqAtomicValue{type = 'xs:string', value = H}
-                                   end, List),
-               %?dbg(?LINE,Out),
-               Out;
-            _ ->
-               ?err('FORX0003')
-         end
+         List = re:split(Input1, MP, [group, {return,list}]),
+         ?dbg("List",List),
+         Out = lists:map(fun(S) -> 
+                                 H = lists:flatten(hd(S)),
+                                 #xqAtomicValue{type = 'xs:string', value = H}
+                             end, List),
+         %?dbg(?LINE,Out),
+         Out
    end.
    
 %% Provides an execution trace intended to be used in debugging queries. 

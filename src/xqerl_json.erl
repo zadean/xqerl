@@ -204,16 +204,18 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "n
       {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
       ?dbg("Expr",{Key, EscKey, Esc, Rest}),
       Txt = xqerl_node:atomize_nodes(Rest),
-      Num = xqerl_types:string_value(xqerl_types:cast_as(Txt,'xs:double')),
-      if Num == "INF";
-         Num == "-INF";
-         Num == "NaN" -> % not allowed in JSON
+      ?dbg("Txt",Txt),
+      NumTxt = xqerl_types:string_value(xqerl_types:cast_as(Txt,'xs:double')),
+      ?dbg("Num",NumTxt),
+      if NumTxt == "INF";
+         NumTxt == "-INF";
+         NumTxt == "NaN" -> % not allowed in JSON
             ?err('FOJS0006');
          Key == [] ->
-            Num;
+            NumTxt;
          true ->
             KeyVal = normalize_string(State#state{escape = not if_empty(EscKey,false)}, xqerl_types:string_value(Key)),
-            {[$"] ++ KeyVal ++ [$"],Num, EscKey}
+            {[$"] ++ KeyVal ++ [$"],NumTxt, EscKey}
       end
    catch 
       _:_ ->

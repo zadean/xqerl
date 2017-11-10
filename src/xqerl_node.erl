@@ -962,7 +962,7 @@ maybe_merge_seq(Seq) ->
 
 maybe_merge_seq([],Acc) ->
    lists:reverse(Acc);
-maybe_merge_seq([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
+maybe_merge_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = lists:concat([St1," ",St2]),
@@ -993,7 +993,7 @@ maybe_merge_text_seq([#xqProcessingInstructionNode{} = H|T], Acc) ->
    maybe_merge_text_seq([atomize_node(H)|T],Acc);
 maybe_merge_text_seq([#xqTextNode{} = H|T], Acc) ->
    maybe_merge_text_seq([atomize_node(H)|T],Acc);
-maybe_merge_text_seq([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
+maybe_merge_text_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = lists:concat([St1," ",St2]),
@@ -1059,13 +1059,13 @@ merge_text_content([#xqProcessingInstructionNode{} = H|T], Acc) ->
    %?dbg("Atomized",Atomized),
    merge_text_content(T, Atomized ++ Acc);
 
-merge_text_content([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs:string' ->
-   NewH = xqerl_types:cast_as(H, 'xs:string'),
+merge_text_content([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs:untypedAtomic' ->
+   NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
    merge_text_content([NewH|T], Acc);
 
 merge_text_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
-   St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:string')),
+   St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = St1 ++ St2,
    %?dbg("Atomized", Str3),
    merge_text_content([#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc);
@@ -1076,7 +1076,7 @@ merge_text_content([#xqAtomicValue{} = H1,#xqNode{frag_id = F, identity = I}|T],
    %?dbg("Atomized", Atomized),
    merge_text_content([H1|Atomized] ++ T, Acc);
 
-merge_text_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) when Type == 'xs:string' ->
+merge_text_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) when Type == 'xs:untypedAtomic' ->
    %?dbg("Atomized", Expr),
    merge_text_content([], [Expr|Acc]);
 
@@ -1335,9 +1335,14 @@ get_node_children(_NonNode) ->
 get_node([#xqNode{frag_id = F, identity = Id}]) ->
    Doc = xqerl_context:get_available_document(F),
    gb_trees:get(Id, Doc);
+%% get_node(#xqNode{frag_id = F, identity = 0}) -> % no fragments
+%%    Doc = xqerl_context:get_available_document(F),
+%%    gb_trees:get(1, Doc);
 get_node(#xqNode{frag_id = F, identity = Id}) ->
    Doc = xqerl_context:get_available_document(F),
    gb_trees:get(Id, Doc);
+get_node({0,Doc}) -> % no fragments
+   gb_trees:get(1, Doc);
 get_node({Id,Doc}) ->
    gb_trees:get(Id, Doc).
 

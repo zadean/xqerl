@@ -120,12 +120,16 @@ lookup(_Ctx,{array,_} = Array,all) ->
    xqerl_array:values(Array);
 lookup(_Ctx,{array,_} = Array,Values) when is_list(Values) ->
    xqerl_array:get_matched(Array, Values);
-lookup(Ctx,{array,_} = Array,Value) ->
+lookup(Ctx,{array,_} = Array,#xqAtomicValue{type = T} = Value) when ?integer(T) ->
    xqerl_array:get(Ctx, Array, Value);
-lookup(Ctx,List,Value) ->
+lookup(Ctx,{array,_} = A,#xqNode{} = V) ->
+   lookup(Ctx,A,xqerl_types:cast_as(V, 'xs:integer'));
+lookup(Ctx,List,Value) when is_list(List) ->
    lists:map(fun(I) ->
                    lookup(Ctx,I,Value)
-             end, List).
+             end, List);
+lookup(_Ctx,_List,_Value) ->
+   ?err('XPTY0004').
 
 is_comparable('xs:base64Binary') -> true;
 is_comparable('xs:boolean') -> true;
@@ -924,38 +928,42 @@ atomize_list(Seq) ->
    atomize_list([Seq]).
 
 % returns: numeric
+numeric_add(#xqAtomicValue{value = neg_zero} = A,B) ->
+   numeric_add(A#xqAtomicValue{value = 0.0},B);
+numeric_add(A,#xqAtomicValue{value = neg_zero} = B) ->
+   numeric_add(A,B#xqAtomicValue{value = 0.0});
 numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
             #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) -> 
    Prec = max(?num(TypeA), ?num(TypeB)),
    TypeC = ?numtype(Prec),
-   ValC = if ValA == "INF", ?is_numeric(ValB) ->
-                "INF";
-             ValB == "INF", ?is_numeric(ValA) ->
-                "INF";
-             ValA == "-INF", ?is_numeric(ValB) ->
-                "-INF";
-             ValB == "-INF", ?is_numeric(ValA) ->
-                "-INF";
-             ValA == "INF", ValB == "INF" ->
-                "INF";
-             ValA == "-INF", ValB == "-INF" ->
-                "-INF";
-             ValA == "INF", ValB == "-INF" ->
-                "NaN";
-             ValA == "-INF", ValB == "INF" ->
-                "NaN";
-             ValA == "NaN" orelse ValB == "NaN" ->
-                "NaN";
-             ValA == "INF" orelse ValB == "INF" ->
-                "INF";
-             ValA == "-INF" orelse ValB == "-INF" ->
-                "-INF";
+   ValC = if ValA == infinity, ?is_numeric(ValB) ->
+                infinity;
+             ValB == infinity, ?is_numeric(ValA) ->
+                infinity;
+             ValA == neg_infinity, ?is_numeric(ValB) ->
+                neg_infinity;
+             ValB == neg_infinity, ?is_numeric(ValA) ->
+                neg_infinity;
+             ValA == infinity, ValB == infinity ->
+                infinity;
+             ValA == neg_infinity, ValB == neg_infinity ->
+                neg_infinity;
+             ValA == infinity, ValB == neg_infinity ->
+                nan;
+             ValA == neg_infinity, ValB == infinity ->
+                nan;
+             ValA == nan orelse ValB == nan ->
+                nan;
+             ValA == infinity orelse ValB == infinity ->
+                infinity;
+             ValA == neg_infinity orelse ValB == neg_infinity ->
+                neg_infinity;
              Prec == 15 -> % float could be overflowed
                 case xqerl_numeric:double(ValA) + xqerl_numeric:double(ValB) of
                    X when X > ?MAXFLOAT ->
-                      "INF";
+                      infinity;
                    X when X < ?MINFLOAT ->
-                      "-INF";
+                      neg_infinity;
                    X ->
                       xqerl_numeric:float(X)
                 end;
@@ -968,36 +976,40 @@ numeric_add(_,_) ->
    xqerl_error:error('XPTY0004').
 
 % returns: numeric
+numeric_subtract(#xqAtomicValue{value = neg_zero} = A,B) ->
+   numeric_subtract(A#xqAtomicValue{value = 0.0},B);
+numeric_subtract(A,#xqAtomicValue{value = neg_zero} = B) ->
+   numeric_subtract(A,B#xqAtomicValue{value = 0.0});
 numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
                  #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
    Prec = max(?num(TypeA), ?num(TypeB)),
    TypeC = ?numtype(Prec),
-   ValC = if ValA == "INF", ?is_numeric(ValB) ->
-                "INF";
-             ValB == "INF", ?is_numeric(ValA) ->
-                "-INF";
-             ValA == "-INF", ?is_numeric(ValB) ->
-                "-INF";
-             ValB == "-INF", ?is_numeric(ValA) ->
-                "INF";
-             ValA == "INF", ValB == "INF" ->
-                "NaN";
-             ValA == "-INF", ValB == "-INF" ->
-                "NaN";
-             ValA == "INF", ValB == "-INF" ->
-                "INF";
-             ValA == "-INF", ValB == "INF" ->
-                "-INF";
-             ValA == "NaN" orelse ValB == "NaN" ->
-                "NaN";
+   ValC = if ValA == infinity, ?is_numeric(ValB) ->
+                infinity;
+             ValB == infinity, ?is_numeric(ValA) ->
+                neg_infinity;
+             ValA == neg_infinity, ?is_numeric(ValB) ->
+                neg_infinity;
+             ValB == neg_infinity, ?is_numeric(ValA) ->
+                infinity;
+             ValA == infinity, ValB == infinity ->
+                nan;
+             ValA == neg_infinity, ValB == neg_infinity ->
+                nan;
+             ValA == infinity, ValB == neg_infinity ->
+                infinity;
+             ValA == neg_infinity, ValB == infinity ->
+                neg_infinity;
+             ValA == nan orelse ValB == nan ->
+                nan;
              (is_integer(ValA) orelse trunc(ValA) == ValA) andalso (is_integer(ValB) orelse trunc(ValB) == ValB) ->
                 ValA - ValB;
              Prec == 15 -> % float could be overflowed
                 case ((ValA * 100000000) - (ValB * 100000000)) / 100000000 of
                    X when X > ?MAXFLOAT ->
-                      "INF";
+                      infinity;
                    X when X < ?MINFLOAT ->
-                      "-INF";
+                      neg_infinity;
                    X ->
                       xqerl_numeric:float(X)
                 end;
@@ -1010,36 +1022,40 @@ numeric_subtract(_,_) ->
    xqerl_error:error('XPTY0004').
 
 % returns: numeric
+numeric_multiply(#xqAtomicValue{value = neg_zero} = A,B) ->
+   numeric_multiply(A#xqAtomicValue{value = 0.0},B);
+numeric_multiply(A,#xqAtomicValue{value = neg_zero} = B) ->
+   numeric_multiply(A,B#xqAtomicValue{value = 0.0});
 numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
                  #xqAtomicValue{type = TypeB, value = ValB})  when ?numeric(TypeA),?numeric(TypeB) -> 
    Prec = max(?num(TypeA), ?num(TypeB)),
    TypeC = ?numtype(Prec),
-   ValC = if ValA == "INF" andalso ?is_numeric(ValB) andalso ValB > 0 ->
-                "INF";
-             ValA == "INF" andalso ?is_numeric(ValB) andalso ValB < 0 ->
-                "-INF";
-             ValB == "INF" andalso ?is_numeric(ValA) andalso ValA > 0 ->
-                "INF";
-             ValB == "INF" andalso ?is_numeric(ValA) andalso ValA < 0 ->
-                "-INF";
-             ValA == "INF" andalso ValB == 0 ->
-                "NaN";
-             ValA == "INF" andalso ValB == 0 ->
-                "NaN";
-             ValB == "INF" andalso ValA == 0 ->
-                "NaN";
-             ValB == "INF" andalso ValA == 0 ->
-                "NaN";
-             ValA == "NaN" orelse ValB == "NaN" ->
-                "NaN";
+   ValC = if ValA == infinity andalso ?is_numeric(ValB) andalso ValB > 0 ->
+                infinity;
+             ValA == infinity andalso ?is_numeric(ValB) andalso ValB < 0 ->
+                neg_infinity;
+             ValB == infinity andalso ?is_numeric(ValA) andalso ValA > 0 ->
+                infinity;
+             ValB == infinity andalso ?is_numeric(ValA) andalso ValA < 0 ->
+                neg_infinity;
+             ValA == infinity andalso ValB == 0 ->
+                nan;
+             ValA == infinity andalso ValB == 0 ->
+                nan;
+             ValB == infinity andalso ValA == 0 ->
+                nan;
+             ValB == infinity andalso ValA == 0 ->
+                nan;
+             ValA == nan orelse ValB == nan ->
+                nan;
              is_integer(ValA) andalso is_integer(ValB) ->
                 ValA * ValB;
              Prec == 15 -> % float could be overflowed
                 case ((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000 of
                    X when X > ?MAXFLOAT ->
-                      "INF";
+                      infinity;
                    X when X < ?MINFLOAT ->
-                      "-INF";
+                      neg_infinity;
                    X ->
                       xqerl_numeric:float(X)
                 end;
@@ -1064,38 +1080,49 @@ numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
                        P
                  end
            end,
-   ValC = if ValA == "-INF", ?is_numeric(ValB), ValB >= 0 ->
-                "-INF";
-             ValA == "INF", ?is_numeric(ValB), ValB >= 0 ->
-                "INF";
-             ValA == "-INF", ?is_numeric(ValB), ValB < 0 ->
-                "INF";
-             ValA == "INF", ?is_numeric(ValB), ValB < 0 ->
-                "-INF";
+   ValC = if ValA == neg_infinity, ?is_numeric(ValB), ValB >= 0 ->
+                neg_infinity;
+             ValA == infinity, ?is_numeric(ValB), ValB >= 0 ->
+                infinity;
+             ValA == neg_infinity, ?is_numeric(ValB), ValB < 0 ->
+                infinity;
+             ValA == infinity, ?is_numeric(ValB), ValB < 0 ->
+                neg_infinity;
              ValB == 0, ?is_numeric(ValA), ValA > 0, TypeC =/= 'xs:decimal' ->
-                "INF";
+                infinity;
              ValB == 0, ?is_numeric(ValA), ValA < 0, TypeC =/= 'xs:decimal' ->
-                "-INF";
-             ValA == 0, ValB == 0 ->
-                "NaN";
+                neg_infinity;
+             ValA == 0, ValB == 0;
+             ValA == neg_zero, ValB == 0;
+             ValA == 0, ValB == neg_zero;
+             ValA == neg_zero, ValB == neg_zero ->
+                nan;
+             ValA == 0, ValB == neg_infinity ->
+                neg_zero;
+             ValA == 0 ->
+                0;
+             ValB == neg_zero, ?is_numeric(ValA), ValA > 0 ->
+                neg_infinity;
+             ValB == neg_zero, ?is_numeric(ValA), ValA < 0 ->
+                infinity;
              ValB == 0 ->
                 xqerl_error:error('FOAR0001');
-             ValA == "INF", ValB == "INF" ->
-                "NaN";
-             ValA == "INF", ValB == "-INF" ->
-                "NaN";
-             ValA == "-INF", ValB == "INF" ->
-                "NaN";
-             ValA == "-INF", ValB == "-INF" ->
-                "NaN";
-             ValA == "NaN" orelse ValB == "NaN" ->
-                "NaN";
+             ValA == infinity, ValB == infinity ->
+                nan;
+             ValA == infinity, ValB == neg_infinity ->
+                nan;
+             ValA == neg_infinity, ValB == infinity ->
+                nan;
+             ValA == neg_infinity, ValB == neg_infinity ->
+                nan;
+             ValA == nan orelse ValB == nan ->
+                nan;
              Prec == 15 -> % float could be overflowed
                 case ValA / ValB of
                    X when X > ?MAXFLOAT ->
-                      "INF";
+                      infinity;
                    X when X < ?MINFLOAT ->
-                      "-INF";
+                      neg_infinity;
                    X ->
                       xqerl_numeric:float(X)
                 end;
@@ -1115,23 +1142,23 @@ numeric_divide(_,_) ->
 numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                        #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
    Prec = max(?num(TypeA), ?num(TypeB)),
-   ValC = if ValB == "INF", ValA =/= "INF" ->
+   ValC = if ValB == infinity, ValA =/= infinity ->
                 0;
-             ValB == "-INF", ValA =/= "INF" ->
+             ValB == neg_infinity, ValA =/= infinity ->
                 0;
-             ValB == "INF", ValA =/= "-INF" ->
+             ValB == infinity, ValA =/= neg_infinity ->
                 0;
-             ValB == "-INF", ValA =/= "-INF" ->
+             ValB == neg_infinity, ValA =/= neg_infinity ->
                 0;
              ValB == 0 ->
                 xqerl_error:error('FOAR0001');
-             ValA == "NaN" ->
+             ValA == nan ->
                 xqerl_error:error('FOAR0002');
-             ValB == "NaN" ->
+             ValB == nan ->
                 xqerl_error:error('FOAR0002');
-             ValA == "INF" ->
+             ValA == infinity ->
                 xqerl_error:error('FOAR0002');
-             ValA == "-INF" ->
+             ValA == neg_infinity ->
                 xqerl_error:error('FOAR0002');
              is_integer(ValA) andalso is_integer(ValB) ->
                 ValA div ValB;
@@ -1164,15 +1191,19 @@ numeric_mod(#xqAtomicValue{type = TypeA, value = ValA} = A,
    TypeC = ?numtype(Prec),
    if (ValB == 0) andalso TypeC =/= 'xs:double' andalso TypeC =/= 'xs:float' ->
          xqerl_error:error('FOAR0001');
-      (ValA == "NaN") orelse (ValB == "NaN") ->
-         #xqAtomicValue{type = TypeC, value = "NaN"};
-      (ValA == "-INF") orelse (ValB == 0) ->
-         #xqAtomicValue{type = TypeC, value = "NaN"};
-      (ValA == "INF") orelse (ValB == 0) ->
-         #xqAtomicValue{type = TypeC, value = "NaN"};
-      (ValB == "-INF") ->
+      (ValA == nan) orelse (ValB == nan) ->
+         #xqAtomicValue{type = TypeC, value = nan};
+      (ValA == neg_infinity) orelse (ValB == 0) ->
+         #xqAtomicValue{type = TypeC, value = nan};
+      ValA == infinity;
+      ValB == 0;
+      ValB == neg_zero ->
+         #xqAtomicValue{type = TypeC, value = nan};
+      (ValB == neg_infinity) ->
          #xqAtomicValue{type = TypeC, value = ValA};
-      (ValB == "INF") ->
+      (ValA == neg_zero) ->
+         #xqAtomicValue{type = TypeC, value = ValA};
+      (ValB == infinity) ->
          #xqAtomicValue{type = TypeC, value = ValA};
       (ValA == 0) ->
          #xqAtomicValue{type = 'xs:integer', value = 0};
@@ -1195,17 +1226,25 @@ numeric_mod(_,_) ->
 % returns: xs:boolean
 numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
               #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if (ValA == "NaN") andalso (ValB == "NaN") ->
+   ValC = if (ValA == nan) andalso (ValB == nan) ->
                 false;
-             (ValA == "NaN") orelse (ValB == "NaN") ->
+             (ValA == nan) orelse (ValB == nan) ->
                 false;
-             (ValA == "INF") andalso (ValB == "INF") ->
+             (ValA == infinity) andalso (ValB == infinity) ->
                 true;
-             (ValA == "INF") orelse (ValB == "INF") ->
+             (ValA == infinity) orelse (ValB == infinity) ->
                 false;
-             (ValA == "-INF") andalso (ValB == "-INF") ->
+             (ValA == neg_infinity) andalso (ValB == neg_infinity) ->
                 true;
-             (ValA == "-INF") orelse (ValB == "-INF") ->
+             (ValA == neg_infinity) orelse (ValB == neg_infinity) ->
+                false;
+             (ValA == neg_zero) andalso (ValB == neg_zero) ->
+                true;
+             (ValA == neg_zero) andalso (ValB == 0) ->
+                true;
+             (ValA == 0) andalso (ValB == neg_zero) ->
+                true;
+             (ValA == neg_zero) orelse (ValB == neg_zero) ->
                 false;
              ?decimal(TypeA) andalso TypeB == 'xs:float' ->
                 xqerl_numeric:float(ValA) == ValB;
@@ -1230,15 +1269,26 @@ numeric_equal(_,_) ->
 % returns: xs:boolean
 numeric_less_than(#xqAtomicValue{type = TypeA, value = ValA},
                   #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if (ValA == "NaN") or(ValB == "NaN") ->
+   ValC = if ValA == nan;
+             ValB == nan ->
                 false;
-             (ValA == "INF") ->
+             ValA == infinity ->
                 false;
-             (ValB == "INF") ->
+             ValB == infinity ->
                 true;
-             (ValA == "-INF") ->
+             ValA == neg_infinity ->
                 true;
-             (ValB == "-INF") ->
+             ValB == neg_infinity ->
+                false;
+             ValA == neg_zero, ValB == neg_zero ->
+                false;
+             ValA == neg_zero, ValB >= 0 ->
+                true;
+             ValA == neg_zero, ValB < 0 ->
+                false;
+             ValB == neg_zero, ValA < 0 ->
+                true;
+             ValB == neg_zero, ValA >= 0 ->
                 false;
              true ->
                 xqerl_numeric:less_than(ValA, ValB)
@@ -1250,15 +1300,26 @@ numeric_less_than(_,_) ->
 % returns: xs:boolean
 numeric_greater_than(#xqAtomicValue{type = TypeA, value = ValA},
                      #xqAtomicValue{type = TypeB, value = ValB}) when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if (ValA == "NaN") or(ValB == "NaN") ->
+   ValC = if ValA == nan;
+             ValB == nan ->
                 false;
-             (ValA == "INF") ->
+             ValA == infinity ->
                 true;
-             (ValB == "INF") ->
+             ValB == infinity ->
                 false;
-             (ValA == "-INF") ->
+             ValA == neg_infinity ->
                 false;
-             (ValB == "-INF") ->
+             ValB == neg_infinity ->
+                true;
+             ValA == neg_zero, ValB == neg_zero ->
+                false;
+             ValA == neg_zero, ValB >= 0 ->
+                false;
+             ValA == neg_zero, ValB < 0 ->
+                true;
+             ValB == neg_zero, ValA < 0 ->
+                false;
+             ValB == neg_zero, ValA >= 0 ->
                 true;
              true ->
                 xqerl_numeric:greater_than(ValA, ValB)
@@ -1371,12 +1432,14 @@ subtract_yearMonthDurations(#xqAtomicValue{type = 'xs:yearMonthDuration',
                   value = RecDt#xsDateTime{string_value = Str}}.
 
 % returns: xs:yearMonthDuration
-multiply_yearMonthDuration(_A,#xqAtomicValue{value = "NaN"}) ->
+multiply_yearMonthDuration(_A,#xqAtomicValue{value = nan}) ->
    xqerl_error:error('FOCA0005');
-multiply_yearMonthDuration(_A,#xqAtomicValue{value = "INF"}) ->
+multiply_yearMonthDuration(_A,#xqAtomicValue{value = infinity}) ->
    xqerl_error:error('FODT0002');
-multiply_yearMonthDuration(_A,#xqAtomicValue{value = "-INF"}) ->
+multiply_yearMonthDuration(_A,#xqAtomicValue{value = neg_infinity}) ->
    xqerl_error:error('FODT0002');
+multiply_yearMonthDuration(A,#xqAtomicValue{value = neg_zero} = B) ->
+   multiply_yearMonthDuration(A,B#xqAtomicValue{value = 0});
 multiply_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                           value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                            #xqAtomicValue{value = Dbl}) -> 
@@ -1394,13 +1457,14 @@ multiply_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                   value = RecDt#xsDateTime{string_value = Str}}.
 
 % returns: xs:yearMonthDuration
-divide_yearMonthDuration(_A,#xqAtomicValue{value = "NaN"}) ->
+divide_yearMonthDuration(_A,#xqAtomicValue{value = nan}) ->
    xqerl_error:error('FOCA0005');
-divide_yearMonthDuration(_A,#xqAtomicValue{value = "INF"}) ->
+divide_yearMonthDuration(_A,#xqAtomicValue{value = infinity}) ->
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "P0M"}, 'xs:yearMonthDuration' );
-divide_yearMonthDuration(_A,#xqAtomicValue{value = "-INF"}) ->
+divide_yearMonthDuration(_A,#xqAtomicValue{value = neg_infinity}) ->
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "P0M"}, 'xs:yearMonthDuration' );
-divide_yearMonthDuration(_A,#xqAtomicValue{value = Val}) when Val == 0 ->
+divide_yearMonthDuration(_A,#xqAtomicValue{value = Val}) when Val == 0;
+                                                              Val == neg_zero ->
    xqerl_error:error('FODT0002');
 divide_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                         value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
@@ -1471,11 +1535,13 @@ subtract_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ).
 
 % returns: xs:dayTimeDuration
-multiply_dayTimeDuration(_A,#xqAtomicValue{value = "NaN"}) ->
+multiply_dayTimeDuration(A,#xqAtomicValue{value = neg_zero} = B) ->
+   multiply_dayTimeDuration(A,B#xqAtomicValue{value = 0.0});
+multiply_dayTimeDuration(_A,#xqAtomicValue{value = nan}) ->
    xqerl_error:error('FOCA0005');
-multiply_dayTimeDuration(_A,#xqAtomicValue{value = "INF"}) ->
+multiply_dayTimeDuration(_A,#xqAtomicValue{value = infinity}) ->
    xqerl_error:error('FODT0002');
-multiply_dayTimeDuration(_A,#xqAtomicValue{value = "-INF"}) ->
+multiply_dayTimeDuration(_A,#xqAtomicValue{value = neg_infinity}) ->
    xqerl_error:error('FODT0002');
 multiply_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                         value = #xsDateTime{sign = SnA, day = DyA, hour = HrA,
@@ -1495,13 +1561,14 @@ multiply_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ).
    
 % returns: xs:dayTimeDuration
-divide_dayTimeDuration(_A,#xqAtomicValue{value = Val}) when Val == 0 ->
+divide_dayTimeDuration(_A,#xqAtomicValue{value = Val}) when Val == 0;
+                                                            Val == neg_zero ->
    xqerl_error:error('FODT0002');
-divide_dayTimeDuration(_A,#xqAtomicValue{value = "NaN"}) ->
+divide_dayTimeDuration(_A,#xqAtomicValue{value = nan}) ->
    xqerl_error:error('FOCA0005');
-divide_dayTimeDuration(_A,#xqAtomicValue{value = "INF"}) ->
+divide_dayTimeDuration(_A,#xqAtomicValue{value = infinity}) ->
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "PT0S"}, 'xs:dayTimeDuration' );
-divide_dayTimeDuration(_A,#xqAtomicValue{value = "-INF"}) ->
+divide_dayTimeDuration(_A,#xqAtomicValue{value = neg_infinity}) ->
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "PT0S"}, 'xs:dayTimeDuration' );
 divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                       value = #xsDateTime{sign = SnA, day = DyA, hour = HrA,
@@ -2031,12 +2098,15 @@ numeric_unary_plus(_) ->
 % returns: xs:numeric
 numeric_unary_minus([]) -> [];
 numeric_unary_minus([#xqAtomicValue{} = Arg]) -> numeric_unary_minus(Arg);
-numeric_unary_minus(#xqAtomicValue{type = Type, value = "INF"} = Arg) when ?numeric(Type) ->
-   Arg#xqAtomicValue{value = "-INF"};
-numeric_unary_minus(#xqAtomicValue{type = Type, value = "-INF"} = Arg) when ?numeric(Type) ->
-   Arg#xqAtomicValue{value = "INF"};
-numeric_unary_minus(#xqAtomicValue{type = Type, value = "NaN"} = Arg) when ?numeric(Type) ->
-   Arg#xqAtomicValue{value = "NaN"};
+numeric_unary_minus(#xqAtomicValue{type = Type, value = 0.0} = Arg) when Type == 'xs:float';
+                                                                         Type == 'xs:double' ->
+   Arg#xqAtomicValue{value = neg_zero};
+numeric_unary_minus(#xqAtomicValue{type = Type, value = infinity} = Arg) when ?numeric(Type) ->
+   Arg#xqAtomicValue{value = neg_infinity};
+numeric_unary_minus(#xqAtomicValue{type = Type, value = neg_infinity} = Arg) when ?numeric(Type) ->
+   Arg#xqAtomicValue{value = infinity};
+numeric_unary_minus(#xqAtomicValue{type = Type, value = nan} = Arg) when ?numeric(Type) ->
+   Arg#xqAtomicValue{value = nan};
 numeric_unary_minus(#xqAtomicValue{type = Type, value = Val} = Arg) when ?numeric(Type) ->
    Arg#xqAtomicValue{value = xqerl_numeric:unary_minus(Val)};
 numeric_unary_minus(_) ->
@@ -2188,13 +2258,15 @@ key_val(Val) ->
          {number,xqerl_numeric:decimal(V)};
       #xqAtomicValue{type = 'xs:decimal', value = V} ->
          {number,V};
-      #xqAtomicValue{type = 'xs:double', value = V} when V == "NaN";
-                                                         V == "INF";
-                                                         V == "-INF" ->
+      #xqAtomicValue{type = 'xs:double', value = V} when V == neg_zero; % maybe
+                                                         V == nan;
+                                                         V == infinity;
+                                                         V == neg_infinity ->
          {number,V};
-      #xqAtomicValue{type = 'xs:float', value = V} when V == "NaN";
-                                                        V == "INF";
-                                                        V == "-INF" ->
+      #xqAtomicValue{type = 'xs:float', value = V} when V == neg_zero;
+                                                        V == nan;
+                                                        V == infinity;
+                                                        V == neg_infinity ->
          {number,V};
       #xqAtomicValue{type = 'xs:double', value = V} ->
          {number,xqerl_numeric:decimal(V)};
@@ -2259,12 +2331,12 @@ eff_bool_val(#xqAtomicValue{type = Type, value = Val}) when ?string(Type);
 % 5 + 6
 eff_bool_val(#xqAtomicValue{type = Type, value = Val}) when ?numeric(Type), Val == {xsDecimal,0,0};
                                                             ?numeric(Type), Val == 0;
-                                                            ?numeric(Type), Val == "NaN"->
+                                                            ?numeric(Type), Val == neg_zero;
+                                                            ?numeric(Type), Val == nan->
    false;
 eff_bool_val(#xqAtomicValue{type = Type}) when ?numeric(Type) ->
    true;
-eff_bool_val(#xqAtomicValue{type = _Type, value = Val}) when Val == 0;
-                                                             Val == "NaN"->
+eff_bool_val(#xqAtomicValue{type = _Type, value = Val}) when Val == 0 ->
    true;
 eff_bool_val(#xqAtomicValue{} = A) ->
    ?dbg("boolean", {?LINE,A}),

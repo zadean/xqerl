@@ -383,8 +383,15 @@ is_content_char(C) ->
 
 
 % NumberLiteral
-scan_token([H | T], _A) when H >= $0, H =< $9 ->  
+scan_token([H | T], A) when H >= $0, H =< $9 ->  
    case scan_number([H | T]) of
+      {{integer, L, 0}, T1} ->
+         case lookback(A) of
+            '-' ->
+               {{'DoubleLiteral', L, 0.0}, T1};
+            _ ->
+               {{'IntegerLiteral', L, 0}, T1}
+         end;
       {{integer, L, Num}, T1} ->
          {{'IntegerLiteral', L, Num}, T1};
       {{decimal, L, Num}, T1} ->
@@ -498,6 +505,8 @@ scan_token("start" ++ T, A) ->  qname_if_path("start", T, lookback(A));
 %% scan_token(Str = "index-of" ++ _T, _A) ->  scan_name(Str);
 %% scan_token(Str = "ends" ++ _T, _A) ->  scan_name(Str);
 
+scan_token(Str = "ends" ++ _T, _A) -> 
+   scan_name(Str);
 scan_token("end" ++ T, A) ->  qname_if_path("end", T, lookback(A));
 scan_token(Str = "previous" ++ T, A) ->  
    case lookback(A) of
@@ -1765,7 +1774,7 @@ scan_decimal(T, Acc) ->
 scan_double([], Acc) ->
     case catch list_to_float(lists:reverse(Acc)) of
        {'EXIT',_} ->
-          {{double, ?L, "INF"}, []};
+          {{double, ?L, infinity}, []};
        Dbl ->
           {{double, ?L, Dbl}, []}
     end;
@@ -1773,7 +1782,7 @@ scan_double([H|T], Acc) when H >= $0, H =< $9 ->
     {Number, T1} = scan_digits([H|T], Acc),
     case catch list_to_float(Number) of
        {'EXIT',_} ->
-          {{double, ?L, "INF"}, T1};
+          {{double, ?L, infinity}, T1};
        Dbl ->
           {{double, ?L, Dbl}, T1}
     end.

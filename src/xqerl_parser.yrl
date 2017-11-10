@@ -1449,7 +1449,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'StringConstructorInterpolation' -> '`{' 'Expr' '}`' : '$2'.
 'StringConstructorInterpolation' -> '`{' '}`' : [].
 % [181]    UnaryLookup    ::=      "?" KeySpecifier  
-'UnaryLookup'            -> '?' 'KeySpecifier' : {ulookup, '$2'}.
+'UnaryLookup'            -> '?' 'KeySpecifier' : {lookup, '$2'}.
 % [182]    SingleType     ::=      SimpleTypeName "?"?  
 'SingleType'             -> 'SimpleTypeName' '?' : #xqSeqType{type = '$1', occur = 'zero_or_one'}.
 'SingleType'             -> 'SimpleTypeName'     : #xqSeqType{type = '$1', occur = 'one'}.

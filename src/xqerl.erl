@@ -265,7 +265,7 @@ trun(Str, Opt) ->
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
-      print_erl(B),
+%      print_erl(B),
       erlang:erase(),
       erlang:put('available-documents', Docs),
       erlang:put('available-text-resources', Txts),

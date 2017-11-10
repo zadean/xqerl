@@ -28,7 +28,9 @@
 
 %% assert                 (: run test query with result as variable == true :)
 assert(Result, QueryString) ->
-   Type = if is_map(Result) ->
+   Type = if is_list(Result) ->
+                " as item()*";
+             is_map(Result) ->
                 " as map(*)";
              element(1,Result) == array ->
                 " as array(*)";
@@ -708,6 +710,7 @@ handle_environment(List) ->
    Namespaces = proplists:get_value(namespaces, List) ,
    Resources = proplists:get_value(resources, List) ,
    Modules = proplists:get_value(modules, List) ,
+   DecFormats = proplists:get_value('decimal-formats', List, []) ,
 
 %% EmptyMap = #{namespaces => FinalState#state.known_ns,
 %%              variables => [],
@@ -784,6 +787,23 @@ handle_environment(List) ->
                                          end, Docs),
                            xqerl_context:add_available_collection(Uri,Docs)
                      end, Collections),
+   
+   DecFormats1 = lists:map(fun({"",Values}) ->
+                                 "declare default decimal-format \n" ++
+                                 lists:flatmap(fun({K,V}) ->
+                                                 " " ++ atom_to_list(K) ++ "='" ++
+                                                   V ++ "' \n"
+                                           end, Values) ++
+                                   ";";
+                              ({Name,Values}) ->
+                                 "declare decimal-format " ++ Name ++ " \n" ++
+                                 lists:flatmap(fun({K,V}) ->
+                                                 " " ++ atom_to_list(K) ++ "='" ++
+                                                   V ++ "' \n"
+                                           end, Values) ++
+                                   ";"
+                           end, DecFormats),
+   
    BaseUri1 = lists:map(fun({Value}) ->
                               "declare base-uri '"++Value++"';\n"
                         end, BaseUri),
@@ -797,7 +817,7 @@ handle_environment(List) ->
                               ({Uri,Prefix}) ->
                                  "declare namespace "++Prefix++" = '"++Uri++"';\n"
                            end, Namespaces),
-   BaseUri1++Sources1++Schemas1++Params1++Namespaces1.
+   BaseUri1++Sources1++Schemas1++DecFormats1++Params1++Namespaces1.
 
 
 

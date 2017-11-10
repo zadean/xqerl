@@ -30,9 +30,11 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
+-export([parse_repl/2]).
+-export([get_depth/1]).
+-export([esc_esc/1]).
 -export([regex_flags/1]).
 -export([regex_comp/2]).
--export([regex_back_ref/2]).
 
 
 
@@ -42,12 +44,12 @@
 
 string_value(At) -> xqerl_types:string_value(At).
 
-regex_flags([]) -> [];
+regex_flags([]) -> [dollar_endonly];
 regex_flags(Flags) ->
    Flags1 = string_value(Flags),
    Fun = fun(Char, Map) ->
                case Char of
-                  $s -> maps:put(s, dotall, Map);
+                  $s -> maps:put(s, [dollar_endonly,dotall], Map);
                   $m -> maps:put(m, multiline, Map);
                   $i -> maps:put(i, caseless, Map);
                   $x -> maps:put(x, extended, Map);
@@ -57,1229 +59,348 @@ regex_flags(Flags) ->
                      xqerl_error:error('FORX0001')
                end
          end,        
-   M = lists:foldl(Fun, maps:new(), Flags1),
-   maps:values(M).
+   M = lists:foldl(Fun, #{}, Flags1),
+   %?dbg("M",M),
+   lists:flatten(maps:values(M)).
+
+esc_esc([]) -> [];
+esc_esc([$\\|T]) ->
+   [$\\,$\\|esc_esc(T)];
+esc_esc([H|T]) ->
+   [H|esc_esc(T)].
+
+get_depth(String) ->
+   get_depth(String,0).
+
+get_depth([],D) -> D;
+%% get_depth([$(|T],D) when D > 0 ->
+%%    get_depth(T,D-1);
+get_depth([$)|T],D) ->
+   get_depth(T,D+1);
+get_depth([_|T],D) ->
+   get_depth(T,D).
+
+
+parse_repl(String,Depth) ->
+   parse_repl1(String,Depth).
+
+parse_repl1([],_) -> [];
+parse_repl1([$\\,$$|T],D) ->
+   [$\\,$$|parse_repl1(T,D)];
+parse_repl1([$\\,$\\|T],D) ->
+   [$\\,$\\|parse_repl1(T,D)];
+parse_repl1([$\\|_],_) ->
+   ?err('FORX0004');
+parse_repl1([$$,H2|T],D) when H2 >= $0, H2 =< $9 ->
+   {Nums,Rest} = get_digits(T,[]),
+   Int = list_to_integer([H2|Nums]),
+   {NewInt,Tail} = chop_to(Int, D, []),
+   BR = "\\g{" ++ NewInt ++ "}" ++ Tail,
+   BR ++ parse_repl1(Rest,D);
+parse_repl1([$$|_],_) ->
+   ?err('FORX0004');
+parse_repl1([H|T],D) ->
+   [H|parse_repl1(T,D)].
+
+get_digits([],Acc) -> 
+   {lists:reverse(Acc),[]};
+get_digits([H|T],Acc) when H >= $0, H =< $9 -> 
+   get_digits(T,[H|Acc]);
+get_digits([H|T],Acc) -> 
+   {lists:reverse(Acc),[H|T]}.
+
+   
+   
+parse([]) -> [];
+parse(String) ->
+   {ok,Tokens0,_} = xq_regex_scanner:string(String),
+   Tokens = case hd(Tokens0) of
+      {T,L,"^" ++ Rest} ->
+         [{other,0,"^"},{T,L,Rest}|tl(Tokens0)];
+      _ ->
+         Tokens0
+   end,
+   {List,_} = lists:mapfoldl(fun({other,_,"("} = T,{Depth,{PDepthO,PDepthC}}) ->
+                                   PDepth1 = PDepthO + 1,
+                                   {char_prop(T,Depth),{Depth,{PDepth1,PDepthC}}};
+                                ({other,_,")"} = T,{Depth,{PDepthO,PDepthC}}) ->
+                                   PDepth1 = PDepthC + 1,
+                                   {char_prop(T,Depth),{Depth,{PDepthO,PDepth1}}};
+                                ({backReference,_,_} = T,{Depth,PDepth}) ->
+                                   {char_prop(T,{Depth,PDepth}),{Depth,PDepth}};
+                                ({other,_,"["} = T,{Depth,PDepth}) ->
+                                   Depth1 = Depth + 1,
+                                   {char_prop(T,Depth1),{Depth1,PDepth}};
+                                ({other,_,"]"} = T,{Depth,PDepth}) ->
+                                   Depth1 = Depth - 1,
+                                   {char_prop(T,Depth1),{Depth1,PDepth}};
+                                (T,{Depth,PDepth}) ->
+                                   {char_prop(T,Depth),{Depth,PDepth}}
+                             end, {0,{0,0}}, Tokens),
+   lists:flatten(List).
+
+
+char_prop({char,_,C},_) -> C;
+char_prop({other,_,C},_) -> C;
+char_prop({quantExact,_,"{" ++C },_) -> 
+   I = list_to_integer(lists:droplast(C)),
+   if I > 65500 ->
+         "{65500}";
+      true ->
+         "{" ++ C
+   end;
+char_prop({quantMin,_,C},_) -> C;
+char_prop({quantRange,_,"{," ++ _},_) -> ?err('FORX0002'); % no unknown mins
+char_prop({quantRange,_,C},_) -> C;
+char_prop({multiCharEsc,_,V},D) when V == "\\s";
+                                     V == "^\\S" ->
+   if D == 0 ->
+         "[\\x{0020}\t\n\r]";
+      true ->
+         "\\x{0020}\t\n\r"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\S";
+                                     V == "^\\s" ->
+   if D == 0 ->
+         "[^\\x{0020}\t\n\r]";
+      true ->
+         "^\\x{0020}\t\n\r"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\i";
+                                     V == "^\\I" ->
+   if D == 0 ->
+         "[_:\\p{L}]";
+      true ->
+         "_:\\p{L}"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\I";
+                                     V == "^\\i" ->
+   if D == 0 ->
+         "[^_:\\p{L}]";
+      true ->
+         "^_:\\p{L}"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\c";
+                                     V == "^\\C" ->
+   if D == 0 ->
+         "[:_\\-.\\p{L}\\p{N}\\p{M}\\x{00B7}\\x{0300}-\\x{036F}\\x{203F}-\\x{2040}]";
+      true ->
+         ":_\\-.\\p{L}\\p{N}\\p{M}\\x{00B7}\\x{0300}-\\x{036F}\\x{203F}-\\x{2040}"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\C";
+                                     V == "^\\c" ->
+   if D == 0 ->
+         "[^:_\\-.\\p{L}\\p{N}\\p{M}\\x{00B7}\\x{0300}-\\x{036F}\\x{203F}-\\x{2040}]";
+      true ->
+         "^:_\\-.\\p{L}\\p{N}\\p{M}\\x{00B7}\\x{0300}-\\x{036F}\\x{203F}-\\x{2040}"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\d";
+                                     V == "^\\D" ->
+   if D == 0 ->
+         "[\\p{Nd}]";
+      true ->
+         "\\p{Nd}"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\D";
+                                     V == "^\\d" ->
+   if D == 0 ->
+         "[^\\p{Nd}]";
+      true ->
+         "^\\p{Nd}"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\w";
+                                     V == "^\\W" ->
+   if D == 0 ->
+         "[^\\p{P}\\p{Z}\\p{C}]";
+      true ->
+         "^\\p{P}\\p{Z}\\p{C}"
+   end;
+char_prop({multiCharEsc,_,V},D) when V == "\\W";
+                                     V == "^\\w" ->
+   if D == 0 ->
+         "[\\p{P}\\p{Z}\\p{C}]";
+      true ->
+         "\\p{P}\\p{Z}\\p{C}"
+   end;
+char_prop({backReference,_,"\\" ++ Val},{_,{O,C}}) ->
+   Int = list_to_integer(Val),
+%   ?dbg("{O,C,Int}",{O,C,Int}),
+   if O =/= C ->
+         ?err('FORX0002');
+%%       C < Int, Int > O ->
+%%          ?err('FORX0002');
+%%       O > C, O =< Int ->
+%%          ?err('FORX0002');
+      C < Int ->
+         {NewInt, Rest} = chop_to(Int,C,[]),
+         "\\g{" ++ NewInt ++ "}" ++ Rest;
+      true ->
+         "\\g{" ++ Val ++ "}"
+   end;
+char_prop({isBlock,_,"\\p{" ++ Val0},_) ->
+   Val = lists:droplast(Val0),
+   {Range} = range(Val),
+   "[" ++ Range ++ "]";
+char_prop({isBlockComp,_,"\\P{" ++ Val0},_) ->
+   Val = lists:droplast(Val0),
+   {Range} = range(Val),
+   "[^" ++ Range ++ "]";
+char_prop({isCategory,_,Val},_) ->
+   Val;
+char_prop({isCategoryComp,_,Val},_) ->
+   Val.
+
+%returns {IntAsList,Tail}
+chop_to(Int,Max,Acc) when Int > Max ->
+   Next = Int div 10,
+   Rem = integer_to_list(Int rem 10),
+   %?dbg("{Int,Max,Acc}",{Int,Max,Acc}),
+   %?dbg("{Next,Rem}",{Next,Rem}),
+   chop_to(Next,Max,Rem ++ Acc);
+chop_to(Int,_Max,Acc) ->
+   {integer_to_list(Int), Acc}.
+
+
 
 % http://www.unicode.org/reports/tr18/ "The values for these properties must follow the Unicode definitions, and include the property and property value aliases from the UCD. Matching of Binary, Enumerated, Catalog, and Name values, must follow the Matching Rules from [UAX44] with one exception: implementations are not required to ignore an initial prefix string of "is" in property values."
 % http://www.regular-expressions.info/shorthand.html - \i \c \I \C (XML shorthand)
+% returns {MatchesZeroLengthString, MP}
 regex_comp(Expr,Flags) ->
-   StrExp = string_value(Expr),
-   %?dbg("regex_comp StrExp",StrExp),
-   FlagList = regex_flags(Flags) ++ [{newline, any}, unicode, ucp, no_start_optimize],
-   %?dbg("regex_comp FlagList",FlagList),
+   FlagList1 = regex_flags(Flags),
+   X = lists:member(extended, FlagList1),
+   StrExp = if X ->
+                  strip_esc_ws(string_value(Expr));
+               true ->
+                  string_value(Expr)
+            end,
+   ?dbg("X",X),
+   ?dbg("StrExp",StrExp),
+   StrExp1 = parse(StrExp),
+   FlagList = FlagList1 ++ [{newline, any}, unicode, ucp, no_start_optimize],
    Opts = FlagList -- [do_qe],
    Q = [F || F <- FlagList, F == do_qe],
-   Expr1 = if Q == [] -> StrExp;
-              true -> "\\Q" ++ StrExp ++ "\\E"
+   Expr1 = if Q == [] -> StrExp1;
+              true -> "\\Q" ++ StrExp1 ++ "\\E"
            end,
-   %?dbg("regex_comp Expr1",Expr1),
    case catch re:compile(Expr1, Opts) of
       {ok, MP} ->
-         %?dbg("regex_comp MP", MP),
-         MP;
+         %?dbg("{Expr1, Opts}",{Expr1, Opts}),
+         case catch re:run("",MP) of
+            nomatch ->
+               {false,MP};
+            {match,_} ->
+               {true,MP};
+            _ ->
+               {false,MP}
+         end;
       {error,_E} ->
-         %?dbg("regex_comp error",E),
          xqerl_error:error('FORX0002');
       {'EXIT',_E} ->
-         %?dbg("regex_comp EXIT",E),
          xqerl_error:error('FORX0002')
    end.
 
-regex_back_ref([],_) ->
-   [];
-regex_back_ref([$\\,$\\|T],D) ->
-   [$\\,$\\|regex_back_ref(T,D)];
+strip_esc_ws([]) -> [];
+strip_esc_ws([$[|T]) -> 
+   [$[|no_strip_esc_ws(T)];
+strip_esc_ws([H|T]) when H == 16#9;
+                         H == 16#A;
+                         H == 16#D;
+                         H == 16#20 ->
+   strip_esc_ws(T);
+strip_esc_ws([H|T]) -> 
+   [H|strip_esc_ws(T)].
 
-% replace XML \f flag
-regex_back_ref([$[,$\\,$w|T],D) ->
-   "[^\\p{P}\\p{Z}\\p{C}]|[" ++ regex_back_ref(T,D);
-regex_back_ref([$\\,$w|T],D) ->
-   "[^\\p{P}\\p{Z}\\p{C}]" ++ regex_back_ref(T,D);
-regex_back_ref([$[,$\\,$W|T],D) ->
-   "[\\p{P}\\p{Z}\\p{C}]|[" ++ regex_back_ref(T,D);
-regex_back_ref([$\\,$W|T],D) ->
-   "[\\p{P}\\p{Z}\\p{C}]" ++ regex_back_ref(T,D);
+no_strip_esc_ws([]) -> [];
+no_strip_esc_ws([$]|T]) -> 
+   [$]|strip_esc_ws(T)];
+no_strip_esc_ws([H|T]) -> 
+   [H|no_strip_esc_ws(T)].
+                            
 
-regex_back_ref([$[,$\\,$i|T],D) ->
-   "[\:\_\\p{L}]|[" ++ regex_back_ref(T,D);
-regex_back_ref([$\\,$i|T],D) ->
-   "[\:\_\\p{L}]" ++ regex_back_ref(T,D);
-regex_back_ref([$[,$\\,$I|T],D) ->
-   "[^\:\_\\p{L}]|[" ++ regex_back_ref(T,D);
-regex_back_ref([$\\,$I|T],D) ->
-   "[^\:\_\\p{L}]" ++ regex_back_ref(T,D);
-regex_back_ref([$[,$\\,$c|T],D) ->
-   "[-.0-9:A-Z_a-z\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-"
-   "\\x{200D}\\x{203F}\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}]|[" ++ regex_back_ref(T,D);
-regex_back_ref([$\\,$c|T],D) ->
-   "[-.0-9:A-Z_a-z\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-"
-   "\\x{200D}\\x{203F}\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}]" ++ regex_back_ref(T,D);
-regex_back_ref([$[,$\\,$C|T],D) ->
-   "[^-.0-9:A-Z_a-z\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-"
-   "\\x{200D}\\x{203F}\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}]|[" ++ regex_back_ref(T,D);
-regex_back_ref([$\\,$C|T],D) ->
-   "[^-.0-9:A-Z_a-z\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-"
-   "\\x{200D}\\x{203F}\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}]" ++ regex_back_ref(T,D);
-% mask out Unicode category classes negations
-regex_back_ref("{IsPrivateUse}" ++ T,D) -> "{Co}" ++ regex_back_ref(T,D);
-regex_back_ref("{IsGreek}" ++ T,D) -> "{Greek}" ++ regex_back_ref(T,D);
+range("IsBasicLatin") -> {"\\x{0000}-\\x{007F}"};
+range("IsLatin-1Supplement") -> {"\\x{0080}-\\x{00FF}"};
+range("IsLatinExtended-A") -> {"\\x{0100}-\\x{017F}"};
+range("IsLatinExtended-B") -> {"\\x{0180}-\\x{024F}"};
+range("IsIPAExtensions") -> {"\\x{0250}-\\x{02AF}"};
+range("IsSpacingModifierLetters") -> {"\\x{02B0}-\\x{02FF}"};
+range("IsCombiningDiacriticalMarks") -> {"\\x{0300}-\\x{036F}"};
+range("IsGreek") -> {"\\x{0370}-\\x{03FF}"};
+range("IsCyrillic") -> {"\\x{0400}-\\x{04FF}"};
+range("IsArmenian") -> {"\\x{0530}-\\x{058F}"};
+range("IsHebrew") -> {"\\x{0590}-\\x{05FF}"};
+range("IsArabic") -> {"\\x{0600}-\\x{06FF}"};
+range("IsSyriac") -> {"\\x{0700}-\\x{074F}"};
+range("IsThaana") -> {"\\x{0780}-\\x{07BF}"};
+range("IsDevanagari") -> {"\\x{0900}-\\x{097F}"};
+range("IsBengali") -> {"\\x{0980}-\\x{09FF}"};
+range("IsGurmukhi") -> {"\\x{0A00}-\\x{0A7F}"};
+range("IsGujarati") -> {"\\x{0A80}-\\x{0AFF}"};
+range("IsOriya") -> {"\\x{0B00}-\\x{0B7F}"};
+range("IsTamil") -> {"\\x{0B80}-\\x{0BFF}"};
+range("IsTelugu") -> {"\\x{0C00}-\\x{0C7F}"};
+range("IsKannada") -> {"\\x{0C80}-\\x{0CFF}"};
+range("IsMalayalam") -> {"\\x{0D00}-\\x{0D7F}"};
+range("IsSinhala") -> {"\\x{0D80}-\\x{0DFF}"};
+range("IsThai") -> {"\\x{0E00}-\\x{0E7F}"};
+range("IsLao") -> {"\\x{0E80}-\\x{0EFF}"};
+range("IsTibetan") -> {"\\x{0F00}-\\x{0FFF}"};
+range("IsMyanmar") -> {"\\x{1000}-\\x{109F}"};
+range("IsGeorgian") -> {"\\x{10A0}-\\x{10FF}"};
+range("IsHangulJamo") -> {"\\x{1100}-\\x{11FF}"};
+range("IsEthiopic") -> {"\\x{1200}-\\x{137F}"};
+range("IsCherokee") -> {"\\x{13A0}-\\x{13FF}"};
+range("IsUnifiedCanadianAboriginalSyllabics") -> {"\\x{1400}-\\x{167F}"};
+range("IsOgham") -> {"\\x{1680}-\\x{169F}"};
+range("IsRunic") -> {"\\x{16A0}-\\x{16FF}"};
+range("IsKhmer") -> {"\\x{1780}-\\x{17FF}"};
+range("IsMongolian") -> {"\\x{1800}-\\x{18AF}"};
+range("IsLatinExtendedAdditional") -> {"\\x{1E00}-\\x{1EFF}"};
+range("IsGreekExtended") -> {"\\x{1F00}-\\x{1FFF}"};
+range("IsGeneralPunctuation") -> {"\\x{2000}-\\x{206F}"};
+range("IsSuperscriptsandSubscripts") -> {"\\x{2070}-\\x{209F}"};
+range("IsCurrencySymbols") -> {"\\x{20A0}-\\x{20CF}"};
+range("IsCombiningMarksforSymbols") -> {"\\x{20D0}-\\x{20FF}"};
+range("IsLetterlikeSymbols") -> {"\\x{2100}-\\x{214F}"};
+range("IsNumberForms") -> {"\\x{2150}-\\x{218F}"};
+range("IsArrows") -> {"\\x{2190}-\\x{21FF}"};
+range("IsMathematicalOperators") -> {"\\x{2200}-\\x{22FF}"};
+range("IsMiscellaneousTechnical") -> {"\\x{2300}-\\x{23FF}"};
+range("IsControlPictures") -> {"\\x{2400}-\\x{243F}"};
+range("IsOpticalCharacterRecognition") -> {"\\x{2440}-\\x{245F}"};
+range("IsEnclosedAlphanumerics") -> {"\\x{2460}-\\x{24FF}"};
+range("IsBoxDrawing") -> {"\\x{2500}-\\x{257F}"};
+range("IsBlockElements") -> {"\\x{2580}-\\x{259F}"};
+range("IsGeometricShapes") -> {"\\x{25A0}-\\x{25FF}"};
+range("IsMiscellaneousSymbols") -> {"\\x{2600}-\\x{26FF}"};
+range("IsDingbats") -> {"\\x{2700}-\\x{27BF}"};
+range("IsBraillePatterns") -> {"\\x{2800}-\\x{28FF}"};
+range("IsCJKRadicalsSupplement") -> {"\\x{2E80}-\\x{2EFF}"};
+range("IsKangxiRadicals") -> {"\\x{2F00}-\\x{2FDF}"};
+range("IsIdeographicDescriptionCharacters") -> {"\\x{2FF0}-\\x{2FFF}"};
+range("IsCJKSymbolsandPunctuation") -> {"\\x{3000}-\\x{303F}"};
+range("IsHiragana") -> {"\\x{3040}-\\x{309F}"};
+range("IsKatakana") -> {"\\x{30A0}-\\x{30FF}"};
+range("IsBopomofo") -> {"\\x{3100}-\\x{312F}"};
+range("IsHangulCompatibilityJamo") -> {"\\x{3130}-\\x{318F}"};
+range("IsKanbun") -> {"\\x{3190}-\\x{319F}"};
+range("IsBopomofoExtended") -> {"\\x{31A0}-\\x{31BF}"};
+range("IsEnclosedCJKLettersandMonths") -> {"\\x{3200}-\\x{32FF}"};
+range("IsCJKCompatibility") -> {"\\x{3300}-\\x{33FF}"};
+range("IsCJKUnifiedIdeographsExtensionA") -> {"\\x{3400}-\\x{4DB5}"};
+range("IsCJKUnifiedIdeographs") -> {"\\x{4E00}-\\x{9FFF}"};
+range("IsYiSyllables") -> {"\\x{A000}-\\x{A48F}"};
+range("IsYiRadicals") -> {"\\x{A490}-\\x{A4CF}"};
+range("IsHangulSyllables") -> {"\\x{AC00}-\\x{D7A3}"};
+range("IsPrivateUse") -> {"\\x{E000}-\\x{F8FF}"};
+range("IsCJKCompatibilityIdeographs") -> {"\\x{F900}-\\x{FAFF}"};
+range("IsAlphabeticPresentationForms") -> {"\\x{FB00}-\\x{FB4F}"};
+range("IsArabicPresentationForms-A") -> {"\\x{FB50}-\\x{FDFF}"};
+range("IsCombiningHalfMarks") -> {"\\x{FE20}-\\x{FE2F}"};
+range("IsCJKCompatibilityForms") -> {"\\x{FE30}-\\x{FE4F}"};
+range("IsSmallFormVariants") -> {"\\x{FE50}-\\x{FE6F}"};
+range("IsArabicPresentationForms-B") -> {"\\x{FE70}-\\x{FEFE}"};
+range("IsSpecials") -> {"\\x{FEFF}-\\x{FEFF}\\x{FFF0}-\\x{FFFD}"};
+range("IsHalfwidthandFullwidthForms") -> {"\\x{FF00}-\\x{FFEF}"};
+range(Unknown) -> {Unknown}.
 
-regex_back_ref("^\\p{IsBasicLatin}" ++ T,D) -> "^\\x{0000}-\\x{007F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLatin-1Supplement}" ++ T,D) -> "^\\x{0080}-\\x{00FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLatinExtended-A}" ++ T,D) -> "^\\x{0100}-\\x{017F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLatinExtended-B}" ++ T,D) -> "^\\x{0180}-\\x{024F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsIPAExtensions}" ++ T,D) -> "^\\x{0250}-\\x{02AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSpacingModifierLetters}" ++ T,D) -> "^\\x{02B0}-\\x{02FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCombiningDiacriticalMarks}" ++ T,D) -> "^\\x{0300}-\\x{036F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGreekandCoptic}" ++ T,D) -> "^\\x{0370}-\\x{03FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCyrillic}" ++ T,D) -> "^\\x{0400}-\\x{04FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCyrillicSupplement}" ++ T,D) -> "^\\x{0500}-\\x{052F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArmenian}" ++ T,D) -> "^\\x{0530}-\\x{058F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHebrew}" ++ T,D) -> "^\\x{0590}-\\x{05FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArabic}" ++ T,D) -> "^\\x{0600}-\\x{06FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSyriac}" ++ T,D) -> "^\\x{0700}-\\x{074F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArabicSupplement}" ++ T,D) -> "^\\x{0750}-\\x{077F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsThaana}" ++ T,D) -> "^\\x{0780}-\\x{07BF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsNKo}" ++ T,D) -> "^\\x{07C0}-\\x{07FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSamaritan}" ++ T,D) -> "^\\x{0800}-\\x{083F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMandaic}" ++ T,D) -> "^\\x{0840}-\\x{085F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSyriacSupplement}" ++ T,D) -> "^\\x{0860}-\\x{086F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArabicExtended-A}" ++ T,D) -> "^\\x{08A0}-\\x{08FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsDevanagari}" ++ T,D) -> "^\\x{0900}-\\x{097F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBengali}" ++ T,D) -> "^\\x{0980}-\\x{09FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGurmukhi}" ++ T,D) -> "^\\x{0A00}-\\x{0A7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGujarati}" ++ T,D) -> "^\\x{0A80}-\\x{0AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOriya}" ++ T,D) -> "^\\x{0B00}-\\x{0B7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTamil}" ++ T,D) -> "^\\x{0B80}-\\x{0BFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTelugu}" ++ T,D) -> "^\\x{0C00}-\\x{0C7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKannada}" ++ T,D) -> "^\\x{0C80}-\\x{0CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMalayalam}" ++ T,D) -> "^\\x{0D00}-\\x{0D7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSinhala}" ++ T,D) -> "^\\x{0D80}-\\x{0DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsThai}" ++ T,D) -> "^\\x{0E00}-\\x{0E7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLao}" ++ T,D) -> "^\\x{0E80}-\\x{0EFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTibetan}" ++ T,D) -> "^\\x{0F00}-\\x{0FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMyanmar}" ++ T,D) -> "^\\x{1000}-\\x{109F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGeorgian}" ++ T,D) -> "^\\x{10A0}-\\x{10FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHangulJamo}" ++ T,D) -> "^\\x{1100}-\\x{11FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEthiopic}" ++ T,D) -> "^\\x{1200}-\\x{137F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEthiopicSupplement}" ++ T,D) -> "^\\x{1380}-\\x{139F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCherokee}" ++ T,D) -> "^\\x{13A0}-\\x{13FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsUnifiedCanadianAboriginalSyllabics}" ++ T,D) -> "^\\x{1400}-\\x{167F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOgham}" ++ T,D) -> "^\\x{1680}-\\x{169F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsRunic}" ++ T,D) -> "^\\x{16A0}-\\x{16FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTagalog}" ++ T,D) -> "^\\x{1700}-\\x{171F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHanunoo}" ++ T,D) -> "^\\x{1720}-\\x{173F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBuhid}" ++ T,D) -> "^\\x{1740}-\\x{175F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTagbanwa}" ++ T,D) -> "^\\x{1760}-\\x{177F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKhmer}" ++ T,D) -> "^\\x{1780}-\\x{17FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMongolian}" ++ T,D) -> "^\\x{1800}-\\x{18AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsUnifiedCanadianAboriginalSyllabicsExtended}" ++ T,D) -> "^\\x{18B0}-\\x{18FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLimbu}" ++ T,D) -> "^\\x{1900}-\\x{194F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTaiLe}" ++ T,D) -> "^\\x{1950}-\\x{197F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsNewTaiLue}" ++ T,D) -> "^\\x{1980}-\\x{19DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKhmerSymbols}" ++ T,D) -> "^\\x{19E0}-\\x{19FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBuginese}" ++ T,D) -> "^\\x{1A00}-\\x{1A1F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTaiTham}" ++ T,D) -> "^\\x{1A20}-\\x{1AAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCombiningDiacriticalMarksExtended}" ++ T,D) -> "^\\x{1AB0}-\\x{1AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBalinese}" ++ T,D) -> "^\\x{1B00}-\\x{1B7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSundanese}" ++ T,D) -> "^\\x{1B80}-\\x{1BBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBatak}" ++ T,D) -> "^\\x{1BC0}-\\x{1BFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLepcha}" ++ T,D) -> "^\\x{1C00}-\\x{1C4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOlChiki}" ++ T,D) -> "^\\x{1C50}-\\x{1C7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCyrillicExtended-C}" ++ T,D) -> "^\\x{1C80}-\\x{1C8F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSundaneseSupplement}" ++ T,D) -> "^\\x{1CC0}-\\x{1CCF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsVedicExtensions}" ++ T,D) -> "^\\x{1CD0}-\\x{1CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPhoneticExtensions}" ++ T,D) -> "^\\x{1D00}-\\x{1D7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPhoneticExtensionsSupplement}" ++ T,D) -> "^\\x{1D80}-\\x{1DBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCombiningDiacriticalMarksSupplement}" ++ T,D) -> "^\\x{1DC0}-\\x{1DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLatinExtendedAdditional}" ++ T,D) -> "^\\x{1E00}-\\x{1EFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGreekExtended}" ++ T,D) -> "^\\x{1F00}-\\x{1FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGeneralPunctuation}" ++ T,D) -> "^\\x{2000}-\\x{206F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSuperscriptsandSubscripts}" ++ T,D) -> "^\\x{2070}-\\x{209F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCurrencySymbols}" ++ T,D) -> "^\\x{20A0}-\\x{20CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCombiningDiacriticalMarksforSymbols}" ++ T,D) -> "^\\x{20D0}-\\x{20FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCombiningMarksforSymbols}" ++ T,D) -> "^\\x{20D0}-\\x{20FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLetterlikeSymbols}" ++ T,D) -> "^\\x{2100}-\\x{214F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsNumberForms}" ++ T,D) -> "^\\x{2150}-\\x{218F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArrows}" ++ T,D) -> "^\\x{2190}-\\x{21FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMathematicalOperators}" ++ T,D) -> "^\\x{2200}-\\x{22FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMiscellaneousTechnical}" ++ T,D) -> "^\\x{2300}-\\x{23FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsControlPictures}" ++ T,D) -> "^\\x{2400}-\\x{243F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOpticalCharacterRecognition}" ++ T,D) -> "^\\x{2440}-\\x{245F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEnclosedAlphanumerics}" ++ T,D) -> "^\\x{2460}-\\x{24FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBoxDrawing}" ++ T,D) -> "^\\x{2500}-\\x{257F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBlockElements}" ++ T,D) -> "^\\x{2580}-\\x{259F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGeometricShapes}" ++ T,D) -> "^\\x{25A0}-\\x{25FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMiscellaneousSymbols}" ++ T,D) -> "^\\x{2600}-\\x{26FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsDingbats}" ++ T,D) -> "^\\x{2700}-\\x{27BF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMiscellaneousMathematicalSymbols-A}" ++ T,D) -> "^\\x{27C0}-\\x{27EF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementalArrows-A}" ++ T,D) -> "^\\x{27F0}-\\x{27FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBraillePatterns}" ++ T,D) -> "^\\x{2800}-\\x{28FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementalArrows-B}" ++ T,D) -> "^\\x{2900}-\\x{297F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMiscellaneousMathematicalSymbols-B}" ++ T,D) -> "^\\x{2980}-\\x{29FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementalMathematicalOperators}" ++ T,D) -> "^\\x{2A00}-\\x{2AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMiscellaneousSymbolsandArrows}" ++ T,D) -> "^\\x{2B00}-\\x{2BFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGlagolitic}" ++ T,D) -> "^\\x{2C00}-\\x{2C5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLatinExtended-C}" ++ T,D) -> "^\\x{2C60}-\\x{2C7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCoptic}" ++ T,D) -> "^\\x{2C80}-\\x{2CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGeorgianSupplement}" ++ T,D) -> "^\\x{2D00}-\\x{2D2F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTifinagh}" ++ T,D) -> "^\\x{2D30}-\\x{2D7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEthiopicExtended}" ++ T,D) -> "^\\x{2D80}-\\x{2DDF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCyrillicExtended-A}" ++ T,D) -> "^\\x{2DE0}-\\x{2DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementalPunctuation}" ++ T,D) -> "^\\x{2E00}-\\x{2E7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKRadicalsSupplement}" ++ T,D) -> "^\\x{2E80}-\\x{2EFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKangxiRadicals}" ++ T,D) -> "^\\x{2F00}-\\x{2FDF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsIdeographicDescriptionCharacters}" ++ T,D) -> "^\\x{2FF0}-\\x{2FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKSymbolsandPunctuation}" ++ T,D) -> "^\\x{3000}-\\x{303F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHiragana}" ++ T,D) -> "^\\x{3040}-\\x{309F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKatakana}" ++ T,D) -> "^\\x{30A0}-\\x{30FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBopomofo}" ++ T,D) -> "^\\x{3100}-\\x{312F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHangulCompatibilityJamo}" ++ T,D) -> "^\\x{3130}-\\x{318F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKanbun}" ++ T,D) -> "^\\x{3190}-\\x{319F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBopomofoExtended}" ++ T,D) -> "^\\x{31A0}-\\x{31BF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKStrokes}" ++ T,D) -> "^\\x{31C0}-\\x{31EF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKatakanaPhoneticExtensions}" ++ T,D) -> "^\\x{31F0}-\\x{31FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEnclosedCJKLettersandMonths}" ++ T,D) -> "^\\x{3200}-\\x{32FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKCompatibility}" ++ T,D) -> "^\\x{3300}-\\x{33FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKUnifiedIdeographsExtensionA}" ++ T,D) -> "^\\x{3400}-\\x{4DBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsYijingHexagramSymbols}" ++ T,D) -> "^\\x{4DC0}-\\x{4DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKUnifiedIdeographs}" ++ T,D) -> "^\\x{4E00}-\\x{9FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsYiSyllables}" ++ T,D) -> "^\\x{A000}-\\x{A48F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsYiRadicals}" ++ T,D) -> "^\\x{A490}-\\x{A4CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLisu}" ++ T,D) -> "^\\x{A4D0}-\\x{A4FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsVai}" ++ T,D) -> "^\\x{A500}-\\x{A63F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCyrillicExtended-B}" ++ T,D) -> "^\\x{A640}-\\x{A69F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBamum}" ++ T,D) -> "^\\x{A6A0}-\\x{A6FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsModifierToneLetters}" ++ T,D) -> "^\\x{A700}-\\x{A71F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLatinExtended-D}" ++ T,D) -> "^\\x{A720}-\\x{A7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSylotiNagri}" ++ T,D) -> "^\\x{A800}-\\x{A82F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCommonIndicNumberForms}" ++ T,D) -> "^\\x{A830}-\\x{A83F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPhags-pa}" ++ T,D) -> "^\\x{A840}-\\x{A87F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSaurashtra}" ++ T,D) -> "^\\x{A880}-\\x{A8DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsDevanagariExtended}" ++ T,D) -> "^\\x{A8E0}-\\x{A8FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKayahLi}" ++ T,D) -> "^\\x{A900}-\\x{A92F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsRejang}" ++ T,D) -> "^\\x{A930}-\\x{A95F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHangulJamoExtended-A}" ++ T,D) -> "^\\x{A960}-\\x{A97F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsJavanese}" ++ T,D) -> "^\\x{A980}-\\x{A9DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMyanmarExtended-B}" ++ T,D) -> "^\\x{A9E0}-\\x{A9FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCham}" ++ T,D) -> "^\\x{AA00}-\\x{AA5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMyanmarExtended-A}" ++ T,D) -> "^\\x{AA60}-\\x{AA7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTaiViet}" ++ T,D) -> "^\\x{AA80}-\\x{AADF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMeeteiMayekExtensions}" ++ T,D) -> "^\\x{AAE0}-\\x{AAFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEthiopicExtended-A}" ++ T,D) -> "^\\x{AB00}-\\x{AB2F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLatinExtended-E}" ++ T,D) -> "^\\x{AB30}-\\x{AB6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCherokeeSupplement}" ++ T,D) -> "^\\x{AB70}-\\x{ABBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMeeteiMayek}" ++ T,D) -> "^\\x{ABC0}-\\x{ABFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHangulSyllables}" ++ T,D) -> "^\\x{AC00}-\\x{D7AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHangulJamoExtended-B}" ++ T,D) -> "^\\x{D7B0}-\\x{D7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHighSurrogates}" ++ T,D) -> "^\\x{D800}-\\x{DB7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHighPrivateUseSurrogates}" ++ T,D) -> "^\\x{DB80}-\\x{DBFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLowSurrogates}" ++ T,D) -> "^\\x{DC00}-\\x{DFFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPrivateUseArea}" ++ T,D) -> "^\\x{E000}-\\x{F8FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKCompatibilityIdeographs}" ++ T,D) -> "^\\x{F900}-\\x{FAFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAlphabeticPresentationForms}" ++ T,D) -> "^\\x{FB00}-\\x{FB4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArabicPresentationForms-A}" ++ T,D) -> "^\\x{FB50}-\\x{FDFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsVariationSelectors}" ++ T,D) -> "^\\x{FE00}-\\x{FE0F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsVerticalForms}" ++ T,D) -> "^\\x{FE10}-\\x{FE1F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCombiningHalfMarks}" ++ T,D) -> "^\\x{FE20}-\\x{FE2F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKCompatibilityForms}" ++ T,D) -> "^\\x{FE30}-\\x{FE4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSmallFormVariants}" ++ T,D) -> "^\\x{FE50}-\\x{FE6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArabicPresentationForms-B}" ++ T,D) -> "^\\x{FE70}-\\x{FEFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHalfwidthandFullwidthForms}" ++ T,D) -> "^\\x{FF00}-\\x{FFEF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSpecials}" ++ T,D) -> "^\\x{FFF0}-\\x{FFFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLinearBSyllabary}" ++ T,D) -> "^\\x{10000}-\\x{1007F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLinearBIdeograms}" ++ T,D) -> "^\\x{10080}-\\x{100FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAegeanNumbers}" ++ T,D) -> "^\\x{10100}-\\x{1013F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAncientGreekNumbers}" ++ T,D) -> "^\\x{10140}-\\x{1018F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAncientSymbols}" ++ T,D) -> "^\\x{10190}-\\x{101CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPhaistosDisc}" ++ T,D) -> "^\\x{101D0}-\\x{101FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLycian}" ++ T,D) -> "^\\x{10280}-\\x{1029F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCarian}" ++ T,D) -> "^\\x{102A0}-\\x{102DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCopticEpactNumbers}" ++ T,D) -> "^\\x{102E0}-\\x{102FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOldItalic}" ++ T,D) -> "^\\x{10300}-\\x{1032F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGothic}" ++ T,D) -> "^\\x{10330}-\\x{1034F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOldPermic}" ++ T,D) -> "^\\x{10350}-\\x{1037F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsUgaritic}" ++ T,D) -> "^\\x{10380}-\\x{1039F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOldPersian}" ++ T,D) -> "^\\x{103A0}-\\x{103DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsDeseret}" ++ T,D) -> "^\\x{10400}-\\x{1044F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsShavian}" ++ T,D) -> "^\\x{10450}-\\x{1047F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOsmanya}" ++ T,D) -> "^\\x{10480}-\\x{104AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOsage}" ++ T,D) -> "^\\x{104B0}-\\x{104FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsElbasan}" ++ T,D) -> "^\\x{10500}-\\x{1052F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCaucasianAlbanian}" ++ T,D) -> "^\\x{10530}-\\x{1056F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLinearA}" ++ T,D) -> "^\\x{10600}-\\x{1077F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCypriotSyllabary}" ++ T,D) -> "^\\x{10800}-\\x{1083F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsImperialAramaic}" ++ T,D) -> "^\\x{10840}-\\x{1085F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPalmyrene}" ++ T,D) -> "^\\x{10860}-\\x{1087F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsNabataean}" ++ T,D) -> "^\\x{10880}-\\x{108AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsHatran}" ++ T,D) -> "^\\x{108E0}-\\x{108FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPhoenician}" ++ T,D) -> "^\\x{10900}-\\x{1091F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsLydian}" ++ T,D) -> "^\\x{10920}-\\x{1093F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMeroiticHieroglyphs}" ++ T,D) -> "^\\x{10980}-\\x{1099F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMeroiticCursive}" ++ T,D) -> "^\\x{109A0}-\\x{109FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKharoshthi}" ++ T,D) -> "^\\x{10A00}-\\x{10A5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOldSouthArabian}" ++ T,D) -> "^\\x{10A60}-\\x{10A7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOldNorthArabian}" ++ T,D) -> "^\\x{10A80}-\\x{10A9F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsManichaean}" ++ T,D) -> "^\\x{10AC0}-\\x{10AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAvestan}" ++ T,D) -> "^\\x{10B00}-\\x{10B3F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsInscriptionalParthian}" ++ T,D) -> "^\\x{10B40}-\\x{10B5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsInscriptionalPahlavi}" ++ T,D) -> "^\\x{10B60}-\\x{10B7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPsalterPahlavi}" ++ T,D) -> "^\\x{10B80}-\\x{10BAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOldTurkic}" ++ T,D) -> "^\\x{10C00}-\\x{10C4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOldHungarian}" ++ T,D) -> "^\\x{10C80}-\\x{10CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsRumiNumeralSymbols}" ++ T,D) -> "^\\x{10E60}-\\x{10E7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBrahmi}" ++ T,D) -> "^\\x{11000}-\\x{1107F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKaithi}" ++ T,D) -> "^\\x{11080}-\\x{110CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSoraSompeng}" ++ T,D) -> "^\\x{110D0}-\\x{110FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsChakma}" ++ T,D) -> "^\\x{11100}-\\x{1114F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMahajani}" ++ T,D) -> "^\\x{11150}-\\x{1117F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSharada}" ++ T,D) -> "^\\x{11180}-\\x{111DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSinhalaArchaicNumbers}" ++ T,D) -> "^\\x{111E0}-\\x{111FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKhojki}" ++ T,D) -> "^\\x{11200}-\\x{1124F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMultani}" ++ T,D) -> "^\\x{11280}-\\x{112AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKhudawadi}" ++ T,D) -> "^\\x{112B0}-\\x{112FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGrantha}" ++ T,D) -> "^\\x{11300}-\\x{1137F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsNewa}" ++ T,D) -> "^\\x{11400}-\\x{1147F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTirhuta}" ++ T,D) -> "^\\x{11480}-\\x{114DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSiddham}" ++ T,D) -> "^\\x{11580}-\\x{115FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsModi}" ++ T,D) -> "^\\x{11600}-\\x{1165F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMongolianSupplement}" ++ T,D) -> "^\\x{11660}-\\x{1167F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTakri}" ++ T,D) -> "^\\x{11680}-\\x{116CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAhom}" ++ T,D) -> "^\\x{11700}-\\x{1173F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsWarangCiti}" ++ T,D) -> "^\\x{118A0}-\\x{118FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsZanabazarSquare}" ++ T,D) -> "^\\x{11A00}-\\x{11A4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSoyombo}" ++ T,D) -> "^\\x{11A50}-\\x{11AAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPauCinHau}" ++ T,D) -> "^\\x{11AC0}-\\x{11AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBhaiksuki}" ++ T,D) -> "^\\x{11C00}-\\x{11C6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMarchen}" ++ T,D) -> "^\\x{11C70}-\\x{11CBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMasaramGondi}" ++ T,D) -> "^\\x{11D00}-\\x{11D5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCuneiform}" ++ T,D) -> "^\\x{12000}-\\x{123FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCuneiformNumbersandPunctuation}" ++ T,D) -> "^\\x{12400}-\\x{1247F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEarlyDynasticCuneiform}" ++ T,D) -> "^\\x{12480}-\\x{1254F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEgyptianHieroglyphs}" ++ T,D) -> "^\\x{13000}-\\x{1342F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAnatolianHieroglyphs}" ++ T,D) -> "^\\x{14400}-\\x{1467F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBamumSupplement}" ++ T,D) -> "^\\x{16800}-\\x{16A3F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMro}" ++ T,D) -> "^\\x{16A40}-\\x{16A6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsBassaVah}" ++ T,D) -> "^\\x{16AD0}-\\x{16AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPahawhHmong}" ++ T,D) -> "^\\x{16B00}-\\x{16B8F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMiao}" ++ T,D) -> "^\\x{16F00}-\\x{16F9F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsIdeographicSymbolsandPunctuation}" ++ T,D) -> "^\\x{16FE0}-\\x{16FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTangut}" ++ T,D) -> "^\\x{17000}-\\x{187FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTangutComponents}" ++ T,D) -> "^\\x{18800}-\\x{18AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKanaSupplement}" ++ T,D) -> "^\\x{1B000}-\\x{1B0FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsKanaExtended-A}" ++ T,D) -> "^\\x{1B100}-\\x{1B12F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsNushu}" ++ T,D) -> "^\\x{1B170}-\\x{1B2FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsDuployan}" ++ T,D) -> "^\\x{1BC00}-\\x{1BC9F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsShorthandFormatControls}" ++ T,D) -> "^\\x{1BCA0}-\\x{1BCAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsByzantineMusicalSymbols}" ++ T,D) -> "^\\x{1D000}-\\x{1D0FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMusicalSymbols}" ++ T,D) -> "^\\x{1D100}-\\x{1D1FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAncientGreekMusicalNotation}" ++ T,D) -> "^\\x{1D200}-\\x{1D24F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTaiXuanJingSymbols}" ++ T,D) -> "^\\x{1D300}-\\x{1D35F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCountingRodNumerals}" ++ T,D) -> "^\\x{1D360}-\\x{1D37F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMathematicalAlphanumericSymbols}" ++ T,D) -> "^\\x{1D400}-\\x{1D7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSuttonSignWriting}" ++ T,D) -> "^\\x{1D800}-\\x{1DAAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGlagoliticSupplement}" ++ T,D) -> "^\\x{1E000}-\\x{1E02F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMendeKikakui}" ++ T,D) -> "^\\x{1E800}-\\x{1E8DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAdlam}" ++ T,D) -> "^\\x{1E900}-\\x{1E95F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsArabicMathematicalAlphabeticSymbols}" ++ T,D) -> "^\\x{1EE00}-\\x{1EEFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMahjongTiles}" ++ T,D) -> "^\\x{1F000}-\\x{1F02F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsDominoTiles}" ++ T,D) -> "^\\x{1F030}-\\x{1F09F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsPlayingCards}" ++ T,D) -> "^\\x{1F0A0}-\\x{1F0FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEnclosedAlphanumericSupplement}" ++ T,D) -> "^\\x{1F100}-\\x{1F1FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEnclosedIdeographicSupplement}" ++ T,D) -> "^\\x{1F200}-\\x{1F2FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsMiscellaneousSymbolsandPictographs}" ++ T,D) -> "^\\x{1F300}-\\x{1F5FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsEmoticons}" ++ T,D) -> "^\\x{1F600}-\\x{1F64F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsOrnamentalDingbats}" ++ T,D) -> "^\\x{1F650}-\\x{1F67F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTransportandMapSymbols}" ++ T,D) -> "^\\x{1F680}-\\x{1F6FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsAlchemicalSymbols}" ++ T,D) -> "^\\x{1F700}-\\x{1F77F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsGeometricShapesExtended}" ++ T,D) -> "^\\x{1F780}-\\x{1F7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementalArrows-C}" ++ T,D) -> "^\\x{1F800}-\\x{1F8FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementalSymbolsandPictographs}" ++ T,D) -> "^\\x{1F900}-\\x{1F9FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKUnifiedIdeographsExtensionB}" ++ T,D) -> "^\\x{20000}-\\x{2A6DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKUnifiedIdeographsExtensionC}" ++ T,D) -> "^\\x{2A700}-\\x{2B73F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKUnifiedIdeographsExtensionD}" ++ T,D) -> "^\\x{2B740}-\\x{2B81F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKUnifiedIdeographsExtensionE}" ++ T,D) -> "^\\x{2B820}-\\x{2CEAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKUnifiedIdeographsExtensionF}" ++ T,D) -> "^\\x{2CEB0}-\\x{2EBEF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsCJKCompatibilityIdeographsSupplement}" ++ T,D) -> "^\\x{2F800}-\\x{2FA1F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsTags}" ++ T,D) -> "^\\x{E0000}-\\x{E007F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsVariationSelectorsSupplement}" ++ T,D) -> "^\\x{E0100}-\\x{E01EF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementaryPrivateUseArea-A}" ++ T,D) -> "^\\x{F0000}-\\x{FFFFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\p{IsSupplementaryPrivateUseArea-B}" ++ T,D) -> "^\\x{100000}-\\x{10FFFF}" ++ regex_back_ref(T,D);
-% mask out Unicode category classes
-regex_back_ref("\\p{IsBasicLatin}" ++ T,D) -> "[\\x{0000}-\\x{007F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLatin-1Supplement}" ++ T,D) -> "[\\x{0080}-\\x{00FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLatinExtended-A}" ++ T,D) -> "[\\x{0100}-\\x{017F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLatinExtended-B}" ++ T,D) -> "[\\x{0180}-\\x{024F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsIPAExtensions}" ++ T,D) -> "[\\x{0250}-\\x{02AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSpacingModifierLetters}" ++ T,D) -> "[\\x{02B0}-\\x{02FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCombiningDiacriticalMarks}" ++ T,D) -> "[\\x{0300}-\\x{036F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGreekandCoptic}" ++ T,D) -> "[\\x{0370}-\\x{03FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCyrillic}" ++ T,D) -> "[\\x{0400}-\\x{04FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCyrillicSupplement}" ++ T,D) -> "[\\x{0500}-\\x{052F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArmenian}" ++ T,D) -> "[\\x{0530}-\\x{058F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHebrew}" ++ T,D) -> "[\\x{0590}-\\x{05FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArabic}" ++ T,D) -> "[\\x{0600}-\\x{06FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSyriac}" ++ T,D) -> "[\\x{0700}-\\x{074F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArabicSupplement}" ++ T,D) -> "[\\x{0750}-\\x{077F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsThaana}" ++ T,D) -> "[\\x{0780}-\\x{07BF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsNKo}" ++ T,D) -> "[\\x{07C0}-\\x{07FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSamaritan}" ++ T,D) -> "[\\x{0800}-\\x{083F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMandaic}" ++ T,D) -> "[\\x{0840}-\\x{085F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSyriacSupplement}" ++ T,D) -> "[\\x{0860}-\\x{086F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArabicExtended-A}" ++ T,D) -> "[\\x{08A0}-\\x{08FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsDevanagari}" ++ T,D) -> "[\\x{0900}-\\x{097F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBengali}" ++ T,D) -> "[\\x{0980}-\\x{09FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGurmukhi}" ++ T,D) -> "[\\x{0A00}-\\x{0A7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGujarati}" ++ T,D) -> "[\\x{0A80}-\\x{0AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOriya}" ++ T,D) -> "[\\x{0B00}-\\x{0B7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTamil}" ++ T,D) -> "[\\x{0B80}-\\x{0BFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTelugu}" ++ T,D) -> "[\\x{0C00}-\\x{0C7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKannada}" ++ T,D) -> "[\\x{0C80}-\\x{0CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMalayalam}" ++ T,D) -> "[\\x{0D00}-\\x{0D7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSinhala}" ++ T,D) -> "[\\x{0D80}-\\x{0DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsThai}" ++ T,D) -> "[\\x{0E00}-\\x{0E7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLao}" ++ T,D) -> "[\\x{0E80}-\\x{0EFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTibetan}" ++ T,D) -> "[\\x{0F00}-\\x{0FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMyanmar}" ++ T,D) -> "[\\x{1000}-\\x{109F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGeorgian}" ++ T,D) -> "[\\x{10A0}-\\x{10FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHangulJamo}" ++ T,D) -> "[\\x{1100}-\\x{11FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEthiopic}" ++ T,D) -> "[\\x{1200}-\\x{137F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEthiopicSupplement}" ++ T,D) -> "[\\x{1380}-\\x{139F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCherokee}" ++ T,D) -> "[\\x{13A0}-\\x{13FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsUnifiedCanadianAboriginalSyllabics}" ++ T,D) -> "[\\x{1400}-\\x{167F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOgham}" ++ T,D) -> "[\\x{1680}-\\x{169F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsRunic}" ++ T,D) -> "[\\x{16A0}-\\x{16FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTagalog}" ++ T,D) -> "[\\x{1700}-\\x{171F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHanunoo}" ++ T,D) -> "[\\x{1720}-\\x{173F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBuhid}" ++ T,D) -> "[\\x{1740}-\\x{175F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTagbanwa}" ++ T,D) -> "[\\x{1760}-\\x{177F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKhmer}" ++ T,D) -> "[\\x{1780}-\\x{17FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMongolian}" ++ T,D) -> "[\\x{1800}-\\x{18AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsUnifiedCanadianAboriginalSyllabicsExtended}" ++ T,D) -> "[\\x{18B0}-\\x{18FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLimbu}" ++ T,D) -> "[\\x{1900}-\\x{194F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTaiLe}" ++ T,D) -> "[\\x{1950}-\\x{197F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsNewTaiLue}" ++ T,D) -> "[\\x{1980}-\\x{19DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKhmerSymbols}" ++ T,D) -> "[\\x{19E0}-\\x{19FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBuginese}" ++ T,D) -> "[\\x{1A00}-\\x{1A1F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTaiTham}" ++ T,D) -> "[\\x{1A20}-\\x{1AAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCombiningDiacriticalMarksExtended}" ++ T,D) -> "[\\x{1AB0}-\\x{1AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBalinese}" ++ T,D) -> "[\\x{1B00}-\\x{1B7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSundanese}" ++ T,D) -> "[\\x{1B80}-\\x{1BBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBatak}" ++ T,D) -> "[\\x{1BC0}-\\x{1BFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLepcha}" ++ T,D) -> "[\\x{1C00}-\\x{1C4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOlChiki}" ++ T,D) -> "[\\x{1C50}-\\x{1C7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCyrillicExtended-C}" ++ T,D) -> "[\\x{1C80}-\\x{1C8F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSundaneseSupplement}" ++ T,D) -> "[\\x{1CC0}-\\x{1CCF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsVedicExtensions}" ++ T,D) -> "[\\x{1CD0}-\\x{1CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPhoneticExtensions}" ++ T,D) -> "[\\x{1D00}-\\x{1D7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPhoneticExtensionsSupplement}" ++ T,D) -> "[\\x{1D80}-\\x{1DBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCombiningDiacriticalMarksSupplement}" ++ T,D) -> "[\\x{1DC0}-\\x{1DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLatinExtendedAdditional}" ++ T,D) -> "[\\x{1E00}-\\x{1EFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGreekExtended}" ++ T,D) -> "[\\x{1F00}-\\x{1FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGeneralPunctuation}" ++ T,D) -> "[\\x{2000}-\\x{206F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSuperscriptsandSubscripts}" ++ T,D) -> "[\\x{2070}-\\x{209F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCurrencySymbols}" ++ T,D) -> "[\\x{20A0}-\\x{20CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCombiningDiacriticalMarksforSymbols}" ++ T,D) -> "[\\x{20D0}-\\x{20FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCombiningMarksforSymbols}" ++ T,D) -> "[\\x{20D0}-\\x{20FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLetterlikeSymbols}" ++ T,D) -> "[\\x{2100}-\\x{214F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsNumberForms}" ++ T,D) -> "[\\x{2150}-\\x{218F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArrows}" ++ T,D) -> "[\\x{2190}-\\x{21FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMathematicalOperators}" ++ T,D) -> "[\\x{2200}-\\x{22FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMiscellaneousTechnical}" ++ T,D) -> "[\\x{2300}-\\x{23FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsControlPictures}" ++ T,D) -> "[\\x{2400}-\\x{243F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOpticalCharacterRecognition}" ++ T,D) -> "[\\x{2440}-\\x{245F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEnclosedAlphanumerics}" ++ T,D) -> "[\\x{2460}-\\x{24FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBoxDrawing}" ++ T,D) -> "[\\x{2500}-\\x{257F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBlockElements}" ++ T,D) -> "[\\x{2580}-\\x{259F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGeometricShapes}" ++ T,D) -> "[\\x{25A0}-\\x{25FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMiscellaneousSymbols}" ++ T,D) -> "[\\x{2600}-\\x{26FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsDingbats}" ++ T,D) -> "[\\x{2700}-\\x{27BF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMiscellaneousMathematicalSymbols-A}" ++ T,D) -> "[\\x{27C0}-\\x{27EF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementalArrows-A}" ++ T,D) -> "[\\x{27F0}-\\x{27FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBraillePatterns}" ++ T,D) -> "[\\x{2800}-\\x{28FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementalArrows-B}" ++ T,D) -> "[\\x{2900}-\\x{297F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMiscellaneousMathematicalSymbols-B}" ++ T,D) -> "[\\x{2980}-\\x{29FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementalMathematicalOperators}" ++ T,D) -> "[\\x{2A00}-\\x{2AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMiscellaneousSymbolsandArrows}" ++ T,D) -> "[\\x{2B00}-\\x{2BFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGlagolitic}" ++ T,D) -> "[\\x{2C00}-\\x{2C5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLatinExtended-C}" ++ T,D) -> "[\\x{2C60}-\\x{2C7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCoptic}" ++ T,D) -> "[\\x{2C80}-\\x{2CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGeorgianSupplement}" ++ T,D) -> "[\\x{2D00}-\\x{2D2F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTifinagh}" ++ T,D) -> "[\\x{2D30}-\\x{2D7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEthiopicExtended}" ++ T,D) -> "[\\x{2D80}-\\x{2DDF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCyrillicExtended-A}" ++ T,D) -> "[\\x{2DE0}-\\x{2DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementalPunctuation}" ++ T,D) -> "[\\x{2E00}-\\x{2E7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKRadicalsSupplement}" ++ T,D) -> "[\\x{2E80}-\\x{2EFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKangxiRadicals}" ++ T,D) -> "[\\x{2F00}-\\x{2FDF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsIdeographicDescriptionCharacters}" ++ T,D) -> "[\\x{2FF0}-\\x{2FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKSymbolsandPunctuation}" ++ T,D) -> "[\\x{3000}-\\x{303F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHiragana}" ++ T,D) -> "[\\x{3040}-\\x{309F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKatakana}" ++ T,D) -> "[\\x{30A0}-\\x{30FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBopomofo}" ++ T,D) -> "[\\x{3100}-\\x{312F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHangulCompatibilityJamo}" ++ T,D) -> "[\\x{3130}-\\x{318F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKanbun}" ++ T,D) -> "[\\x{3190}-\\x{319F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBopomofoExtended}" ++ T,D) -> "[\\x{31A0}-\\x{31BF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKStrokes}" ++ T,D) -> "[\\x{31C0}-\\x{31EF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKatakanaPhoneticExtensions}" ++ T,D) -> "[\\x{31F0}-\\x{31FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEnclosedCJKLettersandMonths}" ++ T,D) -> "[\\x{3200}-\\x{32FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKCompatibility}" ++ T,D) -> "[\\x{3300}-\\x{33FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKUnifiedIdeographsExtensionA}" ++ T,D) -> "[\\x{3400}-\\x{4DBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsYijingHexagramSymbols}" ++ T,D) -> "[\\x{4DC0}-\\x{4DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKUnifiedIdeographs}" ++ T,D) -> "[\\x{4E00}-\\x{9FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsYiSyllables}" ++ T,D) -> "[\\x{A000}-\\x{A48F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsYiRadicals}" ++ T,D) -> "[\\x{A490}-\\x{A4CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLisu}" ++ T,D) -> "[\\x{A4D0}-\\x{A4FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsVai}" ++ T,D) -> "[\\x{A500}-\\x{A63F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCyrillicExtended-B}" ++ T,D) -> "[\\x{A640}-\\x{A69F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBamum}" ++ T,D) -> "[\\x{A6A0}-\\x{A6FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsModifierToneLetters}" ++ T,D) -> "[\\x{A700}-\\x{A71F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLatinExtended-D}" ++ T,D) -> "[\\x{A720}-\\x{A7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSylotiNagri}" ++ T,D) -> "[\\x{A800}-\\x{A82F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCommonIndicNumberForms}" ++ T,D) -> "[\\x{A830}-\\x{A83F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPhags-pa}" ++ T,D) -> "[\\x{A840}-\\x{A87F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSaurashtra}" ++ T,D) -> "[\\x{A880}-\\x{A8DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsDevanagariExtended}" ++ T,D) -> "[\\x{A8E0}-\\x{A8FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKayahLi}" ++ T,D) -> "[\\x{A900}-\\x{A92F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsRejang}" ++ T,D) -> "[\\x{A930}-\\x{A95F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHangulJamoExtended-A}" ++ T,D) -> "[\\x{A960}-\\x{A97F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsJavanese}" ++ T,D) -> "[\\x{A980}-\\x{A9DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMyanmarExtended-B}" ++ T,D) -> "[\\x{A9E0}-\\x{A9FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCham}" ++ T,D) -> "[\\x{AA00}-\\x{AA5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMyanmarExtended-A}" ++ T,D) -> "[\\x{AA60}-\\x{AA7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTaiViet}" ++ T,D) -> "[\\x{AA80}-\\x{AADF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMeeteiMayekExtensions}" ++ T,D) -> "[\\x{AAE0}-\\x{AAFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEthiopicExtended-A}" ++ T,D) -> "[\\x{AB00}-\\x{AB2F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLatinExtended-E}" ++ T,D) -> "[\\x{AB30}-\\x{AB6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCherokeeSupplement}" ++ T,D) -> "[\\x{AB70}-\\x{ABBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMeeteiMayek}" ++ T,D) -> "[\\x{ABC0}-\\x{ABFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHangulSyllables}" ++ T,D) -> "[\\x{AC00}-\\x{D7AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHangulJamoExtended-B}" ++ T,D) -> "[\\x{D7B0}-\\x{D7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHighSurrogates}" ++ T,D) -> "[\\x{D800}-\\x{DB7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHighPrivateUseSurrogates}" ++ T,D) -> "[\\x{DB80}-\\x{DBFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLowSurrogates}" ++ T,D) -> "[\\x{DC00}-\\x{DFFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPrivateUseArea}" ++ T,D) -> "[\\x{E000}-\\x{F8FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKCompatibilityIdeographs}" ++ T,D) -> "[\\x{F900}-\\x{FAFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAlphabeticPresentationForms}" ++ T,D) -> "[\\x{FB00}-\\x{FB4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArabicPresentationForms-A}" ++ T,D) -> "[\\x{FB50}-\\x{FDFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsVariationSelectors}" ++ T,D) -> "[\\x{FE00}-\\x{FE0F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsVerticalForms}" ++ T,D) -> "[\\x{FE10}-\\x{FE1F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCombiningHalfMarks}" ++ T,D) -> "[\\x{FE20}-\\x{FE2F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKCompatibilityForms}" ++ T,D) -> "[\\x{FE30}-\\x{FE4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSmallFormVariants}" ++ T,D) -> "[\\x{FE50}-\\x{FE6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArabicPresentationForms-B}" ++ T,D) -> "[\\x{FE70}-\\x{FEFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHalfwidthandFullwidthForms}" ++ T,D) -> "[\\x{FF00}-\\x{FFEF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSpecials}" ++ T,D) -> "[\\x{FFF0}-\\x{FFFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLinearBSyllabary}" ++ T,D) -> "[\\x{10000}-\\x{1007F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLinearBIdeograms}" ++ T,D) -> "[\\x{10080}-\\x{100FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAegeanNumbers}" ++ T,D) -> "[\\x{10100}-\\x{1013F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAncientGreekNumbers}" ++ T,D) -> "[\\x{10140}-\\x{1018F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAncientSymbols}" ++ T,D) -> "[\\x{10190}-\\x{101CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPhaistosDisc}" ++ T,D) -> "[\\x{101D0}-\\x{101FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLycian}" ++ T,D) -> "[\\x{10280}-\\x{1029F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCarian}" ++ T,D) -> "[\\x{102A0}-\\x{102DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCopticEpactNumbers}" ++ T,D) -> "[\\x{102E0}-\\x{102FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOldItalic}" ++ T,D) -> "[\\x{10300}-\\x{1032F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGothic}" ++ T,D) -> "[\\x{10330}-\\x{1034F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOldPermic}" ++ T,D) -> "[\\x{10350}-\\x{1037F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsUgaritic}" ++ T,D) -> "[\\x{10380}-\\x{1039F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOldPersian}" ++ T,D) -> "[\\x{103A0}-\\x{103DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsDeseret}" ++ T,D) -> "[\\x{10400}-\\x{1044F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsShavian}" ++ T,D) -> "[\\x{10450}-\\x{1047F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOsmanya}" ++ T,D) -> "[\\x{10480}-\\x{104AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOsage}" ++ T,D) -> "[\\x{104B0}-\\x{104FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsElbasan}" ++ T,D) -> "[\\x{10500}-\\x{1052F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCaucasianAlbanian}" ++ T,D) -> "[\\x{10530}-\\x{1056F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLinearA}" ++ T,D) -> "[\\x{10600}-\\x{1077F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCypriotSyllabary}" ++ T,D) -> "[\\x{10800}-\\x{1083F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsImperialAramaic}" ++ T,D) -> "[\\x{10840}-\\x{1085F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPalmyrene}" ++ T,D) -> "[\\x{10860}-\\x{1087F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsNabataean}" ++ T,D) -> "[\\x{10880}-\\x{108AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsHatran}" ++ T,D) -> "[\\x{108E0}-\\x{108FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPhoenician}" ++ T,D) -> "[\\x{10900}-\\x{1091F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsLydian}" ++ T,D) -> "[\\x{10920}-\\x{1093F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMeroiticHieroglyphs}" ++ T,D) -> "[\\x{10980}-\\x{1099F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMeroiticCursive}" ++ T,D) -> "[\\x{109A0}-\\x{109FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKharoshthi}" ++ T,D) -> "[\\x{10A00}-\\x{10A5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOldSouthArabian}" ++ T,D) -> "[\\x{10A60}-\\x{10A7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOldNorthArabian}" ++ T,D) -> "[\\x{10A80}-\\x{10A9F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsManichaean}" ++ T,D) -> "[\\x{10AC0}-\\x{10AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAvestan}" ++ T,D) -> "[\\x{10B00}-\\x{10B3F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsInscriptionalParthian}" ++ T,D) -> "[\\x{10B40}-\\x{10B5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsInscriptionalPahlavi}" ++ T,D) -> "[\\x{10B60}-\\x{10B7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPsalterPahlavi}" ++ T,D) -> "[\\x{10B80}-\\x{10BAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOldTurkic}" ++ T,D) -> "[\\x{10C00}-\\x{10C4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOldHungarian}" ++ T,D) -> "[\\x{10C80}-\\x{10CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsRumiNumeralSymbols}" ++ T,D) -> "[\\x{10E60}-\\x{10E7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBrahmi}" ++ T,D) -> "[\\x{11000}-\\x{1107F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKaithi}" ++ T,D) -> "[\\x{11080}-\\x{110CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSoraSompeng}" ++ T,D) -> "[\\x{110D0}-\\x{110FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsChakma}" ++ T,D) -> "[\\x{11100}-\\x{1114F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMahajani}" ++ T,D) -> "[\\x{11150}-\\x{1117F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSharada}" ++ T,D) -> "[\\x{11180}-\\x{111DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSinhalaArchaicNumbers}" ++ T,D) -> "[\\x{111E0}-\\x{111FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKhojki}" ++ T,D) -> "[\\x{11200}-\\x{1124F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMultani}" ++ T,D) -> "[\\x{11280}-\\x{112AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKhudawadi}" ++ T,D) -> "[\\x{112B0}-\\x{112FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGrantha}" ++ T,D) -> "[\\x{11300}-\\x{1137F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsNewa}" ++ T,D) -> "[\\x{11400}-\\x{1147F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTirhuta}" ++ T,D) -> "[\\x{11480}-\\x{114DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSiddham}" ++ T,D) -> "[\\x{11580}-\\x{115FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsModi}" ++ T,D) -> "[\\x{11600}-\\x{1165F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMongolianSupplement}" ++ T,D) -> "[\\x{11660}-\\x{1167F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTakri}" ++ T,D) -> "[\\x{11680}-\\x{116CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAhom}" ++ T,D) -> "[\\x{11700}-\\x{1173F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsWarangCiti}" ++ T,D) -> "[\\x{118A0}-\\x{118FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsZanabazarSquare}" ++ T,D) -> "[\\x{11A00}-\\x{11A4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSoyombo}" ++ T,D) -> "[\\x{11A50}-\\x{11AAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPauCinHau}" ++ T,D) -> "[\\x{11AC0}-\\x{11AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBhaiksuki}" ++ T,D) -> "[\\x{11C00}-\\x{11C6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMarchen}" ++ T,D) -> "[\\x{11C70}-\\x{11CBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMasaramGondi}" ++ T,D) -> "[\\x{11D00}-\\x{11D5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCuneiform}" ++ T,D) -> "[\\x{12000}-\\x{123FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCuneiformNumbersandPunctuation}" ++ T,D) -> "[\\x{12400}-\\x{1247F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEarlyDynasticCuneiform}" ++ T,D) -> "[\\x{12480}-\\x{1254F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEgyptianHieroglyphs}" ++ T,D) -> "[\\x{13000}-\\x{1342F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAnatolianHieroglyphs}" ++ T,D) -> "[\\x{14400}-\\x{1467F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBamumSupplement}" ++ T,D) -> "[\\x{16800}-\\x{16A3F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMro}" ++ T,D) -> "[\\x{16A40}-\\x{16A6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsBassaVah}" ++ T,D) -> "[\\x{16AD0}-\\x{16AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPahawhHmong}" ++ T,D) -> "[\\x{16B00}-\\x{16B8F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMiao}" ++ T,D) -> "[\\x{16F00}-\\x{16F9F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsIdeographicSymbolsandPunctuation}" ++ T,D) -> "[\\x{16FE0}-\\x{16FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTangut}" ++ T,D) -> "[\\x{17000}-\\x{187FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTangutComponents}" ++ T,D) -> "[\\x{18800}-\\x{18AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKanaSupplement}" ++ T,D) -> "[\\x{1B000}-\\x{1B0FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsKanaExtended-A}" ++ T,D) -> "[\\x{1B100}-\\x{1B12F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsNushu}" ++ T,D) -> "[\\x{1B170}-\\x{1B2FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsDuployan}" ++ T,D) -> "[\\x{1BC00}-\\x{1BC9F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsShorthandFormatControls}" ++ T,D) -> "[\\x{1BCA0}-\\x{1BCAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsByzantineMusicalSymbols}" ++ T,D) -> "[\\x{1D000}-\\x{1D0FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMusicalSymbols}" ++ T,D) -> "[\\x{1D100}-\\x{1D1FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAncientGreekMusicalNotation}" ++ T,D) -> "[\\x{1D200}-\\x{1D24F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTaiXuanJingSymbols}" ++ T,D) -> "[\\x{1D300}-\\x{1D35F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCountingRodNumerals}" ++ T,D) -> "[\\x{1D360}-\\x{1D37F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMathematicalAlphanumericSymbols}" ++ T,D) -> "[\\x{1D400}-\\x{1D7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSuttonSignWriting}" ++ T,D) -> "[\\x{1D800}-\\x{1DAAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGlagoliticSupplement}" ++ T,D) -> "[\\x{1E000}-\\x{1E02F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMendeKikakui}" ++ T,D) -> "[\\x{1E800}-\\x{1E8DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAdlam}" ++ T,D) -> "[\\x{1E900}-\\x{1E95F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsArabicMathematicalAlphabeticSymbols}" ++ T,D) -> "[\\x{1EE00}-\\x{1EEFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMahjongTiles}" ++ T,D) -> "[\\x{1F000}-\\x{1F02F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsDominoTiles}" ++ T,D) -> "[\\x{1F030}-\\x{1F09F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsPlayingCards}" ++ T,D) -> "[\\x{1F0A0}-\\x{1F0FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEnclosedAlphanumericSupplement}" ++ T,D) -> "[\\x{1F100}-\\x{1F1FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEnclosedIdeographicSupplement}" ++ T,D) -> "[\\x{1F200}-\\x{1F2FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsMiscellaneousSymbolsandPictographs}" ++ T,D) -> "[\\x{1F300}-\\x{1F5FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsEmoticons}" ++ T,D) -> "[\\x{1F600}-\\x{1F64F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsOrnamentalDingbats}" ++ T,D) -> "[\\x{1F650}-\\x{1F67F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTransportandMapSymbols}" ++ T,D) -> "[\\x{1F680}-\\x{1F6FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsAlchemicalSymbols}" ++ T,D) -> "[\\x{1F700}-\\x{1F77F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsGeometricShapesExtended}" ++ T,D) -> "[\\x{1F780}-\\x{1F7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementalArrows-C}" ++ T,D) -> "[\\x{1F800}-\\x{1F8FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementalSymbolsandPictographs}" ++ T,D) -> "[\\x{1F900}-\\x{1F9FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKUnifiedIdeographsExtensionB}" ++ T,D) -> "[\\x{20000}-\\x{2A6DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKUnifiedIdeographsExtensionC}" ++ T,D) -> "[\\x{2A700}-\\x{2B73F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKUnifiedIdeographsExtensionD}" ++ T,D) -> "[\\x{2B740}-\\x{2B81F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKUnifiedIdeographsExtensionE}" ++ T,D) -> "[\\x{2B820}-\\x{2CEAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKUnifiedIdeographsExtensionF}" ++ T,D) -> "[\\x{2CEB0}-\\x{2EBEF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsCJKCompatibilityIdeographsSupplement}" ++ T,D) -> "[\\x{2F800}-\\x{2FA1F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsTags}" ++ T,D) -> "[\\x{E0000}-\\x{E007F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsVariationSelectorsSupplement}" ++ T,D) -> "[\\x{E0100}-\\x{E01EF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementaryPrivateUseArea-A}" ++ T,D) -> "[\\x{F0000}-\\x{FFFFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\p{IsSupplementaryPrivateUseArea-B}" ++ T,D) -> "[\\x{100000}-\\x{10FFFF}]" ++ regex_back_ref(T,D);
-% negation with P
-regex_back_ref("\\P{IsBasicLatin}" ++ T,D) -> "[^\\x{0000}-\\x{007F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLatin-1Supplement}" ++ T,D) -> "[^\\x{0080}-\\x{00FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLatinExtended-A}" ++ T,D) -> "[^\\x{0100}-\\x{017F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLatinExtended-B}" ++ T,D) -> "[^\\x{0180}-\\x{024F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsIPAExtensions}" ++ T,D) -> "[^\\x{0250}-\\x{02AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSpacingModifierLetters}" ++ T,D) -> "[^\\x{02B0}-\\x{02FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCombiningDiacriticalMarks}" ++ T,D) -> "[^\\x{0300}-\\x{036F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGreekandCoptic}" ++ T,D) -> "[^\\x{0370}-\\x{03FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCyrillic}" ++ T,D) -> "[^\\x{0400}-\\x{04FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCyrillicSupplement}" ++ T,D) -> "[^\\x{0500}-\\x{052F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArmenian}" ++ T,D) -> "[^\\x{0530}-\\x{058F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHebrew}" ++ T,D) -> "[^\\x{0590}-\\x{05FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArabic}" ++ T,D) -> "[^\\x{0600}-\\x{06FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSyriac}" ++ T,D) -> "[^\\x{0700}-\\x{074F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArabicSupplement}" ++ T,D) -> "[^\\x{0750}-\\x{077F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsThaana}" ++ T,D) -> "[^\\x{0780}-\\x{07BF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsNKo}" ++ T,D) -> "[^\\x{07C0}-\\x{07FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSamaritan}" ++ T,D) -> "[^\\x{0800}-\\x{083F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMandaic}" ++ T,D) -> "[^\\x{0840}-\\x{085F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSyriacSupplement}" ++ T,D) -> "[^\\x{0860}-\\x{086F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArabicExtended-A}" ++ T,D) -> "[^\\x{08A0}-\\x{08FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsDevanagari}" ++ T,D) -> "[^\\x{0900}-\\x{097F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBengali}" ++ T,D) -> "[^\\x{0980}-\\x{09FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGurmukhi}" ++ T,D) -> "[^\\x{0A00}-\\x{0A7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGujarati}" ++ T,D) -> "[^\\x{0A80}-\\x{0AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOriya}" ++ T,D) -> "[^\\x{0B00}-\\x{0B7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTamil}" ++ T,D) -> "[^\\x{0B80}-\\x{0BFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTelugu}" ++ T,D) -> "[^\\x{0C00}-\\x{0C7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKannada}" ++ T,D) -> "[^\\x{0C80}-\\x{0CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMalayalam}" ++ T,D) -> "[^\\x{0D00}-\\x{0D7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSinhala}" ++ T,D) -> "[^\\x{0D80}-\\x{0DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsThai}" ++ T,D) -> "[^\\x{0E00}-\\x{0E7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLao}" ++ T,D) -> "[^\\x{0E80}-\\x{0EFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTibetan}" ++ T,D) -> "[^\\x{0F00}-\\x{0FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMyanmar}" ++ T,D) -> "[^\\x{1000}-\\x{109F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGeorgian}" ++ T,D) -> "[^\\x{10A0}-\\x{10FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHangulJamo}" ++ T,D) -> "[^\\x{1100}-\\x{11FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEthiopic}" ++ T,D) -> "[^\\x{1200}-\\x{137F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEthiopicSupplement}" ++ T,D) -> "[^\\x{1380}-\\x{139F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCherokee}" ++ T,D) -> "[^\\x{13A0}-\\x{13FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsUnifiedCanadianAboriginalSyllabics}" ++ T,D) -> "[^\\x{1400}-\\x{167F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOgham}" ++ T,D) -> "[^\\x{1680}-\\x{169F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsRunic}" ++ T,D) -> "[^\\x{16A0}-\\x{16FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTagalog}" ++ T,D) -> "[^\\x{1700}-\\x{171F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHanunoo}" ++ T,D) -> "[^\\x{1720}-\\x{173F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBuhid}" ++ T,D) -> "[^\\x{1740}-\\x{175F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTagbanwa}" ++ T,D) -> "[^\\x{1760}-\\x{177F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKhmer}" ++ T,D) -> "[^\\x{1780}-\\x{17FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMongolian}" ++ T,D) -> "[^\\x{1800}-\\x{18AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsUnifiedCanadianAboriginalSyllabicsExtended}" ++ T,D) -> "[^\\x{18B0}-\\x{18FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLimbu}" ++ T,D) -> "[^\\x{1900}-\\x{194F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTaiLe}" ++ T,D) -> "[^\\x{1950}-\\x{197F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsNewTaiLue}" ++ T,D) -> "[^\\x{1980}-\\x{19DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKhmerSymbols}" ++ T,D) -> "[^\\x{19E0}-\\x{19FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBuginese}" ++ T,D) -> "[^\\x{1A00}-\\x{1A1F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTaiTham}" ++ T,D) -> "[^\\x{1A20}-\\x{1AAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCombiningDiacriticalMarksExtended}" ++ T,D) -> "[^\\x{1AB0}-\\x{1AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBalinese}" ++ T,D) -> "[^\\x{1B00}-\\x{1B7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSundanese}" ++ T,D) -> "[^\\x{1B80}-\\x{1BBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBatak}" ++ T,D) -> "[^\\x{1BC0}-\\x{1BFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLepcha}" ++ T,D) -> "[^\\x{1C00}-\\x{1C4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOlChiki}" ++ T,D) -> "[^\\x{1C50}-\\x{1C7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCyrillicExtended-C}" ++ T,D) -> "[^\\x{1C80}-\\x{1C8F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSundaneseSupplement}" ++ T,D) -> "[^\\x{1CC0}-\\x{1CCF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsVedicExtensions}" ++ T,D) -> "[^\\x{1CD0}-\\x{1CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPhoneticExtensions}" ++ T,D) -> "[^\\x{1D00}-\\x{1D7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPhoneticExtensionsSupplement}" ++ T,D) -> "[^\\x{1D80}-\\x{1DBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCombiningDiacriticalMarksSupplement}" ++ T,D) -> "[^\\x{1DC0}-\\x{1DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLatinExtendedAdditional}" ++ T,D) -> "[^\\x{1E00}-\\x{1EFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGreekExtended}" ++ T,D) -> "[^\\x{1F00}-\\x{1FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGeneralPunctuation}" ++ T,D) -> "[^\\x{2000}-\\x{206F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSuperscriptsandSubscripts}" ++ T,D) -> "[^\\x{2070}-\\x{209F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCurrencySymbols}" ++ T,D) -> "[^\\x{20A0}-\\x{20CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCombiningDiacriticalMarksforSymbols}" ++ T,D) -> "[^\\x{20D0}-\\x{20FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCombiningMarksforSymbols}" ++ T,D) -> "[^\\x{20D0}-\\x{20FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLetterlikeSymbols}" ++ T,D) -> "[^\\x{2100}-\\x{214F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsNumberForms}" ++ T,D) -> "[^\\x{2150}-\\x{218F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArrows}" ++ T,D) -> "[^\\x{2190}-\\x{21FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMathematicalOperators}" ++ T,D) -> "[^\\x{2200}-\\x{22FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMiscellaneousTechnical}" ++ T,D) -> "[^\\x{2300}-\\x{23FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsControlPictures}" ++ T,D) -> "[^\\x{2400}-\\x{243F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOpticalCharacterRecognition}" ++ T,D) -> "[^\\x{2440}-\\x{245F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEnclosedAlphanumerics}" ++ T,D) -> "[^\\x{2460}-\\x{24FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBoxDrawing}" ++ T,D) -> "[^\\x{2500}-\\x{257F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBlockElements}" ++ T,D) -> "[^\\x{2580}-\\x{259F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGeometricShapes}" ++ T,D) -> "[^\\x{25A0}-\\x{25FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMiscellaneousSymbols}" ++ T,D) -> "[^\\x{2600}-\\x{26FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsDingbats}" ++ T,D) -> "[^\\x{2700}-\\x{27BF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMiscellaneousMathematicalSymbols-A}" ++ T,D) -> "[^\\x{27C0}-\\x{27EF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementalArrows-A}" ++ T,D) -> "[^\\x{27F0}-\\x{27FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBraillePatterns}" ++ T,D) -> "[^\\x{2800}-\\x{28FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementalArrows-B}" ++ T,D) -> "[^\\x{2900}-\\x{297F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMiscellaneousMathematicalSymbols-B}" ++ T,D) -> "[^\\x{2980}-\\x{29FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementalMathematicalOperators}" ++ T,D) -> "[^\\x{2A00}-\\x{2AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMiscellaneousSymbolsandArrows}" ++ T,D) -> "[^\\x{2B00}-\\x{2BFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGlagolitic}" ++ T,D) -> "[^\\x{2C00}-\\x{2C5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLatinExtended-C}" ++ T,D) -> "[^\\x{2C60}-\\x{2C7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCoptic}" ++ T,D) -> "[^\\x{2C80}-\\x{2CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGeorgianSupplement}" ++ T,D) -> "[^\\x{2D00}-\\x{2D2F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTifinagh}" ++ T,D) -> "[^\\x{2D30}-\\x{2D7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEthiopicExtended}" ++ T,D) -> "[^\\x{2D80}-\\x{2DDF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCyrillicExtended-A}" ++ T,D) -> "[^\\x{2DE0}-\\x{2DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementalPunctuation}" ++ T,D) -> "[^\\x{2E00}-\\x{2E7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKRadicalsSupplement}" ++ T,D) -> "[^\\x{2E80}-\\x{2EFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKangxiRadicals}" ++ T,D) -> "[^\\x{2F00}-\\x{2FDF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsIdeographicDescriptionCharacters}" ++ T,D) -> "[^\\x{2FF0}-\\x{2FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKSymbolsandPunctuation}" ++ T,D) -> "[^\\x{3000}-\\x{303F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHiragana}" ++ T,D) -> "[^\\x{3040}-\\x{309F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKatakana}" ++ T,D) -> "[^\\x{30A0}-\\x{30FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBopomofo}" ++ T,D) -> "[^\\x{3100}-\\x{312F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHangulCompatibilityJamo}" ++ T,D) -> "[^\\x{3130}-\\x{318F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKanbun}" ++ T,D) -> "[^\\x{3190}-\\x{319F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBopomofoExtended}" ++ T,D) -> "[^\\x{31A0}-\\x{31BF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKStrokes}" ++ T,D) -> "[^\\x{31C0}-\\x{31EF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKatakanaPhoneticExtensions}" ++ T,D) -> "[^\\x{31F0}-\\x{31FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEnclosedCJKLettersandMonths}" ++ T,D) -> "[^\\x{3200}-\\x{32FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKCompatibility}" ++ T,D) -> "[^\\x{3300}-\\x{33FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKUnifiedIdeographsExtensionA}" ++ T,D) -> "[^\\x{3400}-\\x{4DBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsYijingHexagramSymbols}" ++ T,D) -> "[^\\x{4DC0}-\\x{4DFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKUnifiedIdeographs}" ++ T,D) -> "[^\\x{4E00}-\\x{9FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsYiSyllables}" ++ T,D) -> "[^\\x{A000}-\\x{A48F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsYiRadicals}" ++ T,D) -> "[^\\x{A490}-\\x{A4CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLisu}" ++ T,D) -> "[^\\x{A4D0}-\\x{A4FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsVai}" ++ T,D) -> "[^\\x{A500}-\\x{A63F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCyrillicExtended-B}" ++ T,D) -> "[^\\x{A640}-\\x{A69F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBamum}" ++ T,D) -> "[^\\x{A6A0}-\\x{A6FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsModifierToneLetters}" ++ T,D) -> "[^\\x{A700}-\\x{A71F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLatinExtended-D}" ++ T,D) -> "[^\\x{A720}-\\x{A7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSylotiNagri}" ++ T,D) -> "[^\\x{A800}-\\x{A82F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCommonIndicNumberForms}" ++ T,D) -> "[^\\x{A830}-\\x{A83F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPhags-pa}" ++ T,D) -> "[^\\x{A840}-\\x{A87F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSaurashtra}" ++ T,D) -> "[^\\x{A880}-\\x{A8DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsDevanagariExtended}" ++ T,D) -> "[^\\x{A8E0}-\\x{A8FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKayahLi}" ++ T,D) -> "[^\\x{A900}-\\x{A92F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsRejang}" ++ T,D) -> "[^\\x{A930}-\\x{A95F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHangulJamoExtended-A}" ++ T,D) -> "[^\\x{A960}-\\x{A97F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsJavanese}" ++ T,D) -> "[^\\x{A980}-\\x{A9DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMyanmarExtended-B}" ++ T,D) -> "[^\\x{A9E0}-\\x{A9FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCham}" ++ T,D) -> "[^\\x{AA00}-\\x{AA5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMyanmarExtended-A}" ++ T,D) -> "[^\\x{AA60}-\\x{AA7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTaiViet}" ++ T,D) -> "[^\\x{AA80}-\\x{AADF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMeeteiMayekExtensions}" ++ T,D) -> "[^\\x{AAE0}-\\x{AAFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEthiopicExtended-A}" ++ T,D) -> "[^\\x{AB00}-\\x{AB2F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLatinExtended-E}" ++ T,D) -> "[^\\x{AB30}-\\x{AB6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCherokeeSupplement}" ++ T,D) -> "[^\\x{AB70}-\\x{ABBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMeeteiMayek}" ++ T,D) -> "[^\\x{ABC0}-\\x{ABFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHangulSyllables}" ++ T,D) -> "[^\\x{AC00}-\\x{D7AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHangulJamoExtended-B}" ++ T,D) -> "[^\\x{D7B0}-\\x{D7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHighSurrogates}" ++ T,D) -> "[^\\x{D800}-\\x{DB7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHighPrivateUseSurrogates}" ++ T,D) -> "[^\\x{DB80}-\\x{DBFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLowSurrogates}" ++ T,D) -> "[^\\x{DC00}-\\x{DFFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPrivateUseArea}" ++ T,D) -> "[^\\x{E000}-\\x{F8FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKCompatibilityIdeographs}" ++ T,D) -> "[^\\x{F900}-\\x{FAFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAlphabeticPresentationForms}" ++ T,D) -> "[^\\x{FB00}-\\x{FB4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArabicPresentationForms-A}" ++ T,D) -> "[^\\x{FB50}-\\x{FDFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsVariationSelectors}" ++ T,D) -> "[^\\x{FE00}-\\x{FE0F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsVerticalForms}" ++ T,D) -> "[^\\x{FE10}-\\x{FE1F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCombiningHalfMarks}" ++ T,D) -> "[^\\x{FE20}-\\x{FE2F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKCompatibilityForms}" ++ T,D) -> "[^\\x{FE30}-\\x{FE4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSmallFormVariants}" ++ T,D) -> "[^\\x{FE50}-\\x{FE6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArabicPresentationForms-B}" ++ T,D) -> "[^\\x{FE70}-\\x{FEFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHalfwidthandFullwidthForms}" ++ T,D) -> "[^\\x{FF00}-\\x{FFEF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSpecials}" ++ T,D) -> "[^\\x{FFF0}-\\x{FFFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLinearBSyllabary}" ++ T,D) -> "[^\\x{10000}-\\x{1007F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLinearBIdeograms}" ++ T,D) -> "[^\\x{10080}-\\x{100FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAegeanNumbers}" ++ T,D) -> "[^\\x{10100}-\\x{1013F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAncientGreekNumbers}" ++ T,D) -> "[^\\x{10140}-\\x{1018F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAncientSymbols}" ++ T,D) -> "[^\\x{10190}-\\x{101CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPhaistosDisc}" ++ T,D) -> "[^\\x{101D0}-\\x{101FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLycian}" ++ T,D) -> "[^\\x{10280}-\\x{1029F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCarian}" ++ T,D) -> "[^\\x{102A0}-\\x{102DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCopticEpactNumbers}" ++ T,D) -> "[^\\x{102E0}-\\x{102FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOldItalic}" ++ T,D) -> "[^\\x{10300}-\\x{1032F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGothic}" ++ T,D) -> "[^\\x{10330}-\\x{1034F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOldPermic}" ++ T,D) -> "[^\\x{10350}-\\x{1037F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsUgaritic}" ++ T,D) -> "[^\\x{10380}-\\x{1039F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOldPersian}" ++ T,D) -> "[^\\x{103A0}-\\x{103DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsDeseret}" ++ T,D) -> "[^\\x{10400}-\\x{1044F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsShavian}" ++ T,D) -> "[^\\x{10450}-\\x{1047F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOsmanya}" ++ T,D) -> "[^\\x{10480}-\\x{104AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOsage}" ++ T,D) -> "[^\\x{104B0}-\\x{104FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsElbasan}" ++ T,D) -> "[^\\x{10500}-\\x{1052F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCaucasianAlbanian}" ++ T,D) -> "[^\\x{10530}-\\x{1056F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLinearA}" ++ T,D) -> "[^\\x{10600}-\\x{1077F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCypriotSyllabary}" ++ T,D) -> "[^\\x{10800}-\\x{1083F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsImperialAramaic}" ++ T,D) -> "[^\\x{10840}-\\x{1085F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPalmyrene}" ++ T,D) -> "[^\\x{10860}-\\x{1087F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsNabataean}" ++ T,D) -> "[^\\x{10880}-\\x{108AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsHatran}" ++ T,D) -> "[^\\x{108E0}-\\x{108FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPhoenician}" ++ T,D) -> "[^\\x{10900}-\\x{1091F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsLydian}" ++ T,D) -> "[^\\x{10920}-\\x{1093F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMeroiticHieroglyphs}" ++ T,D) -> "[^\\x{10980}-\\x{1099F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMeroiticCursive}" ++ T,D) -> "[^\\x{109A0}-\\x{109FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKharoshthi}" ++ T,D) -> "[^\\x{10A00}-\\x{10A5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOldSouthArabian}" ++ T,D) -> "[^\\x{10A60}-\\x{10A7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOldNorthArabian}" ++ T,D) -> "[^\\x{10A80}-\\x{10A9F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsManichaean}" ++ T,D) -> "[^\\x{10AC0}-\\x{10AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAvestan}" ++ T,D) -> "[^\\x{10B00}-\\x{10B3F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsInscriptionalParthian}" ++ T,D) -> "[^\\x{10B40}-\\x{10B5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsInscriptionalPahlavi}" ++ T,D) -> "[^\\x{10B60}-\\x{10B7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPsalterPahlavi}" ++ T,D) -> "[^\\x{10B80}-\\x{10BAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOldTurkic}" ++ T,D) -> "[^\\x{10C00}-\\x{10C4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOldHungarian}" ++ T,D) -> "[^\\x{10C80}-\\x{10CFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsRumiNumeralSymbols}" ++ T,D) -> "[^\\x{10E60}-\\x{10E7F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBrahmi}" ++ T,D) -> "[^\\x{11000}-\\x{1107F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKaithi}" ++ T,D) -> "[^\\x{11080}-\\x{110CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSoraSompeng}" ++ T,D) -> "[^\\x{110D0}-\\x{110FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsChakma}" ++ T,D) -> "[^\\x{11100}-\\x{1114F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMahajani}" ++ T,D) -> "[^\\x{11150}-\\x{1117F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSharada}" ++ T,D) -> "[^\\x{11180}-\\x{111DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSinhalaArchaicNumbers}" ++ T,D) -> "[^\\x{111E0}-\\x{111FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKhojki}" ++ T,D) -> "[^\\x{11200}-\\x{1124F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMultani}" ++ T,D) -> "[^\\x{11280}-\\x{112AF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKhudawadi}" ++ T,D) -> "[^\\x{112B0}-\\x{112FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGrantha}" ++ T,D) -> "[^\\x{11300}-\\x{1137F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsNewa}" ++ T,D) -> "[^\\x{11400}-\\x{1147F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTirhuta}" ++ T,D) -> "[^\\x{11480}-\\x{114DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSiddham}" ++ T,D) -> "[^\\x{11580}-\\x{115FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsModi}" ++ T,D) -> "[^\\x{11600}-\\x{1165F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMongolianSupplement}" ++ T,D) -> "[^\\x{11660}-\\x{1167F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTakri}" ++ T,D) -> "[^\\x{11680}-\\x{116CF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAhom}" ++ T,D) -> "[^\\x{11700}-\\x{1173F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsWarangCiti}" ++ T,D) -> "[^\\x{118A0}-\\x{118FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsZanabazarSquare}" ++ T,D) -> "[^\\x{11A00}-\\x{11A4F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSoyombo}" ++ T,D) -> "[^\\x{11A50}-\\x{11AAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPauCinHau}" ++ T,D) -> "[^\\x{11AC0}-\\x{11AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBhaiksuki}" ++ T,D) -> "[^\\x{11C00}-\\x{11C6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMarchen}" ++ T,D) -> "[^\\x{11C70}-\\x{11CBF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMasaramGondi}" ++ T,D) -> "[^\\x{11D00}-\\x{11D5F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCuneiform}" ++ T,D) -> "[^\\x{12000}-\\x{123FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCuneiformNumbersandPunctuation}" ++ T,D) -> "[^\\x{12400}-\\x{1247F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEarlyDynasticCuneiform}" ++ T,D) -> "[^\\x{12480}-\\x{1254F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEgyptianHieroglyphs}" ++ T,D) -> "[^\\x{13000}-\\x{1342F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAnatolianHieroglyphs}" ++ T,D) -> "[^\\x{14400}-\\x{1467F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBamumSupplement}" ++ T,D) -> "[^\\x{16800}-\\x{16A3F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMro}" ++ T,D) -> "[^\\x{16A40}-\\x{16A6F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsBassaVah}" ++ T,D) -> "[^\\x{16AD0}-\\x{16AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPahawhHmong}" ++ T,D) -> "[^\\x{16B00}-\\x{16B8F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMiao}" ++ T,D) -> "[^\\x{16F00}-\\x{16F9F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsIdeographicSymbolsandPunctuation}" ++ T,D) -> "[^\\x{16FE0}-\\x{16FFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTangut}" ++ T,D) -> "[^\\x{17000}-\\x{187FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTangutComponents}" ++ T,D) -> "[^\\x{18800}-\\x{18AFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKanaSupplement}" ++ T,D) -> "[^\\x{1B000}-\\x{1B0FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsKanaExtended-A}" ++ T,D) -> "[^\\x{1B100}-\\x{1B12F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsNushu}" ++ T,D) -> "[^\\x{1B170}-\\x{1B2FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsDuployan}" ++ T,D) -> "[^\\x{1BC00}-\\x{1BC9F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsShorthandFormatControls}" ++ T,D) -> "[^\\x{1BCA0}-\\x{1BCAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsByzantineMusicalSymbols}" ++ T,D) -> "[^\\x{1D000}-\\x{1D0FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMusicalSymbols}" ++ T,D) -> "[^\\x{1D100}-\\x{1D1FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAncientGreekMusicalNotation}" ++ T,D) -> "[^\\x{1D200}-\\x{1D24F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTaiXuanJingSymbols}" ++ T,D) -> "[^\\x{1D300}-\\x{1D35F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCountingRodNumerals}" ++ T,D) -> "[^\\x{1D360}-\\x{1D37F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMathematicalAlphanumericSymbols}" ++ T,D) -> "[^\\x{1D400}-\\x{1D7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSuttonSignWriting}" ++ T,D) -> "[^\\x{1D800}-\\x{1DAAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGlagoliticSupplement}" ++ T,D) -> "[^\\x{1E000}-\\x{1E02F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMendeKikakui}" ++ T,D) -> "[^\\x{1E800}-\\x{1E8DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAdlam}" ++ T,D) -> "[^\\x{1E900}-\\x{1E95F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsArabicMathematicalAlphabeticSymbols}" ++ T,D) -> "[^\\x{1EE00}-\\x{1EEFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMahjongTiles}" ++ T,D) -> "[^\\x{1F000}-\\x{1F02F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsDominoTiles}" ++ T,D) -> "[^\\x{1F030}-\\x{1F09F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsPlayingCards}" ++ T,D) -> "[^\\x{1F0A0}-\\x{1F0FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEnclosedAlphanumericSupplement}" ++ T,D) -> "[^\\x{1F100}-\\x{1F1FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEnclosedIdeographicSupplement}" ++ T,D) -> "[^\\x{1F200}-\\x{1F2FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsMiscellaneousSymbolsandPictographs}" ++ T,D) -> "[^\\x{1F300}-\\x{1F5FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsEmoticons}" ++ T,D) -> "[^\\x{1F600}-\\x{1F64F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsOrnamentalDingbats}" ++ T,D) -> "[^\\x{1F650}-\\x{1F67F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTransportandMapSymbols}" ++ T,D) -> "[^\\x{1F680}-\\x{1F6FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsAlchemicalSymbols}" ++ T,D) -> "[^\\x{1F700}-\\x{1F77F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsGeometricShapesExtended}" ++ T,D) -> "[^\\x{1F780}-\\x{1F7FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementalArrows-C}" ++ T,D) -> "[^\\x{1F800}-\\x{1F8FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementalSymbolsandPictographs}" ++ T,D) -> "[^\\x{1F900}-\\x{1F9FF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKUnifiedIdeographsExtensionB}" ++ T,D) -> "[^\\x{20000}-\\x{2A6DF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKUnifiedIdeographsExtensionC}" ++ T,D) -> "[^\\x{2A700}-\\x{2B73F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKUnifiedIdeographsExtensionD}" ++ T,D) -> "[^\\x{2B740}-\\x{2B81F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKUnifiedIdeographsExtensionE}" ++ T,D) -> "[^\\x{2B820}-\\x{2CEAF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKUnifiedIdeographsExtensionF}" ++ T,D) -> "[^\\x{2CEB0}-\\x{2EBEF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsCJKCompatibilityIdeographsSupplement}" ++ T,D) -> "[^\\x{2F800}-\\x{2FA1F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsTags}" ++ T,D) -> "[^\\x{E0000}-\\x{E007F}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsVariationSelectorsSupplement}" ++ T,D) -> "[^\\x{E0100}-\\x{E01EF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementaryPrivateUseArea-A}" ++ T,D) -> "[^\\x{F0000}-\\x{FFFFF}]" ++ regex_back_ref(T,D);
-regex_back_ref("\\P{IsSupplementaryPrivateUseArea-B}" ++ T,D) -> "[^\\x{100000}-\\x{10FFFF}]" ++ regex_back_ref(T,D);
-% double negation
-regex_back_ref("^\\P{IsBasicLatin}" ++ T,D) -> "\\x{0000}-\\x{007F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLatin-1Supplement}" ++ T,D) -> "\\x{0080}-\\x{00FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLatinExtended-A}" ++ T,D) -> "\\x{0100}-\\x{017F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLatinExtended-B}" ++ T,D) -> "\\x{0180}-\\x{024F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsIPAExtensions}" ++ T,D) -> "\\x{0250}-\\x{02AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSpacingModifierLetters}" ++ T,D) -> "\\x{02B0}-\\x{02FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCombiningDiacriticalMarks}" ++ T,D) -> "\\x{0300}-\\x{036F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGreekandCoptic}" ++ T,D) -> "\\x{0370}-\\x{03FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCyrillic}" ++ T,D) -> "\\x{0400}-\\x{04FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCyrillicSupplement}" ++ T,D) -> "\\x{0500}-\\x{052F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArmenian}" ++ T,D) -> "\\x{0530}-\\x{058F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHebrew}" ++ T,D) -> "\\x{0590}-\\x{05FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArabic}" ++ T,D) -> "\\x{0600}-\\x{06FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSyriac}" ++ T,D) -> "\\x{0700}-\\x{074F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArabicSupplement}" ++ T,D) -> "\\x{0750}-\\x{077F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsThaana}" ++ T,D) -> "\\x{0780}-\\x{07BF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsNKo}" ++ T,D) -> "\\x{07C0}-\\x{07FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSamaritan}" ++ T,D) -> "\\x{0800}-\\x{083F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMandaic}" ++ T,D) -> "\\x{0840}-\\x{085F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSyriacSupplement}" ++ T,D) -> "\\x{0860}-\\x{086F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArabicExtended-A}" ++ T,D) -> "\\x{08A0}-\\x{08FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsDevanagari}" ++ T,D) -> "\\x{0900}-\\x{097F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBengali}" ++ T,D) -> "\\x{0980}-\\x{09FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGurmukhi}" ++ T,D) -> "\\x{0A00}-\\x{0A7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGujarati}" ++ T,D) -> "\\x{0A80}-\\x{0AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOriya}" ++ T,D) -> "\\x{0B00}-\\x{0B7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTamil}" ++ T,D) -> "\\x{0B80}-\\x{0BFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTelugu}" ++ T,D) -> "\\x{0C00}-\\x{0C7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKannada}" ++ T,D) -> "\\x{0C80}-\\x{0CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMalayalam}" ++ T,D) -> "\\x{0D00}-\\x{0D7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSinhala}" ++ T,D) -> "\\x{0D80}-\\x{0DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsThai}" ++ T,D) -> "\\x{0E00}-\\x{0E7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLao}" ++ T,D) -> "\\x{0E80}-\\x{0EFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTibetan}" ++ T,D) -> "\\x{0F00}-\\x{0FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMyanmar}" ++ T,D) -> "\\x{1000}-\\x{109F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGeorgian}" ++ T,D) -> "\\x{10A0}-\\x{10FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHangulJamo}" ++ T,D) -> "\\x{1100}-\\x{11FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEthiopic}" ++ T,D) -> "\\x{1200}-\\x{137F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEthiopicSupplement}" ++ T,D) -> "\\x{1380}-\\x{139F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCherokee}" ++ T,D) -> "\\x{13A0}-\\x{13FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsUnifiedCanadianAboriginalSyllabics}" ++ T,D) -> "\\x{1400}-\\x{167F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOgham}" ++ T,D) -> "\\x{1680}-\\x{169F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsRunic}" ++ T,D) -> "\\x{16A0}-\\x{16FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTagalog}" ++ T,D) -> "\\x{1700}-\\x{171F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHanunoo}" ++ T,D) -> "\\x{1720}-\\x{173F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBuhid}" ++ T,D) -> "\\x{1740}-\\x{175F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTagbanwa}" ++ T,D) -> "\\x{1760}-\\x{177F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKhmer}" ++ T,D) -> "\\x{1780}-\\x{17FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMongolian}" ++ T,D) -> "\\x{1800}-\\x{18AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsUnifiedCanadianAboriginalSyllabicsExtended}" ++ T,D) -> "\\x{18B0}-\\x{18FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLimbu}" ++ T,D) -> "\\x{1900}-\\x{194F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTaiLe}" ++ T,D) -> "\\x{1950}-\\x{197F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsNewTaiLue}" ++ T,D) -> "\\x{1980}-\\x{19DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKhmerSymbols}" ++ T,D) -> "\\x{19E0}-\\x{19FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBuginese}" ++ T,D) -> "\\x{1A00}-\\x{1A1F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTaiTham}" ++ T,D) -> "\\x{1A20}-\\x{1AAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCombiningDiacriticalMarksExtended}" ++ T,D) -> "\\x{1AB0}-\\x{1AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBalinese}" ++ T,D) -> "\\x{1B00}-\\x{1B7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSundanese}" ++ T,D) -> "\\x{1B80}-\\x{1BBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBatak}" ++ T,D) -> "\\x{1BC0}-\\x{1BFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLepcha}" ++ T,D) -> "\\x{1C00}-\\x{1C4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOlChiki}" ++ T,D) -> "\\x{1C50}-\\x{1C7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCyrillicExtended-C}" ++ T,D) -> "\\x{1C80}-\\x{1C8F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSundaneseSupplement}" ++ T,D) -> "\\x{1CC0}-\\x{1CCF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsVedicExtensions}" ++ T,D) -> "\\x{1CD0}-\\x{1CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPhoneticExtensions}" ++ T,D) -> "\\x{1D00}-\\x{1D7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPhoneticExtensionsSupplement}" ++ T,D) -> "\\x{1D80}-\\x{1DBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCombiningDiacriticalMarksSupplement}" ++ T,D) -> "\\x{1DC0}-\\x{1DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLatinExtendedAdditional}" ++ T,D) -> "\\x{1E00}-\\x{1EFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGreekExtended}" ++ T,D) -> "\\x{1F00}-\\x{1FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGeneralPunctuation}" ++ T,D) -> "\\x{2000}-\\x{206F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSuperscriptsandSubscripts}" ++ T,D) -> "\\x{2070}-\\x{209F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCurrencySymbols}" ++ T,D) -> "\\x{20A0}-\\x{20CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCombiningDiacriticalMarksforSymbols}" ++ T,D) -> "\\x{20D0}-\\x{20FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCombiningMarksforSymbols}" ++ T,D) -> "\\x{20D0}-\\x{20FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLetterlikeSymbols}" ++ T,D) -> "\\x{2100}-\\x{214F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsNumberForms}" ++ T,D) -> "\\x{2150}-\\x{218F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArrows}" ++ T,D) -> "\\x{2190}-\\x{21FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMathematicalOperators}" ++ T,D) -> "\\x{2200}-\\x{22FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMiscellaneousTechnical}" ++ T,D) -> "\\x{2300}-\\x{23FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsControlPictures}" ++ T,D) -> "\\x{2400}-\\x{243F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOpticalCharacterRecognition}" ++ T,D) -> "\\x{2440}-\\x{245F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEnclosedAlphanumerics}" ++ T,D) -> "\\x{2460}-\\x{24FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBoxDrawing}" ++ T,D) -> "\\x{2500}-\\x{257F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBlockElements}" ++ T,D) -> "\\x{2580}-\\x{259F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGeometricShapes}" ++ T,D) -> "\\x{25A0}-\\x{25FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMiscellaneousSymbols}" ++ T,D) -> "\\x{2600}-\\x{26FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsDingbats}" ++ T,D) -> "\\x{2700}-\\x{27BF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMiscellaneousMathematicalSymbols-A}" ++ T,D) -> "\\x{27C0}-\\x{27EF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementalArrows-A}" ++ T,D) -> "\\x{27F0}-\\x{27FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBraillePatterns}" ++ T,D) -> "\\x{2800}-\\x{28FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementalArrows-B}" ++ T,D) -> "\\x{2900}-\\x{297F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMiscellaneousMathematicalSymbols-B}" ++ T,D) -> "\\x{2980}-\\x{29FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementalMathematicalOperators}" ++ T,D) -> "\\x{2A00}-\\x{2AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMiscellaneousSymbolsandArrows}" ++ T,D) -> "\\x{2B00}-\\x{2BFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGlagolitic}" ++ T,D) -> "\\x{2C00}-\\x{2C5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLatinExtended-C}" ++ T,D) -> "\\x{2C60}-\\x{2C7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCoptic}" ++ T,D) -> "\\x{2C80}-\\x{2CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGeorgianSupplement}" ++ T,D) -> "\\x{2D00}-\\x{2D2F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTifinagh}" ++ T,D) -> "\\x{2D30}-\\x{2D7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEthiopicExtended}" ++ T,D) -> "\\x{2D80}-\\x{2DDF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCyrillicExtended-A}" ++ T,D) -> "\\x{2DE0}-\\x{2DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementalPunctuation}" ++ T,D) -> "\\x{2E00}-\\x{2E7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKRadicalsSupplement}" ++ T,D) -> "\\x{2E80}-\\x{2EFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKangxiRadicals}" ++ T,D) -> "\\x{2F00}-\\x{2FDF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsIdeographicDescriptionCharacters}" ++ T,D) -> "\\x{2FF0}-\\x{2FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKSymbolsandPunctuation}" ++ T,D) -> "\\x{3000}-\\x{303F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHiragana}" ++ T,D) -> "\\x{3040}-\\x{309F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKatakana}" ++ T,D) -> "\\x{30A0}-\\x{30FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBopomofo}" ++ T,D) -> "\\x{3100}-\\x{312F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHangulCompatibilityJamo}" ++ T,D) -> "\\x{3130}-\\x{318F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKanbun}" ++ T,D) -> "\\x{3190}-\\x{319F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBopomofoExtended}" ++ T,D) -> "\\x{31A0}-\\x{31BF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKStrokes}" ++ T,D) -> "\\x{31C0}-\\x{31EF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKatakanaPhoneticExtensions}" ++ T,D) -> "\\x{31F0}-\\x{31FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEnclosedCJKLettersandMonths}" ++ T,D) -> "\\x{3200}-\\x{32FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKCompatibility}" ++ T,D) -> "\\x{3300}-\\x{33FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKUnifiedIdeographsExtensionA}" ++ T,D) -> "\\x{3400}-\\x{4DBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsYijingHexagramSymbols}" ++ T,D) -> "\\x{4DC0}-\\x{4DFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKUnifiedIdeographs}" ++ T,D) -> "\\x{4E00}-\\x{9FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsYiSyllables}" ++ T,D) -> "\\x{A000}-\\x{A48F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsYiRadicals}" ++ T,D) -> "\\x{A490}-\\x{A4CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLisu}" ++ T,D) -> "\\x{A4D0}-\\x{A4FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsVai}" ++ T,D) -> "\\x{A500}-\\x{A63F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCyrillicExtended-B}" ++ T,D) -> "\\x{A640}-\\x{A69F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBamum}" ++ T,D) -> "\\x{A6A0}-\\x{A6FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsModifierToneLetters}" ++ T,D) -> "\\x{A700}-\\x{A71F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLatinExtended-D}" ++ T,D) -> "\\x{A720}-\\x{A7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSylotiNagri}" ++ T,D) -> "\\x{A800}-\\x{A82F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCommonIndicNumberForms}" ++ T,D) -> "\\x{A830}-\\x{A83F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPhags-pa}" ++ T,D) -> "\\x{A840}-\\x{A87F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSaurashtra}" ++ T,D) -> "\\x{A880}-\\x{A8DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsDevanagariExtended}" ++ T,D) -> "\\x{A8E0}-\\x{A8FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKayahLi}" ++ T,D) -> "\\x{A900}-\\x{A92F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsRejang}" ++ T,D) -> "\\x{A930}-\\x{A95F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHangulJamoExtended-A}" ++ T,D) -> "\\x{A960}-\\x{A97F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsJavanese}" ++ T,D) -> "\\x{A980}-\\x{A9DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMyanmarExtended-B}" ++ T,D) -> "\\x{A9E0}-\\x{A9FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCham}" ++ T,D) -> "\\x{AA00}-\\x{AA5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMyanmarExtended-A}" ++ T,D) -> "\\x{AA60}-\\x{AA7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTaiViet}" ++ T,D) -> "\\x{AA80}-\\x{AADF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMeeteiMayekExtensions}" ++ T,D) -> "\\x{AAE0}-\\x{AAFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEthiopicExtended-A}" ++ T,D) -> "\\x{AB00}-\\x{AB2F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLatinExtended-E}" ++ T,D) -> "\\x{AB30}-\\x{AB6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCherokeeSupplement}" ++ T,D) -> "\\x{AB70}-\\x{ABBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMeeteiMayek}" ++ T,D) -> "\\x{ABC0}-\\x{ABFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHangulSyllables}" ++ T,D) -> "\\x{AC00}-\\x{D7AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHangulJamoExtended-B}" ++ T,D) -> "\\x{D7B0}-\\x{D7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHighSurrogates}" ++ T,D) -> "\\x{D800}-\\x{DB7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHighPrivateUseSurrogates}" ++ T,D) -> "\\x{DB80}-\\x{DBFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLowSurrogates}" ++ T,D) -> "\\x{DC00}-\\x{DFFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPrivateUseArea}" ++ T,D) -> "\\x{E000}-\\x{F8FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKCompatibilityIdeographs}" ++ T,D) -> "\\x{F900}-\\x{FAFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAlphabeticPresentationForms}" ++ T,D) -> "\\x{FB00}-\\x{FB4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArabicPresentationForms-A}" ++ T,D) -> "\\x{FB50}-\\x{FDFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsVariationSelectors}" ++ T,D) -> "\\x{FE00}-\\x{FE0F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsVerticalForms}" ++ T,D) -> "\\x{FE10}-\\x{FE1F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCombiningHalfMarks}" ++ T,D) -> "\\x{FE20}-\\x{FE2F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKCompatibilityForms}" ++ T,D) -> "\\x{FE30}-\\x{FE4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSmallFormVariants}" ++ T,D) -> "\\x{FE50}-\\x{FE6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArabicPresentationForms-B}" ++ T,D) -> "\\x{FE70}-\\x{FEFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHalfwidthandFullwidthForms}" ++ T,D) -> "\\x{FF00}-\\x{FFEF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSpecials}" ++ T,D) -> "\\x{FFF0}-\\x{FFFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLinearBSyllabary}" ++ T,D) -> "\\x{10000}-\\x{1007F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLinearBIdeograms}" ++ T,D) -> "\\x{10080}-\\x{100FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAegeanNumbers}" ++ T,D) -> "\\x{10100}-\\x{1013F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAncientGreekNumbers}" ++ T,D) -> "\\x{10140}-\\x{1018F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAncientSymbols}" ++ T,D) -> "\\x{10190}-\\x{101CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPhaistosDisc}" ++ T,D) -> "\\x{101D0}-\\x{101FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLycian}" ++ T,D) -> "\\x{10280}-\\x{1029F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCarian}" ++ T,D) -> "\\x{102A0}-\\x{102DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCopticEpactNumbers}" ++ T,D) -> "\\x{102E0}-\\x{102FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOldItalic}" ++ T,D) -> "\\x{10300}-\\x{1032F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGothic}" ++ T,D) -> "\\x{10330}-\\x{1034F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOldPermic}" ++ T,D) -> "\\x{10350}-\\x{1037F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsUgaritic}" ++ T,D) -> "\\x{10380}-\\x{1039F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOldPersian}" ++ T,D) -> "\\x{103A0}-\\x{103DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsDeseret}" ++ T,D) -> "\\x{10400}-\\x{1044F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsShavian}" ++ T,D) -> "\\x{10450}-\\x{1047F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOsmanya}" ++ T,D) -> "\\x{10480}-\\x{104AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOsage}" ++ T,D) -> "\\x{104B0}-\\x{104FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsElbasan}" ++ T,D) -> "\\x{10500}-\\x{1052F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCaucasianAlbanian}" ++ T,D) -> "\\x{10530}-\\x{1056F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLinearA}" ++ T,D) -> "\\x{10600}-\\x{1077F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCypriotSyllabary}" ++ T,D) -> "\\x{10800}-\\x{1083F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsImperialAramaic}" ++ T,D) -> "\\x{10840}-\\x{1085F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPalmyrene}" ++ T,D) -> "\\x{10860}-\\x{1087F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsNabataean}" ++ T,D) -> "\\x{10880}-\\x{108AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsHatran}" ++ T,D) -> "\\x{108E0}-\\x{108FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPhoenician}" ++ T,D) -> "\\x{10900}-\\x{1091F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsLydian}" ++ T,D) -> "\\x{10920}-\\x{1093F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMeroiticHieroglyphs}" ++ T,D) -> "\\x{10980}-\\x{1099F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMeroiticCursive}" ++ T,D) -> "\\x{109A0}-\\x{109FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKharoshthi}" ++ T,D) -> "\\x{10A00}-\\x{10A5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOldSouthArabian}" ++ T,D) -> "\\x{10A60}-\\x{10A7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOldNorthArabian}" ++ T,D) -> "\\x{10A80}-\\x{10A9F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsManichaean}" ++ T,D) -> "\\x{10AC0}-\\x{10AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAvestan}" ++ T,D) -> "\\x{10B00}-\\x{10B3F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsInscriptionalParthian}" ++ T,D) -> "\\x{10B40}-\\x{10B5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsInscriptionalPahlavi}" ++ T,D) -> "\\x{10B60}-\\x{10B7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPsalterPahlavi}" ++ T,D) -> "\\x{10B80}-\\x{10BAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOldTurkic}" ++ T,D) -> "\\x{10C00}-\\x{10C4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOldHungarian}" ++ T,D) -> "\\x{10C80}-\\x{10CFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsRumiNumeralSymbols}" ++ T,D) -> "\\x{10E60}-\\x{10E7F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBrahmi}" ++ T,D) -> "\\x{11000}-\\x{1107F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKaithi}" ++ T,D) -> "\\x{11080}-\\x{110CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSoraSompeng}" ++ T,D) -> "\\x{110D0}-\\x{110FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsChakma}" ++ T,D) -> "\\x{11100}-\\x{1114F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMahajani}" ++ T,D) -> "\\x{11150}-\\x{1117F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSharada}" ++ T,D) -> "\\x{11180}-\\x{111DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSinhalaArchaicNumbers}" ++ T,D) -> "\\x{111E0}-\\x{111FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKhojki}" ++ T,D) -> "\\x{11200}-\\x{1124F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMultani}" ++ T,D) -> "\\x{11280}-\\x{112AF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKhudawadi}" ++ T,D) -> "\\x{112B0}-\\x{112FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGrantha}" ++ T,D) -> "\\x{11300}-\\x{1137F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsNewa}" ++ T,D) -> "\\x{11400}-\\x{1147F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTirhuta}" ++ T,D) -> "\\x{11480}-\\x{114DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSiddham}" ++ T,D) -> "\\x{11580}-\\x{115FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsModi}" ++ T,D) -> "\\x{11600}-\\x{1165F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMongolianSupplement}" ++ T,D) -> "\\x{11660}-\\x{1167F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTakri}" ++ T,D) -> "\\x{11680}-\\x{116CF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAhom}" ++ T,D) -> "\\x{11700}-\\x{1173F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsWarangCiti}" ++ T,D) -> "\\x{118A0}-\\x{118FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsZanabazarSquare}" ++ T,D) -> "\\x{11A00}-\\x{11A4F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSoyombo}" ++ T,D) -> "\\x{11A50}-\\x{11AAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPauCinHau}" ++ T,D) -> "\\x{11AC0}-\\x{11AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBhaiksuki}" ++ T,D) -> "\\x{11C00}-\\x{11C6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMarchen}" ++ T,D) -> "\\x{11C70}-\\x{11CBF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMasaramGondi}" ++ T,D) -> "\\x{11D00}-\\x{11D5F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCuneiform}" ++ T,D) -> "\\x{12000}-\\x{123FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCuneiformNumbersandPunctuation}" ++ T,D) -> "\\x{12400}-\\x{1247F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEarlyDynasticCuneiform}" ++ T,D) -> "\\x{12480}-\\x{1254F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEgyptianHieroglyphs}" ++ T,D) -> "\\x{13000}-\\x{1342F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAnatolianHieroglyphs}" ++ T,D) -> "\\x{14400}-\\x{1467F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBamumSupplement}" ++ T,D) -> "\\x{16800}-\\x{16A3F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMro}" ++ T,D) -> "\\x{16A40}-\\x{16A6F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsBassaVah}" ++ T,D) -> "\\x{16AD0}-\\x{16AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPahawhHmong}" ++ T,D) -> "\\x{16B00}-\\x{16B8F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMiao}" ++ T,D) -> "\\x{16F00}-\\x{16F9F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsIdeographicSymbolsandPunctuation}" ++ T,D) -> "\\x{16FE0}-\\x{16FFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTangut}" ++ T,D) -> "\\x{17000}-\\x{187FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTangutComponents}" ++ T,D) -> "\\x{18800}-\\x{18AFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKanaSupplement}" ++ T,D) -> "\\x{1B000}-\\x{1B0FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsKanaExtended-A}" ++ T,D) -> "\\x{1B100}-\\x{1B12F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsNushu}" ++ T,D) -> "\\x{1B170}-\\x{1B2FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsDuployan}" ++ T,D) -> "\\x{1BC00}-\\x{1BC9F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsShorthandFormatControls}" ++ T,D) -> "\\x{1BCA0}-\\x{1BCAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsByzantineMusicalSymbols}" ++ T,D) -> "\\x{1D000}-\\x{1D0FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMusicalSymbols}" ++ T,D) -> "\\x{1D100}-\\x{1D1FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAncientGreekMusicalNotation}" ++ T,D) -> "\\x{1D200}-\\x{1D24F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTaiXuanJingSymbols}" ++ T,D) -> "\\x{1D300}-\\x{1D35F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCountingRodNumerals}" ++ T,D) -> "\\x{1D360}-\\x{1D37F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMathematicalAlphanumericSymbols}" ++ T,D) -> "\\x{1D400}-\\x{1D7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSuttonSignWriting}" ++ T,D) -> "\\x{1D800}-\\x{1DAAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGlagoliticSupplement}" ++ T,D) -> "\\x{1E000}-\\x{1E02F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMendeKikakui}" ++ T,D) -> "\\x{1E800}-\\x{1E8DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAdlam}" ++ T,D) -> "\\x{1E900}-\\x{1E95F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsArabicMathematicalAlphabeticSymbols}" ++ T,D) -> "\\x{1EE00}-\\x{1EEFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMahjongTiles}" ++ T,D) -> "\\x{1F000}-\\x{1F02F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsDominoTiles}" ++ T,D) -> "\\x{1F030}-\\x{1F09F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsPlayingCards}" ++ T,D) -> "\\x{1F0A0}-\\x{1F0FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEnclosedAlphanumericSupplement}" ++ T,D) -> "\\x{1F100}-\\x{1F1FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEnclosedIdeographicSupplement}" ++ T,D) -> "\\x{1F200}-\\x{1F2FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsMiscellaneousSymbolsandPictographs}" ++ T,D) -> "\\x{1F300}-\\x{1F5FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsEmoticons}" ++ T,D) -> "\\x{1F600}-\\x{1F64F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsOrnamentalDingbats}" ++ T,D) -> "\\x{1F650}-\\x{1F67F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTransportandMapSymbols}" ++ T,D) -> "\\x{1F680}-\\x{1F6FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsAlchemicalSymbols}" ++ T,D) -> "\\x{1F700}-\\x{1F77F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsGeometricShapesExtended}" ++ T,D) -> "\\x{1F780}-\\x{1F7FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementalArrows-C}" ++ T,D) -> "\\x{1F800}-\\x{1F8FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementalSymbolsandPictographs}" ++ T,D) -> "\\x{1F900}-\\x{1F9FF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKUnifiedIdeographsExtensionB}" ++ T,D) -> "\\x{20000}-\\x{2A6DF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKUnifiedIdeographsExtensionC}" ++ T,D) -> "\\x{2A700}-\\x{2B73F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKUnifiedIdeographsExtensionD}" ++ T,D) -> "\\x{2B740}-\\x{2B81F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKUnifiedIdeographsExtensionE}" ++ T,D) -> "\\x{2B820}-\\x{2CEAF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKUnifiedIdeographsExtensionF}" ++ T,D) -> "\\x{2CEB0}-\\x{2EBEF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsCJKCompatibilityIdeographsSupplement}" ++ T,D) -> "\\x{2F800}-\\x{2FA1F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsTags}" ++ T,D) -> "\\x{E0000}-\\x{E007F}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsVariationSelectorsSupplement}" ++ T,D) -> "\\x{E0100}-\\x{E01EF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementaryPrivateUseArea-A}" ++ T,D) -> "\\x{F0000}-\\x{FFFFF}" ++ regex_back_ref(T,D);
-regex_back_ref("^\\P{IsSupplementaryPrivateUseArea-B}" ++ T,D) -> "\\x{100000}-\\x{10FFFF}" ++ regex_back_ref(T,D);
 
-regex_back_ref([$\\,H|T],D) when H >= $1 andalso H =< $9 ->
-   if length(T) > 0 ->
-         {RestNum,T2} = lists:splitwith(fun(N) when N >= $1, N =< $9 ->
-                               true;
-                            (_)  ->
-                               false
-                         end, T),
-         if T2 == [] ->
-               lists:flatten([$\\,$g,${,H,$}|regex_back_ref(RestNum,D)]);
-            true ->
-               lists:flatten([$\\,$g,${,H,RestNum,$}|regex_back_ref(T2,D)])
-         end;
-      true ->
-         ?dbg("H",H),
-         [$\\,$g,${,H,$}|regex_back_ref(T,D)]
-   end;
-regex_back_ref([$\\,$\\,$$|T],D) ->
-   [$\\,$\\|"\\g"++regex_back_ref(T,D)];
-regex_back_ref([$\\,$$|T],D) ->
-   [$\\,$$|regex_back_ref(T,D)];
-regex_back_ref([$$|[]],_D) ->
-   [$$];
-regex_back_ref([$],$$|T],D) ->
-   "]$"++regex_back_ref(T,D);
-regex_back_ref([$$|T],D) ->
-   "\\g"++regex_back_ref(T,D);
-regex_back_ref([$(|T],D) ->
-   [$(|regex_back_ref(T,D+1)];
-
-regex_back_ref([H|T],D) ->
-   [H|regex_back_ref(T,D)].

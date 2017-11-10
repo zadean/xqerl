@@ -32,8 +32,6 @@
 -record(xsDecimal,{int,
                    scf}).
 
--export([test/0]).
-
 %% ====================================================================
 %% API functions
 %% ====================================================================
@@ -43,6 +41,7 @@
 -export([integer/1]).
 -export([string/1]).
 -export([float_string/1]).
+-export([float_to_decimal/1]).
 
 -export([add/2]).
 -export([subtract/2]).
@@ -64,43 +63,46 @@
 -export([floor/1]).
 -export([abs_val/1]).
 
-test() ->
-   F1 = fun L() ->
-               receive
-                  {[P|T],none} ->
-                     P ! {T, none};
-                  {[P|T],N} ->
-                     P ! {T, (N * N)},
-                     L()
-               end
-        end,
-   Var2 = lists:seq(1, 50000) ++ [none],
-   P1 = erlang:spawn_link(F1),
-   P2 = erlang:spawn_link(F1),
-   P3 = erlang:spawn_link(F1),
-   P4 = self(),
-   F3 = fun F([]) ->
-                [0];
-            F([H|T]) ->
-               P1 ! {[P2,P3,P4],H},
-               receive 
-                  {D,V} ->
-                     %?dbg("D",D),
-                     [V|F(T)]
-               end
-        end,
-   F3(Var2).
 
+float_to_decimal(Float) when is_float(Float) ->
+   String = string(Float),
+   [MantStr,ExpStr] = case string:split(String, [$E]) of
+                         [M,E] ->
+                            [M,E];
+                         [M] ->
+                            [M,"0"]
+                      end,
+   Exp = list_to_integer(ExpStr),
+   {Sign,AbsMantStr} = case MantStr of
+                          [$-|R] ->
+                             {"-",R};
+                          _ ->
+                             {"",MantStr}
+                       end,
+   [Int,Fract] = case string:split(AbsMantStr, [$.]) of
+                    [I,F] ->
+                       [I,F];
+                    [I] ->
+                       [I,"0"]
+                 end,
+   Shift = length(Fract),
+   TotalShift = (Exp - Shift) * -1,
+   IntPart = if TotalShift > 0 ->
+                   list_to_integer(Sign ++ Int ++ Fract);
+                true ->
+                   list_to_integer(Sign ++ Int ++ Fract ++ lists:duplicate(-TotalShift, $0))
+             end,
+   #xsDecimal{int = IntPart, scf = max(0,TotalShift)}.
 
 decimal(0.0) ->
    #xsDecimal{int = 0, scf = 0};
 decimal(Float) when is_float(Float) ->
    try 
       if abs(Float) < 1 andalso Float < 0 ->
-            decimal(float_to_list(Float,[{decimals, 250},compact]));
+            decimal(float_to_list(Float,[{decimals, 25},compact]));
          abs(Float) < 1 ->
-            decimal(float_to_list(Float,[{decimals, 253},compact]));
-         abs(Float) > 10000000000000000000000000000 ->
+            decimal(float_to_list(Float,[{decimals, 25},compact]));
+         abs(Float) > 100000000000000000000000000 ->
             decimal(trunc(Float));
          trunc(Float) == Float ->
             decimal(trunc(Float));
@@ -127,9 +129,15 @@ decimal(String) ->
 double(Float) when is_float(Float) ->
    Float;
 double(Int) when is_integer(Int) ->
-   list_to_float(integer_to_list(Int) ++ ".0E0");
-double(#xsDecimal{int = Int, scf = Scf}) ->
-   list_to_float(integer_to_list(Int) ++ ".0E-" ++ integer_to_list(Scf)).
+   double(decimal(Int));
+double(#xsDecimal{} = D) ->
+   #xsDecimal{int = Int, scf = Scf} = simplify(D) ,
+   try 
+      list_to_float(integer_to_list(Int) ++ ".0E-" ++ integer_to_list(Scf))
+   catch 
+      _:_ ->
+         D
+   end.
 
 float(Float) when is_float(Float) ->
    % take the float from 64 to 32 bit
@@ -430,12 +438,15 @@ round_half_even(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec >= 0 ->
    LowVal = #xsDecimal{int = Low, scf = Prec},
    HighVal = #xsDecimal{int = High, scf = Prec},
    #xsDecimal{int = Diff, scf = P} = simplify(subtract(D, LowVal)),
+   %?dbg("{Diff,P,Prec}",{Diff,P,Prec}),
    if (P - Prec) == 1, abs(Diff) == 5 ->
          if Low rem 2 == 0 ->
                LowVal;
             true ->
                HighVal
          end;
+      P == 0, Diff == 0 ->
+         LowVal;
       true ->
          Rnd = abs(round(Diff / pow10(P - Prec))),
          %?dbg("Rnd",Rnd),
@@ -590,7 +601,7 @@ format_double(Float) when is_float(Float) ->
     {Frac, Exp} = mantissa_exponent_d(Float),
     {Place, Digits} = format_double_1(Float, Exp, Frac),
     R = insert_decimal(Place, [$0 + D || D <- Digits]),
-    ?dbg("All",{Frac, Exp, Place, Digits, R}),
+    %?dbg("All",{Frac, Exp, Place, Digits, R}),
     [$- || true <- [Float < 0.0]] ++ R.
 
 
@@ -629,11 +640,11 @@ mantissa_exponent(F) ->
 mantissa_exponent_d(F) ->
     case <<F:64/float>> of
         <<_S:1, 0:11, M:52>> -> % denormalized
-           ?dbg("M",M), 
+           %?dbg("M",M), 
            E = log2floor(M),
            {M bsl (53 - E), E - 52 - 1075};
         <<_S:1, BE:11, M:52>> when BE < 2047 ->
-           ?dbg("M",M), 
+           %?dbg("M",M), 
            {M + ?BIG_POW_D, BE - 1075}
     end.
 

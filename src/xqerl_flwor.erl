@@ -482,15 +482,15 @@ do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
          true;
       Empty == greatest andalso ValB == [] ->
          false;
-      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:float', value = "NaN"};
-      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:float', value = nan};
+      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:double', value = nan} ->
          true;
       Empty == least andalso ValA == [] ->
          false;
       Empty == least andalso ValB == [] ->
          true;
-      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:float', value = "NaN"};
-      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:float', value = nan};
+      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:double', value = nan} ->
          true;
       true ->
          case val(xqerl_operators:greater_than(ValA, ValB)) of
@@ -516,15 +516,15 @@ do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
          false;
       Empty == greatest andalso ValB == [] ->
          true;
-      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', value = "NaN"};
-      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', value = nan};
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', value = nan} ->
          true;
       Empty == least andalso ValA == [] ->
          true;
       Empty == least andalso ValB == [] ->
          false;
-      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', value = "NaN"};
-      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', value = "NaN"} ->
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', value = nan};
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', value = nan} ->
          true;
       true ->
          case val(xqerl_operators:less_than(ValA, ValB)) of

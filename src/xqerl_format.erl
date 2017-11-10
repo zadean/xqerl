@@ -29,10 +29,497 @@
 
 %-export([test/2]).
 -export([parse_picture/2]).
+-export([parse_picture_string/2]).
+
 
 %% test(Int, Picture) ->
 %%    Dt = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string',value = "2003-09-07T12:45:12.3456"}, 'xs:dateTime'),
 %%    parse_picture(Dt, Picture).
+
+
+%% used for fn:format-number
+%% takes (PictureString,#dec_format{})
+%% returns {PosFun,NegFun}
+parse_picture_string(String, #dec_format{} = DF) ->
+   try
+      Format = dec_format_to_map(DF),
+      Tokens = tokenize_picture_string(String, Format),
+      {Positive, Negative} = case split_with(Tokens, pattern_separator) of
+                                {Val,[]} ->
+                                   {build_format(Val,picture_string_variable_map(Val, positive),Format),
+                                    build_format(Val,picture_string_variable_map(Val, negative),Format)};
+                                {P,N} ->
+                                   % N has seperator in hd
+                                   {build_format(P,picture_string_variable_map(P, positive),Format),
+                                    build_format(N,picture_string_variable_map(N, positive),Format)}
+                             end,
+      {Positive,Negative}
+   catch _:_ -> ?err('FODF1310')
+   end.
+
+% tokenizes the picture string based on the format map,
+% unknown characters are {passive, Codepoint}
+tokenize_picture_string(String, #{decimal  := [D],
+                                  grouping := [G],
+                                  minus    := [M],
+                                  percent  := [P],
+                                  per_mille:= [Pm],
+                                  zero     := [Z],
+                                  digit    := [I],
+                                  pattern  := [Pn],
+                                  exponent := [E]
+                                 }) ->
+   Zero = zero_base_by_family(Z),
+   Nine = Zero + 9,
+   Fun = fun(C) when C >= Zero, C =< Nine ->
+               digit;
+            (D1) when D == D1 ->
+               decimal_separator;
+            (G1) when G == G1 ->
+               grouping_separator;
+            (M1) when M == M1 ->
+               {minus,M};
+            (P1) when P == P1 ->
+               {percent,P};
+            (Pm1) when Pm == Pm1 ->
+               {per_mille,Pm};
+            (I1) when I == I1 ->
+               optional_digit;
+            (Pn1) when Pn == Pn1 ->
+               pattern_separator;
+            (E1) when E == E1 ->
+               {exponent,E};
+            (C) ->
+               {passive,C}
+         end,
+   List = lists:map(Fun, String),
+   ensure_exp(List).
+
+validate_tokens([],exponent) -> ok;
+validate_tokens(List,mantissa) ->
+   true = length([ok||N<-List, N == digit orelse N == optional_digit]) > 0;
+validate_tokens(List,exponent) ->
+   true = hd(List) == digit;
+validate_tokens([],integer) -> ok;
+validate_tokens(List,integer) ->
+   true = lists:last(List) =/= grouping_separator,
+   ok = opt_mand_ord(List,0);
+validate_tokens([],fraction) -> ok;
+validate_tokens(List,fraction) ->
+   validate_tokens(lists:reverse(List),integer);
+validate_tokens(List,subpicture) ->
+   true = length([ok||decimal_separator<-List]) =< 1,
+   true = length([ok||{percent,_}<-List]) =< 1,
+   true = length([ok||{per_mille,_}<-List]) =< 1,
+   true = length([ok||{N,_}<-List, N == per_mille orelse N == percent orelse N == exponent]) =< 1,
+   ok   = nest_passive(List),
+   ok.
+
+opt_mand_ord([],_) -> ok;
+opt_mand_ord([optional_digit|T],0) ->
+   opt_mand_ord(T,0);
+opt_mand_ord([optional_digit|_],1) ->
+   ?err('FODF1310');
+opt_mand_ord([digit|T],0) ->
+   opt_mand_ord(T,1);
+opt_mand_ord([_|T],N) ->
+   opt_mand_ord(T,N).
+
+  
+
+nest_passive([]) -> ok;
+nest_passive([_,{passive,_},{passive,_}|T]) ->
+   nest_passive(T);
+nest_passive([{passive,_},{passive,_}|T]) ->
+   nest_passive(T);
+nest_passive([_,{passive,_},_|_]) ->
+   ?err('FODF1310');
+nest_passive([grouping_separator,grouping_separator|_]) ->
+   ?err('FODF1310');
+nest_passive([grouping_separator,decimal_separator|_]) ->
+   ?err('FODF1310');
+nest_passive([decimal_separator,grouping_separator|_]) ->
+   ?err('FODF1310');
+nest_passive([_|T]) ->
+   nest_passive(T).
+
+
+ensure_exp([]) -> [];
+ensure_exp([A1,{exponent,E},A2|T]) when is_atom(A1), is_atom(A2) ->
+   [A1,{exponent,E},A2|ensure_exp(T)];
+ensure_exp([{exponent,E}|T]) ->
+   [{passive,E}|ensure_exp(T)];
+ensure_exp([H|T]) ->
+   [H|ensure_exp(T)].
+
+split_with(List,Atom) ->
+   F = fun(A) when A == Atom ->
+             false;
+          ({A,_}) when A == Atom ->
+             false;
+          (_) ->
+             true
+       end,
+   {L1,L2} = lists:splitwith(F, List),
+   if L2 == [] ->
+         {L1,L2};
+      true ->
+         case lists:member(Atom, tl(L2)) of
+            true ->
+               {L1,tl(L2),[]};
+            _ ->
+               {L1,tl(L2)}
+         end
+   end.
+
+exponent_integer_fractional(Tokens) ->
+   _ = validate_tokens(Tokens,subpicture),
+   {Mantissa, Exponent} = split_with(Tokens, exponent),
+   _ = validate_tokens(Mantissa,mantissa),
+   _ = validate_tokens(Exponent,exponent),
+   {Integer, Fraction} = case split_with(Mantissa, decimal_separator) of
+                            {Val1,[]} ->
+                               {Val1,passive_tail(Val1)};
+                            O ->
+                               O
+                          end,
+   _ = validate_tokens(Integer,integer),
+   _ = validate_tokens(Fraction,fraction),
+   {Exponent,Integer, Fraction}.
+
+passive_tail(Tokens) ->
+   Rev = lists:reverse(Tokens),
+   Passive = lists:takewhile(fun({_,_}) ->
+                                   true;
+                                (_) ->
+                                   false
+                             end, Rev),
+   lists:reverse(Passive).
+
+passive_head(Tokens) ->
+   lists:takewhile(fun({minus,_}) ->
+                         false;
+                      ({_,_}) ->
+                         true;
+                      (_) ->
+                         false
+                   end, Tokens).
+
+% {irreg,IntegerList} | {regular,Integer}
+get_grouping_positions(Tokens) ->
+   Rev = lists:reverse(Tokens),
+   Locs = char_locs(Rev,grouping_separator),
+   case Locs of
+      [] ->
+         {irreg,[]};
+      _ ->
+         Hd = hd(Locs),
+         Even = lists:all(fun(N) ->
+                                N rem Hd == 0
+                          end, tl(Locs)),
+         NotOdd = (length(Tokens) - length(Locs)) =< (lists:last(Locs) + Hd),
+         if Even andalso NotOdd ->
+               {regular, Hd};
+            true ->
+               {irreg,Locs}
+         end
+   end.
+
+mandatory_length(Tokens) ->
+   length([ok || digit <- Tokens]).
+
+optional_length(Tokens) ->
+   length([ok || optional_digit <- Tokens]).
+
+picture_string_variable_map(SubPicture, PosNeg) ->
+   {Exponent,Integer, Fraction} = exponent_integer_fractional(SubPicture),
+   P = #{integer_part_grouping_positions     => get_grouping_positions(Integer),
+         minimum_integer_part_size           => mandatory_length(Integer),
+         scaling_factor                      => mandatory_length(Integer),
+         prefix                              => if PosNeg == positive ->
+                                                      passive_head(SubPicture);
+                                                   true ->
+                                                      [minus|passive_head(SubPicture)]
+                                                end,
+         fractional_part_grouping_positions  => char_locs(Fraction,grouping_separator),
+         minimum_fractional_part_size        => mandatory_length(Fraction),
+         maximum_fractional_part_size        => mandatory_length(Fraction) + optional_length(Fraction),
+         suffix                              => passive_tail(SubPicture)     
+        },
+   P1 = case maps:get(minimum_integer_part_size,P) == 0 andalso 
+                maps:get(maximum_fractional_part_size,P) == 0 of
+            true when Exponent =/= [] ->
+               P#{minimum_fractional_part_size => 1,
+                  maximum_fractional_part_size => 1};
+            true ->
+               P#{minimum_integer_part_size => 1};
+            _ ->
+               P
+         end,
+   P2 = case Exponent =/= [] andalso
+              maps:get(minimum_integer_part_size,P1) == 0 andalso
+              optional_length(Integer) > 0 of
+           true ->
+              P1#{minimum_integer_part_size => 1};
+           _ ->
+              P1
+        end,
+   P3 =  case maps:get(minimum_integer_part_size,P2) == 0 andalso 
+                maps:get(minimum_fractional_part_size,P2) == 0 of
+            true ->
+               P2#{minimum_fractional_part_size => 1};
+            _ ->
+               P2
+         end,
+   P3#{minimum_exponent_size => mandatory_length(Exponent)}.
+
+build_format(SubPicture,
+             #{integer_part_grouping_positions     := IntGrpPos,
+               minimum_integer_part_size           := MinIntSize,
+               scaling_factor                      := ScalingFactor,
+               prefix                              := Prefix,
+               fractional_part_grouping_positions  := FractGrpPos,
+               minimum_fractional_part_size        := MinFractSize,
+               maximum_fractional_part_size        := MaxFractSize,
+               suffix                              := Suffix,
+               minimum_exponent_size               := MinExpSize},
+             #{decimal   := Decimal,
+               grouping  := Grouping,
+               infinity  := Infinity,
+               minus     := Minus,
+               nan       := Nan,
+               %percent   := Percent,
+               %per_mille := PerMille,
+               zero      := Zero,
+               %digit     := Digit,
+               %pattern   := Pattern,
+               exponent  := Exponent}) ->
+   S = fun({_,C}) ->
+             C;
+          (minus) ->
+             hd(Minus)
+       end,
+   PrefStr = lists:map(S, Prefix),
+   SuffStr = lists:map(S, Suffix),
+   MinuStr = [C || {minus,C} <- SubPicture],
+   
+   Fun = fun([],_) ->
+               Nan;
+            (nan,_) ->
+               Nan;
+            (infinity,_) ->
+               PrefStr ++ Infinity ++ SuffStr;
+            (neg_infinity,_) ->
+               PrefStr ++ MinuStr ++ Infinity ++ SuffStr;
+            (Num,_Type) ->
+               IsPerc = [ok || {percent,_} <- SubPicture] =/= [],
+               IsPerMille = [ok || {per_mille,_} <- SubPicture] =/= [],
+               AdjNum = try
+                           if IsPerc ->
+                                 xqerl_numeric:multiply(Num, 100);
+                              IsPerMille ->
+                                 xqerl_numeric:multiply(Num, 1000);
+                              true ->
+                                 Num
+                           end
+                        catch _:_ ->
+                           infinity
+                        end,
+               if AdjNum == infinity ->
+                     PrefStr ++ Infinity ++ SuffStr;
+                  AdjNum == neg_infinity ->
+                     PrefStr ++ Minus ++ Infinity ++ SuffStr;
+                  true -> % not overflowed
+                     {Mant,Exp} = scale_number(AdjNum, MinExpSize, ScalingFactor),
+                     RoundedMant = xqerl_numeric:round_half_even(Mant, MaxFractSize),
+                     AbsRounded = xqerl_numeric:abs_val(RoundedMant),
+                     AbsString = xqerl_numeric:string(AbsRounded),
+                     ConvString = convert_dec_string(AbsString,Decimal,Zero),
+                     PadL = pad_char_from_dec(lists:reverse(ConvString), Zero, Decimal, MinIntSize),
+                     PadR = pad_char_from_dec(lists:reverse(PadL), Zero, Decimal, MinFractSize),
+                     Grouped = insert_groupings(PadR,Decimal,IntGrpPos,FractGrpPos,Grouping),
+                     if Exp == [] ->
+                           MinuStr ++ PrefStr ++ Grouped ++ SuffStr;
+                        true ->
+                           Rev = lists:reverse(integer_to_list(abs(Exp))),
+                           ExpStr = lists:reverse(pad_char_from_dec(Rev,hd(Zero),Decimal,MinExpSize,1)),
+                           ExpStr1 = adj_to_zero(ExpStr,Zero,Decimal),
+                           MinuStr ++ PrefStr ++ Grouped ++ Exponent ++ if Exp < 0 ->
+                                                                   Minus;
+                                                                true ->
+                                                                   []
+                                                             end ++
+                             ExpStr1 ++ SuffStr
+                     end
+               end
+         end,
+   Fun.
+
+insert_groupings(String,Dec,Left,Right,Char) ->
+   [L,R] = case string:split(String, Dec) of
+              [L1,R1] ->
+                 [L1,R1];
+              [L1] ->
+                 [L1,[]]
+           end,
+   LPos = case Left of
+             {irreg,LList} ->
+                LList;
+             {_,Int} ->
+                Amt = length(L) div Int,
+                if Amt == 0 ->
+                      [];
+                   true ->
+                      lists:map(fun(N) -> N * Int end, lists:seq(1, Amt))
+                end
+          end,
+   NewL = lists:reverse(insert_char(lists:reverse(L),LPos,Char,1)),
+   NewR = insert_char(R,Right,Char,1),
+   if NewR == [] ->
+         NewL;
+      true ->
+         NewL ++ Dec ++ NewR
+   end.
+
+
+convert_dec_string(AbsString0,[Decimal],[Zero]) ->
+   AbsString = case AbsString0 of
+                  "0" ->
+                     ".";
+                  _ ->
+                     AbsString0
+               end,
+   LTrim = trim_char(AbsString, $0),
+   RTrim = case lists:member(Decimal, LTrim) of
+              true ->
+                 lists:reverse(trim_char(lists:reverse(LTrim), $0));
+              _ ->
+                 LTrim
+           end,
+   RTrim2 = case lists:member($., RTrim) of
+               true ->
+                  RTrim;
+               _ ->
+                  RTrim ++ "."
+            end,
+   adj_to_zero(RTrim2,[Zero],[Decimal]).
+
+adj_to_zero(Str,[Zero],[Decimal]) ->
+   NewZero = zero_base_by_family(Zero),
+   Adj = NewZero - $0,
+   lists:map(fun($.) ->
+                   Decimal;
+                (I) ->
+                   I + Adj
+             end, Str).
+
+
+trim_char([H|T],C) when H =:= C ->
+   trim_char(T,C);
+trim_char(T,_C) ->
+   T.
+
+
+insert_char([],_,_Char,_Pos) -> [];
+insert_char([H|T],[],_Char,_Pos) -> [H|insert_char(T,[],[],[])];
+insert_char([H|T],[HPos|TPos],[Char],Pos) when HPos == Pos, length(T) > 0 ->
+   [H,Char|insert_char(T,TPos,[Char],Pos+1)];
+insert_char([H|T],[HPos|TPos],Char,Pos) ->
+   [H|insert_char(T,[HPos|TPos],Char,Pos+1)].
+   
+
+% pads to the right
+pad_char_from_dec(Str,[Zero],[Dec],Len) ->
+   pad_char_from_dec(Str,Zero,Dec,Len,0).
+
+pad_char_from_dec([],Zero,Dec,Len,Pos) when Pos =< Len, Pos =/= 0 ->
+   [Zero|pad_char_from_dec([],Zero,Dec,Len,Pos+1)];
+pad_char_from_dec([],_Zero,_Dec,_Len,_Pos) -> [];
+pad_char_from_dec([H|T],Zero,Dec,Len,0) when H == Dec ->
+   [H|pad_char_from_dec(T,Zero,Dec,Len,1)];
+pad_char_from_dec([H|T],Zero,Dec,Len,0) ->
+   [H|pad_char_from_dec(T,Zero,Dec,Len,0)];
+pad_char_from_dec([H|T],Zero,Dec,Len,Pos) ->
+   [H|pad_char_from_dec(T,Zero,Dec,Len,Pos+1)].
+
+
+scale_number(Num, 0, _ScalingFactor) when is_float(Num) ->
+   {xqerl_numeric:float_to_decimal(Num),[]};
+scale_number(Num, 0, _ScalingFactor) ->
+   {xqerl_numeric:decimal(Num),[]};
+scale_number(AdjNum, _MinExpSize, ScalingFactor) ->
+   Max = trunc(math:pow(10, ScalingFactor)),
+   Min = trunc(math:pow(10, ScalingFactor - 1)),
+   Num = if is_float(AdjNum) ->
+               xqerl_numeric:float_to_decimal(AdjNum);
+            true ->
+               xqerl_numeric:decimal(AdjNum)
+         end,
+   shift(xqerl_numeric:abs_val(Num),Min,Max,0).
+
+shift(Dec,Min,Max,A) ->
+   case xqerl_numeric:greater_than_equal(Dec, Max) of
+      true ->
+         shift(xqerl_numeric:divide(Dec,10),Min,Max,A+1);
+      _ ->
+         case xqerl_numeric:less_than(Dec, Min) of
+            true ->
+               case xqerl_numeric:equal(Dec, 0) of
+                  true ->
+                     {Dec,A};
+                  _ ->
+                     shift(xqerl_numeric:multiply(Dec,10),Min,Max,A-1)
+               end;
+            _ ->
+               case xqerl_numeric:less_than(xqerl_numeric:multiply(Dec,10), Max) of
+                  true ->
+                     shift(xqerl_numeric:multiply(Dec,10),Min,Max,A-1);
+                  _ ->
+                     {Dec,A}
+               end
+         end
+   end.
+
+
+  
+
+
+char_locs(List,Atom) ->
+   char_locs(List,Atom,0,[]).
+   
+char_locs([],_C,_P,Acc) ->
+   lists:reverse(Acc);
+char_locs([C|T],C,P,Acc) ->
+   char_locs(T,C,P,[P|Acc]);
+char_locs([_|T],C,P,Acc) ->
+   char_locs(T,C,P+1,Acc).
+
+dec_format_to_map(#dec_format{ decimal   = Decimal,%".",
+                               grouping  = Grouping,%",",
+                               infinity  = Infinity,%"Infinity",
+                               minus     = Minus,%"-",
+                               nan       = Nan,%"NaN",
+                               percent   = Percent,%"%",
+                               per_mille = PerMille,%[2030],
+                               zero      = Zero,%"0",
+                               digit     = Digit,%"#",
+                               pattern   = Pattern,%";",
+                               exponent  = Exponent%"e"                                         
+                             }) ->
+   #{decimal   => Decimal,%".",
+     grouping  => Grouping,%",",
+     infinity  => Infinity,%"Infinity",
+     minus     => Minus,%"-",
+     nan       => Nan,%"NaN",
+     percent   => Percent,%"%",
+     per_mille => PerMille,%[2030],
+     zero      => Zero,%"0",
+     digit     => Digit,%"#",
+     pattern   => Pattern,%";",
+     exponent  => Exponent%"e"                                         
+    }.
+
+
 
 parse_picture(Int, Picture) when is_integer(Int) ->
    Sign = if Int < 0 ->

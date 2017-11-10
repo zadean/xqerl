@@ -176,6 +176,9 @@ string_value(Seq) ->
          end
    end.
 
+value(#xqNode{} = N) ->
+   [#xqAtomicValue{value = V}] = xqerl_node:atomize_nodes(N),
+   V;
 value(#xqFunction{body = V}) ->
    V;
 value(#xqAtomicValue{value = V}) ->
@@ -1218,6 +1221,8 @@ cast_as( #xqAtomicValue{type = Type} = ST, 'xs:numeric' ) when ?numeric(Type) ->
    ST;
 cast_as( #xqAtomicValue{type = 'xs:untypedAtomic'} = ST, 'xs:numeric' ) ->
    cast_as(ST,'xs:double');
+cast_as( #xqAtomicValue{type = 'xs:boolean'} = ST, 'xs:numeric' ) ->
+   cast_as(ST,'xs:double');
 cast_as( #xqAtomicValue{type = 'xs:string'} = ST, 'xs:numeric' ) ->
    cast_as(ST,'xs:double');
 cast_as( #xqAtomicValue{type = _}, 'xs:numeric' ) ->
@@ -1449,43 +1454,61 @@ cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:untypedAtomic' ) 
 
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:boolean' ) -> 
    if Val == 0 -> #xqAtomicValue{type = 'xs:boolean', value = false};
-      Val == "NaN" -> #xqAtomicValue{type = 'xs:boolean', value = false};
+      Val == neg_zero -> #xqAtomicValue{type = 'xs:boolean', value = false};
+      Val == nan -> #xqAtomicValue{type = 'xs:boolean', value = false};
       true -> #xqAtomicValue{type = 'xs:boolean', value = true}
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:decimal' ) -> % MAYBE castable
-   if Val == "NaN" -> xqerl_error:error('FOCA0002');
-      Val == "-INF" -> xqerl_error:error('FOCA0002');
-      Val == "INF" -> xqerl_error:error('FOCA0002');
+   if Val == nan -> xqerl_error:error('FOCA0002');
+      Val == neg_zero -> #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(0)};
+      Val == neg_infinity -> xqerl_error:error('FOCA0002');
+      Val == infinity -> xqerl_error:error('FOCA0002');
       true -> #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)}
    end;
 % ensure float is 32 bit
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:float' ) ->
    cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:float' );
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:float' ) ->
-   if Val == "NaN"  -> #xqAtomicValue{type = 'xs:float', value = Val};
-      Val == "-INF" -> #xqAtomicValue{type = 'xs:float', value = Val};
-      Val == "INF"  -> #xqAtomicValue{type = 'xs:float', value = Val};
-      Val < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = "-INF"};
-      Val > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = "INF"};
+   if Val == nan;
+      Val == neg_zero;
+      Val == neg_infinity;
+      Val == infinity  -> #xqAtomicValue{type = 'xs:float', value = Val};
+      Val < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = neg_infinity};
+      Val > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = infinity};
       abs(Val) < ?MAXFLOATPREC -> #xqAtomicValue{type = 'xs:float', value = 0.0};
       true -> 
          #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(Val)}
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:integer' ) -> % MAYBE castable
-   if Val == "NaN" -> xqerl_error:error('FOCA0002');
-      Val == "-INF" -> xqerl_error:error('FOCA0002');
-      Val == "INF" -> xqerl_error:error('FOCA0002');
+   if Val == nan -> xqerl_error:error('FOCA0002');
+      Val == neg_infinity -> xqerl_error:error('FOCA0002');
+      Val == neg_zero -> #xqAtomicValue{type = 'xs:integer', value = 0};
+      Val == infinity -> xqerl_error:error('FOCA0002');
       true -> #xqAtomicValue{type = 'xs:integer', value = trunc(Val)}
    end;
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:string' ) -> 
-   SVal = if is_list(Val) -> Val;
+   SVal = if Val == infinity ->
+                "INF";
+             Val == neg_infinity ->
+                "-INF";
+             Val == neg_zero ->
+                "-0";
+             Val == nan ->
+                "NaN";
              true ->
                 xqerl_numeric:string(Val)
           end,
 ?dbg("SVal",SVal),
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:untypedAtomic' ) -> 
-   SVal = if is_list(Val) -> Val;
+   SVal = if Val == infinity ->
+                "INF";
+             Val == neg_infinity ->
+                "-INF";
+             Val == neg_zero ->
+                "0";
+             Val == nan ->
+                "NaN";
              true ->
                 xqerl_numeric:string(Val)
           end,
@@ -1509,13 +1532,15 @@ cast_as( #xqAtomicValue{type = 'xs:duration', value = Val},
 
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:boolean' ) ->
    if Val == 0 -> #xqAtomicValue{type = 'xs:boolean', value = false};
-      Val == "NaN" -> #xqAtomicValue{type = 'xs:boolean', value = false};
+      Val == neg_zero -> #xqAtomicValue{type = 'xs:boolean', value = false};
+      Val == nan -> #xqAtomicValue{type = 'xs:boolean', value = false};
       true -> #xqAtomicValue{type = 'xs:boolean', value = true}
    end;
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:decimal' ) -> % MAYBE castable
-   if Val == "NaN" -> xqerl_error:error('FOCA0002');
-      Val == "-INF" -> xqerl_error:error('FOCA0002');
-      Val == "INF" -> xqerl_error:error('FOCA0002');
+   if Val == nan -> xqerl_error:error('FOCA0002');
+      Val == neg_zero -> #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(0)};
+      Val == neg_infinity -> xqerl_error:error('FOCA0002');
+      Val == infinity -> xqerl_error:error('FOCA0002');
       true -> #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)}
    end;
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:double' ) when is_list(Val) ->
@@ -1523,19 +1548,34 @@ cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:double' ) when is_l
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:double' ) -> 
    #xqAtomicValue{type = 'xs:double', value = Val};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:integer' ) -> % MAYBE castable
-   if Val == "NaN" -> xqerl_error:error('FOCA0002');
-      Val == "-INF" -> xqerl_error:error('FOCA0002');
-      Val == "INF" -> xqerl_error:error('FOCA0002');
+   if Val == nan -> xqerl_error:error('FOCA0002');
+      Val == neg_zero -> #xqAtomicValue{type = 'xs:integer', value = 0};
+      Val == neg_infinity -> xqerl_error:error('FOCA0002');
+      Val == infinity -> xqerl_error:error('FOCA0002');
       true -> #xqAtomicValue{type = 'xs:integer', value = trunc(Val)}
    end;
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:string' ) -> 
-   SVal = if is_list(Val) -> Val;
+   SVal = if Val == infinity ->
+                "INF";
+             Val == neg_infinity ->
+                "-INF";
+             Val == neg_zero ->
+                "-0";
+             Val == nan ->
+                "NaN";
              true ->
                 xqerl_numeric:float_string(Val)
           end,
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:untypedAtomic' ) -> 
-   SVal = if is_list(Val) -> Val;
+   SVal = if Val == infinity ->
+                "INF";
+             Val == neg_infinity ->
+                "-INF";
+             Val == neg_zero ->
+                "0";
+             Val == nan ->
+                "NaN";
              true ->
                 xqerl_numeric:float_string(Val)
           end,
@@ -1833,14 +1873,19 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
       _ ->
          xqerl_error:error('FORG0001')
    end,
-   if Val == "NaN"  -> #xqAtomicValue{type = 'xs:double', value = Val};
-      Val == "-INF" -> #xqAtomicValue{type = 'xs:double', value = Val};
-      %Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = "INF"}; % schema 1.1 
-      Val == "INF"  -> #xqAtomicValue{type = 'xs:double', value = Val};
+   if Val == "-0"  -> #xqAtomicValue{type = 'xs:double', value = neg_zero};
+      Val == "NaN"  -> #xqAtomicValue{type = 'xs:double', value = nan};
+      Val == "-INF" -> #xqAtomicValue{type = 'xs:double', value = neg_infinity};
+      %Val == "+INF" -> #xqAtomicValue{type = 'xs:double', value = infinity}; % schema 1.1 
+      Val == "INF"  -> #xqAtomicValue{type = 'xs:double', value = infinity};
       true ->
          case catch list_to_float(Val) of
             Flt when is_float(Flt) ->
-               #xqAtomicValue{type = 'xs:double', value = Flt};
+               if Flt == 0 andalso hd(Val) == $- ->
+                     #xqAtomicValue{type = 'xs:double', value = neg_zero};
+                  true ->
+                     #xqAtomicValue{type = 'xs:double', value = Flt}
+               end;
             _ ->
                case catch list_to_integer(Val) of
                   Int when is_integer(Int) ->
@@ -1884,12 +1929,16 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
                         try
                            Str = float_to_list(NNum, [{decimals,18}]) ++ "e" ++ integer_to_list(Exp),
                            ENum = list_to_float(Str),
-                           #xqAtomicValue{type = 'xs:double', value = ENum}
+                           if ENum == 0 andalso hd(Val) == $- ->
+                                 #xqAtomicValue{type = 'xs:double', value = neg_zero};
+                              true ->
+                                 #xqAtomicValue{type = 'xs:double', value = ENum}
+                           end
                         catch
                            _:_ -> #xqAtomicValue{type = 'xs:double', 
                                                         value = case Sign of 
-                                                                   '-' -> atom_to_list(Sign) ++ "INF";
-                                                                   _ -> "INF"
+                                                                   '-' -> neg_infinity;
+                                                                   _ -> infinity
                                                                 end}
                         end
                      catch
@@ -1924,8 +1973,8 @@ cast_as( #xqAtomicValue{type = 'xs:string'} = Av,
    % xs:float is a 32 bit xs:double
    #xqAtomicValue{value = DblVal} = cast_as(Av, 'xs:double'),
    if is_float(DblVal) ->
-         if DblVal < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = "-INF"};
-            DblVal > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = "INF"};
+         if DblVal < ?MINFLOAT -> #xqAtomicValue{type = 'xs:float', value = neg_infinity};
+            DblVal > ?MAXFLOAT -> #xqAtomicValue{type = 'xs:float', value = infinity};
             abs(DblVal) < ?MAXFLOATPREC -> #xqAtomicValue{type = 'xs:float', value = 0.0};
             true -> #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(DblVal)}
          end;
@@ -2555,6 +2604,13 @@ cast_as( [],'xs:QName', _Namespaces) ->
 cast_as( #xqAtomicValue{type = AType, value = []},'xs:QName', _Namespaces) when AType == 'xs:string';
                                                                                 AType == 'xs:untypedAtomic'-> % MAYBE castable
    xqerl_error:error('FORG0001');
+cast_as( #xqAtomicValue{type = AType, value = "Q{" ++ Rest},'xs:QName', _Namespaces) when AType == 'xs:string';
+                                                                                         AType == 'xs:untypedAtomic'-> % MAYBE castable
+   [Ns,Local] = string:split(Rest, [$}]),
+   #xqAtomicValue{type = 'xs:QName', 
+                  value = #qname{namespace = Ns,
+                                 prefix = [],
+                                 local_name = string:trim(Local)}};   
 cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when AType == 'xs:string';
                                                                                 AType == 'xs:untypedAtomic'-> % MAYBE castable
    %?dbg("Namespaces",Namespaces),

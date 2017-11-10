@@ -185,8 +185,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
                         default_elem_ns = DefElNs,
                         context = #context{}
                          },
-   State1 = scan_setters(State0, Setters),
-   State2 = scan_namespaces(State1, ConstNamespaces),
+   State1 = scan_namespaces(State0, ConstNamespaces),
+   State2 = scan_setters(State1, Setters),
    OptionAbs = scan_options(Options),
    FunctionSigs = scan_functions(FunctionsSorted),
    %StatFuncSigs = scan_functions(Functions1),
@@ -246,6 +246,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 'empty-seq-order' => FinalState#state.empty_order,
                 'copy-namespaces' => FinalState#state.copy_ns_mode,
                 known_collations => FinalState#state.known_collations,
+                known_dec_formats => FinalState#state.known_dec_formats,
                 body => Mod#xqModule{prolog = S2,
                                      body = S1}
                }, 
@@ -928,6 +929,10 @@ handle_node(State, #xqAxisStep{direction = Direction,
                               KTypeST1
                         end
                   catch 
+                     _:#xqError{name = #xqAtomicValue{value = #qname{local_name = "XPST0051"}}} ->
+                        ?err('XPST0008');
+                     _:#xqError{} = E ->
+                        throw(E);
                      _:_ ->
                         ?err('XPST0008')
                   end;
@@ -993,26 +998,40 @@ handle_node(State, {range, Expr1, Expr2} = _Node) ->
    T2 = get_statement_type(S2),
    NC1 = check_type_match(T1, Type),
    NC2 = check_type_match(T2, Type),
+   Stm1 = get_statement(S1),
+   Stm2 = get_statement(S2),
    %?dbg("{NC1,NC2}",{NC1,NC2}),
    St1 = if NC1 ->
-               get_statement(S1);
+               Stm1;
             NC1 == cast ->
-               {cast_as, get_statement(S1), Type};
+               {cast_as, Stm1, Type};
             NC1 == atomize ->
-               {promote_to, {atomize, get_statement(S1)}, Type};
-            true ->
-               ?dbg("F",{T1, Type}),
-               ?err('XPTY0004')
+               {promote_to, {atomize, Stm1}, Type};
+            true -> 
+               % special case
+               case Stm1 of
+                  #xqAtomicValue{value = neg_zero} ->
+                     #xqAtomicValue{type = 'xs:integer',value = 0};
+                  _ ->
+                     ?dbg("F",{T1, Type}),
+                     ?err('XPTY0004')
+               end
          end,
    St2 = if NC2 ->
-               get_statement(S2);
+               Stm2;
             NC2 == cast ->
-               {cast_as, get_statement(S2), Type};
+               {cast_as, Stm2, Type};
             NC2 == atomize ->
-               {promote_to, {atomize, get_statement(S2)}, Type};
+               {promote_to, {atomize, Stm2}, Type};
             true ->
-               ?dbg("F",{T2, Type}),
-               ?err('XPTY0004')
+               % special case
+               case Stm2 of
+                  #xqAtomicValue{value = neg_zero} ->
+                     #xqAtomicValue{type = 'xs:integer',value = 0};
+                  _ ->
+                     ?dbg("F",{T2, Type}),
+                     ?err('XPTY0004')
+               end
          end,
    S3 = set_statement(State, {range, St1, St2}),
    Atomics = both_atomics(St1, St2),
@@ -2049,7 +2068,10 @@ handle_node(State, {'function-call',#qname{namespace = "http://www.w3.org/2001/X
    BOType = xqerl_btypes:get_type(TypeAtom),
    BIType = xqerl_btypes:get_type(AtType),
    NoCast = xqerl_btypes:can_substitute(BIType, BOType),
-   NewNode = if Type == "float" ->
+   NewNode = if Type == "numeric";
+                Type == "decimal";
+                Type == "double";
+                Type == "float" ->
                    xqerl_types:cast_as(Av, TypeAtom);
                 NoCast ->
                   %?dbg("Av",Av),
@@ -2571,6 +2593,9 @@ handle_node(State, {content_expr, Expr}) ->
    ST1 = get_statement_type(ST),
    set_statement_and_type(State, {content_expr, S1}, ST1);
 
+handle_node(State, {lookup, Expr}) -> 
+   handle_predicate(State, {lookup, Expr});
+
 %% handle_node(State, #xqNamespace{} = N) ->
 %% handle_node(State, #xqNameTest{name = Name}) ->
 %% handle_node(State, #xqSeqType{type = #qname{namespace = N, prefix = Px, local_name = Ln}, occur = O}) ->
@@ -2625,13 +2650,17 @@ handle_predicate(State, {predicate, Expr}) ->
       SimTy == 'xs:boolean' ->
          set_statement_and_type(State, {predicate, SimSt}, PostFilterType);
       true ->
-         IsNum = check_type_match(Type, #xqSeqType{type = 'xs:numeric',occur = zero_or_one}),
-         ?dbg("IsNum",IsNum),
-         ?dbg("SimCnt",SimCnt),
-         if IsNum andalso (SimCnt == undefined orelse SimCnt < 2) ->
-               set_statement_and_type(State, {positional_predicate, SimSt}, PostFilterType);
-            true ->
-               set_statement_and_type(State, {predicate, SimSt}, PostFilterType)
+         try check_type_match(Type, #xqSeqType{type = 'xs:numeric',occur = zero_or_one}) of
+         IsNum ->
+            ?dbg("IsNum",IsNum),
+            ?dbg("SimCnt",SimCnt),
+            if IsNum andalso (SimCnt == undefined orelse SimCnt < 2) ->
+                  set_statement_and_type(State, {positional_predicate, SimSt}, PostFilterType);
+               true ->
+                  set_statement_and_type(State, {predicate, SimSt}, PostFilterType)
+            end
+         catch _:_ ->
+            set_statement_and_type(State, {predicate, SimSt}, PostFilterType)
          end
    end;
    
@@ -2646,7 +2675,11 @@ handle_predicate(State, {arguments, Args}) ->
 handle_predicate(State, {lookup, wildcard}) ->
    NewType = #xqSeqType{type = item, occur = zero_or_many}, 
    % what type of lookup? map/array
-   #xqSeqType{type = #xqFunTest{kind = Kind}} = get_statement_type(State),
+   Kind = case get_statement_type(State) of
+             #xqSeqType{type = #xqFunTest{kind = Kind1}} -> Kind1;
+             _ ->
+                item
+          end,
    if Kind == map ->
          set_statement_and_type(State, {map_lookup, wildcard},NewType);
       true ->
@@ -3256,7 +3289,7 @@ scan_setters(State, SetList) ->
    OM = set_or_error('ordering-mode', SetList, ordered, 'XQST0065'),
    EO = set_or_error('empty-seq-order', SetList, greatest, 'XQST0069'),
    CN = set_or_error('copy-namespaces', SetList, {preserve, 'no-inherit'}, 'XQST0055'),
-   DF = scan_dec_formats(proplists:lookup_all('decimal-format', SetList)),
+   DF = scan_dec_formats(proplists:lookup_all('decimal-format', SetList),State),
    ok = check_def_collation(State, DC),
    
    State#state{boundary_space = BS,
@@ -3337,38 +3370,64 @@ scan_options(Options) ->
    _ = xqerl_options:validate(Options),
    [attribute(options,Options)].
 
-scan_dec_formats(Formats) ->
-   [begin
+scan_dec_formats(Formats,State) ->
+   All = [begin
        Rec = lists:foldl(fun({F,V}, R) ->
                                case F of
-                                  'decimal-separator' ->
+                                  'decimal-separator' when length(V) == 1 ->
                                      R#dec_format{decimal = V};
-                                  'grouping-separator' ->
+                                  'grouping-separator' when length(V) == 1 ->
                                      R#dec_format{grouping = V};
                                   'infinity' ->
                                      R#dec_format{infinity = V};
-                                  'minus-sign' ->
+                                  'minus-sign' when length(V) == 1 ->
                                      R#dec_format{minus = V};
                                   'NaN' ->
                                      R#dec_format{nan = V};
-                                  'percent' ->
+                                  'percent' when length(V) == 1 ->
                                      R#dec_format{percent = V};
-                                  'per-mille' ->
+                                  'per-mille' when length(V) == 1 ->
                                      R#dec_format{per_mille = V};
-                                  'zero-digit' ->
+                                  'zero-digit' when length(V) == 1 ->
                                      R#dec_format{zero = V};
-                                  'digit' ->
+                                  'digit' when length(V) == 1 ->
                                      R#dec_format{digit = V};
-                                  'pattern-separator' ->
+                                  'pattern-separator' when length(V) == 1 ->
                                      R#dec_format{pattern = V};
-                                  'exponent-separator' ->
+                                  'exponent-separator' when length(V) == 1 ->
                                      R#dec_format{exponent = V};
                                   _ ->
                                      ?err('XQST0097')
                                end
                          end, #dec_format{}, FList),
-       {Name, Rec}
-    end || {'decimal-format', Name, FList} <- Formats].
+       Names = lists:sort([N||{N,_}<-FList]),
+       Sort = lists:sort(tl(tuple_to_list(Rec))),
+       OK = lists:usort(Sort) == Sort,
+       Dup = lists:usort(Names) == Names,
+       if OK, Dup ->
+             ok;
+          OK ->
+             ?err('XQST0114');
+          true ->
+             ?err('XQST0098')
+       end,    
+       ResName = if Name == [] ->
+                       [];
+                    true ->
+                       try
+                          resolve_qname(Name, State)
+                       catch _:_ ->
+                          ?err('FODF1280')
+                       end
+                 end,
+       {ResName, Rec}
+    end || {'decimal-format', Name, FList} <- Formats],
+   case lists:keyfind([], 1, All) of
+      false ->
+         [{[],#dec_format{}}|All];
+      _ ->
+         All
+   end.
 
 attribute(Name,Val) -> erlang:list_to_tuple([attribute,?LINE,Name,Val]).
 
@@ -3384,6 +3443,8 @@ resolve_qname(#qname{namespace = Ns, prefix = undefined, local_name = Ln}, _) ->
    #qname{namespace = Ns, prefix = "*", local_name = Ln};
 resolve_qname(#qname{prefix = "*"} = N, _) ->
    N;
+resolve_qname(#qname{prefix = default} = N, X) ->
+   resolve_qname(N#qname{prefix = []}, X);
 resolve_qname(#qname{namespace = _undefined, prefix = Px, local_name = Ln}, #state{known_ns = Nss}) ->
    case lists:keyfind(Px, 3, Nss) of
       false ->

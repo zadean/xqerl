@@ -108,6 +108,7 @@ add_context_key(Map,named_functions,Ctx) ->
         'copy-namespaces'   => maps:get('copy-namespaces', Ctx),
         'default-collation' => maps:get('default-collation', Ctx),
         known_collations    => maps:get(known_collations, Ctx),
+        known_dec_formats   => maps:get(known_dec_formats, Ctx),
         named_functions     => maps:get(known_fx_sigs, Ctx) %[]%
        };
 
@@ -1141,6 +1142,18 @@ expr_do(Ctx, {postfix, Map, [{array_lookup, Val}]}) ->
    CtxVar = get_context_variable_name(Ctx),
    MapExpr = expr_do(Ctx, Map),
    ValExp =  expr_do(Ctx, Val),
+   {call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+    [{var,?L,CtxVar},MapExpr,ValExp]};
+
+expr_do(Ctx, {LU, Val}) when LU == array_lookup;
+                             LU == map_lookup ->
+   CtxVar = get_context_variable_name(Ctx),
+   MapExpr = {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[{var,?L,CtxVar}]},
+   ValExp = if Val == wildcard ->
+                  {atom,?L,all};
+               true ->
+                  expr_do(Ctx, Val)
+            end,
    {call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
     [{var,?L,CtxVar},MapExpr,ValExp]};
 
@@ -2773,7 +2786,7 @@ let_clause_gen(Ctx, {_,_Type,_,VarName} = NewVar, Expr, Rest) ->
           {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
          ]
         },
-        Ctx1 
+        NextCtx 
         }         
    end.
 

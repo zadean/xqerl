@@ -387,7 +387,7 @@
    minus = "-",
    nan = "NaN",
    percent = "%",
-   per_mille = [2030],
+   per_mille = [16#2030],
    zero = "0",
    digit = "#",
    pattern = ";",

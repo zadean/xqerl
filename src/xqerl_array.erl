@@ -107,10 +107,10 @@
    xqerl_error:error('FORG0006').
 
 %% Returns an array containing those members of the $array for which $function returns true. 
-'filter'(_Ctx,#array{data = List},Function) when is_function(Function) -> 
+'filter'(Ctx,#array{data = List},Function) when is_function(Function) -> 
    try
       Fx = fun(I) ->
-                 Val = Function([],I),
+                 Val = Function(Ctx,I),
                  %?dbg("Val",xqerl_types:value(Val)),
                  xqerl_types:value(Val) == true
            end,
@@ -146,18 +146,18 @@ flatten1([H|T]) ->
 
 
 %% Evaluates the supplied function cumulatively on successive members of the supplied array. 
-'fold-left'(_Ctx,#array{data = List},Zero,Function) when is_function(Function) -> 
+'fold-left'(Ctx,#array{data = List},Zero,Function) when is_function(Function) -> 
    Fx = fun(I,Acc) ->
-              Function([], Acc,I)
+              Function(Ctx, Acc,I)
         end,
    lists:foldl(Fx, Zero, List);
 'fold-left'(Ctx,Seq,Zero,#xqFunction{body = Function}) when is_function(Function) -> 
    'fold-left'(Ctx,Seq,Zero,Function).
 
 %% Evaluates the supplied function cumulatively on successive values of the supplied array. 
-'fold-right'(_Ctx,#array{data = List},Zero,Function) when is_function(Function) -> 
+'fold-right'(Ctx,#array{data = List},Zero,Function) when is_function(Function) -> 
    Fx = fun(I,Acc) ->
-              Function([], I, Acc)
+              Function(Ctx, I, Acc)
         end,
    lists:foldr(Fx, Zero, List);
 'fold-right'(Ctx,Seq,Zero,#xqFunction{body = Function}) when is_function(Function) -> 
@@ -166,10 +166,10 @@ flatten1([H|T]) ->
 %% Returns an array whose size is the same as array:size($array), in which each member is computed by applying $function to the corresponding member of $array. 
 'for-each'(Ctx,Seq,#xqFunction{body = Function}) when is_function(Function) ->
    'for-each'(Ctx,Seq,Function);
-'for-each'(_Ctx,#array{data = List},Function) when is_function(Function) -> 
+'for-each'(Ctx,#array{data = List},Function) when is_function(Function) -> 
    try
       Data = lists:map(fun(I) ->
-                             case Function([],I) of
+                             case Function(Ctx,I) of
                                 [E] ->
                                    E;
                                 E ->
@@ -192,9 +192,9 @@ flatten1([H|T]) ->
 'for-each-pair'(_Ctx,_Arg1,#array{data = []},_Arg3) -> #array{data = []};
 'for-each-pair'(_Ctx,#array{} = Arr1,#array{} = Arr2,#xqFunction{body = Function}) when is_function(Function) ->
    'for-each-pair'(_Ctx,Arr1,Arr2,Function);
-'for-each-pair'(_Ctx,#array{data = D1},#array{data = D2},Function) when is_function(Function) ->
+'for-each-pair'(Ctx,#array{data = D1},#array{data = D2},Function) when is_function(Function) ->
    try
-      #array{data = for_each_pair1(D1, D2, Function)}
+      #array{data = for_each_pair1(Ctx,D1, D2, Function)}
    catch 
       _:{badarity,_} ->
          xqerl_error:error('XPTY0004');
@@ -204,29 +204,32 @@ flatten1([H|T]) ->
          throw(E)
    end.
 
-for_each_pair1([],_,_) -> [];
-for_each_pair1(_,[],_) -> [];
-for_each_pair1([H1|T1],[H2|T2],Fun) ->
-   R = case Fun([],H1,H2) of
+for_each_pair1(_Ctx,[],_,_) -> [];
+for_each_pair1(_Ctx,_,[],_) -> [];
+for_each_pair1(Ctx,[H1|T1],[H2|T2],Fun) ->
+   R = case Fun(Ctx,H1,H2) of
           [E] ->
              E;
           E ->
              E
        end,   
-   [R|for_each_pair1(T1,T2,Fun)].
+   [R|for_each_pair1(Ctx,T1,T2,Fun)].
 
 
 %% Returns the value at the specified position in the supplied array (counting from 1). 
-'get'(_Ctx,#array{data = List},Position) ->
-   I = xqerl_types:value(Position),
+'get'(_Ctx,#array{data = List},#xqAtomicValue{type = T, value = I}) when ?integer(T) ->
    case catch lists:nth(I, List) of
       {'EXIT', _} ->
          xqerl_error:error('FOAY0001');
       N ->
          N
    end;
+'get'(_Ctx,_Seq,#xqAtomicValue{type = T}) when ?numeric(T) ->
+   xqerl_error:error('XPTY0004');
 'get'(Ctx,[Seq],Position) ->
    'get'(Ctx,Seq,Position);
+'get'(Ctx,#array{} = A,V) ->
+   'get'(Ctx,A,xqerl_types:cast_as(V, 'xs:integer'));
 'get'(_Ctx,_Seq,_Position) ->
    xqerl_error:error('FORG0006').
 
