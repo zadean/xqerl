@@ -3,7 +3,7 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing (yet)!
 
-It is passing about 92.8% its (~29k) test cases. The other ~7% are mainly functions that have not been 
+It is passing about 95% its (~29k) test cases. The other ~5% are mainly functions that have not been 
 implemented, regex, and string collation related things.
 
 
@@ -41,8 +41,9 @@ Yes, please. I've been doing it alone, so any help is much appreciated.
 
 ### Known problems and TODO's:
 
-Regex is hacked together (fn:matches, fn:replace, etc.). 
-To make it 100% (or even close) will take building a regex parser that rewrites XML Schema regex into one of the Erlang-known flavors. 
+<s>Regex is hacked together (fn:matches, fn:replace, etc.). 
+To make it 100% (or even close) will take building a regex parser that rewrites XML Schema regex into one of the Erlang-known flavors.</s>
+Regex is missing the concept of range subtraction. This accounts for over 100 errors. 
 
 Query rewrite and optimization phases are still missing.
 
@@ -59,9 +60,9 @@ Text is handled as a "string" and not a binary; yet.
 
 The XDM is kind of rough. Should possibly be made a positional binary format for quick random access. 
 
-Number/Date formatting is only partially implemented.
+Integer/Date formatting is only partially implemented (fn:format-number is implemented).
 
-There is no concept of negative-zero (but who cares right?) (ok, I do... coming soon).
+<s>There is no concept of negative-zero (but who cares right?) (ok, I do... coming soon).</s> Fixed.
 
 ... and most likely many more things ...
 
