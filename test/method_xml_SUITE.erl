@@ -94,7 +94,8 @@ all() -> [
    'Serialization-xml-01',
    'Serialization-xml-02'].
 environment('empty') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -104,7 +105,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -114,7 +116,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -124,7 +127,8 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -134,7 +138,8 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -144,7 +149,8 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -154,7 +160,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
@@ -165,7 +172,8 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -180,7 +188,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -190,7 +199,8 @@ environment('qname') ->
 {modules, []}
 ];
 environment('math') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -200,7 +210,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('array') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -210,7 +221,8 @@ environment('array') ->
 {modules, []}
 ];
 environment('map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -220,7 +232,8 @@ environment('map') ->
 {modules, []}
 ];
 environment('array-and-map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -231,184 +244,33 @@ environment('array-and-map') ->
 {modules, []}
 ].
 'K2-Serialization-1'(_Config) ->
-   Qry = "attribute name {<anElement/>}",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-2'(_Config) ->
-   Qry = "<e/>, attribute name {<anElement/>}",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-3'(_Config) ->
-   Qry = "attribute name {<anElement/>}, <e/>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-4'(_Config) ->
-   Qry = "<e/>, attribute name {<anElement/>}, <e/>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-5'(_Config) ->
-   Qry = "<a>&#xD;&#x85;&#x2028;</a>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#xD;&amp;#x85;&amp;#x2028;</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#13;&amp;#133;&amp;#8232;</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-6'(_Config) ->
-   Qry = "<a attr=\"&#xD;&#xA;&#x9;&#x85;&#x2028;\"/>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#xD;&amp;#xA;&amp;#x9;&amp;#x85;&amp;#x2028;</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#13;&amp;#10;&amp;#9;&amp;#133;&amp;#8232;</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-7'(_Config) ->
-   {skip,"XML 1.1"}.
+   {skip,"serialization feature"}.
 'K2-Serialization-7a'(_Config) ->
-   Qry = "<a>{codepoints-to-string(1 to 31)}</a>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"FOCH0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-8'(_Config) ->
-   {skip,"XML 1.1"}.
+   {skip,"serialization feature"}.
 'K2-Serialization-8a'(_Config) ->
-   Qry = "<a attr=\"{codepoints-to-string(1 to 31)}\"></a>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-9'(_Config) ->
-   Qry = "<a attr=\"{codepoints-to-string(127 to 159)}\"/>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#x7f;&amp;#x80;&amp;#x81;&amp;#x82;&amp;#x83;&amp;#x84;&amp;#x85;&amp;#x86;&amp;#x87;&amp;#x88;&amp;#x89;&amp;#x8a;&amp;#x8b;&amp;#x8c;&amp;#x8d;&amp;#x8e;&amp;#x8f;&amp;#x90;&amp;#x91;&amp;#x92;&amp;#x93;&amp;#x94;&amp;#x95;&amp;#x96;&amp;#x97;&amp;#x98;&amp;#x99;&amp;#x9a;&amp;#x9b;&amp;#x9c;&amp;#x9d;&amp;#x9e;&amp;#x9f;</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#127;&amp;#128;&amp;#129;&amp;#130;&amp;#131;&amp;#132;&amp;#133;&amp;#134;&amp;#135;&amp;#136;&amp;#137;&amp;#138;&amp;#139;&amp;#140;&amp;#141;&amp;#142;&amp;#143;&amp;#144;&amp;#145;&amp;#146;&amp;#147;&amp;#148;&amp;#149;&amp;#150;&amp;#151;&amp;#152;&amp;#153;&amp;#154;&amp;#155;&amp;#156;&amp;#157;&amp;#158;&amp;#159;</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-10'(_Config) ->
-   Qry = "<a>{codepoints-to-string(127 to 159)}</a>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">&amp;#x7f;&amp;#x80;&amp;#x81;&amp;#x82;&amp;#x83;&amp;#x84;&amp;#x85;&amp;#x86;&amp;#x87;&amp;#x88;&amp;#x89;&amp;#x8a;&amp;#x8b;&amp;#x8c;&amp;#x8d;&amp;#x8e;&amp;#x8f;&amp;#x90;&amp;#x91;&amp;#x92;&amp;#x93;&amp;#x94;&amp;#x95;&amp;#x96;&amp;#x97;&amp;#x98;&amp;#x99;&amp;#x9a;&amp;#x9b;&amp;#x9c;&amp;#x9d;&amp;#x9e;&amp;#x9f;</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&amp;#127;&amp;#128;&amp;#129;&amp;#130;&amp;#131;&amp;#132;&amp;#133;&amp;#134;&amp;#135;&amp;#136;&amp;#137;&amp;#138;&amp;#139;&amp;#140;&amp;#141;&amp;#142;&amp;#143;&amp;#144;&amp;#145;&amp;#146;&amp;#147;&amp;#148;&amp;#149;&amp;#150;&amp;#151;&amp;#152;&amp;#153;&amp;#154;&amp;#155;&amp;#156;&amp;#157;&amp;#158;&amp;#159;</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-11'(_Config) ->
-   Qry = "\"a&#xD;aa&#xD;&#xA;a&#xD;&#xA;\"",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\" flags=\"i\">a&amp;#xD;aa&amp;#xD;</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">a&amp;#13;aa&amp;#13;</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end,
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\\r?\\n.*\\r?\\n</serialization-matches>", Res])]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-12'(_Config) ->
-   Qry = "<e> <a:a xmlns:a=\"http://www.example.com/A\" a:a=\"value\"/> <b:a xmlns:b=\"http://www.example.com/A\" b:a=\"value\"/> </e>",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<e><a:a xmlns:a=\"http://www.example.com/A\" a:a=\"value\"/><b:a xmlns:b=\"http://www.example.com/A\" b:a=\"value\"/></e>") of 
-      true -> {comment, "XML Deep equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'K2-Serialization-13'(_Config) ->
    {skip,"serialization"}.
 'K2-Serialization-14'(_Config) ->
@@ -462,36 +324,6 @@ environment('array-and-map') ->
 'K2-Serialization-39'(_Config) ->
    {skip,"serialization"}.
 'Serialization-xml-01'(_Config) ->
-   Qry = "
-      	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        declare option output:item-separator \"|\";
-        [1, 2, 3, 4, 5]
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;\\?xml[^&gt;]+&gt;1\\|2\\|3\\|4\\|5$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-xml-02'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        map { } 
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.

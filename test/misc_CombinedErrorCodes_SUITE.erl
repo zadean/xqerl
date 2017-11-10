@@ -544,7 +544,8 @@ all() -> [
    'XQST0125_2',
    'typeswitch-in-xpath'].
 environment('empty') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -554,7 +555,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -564,7 +566,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -574,7 +577,8 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -584,7 +588,8 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -594,7 +599,8 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -604,7 +610,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
@@ -615,7 +622,8 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -630,7 +638,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -640,7 +649,8 @@ environment('qname') ->
 {modules, []}
 ];
 environment('math') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -650,7 +660,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('array') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -660,7 +671,8 @@ environment('array') ->
 {modules, []}
 ];
 environment('map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -670,7 +682,8 @@ environment('map') ->
 {modules, []}
 ];
 environment('array-and-map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -681,7 +694,8 @@ environment('array-and-map') ->
 {modules, []}
 ];
 environment('orderdata') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/OrderByClause/orderData.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/OrderByClause/orderData.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes.xml"}]},
@@ -691,7 +705,8 @@ environment('orderdata') ->
 {modules, []}
 ];
 environment('namespace-sensitive') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes/namespace-sensitive.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes/namespace-sensitive.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes/namespace-sensitive.xsd","http://www.xqsharp.com/test/namespace-sensitive"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes.xml"}]},
@@ -701,7 +716,8 @@ environment('namespace-sensitive') ->
 {modules, []}
 ];
 environment('xqst0036') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes/XQST0036.xsd","http://www.example.org/2007/schema/XQST0036"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes.xml"}]},
@@ -711,7 +727,8 @@ environment('xqst0036') ->
 {modules, []}
 ];
 environment('foty0012') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes/FOTY0012.xsd","http://www.example.org/2007/schema/FOTY0012"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes.xml"}]},
@@ -721,7 +738,8 @@ environment('foty0012') ->
 {modules, []}
 ];
 environment('xqdy0027') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes/XQDY0027.xsd","http://www.example.org/2007/schema/XQDY0027"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes.xml"}]},
@@ -731,7 +749,8 @@ environment('xqdy0027') ->
 {modules, []}
 ];
 environment('xqdy0084') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes/XQDY0084.xsd","http://www.example.org/2007/schema/XQDY0084"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/CombinedErrorCodes.xml"}]},

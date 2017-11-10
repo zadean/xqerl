@@ -184,7 +184,8 @@ all() -> [
    'format-dateTime-inpt-er4',
    'format-dateTime-1340err'].
 environment('empty') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -194,7 +195,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -204,7 +206,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -214,7 +217,8 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -224,7 +228,8 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -234,7 +239,8 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -244,7 +250,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
@@ -255,7 +262,8 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -270,7 +278,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -280,7 +289,8 @@ environment('qname') ->
 {modules, []}
 ];
 environment('math') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -290,7 +300,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('array') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -300,7 +311,8 @@ environment('array') ->
 {modules, []}
 ];
 environment('map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -310,7 +322,8 @@ environment('map') ->
 {modules, []}
 ];
 environment('array-and-map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -322,7 +335,8 @@ environment('array-and-map') ->
 ].
 'format-dateTime-001a'(_Config) ->
    Qry = "format-dateTime($d,\"[Y]-[M01]-[D]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -344,7 +358,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-001b'(_Config) ->
    Qry = "format-dateTime($d,\"[M]-[D]-[Y]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -366,7 +381,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-001c'(_Config) ->
    Qry = "format-dateTime($d,\"[D]-[M]-[Y]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -388,7 +404,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-001d'(_Config) ->
    Qry = "format-dateTime($d,\"[D1] [MI] [Y]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -410,7 +427,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-001e'(_Config) ->
    Qry = "format-dateTime($d,\"[[[Y]-[M01]-[D01]]]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -432,7 +450,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-001f'(_Config) ->
    Qry = "format-dateTime($d,\"[[[Y0001]-[M01]-[D01]]]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -454,7 +473,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-001g'(_Config) ->
    Qry = "format-dateTime($d,\"([Y01]-[M01]-[D01])\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -476,7 +496,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002a'(_Config) ->
    Qry = "format-dateTime($t,\"[H01]:[m01]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -498,7 +519,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002b'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -520,7 +542,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002c'(_Config) ->
    Qry = "format-dateTime($t,\"[H01]:[m01]:[s01]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -542,7 +565,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002d'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -564,7 +588,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002e'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s1]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -586,7 +611,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002f'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s01]:[f001]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -608,7 +634,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002g'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f,1-1]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -630,7 +657,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002h'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f1,1-1]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -652,7 +680,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002i'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f01]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -674,7 +703,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-002j'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f001]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -696,7 +726,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003a'(_Config) ->
    Qry = "format-dateTime($t,\"[Y]-[M01]-[D]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -718,7 +749,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003b'(_Config) ->
    Qry = "format-dateTime($t,\"[M]-[D]-[Y]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -740,7 +772,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003c'(_Config) ->
    Qry = "format-dateTime($t,\"[D]-[M]-[Y]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -762,7 +795,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003d'(_Config) ->
    Qry = "format-dateTime($t,\"[D1] [MI] [Y]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -784,7 +818,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003e'(_Config) ->
    Qry = "format-dateTime($t,\"[[[Y]-[M01]-[D01]]]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -806,7 +841,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003f'(_Config) ->
    Qry = "format-dateTime($t,\"[[[Y0001]-[M01]-[D01]]]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -828,7 +864,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003g'(_Config) ->
    Qry = "format-dateTime($t,\"([Y01]-[M01]-[D01])\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -850,7 +887,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003h'(_Config) ->
    Qry = "format-dateTime($t,\"[H01]:[m01]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -872,7 +910,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003i'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -894,7 +933,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003j'(_Config) ->
    Qry = "format-dateTime($t,\"[H01]:[m01]:[s01]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -916,7 +956,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003k'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -938,7 +979,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003L'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s1]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -960,7 +1002,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003m'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f,1-1]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -982,7 +1025,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003n'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f1,1-1]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1004,7 +1048,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003p'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f01]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1026,7 +1071,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003q'(_Config) ->
    Qry = "format-dateTime($t,\"[H]:[m]:[s].[f001]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1048,7 +1094,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-003r'(_Config) ->
    Qry = "format-dateTime($t,'[Y0001]-[M01]-[D01]T[H01]:[m01]:[s01].[f001]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1072,7 +1119,8 @@ environment('array-and-map') ->
    Qry = "
         for $i in 1 to 24 return
         format-dateTime($t + xs:dayTimeDuration('PT1H')*$i, '[h].[m]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1097,7 +1145,8 @@ environment('array-and-map') ->
         string-join(
           for $i in 1 to 100 return
           format-dateTime($t + xs:yearMonthDuration('P1Y')*$i, '[YI]'), '; ')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1122,7 +1171,8 @@ environment('array-and-map') ->
         string-join(
           for $i in 1 to 100 return
           format-dateTime($t + xs:yearMonthDuration('P17Y')*$i, '[Yi,3-3]'), '; ')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1145,7 +1195,8 @@ environment('array-and-map') ->
 'format-dateTime-006a'(_Config) ->
    Qry = "
         format-dateTime($t, '[Yi,4-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1169,7 +1220,8 @@ environment('array-and-map') ->
    Qry = "for $i in 1 to 48,
                 $d in $t + xs:yearMonthDuration('P1M')*$i
             return concat(\"[\", $d, \": \", format-dateTime($d, '[W]', (), 'ISO', ()), \"]\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1193,7 +1245,8 @@ environment('array-and-map') ->
    Qry = "for $i in 1 to 48,
                 $d in $t + xs:yearMonthDuration('P1M')*$i
             return concat(\"[\", $d, \": \", format-dateTime($d, '[F01]', (), 'ISO', ()))",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1217,7 +1270,8 @@ environment('array-and-map') ->
    Qry = "for $i in 1 to 48,
                 $d in $t + xs:yearMonthDuration('P1M')*$i
             return concat(\"[\", $d, \": \", format-dateTime($d, '[w]', (), 'ISO', ()))",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1240,7 +1294,8 @@ environment('array-and-map') ->
 'format-dateTime-012'(_Config) ->
    Qry = "for $i in 1 to 60 return
             format-dateTime($t + xs:dayTimeDuration('PT61S')*$i, '[mA].[sa]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1262,7 +1317,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013a'(_Config) ->
    Qry = "format-dateTime($t, '[Y,4-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1284,7 +1340,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013b'(_Config) ->
    Qry = "format-dateTime($t, '[Y,3-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1306,7 +1363,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013c'(_Config) ->
    Qry = "format-dateTime($t, '[Y,2-5]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1328,7 +1386,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013d'(_Config) ->
    Qry = "format-dateTime($t, '[Y,2-2]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1350,7 +1409,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013e'(_Config) ->
    Qry = "format-dateTime($t, '[Y,2-*]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1372,7 +1432,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013f'(_Config) ->
    Qry = "format-dateTime($t, '[Y,*-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1394,7 +1455,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013g'(_Config) ->
    Qry = "format-dateTime($t, '[Y,3]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1416,7 +1478,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013h'(_Config) ->
    Qry = "format-dateTime($t, '[M,4-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1438,7 +1501,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013i'(_Config) ->
    Qry = "format-dateTime($t, '[M,1-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1460,7 +1524,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013j'(_Config) ->
    Qry = "format-dateTime($t, '[M,2-5]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1482,7 +1547,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013k'(_Config) ->
    Qry = "format-dateTime($t, '[M,2-2]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1504,7 +1570,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013L'(_Config) ->
    Qry = "format-dateTime($t, '[M,1-*]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1526,7 +1593,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013m'(_Config) ->
    Qry = "format-dateTime($t, '[M,*-2]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1548,7 +1616,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013n'(_Config) ->
    Qry = "format-dateTime($t, '[M,3]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1570,7 +1639,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013p'(_Config) ->
    Qry = "format-dateTime($t, '[f,4-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1592,7 +1662,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013q'(_Config) ->
    Qry = "format-dateTime($t, '[f,1-4]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1614,7 +1685,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013r'(_Config) ->
    Qry = "format-dateTime($t, '[f,2-5]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1636,7 +1708,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013s'(_Config) ->
    Qry = "format-dateTime($t, '[f,2-2]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1658,7 +1731,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013t'(_Config) ->
    Qry = "format-dateTime($t, '[f,1-*]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1680,7 +1754,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013u'(_Config) ->
    Qry = "format-dateTime($t, '[f,*-2]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1702,7 +1777,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-013v'(_Config) ->
    Qry = "format-dateTime($t, '[f,3]')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1728,7 +1804,8 @@ environment('array-and-map') ->
                return format-dateTime(adjust-dateTime-to-timezone(
                    $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][Z]'), '; ')
       ",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1753,7 +1830,8 @@ environment('array-and-map') ->
                for $z in -28 to +28
                return format-dateTime(adjust-dateTime-to-timezone(
                           $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z0]'), '; ')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1779,7 +1857,8 @@ environment('array-and-map') ->
                return format-dateTime(adjust-dateTime-to-timezone(
                $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z00:00]'), '; ')
       ",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1803,7 +1882,8 @@ environment('array-and-map') ->
    Qry = "string-join(
                for $z in -28 to +28
                return format-dateTime(adjust-dateTime-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z00]'), '; ')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1827,7 +1907,8 @@ environment('array-and-map') ->
    Qry = "string-join(
                for $z in -28 to +28
                return format-dateTime(adjust-dateTime-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z00]'), '; ')",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1993,7 +2074,8 @@ environment('array-and-map') ->
         format-dateTime($d1, '[Y][EN]', 'en', (), ()),
         format-dateTime($d2, '[Y][EN]', 'en', (), ())
       ",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -2036,7 +2118,8 @@ environment('array-and-map') ->
         let $t := $b + xs:dayTimeDuration('PT1H')*$i return
         translate(format-dateTime($t, '[h]~[m][P]', 'en', (), ()), '.- ', '')
       ",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -2062,7 +2145,8 @@ environment('array-and-map') ->
         let $t := $b + xs:dayTimeDuration('PT12H')*$i return
         translate(format-dateTime($t, '[h]~[m][P]', 'en', (), ()), '.- ', '')
       ",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -2084,7 +2168,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-en151'(_Config) ->
    Qry = "format-dateTime($b, '[MNn]', 'xib', (), ())",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -2114,7 +2199,8 @@ environment('array-and-map') ->
    end.
 'format-dateTime-en152'(_Config) ->
    Qry = "format-dateTime($b, '[M01]', 'en', 'CB', ())",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},

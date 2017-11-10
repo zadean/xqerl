@@ -244,7 +244,8 @@ all() -> [
    'TumblingWindowExpr555',
    'WindowExpr500'].
 environment('empty') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -254,7 +255,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -264,7 +266,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -274,7 +277,8 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -284,7 +288,8 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -294,7 +299,8 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -304,7 +310,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
@@ -315,7 +322,8 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -330,7 +338,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -340,7 +349,8 @@ environment('qname') ->
 {modules, []}
 ];
 environment('math') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -350,7 +360,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('array') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -360,7 +371,8 @@ environment('array') ->
 {modules, []}
 ];
 environment('map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -370,7 +382,8 @@ environment('map') ->
 {modules, []}
 ];
 environment('array-and-map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -381,7 +394,8 @@ environment('array-and-map') ->
 {modules, []}
 ];
 environment('WindowingUseCases01') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/arrange_rows.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/arrange_rows.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -391,7 +405,8 @@ environment('WindowingUseCases01') ->
 {modules, []}
 ];
 environment('WindowingUseCases01S') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/arrange_rows.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/arrange_rows.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/arrange_rows.xsd",""}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -401,7 +416,8 @@ environment('WindowingUseCases01S') ->
 {modules, []}
 ];
 environment('WindowingUseCases02') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/head_para.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/head_para.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -411,7 +427,8 @@ environment('WindowingUseCases02') ->
 {modules, []}
 ];
 environment('WindowingUseCases02S') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/head_para.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/head_para.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/head_para.xsd",""}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -421,7 +438,8 @@ environment('WindowingUseCases02S') ->
 {modules, []}
 ];
 environment('WindowingUseCases03') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/term_def_list.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/term_def_list.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -431,7 +449,8 @@ environment('WindowingUseCases03') ->
 {modules, []}
 ];
 environment('WindowingUseCases03S') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/term_def_list.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/term_def_list.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/term_def_list.xsd",""}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -441,7 +460,8 @@ environment('WindowingUseCases03S') ->
 {modules, []}
 ];
 environment('WindowingUseCases04') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/temp_events.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/temp_events.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -451,7 +471,8 @@ environment('WindowingUseCases04') ->
 {modules, []}
 ];
 environment('WindowingUseCases04S') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/temp_events.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/temp_events.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/temp_events.xsd",""}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -461,7 +482,8 @@ environment('WindowingUseCases04S') ->
 {modules, []}
 ];
 environment('WindowingUseCases05') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/person_events.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/person_events.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -471,7 +493,8 @@ environment('WindowingUseCases05') ->
 {modules, []}
 ];
 environment('WindowingUseCases05S') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/person_events.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/person_events.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/person_events.xsd",""}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -481,7 +504,8 @@ environment('WindowingUseCases05S') ->
 {modules, []}
 ];
 environment('WindowingUseCases06') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/rss.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/rss.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -491,7 +515,8 @@ environment('WindowingUseCases06') ->
 {modules, []}
 ];
 environment('WindowingUseCases06S') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/rss.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/rss.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/rss.xsd",""}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -501,7 +526,8 @@ environment('WindowingUseCases06S') ->
 {modules, []}
 ];
 environment('WindowingUseCases07') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/cxml.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/cxml.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},
@@ -511,7 +537,8 @@ environment('WindowingUseCases07') ->
 {modules, []}
 ];
 environment('WindowingUseCases07S') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/cxml.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/cxml.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause/cxml.xsd",""}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/WindowClause.xml"}]},

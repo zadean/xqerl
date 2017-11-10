@@ -100,7 +100,8 @@ all() -> [
    'K2-SeqDocFunc-12',
    'K2-SeqDocFunc-13'].
 environment('empty') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -110,7 +111,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -120,7 +122,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -130,7 +133,8 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -140,7 +144,8 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -150,7 +155,8 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -160,7 +166,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
@@ -171,7 +178,8 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -186,7 +194,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -196,7 +205,8 @@ environment('qname') ->
 {modules, []}
 ];
 environment('math') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -206,7 +216,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('array') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -216,7 +227,8 @@ environment('array') ->
 {modules, []}
 ];
 environment('map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -226,7 +238,8 @@ environment('map') ->
 {modules, []}
 ];
 environment('array-and-map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -237,7 +250,8 @@ environment('array-and-map') ->
 {modules, []}
 ];
 environment('works-mod-uri') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".","http://www.w3.org/fots/docs/works-mod.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".","http://www.w3.org/fots/docs/works-mod.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
@@ -247,7 +261,8 @@ environment('works-mod-uri') ->
 {modules, []}
 ];
 environment('works-and-staff-uri') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","","http://www.w3.org/fots/docs/works.xml"},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","","http://www.w3.org/fots/docs/works.xml"},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","","http://www.w3.org/fots/docs/staff.xml"}]},
 {schemas, []},
 {collections, []},
@@ -481,7 +496,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-24'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/SpaceBracket.xml","","id/SpaceBracket.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/SpaceBracket.xml","","id/SpaceBracket.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -503,7 +519,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-25'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode.xml","","id/HighUnicode.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode.xml","","id/HighUnicode.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -525,7 +542,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-26'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode2.xml","","id/HighUnicode2.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode2.xml","","id/HighUnicode2.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -547,7 +565,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-27'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/BCisInvalid.xml","","id/BCisInvalid.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/BCisInvalid.xml","","id/BCisInvalid.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -569,7 +588,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-28'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidUmlaut.xml","","id/InvalidUmlaut.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidUmlaut.xml","","id/InvalidUmlaut.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -591,7 +611,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-29'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/NamespaceSuppliedInternally.xml","","id/NamespaceSuppliedInternally.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/NamespaceSuppliedInternally.xml","","id/NamespaceSuppliedInternally.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -613,7 +634,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-30'(_Config) ->
    Qry = "local-name(fn:doc($uri)/*)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdDuplicated.xml","","id/XMLIdDuplicated.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdDuplicated.xml","","id/XMLIdDuplicated.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -643,7 +665,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-31'(_Config) ->
    Qry = "local-name(fn:doc($uri)/*)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidXMLId.xml","","id/InvalidXMLId.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidXMLId.xml","","id/InvalidXMLId.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -686,7 +709,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-32'(_Config) ->
    Qry = "normalize-space(string(fn:doc($uri))), normalize-space(string(exactly-one(fn:doc($uri)/*)))",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/Books2.xml","","id/Books2.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/Books2.xml","","id/Books2.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -728,7 +752,8 @@ environment('works-and-staff-uri') ->
             for $object in $root//QObject for $i in local:drawDiagram($object) stable order by string($i) return $i 
         } </s:svg>
      ",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/QObject.xml","","id/QObject.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/QObject.xml","","id/QObject.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -750,7 +775,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-34'(_Config) ->
    Qry = "doc($uri)",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/0x010D.xml","","id/0x010D.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/0x010D.xml","","id/0x010D.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -785,7 +811,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-36'(_Config) ->
    Qry = "count(doc($uri)//text())",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/builtinEntities.xml","","id/builtinEntities.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/builtinEntities.xml","","id/builtinEntities.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -807,7 +834,8 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-37'(_Config) ->
    Qry = "let $result := id(\"idABC\", doc($uri)) return $result",
-   Env = xqerl_test:handle_environment([{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdWhitespace.xml","","id/XMLIdWhitespace.xml"}]},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdWhitespace.xml","","id/XMLIdWhitespace.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -931,7 +959,8 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-4'(_Config) ->
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
@@ -953,7 +982,8 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-5'(_Config) ->
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.example.invalid"}]},
@@ -975,7 +1005,8 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-6'(_Config) ->
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///"}]},
@@ -1060,7 +1091,8 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-10'(_Config) ->
    Qry = "doc(\"\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///directory/directory/example.com/www.example.com/thisFileDoesNotExist.xml"}]},
@@ -1082,7 +1114,8 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-11'(_Config) ->
    Qry = "doc(\"\")",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///directory/directory/example.com/"}]},

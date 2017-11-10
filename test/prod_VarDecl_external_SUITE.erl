@@ -208,7 +208,8 @@ all() -> [
    'K2-ExternalVariablesWith-26',
    'K2-ExternalVariablesWith-27'].
 environment('empty') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -218,7 +219,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -228,7 +230,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -238,7 +241,8 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -248,7 +252,8 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -258,7 +263,8 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -268,7 +274,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
@@ -279,7 +286,8 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -294,7 +302,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -304,7 +313,8 @@ environment('qname') ->
 {modules, []}
 ];
 environment('math') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -314,7 +324,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('array') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -324,7 +335,8 @@ environment('array') ->
 {modules, []}
 ];
 environment('map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -334,7 +346,8 @@ environment('map') ->
 {modules, []}
 ];
 environment('array-and-map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -345,7 +358,8 @@ environment('array-and-map') ->
 {modules, []}
 ];
 environment('TopMany') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
@@ -355,7 +369,8 @@ environment('TopMany') ->
 {modules, []}
 ];
 environment('CPPGlobals') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
@@ -366,7 +381,8 @@ environment('CPPGlobals') ->
 ].
 'extvardeclwithouttype-1'(_Config) ->
    Qry = "declare variable $x external; fn:string($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -396,7 +412,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-2'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -426,7 +443,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-3'(_Config) ->
    Qry = "declare variable $x external; xs:integer($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -456,7 +474,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-4'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -486,7 +505,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-5'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -516,7 +536,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-6'(_Config) ->
    Qry = "declare variable $x external; xs:float($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -546,7 +567,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-7'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -576,7 +598,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-8'(_Config) ->
    Qry = "declare variable $x external; $x + $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -606,7 +629,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-9'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -636,7 +660,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-10'(_Config) ->
    Qry = "declare variable $x external; $x + $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -666,7 +691,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-11'(_Config) ->
    Qry = "declare variable $x external; $x * $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -696,7 +722,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-12'(_Config) ->
    Qry = "declare variable $x external; $x - 1",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -726,7 +753,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-13'(_Config) ->
    Qry = "declare variable $x external; $x idiv 2",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -756,7 +784,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-14'(_Config) ->
    Qry = "declare variable $x external; $x div 10",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -786,7 +815,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-15'(_Config) ->
    Qry = "declare variable $x external; $x mod 2",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -816,7 +846,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-16'(_Config) ->
    Qry = "declare variable $x external; $x and fn:false()",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -846,7 +877,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-17'(_Config) ->
    Qry = "declare variable $x external; $x or fn:false()",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -876,7 +908,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-18'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -906,7 +939,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-19'(_Config) ->
    Qry = "declare variable $x external; xs:dateTime($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -928,7 +962,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-20'(_Config) ->
    Qry = "declare variable $x external; fn:upper-case($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -958,7 +993,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-21'(_Config) ->
    Qry = "declare variable $x external; fn:lower-case($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -988,7 +1024,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-22'(_Config) ->
    Qry = "declare variable $x external; fn:not($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1032,7 +1069,8 @@ environment('CPPGlobals') ->
 'extvardeclwithouttype-24'(_Config) ->
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
          declare variable $test:x external; $test:x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1370,7 +1408,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-1'(_Config) ->
    Qry = "declare variable $x as xs:string external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1392,7 +1431,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-2'(_Config) ->
    Qry = "declare variable $x as xs:date external; fn:string($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1414,7 +1454,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-3'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1436,7 +1477,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-4'(_Config) ->
    Qry = "declare variable $x as xs:double external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1458,7 +1500,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-5'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; fn:string($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1480,7 +1523,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-6'(_Config) ->
    Qry = "declare variable $x as xs:float external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1510,7 +1554,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-7'(_Config) ->
    Qry = "declare variable $x as xs:decimal external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1532,7 +1577,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-8'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x + $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1554,7 +1600,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-9'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1576,7 +1623,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-10'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x + $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1598,7 +1646,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-11'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x * $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1620,7 +1669,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-12'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x - xs:integer(1)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1642,7 +1692,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-13'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x idiv xs:integer(2)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1664,7 +1715,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-14'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x div xs:integer(10)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1686,7 +1738,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-15'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x mod xs:integer(2)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1708,7 +1761,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-16'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; $x and fn:false()",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1730,7 +1784,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-17'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; $x or fn:false()",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1752,7 +1807,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-18'(_Config) ->
    Qry = "declare variable $x as xs:float external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1782,7 +1838,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-19'(_Config) ->
    Qry = "declare variable $x as xs:dateTime external; $x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1804,7 +1861,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-20'(_Config) ->
    Qry = "declare variable $x as xs:string external; fn:upper-case($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1826,7 +1884,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-21'(_Config) ->
    Qry = "declare variable $x as xs:string external; fn:lower-case($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1848,7 +1907,8 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-22'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; fn:not($x)",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1991,7 +2051,8 @@ declare function local:report() as element()+
 'extvardeclwithtype-24'(_Config) ->
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
          declare variable $test:x as xs:integer external; $test:x",
-   Env = xqerl_test:handle_environment([{sources, []},
+   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},

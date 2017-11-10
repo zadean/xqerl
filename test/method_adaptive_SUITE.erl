@@ -178,7 +178,8 @@ all() -> [
    'Serialization-adaptive-83',
    'Serialization-adaptive-84'].
 environment('empty') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -188,7 +189,8 @@ environment('empty') ->
 {modules, []}
 ];
 environment('atomic') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -198,7 +200,8 @@ environment('atomic') ->
 {modules, []}
 ];
 environment('atomic-xq') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -208,7 +211,8 @@ environment('atomic-xq') ->
 {modules, []}
 ];
 environment('works-mod') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -218,7 +222,8 @@ environment('works-mod') ->
 {modules, []}
 ];
 environment('works') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -228,7 +233,8 @@ environment('works') ->
 {modules, []}
 ];
 environment('staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -238,7 +244,8 @@ environment('staff') ->
 {modules, []}
 ];
 environment('works-and-staff') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
 {"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
@@ -249,7 +256,8 @@ environment('works-and-staff') ->
 {modules, []}
 ];
 environment('auction') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -264,7 +272,8 @@ environment('auction') ->
 {modules, []}
 ];
 environment('qname') ->
-[{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+[{'decimal-formats', []},
+{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -274,7 +283,8 @@ environment('qname') ->
 {modules, []}
 ];
 environment('math') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -284,7 +294,8 @@ environment('math') ->
 {modules, []}
 ];
 environment('array') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -294,7 +305,8 @@ environment('array') ->
 {modules, []}
 ];
 environment('map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -304,7 +316,8 @@ environment('map') ->
 {modules, []}
 ];
 environment('array-and-map') ->
-[{sources, []},
+[{'decimal-formats', []},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
@@ -315,1379 +328,170 @@ environment('array-and-map') ->
 {modules, []}
 ].
 'Serialization-adaptive-01'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        [ ] 
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-02'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        map { } 
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^map\\{\\}$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-03'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        ()
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-04'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        5
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^5$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-05'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        \"simple string\"
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"simple string\"$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-06'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        document { element test {\"content\"}}
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^&lt;test&gt;content&lt;/test&gt;$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-07'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        element test {\"content\"}
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^&lt;test&gt;content&lt;/test&gt;$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-08'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        <test>content</test>/text()
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^content$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-09'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        <!--comment-->
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^&lt;!--comment--&gt;$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-10'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        <?target instruction ?>
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^&lt;\\?target instruction \\?&gt;$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-11'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        attribute att-name { \"att-value\" }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^att-name\\s*=\\s*['\"]att-value['\"]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-12'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        fn:exists#1
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^fn:exists#1$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-13'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        function($a) { $a }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\(anonymous-function\\)#1$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-14'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        (1,2,3)
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">1\\r?\\n2\\r?\\n3</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-15'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        declare option output:item-separator \"-\";
-        
-        (1,2,3)
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">1-2-3</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-16'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        [1, true(), not(true()), (), \"string\"]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[1,true\\(\\),false\\(\\),\\(\\),\"string\"\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-17'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        [(1,2,3),(4,5,6)]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[\\(1,2,3\\),\\(4,5,6\\)\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-18'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        declare option output:item-separator \"-\";
-        
-        [(1,2,3),(4,5,6)]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[\\(1,2,3\\),\\(4,5,6\\)\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-19'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-  
-        map { \"one\" : 1, xs:QName(\"one\") : 1 }  
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{\"one\":1,Q\\{\\}one:1\\}</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{Q\\{\\}one:1,\"one\":1\\}</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-20'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        [<element>content</element>, attribute att-name { \"att-value\" }]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[[(]?&lt;element&gt;content&lt;/element&gt;[)]?,[(]?att-name=\"att-value\"[)]?\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-21'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-
-        map { \"key\": attribute att-name { \"att-value\" }}
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^map\\{\"key\":att-name=\"att-value\"\\}$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-22'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        [ xs:float(\"INF\"), xs:double(\"-INF\") ]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[xs:float\\(\"INF\"\\),-INF\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-23'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        map { \"infinity\": xs:float(\"INF\") }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{\"infinity\":xs:float\\(\"INF\"\\)\\}</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-24'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        [ xs:float(\"NaN\") ]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\\[xs:float\\(\"NaN\"\\)\\]</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-25'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        map { \"not-a-number\": xs:double(\"NaN\") }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^map\\{\"not-a-number\":NaN\\}$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-26'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        [fn:exists#1, function($a) { $a }]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[fn:exists#1,\\(anonymous-function\\)#1\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-27'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        [fn:exists#1, 1, <element>content</element>, (), function($a) { $a }, map { \"infinity\":xs:double(\"INF\") }, \"json-string\"]
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\\[[(]?fn:exists#1[)]?,[(]?1[)]?,[(]?&lt;element&gt;content&lt;/element&gt;[)]?,\\(\\),[(]?\\(anonymous-function\\)#1[)]?,[(]?map\\{\"infinity\":INF[)]?\\},[(]?\"json-string\"[)]?\\]$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-28'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        ()
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-29'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        declare option output:item-separator \" \";
-        
-        1 to 5
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">1 2 3 4 5</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-30'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        declare option output:item-separator \" \";
-        
-        \"the quick\", \"brown fox\"
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"the quick\" \"brown fox\"$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-31'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        map{ \"2015\":1, 2015:2, xs:gYear('2015'):3 }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\"2015\":1</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">2015:2</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">xs:gYear\\(\"2015\"\\):3</serialization-matches>", Res])]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-32'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        map{ \"O'Neil says \"\"no\"\"\": 1 }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{\"O'Neil says \"\"no\"\"\":1\\}</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{'O''Neil says \"no\"':1\\}</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-33'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        
-        map{ 1:\"O'Neil says \"\"no\"\"\" }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{1:\"O'Neil says \"\"no\"\"\"\\}</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">map\\{1:'O''Neil says \"no\"'\\}</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-34'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        declare option output:item-separator \"~\";
-        
-        map{ \"a\":(\"quotes (\"\")\", \"apos (')\") }
-
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^map\\{\"a\":\\(\"quotes \\(\"\"\\)\",\"apos \\('\\)\"\\)\\}$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-35'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:untypedAtomic(\"untypedAtomic\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">\"untypedAtomic\"</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-36'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        xs:dateTime('1999-05-31T13:20:00-05:00')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:dateTime\\(\"1999-05-31T13:20:00-05:00\"\\)$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-37'(_Config) ->
-   {skip,"XSD 1.1"}.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-38'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:date(\"1999-05-31\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:date\\(\"1999-05-31\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-39'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:time(\"12:00:00\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:time\\(\"12:00:00\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-40'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:duration(\"P1Y2M3DT10H30M23S\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:duration\\(\"P1Y2M3DT10H30M23S\"\\)$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-41'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:yearMonthDuration(\"P1Y2M\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:duration\\(\"P1Y2M\"\\)$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-42'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:dayTimeDuration(\"P3DT10H30M\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:duration\\(\"P3DT10H30M\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-43'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:float(\"1e0\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:float\\(\"1\"\\)$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-44'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:double(1e0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">1\\.0e0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-45'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:decimal(1.2)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">1.2</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-46'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:integer(1)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">1</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-47'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:nonPositiveInteger(\"0\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-48'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:negativeInteger(-1)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">-1</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-49'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:long(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-50'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:int(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-51'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:short(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-52'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:byte(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-53'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:nonNegativeInteger(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-54'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:unsignedLong(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-55'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:unsignedInt(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-56'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:unsignedShort(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-57'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:unsignedByte(0)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">0</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-58'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:positiveInteger(1)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">1</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-59'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:gYearMonth(\"2000-01\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:gYearMonth\\(\"2000-01\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-60'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:gYear(\"2000\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:gYear\\(\"2000\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-61'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:gMonthDay(\"--01-01\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:gMonthDay\\(\"--01-01\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-62'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:gDay(\"---01\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:gDay\\(\"---01\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-63'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:gMonth(\"--01\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:gMonth\\(\"--01\"\\)</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-64'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:string(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-65'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:normalizedString(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-66'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:token(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-67'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:language(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-68'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:NMTOKEN(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-69'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:Name(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-70'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:NCName(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-71'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:ID(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-72'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:IDREF(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-73'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:ENTITY(\"en\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'en'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"en\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-74'(_Config) ->
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:boolean(true())
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^true\\(\\)$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-75'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:base64Binary(\"01001010\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:base64Binary\\(\"01001010\"\\)$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-76'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:hexBinary(\"D74D35D35D35\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^xs:hexBinary\\(\"D74D35D35D35\"\\)$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-77'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-	xs:anyURI(\"http://www.example.org/\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"http://www.example.org/\"$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-78'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        xs:QName(\"xs:integer\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^Q\\{http://www.w3.org/2001/XMLSchema\\}integer$</serialization-matches>", Res]), 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-79'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        \"'\"
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"'\"$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^''''$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-80'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        '\"'
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'\"'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"\"\"\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-81'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        xs:untypedAtomic(\"'\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"'\"$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^''''$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-82'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        xs:untypedAtomic('\"')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'\"'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"\"\"\"$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-83'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        xs:anyURI(\"'\")
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"'\"$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^''''$</serialization-matches>", Res])]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.
 'Serialization-adaptive-84'(_Config) ->
-   Qry = "
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"adaptive\";
-        xs:anyURI('\"')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^'\"'$</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">^\"\"\"\"$</serialization-matches>", Res]),
-   case xqerl_test:assert_error(Res,"FORG0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"serialization feature"}.

@@ -172,6 +172,8 @@ declare function local:print-testcase($test-case)
     "   {skip,""namespace-axis""}" :)
     else if ($deps[@type = "feature" and @value = "serialization"]) then 
     "   {skip,""serialization""}"
+    else if (starts-with($test-case/../@name,"method-")) then 
+    "   {skip,""serialization feature""}"
     (: else if ($deps[@type = "feature" and @value = "infoset-dtd"]) then 
     "   {skip,""infoset-dtd""}" :)
     else if ($deps[@type = "feature" and @value = "collection-stability"]) then 
@@ -200,6 +202,10 @@ declare function local:print-testcase($test-case)
     "   {skip,""XP20 XQ10 XP30 XQ30""}"
     else if ($deps[@type = "spec" and @value = "XQ10 XQ30"]) then
     "   {skip,""XQ10 XQ30""}"
+    else if ($deps[@type = "spec" and @value = "XQ30"]) then
+    "   {skip,""XQ30""}"
+    else if ($deps[@type = "spec" and @value = "XQ30 XP30"]) then
+    "   {skip,""XQ30 XP30""}"
     else if ($deps[@type = "spec" and @value = "XP20"]) then
     "   {skip,""XP20""}"
     else if ($deps[@type = "spec" and @value = "XP20 XQ10"]) then
@@ -223,15 +229,16 @@ declare function local:print-testcase($test-case)
     else if ($deps[@type = "problem"]) then
     "   {skip,"" "||$deps[@type = "problem"]/@value||" ""}"
     (: XSD 1.1 stuff :) 
-    else if ($deps[@type = "xsd-version" and @value = "1.1"]) then
+    (: fn-matches.re :)
+    else if ($deps[@type = "xsd-version" and @value = "1.1"] and 
+                   $test-case/../@name != ("fn-matches", "fn-matches.re")) then
     "   {skip,""XSD 1.1""}"
-    (: else if ($deps[@type = "xsd-version" and @value = "1.0"]) then
-    "   {skip,""XSD 1.0""}" :)
+    else if ($deps[@type = "xsd-version" and @value = "1.0"] and 
+                   $test-case/../@name = ("fn-matches", "fn-matches.re")) then
+    "   {skip,""XSD 1.0 regex""}"
     (: XML 1.1 stuff :) 
     else if ($deps[@type = "xml-version" and @value = "1.1"]) then
     "   {skip,""XML 1.1""}"
-    (: else if ($deps[@type = "xml-version" and @value = "1.0"]) then
-    "   {skip,""XML 1.0""}" :)
     else
     "   Qry = "||
     (
@@ -274,10 +281,22 @@ declare function local:print-environment($env)
   let $namespaces      := $env/*:namespace
   let $resources       := $env/*:resource
   let $modules         := $env/*:module | $env/../*:module
-  
+  let $dec-formats     := $env/*:decimal-format
   return 
   "environment('"||$name||"') ->" || '&#10;' ||
   "["||
+  "{'decimal-formats', ["||
+  (
+    for $res in $dec-formats
+    return
+    "{"""||$res/@name ||""",["||
+           (for $a in $res/@*[name(.) != "name"]
+           return
+           "{'"||name($a)||"',"||local:mask-string($a)||"}"
+           ) => string-join(","||'&#10;')
+              ||"]}"
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{sources, ["||
   (
     for $res in $sources
@@ -355,9 +374,31 @@ declare function local:print-local-environment($env as item()*) as item()*
   let $namespaces      := $env/*:environment/*:namespace 
   let $resources       := $env/*:environment/*:resource 
   let $modules         := $env/*:environment/*:module | $env/*:module
-  
+  let $dec-formats     := $env/*:environment/*:decimal-format
+
   return (
   "["||
+  "{'decimal-formats', ["||
+  (
+    for $res in $dec-formats
+    return
+    "{"""|| (let $q := fn:resolve-QName($res/@name,$res)
+             return
+             if (namespace-uri-from-QName($q) = 'http://www.w3.org/2010/09/qt-fots-catalog') then
+               $res/@name
+             else if (not(exists($res/@name))) then
+               ""
+             else
+              ("Q{"||namespace-uri-from-QName($q)||"}" || local-name-from-QName($q))
+            )              
+     ||""",["||
+           (for $a in $res/@*[name(.) != "name"]
+           return
+           "{'"||name($a)||"',"||local:mask-string($a)||"}"
+           ) => string-join(","||'&#10;')
+              ||"]}"
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
   "{sources, ["||
   (
     for $res in $sources
