@@ -1866,7 +1866,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val1}, 
          'xs:double' ) -> % MAYBE castable
    Val = string:trim(Val1),
-   ?dbg("Val",Val),
+   %?dbg("Val",Val),
    case string:find(Val, "--") of
       nomatch ->
          ok;
@@ -2278,7 +2278,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:Name' ) ->
    end;
 
 cast_as( #xqAtomicValue{} = Arg1,'xs:NCName' ) ->
-   ?dbg("Arg1",Arg1),
+   %?dbg("Arg1",Arg1),
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:Name' )),
    case re:run(StrVal, "[:]",[unicode]) of
       nomatch ->

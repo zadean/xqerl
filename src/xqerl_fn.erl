@@ -1691,7 +1691,6 @@ pct_encode3([H|T]) ->
             Num == neg_infinity ->
                NegFun(infinity,[]);
             true ->
-               ?dbg("Num",Num),
                case xqerl_numeric:less_than(Num, 0) of
                   true ->
                      NegFun(Num,[]);
@@ -3181,8 +3180,8 @@ string_value(At) -> xqerl_types:string_value(At).
 
 %% This function serializes the supplied input sequence $arg as described in [xslt-xquery-serialization-31], 
 %% returning the serialized representation of the sequence as a string. 
-'serialize'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'serialize'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'serialize'(_Ctx,_Arg1) -> ?err('FODC0010').
+'serialize'(_Ctx,_Arg1,_Arg2) -> ?err('FODC0010').
 
 %% Sorts a supplied sequence, based on the value of a sort key supplied as a function. 
 'sort'(Ctx,List) when not is_list(List) ->

@@ -959,7 +959,7 @@ numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
              ValA == neg_infinity orelse ValB == neg_infinity ->
                 neg_infinity;
              Prec == 15 -> % float could be overflowed
-                case xqerl_numeric:double(ValA) + xqerl_numeric:double(ValB) of
+                case xqerl_numeric:float(ValA) + xqerl_numeric:float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
@@ -1005,7 +1005,7 @@ numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
              (is_integer(ValA) orelse trunc(ValA) == ValA) andalso (is_integer(ValB) orelse trunc(ValB) == ValB) ->
                 ValA - ValB;
              Prec == 15 -> % float could be overflowed
-                case ((ValA * 100000000) - (ValB * 100000000)) / 100000000 of
+                case xqerl_numeric:float(ValA) - xqerl_numeric:float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
@@ -1051,7 +1051,7 @@ numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
              is_integer(ValA) andalso is_integer(ValB) ->
                 ValA * ValB;
              Prec == 15 -> % float could be overflowed
-                case ((ValA * 100000000) * (ValB * 100000000)) / 10000000000000000 of
+                case xqerl_numeric:float(ValA) * xqerl_numeric:float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
@@ -1118,7 +1118,7 @@ numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
              ValA == nan orelse ValB == nan ->
                 nan;
              Prec == 15 -> % float could be overflowed
-                case ValA / ValB of
+                case xqerl_numeric:float(ValA) / xqerl_numeric:float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
@@ -1163,7 +1163,7 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
              is_integer(ValA) andalso is_integer(ValB) ->
                 ValA div ValB;
              Prec == 15 -> % float could be overflowed
-                case trunc(float(ValA) / float(ValB)) of
+                case trunc(xqerl_numeric:float(ValA) / xqerl_numeric:float(ValB)) of
                    X when X > ?MAXFLOAT ->
                       xqerl_error:error('FOAR0002');
                    X when X < ?MINFLOAT ->

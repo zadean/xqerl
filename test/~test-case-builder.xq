@@ -174,6 +174,8 @@ declare function local:print-testcase($test-case)
     "   {skip,""serialization""}"
     else if (starts-with($test-case/../@name,"method-")) then 
     "   {skip,""serialization feature""}"
+    else if ($test-case/../@name = "fn-serialize") then 
+    "   {skip,""serialization feature""}"
     (: else if ($deps[@type = "feature" and @value = "infoset-dtd"]) then 
     "   {skip,""infoset-dtd""}" :)
     else if ($deps[@type = "feature" and @value = "collection-stability"]) then 
