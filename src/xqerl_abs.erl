@@ -38,7 +38,7 @@
 -define(e, erl_syntax).
 
 -include("xqerl.hrl").
-
+-compile(inline_list_funcs).
 
 init_mod_scan() ->
    erlang:put(imp_mod, 1),
@@ -109,7 +109,7 @@ add_context_key(Map,named_functions,Ctx) ->
         'default-collation' => maps:get('default-collation', Ctx),
         known_collations    => maps:get(known_collations, Ctx),
         known_dec_formats   => maps:get(known_dec_formats, Ctx),
-        named_functions     => maps:get(known_fx_sigs, Ctx) %[]%
+        named_functions     => maps:get(known_fx_sigs, Ctx)%[]%  
        };
 
 add_context_key(Map,Key,Ctx) ->
@@ -161,7 +161,9 @@ scan_mod(#xqModule{prolog = Prolog,
    ++
    variable_functions(EmptyMap, Variables) 
    ++ 
-   function_functions(EmptyMap, Functions);
+   function_functions(EmptyMap, Functions)
+   ++ 
+   get_global_funs();
 
 %%    _ = valid_ver(Version),
 %%    _ = valid_enc(string:to_upper(Encoding)),      
@@ -276,6 +278,7 @@ scan_mod(#xqModule{prolog = Prolog,
    ++
    export_functions(Functions)
    ++
+   [attribute(compile,inline_list_funcs)] ++ 
 [ {function,?L,init,0,
   [{clause,?L,
     [],
@@ -289,8 +292,10 @@ scan_mod(#xqModule{prolog = Prolog,
    variable_functions(EmptyMap, Variables) 
    ++ 
    function_functions(EmptyMap, Functions)
-   ++ 
+   ++
    body_function(EmptyMap, Body)
+   ++ 
+   get_global_funs()
    .
 
 body_function(ContextMap, Body) ->
@@ -482,6 +487,8 @@ param_types(Params) ->
    [ T || #xqVar{type = T} <- Params].
 
 % cardinality ensure
+expr_do(Ctx, {ensure, Var, #xqSeqType{type = item, occur = one_or_many}}) ->
+   expr_do(Ctx, Var);
 expr_do(Ctx, {ensure, Var, #xqSeqType{occur = Occur}}) ->
    Expr = expr_do(Ctx, Var),
    FunName = if Occur == one ->
@@ -701,8 +708,11 @@ expr_do(Ctx, {array, Expr} ) ->
      ]
    };
 expr_do(Ctx, #xqQuery{query = Qry} )->
-   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,return_value}},[
-   expr_do(Ctx, Qry)]};
+   {block,?L,
+    [{match,?L,{var,?L,'Query'},expr_do(Ctx, Qry)},
+     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,return_value}},[{var,?L,'Query'}]}
+     ]};
+   
 expr_do(Ctx, [T]) when is_tuple(T) ->
    expr_do(Ctx, T);
 expr_do(_Ctx, #xqAtomicValue{} = A) ->
@@ -781,13 +791,13 @@ expr_do(Ctx, {cast_as,Expr1,Expr2}) ->
 
 % atomize/promote bodies of functions
 expr_do(Ctx, {promote_to, {atomize, #xqFunction{body = Body} = Expr1},#xqSeqType{type = #xqFunTest{type = Expr2}}}) ->
-   ?dbg("Body",Body),
+   %?dbg("Body",Body),
    expr_do(Ctx, Expr1#xqFunction{body = {promote_to, {atomize, Body}, Expr2}});
 expr_do(Ctx, {promote_to, #xqFunction{body = Body} = Expr1,#xqSeqType{type = #xqFunTest{type = Expr2}}}) ->
-   ?dbg("Body",Body),
+   %?dbg("Body",Body),
    expr_do(Ctx, Expr1#xqFunction{body = {promote_to, Body, Expr2}});
 expr_do(Ctx, {promote_to,Expr1,Expr2}) ->
-   ?dbg("Body",{Expr1,Expr2}),
+   %?dbg("Body",{Expr1,Expr2}),
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as_seq}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
    ]};
 
@@ -1584,71 +1594,14 @@ expr_do(_Ctx, 'empty-sequence') ->
 expr_do(_Ctx, 'empty-expr') ->
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,empty}},[]};
 
-% loop is grouped in sections by type for/let/where/window together because they can be done atomically
-%% match each section to a variable that holds a list of variable tuples, send variable into next section
-expr_do(Ctx, #xqFlwor{loop = Loop, return = Return}) ->
-   %FlworTupName = next_var_tuple_name(),
-   Ctx01 = set_iterator_name(Ctx,[]), % Clear any nested names
-   Ctx0 = Ctx01#{variables => []}, % Clear any nested names
-   %Ctx1 = set_variable_tuple_name(Ctx0, FlworTupName),
-   % mapfold to map each abs section and fold the context up
-   {Abs1,Ctx2} = 
-     lists:mapfoldl(fun(Section, Ctx3) ->
-                         %?dbg("Ctx3",Ctx3),
-                         case Section of
-                            % each must return {Abs,NewCtx}
-                            {for_let,X} ->
-                               {Abs,NewCtx} = flw_do(Ctx3, X),
-                               FlworTupName1 = next_var_tuple_name(),
-                               Ctx4 = set_variable_tuple_name(NewCtx, FlworTupName1),
-                               { {match,?L,{var,?L,FlworTupName1},
-                                  {call,?L,
-                                   {'fun',?L,{clauses,
-                                     [{clause,?L,[],[],alist(Abs)}]
-                                    }},[]}},Ctx4};
-                            {where,X} ->
-                               {Abs,NewCtx} = where_clause_gen(Ctx3, X),
-                               FlworTupName1 = next_var_tuple_name(),
-                               Ctx4 = set_variable_tuple_name(NewCtx, FlworTupName1),
-                               { {match,?L,{var,?L,FlworTupName1},
-                                  {call,?L,
-                                   {'fun',?L,{clauses,
-                                     [{clause,?L,[],[],alist(Abs)}]
-                                   }},[]}},Ctx4};
-                            {order,X} ->
-                               {Abs,NewCtx} = order_do(Ctx3, X),
-                               FlworTupName1 = next_var_tuple_name(),
-                               Ctx4 = set_variable_tuple_name(NewCtx, FlworTupName1),
-                               { {match,?L,{var,?L,FlworTupName1},
-                                  {call,?L,
-                                   {'fun',?L,{clauses,
-                                     [{clause,?L,[],[],alist(Abs)}]
-                                   }},[]}},Ctx4};
-                            {group,X} ->
-                               {Abs,NewCtx} = group_do(Ctx3, X),
-                               FlworTupName1 = next_var_tuple_name(),
-                               Ctx4 = set_variable_tuple_name(NewCtx, FlworTupName1),
-                               { {match,?L,{var,?L,FlworTupName1},
-                                  {call,?L,
-                                   {'fun',?L,{clauses,
-                                     [{clause,?L,[],[],alist(Abs)}]
-                                   }},[]}},Ctx4};
-                            {count,X} ->
-                               {Abs,NewCtx} = count_do(Ctx3, X),
-                               FlworTupName1 = next_var_tuple_name(),
-                               Ctx4 = set_variable_tuple_name(NewCtx, FlworTupName1),
-                               { {match,?L,{var,?L,FlworTupName1},
-                                  {call,?L,
-                                   {'fun',?L,{clauses,
-                                     [{clause,?L,[],[],alist(Abs)}]
-                                   }},[]}},Ctx4};
-                            _ ->
-                              io:format("GOT: ~p~n",[Section]),
-                              {[], Ctx3}
-                         end
-                   end, Ctx0, Loop),
-   RetAbs = return_do(Ctx2, get_variable_tuple_name(Ctx2), Return),
-   {block,?L, lists:flatten(Abs1 ++ [RetAbs])};
+% each position of the flwor is put in its own function.
+% every function is a tail call to the next section and self.
+expr_do(Ctx, #xqFlwor{id = RetId, loop = Loop, return = Return}) ->
+   Ctx1 = Ctx#{grp_variables => []}, % Clear any grouping variables
+   VarTup = get_variable_tuple_name(Ctx1),
+   {_NewCtx,In,Out} = flwor(Ctx1, Loop, RetId, Return, [], [],VarTup, false),
+   add_global_funs(Out),
+   {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,flatten}}, [{block,?L,alist(In)}]};
 
 expr_do(Ctx, [Sing]) ->
    expr_do(Ctx, Sing);
@@ -1664,6 +1617,901 @@ expr_do(_Ctx, Expr) ->
    {nil,?L}.
 
 
+% return clause end loop and returns {NewCtx,Internal,Global}
+flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,Inline) ->
+   ?dbg("get_variable_tuple(Ctx)",get_variable_tuple(Ctx)),
+   ?dbg("{Inline,TupleVar}",{Inline,TupleVar}),
+   FunctionName = glob_fun_name({return,RetId}),
+   CurrContext = get_context_variable_name(Ctx),
+   NextTupleVar = next_var_tuple_name(),
+   {NewCtx,FunAbs} = return_part(Ctx, {RetId,Return}),
+   %?dbg("variables",maps:get(variables, NewCtx)),
+   if Inline == true ->
+         ?dbg("Internal",Internal),
+         NewCtx1 = set_variable_tuple_name(NewCtx, TupleVar),
+         {NewCtx1,Internal,FunAbs ++ Global};
+      true ->
+         NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+         NewInt = Internal ++ [{call,?L,{atom,?L,FunctionName},[{var,?L,CurrContext},{var,?L, TupleVar}]}],
+         ?dbg("NewInt",NewInt),
+         {NewCtx1,NewInt,FunAbs ++ Global}
+   end;
+
+% (for|let)/return
+flwor(Ctx, [{Curr,_} = F], RetId, Return, Internal, Global,TupleVar,Inline) when Curr == 'let';
+                                                                                 Curr == 'for' ->
+   Vars = case get_variable_tuple(Ctx) of
+             {nil,_} ->
+                {atom,?L,new};
+             O ->
+                O
+          end,
+   NextTupleVar = if TupleVar == [] ->
+                        next_var_tuple_name();
+                     Inline == false ->
+                        next_var_tuple_name();
+                     true ->
+                        TupleVar
+                  end,
+   CurrContext = get_context_variable_name(Ctx),
+   ThisFun = glob_fun_name(F),
+   NextFun = glob_fun_name({return, RetId}),
+   {NewCtx,FunAbs} = if Curr == 'let' ->
+                           let_part(Ctx, F, NextFun);
+                        true ->
+                           for_loop(Ctx, F, NextFun)
+                     end,
+   NewInternal = if Internal == [] ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},Vars]}}];
+                    Inline == false ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}];
+                    true ->
+                       Internal
+                 end,
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, [], RetId, Return, NewInternal, FunAbs ++ Global,NextTupleVar,true);
+
+% for/let
+flwor(Ctx, [{Curr,_} = F,{Next,_} = N|T], RetId, Return, Internal, Global,TupleVar,Inline) when Curr == 'let', Next == 'let';
+                                                                                                Curr == 'let', Next == 'for';
+                                                                                                Curr == 'for', Next == 'let';
+                                                                                                Curr == 'for', Next == 'for' ->
+   Vars = case get_variable_tuple(Ctx) of
+             {nil,_} ->
+                {atom,?L,new};
+             O ->
+                O
+          end,
+   NextTupleVar = if TupleVar == [] ->
+                        next_var_tuple_name();
+                     Inline == false ->
+                        next_var_tuple_name();
+                     true ->
+                        TupleVar
+                  end,
+   CurrContext = get_context_variable_name(Ctx),
+   ThisFun = glob_fun_name(F),
+   NextFun = glob_fun_name(N),
+   {NewCtx,FunAbs} = if Curr == 'let' ->
+                           let_part(Ctx, F, NextFun);
+                        true ->
+                           for_loop(Ctx, F, NextFun)
+                     end,
+   NewInternal = if Internal == [] ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},Vars]}}];
+                    Inline == false ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}];
+                    true ->
+                       Internal
+                 end,
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, [N|T], RetId, Return, NewInternal, FunAbs ++ Global,NextTupleVar,true);
+
+% for/other
+flwor(Ctx, [{Curr,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline) when Curr == 'let';
+                                                                                   Curr == 'for' ->
+   Vars = case get_variable_tuple(Ctx) of
+             {nil,_} ->
+                {atom,?L,new};
+             O ->
+                O
+          end,
+   NextTupleVar = if TupleVar == [] ->
+                        next_var_tuple_name();
+                     Inline == false ->
+                        next_var_tuple_name();
+                     true ->
+                        TupleVar
+                  end,
+   CurrContext = get_context_variable_name(Ctx),
+   ThisFun = glob_fun_name(F),
+   {NewCtx,FunAbs} = if Curr == 'let' ->
+                           let_part(Ctx, F, []);
+                        true ->
+                           for_loop(Ctx, F, [])
+                     end,
+   NewInternal = if Internal == [] ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},Vars]}}];
+                    Inline == false ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}];
+                    true ->
+                       Internal
+                 end,
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, T, RetId, Return, NewInternal, FunAbs ++ Global,NextTupleVar,false);
+
+flwor(Ctx, [#xqWindow{win_variable = #xqVar{id = Id}} = F|T], RetId, Return, Internal, Global,TupleVar,Inline) ->
+   Vars = case get_variable_tuple(Ctx) of
+             {nil,_} ->
+                {atom,?L,new};
+             O ->
+                O
+          end,
+   NextTupleVar = if TupleVar == [] ->
+                        next_var_tuple_name();
+                     Inline == false ->
+                        next_var_tuple_name();
+                     true ->
+                        TupleVar
+                  end,
+   CurrContext = get_context_variable_name(Ctx),
+   ThisFun = glob_fun_name({window,Id}),
+   {NewCtx,FunAbs} = window_loop(Ctx, F, []),
+   NewInternal = if Inline == false andalso TupleVar =/= [] ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}];
+                    true ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},Vars]}}]
+                 end,
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, T, RetId, Return, NewInternal, FunAbs ++ Global,NextTupleVar,false);
+
+% where
+flwor(Ctx, [{where,{Id,_}} = W|T], RetId, Return, Internal, Global,TupleVar,_Inline) ->
+   NextTupleVar = next_var_tuple_name(),
+   CurrContext = get_context_variable_name(Ctx),
+   ThisFun = glob_fun_name({where,Id}),
+   {NewCtx,FunAbs} = where_part(Ctx, W, []),
+   NewInternal = Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}],
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, T, RetId, Return, NewInternal, FunAbs ++ Global,NextTupleVar,false);
+
+% count
+flwor(Ctx, [{count,_} = C|T], RetId, Return, Internal, Global,TupleVar,_Inline) ->
+   NextTupleVar = next_var_tuple_name(),
+   CurrContext = get_context_variable_name(Ctx),
+   ThisFun = glob_fun_name(C),
+   {NewCtx,FunAbs} = count_part(Ctx, C, []),
+   NewInternal = Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}],
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, T, RetId, Return, NewInternal, FunAbs ++ Global,NextTupleVar,false);
+
+% group
+flwor(Ctx, [{group_by,Id,_} = F|T], RetId, Return, Internal, Global,TupleVar,_Inline) ->
+   NextTupleVar = next_var_tuple_name(),
+   CurrContext = get_context_variable_name(Ctx),
+   ThisFun = glob_fun_name({group_by,Id}),
+   {NewCtx,FunAbs} = group_part(Ctx, F),
+   NewInternal = Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}],
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, T, RetId, Return, NewInternal, FunAbs ++ Global,NextTupleVar,false);
+
+% order
+flwor(Ctx, [{order_by,Exprs}|T], RetId, Return, Internal, Global,TupleVar,_Inline) ->
+   ?dbg("Exprs",Exprs),
+   NextTupleVar = next_var_tuple_name(),
+   VarTup = get_variable_tuple(Ctx),
+   Funs = lists:foldr(fun({order, Expr, {modifier,{_,Dir},{_,Empty},{_,_Collation}}},Acc) ->
+                           {cons,?L,
+                            {tuple,?L, [{'fun',?L,{clauses,
+                                          [{clause,?L,[VarTup],[],
+                                            [{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,singleton_value}},
+                                              [expr_do(Ctx, Expr)]}]}]}},
+                                         {atom,?L,Dir},{atom,?L,Empty}]}
+                            , Acc} 
+                      end, {nil,?L}, alist(Exprs)),
+   NewInternal = Internal ++ [{match,?L,{var,?L,NextTupleVar},
+                               {call,?L,{remote,?L,{atom,?L,xqerl_flwor},
+                                         {atom,?L,orderbyclause}},
+                                [{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,flatten}},
+                                           [{var,?L,TupleVar}]},
+                                 Funs]}}],
+   NewCtx = set_variable_tuple_name(Ctx, NextTupleVar),
+   flwor(NewCtx, T, RetId, Return, NewInternal, Global, NextTupleVar, false);
+
+   
+flwor(Ctx, Loop, RetId, Return, Internal, Global,TupleVariable,Inline) ->
+   ?dbg("Loop",Loop),
+   ok.
+
+return_part(Ctx,{Id, Expr}) ->
+   FunctionName = glob_fun_name({return,Id}),
+   OldVariableTupleMatch = get_variable_tuple(Ctx),
+   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   InLine = attribute(compile, {inline,{FunctionName,2}}),
+   RetFun = {function, ?L, FunctionName, 2,
+              [{clause,?L, [{var,?L, '_'},{nil,?L}],
+                [], % guards
+                [{nil,?L}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'List'}],
+                [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'List'}]}]], % guards
+                [{lc,?L,
+                  {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]},
+                  [{generate,?L,{var,?L, 'T'},{var,?L, 'List'}}]}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},OldVariableTupleMatch],[], % guards
+                [expr_do(LocCtx,Expr)]
+               }]},
+   {Ctx,[InLine, RetFun]}.
+
+where_part(Ctx,{'where',{Id, Expr}},_NextFunAtom) ->
+   FunctionName = glob_fun_name({where, Id}),
+   OldVariableTupleMatch = get_variable_tuple(Ctx),
+   InLine = attribute(compile, {inline,{FunctionName,2}}),
+   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   WhereFun = {function, ?L, FunctionName, 2,
+              [{clause,?L, [{var,?L, '_'},{nil,?L}],
+                [], % guards
+                [{nil,?L}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'Stream'}],
+                [[{op,?L,'not',{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'Stream'}]}}]], % guards
+                [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{cons,?L,{var,?L,'Stream'},{nil,?L}}]}]},
+               {clause,?L, [{var,?L, 'Ctx'},{cons,?L,OldVariableTupleMatch,{var,?L,'T'}}],
+                [], % guards
+                [{match,?L,{var,?L,'True'}, 
+                  {call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,eff_bool_val}},
+                   [expr_do(LocCtx,Expr)]}},
+                 {'if',?L,
+                  [{clause,?L,[],
+                    [[{op,?L,'==',{var,?L,'True'},{atom,?L,true}} ]],
+                    [
+                     {cons,?L,
+                      OldVariableTupleMatch, 
+                      {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]}} 
+                    ]},
+                   {clause,?L,[],
+                    [[{atom,?L,true}]],
+                    [
+                     {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]}
+                    ]}]}
+                ]}]},
+   {Ctx,[InLine,WhereFun]}.
+
+count_part(Ctx,{'count',#xqVar{id = Id,
+                               name = Name}} = Part,NextFunAtom) ->
+   VarName = local_variable_name(Id),
+   NewVar  = {Name,#xqSeqType{type = 'xs:integer', occur = 'one'},[],VarName},
+   FunctionName = glob_fun_name(Part),
+   NewCtx  = add_grouping_variable(NewVar, Ctx),
+   OldVariableTupleMatch = get_variable_tuple(Ctx),
+   NewVariableTupleMatch = get_variable_tuple(NewCtx),
+   CntFun1 = {function, ?L, FunctionName, 2,
+              [{clause,?L, [{var,?L, 'Ctx'},{var,?L, 'Stream'}],[], % guards
+                [{call,?L,
+                  {atom,?L,FunctionName},
+                  [{var,?L,'Ctx'},{integer,?L,1}, {var,?L, 'Stream'}]}]
+               }]},
+   CntFun2 = {function, ?L, FunctionName, 3,
+              [{clause,?L, [{var,?L, '_'},
+                            % H|T list
+                            {var,?L, '_'},
+                            {nil,?L}
+                           ],[], % guards
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'Pos'},{cons,?L,OldVariableTupleMatch,{var,?L,'T'}} ],[], % guards
+                [{match,?L,{var,?L,VarName}, 
+                  {tuple,?L,[ atom_or_string(xqAtomicValue),
+                              atom_or_string('xs:integer'),
+                              {var,?L,'Pos'} ]}},
+                  {cons,?L,
+                   if NextFunAtom == [] ->
+                         NewVariableTupleMatch;
+                      true ->
+                         {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                   end,
+                   {call,?L,
+                    {atom,?L,FunctionName},
+                    [{var,?L,'Ctx'},{op,?L,'+',{var,?L,'Pos'},{integer,?L,1}},{var,?L,'T'}]}
+                  }
+                ]
+               }
+              ]},
+   {NewCtx,[CntFun1,CntFun2]}.
+
+group_part(#{grp_variables := GrpVars,
+             variables     := Vars} = Ctx, {group_by,Id,Clauses}) ->
+   % 1. seperate the local/group-able variables from the out-of-scope variables.
+   AllInScopeVars = [N || {_,_,_,N} <- Vars, is_atom(N)],
+   GroupVars      = [N || {_,_,_,N} <- GrpVars],
+   OuterVars      = AllInScopeVars -- GroupVars,
+   ?dbg("{AllInScopeVars,GroupVars,OuterVars}",{AllInScopeVars,GroupVars,OuterVars}),
+   % 2. split key/vals
+   KeyNames = [ Name || #xqGroupBy{grp_variable = {variable, Name}} <- alist(Clauses)],
+   OK = lists:all(fun(N) ->
+                        lists:member(N, GroupVars)
+                  end, KeyNames),
+   if OK ->
+         ok;
+      true ->
+         ?err('XQST0094')% out of scope grouping variable
+   end,
+   KeyTuples   = [{tuple,?L,[{var,?L,Name},{string,?L,Coll}]} || #xqGroupBy{grp_variable = {variable, Name}, collation = Coll} <- alist(Clauses)],
+   KeyNamesTup = [{var,?L,Name} || #xqGroupBy{grp_variable = {variable, Name}} <- alist(Clauses)],
+   ?dbg("{KeyNames,Clauses,KeyTuples}",{KeyNames,Clauses,KeyTuples}),
+   KeyTuple    = if KeyTuples == [] ->
+                       {nil,?L};
+                    true ->
+                       {tuple,?L,KeyTuples}
+                 end,
+   GroupedVars = GroupVars -- KeyNames,
+   GroupedTups = [{var,?L,Name} || Name <- GroupedVars],
+   OuterTups   = if OuterVars == [] ->
+                       {nil,?L};
+                    true ->
+                       {tuple,?L,[{var,?L,Name} || Name <- OuterVars]}
+                 end,
+   GroupedTup  = {tuple,?L,GroupedTups},
+   % 3. group key/vals
+   ToGroupTuple = {tuple,?L,[KeyTuple,GroupedTup]},
+   OutputTuple  = {tuple,?L,KeyNamesTup ++ GroupedTups},
+   % 4. send back entire tuple
+   OutgoingVarTup = get_variable_tuple(Ctx),
+
+   FunctionName = glob_fun_name({group_by, Id}),
+   
+   GrpFun1 = {function, ?L, FunctionName, 2,
+              [{clause,?L, [{var,?L, '_'},{nil,?L}],
+                [], % guards
+                [{nil,?L}]
+               },
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'List'}],
+                [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'List'}]}]], % guards
+                [{match,?L,{var,?L,'Split'},
+                  {call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},[
+                  {lc,?L,{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]},
+                   [{generate,?L,{var,?L, 'T'},{var,?L, 'List'}}]}]}},
+                 {match,?L,{var,?L,'Rest'},
+                  if OuterVars == [] -> 
+                        {nil,?L};
+                     true ->
+                        {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,hd}},[{lc,?L,OuterTups,[{generate,?L,OutgoingVarTup,{var,?L, 'List'}}]}]}
+                  end},
+                 {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'Split'},{var,?L,'Rest'}]}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'}, OutgoingVarTup],[], % guards
+                [ToGroupTuple]
+               }]},
+   GrpFun2 = {function, ?L, FunctionName, 3,
+              [{clause,?L, [{var,?L, 'Ctx'},{var,?L,'Split'},OuterTups],
+                [], % guards
+                [{match,?L,{var,?L,'Grouped'},
+                  {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,groupbyclause}},
+                   [{var,?L,'Split'}]}},
+                 {lc,?L,OutgoingVarTup,[{generate,?L,OutputTuple,{var,?L,'Grouped'}}]}
+                ]}]},
+   {Ctx,[GrpFun1,GrpFun2]}.
+   
+   
+let_part(Ctx,{'let',#xqVar{id = Id,
+                           name = Name,
+                           type = Type,
+                           expr = Expr}} = Part,NextFunAtom) ->
+   VarName = local_variable_name(Id),
+   NewVar  = {Name,Type,[],VarName},
+   FunctionName = glob_fun_name(Part),
+   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   NewCtx  = add_grouping_variable(NewVar, Ctx),
+   OldVariableTupleMatch = case get_variable_tuple(Ctx) of
+                              {nil,_} ->
+                                 {var,?L, '_'};
+                              O ->
+                                 O
+                           end,
+   NewVariableTupleMatch = get_variable_tuple(NewCtx),
+   InLine = attribute(compile, {inline,{FunctionName,2}}),
+   LetFun = {function, ?L, FunctionName, 2,
+              [{clause,?L, [{var,?L, 'Ctx'},{var,?L,'List'}],
+                [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'List'}]}]], % guards
+                [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},[
+                 {lc,?L,{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]},
+                  [{generate,?L,{var,?L, 'T'},{var,?L, 'List'}}]}]}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},OldVariableTupleMatch],[], % guards
+                [{match,?L,{var,?L,VarName}, expr_do(LocCtx,Expr)},
+                   if NextFunAtom == [] ->
+                         NewVariableTupleMatch;
+                      true ->
+                         {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                   end
+                ]
+               }]},
+   {NewCtx,[InLine, LetFun]}.
+
+window_loop(Ctx, #xqWindow{type = Type,
+                           win_variable = #xqVar{id = WId,name = WName,type = WType,expr = Expr}, 
+                           s     = S,
+                           spos  = SPos,
+                           sprev = SPrev,
+                           snext = SNext,
+                           e     = E,
+                           epos  = EPos,
+                           eprev = EPrev,
+                           enext = ENext,
+                           only  = Only,
+                           start_expr = StartExpr,
+                           end_expr = EndExpr}, NextFunAtom) ->
+   OldCtxname = get_context_variable_name(Ctx),
+   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   {SVar,Ctx0} =  case S of
+                     #xqVar{id = Id1,name = Name1} ->
+                        Vn1 = local_variable_name(Id1),
+                        Var1 = {Name1,WType,[],Vn1},
+                        Ctx1 = add_grouping_variable(Var1, LocCtx),
+                        {Var1,Ctx1};
+                     undefined ->
+                        {{[],[],[],'_'},Ctx}
+                  end,
+   {SPosVar,Ctx2} =  case SPos of
+                        #xqPosVar{id = Id2,name = Name2} ->
+                           Vn2 = local_variable_name(Id2),
+                           Var2 = {Name2,WType,[],Vn2},
+                           Ctx3 = add_grouping_variable(Var2, Ctx0),
+                           {Var2,Ctx3};
+                        undefined ->
+                           {{[],[],[],'_'},Ctx0}
+                     end,
+   {SPrevVar,Ctx4} = case SPrev of
+                        #xqVar{id = Id3,name = Name3} ->
+                           Vn3 = local_variable_name(Id3),
+                           Var3 = {Name3,WType,[],Vn3},
+                           Ctx5 = add_grouping_variable(Var3, Ctx2),
+                           {Var3,Ctx5};
+                        undefined ->
+                           {{[],[],[],'_'},Ctx2}
+                     end,
+   {SNextVar,Ctx6} = case SNext of
+                        #xqVar{id = Id4,name = Name4} ->
+                           Vn4 = local_variable_name(Id4),
+                           Var4 = {Name4,WType,[],Vn4},
+                           Ctx7 = add_grouping_variable(Var4, Ctx4),
+                           {Var4,Ctx7};
+                        undefined ->
+                           {{[],[],[],'_'},Ctx4}
+                     end,
+   {EVar,Ctx10} = case E of
+                     #xqVar{id = Id11,name = Name11} ->
+                        Vn11 = local_variable_name(Id11),
+                        Var11 = {Name11,WType,[],Vn11},
+                        Ctx11 = add_grouping_variable(Var11, Ctx6),
+                        {Var11,Ctx11};
+                     undefined ->
+                        {{[],[],[],'_'},Ctx6}
+                  end,
+   {EPosVar,Ctx12} = case EPos of
+                        #xqPosVar{id = Id12,name = Name12} ->
+                           Vn12 = local_variable_name(Id12),
+                           Var12 = {Name12,WType,[],Vn12},
+                           Ctx13 = add_grouping_variable(Var12, Ctx10),
+                           {Var12,Ctx13};
+                        undefined ->
+                           {{[],[],[],'_'},Ctx10}
+                     end,
+   {EPrevVar,Ctx14} =   case EPrev of
+                           #xqVar{id = Id13,name = Name13} ->
+                              Vn13 = local_variable_name(Id13),
+                              Var13 = {Name13,WType,[],Vn13},
+                              Ctx15 = add_grouping_variable(Var13, Ctx12),
+                              {Var13,Ctx15};
+                           undefined ->
+                              {{[],[],[],'_'},Ctx12}
+                        end,
+   {ENextVar,Ctx16} =   case ENext of
+                           #xqVar{id = Id14,name = Name14} ->
+                              Vn14 = local_variable_name(Id14),
+                              Var14 = {Name14,WType,[],Vn14},
+                              Ctx17 = add_grouping_variable(Var14, Ctx14),
+                              {Var14,Ctx17};
+                           undefined ->
+                              {{[],[],[],'_'},Ctx14}
+                        end,
+          
+   WVn = local_variable_name(WId),
+   WVar = {WName,WType,[],WVn},
+   Ctx21 = add_grouping_variable(WVar, Ctx16),
+   {WinVar,Ctx20} = {WVar,Ctx21},
+   % first check for bad name shadows
+   AllVars = [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,WinVar],
+   lists:foldl(fun({_,_,_,'_'},Acc) ->
+                     Acc;
+                  ({A,_,B,_},Acc) ->
+                     case sets:is_element({A,B}, Acc) of
+                        true ->
+                           xqerl_error:error('XQST0103');
+                        _ ->
+                           sets:add_element({A,B}, Acc)
+                     end
+               end, sets:new(), AllVars),
+   StartTup = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar]),
+   EndTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar]),
+   % mask the win variable name to type check it later
+   TempWinVarName = next_var_name(),
+   TempWinVar = {[],[],[],TempWinVarName},
+
+   OutTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,WinVar]),
+   StartFunAbs = {'fun',?L,{clauses,[{clause,?L,[StartTup],[],alist(expr_do(Ctx6, StartExpr))}]}},
+
+   WinCall= if EndExpr == undefined ->
+                   {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,windowclause}},
+                    [ {var,?L,'List'}, StartFunAbs  ] };
+               true ->
+                  EndFunAbs = {'fun',?L,{clauses,[{clause,?L,[EndTup],  [],alist(expr_do(Ctx16, EndExpr))}]}},
+                   {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,windowclause}},
+                    [ {var,?L,'List'}, StartFunAbs, EndFunAbs, {tuple,?L,
+                                                                   [{atom,?L,Type},
+                                                                    {atom,?L,Only}]} ] }
+            end,
+
+   FunctionName = glob_fun_name({window,WId}),
+   OldVariableTupleMatch = case get_variable_tuple(Ctx) of
+                              {nil,_} ->
+                                 {var,?L, '_'};
+                              O ->
+                                 O
+                           end,
+   NewVariableTupleMatch = get_variable_tuple(Ctx20),
+
+   TempStreamVar = next_var_name(),
+   
+   IsFirst = case get_variable_tuple(Ctx) of
+                {nil,_} ->
+                   true;
+                _ ->
+                   false
+             end,
+   ListEx = {match,?L,{var,?L,'List'},expr_do(Ctx, Expr)},
+   
+   WinFun1 = {function, ?L, FunctionName, 2,
+              if IsFirst ->
+                    [{clause,?L, [{var,?L, 'Ctx'},{atom,?L,new}],[], % guards
+                      [ListEx,
+                       {match,?L,{var,?L,TempStreamVar},WinCall},
+                       {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L,TempStreamVar},{nil,?L}]}
+                      ]}];
+                 true ->
+                    []
+              end ++
+              [{clause,?L, [{var,?L, '_'},{nil,?L}],
+                [], % guards
+                [{nil,?L}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'List'}],
+                [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'List'}]}]], % guards
+                [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},[
+                 {lc,?L,{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]},
+                  [{generate,?L,{var,?L, 'T'},{var,?L, 'List'}}]}]}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{match,?L,OldVariableTupleMatch,{var,?L, 'Stream'}}],[], % guards
+                  [ListEx,
+                   {match,?L,{var,?L,TempStreamVar},WinCall},
+                   {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L,TempStreamVar},{var,?L, 'Stream'}]}
+                  ]
+               }
+              ]},
+
+   WinFun2 = {function, ?L, FunctionName, 3,
+              [{clause,?L, [{var,?L, '_'},{nil,?L},{var,?L, '_'}],[],
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'NoList'},{var,?L, 'Stream'}],
+                [[{op,?L,'not',{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'NoList'}]}}]], % guards
+                [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{cons,?L,{var,?L,'NoList'},{nil,?L}},{var,?L, 'Stream'}]}]},
+               {clause,?L, [{var,?L, 'Ctx'},{cons,?L,OutTup,{var,?L,'T'}},OldVariableTupleMatch],[], % guards
+                [{cons,?L,
+                     if NextFunAtom == [] ->
+                           NewVariableTupleMatch;
+                        true ->
+                           {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                     end,
+                     {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'},get_variable_tuple(Ctx)]}
+                   }
+                 ]}]},
+   OutCtx = set_context_variable_name(Ctx20, OldCtxname),
+   {OutCtx,[WinFun1,WinFun2]}.
+   
+
+
+for_loop(Ctx,{'for',#xqVar{id = Id,
+                           name = Name, 
+                           type = Type, 
+                           empty = Empty,
+                           expr = Expr, 
+                           position = undefined}} = Part, NextFunAtom) ->
+   IsFirst = case get_variable_tuple(Ctx) of
+                {nil,_} ->
+                   true;
+                _ ->
+                   false
+             end,
+   VarName = local_variable_name(Id),
+   NewVar    = {Name,Type,[],VarName},
+   NewVar     = {Name,Type,[],VarName},
+   NoEmptyType = (Type#xqSeqType.occur == one orelse Type#xqSeqType.occur == one_or_many), 
+   NewCtx  = add_grouping_variable(NewVar, Ctx),
+   FunctionName = glob_fun_name(Part),
+   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   ListAbs = {match,?L,{var,?L,'List'},expr_do(LocCtx, Expr)},
+   OldVariableTupleMatch = case get_variable_tuple(Ctx) of
+                              {nil,_} ->
+                                 {var,?L, '_'};
+                              O ->
+                                 O
+                           end,
+   NewVariableTupleMatch = get_variable_tuple(NewCtx),
+
+   ForFun1 = {function, ?L, FunctionName, 2,
+              if IsFirst ->
+              [{clause,?L, [{var,?L, 'Ctx'},{atom,?L,new}],[], % guards
+                   [
+                    ListAbs,
+                    {'if',?L,
+                     [{clause,?L,[],
+                       [[{op,?L,'==',{var,?L,'List'},{nil,?L}}]],
+                       [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                         [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{atom,?L,empty},{nil,?L}]}]}]},
+                      {clause,?L,[],
+                       [[{atom,?L,true}]],
+                       [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                         [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'List'},{nil,?L}]}]}]}
+                     ]}
+                   ]}];
+              true ->
+               []
+               end ++
+               [{clause,?L, [{var,?L, '_'},{nil,?L}],
+                [], % guards
+                [{nil,?L}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'List'}],
+                [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'List'}]}]], % guards
+                [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},[
+                 {lc,?L,{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]},
+                  [{generate,?L,{var,?L, 'T'},{var,?L, 'List'}}]}]}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{match,?L,OldVariableTupleMatch,{var,?L, 'Stream'}}],[], % guards
+                [
+                 ListAbs,
+                 {'if',?L,
+                  [{clause,?L,[],
+                    [[{op,?L,'==',{var,?L,'List'},{nil,?L}}]],
+                    [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                     [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{atom,?L,empty},{var,?L, 'Stream'}]}]}
+                     ]},
+                   {clause,?L,[],
+                    [[{atom,?L,true}]],
+                    [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                     [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'List'},{var,?L, 'Stream'}]}]}]}
+                  ]}
+                ]
+               }
+              ]},
+   % standard   
+   ForFun2 = {function, ?L, FunctionName, 3,
+              [{clause,?L, [{var,?L, '_'},{atom,?L,empty},{var,?L, '_'}],[],
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, '_'},{nil,?L},{var,?L, '_'}],[],
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'NoList'},{var,?L, 'Stream'}],
+                [[{op,?L,'not',{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'NoList'}]}}]], % guards
+                [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{cons,?L,{var,?L,'NoList'},{nil,?L}},{var,?L, 'Stream'}]}]},
+               {clause,?L, [{var,?L, 'Ctx'},{cons,?L,{var,?L,VarName},{var,?L,'T'}},OldVariableTupleMatch],[], % guards
+               [{cons,?L,
+                     if NextFunAtom == [] ->
+                           NewVariableTupleMatch;
+                        true ->
+                           {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                     end,
+                     {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'},get_variable_tuple(Ctx)]}
+                   }
+                ]}]},
+   % allow empty
+   ForFun4 = {function, ?L, FunctionName, 3,
+              [{clause,?L, [{var,?L, 'Ctx'},{atom,?L,empty},OldVariableTupleMatch],[],
+                if NoEmptyType ->
+                      [{call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}},
+                       [{atom,?L,'XPTY0004'}]}];
+                   true ->
+                      [{match,?L,{var,?L,VarName},{nil,?L}},
+                      {cons,?L,
+                          if NextFunAtom == [] ->
+                                NewVariableTupleMatch;
+                             true ->
+                                {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                          end,
+                          {nil,?L}}]
+                 end},
+               {clause,?L, [{var,?L, '_'},{nil,?L},{var,?L, '_'}],[],
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'NoList'},{var,?L, 'Stream'}],
+                [[{op,?L,'not',{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'NoList'}]}}]], % guards
+                [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{cons,?L,{var,?L,'NoList'},{nil,?L}},{var,?L, 'Stream'}]}]},
+               {clause,?L, [{var,?L, 'Ctx'},{cons,?L,{var,?L,VarName},{var,?L,'T'}},OldVariableTupleMatch],[], % guards
+               [{cons,?L,
+                     if NextFunAtom == [] ->
+                           NewVariableTupleMatch;
+                        true ->
+                           {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                     end,
+                     {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'},get_variable_tuple(Ctx)]}
+                   }
+                ]}]},
+   if Empty ->
+         {NewCtx,[ForFun1,ForFun4]};
+      true ->
+         {NewCtx,[ForFun1,ForFun2]}
+   end;
+
+for_loop(Ctx,{'for',#xqVar{id = Id,
+                           name = Name, 
+                           type = Type, 
+                           empty = Empty,
+                           expr = Expr, 
+                           position = #xqPosVar{id = PId, name = PName}}} = Part, NextFunAtom) ->
+   IsFirst = case get_variable_tuple(Ctx) of
+                {nil,_} ->
+                   true;
+                _ ->
+                   false
+             end,
+   VarName = local_variable_name(Id),
+   NewVar    = {Name,Type,[],VarName},
+   PosVarName = local_variable_name(PId),
+   NewVar     = {Name,Type,[],VarName},
+   NewPosVar  = {PName,#xqSeqType{type = 'xs:integer', occur = 'one'},[],PosVarName},
+   NoEmptyType = (Type#xqSeqType.occur == one orelse Type#xqSeqType.occur == one_or_many), 
+   NewCtx      = add_grouping_variable(NewPosVar, add_grouping_variable(NewVar, Ctx)),
+   FunctionName = glob_fun_name(Part),
+   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   ListAbs = {match,?L,{var,?L,'List'},expr_do(LocCtx, Expr)},
+   OldVariableTupleMatch = case get_variable_tuple(Ctx) of
+                              {nil,_} ->
+                                 {var,?L, '_'};
+                              O ->
+                                 O
+                           end,
+   NewVariableTupleMatch = get_variable_tuple(NewCtx),
+
+   ForFun1 = {function, ?L, FunctionName, 2,
+              if IsFirst ->
+              [{clause,?L, [{var,?L, 'Ctx'},{atom,?L,new}],[], % guards
+                [
+                 ListAbs,
+                 {'if',?L,
+                  [{clause,?L,[],
+                    [[{op,?L,'==',{var,?L,'List'},{nil,?L}}]],
+                    [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                      [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{integer,?L,0},{atom,?L,empty},{nil,?L}]}]}]},
+                   {clause,?L,[],
+                    [[{atom,?L,true}]],
+                    [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                      [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{integer,?L,0},{var,?L, 'List'},{nil,?L}]}]}]}
+                  ]}
+                ]}];
+              true ->
+               []
+               end ++
+               [{clause,?L, [{var,?L, '_'},{nil,?L}],
+                [], % guards
+                [{nil,?L}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'List'}],
+                [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'List'}]}]], % guards
+                [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},[
+                 {lc,?L,{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]},
+                  [{generate,?L,{var,?L, 'T'},{var,?L, 'List'}}]}]}
+                ]},
+               {clause,?L, [{var,?L, 'Ctx'},{match,?L,OldVariableTupleMatch,{var,?L, 'Stream'}}],[], % guards
+                [
+                 ListAbs,
+                 {'if',?L,
+                  [{clause,?L,[],
+                    [[{op,?L,'==',{var,?L,'List'},{nil,?L}}]],
+                    [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                     [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{integer,?L,0},{atom,?L,empty},{var,?L, 'Stream'}]}]}
+                    ]},
+                   {clause,?L,[],
+                    [[{atom,?L,true}]],
+                    [{call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+                     [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{integer,?L,0},{var,?L, 'List'},{var,?L, 'Stream'}]}]}
+                    ]}
+                  ]}
+                ]
+               }
+              ]},
+   % position variable
+   ForFun3 = {function, ?L, FunctionName, 4,
+              [{clause,?L, [{var,?L, '_'},{var,?L, '_'},{atom,?L,empty},{var,?L, '_'}],[],
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, '_'},{var,?L, '_'},{nil,?L},{var,?L, '_'}],[],
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'Pos'},{var,?L,'NoList'},{var,?L, 'Stream'}],
+                [[{op,?L,'not',{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'NoList'}]}}]], % guards
+                [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L,'Pos'},{cons,?L,{var,?L,'NoList'},{nil,?L}},{var,?L, 'Stream'}]}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'Pos'},{cons,?L,{var,?L,VarName},{var,?L,'T'}},OldVariableTupleMatch],[], % guards
+                [{match,?L,{var,?L,'NewPos'},{op,?L,'+',{var,?L,'Pos'},{integer,?L,1}}},
+                 {match,?L,{var,?L,PosVarName},
+                  {tuple,?L,[ atom_or_string(xqAtomicValue),
+                              atom_or_string('xs:integer'),
+                              {var,?L,'NewPos'} ]}},
+                 {cons,?L,
+                  if NextFunAtom == [] ->
+                        NewVariableTupleMatch;
+                     true ->
+                        {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                  end,
+                  {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L,'NewPos'},{var,?L, 'T'},get_variable_tuple(Ctx)]}}]}
+              ]
+             },
+   % allow empty with position variable
+   ForFun5 = {function, ?L, FunctionName, 4,
+              [{clause,?L, [{var,?L, 'Ctx'},{var,?L, '_'},{atom,?L,empty},OldVariableTupleMatch],[],
+                if NoEmptyType ->
+                      [{call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}},
+                       [{atom,?L,'XPTY0004'}]}];
+                   true ->
+                      [{match,?L,{var,?L,VarName},{nil,?L}},
+                       {match,?L,{var,?L,PosVarName},
+                        {tuple,?L,[ atom_or_string(xqAtomicValue),
+                                    atom_or_string('xs:integer'),
+                                    {integer,?L,0} ]}},
+                       {cons,?L,
+                        if NextFunAtom == [] ->
+                              NewVariableTupleMatch;
+                           true ->
+                              {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                        end,
+                        {nil,?L}}
+                      ]
+                end},
+               {clause,?L, [{var,?L, '_'},{var,?L, '_'},{nil,?L},{var,?L, '_'}],[],
+                [{nil,?L}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'Pos'},{var,?L,'NoList'},{var,?L, 'Stream'}],
+                [[{op,?L,'not',{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_list}},[{var,?L,'NoList'}]}}]], % guards
+                [{call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L,'Pos'},{cons,?L,{var,?L,'NoList'},{nil,?L}},{var,?L, 'Stream'}]}]},
+               {clause,?L, [{var,?L, 'Ctx'},{var,?L,'Pos'},{cons,?L,{var,?L,VarName},{var,?L,'T'}},OldVariableTupleMatch],[], % guards
+                [{match,?L,{var,?L,'NewPos'},{op,?L,'+',{var,?L,'Pos'},{integer,?L,1}}},
+                 {match,?L,{var,?L,PosVarName},
+                  {tuple,?L,[ atom_or_string(xqAtomicValue),
+                              atom_or_string('xs:integer'),
+                              {var,?L,'NewPos'} ]}},
+                 {cons,?L,
+                  if NextFunAtom == [] ->
+                        NewVariableTupleMatch;
+                     true ->
+                        {call,?L,{atom,?L,NextFunAtom},[{var,?L,'Ctx'},NewVariableTupleMatch]}
+                  end,
+                  {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L,'NewPos'},{var,?L, 'T'},get_variable_tuple(Ctx)]}}]}
+              ]
+             },
+   if Empty ->
+         {NewCtx,[ForFun1,ForFun5]};
+      true ->
+         {NewCtx,[ForFun1,ForFun3]}
+   end.
+
+glob_fun_name({window,Id}) ->
+   list_to_atom("window__" ++ integer_to_list(Id));
+glob_fun_name({group_by,Id}) ->
+   list_to_atom("group__" ++ integer_to_list(Id));
+glob_fun_name({return,Id}) ->
+   list_to_atom("return__" ++ integer_to_list(Id));
+glob_fun_name({where,Id}) ->
+   list_to_atom("where__" ++ integer_to_list(Id));
+glob_fun_name({count,#xqVar{id = Id}}) ->
+   list_to_atom("count__" ++ integer_to_list(Id));
+glob_fun_name({for,#xqVar{id = Id}}) ->
+   list_to_atom("for__" ++ integer_to_list(Id));
+glob_fun_name({'let',#xqVar{id = Id}}) ->
+   list_to_atom("let__" ++ integer_to_list(Id)).
 
 step_expr_do(Ctx, #xqVarRef{name = Name}, Source) -> % variables aren't step, but can be dupes
    CtxVar = get_context_variable_name(Ctx),
@@ -2133,730 +2981,15 @@ step_expr_do(Ctx, Other, Source) ->
               Source
         end
         ]}
-     ]}
-   .
-
-
-%get_function_ref({Name,Arity,Args}, Ctx);
-
-return_do(Ctx0, _LastVar,Clause) -> 
-   Tuple = {var,?L,get_variable_tuple_name(Ctx0)},
-   AllVars = get_variable_tuple(Ctx0),
-   %?dbg("return_do",?L),
-   RetVal = expr_do(
-              set_variable_tuple_name(
-              set_iterator_name(Ctx0, []), []) 
-                   , Clause),
-   NextIterLoop = next_iter_loop_name(),
-   NextIterVar = next_iter_name(),
-   RetVar = next_var_name(),
-   NextNextIterVar = next_iter_name(),
-   
-   [{match,?L,{var,?L,RetVar},
-    {call,?L,{named_fun,?L,NextIterLoop,
-     [{clause,?L,[{var,?L,NextIterVar}],[],
-      [{'case',?L,{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,'stream_next'}},[{var,?L,NextIterVar}]}, % case XXX of
-       [{clause,?L,[{atom,?L,none}],[],[{nil,?L}]},
-        {clause,?L,[{tuple,?L,[ {var,?L,'_'},AllVars,{var,?L,NextNextIterVar} ]}],[],
-         [{cons,?L,
-           RetVal,
-           {call,?L,{var,?L,NextIterLoop},[{var,?L,NextNextIterVar}]}
-          }]
-         }
-        ]}]
-     }]},
-     [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[Tuple]}]
-    }
-   },{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,flatten}},[{var,?L,RetVar}]}]
-   .
-
-
-%{Abs,NewCtx}
-order_do(Ctx0, Clauses) -> 
-   %set_variable_tuple_name(Ctx, NextVarTupVar)
-   NextVarTupVar = next_var_tuple_name(),
-   VarTup = get_variable_tuple(Ctx0),
-   %?dbg("return_do",?L),
-   VarTupName = {var,?L,get_variable_tuple_name(Ctx0)},
-   Funs = lists:foldr(fun({order, Expr, {modifier,{_,Dir},{_,Empty},{_,_Collation}}},Acc) ->
-                           {cons,?L,
-                            {tuple,?L, [{'fun',?L,{clauses,
-                                          [{clause,?L,[VarTup],[],
-                                            [{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,singleton_value}},
-                                              alist(expr_do(Ctx0, Expr))
-                                             }]
-                                            }]}},
-                                         {atom,?L,Dir},{atom,?L,Empty}]}
-                            , Acc} 
-                      end, {nil,?L}, Clauses),
-   {
-    {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,orderbyclause}},[VarTupName, Funs]},
-    set_iterator_name(set_variable_tuple_name(Ctx0, NextVarTupVar),[])
-   }.
-
-%{Abs,NewCtx}
-count_do(Ctx, [{_, #xqVar{id = Id, name = Name}}]) ->
-   VarTupListIn = get_variable_tuple(Ctx),
-   CurrVarTupVar = get_variable_tuple_name(Ctx),
-   NextVarTupVar = next_var_tuple_name(),
-   %NextNextVarTupVar = next_var_tuple_name(),
-   NextIterVar = next_iter_name(),
-   NextNextIterVar = next_iter_name(),
-   NextIterLoop = next_iter_loop_name(),
-   TmpCnt = next_var_name(),
-   VarName = local_variable_name(Id),
-   NewVar  = {Name,#xqSeqType{type = 'xs:integer', occur = 'one'},[],VarName},
-   NewCtx  = add_variable(NewVar, Ctx),
-   VarTupListOut = get_variable_tuple(NewCtx),
-   %CurrIter = get_iterator_name(Ctx),
-   %?dbg("VarTupListIn", VarTupListIn),
-   %?dbg("VarTupListOut", VarTupListOut),
-   {
-     % named fun call
-     {call,?L,
-      {named_fun,?L,NextIterLoop,
-       [{clause,?L,[{var,?L,NextIterVar},{var,?L,NextVarTupVar}],[],
-         [{'case',?L,{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_next}},[{var,?L,NextIterVar}]}, % case XXX of
-          [{clause,?L,[{atom,?L,none}],[],[{var,?L,NextVarTupVar}]},
-           {clause,?L,[{tuple,?L,[ {var,?L,TmpCnt},VarTupListIn,{var,?L,NextNextIterVar} ]}],[],
-            [{match,?L,{var,?L,VarName},{tuple,?L,[ {atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{var,?L,TmpCnt} ]}},
-             {call,?L,{var,?L,NextIterLoop},
-                 [{var,?L,NextNextIterVar},{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,'stream_append'}},[VarTupListOut,{var,?L,NextVarTupVar}]}]
-             }
-            ]
-           }
-          ]
-          }
-         ]}]},
-      [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[{var,?L,CurrVarTupVar}]},
-       %{var,?L,CurrIter}
-       {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
-       ]
-     },
-   %NewCtx
-   set_iterator_name(
-       set_variable_tuple_name(NewCtx, NextVarTupVar),[])
-   }
-   .
-
-%{Abs,NewCtx}
-group_do(Ctx0, Clauses) ->
-   Incoming = get_variable_tuple_name(Ctx0),
-   IncomingVarTup = get_variable_tuple(Ctx0),
-   %?dbg("group_do",?L),
-   %?dbg("Incoming",Incoming),
-   % split the tuples into key and variable tuples
-   % reusing the old variable names is okay, because they are out of scope
-   % Base contains the match-out for the LC
-   NextVarTupVar = next_var_tuple_name(),
-   KeyNames = [ {var,?L,Name} || #xqGroupBy{grp_variable = {variable, Name}} <- Clauses],
-   KeyVars  = [ {tuple,?L,[{var,?L,Name},{string,?L,Coll}]} || #xqGroupBy{grp_variable = {variable, Name}, collation = Coll} <- Clauses],
-
-   KeyTuple = {tuple,?L,KeyVars},
-   AllNames = maps:get(variables, Ctx0),
-   
-   Vis = [N || {_,_,_,N} <- AllNames],
-   AllVisible = lists:all(fun({_,_,Nm}) ->
-                                lists:member(Nm, Vis)
-                          end, KeyNames),
-   if AllVisible ->
-         ok;
-      true ->
-         xqerl_error:error('XQST0094') % out of scope grouping variable
-   end,
-   
-   AllVars = [ {var,?L,Name} || {_,_,_,Name} <- AllNames, is_atom(Name)],
-   RestVars = lists:filter(fun({var,_,V}) ->
-                                 not lists:any(fun({var,_,V1}) ->
-                                                     V1 == V
-                                               end, KeyNames)
-                           end, AllVars),
-   RestTuple = {tuple,?L,RestVars},
-   AllTuple = {tuple,?L,[KeyTuple,RestTuple]}, % split var name tuple
-   CombTuple = {tuple,?L,KeyNames ++ RestVars}, % big tuple for the response
-   %?dbg("KeyTuple",KeyTuple),
-   %?dbg("RestTuple",RestTuple),
-   %?dbg("AllTuple",AllTuple),
-   %?dbg("CombTuple",CombTuple),
-   TempVar = next_var_name(),
-   TempVar1 = next_var_name(),
-   TempVar2 = next_var_name(),
-   TempVar3 = next_var_name(),
-   {
-     {block,?L,
-      [{match,?L,{var,?L,TempVar},{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_to_list}},[{var,?L,Incoming}]}},
-       {match,?L,{var,?L,TempVar1},{lc,?L, AllTuple, [{generate,?L,IncomingVarTup,{var,?L,TempVar}}] }},
-       {match,?L,{var,?L,TempVar2},{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,groupbyclause}},[{var,?L,TempVar1}]}},
-       {match,?L,{var,?L,TempVar3},{lc,?L, IncomingVarTup, [{generate,?L,CombTuple,{var,?L,TempVar2}}] }},
-       {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_from_list}},[{var,?L,TempVar3}]}
-     ]},
-    set_variable_tuple_name(Ctx0, NextVarTupVar)}.
-
-
-% for/let/where statement
-% return [{qname, atom}|...]
-flw_do(Ctx, [] ) ->
-   {for_let_where_block_vars(Ctx),
-    set_iterator_name(Ctx, [])};
-
-flw_do(Ctx, [C|T]) ->
-   % each must return {Abs, Ctx}
-   XOut = 
-   case C of
-      %#xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5'}
-      {'let',#xqVar{id = Id, 
-                    name = Name, 
-                    type = Type, 
-                    expr = Expr}} ->
-         VarName = local_variable_name(Id),
-         NewVar  = {Name,Type,[],VarName},
-         %NewCtx  = add_variable(NewVar, Ctx),
-         let_clause_gen(Ctx, NewVar, Expr, T);
-      %#xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', expr = '$7'}
-      {'for',#xqVar{id = Id, 
-                    name = Name, 
-                    type = Type, 
-                    empty = Empty,
-                    expr = Expr, 
-                    position = undefined}} ->
-         VarName = local_variable_name(Id),
-         NewVar  = {Name,Type,[],VarName},
-         %NewCtx  = add_variable(NewVar, Ctx),
-         for_clause_gen(Ctx, NewVar, [], Expr, Empty, T);
-      %#xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', position = '$5', expr = '$7'}
-      {'for',#xqVar{id = Id, 
-                    name = Name, 
-                    type = Type,
-                    empty = Empty,
-                    expr = Expr, 
-                    position = #xqPosVar{id = Pid, name = PName}}} ->
-         _ = if PName == Name ->
-                   xqerl_error:error('XQST0089');
-                true ->
-                   ok
-             end,
-         VarName    = local_variable_name(Id),
-         PosVarName = local_variable_name(Pid),
-         NewVar     = {Name,Type,[],VarName},
-         NewPosVar  = {PName,#xqSeqType{type = 'xs:integer', occur = 'one'},[],PosVarName},
-         %NewCtx     = add_variable(NewVar, Ctx),
-         %NewCtx1    = add_variable(NewPosVar, NewCtx),
-         for_clause_gen(Ctx, NewVar, NewPosVar, Expr, Empty, T);
-      #xqWindow{} = Wc ->
-         window_clause_gen(Ctx, Wc, T)
-   end,
-   %?dbg("XOut",XOut),
-   XOut.
-
-
-for_let_where_block_vars(Ctx) ->
-   AllVars = get_variable_tuple(Ctx),
-   %?dbg("for_let_where_block_vars",Ctx),
-   Iterator = get_iterator_name(Ctx),
-   {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_append}},
-    [AllVars,
-     if Iterator == [] ->
-           {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]};
-        true ->
-           {var,?L,Iterator}
-     end
-    ]}.
-
-
-%{Abs, Ctx}
-window_clause_gen(Ctx, #xqWindow{type = Type,
-                                win_variable = #xqVar{id = WId,name = WName,type = WType,expr = Expr}, 
-                                s     = S,
-                                spos  = SPos,
-                                sprev = SPrev,
-                                snext = SNext,
-                                e     = E,
-                                epos  = EPos,
-                                eprev = EPrev,
-                                enext = ENext,
-                                only  = Only,
-                                start_expr = StartExpr,
-                                end_expr = EndExpr}, Rest) ->
-   {SVar,Ctx0} =  case S of
-                     #xqVar{id = Id1,name = Name1} ->
-                        Vn1 = local_variable_name(Id1),
-                        Var1 = {Name1,WType,[],Vn1},
-                        Ctx1 = add_variable(Var1, Ctx),
-                        {Var1,Ctx1};
-                     undefined ->
-                        {{[],[],[],'_'},Ctx}
-                  end,
-   {SPosVar,Ctx2} =  case SPos of
-                        #xqPosVar{id = Id2,name = Name2} ->
-                           Vn2 = local_variable_name(Id2),
-                           Var2 = {Name2,WType,[],Vn2},
-                           Ctx3 = add_variable(Var2, Ctx0),
-                           {Var2,Ctx3};
-                        undefined ->
-                           {{[],[],[],'_'},Ctx0}
-                     end,
-   {SPrevVar,Ctx4} = case SPrev of
-                        #xqVar{id = Id3,name = Name3} ->
-                           Vn3 = local_variable_name(Id3),
-                           Var3 = {Name3,WType,[],Vn3},
-                           Ctx5 = add_variable(Var3, Ctx2),
-                           {Var3,Ctx5};
-                        undefined ->
-                           {{[],[],[],'_'},Ctx2}
-                     end,
-   {SNextVar,Ctx6} = case SNext of
-                        #xqVar{id = Id4,name = Name4} ->
-                           Vn4 = local_variable_name(Id4),
-                           Var4 = {Name4,WType,[],Vn4},
-                           Ctx7 = add_variable(Var4, Ctx4),
-                           {Var4,Ctx7};
-                        undefined ->
-                           {{[],[],[],'_'},Ctx4}
-                     end,
-   {EVar,Ctx10} = case E of
-                     #xqVar{id = Id11,name = Name11} ->
-                        Vn11 = local_variable_name(Id11),
-                        Var11 = {Name11,WType,[],Vn11},
-                        Ctx11 = add_variable(Var11, Ctx6),
-                        {Var11,Ctx11};
-                     undefined ->
-                        {{[],[],[],'_'},Ctx6}
-                  end,
-   {EPosVar,Ctx12} = case EPos of
-                        #xqPosVar{id = Id12,name = Name12} ->
-                           Vn12 = local_variable_name(Id12),
-                           Var12 = {Name12,WType,[],Vn12},
-                           Ctx13 = add_variable(Var12, Ctx10),
-                           {Var12,Ctx13};
-                        undefined ->
-                           {{[],[],[],'_'},Ctx10}
-                     end,
-   {EPrevVar,Ctx14} =   case EPrev of
-                           #xqVar{id = Id13,name = Name13} ->
-                              Vn13 = local_variable_name(Id13),
-                              Var13 = {Name13,WType,[],Vn13},
-                              Ctx15 = add_variable(Var13, Ctx12),
-                              {Var13,Ctx15};
-                           undefined ->
-                              {{[],[],[],'_'},Ctx12}
-                        end,
-   {ENextVar,Ctx16} =   case ENext of
-                           #xqVar{id = Id14,name = Name14} ->
-                              Vn14 = local_variable_name(Id14),
-                              Var14 = {Name14,WType,[],Vn14},
-                              Ctx17 = add_variable(Var14, Ctx14),
-                              {Var14,Ctx17};
-                           undefined ->
-                              {{[],[],[],'_'},Ctx14}
-                        end,
-          
-   WVn = local_variable_name(WId),
-   WVar = {WName,WType,[],WVn},
-   Ctx21 = add_variable(WVar, Ctx16),
-   {WinVar,Ctx20} = {WVar,Ctx21},
-   % first check for bad name shadows
-   AllVars = [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,WinVar],
-   lists:foldl(fun({_,_,_,'_'},Acc) ->
-                     Acc;
-                  ({A,_,B,_},Acc) ->
-                     case sets:is_element({A,B}, Acc) of
-                        true ->
-                           xqerl_error:error('XQST0103');
-                        _ ->
-                           sets:add_element({A,B}, Acc)
-                     end
-               end, sets:new(), AllVars),
-         
-   StartTup = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar]),
-   EndTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar]),
-   % mask the win variable name to type check it later
-   TempWinVarName = next_var_name(),
-   TempWinVar = {[],[],[],TempWinVarName},
-   OutTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,TempWinVar]),
-   %Ctx21 = set_variable_tuple_name(Ctx, Name)
-   %?dbg("window",?LINE),
-   %?dbg("window",Ctx6),
-   %?dbg("window",StartExpr),
-   StartFunAbs = {'fun',?L,{clauses,[{clause,?L,[StartTup],[],alist(expr_do(Ctx6, StartExpr))}]}},
-   %?dbg("window",?LINE),
-   
-   %Positions = get_set_win_positions([SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,WinVar],1,[]),
-   %?dbg("Positions",Positions),
-   ListEx = case expr_do(Ctx, Expr) of
-               X when is_list(X) ->
-                  X;
-               X ->
-                  [X]
-            end,
-   %?dbg("window",?LINE),
-   WinAbs = if EndExpr == undefined ->
-                   {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,windowclause}},
-                    [ {block,?L, ListEx}, StartFunAbs  ] };
-               true ->
-                  EndFunAbs = {'fun',?L,{clauses,[{clause,?L,[EndTup],  [],alist(expr_do(Ctx16, EndExpr))}]}},
-                   {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,windowclause}},
-                    [ {block,?L, ListEx}, StartFunAbs, EndFunAbs, {tuple,?L,
-                                                                   [{atom,?L,Type},
-                                                                    {atom,?L,Only}]} ] }
-            end,
-   %?dbg("window",?LINE),
-   Incoming = get_variable_tuple_name(Ctx),
-   %?dbg("Incoming",Incoming),
-   CurrIter = get_iterator_name(Ctx),
-   NextIterLoop = next_iter_loop_name(),
-   NextIterVar = next_iter_name(),
-   %NextVarTupVar = next_var_name(),
-   NextNextVarTupVar = next_var_name(),
-   PosVarTupVar = next_var_name(),
-   NextNextIterVar = next_iter_name(),
-   Ctx22 = set_iterator_name(Ctx20, NextNextVarTupVar),
-   INextVarTupVar = next_var_name(),
-
-   {RestAbs, Ctx23} = flw_do(Ctx22, Rest),
-   %?dbg("window_clause_gen",RestAbs),
-   Internal = {block,?L,[{call,?L,
-      {named_fun,?L,NextIterLoop,
-        [
-        {clause,?L,[{var,?L,NextIterVar},{var,?L,NextNextVarTupVar}],[],
-         [{'case',?L,{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_next}},[{var,?L,NextIterVar}]}, % case XXX of
-          [{clause,?L,[{atom,?L,none}],[],
-            % none came in, so check for an empty stream, then append empty sequence if allowed
-            [{var,?L,NextNextVarTupVar}]
-           }] ++
-           % when on last in loop and about to return variables, don't loop again. it will clear the vars
-           [{clause,?L,[{tuple,?L,[ {var,?L,PosVarTupVar},OutTup,{nil,?L} ]}],[],
-                  [{match,?L,{var,?L,WVn},
-                    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as}},[{var,?L,TempWinVarName}, abs_seq_type(Ctx, WType) ]}
-                   }|
-                   alist(RestAbs)]
-           },
-           {clause,?L,[{tuple,?L,[ {var,?L,PosVarTupVar},OutTup,{var,?L,NextNextIterVar} ]}],[],
-            [% first cast the variable to it's type
-             {match,?L,{var,?L,WVn},
-              {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as}},[{var,?L,TempWinVarName}, abs_seq_type(Ctx, WType) ]}
-             },
-             {call,?L,{var,?L,NextIterLoop},
-              [{var,?L,NextNextIterVar}|
-               alist(RestAbs)               
-              ]}]}
-           ]                 
-           }]
-        }
-       ]
-      },
-      [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[WinAbs]},
-       if Incoming == [] ->
-          if CurrIter == [] ->
-                {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]};
-             true ->
-                {var,?L,CurrIter}
-          end;
-          true ->
-             {var,?L,INextVarTupVar}
-       end
-      ]
-    }]},
-   if Incoming == [] ->
-         {Internal,Ctx23};
-      true ->
-         ITuple = {var,?L,get_variable_tuple_name(Ctx)},
-         IAllVars = get_variable_tuple(Ctx),
-         INextIterLoop = next_iter_loop_name(),
-         INextIterVar = next_iter_name(),
-         INextNextIterVar = next_iter_name(),
-         
-        {{call,?L,
-         {named_fun,?L,INextIterLoop,
-          [{clause,?L,[{var,?L,INextIterVar},{var,?L,INextVarTupVar}],[],
-            [{'case',?L,{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,'stream_next'}},[{var,?L,INextIterVar}]}, % case XXX of
-          [{clause,?L,[{atom,?L,none}],[],
-            [{var,?L,INextVarTupVar}]
-           },
-           {clause,?L,[{tuple,?L,[ {var,?L,'_'},IAllVars,{var,?L,INextNextIterVar} ]}],[],
-               [{call,?L,{var,?L,INextIterLoop},
-                 [{var,?L,INextNextIterVar},Internal]}]}
-              ]}]
-           }]},
-         [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[ITuple]},
-          {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
-          %{var,?L,Incoming}
-         ]
-        },Ctx23}         
-   end.
-
-for_clause_gen(Ctx, {_,Type,_,VarName} = NewVar, PosVar, Expr, Empty, Rest) ->
-   NoEmptyType = (Type#xqSeqType.occur == one orelse Type#xqSeqType.occur == one_or_many), 
-
-   PosVarName = if PosVar == [] ->
-                      '_';
-                   true ->
-                      element(4, PosVar)
-                end,
-   NewCtx  = if PosVar == [] ->
-                   add_variable(NewVar, Ctx);
-                true ->
-                   add_variable(PosVar, add_variable(NewVar, Ctx))
-             end,
-   Incoming = get_variable_tuple_name(Ctx),
-   CurrIter = get_iterator_name(Ctx),
-   NextIterLoop = next_iter_loop_name(),
-   %NextIterVar = next_iter_name(),
-   %NextVarTupVar = next_var_name(),
-   NextNextVarTupVar = next_var_name(),
-   %PosVarTupVar = next_var_name(),
-   LocalPosVar = next_var_name(),
-   %LocalHeadVar = next_var_name(),
-   LocalTailVar = next_var_name(),
-   %NextNextIterVar = next_iter_name(),
-   Ctx1 = set_iterator_name(NewCtx, NextNextVarTupVar),
-   RetVal = expr_do(Ctx, Expr),
-   INextVarTupVar = next_var_name(),
-
-   {RestAbs, NextCtx} = flw_do(Ctx1, Rest),
-   %?dbg("NextCtx",NextCtx),
-   %?dbg("for_clause_gen",RestAbs),
-   Internal = 
-     {call,?L,{named_fun,?L,NextIterLoop,
-       % empty list
-       if Empty == true ->
-             if PosVar == [] -> % empty true with no position variable
-                   if NoEmptyType ->
-                         [{clause,?L,[{integer,?L,1},{nil,?L},{var,?L,NextNextVarTupVar}],[],
-                          [{call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}},[{atom,?L,'XPTY0004'}]}]}];
-                      true ->
-                         [{clause,?L,[{integer,?L,1},{nil,?L},{var,?L,NextNextVarTupVar}],[],
-                          [{match,?L,{var,?L,VarName},{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,empty}},[]}},
-                           {call,?L,{var,?L,NextIterLoop},
-                             [{integer,?L,2},
-                              {nil,?L} | alist(RestAbs)
-                             ]}
-                          ]
-                         }]
-                    end;
-                true -> % empty true with the position variable
-                   if NoEmptyType ->
-                         [{clause,?L,[{integer,?L,1},{nil,?L},{var,?L,NextNextVarTupVar}],[],
-                          [{call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}},[{atom,?L,'XPTY0004'}]}]}];
-                      true ->
-                         [{clause,?L,[{integer,?L,1},{nil,?L},{var,?L,NextNextVarTupVar}],[],
-                          [{match,?L,{var,?L,VarName},{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,empty}},[]}},
-                           {match,?L,{var,?L,PosVarName},{tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{integer,?L,0}]}},
-                           {call,?L,{var,?L,NextIterLoop},
-                             [{integer,?L,2},
-                              {nil,?L} | alist(RestAbs)
-                             ]}
-                          ]
-                         }]
-                   end
-             end;
-          true -> % no empty or position, so return variable-stream as-is / end of for-loop
-             if NoEmptyType ->
-                [{clause,?L,[{integer,?L,1},{nil,?L},{var,?L,NextNextVarTupVar}],[],
-                  % this is an empty sequence so return empty stream
-                   [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}]}];
-                   %[{call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}},[{atom,?L,'XPTY0004'}]}]}];
-                true ->
-                   []
-             end
-       end ++ [
-       % end of for-loop
-       {clause,?L,[{var,?L,'_'},{nil,?L},{var,?L,NextNextVarTupVar}],[],
-        [{var,?L,NextNextVarTupVar}]
-       },
-       % non-empty list LocalPosVar,LocalHeadVar,LocalTailVar
-       if PosVar == [] ->
-             {clause,?L,[{var,?L,LocalPosVar},{cons,?L,{var,?L,VarName},{var,?L,LocalTailVar}},{var,?L,NextNextVarTupVar}],[],
-              [{call,?L,{var,?L,NextIterLoop},
-                [{op,?L,'+',{var,?L,LocalPosVar},{integer,?L,1}},
-                 {var,?L,LocalTailVar} | alist(RestAbs)
-                 ]}
-               ]
-             };
-          true ->
-             {clause,?L,[{var,?L,LocalPosVar},{cons,?L,{var,?L,VarName},{var,?L,LocalTailVar}},{var,?L,NextNextVarTupVar}],[],
-              [{match,?L,{var,?L,PosVarName},{tuple,?L,[ {atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{var,?L,LocalPosVar} ]}},
-               {call,?L,{var,?L,NextIterLoop},
-                [{op,?L,'+',{var,?L,LocalPosVar},{integer,?L,1}},
-                 {var,?L,LocalTailVar} | alist(RestAbs)
-                 ]}
-               ]
-             }
-       end,
-       % non-empty non-list LocalPosVar,LocalHeadVar,LocalTailVar
-       if PosVar == [] ->
-             {clause,?L,[{var,?L,LocalPosVar},{var,?L,VarName},{var,?L,NextNextVarTupVar}],[],
-              [{call,?L,{var,?L,NextIterLoop},
-                [{op,?L,'+',{var,?L,LocalPosVar},{integer,?L,1}},
-                 {nil,?L} | alist(RestAbs)
-                 ]}
-               ]
-             };
-          true ->
-             {clause,?L,[{var,?L,LocalPosVar},{var,?L,VarName},{var,?L,NextNextVarTupVar}],[],
-              [{match,?L,{var,?L,PosVarName},{tuple,?L,[ {atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},{var,?L,LocalPosVar} ]}},
-               {call,?L,{var,?L,NextIterLoop},
-                [{op,?L,'+',{var,?L,LocalPosVar},{integer,?L,1}},
-                 {nil,?L} | alist(RestAbs)
-                 ]}
-               ]
-             }
-       end
-       ]
-      },% named-fun arguments
-      [% position
-       {integer,?L,1},
-       % list
-       RetVal,
-       % stream
-       if Incoming == [] andalso CurrIter == [] ->
-            {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]};
-          Incoming == [] ->
-            {var,?L,CurrIter};
-          true ->
-            {var,?L,INextVarTupVar}
-       end
-      ]
-    },
-   if Incoming == [] ->
-         %?dbg("2171",Internal),
-         {[Internal],NextCtx};
-      true ->
-         ITuple = {var,?L,get_variable_tuple_name(Ctx)},
-         IAllVars = get_variable_tuple(Ctx),
-         INextIterLoop = next_iter_loop_name(),
-         INextIterVar = next_iter_name(),
-         INextNextIterVar = next_iter_name(),
-         
-        {{call,?L,
-         {named_fun,?L,INextIterLoop,
-          [{clause,?L,[{var,?L,INextIterVar},{var,?L,INextVarTupVar}],[],
-            [{'case',?L,{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,'stream_next'}},[{var,?L,INextIterVar}]}, % case XXX of
-          [{clause,?L,[{atom,?L,none}],[],
-            [{var,?L,INextVarTupVar}]
-           },
-           {clause,?L,[{tuple,?L,[ {var,?L,'_'},IAllVars,{var,?L,INextNextIterVar} ]}],[],
-               [{call,?L,{var,?L,INextIterLoop},
-                 [{var,?L,INextNextIterVar}|[Internal]]}]}
-              ]}]
-           }]},
-         [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[ITuple]},
-          {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
-          %{var,?L,Incoming}
-         ]
-        },
-         NextCtx}         
-   end.
-
-let_clause_gen(Ctx, {_,_Type,_,VarName} = NewVar, Expr, Rest) ->
-   Incoming = get_variable_tuple_name(Ctx),
-   NewCtx  = add_variable(NewVar, Ctx),
-   INextVarTupVar = next_var_name(),
-   INextIterVar = next_iter_name(),
-   INextNextIterVar = next_iter_name(),
-   Ctx1 = set_iterator_name(NewCtx, INextVarTupVar),
-   {RestAbs, NextCtx} = if Incoming == [] ->
-                              flw_do(NewCtx, Rest);
-                           true ->
-                              flw_do(set_variable_tuple_name(Ctx1,INextVarTupVar), Rest)
-                        end,
-   %?dbg("RestAbs",RestAbs),
-   Internal = [{block,?L,
-         [{match,?L,{var,?L,VarName},expr_do(Ctx, Expr)}|
-          alist(RestAbs)]}],
-   if Incoming == [] ->
-         %?dbg("let_clause_gen internal",Internal),
-         {Internal, NextCtx};
-      true ->
-         ITuple = {var,?L,get_variable_tuple_name(Ctx)},
-         IAllVars = get_variable_tuple(Ctx),
-         INextIterLoop = next_iter_loop_name(),
-         {
-          {call,?L,{named_fun,?L,INextIterLoop,
-           [{clause,?L,[{var,?L,INextIterVar},{var,?L,INextVarTupVar}],[],
-            [{'case',?L,{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,'stream_next'}},[{var,?L,INextIterVar}]}, % case XXX of
-           [{clause,?L,[{atom,?L,none}],[],
-            [{var,?L,INextVarTupVar}]
-           },
-           {clause,?L,[{tuple,?L,[ {var,?L,'_'},IAllVars,{var,?L,INextNextIterVar} ]}],[],
-               [{call,?L,{var,?L,INextIterLoop},
-                 [{var,?L,INextNextIterVar}|Internal]}]}
-              ]}]
-           }]},
-         [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[ITuple]},
-          {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
-         ]
-        },
-        NextCtx 
-        }         
-   end.
-
-
-%{Abs,NewCtx}
-where_clause_gen(Ctx, Expr) ->
-   %?dbg("where_clause_gen", Ctx),
-   VarTupList = get_variable_tuple(Ctx),
-   CurrVarTupVar = get_variable_tuple_name(Ctx),
-   NextVarTupVar = next_var_tuple_name(),
-   NextIterVar = next_iter_name(),
-   NextNextIterVar = next_iter_name(),
-   NextIterLoop = next_iter_loop_name(),
-   CheckFun = fun({where, Ex}) ->
-                  {op,?L,'==',
-                   {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,'singleton_value'}},
-                    [{call,?L,{remote,?L,{atom,?L,xqerl_fn},{atom,?L,'boolean'}},
-                      [{nil,?L},
-                       expr_do(Ctx, Ex)
-                      ]}
-                    ]},
-                   {tuple, ?L, [atom_or_string(xqAtomicValue),atom_or_string('xs:boolean'),atom_or_string(false)]}
-                   }                    
-              end,
-   Check1 = CheckFun(hd(Expr)),
-   Checks = lists:foldl(fun({where, Ex}, Acc) ->
-                              {op,?L,'orelse', Acc, CheckFun({where, Ex})}
-                        end, Check1, tl(Expr)),
-   {
-     % named fun call
-     {call,?L,
-      {named_fun,?L,NextIterLoop,
-       [{clause,?L,[{var,?L,NextIterVar},{var,?L,NextVarTupVar}],[],
-         [{'case',?L,{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_next}},[{var,?L,NextIterVar}]}, % case XXX of
-          [{clause,?L,[{atom,?L,none}],[],[{var,?L,NextVarTupVar}]},
-           {clause,?L,[{tuple,?L,[ {var,?L,'_'},VarTupList,{var,?L,NextNextIterVar} ]}],[],
-            [{'case',?L,% case XXX of
-                        {block,?L,
-                         [Checks]
-                         }
-             , 
-             [{clause,?L,[atom_or_string(true)],[],
-               [{call,?L,{var,?L,NextIterLoop},
-                [{var,?L,NextNextIterVar},{var,?L,NextVarTupVar}]}]
-              },
-              {clause,?L,[{var,?L,'_'}],[],
-                [{call,?L,{var,?L,NextIterLoop},
-                 [{var,?L,NextNextIterVar},{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,'stream_append'}},[VarTupList,{var,?L,NextVarTupVar}]}]}]
-              }
-              ]}]
-           }
-           ]}]
-        }]},
-      [{call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_iter}},[{var,?L,CurrVarTupVar}]},
-       {call,?L,{remote,?L,{atom,?L,xqerl_flwor},{atom,?L,stream_new}},[]}
-       ] % args to named fun
-   },
-   Ctx
-   }
-   .
-
-
-
+     ]}.
 
 %% {name,type,annos,Name}
 add_param(Variable, Map) ->
+   NewMap = add_variable(Variable, Map),
    Vars = maps:get(parameters, Map),
    Key = element(1, Variable),
    NewVars = lists:keystore(Key, 1, Vars, Variable),
-   maps:put(parameters, NewVars, Map).
+   maps:put(parameters, NewVars, NewMap).
 
 %% {name,type,annos,Name}
 add_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
@@ -2877,6 +3010,29 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
    Vars1 = lists:keydelete(Key, 1, Vars),
    NewVars = lists:keystore(Key, 1, Vars1, Variable1),
    maps:put(variables, NewVars, Map).
+
+add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
+   Qn1 = case Qn of
+            #qname{namespace = undefined, prefix = Px, local_name = Ln} ->
+               Nss = maps:get(namespaces, Map),
+               Ns1 = proplists:get_value(Px, Nss),
+               #qname{namespace = Ns1, prefix = "", local_name = Ln};
+            _ ->
+               Qn#qname{prefix = ""}
+         end,
+   Variable1 = erlang:setelement(1, Variable, Qn1),
+   
+   _ = xqerl_context:add_in_scope_variable(Variable1),
+   
+   Vars = maps:get(variables, Map),
+   GVars = maps:get(grp_variables, Map),
+   Key = Qn1,
+   Vars1 = lists:keydelete(Key, 1, Vars),
+   NewVars = lists:keystore(Key, 1, Vars1, Variable1),
+   GVars1 = lists:keydelete(Key, 1, GVars),
+   GNewVars = lists:keystore(Key, 1, GVars1, Variable1),
+   Map#{variables => NewVars,
+        grp_variables => GNewVars}.
 
 get_variable_ref(#qname{namespace = Ns, prefix = Px, local_name = Ln}, Map) ->
    Vars0 = xqerl_context:get_in_scope_variables(),
@@ -3382,14 +3538,18 @@ local_variable_name(Id) ->
 
 get_variable_tuple(Map) when is_map(Map) ->
    Vars = maps:get(variables, Map),
-   get_variable_tuple(Map, Vars).
+   %?dbg("Vars",Vars),
+   Cnt = length([ok||{_,_,_,M} <- Vars, is_atom(M)]),
+   if Cnt == 0 ->
+         {nil,?L};
+      true ->
+         get_variable_tuple(Map, Vars)
+   end.
 
 get_variable_tuple(_Ctx, List) when is_list(List) ->
-   {tuple,?L,lists:flatten([case Name of
+   {tuple,?L,
+    lists:flatten([case Name of
                  {_N,_} -> % global 
-                     %{var,?L,N};
-                     %{VarAbs,_Type} = get_variable_ref(QName, Ctx),
-                     %VarAbs;
                      [];
                  N ->
                     {var,?L,N}
@@ -3425,3 +3585,21 @@ from_list_to_seq(List) ->
 %%      lists:foldl(fun(E, Abs) ->
 %%                 {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,append}},[E, Abs]} 
 %%           end, empty_seq_abs(), List)]}.
+
+get_global_funs() ->
+   case erlang:get(global_funs) of
+      undefined ->
+         [];
+      F ->
+         F
+   end.
+
+add_global_funs(Funs) ->
+   case erlang:get(global_funs) of
+      undefined ->
+         erlang:put(global_funs,Funs);
+      Gs ->
+         erlang:put(global_funs,Funs ++ Gs)
+   end.
+
+   

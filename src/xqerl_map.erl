@@ -78,7 +78,8 @@
 
 %% Tests whether a supplied map contains an entry for a given key 
 'contains'(_Ctx,Map,Key) when is_map(Map) ->
-   #xqAtomicValue{type = 'xs:boolean', value = maps:is_key(xqerl_operators:key_val(Key), Map)};
+   MKey = xqerl_operators:key_val(Key),
+   #xqAtomicValue{type = 'xs:boolean', value = maps:is_key(MKey, Map)};
 'contains'(_Ctx,Map,Key) ->
    IMap = ?val(Map),
    if is_map(IMap) ->

@@ -24,6 +24,8 @@
 
 -module(xqerl_seq3).
 
+-export([sequence/1]).
+
 -export([empty/0]).
 -export([size/1]).
 
@@ -83,6 +85,11 @@
                      is_record(N, xqTextNode);
                      is_record(N, xqProcessingInstructionNode);
                      is_record(N, xqNamespaceNode)).
+
+sequence(L) when is_list(L) ->
+   L;
+sequence(L) ->
+   [L].
 
 ensure_one([A]) -> A;
 ensure_one(A) when is_list(A) -> xqerl_error:error('XPTY0004');
@@ -343,11 +350,11 @@ node_map(Ctx, Fun, Seq) when not is_list(Seq) ->
 node_map(Ctx, Fun, Seq) ->
    case all_node(Seq) of
       true ->
-         ?dbg("All node",Seq),
+         %?dbg("All node",Seq),
          Nodes = map(Ctx, Fun, Seq),
          case all_node(Nodes) orelse all_not_node(Nodes) of
             true ->
-               ?dbg("OK",Nodes),
+               %?dbg("OK",Nodes),
                from_list(Nodes);
             _ ->
                % mixed
@@ -413,6 +420,8 @@ from_list(List) ->
 
 range(_, []) -> empty();
 range([], _) -> empty();
+range(#xqAtomicValue{value = From}, #xqAtomicValue{value = To}) when is_integer(From),is_integer(To) ->
+   range1(From,To);
 range(From, To) ->
    case (xqerl_types:type(From) == node orelse xqerl_types:subtype_of(xqerl_types:type(From), 'xs:integer')) andalso
         (xqerl_types:type(To) == node orelse xqerl_types:subtype_of(xqerl_types:type(To), 'xs:integer')) of

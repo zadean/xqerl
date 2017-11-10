@@ -765,7 +765,7 @@
                 {match,List} ->
                    List
              end,
-   ?dbg("Content",Content),
+   %?dbg("Content",Content),
    Frag = #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                        prefix = "fn",
                                        local_name = "analyze-string-result"},
@@ -801,10 +801,10 @@ analyze_string1(List,String) ->
                                          true ->
                                             []
                                       end,
-                               ?dbg("B",B),
-                               ?dbg("{Es,Ee}",{Es,Ee}),
-                               ?dbg("{Start,End}",{Start,End}),
-                               ?dbg("GrpSize",GrpSize),
+                               %?dbg("B",B),
+                               %?dbg("{Es,Ee}",{Es,Ee}),
+                               %?dbg("{Start,End}",{Start,End}),
+                               %?dbg("GrpSize",GrpSize),
                                if B > Start ->
                                      S = string:slice(String,Start,Start + End - B),
                                      [#xqTextNode{expr = ?str(S)}|get_groups(String,Groups,1)] ++ Tail;
@@ -847,7 +847,7 @@ get_groups(String,[{Start,End}],Cnt) ->
 get_groups(String,[{-1,0}|T],Cnt) ->
    get_groups(String,T,Cnt+1);   
 get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
-   ?dbg("{Start,End,NStart,NEnd}",{Start,End,NStart,NEnd}),
+   %?dbg("{Start,End,NStart,NEnd}",{Start,End,NStart,NEnd}),
    Pos1 = Start + End,
    if NStart < Pos1 orelse NEnd == 0;
       {Start,End} == {NStart,NEnd} -> % overlap/empty group
@@ -943,7 +943,7 @@ avg1([H|T], Sum, Count) ->
             #xqNode{frag_id = F} ->
                case xqerl_node:get_node(Node) of
                   #xqElementNode{base_uri = Base} ->
-                     ?dbg("base-uri",Base),
+                     %?dbg("base-uri",Base),
                      if Base == [] -> ?seq:empty();
                         true -> 
                            case ?seq:is_sequence(Base) of
@@ -980,7 +980,7 @@ avg1([H|T], Sum, Count) ->
                   #xqTextNode{parent_node = P} ->
                      'base-uri'([],#xqNode{frag_id = F, identity = P});
                   O ->
-                    ?dbg("base-uri",O),
+                    %?dbg("base-uri",O),
                     ?seq:empty()
                end;
             _ ->
@@ -1385,7 +1385,7 @@ val_reverse([{_,V}|T], Acc) ->
 % TODO check for valid Uri else FODC0005
 'doc'(_Ctx,[]) -> [];
 'doc'(_Ctx,Arg1) -> 
-   ?dbg("Arg1",Arg1),
+   %?dbg("Arg1",Arg1),
    try
       Uri = xqerl_types:value(Arg1),
       case catch xqerl_context:get_available_document(Uri) of
@@ -1541,7 +1541,7 @@ pct_encode2([]) ->
 pct_encode2([H|T]) when H >= 32, H =< 126 ->
    [H|pct_encode2(T)];
 pct_encode2([H|T]) ->
-   ?dbg("pct_encode2",H),
+   %?dbg("pct_encode2",H),
    string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode2(T).
 
 pct_encode3([]) ->
@@ -1759,7 +1759,7 @@ get_static_function(Ctx,{#qname{namespace = "http://www.w3.org/2005/xpath-functi
    if Arity > 1 ->
          get_static_function(Ctx, {Name, 1});
       true ->
-         ?dbg("Arity",Arity),
+         %?dbg("Arity",Arity),
          xqerl_error:error('XPST0017')
    end;
 get_static_function(Ctx,{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
@@ -1835,7 +1835,7 @@ unmask_static_mod_ns(T) -> T.
                                  end
                               end, Funs) of
                   [] ->
-                     ?dbg("Arg1",Arg1),
+                     %?dbg("Arg1",Arg1),
                      xqerl_error:error('XPST0017');
                   FX ->
                      element(4,element(1,hd(FX)))
@@ -1995,7 +1995,7 @@ unmask_static_mod_ns(T) -> T.
       _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0019"})} ->
             xqerl_error:error('XPTY0004');
       _:E ->
-         ?dbg(?LINE,E),
+         %?dbg(?LINE,E),
          throw(E)
    end.
 
@@ -2067,7 +2067,7 @@ unmask_static_mod_ns(T) -> T.
 %% the nodes are returned in document order with duplicates eliminated. 
 'innermost'(Ctx,Arg1) -> 
    %%    $nodes except $nodes/ancestor::node()
-   ?dbg("innermost",Arg1),
+   %?dbg("innermost",Arg1),
    ?seq:except(Arg1,
                     xqerl_step:reverse(Ctx,
                       ?seq:union(Arg1,?seq:empty()),
@@ -2077,7 +2077,7 @@ unmask_static_mod_ns(T) -> T.
 %% Returns the prefixes of the in-scope namespaces for an element node. 
 'in-scope-prefixes'(_Ctx,Arg1) -> 
    #xqElementNode{inscope_ns = Ns} = xqerl_node:get_node(?seq:singleton_value(Arg1)),
-   ?dbg("in-scope-prefixes",Ns),
+   %?dbg("in-scope-prefixes",Ns),
    List = lists:filtermap(fun(#xqNamespace{prefix = P}) when is_atom(P) ->
                                 false;
                              (#xqNamespace{namespace = [], prefix = []}) -> % reset default
@@ -2234,7 +2234,7 @@ unmask_static_mod_ns(T) -> T.
 %% Returns a value that is equal to the highest value appearing in the input sequence. 
 'max'(_Ctx,Arg1) -> 
    {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
-   ?dbg("max", {Seq,SeqType}),
+   %?dbg("max", {Seq,SeqType}),
    Max1 = max1(Seq, []),
    %?dbg("max1", Max1),
    if ?numeric(SeqType) ->
@@ -2295,8 +2295,8 @@ compare_convert_seq([H|T], Acc, SeqType) ->
       #array{data = L} ->
          compare_convert_seq(L ++ T, Acc, SeqType);
       #xqNode{} ->
-         H1 = ?seq:singleton(xqerl_node:atomize_nodes(H)),
-         compare_convert_seq(H1 ++ T, Acc, SeqType);
+         H1 = ?seq:singleton_value(xqerl_node:atomize_nodes(H)),
+         compare_convert_seq([H1|T], Acc, SeqType);
       #xqAtomicValue{type = 'xs:untypedAtomic'} ->
          try xqerl_types:cast_as(H,'xs:double') of
             H1 ->
@@ -2526,8 +2526,8 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    Node = ?seq:singleton_value(Element),
    %?dbg("Node",Node),
    #xqElementNode{inscope_ns = InScopeNamespaces} = xqerl_node:get_node(Node),
-   ?dbg("namespace-uri-for-prefix", P1),
-   ?dbg("namespace-uri-for-prefix", InScopeNamespaces),
+   %?dbg("namespace-uri-for-prefix", P1),
+   %?dbg("namespace-uri-for-prefix", InScopeNamespaces),
    case lists:keyfind(P1, 3, InScopeNamespaces) of
       false ->
          ?seq:empty();
@@ -2768,14 +2768,14 @@ shrink_spaces([H|T]) ->
    Strip = string:strip(Str),
    try 
       {ok,L,_} = ietf_date:string(Strip),
-      ?dbg("L",L),
+      %?dbg("L",L),
       {ok,Dt} = ietf_date_parse:parse(L),
       DtStr = xqerl_datetime:to_string(Dt, 'xs:dateTime'),
       _ = xqerl_datetime:ymd_is_valid(Dt#xsDateTime.year, Dt#xsDateTime.month, Dt#xsDateTime.day),
       ?atm('xs:dateTime', Dt#xsDateTime{string_value = DtStr})
    catch
       _:E ->
-         ?dbg("E",E),
+         %?dbg("E",E),
          xqerl_error:error('FORG0010')
    end.
 
@@ -2856,11 +2856,11 @@ map_options_to_list(Ctx, Map) ->
                    %{arity,1} ->
                    %   {fallback, fun(C) -> Fbk(C) end};
                    A ->
-                      ?dbg("A",A),
+                      %?dbg("A",A),
                       ?err('XPTY0004')
                 end;
              true ->
-                ?dbg("Fbk",Fbk),
+                %?dbg("Fbk",Fbk),
                 ?err('XPTY0004')
           end          
     end ,
@@ -2956,7 +2956,7 @@ map_options_to_list(Ctx, Map) ->
                                Prefix
                          end,
                Q = #qname{namespace = StrUri, prefix = Prefix1, local_name = Local},
-               ?dbg("Q",Q),
+               %?dbg("Q",Q),
                ?atm('xs:QName',Q)
          end
    end.
@@ -3032,7 +3032,7 @@ remove1([H|T],Position,Current) ->
                  Depth = xqerl_regex:get_depth(Pattern1),
                  xqerl_regex:parse_repl(Repl,Depth)
            end,
-   ?dbg("Repl1",Repl1),
+   %?dbg("Repl1",Repl1),
    Input1 = string_value(Input),
    try
       Str = re:replace(Input1, MP, Repl1, [{return,list},global]),
@@ -3054,7 +3054,7 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-QName'(_Ctx,[],_Element) -> [];
 'resolve-QName'(_Ctx,String,Element) -> 
    #xqElementNode{inscope_ns = IsNs} = xqerl_node:get_node(?seq:singleton_value(Element)),
-   ?dbg("IsNs",IsNs),
+   %?dbg("IsNs",IsNs),
    try
       xqerl_types:cast_as(String, 'xs:QName', IsNs)
    catch 
@@ -3071,20 +3071,21 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-uri'(_Ctx,Relative,Base) -> 
    try
       UriRel = xqerl_types:cast_as(Relative, 'xs:anyURI'),
-      ?dbg("UriRel",UriRel),
+      %?dbg("UriRel",UriRel),
       UriBas = xqerl_types:cast_as(Base, 'xs:anyURI'),
-      ?dbg("UriBas",UriBas),
+      %?dbg("UriBas",UriBas),
       RelVal = xqerl_types:value(UriRel),
-      ?dbg("RelVal",RelVal),
+      %?dbg("RelVal",RelVal),
       BasVal = xqerl_types:value(UriBas),
-      ?dbg("BasVal",BasVal),
+      %?dbg("BasVal",BasVal),
       {absolute, ResVal} = xqerl_lib:resolve_against_base_uri(BasVal, RelVal),
-      ?dbg("ResVal",ResVal),
+      %?dbg("ResVal",ResVal),
       ?atm('xs:anyURI',ResVal)
    catch 
       _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FORG0001"}}} -> ?err('FORG0002');
       _:{badmatch, {relative,_}} -> ?err('FORG0002'); % relative base
-      _:E -> ?dbg("E",E), ?err('FORG0009')
+      _:_E -> %?dbg("E",E), 
+         ?err('FORG0009')
    end.
 
 %% Reverses the order of items in a sequence. 
@@ -3399,10 +3400,10 @@ sort1(Ctx,A,B,Coll) ->
                            true ->
                               {Start, Len}
                         end,
-         ?dbg(?LINE,Len),
-         ?dbg(?LINE,Start),
-         ?dbg(?LINE,Start1),
-         ?dbg(?LINE,End),
+         %?dbg(?LINE,Len),
+         %?dbg(?LINE,Start),
+         %?dbg(?LINE,Start1),
+         %?dbg(?LINE,End),
          case Start1 > ?seq:size(SourceSeq) orelse End < 1 of
             true ->
                ?seq:empty();
@@ -3621,7 +3622,7 @@ sum1([H|T], Sum) ->
          ?seq:empty();
       true ->
          List = re:split(Input1, MP, [group, {return,list}]),
-         ?dbg("List",List),
+         %?dbg("List",List),
          Out = lists:map(fun(S) -> 
                                  H = lists:flatten(hd(S)),
                                  #xqAtomicValue{type = 'xs:string', value = H}
@@ -3701,7 +3702,7 @@ zip_map_trans([H|T],[TH|TT]) ->
          _ ->
             ok
       end,
-      ?dbg("ResVal",ResVal),
+      %?dbg("ResVal",ResVal),
       case catch xqerl_context:get_available_text_resource(ResVal) of
                {'EXIT',_} ->
                   %?dbg("All",xqerl_context:get_available_text_resources()),

@@ -39,8 +39,7 @@
 -export([expand_nodes/1]).
 -export([expand_nodes/2]).
 
-%-export([append_position/1]).
--export([sort_grouping/1]).
+-export([sort_grouping/2]).
 
 -export([windowclause/2]).
 -export([windowclause/4]).
@@ -203,7 +202,7 @@ grouped_key(Keys) ->
 %% can only be tumbling with no end function
 windowclause(L, StartFun) ->
    case add_position(L) of
-      [] -> stream_from_list([]);
+      [] -> [];
       L1 ->
          Bw = winstart([[]|L1], StartFun, []),
          %?dbg("BW",Bw),
@@ -211,18 +210,18 @@ windowclause(L, StartFun) ->
                                L2 = element(9, B),
                                setelement(9, B, ?seq:from_list(L2))
                          end, Bw),
-         stream_from_list(lists:reverse(Bw2))
+         lists:reverse(Bw2)
    end.
 
 %% takes single list from expression and the start/end functions and returns {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% Type is tumbling or sliding
 windowclause(L, StartFun, EndFun, {Type, Only}) ->
    case add_position(L) of
-      [] -> stream_from_list([]);
+      [] -> [];
       L1 ->
          Bw = winstart([[]|L1], StartFun, EndFun, Type, Only),
          %?dbg("BW",Bw),
-         stream_from_list(lists:reverse(Bw))
+         lists:reverse(Bw)
    end;
 windowclause(L, StartFun, EndFun, Type) ->
    windowclause(L, StartFun, EndFun, {Type, false}).
@@ -466,10 +465,9 @@ reverse(List) ->
 
 % Clauses are funs that take an entire VarStream tuple
 orderbyclause(VarStream, Clauses) ->
-   stream_from_list(
    lists:sort(fun(A,B) ->
                     do_order(A,B,Clauses)
-              end, stream_to_list(VarStream))).
+              end, VarStream).
 
 do_order(_A,_B,[]) ->
    true;
@@ -506,6 +504,7 @@ do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
          end
    end;
 do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
+   %?dbg("A",A),
    ValA = Fun(A), %W
    %?dbg("ValA",ValA),
    ValB = Fun(B), %V
@@ -544,10 +543,10 @@ do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
 
 
 
-sort_grouping(Groups) ->
+sort_grouping(Groups, Id) ->
    Lets = [E || E <- Groups, element(1, E) == 'let'],
    Vars = [E || E <- Groups, element(1, E) == 'xqGroupBy'],
-   Lets ++ Vars.
+   Lets ++ [{group_by, Id, Vars}].
 
    
 
@@ -555,7 +554,8 @@ sort_grouping(Groups) ->
 
 
 split_clauses(Clauses) ->
-   split_clauses(Clauses, []).
+   Clauses.
+   %split_clauses(Clauses, []).
 
 split_clauses([], Acc) ->
    Acc;

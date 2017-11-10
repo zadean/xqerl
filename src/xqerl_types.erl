@@ -116,18 +116,15 @@ return_value(#array{} = A) -> A;
 return_value(#xqFunction{body = Fun} = F) when is_function(Fun) -> F;
 return_value(Fun) when is_function(Fun) -> Fun;
 return_value(Map) when is_map(Map) -> Map;
+return_value([Other]) ->
+   return_value(Other);
+return_value(List) when is_list(List) ->
+   lists:flatten(
+     lists:map(fun(I) ->
+                     return_value(I)
+               end, List));
 return_value(Other) -> 
-   case ?seq:size(Other) of
-      0 ->
-         Other;
-      _ ->
-         case lists:map(fun return_value/1,Other) of
-            [S] ->
-               S;
-            X ->
-               ?seq:flatten(X)
-         end
-   end.
+   Other.
 
 string_value([]) -> [];
 string_value([H|T]) when is_integer(H) -> [H|T];
@@ -308,7 +305,7 @@ cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occur} = TargetSeqType) ->
                                            end, Seq)
                            catch
                               _:#xqError{} = E -> 
-                                 ?dbg(Seq,TargetSeqType),
+                                 %?dbg(Seq,TargetSeqType),
                                  throw(E);
                               _:_ -> xqerl_error:error('XPTY0004',?LINE)
                            end
@@ -435,7 +432,7 @@ seq_type_val_match(#xqSeqType{type = _Type, occur = one_or_many}, #xqSeqType{occ
 seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_many}, _V) ->
    true;
 seq_type_val_match(A, B) ->
-   ?dbg(?LINE,{A,B}),
+   %?dbg(?LINE,{A,B}),
    false.
 
 promote(At,Type) ->
@@ -827,8 +824,8 @@ instance_of( [Seq], #xqSeqType{type = TType, occur = TOccur}) when TOccur == one
 
 instance_of( Seq, #xqSeqType{type = TType, occur = TOccur}) when TOccur == one_or_many;
                                                                  TOccur == zero_or_many -> 
-   ?dbg("Seq",Seq),
-   ?dbg("TType",TType),
+   %?dbg("Seq",Seq),
+   %?dbg("TType",TType),
    F = fun(Item) ->
              instance_of1(Item, TType)
        end,
@@ -863,10 +860,10 @@ check_return_type(Type, ReturnType) -> true.
 
 %% #xqKindTest{kind = 'document-node',    test = Test} where test is undefined | element-test, schema-element-test
 instance_of1(Node, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind = element, name = #qname{} = Q1}}) ->
-   ?dbg("Node",Node),
+   %?dbg("Node",Node),
    case xqerl_node:get_node_type(Node) of
       'document-node' ->
-         ?dbg("Node",ok),
+         %?dbg("Node",ok),
          case xqerl_node:get_node_children(Node) of
             [Element] ->
                Q2 = xqerl_node:get_node_name(Node#xqNode{identity = Element}),
@@ -875,7 +872,7 @@ instance_of1(Node, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind =
                false
          end;
       O ->
-         ?dbg("Node",O),
+         %?dbg("Node",O),
          false
    end;
 instance_of1(Node, #xqKindTest{kind = 'document-node'}) ->
@@ -893,7 +890,7 @@ instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1, type = #xqS
          case has_name(Q2, Q1) of
             true ->
                #xqElementNode{type = EType} = xqerl_node:get_node(Node),
-               ?dbg("EType,Type",{EType,Type}),
+               %?dbg("EType,Type",{EType,Type}),
                EType == Type;
             _ ->
                false
@@ -969,7 +966,7 @@ instance_of1(Map, #xqFunTest{kind = map, params = Param, type = SeqType}) when i
                    true;
                 true ->
                    KVs = maps:values(Map),
-                   ?dbg("KVs",KVs),
+                   %?dbg("KVs",KVs),
                    [Param1] = Param, 
                    lists:all(fun({K,V}) ->
                                    Aok = instance_of(K, Param1) == #xqAtomicValue{type = 'xs:boolean', value = true},
@@ -1057,7 +1054,7 @@ get_item_type(Map) when is_map(Map) ->
 get_item_type({array,_}) ->
    array;
 get_item_type(O) ->
-   ?dbg("get_item_type",O),
+   %?dbg("get_item_type",O),
    item.
 
 get_item_list_type(_) ->
@@ -1087,7 +1084,7 @@ type_check(#xqSeqType{type = Type} = T1, #xqSeqType{type = TargetType} = T2) ->
          false
    end;
 type_check(T1, T2) ->
-   ?dbg(?LINE,{T1,T2}),
+   %?dbg(?LINE,{T1,T2}),
    false.
 
 %% param_check(_, undefined) -> true;
@@ -1099,7 +1096,7 @@ param_check(L1, L2) when length(L1) == length(L2) ->
                    type_check(A,B)
              end, lists:zip(L1, L2));
 param_check(T1, T2) ->
-   ?dbg(?LINE,{T1,T2}),
+   %?dbg(?LINE,{T1,T2}),
    false.
 
 fun_check(#xqFunTest{kind = function, name = Name1, type = RetType1, params = Params1},
@@ -1113,7 +1110,7 @@ fun_check(#xqFunTest{kind = function, name = Name1, type = RetType1, params = Pa
    NameCheck andalso TypeCheck andalso ParamCheck;
 
 fun_check(#xqFunTest{}=A,#xqFunTest{}=B) ->
-   ?dbg(?LINE, {A,B}),
+   %?dbg(?LINE, {A,B}),
    false.
 
 
@@ -1126,9 +1123,11 @@ cast_as( At, #xqSeqType{type = item}) ->
 cast_as( At, 'item' ) -> 
    At;
 cast_as( #xqNode{} = N, 'xs:anyAtomicType' ) -> 
-   xqerl_node:atomize_nodes(N);
+   [A] = xqerl_node:atomize_nodes(N),
+   A;
 cast_as( #xqNode{} = N, #xqSeqType{type = 'xs:anyAtomicType'} ) -> 
-   xqerl_node:atomize_nodes(N);
+   [A] = xqerl_node:atomize_nodes(N),
+   A;
 
 cast_as( [], 'empty-sequence' ) -> 
    [];
@@ -1715,11 +1714,11 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 'xs:anyURI' ) -> % MAY
                if Bad == false ->
                      #xqAtomicValue{type = 'xs:anyURI', value = EncBig};
                   true ->
-                     ?dbg("Bad",L),
+                     %?dbg("Bad",L),
                      xqerl_error:error('FORG0001')
                end;
             X ->
-               ?dbg("Bad",X),
+               %?dbg("Bad",X),
                xqerl_error:error('FORG0001')
          end
    end;
@@ -2089,7 +2088,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
       end
    catch _:#xqError{} = E -> throw(E);
          %_:{badmatch,_} -> xqerl_error:error('FODT0001');
-         _:E -> ?dbg("E",E), 
+         _:E -> %?dbg("E",E), 
             xqerl_error:error('FORG0001')
    end;
 
@@ -2136,7 +2135,8 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 'xs:hexBinary' ) -> % 
       lists:any(fun(C) when C >= 48, C =< 57 -> false;
                 (C) when C >= 65, C =< 90 -> false;
                 (C) when C >= 97, C =< 102 -> false;
-                (X) -> ?dbg("X",X), true
+                (_X) -> %?dbg("X",X), 
+                     true
              end, Val1) of
       true ->
          xqerl_error:error('FORG0001');
@@ -2567,7 +2567,7 @@ cast_as( #xqAtomicValue{type = Intype} = I, T ) when
       true ->
          xqerl_error:error('XPTY0004');
       _ ->
-         ?dbg("unknown type",{I,T}),
+         %?dbg("unknown type",{I,T}),
          xqerl_error:error('XQST0052')
    end;
 
@@ -2589,8 +2589,8 @@ cast_as(Seq,#xqSeqType{type = T, occur = Occur}) when Occur == one ->
          xqerl_error:error('XPTY0004')
    end;
 cast_as(Seq,T) ->
-   ?dbg("Seq",Seq),
-   ?dbg("T",T),
+   %?dbg("Seq",Seq),
+   %?dbg("T",T),
    xqerl_error:error('XPTY0004').
 
 % namespace sensitive
@@ -2635,8 +2635,8 @@ cast_as( #xqAtomicValue{type = AType, value = Val},'xs:QName', Namespaces) when 
          _ ->
             case lists:keyfind(Prefix, 3, Namespaces) of
                false ->
-                  ?dbg("Prefix",Prefix),
-                  ?dbg("Namespaces",Namespaces),
+                  %?dbg("Prefix",Prefix),
+                  %?dbg("Namespaces",Namespaces),
                   %xqerl_error:error('FONS0004'); % direct
                   %xqerl_error:error('XQDY0074'); % constructed
                   xqerl_error:error('FONS0004'); 
@@ -2700,7 +2700,7 @@ cast_as(Seq,T,N)  ->
          % no lists in cast
          case catch promote(Seq,T) of
             {'EXIT',_} ->
-               ?dbg("Bad Cast ST/TT: ",{Seq,T}),
+               %?dbg("Bad Cast ST/TT: ",{Seq,T}),
                xqerl_error:error('XPTY0004');
             Ok ->
                Ok
@@ -2847,7 +2847,7 @@ timedur_bin_to_hms(Bin) ->
                           binary_to_float(SecBin)
                     end;
                  true -> % timezone not allowed
-                    ?dbg("R2",R2),
+                    %?dbg("R2",R2),
                     xqerl_error:error('FORG0001')
                  end;
               [<<>>] ->

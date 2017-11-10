@@ -828,31 +828,30 @@ node_is(O1, O2) ->
 % returns xs:boolean
 general_compare(_Op,[],_) -> ?sing(#xqAtomicValue{type = 'xs:boolean', value = false});
 general_compare(_Op,_,[]) -> ?sing(#xqAtomicValue{type = 'xs:boolean', value = false});
-%% % rule 1 if singleton boolean, then both boolean
-%% general_compare(Op,[#xqAtomicValue{type = 'xs:boolean'}= Val],List2) ->
-%%    Ebv = xqerl_fn:boolean([], List2),
-%%    value_compare(Op,Val,Ebv);
-%% general_compare(Op,List2,[#xqAtomicValue{type = 'xs:boolean'}= Val]) ->
-%%    Ebv = xqerl_fn:boolean([], List2),
-%%    value_compare(Op,Val,Ebv);
-%% % rule 2+ 
+general_compare(Op,#xqAtomicValue{} = List1,#xqAtomicValue{} = List2) ->
+   ?sing(#xqAtomicValue{type = 'xs:boolean', 
+                        value = xqerl_types:value(value_compare(Op,List1,List2))});
 general_compare(Op,#xqAtomicValue{} = List1,List2) ->
-   general_compare(Op,?seq:singleton(List1),List2);
+   AList2 = atomize_list(List2),
+   Bool = lists:any(fun(V1) ->
+                          xqerl_types:value(value_compare(Op,List1,V1))
+                    end, AList2),
+   ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool});
 general_compare(Op,List1,#xqAtomicValue{} = List2) ->
-   general_compare(Op,List1,?seq:singleton(List2));
+   AList1 = atomize_list(List1),
+   Bool = lists:any(fun(V1) ->
+                          xqerl_types:value(value_compare(Op,List2,V1))
+                    end, AList1),
+   ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool});
 
 general_compare(Op,List1,List2) ->
-   %?dbg("general_compare List1", List1),
-   %?dbg("general_compare List2", List2),
    AList1 = atomize_list(List1),
    AList2 = atomize_list(List2),
-   %?dbg("general_compare AList1", AList1),
-   %?dbg("general_compare AList2", AList2),
    Bool = lists:any(fun(V1) ->
                           lists:any(fun(V2) ->
                                           xqerl_types:value(value_compare(Op,V1,V2))
-                                    end, AList2)
-                    end, AList1),
+                                    end, AList1)
+                    end, AList2),
    ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool}).
 
 %2a both are untyped

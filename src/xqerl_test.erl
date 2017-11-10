@@ -38,6 +38,8 @@ assert(Result, QueryString) ->
                 " as item()"
           end,
    NewQueryString = "declare variable $result" ++ Type ++ " external; " ++ QueryString,
+   ?dbg("NewQueryString",NewQueryString),
+   %?dbg("Result",Result),
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, Res};

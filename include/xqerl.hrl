@@ -247,10 +247,12 @@
          name :: #'qname'{}
         }).
 
--record(xqFlwor, {
-   loop = undefined :: term(),
-   return = undefined :: term()
-}).
+-record(xqFlwor, 
+        {
+         id = -1 :: integer(),
+         loop = undefined :: term(),
+         return = undefined :: term()
+        }).
 
 
 %% -record(xqVariableValue, 

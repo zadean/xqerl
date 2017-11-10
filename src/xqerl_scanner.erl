@@ -1896,7 +1896,7 @@ scan_prefix(":" ++ T, Acc) ->
           Prefix = {'NCName',?L, lists:reverse(Acc)},
           {[Prefix, {':',?L, ':'}, LocalPart], T1}
     end;
-scan_prefix("*:" ++ T, _Acc) ->
+scan_prefix("*:" ++ T, _Acc) when T =/= [] ->
     {LocalPart, T1} = scan_local_part(T, []),
     Prefix = {'*:',?L, '*:'},
     {[Prefix, LocalPart], T1};

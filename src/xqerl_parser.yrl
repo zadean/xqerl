@@ -574,8 +574,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true, 'expr' = '$7'}.
 'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external'                         : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true}.
 'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'expr' = '$6'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true, 'expr' = '$6'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external'                                           : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true, 'expr' = '$6', type = undefined}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external'                                           : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true               , type = undefined}.
 'VarDecl'                -> 'variable' '$' 'VarName' ':=' 'VarValue'                                      : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'expr' = '$5'}.
 
 'VarValue'               -> 'ExprSingle' : '$1'.
@@ -633,8 +633,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'ExprSingle'             -> 'TryCatchExpr' : '$1'.
 'ExprSingle'             -> 'OrExpr' : '$1'.
 % [41]
-'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{loop = xqerl_flwor:split_clauses('$1'++'$2'), return = '$3'}.
-'FLWORExpr'              -> 'InitialClause' 'ReturnClause' : #xqFlwor{loop = xqerl_flwor:split_clauses('$1'), return = '$2'}.
+'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = xqerl_flwor:split_clauses('$1'++'$2'), return = '$3'}.
+'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = xqerl_flwor:split_clauses('$1'), return = '$2'}.
 % [42]
 'InitialClause'          -> 'ForClause' : '$1'.
 'InitialClause'          -> 'LetClause' : '$1'.
@@ -791,9 +791,9 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [59]
 'CountClause'            -> 'count' '$' 'VarName' : [{'count', #xqVar{id = next_id(), 'name' = qname(var, '$3')}}].
 % [60]
-'WhereClause'            -> 'where' 'ExprSingle' : [{'where', '$2'}].
+'WhereClause'            -> 'where' 'ExprSingle' : [{'where', {next_id(),'$2'}}].
 % [61]
-'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : xqerl_flwor:sort_grouping('$3').
+'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : xqerl_flwor:sort_grouping('$3', next_id()).
 % [62]
 'GroupingSpecList'       ->  'GroupingSpec' ',' 'GroupingSpecList' : '$1' ++ '$3'.
 'GroupingSpecList'       ->  'GroupingSpec' : '$1'.
@@ -814,8 +814,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [64]
 'GroupingVariable'       ->  '$' 'VarName' : '$2'.
 % [65]
-'OrderByClause'          -> 'order' 'by' 'OrderSpecList'          : '$3'.
-'OrderByClause'          -> 'stable' 'order' 'by' 'OrderSpecList' : '$4'. % always stable
+'OrderByClause'          -> 'order' 'by' 'OrderSpecList'          : [{order_by, '$3'}].
+'OrderByClause'          -> 'stable' 'order' 'by' 'OrderSpecList' : [{order_by, '$4'}]. % always stable
 % [66]
 'OrderSpecList'          -> 'OrderSpec' ',' 'OrderSpecList' : '$1' ++ '$3'.
 'OrderSpecList'          -> 'OrderSpec' : '$1'.

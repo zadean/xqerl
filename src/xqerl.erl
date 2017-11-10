@@ -206,7 +206,10 @@ compile_abstract(Abstract) ->
                       [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
       {ok,M,B} ->
          code:load_binary(M, M, B),
-         B
+         B;
+      {error,E,_} ->
+         ?dbg("compile_abstract",E),
+         throw(E)
    catch
       _:#xqError{} = E ->
          ?dbg("compile_abstract",E),
@@ -265,7 +268,7 @@ trun(Str, Opt) ->
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
-%      print_erl(B),
+      print_erl(B),
       erlang:erase(),
       erlang:put('available-documents', Docs),
       erlang:put('available-text-resources', Txts),
