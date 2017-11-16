@@ -44,86 +44,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -135,11 +143,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -149,8 +158,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -160,8 +170,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -171,8 +182,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -182,8 +194,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -191,43 +204,46 @@ environment('array-and-map') ->
 ];
 environment('TopMany') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.static-typing.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.static-typing.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TreeCompass') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeCompass.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeCompass.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.static-typing.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.static-typing.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('Tree1Text') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Text.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Text.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.static-typing.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.static-typing.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'ST-Axes001'(_Config) ->
    Qry = "fn:count(//center/self::nowhere)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -238,10 +254,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes002'(_Config) ->
    Qry = "fn:count(//center/@center-attr-2/self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -252,10 +268,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes003'(_Config) ->
    Qry = "fn:count(//center/@center-attr-3/self::center-attr-3)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -266,10 +282,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes004'(_Config) ->
    Qry = "fn:count(//center/@center-attr-1/self::nowhere)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -280,10 +296,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes005'(_Config) ->
    Qry = "fn:count(//center/text()/self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -294,10 +310,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes006'(_Config) ->
    Qry = "fn:count(//center/text()/self::center)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -308,10 +324,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes007'(_Config) ->
    Qry = "fn:count(//center/@center-attr-1/descendant-or-self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -322,10 +338,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes008'(_Config) ->
    Qry = "fn:count(//center/@center-attr-2/descendant-or-self::far-south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -336,10 +352,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes009'(_Config) ->
    Qry = "fn:count(//center/@center-attr-2/descendant-or-self::center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -350,10 +366,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes010'(_Config) ->
    Qry = "fn:count(//center/text()/descendant-or-self::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -364,10 +380,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes011'(_Config) ->
    Qry = "fn:count(/attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -378,10 +394,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes012'(_Config) ->
    Qry = "fn:count(/@*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -392,10 +408,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes013'(_Config) ->
    Qry = "fn:count(/parent::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -406,10 +422,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes014'(_Config) ->
    Qry = "fn:count(/..)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -420,10 +436,10 @@ environment('Tree1Text') ->
    end.
 'ST-Axes015'(_Config) ->
    Qry = "fn:count(/self::*)",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

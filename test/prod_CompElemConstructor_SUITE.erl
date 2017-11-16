@@ -158,86 +158,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -249,11 +257,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -263,8 +272,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -274,8 +284,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -285,8 +296,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -296,8 +308,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -305,44 +318,48 @@ environment('array-and-map') ->
 ];
 environment('DupNode') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompAttrConstructor/DupNode.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompAttrConstructor/DupNode.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomicns') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomicns.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomicns.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TopMany') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('acme_corp') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/op/union/acme_corp.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/op/union/acme_corp.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/CompElemConstructor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -427,10 +444,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-compname-4'(_Config) ->
    Qry = "element {//a} {'text'}",
-   Env = xqerl_test:handle_environment(environment('DupNode')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -638,10 +655,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-adjtext-2'(_Config) ->
    Qry = "count((element elem {1, //text(), 'string'})/text())",
-   Env = xqerl_test:handle_environment(environment('DupNode')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -678,10 +695,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-nested-2'(_Config) ->
    Qry = "element elem {}",
-   Env = xqerl_test:handle_environment(environment('DupNode')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -718,10 +735,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-enclexpr-3'(_Config) ->
    Qry = "element elem {1,//a,2,3,//comment(),4,5,//processing-instruction(),6,7,//text(),8}",
-   Env = xqerl_test:handle_environment(environment('DupNode')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1<a>text</a><a>text</a>2 3<!--comment--><!--comment-->4 5<?pi content?><?pi content?>6 7texttext8</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -810,10 +827,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-constrmod-3'(_Config) ->
    Qry = "declare construction strip; (element elem {xs:decimal((//decimal[1]))}) cast as xs:integer",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -824,10 +841,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-constrmod-4'(_Config) ->
    Qry = "declare construction preserve; (element elem {xs:decimal((//decimal[1]))}) cast as xs:integer",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12678967") of 
       true -> {comment, "Equal"};
@@ -846,10 +863,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-constrmod-7'(_Config) ->
    Qry = "declare construction strip; (element elem {//*:decimal/@*:attr})/@*:attr cast as xs:integer",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -860,10 +877,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-constrmod-8'(_Config) ->
    Qry = "declare construction preserve; (element elem {xs:decimal(//*:decimal[1]/@*:attr)}) cast as xs:integer",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12678967") of 
       true -> {comment, "Equal"};
@@ -925,10 +942,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-doc-1'(_Config) ->
    Qry = "element elem {., .}",
-   Env = xqerl_test:handle_environment(environment('DupNode')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root></elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -978,10 +995,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-attr-1'(_Config) ->
    Qry = "element elem {1, //west/@mark}",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -992,10 +1009,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-attr-2'(_Config) ->
    Qry = "element elem {element a {}, //west/@mark}",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1006,10 +1023,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-attr-3'(_Config) ->
    Qry = "element elem {//west/@mark, //west/@west-attr-1}",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem mark=\"w0\" west-attr-1=\"w1\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1020,10 +1037,10 @@ environment('acme_corp') ->
    end.
 'Constr-compelem-attr-4'(_Config) ->
    Qry = "element elem {//west/@mark, //center/@mark}",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0025") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1231,10 +1248,10 @@ environment('acme_corp') ->
    Qry = "
         declare default element namespace \"http://example.com/NS\"; 
         element {exactly-one((//*)[3])} {}",
-   Env = xqerl_test:handle_environment(environment('acme_corp')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<Boston xmlns=\"http://example.com/NS\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

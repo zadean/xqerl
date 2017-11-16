@@ -88,86 +88,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -179,11 +187,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -193,8 +202,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -204,8 +214,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -215,8 +226,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -226,8 +238,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -238,8 +251,9 @@ environment('hats') ->
 {sources, []},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/SchemaImport/hats.xsd","http://www.w3.org/XQueryTest/hats"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -259,11 +273,12 @@ environment('hats') ->
    end.
 'extvardef-001a'(_Config) ->
    Qry = "declare variable $ext external := 0; $ext",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"ext","","5"}]},
 {namespaces, []},
 {resources, []},
@@ -271,7 +286,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -295,11 +310,12 @@ environment('hats') ->
    end.
 'extvardef-002a'(_Config) ->
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"ext","","5"}]},
 {namespaces, []},
 {resources, []},
@@ -307,7 +323,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>5</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -318,11 +334,12 @@ environment('hats') ->
    end.
 'extvardef-002b'(_Config) ->
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"ext","","xs:date('2008-12-01')"}]},
 {namespaces, []},
 {resources, []},
@@ -330,7 +347,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -354,11 +371,12 @@ environment('hats') ->
    end.
 'extvardef-003a'(_Config) ->
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"ext","","4,5,6"}]},
 {namespaces, []},
 {resources, []},
@@ -366,7 +384,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>15</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -377,11 +395,12 @@ environment('hats') ->
    end.
 'extvardef-003b'(_Config) ->
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"ext","","42"}]},
 {namespaces, []},
 {resources, []},
@@ -389,7 +408,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>42</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -446,11 +465,12 @@ environment('hats') ->
         declare variable $ext as xs:integer external := $var; 
         <out>{$ext}</out>
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"ext","","862"}]},
 {namespaces, []},
 {resources, []},
@@ -458,7 +478,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>862</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -473,11 +493,12 @@ environment('hats') ->
         declare variable $ext as xs:integer external := <a>{$var}</a>; 
         <out>{$ext}</out>
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"ext","","862"}]},
 {namespaces, []},
 {resources, []},
@@ -485,7 +506,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -655,11 +676,12 @@ environment('hats') ->
         declare function local:bbb() { $y };
         $x 
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDefaultValue.xml"}]},
+{vars, []},
 {params, [{"y","","16"}]},
 {namespaces, []},
 {resources, []},
@@ -667,7 +689,7 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"28") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -681,10 +703,10 @@ environment('hats') ->
         declare variable $x external := /works/employee[@name eq \"Jane Doe 1\"];
         fn:count($x)
       ",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 

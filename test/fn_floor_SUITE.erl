@@ -190,86 +190,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -281,11 +289,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -295,8 +304,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -306,8 +316,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -317,8 +328,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -328,8 +340,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -340,51 +353,55 @@ environment('emptydoc') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('e0') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e0.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e0.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('e1') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e1.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e1.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('e-1') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e-1.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e-1.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/floor.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'fn-floorint1args-1'(_Config) ->
    Qry = "fn:floor(xs:int(\"-2147483648\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-2147483648") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -395,10 +412,10 @@ environment('e-1') ->
    end.
 'fn-floorint1args-2'(_Config) ->
    Qry = "fn:floor(xs:int(\"-1873914410\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-1873914410") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -409,10 +426,10 @@ environment('e-1') ->
    end.
 'fn-floorint1args-3'(_Config) ->
    Qry = "fn:floor(xs:int(\"2147483647\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2147483647") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -423,10 +440,10 @@ environment('e-1') ->
    end.
 'fn-floorintg1args-1'(_Config) ->
    Qry = "fn:floor(xs:integer(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -437,10 +454,10 @@ environment('e-1') ->
    end.
 'fn-floorintg1args-2'(_Config) ->
    Qry = "fn:floor(xs:integer(\"830993497117024304\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "830993497117024304") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -451,10 +468,10 @@ environment('e-1') ->
    end.
 'fn-floorintg1args-3'(_Config) ->
    Qry = "fn:floor(xs:integer(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -465,10 +482,10 @@ environment('e-1') ->
    end.
 'fn-floordec1args-1'(_Config) ->
    Qry = "fn:floor(xs:decimal(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -479,10 +496,10 @@ environment('e-1') ->
    end.
 'fn-floordec1args-2'(_Config) ->
    Qry = "fn:floor(xs:decimal(\"617375191608514839\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "617375191608514839") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -493,10 +510,10 @@ environment('e-1') ->
    end.
 'fn-floordec1args-3'(_Config) ->
    Qry = "fn:floor(xs:decimal(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -507,10 +524,10 @@ environment('e-1') ->
    end.
 'fn-floordbl1args-1'(_Config) ->
    Qry = "fn:floor(xs:double(\"-1.7976931348623157E308\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-1.7976931348623157E308") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -521,10 +538,10 @@ environment('e-1') ->
    end.
 'fn-floordbl1args-2'(_Config) ->
    Qry = "fn:floor(xs:double(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -535,10 +552,10 @@ environment('e-1') ->
    end.
 'fn-floordbl1args-3'(_Config) ->
    Qry = "fn:floor(xs:double(\"1.7976931348623157E308\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.7976931348623157E308") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -549,10 +566,10 @@ environment('e-1') ->
    end.
 'fn-floorflt1args-1'(_Config) ->
    Qry = "fn:floor(xs:float(\"-3.4028235E38\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-3.4028235E38") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -563,10 +580,10 @@ environment('e-1') ->
    end.
 'fn-floorflt1args-2'(_Config) ->
    Qry = "fn:floor(xs:float(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -577,10 +594,10 @@ environment('e-1') ->
    end.
 'fn-floorflt1args-3'(_Config) ->
    Qry = "fn:floor(xs:float(\"3.4028235E38\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3.4028235E38") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -591,10 +608,10 @@ environment('e-1') ->
    end.
 'fn-floorlng1args-1'(_Config) ->
    Qry = "fn:floor(xs:long(\"-92233720368547758\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-92233720368547758") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -605,10 +622,10 @@ environment('e-1') ->
    end.
 'fn-floorlng1args-2'(_Config) ->
    Qry = "fn:floor(xs:long(\"-47175562203048468\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-47175562203048468") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -619,10 +636,10 @@ environment('e-1') ->
    end.
 'fn-floorlng1args-3'(_Config) ->
    Qry = "fn:floor(xs:long(\"92233720368547758\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "92233720368547758") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -633,10 +650,10 @@ environment('e-1') ->
    end.
 'fn-floorusht1args-1'(_Config) ->
    Qry = "fn:floor(xs:unsignedShort(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -647,10 +664,10 @@ environment('e-1') ->
    end.
 'fn-floorusht1args-2'(_Config) ->
    Qry = "fn:floor(xs:unsignedShort(\"44633\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "44633") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -661,10 +678,10 @@ environment('e-1') ->
    end.
 'fn-floorusht1args-3'(_Config) ->
    Qry = "fn:floor(xs:unsignedShort(\"65535\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "65535") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -675,10 +692,10 @@ environment('e-1') ->
    end.
 'fn-floornint1args-1'(_Config) ->
    Qry = "fn:floor(xs:negativeInteger(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -689,10 +706,10 @@ environment('e-1') ->
    end.
 'fn-floornint1args-2'(_Config) ->
    Qry = "fn:floor(xs:negativeInteger(\"-297014075999096793\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-297014075999096793") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -703,10 +720,10 @@ environment('e-1') ->
    end.
 'fn-floornint1args-3'(_Config) ->
    Qry = "fn:floor(xs:negativeInteger(\"-1\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -717,10 +734,10 @@ environment('e-1') ->
    end.
 'fn-floorpint1args-1'(_Config) ->
    Qry = "fn:floor(xs:positiveInteger(\"1\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -731,10 +748,10 @@ environment('e-1') ->
    end.
 'fn-floorpint1args-2'(_Config) ->
    Qry = "fn:floor(xs:positiveInteger(\"52704602390610033\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "52704602390610033") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -745,10 +762,10 @@ environment('e-1') ->
    end.
 'fn-floorpint1args-3'(_Config) ->
    Qry = "fn:floor(xs:positiveInteger(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -759,10 +776,10 @@ environment('e-1') ->
    end.
 'fn-floorulng1args-1'(_Config) ->
    Qry = "fn:floor(xs:unsignedLong(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -773,10 +790,10 @@ environment('e-1') ->
    end.
 'fn-floorulng1args-2'(_Config) ->
    Qry = "fn:floor(xs:unsignedLong(\"130747108607674654\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "130747108607674654") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -787,10 +804,10 @@ environment('e-1') ->
    end.
 'fn-floorulng1args-3'(_Config) ->
    Qry = "fn:floor(xs:unsignedLong(\"184467440737095516\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "184467440737095516") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -801,10 +818,10 @@ environment('e-1') ->
    end.
 'fn-floornpi1args-1'(_Config) ->
    Qry = "fn:floor(xs:nonPositiveInteger(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -815,10 +832,10 @@ environment('e-1') ->
    end.
 'fn-floornpi1args-2'(_Config) ->
    Qry = "fn:floor(xs:nonPositiveInteger(\"-475688437271870490\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-475688437271870490") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -829,10 +846,10 @@ environment('e-1') ->
    end.
 'fn-floornpi1args-3'(_Config) ->
    Qry = "fn:floor(xs:nonPositiveInteger(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -843,10 +860,10 @@ environment('e-1') ->
    end.
 'fn-floornni1args-1'(_Config) ->
    Qry = "fn:floor(xs:nonNegativeInteger(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -857,10 +874,10 @@ environment('e-1') ->
    end.
 'fn-floornni1args-2'(_Config) ->
    Qry = "fn:floor(xs:nonNegativeInteger(\"303884545991464527\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "303884545991464527") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -871,10 +888,10 @@ environment('e-1') ->
    end.
 'fn-floornni1args-3'(_Config) ->
    Qry = "fn:floor(xs:nonNegativeInteger(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "999999999999999999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -885,10 +902,10 @@ environment('e-1') ->
    end.
 'fn-floorsht1args-1'(_Config) ->
    Qry = "fn:floor(xs:short(\"-32768\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-32768") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -899,10 +916,10 @@ environment('e-1') ->
    end.
 'fn-floorsht1args-2'(_Config) ->
    Qry = "fn:floor(xs:short(\"-5324\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-5324") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -913,10 +930,10 @@ environment('e-1') ->
    end.
 'fn-floorsht1args-3'(_Config) ->
    Qry = "fn:floor(xs:short(\"32767\"))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "32767") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -927,10 +944,10 @@ environment('e-1') ->
    end.
 'K-FloorFunc-1'(_Config) ->
    Qry = "floor()",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -941,10 +958,10 @@ environment('e-1') ->
    end.
 'K-FloorFunc-2'(_Config) ->
    Qry = "floor(1, 2)",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -955,10 +972,10 @@ environment('e-1') ->
    end.
 'K-FloorFunc-3'(_Config) ->
    Qry = "empty(floor(()))",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -969,10 +986,10 @@ environment('e-1') ->
    end.
 'K-FloorFunc-4'(_Config) ->
    Qry = "floor(10.5) eq 10",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -983,10 +1000,10 @@ environment('e-1') ->
    end.
 'K-FloorFunc-5'(_Config) ->
    Qry = "floor(-10.5) eq -11",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -997,10 +1014,10 @@ environment('e-1') ->
    end.
 'K-FloorFunc-6'(_Config) ->
    Qry = "floor(\"a string\")",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1011,10 +1028,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-1'(_Config) ->
    Qry = "floor(xs:unsignedShort(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1025,10 +1042,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-2'(_Config) ->
    Qry = "floor(xs:unsignedShort(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1039,10 +1056,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-3'(_Config) ->
    Qry = "floor(xs:unsignedLong(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1053,10 +1070,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-4'(_Config) ->
    Qry = "floor(xs:unsignedInt(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1067,10 +1084,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-5'(_Config) ->
    Qry = "floor(xs:unsignedByte(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1081,10 +1098,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-6'(_Config) ->
    Qry = "floor(xs:positiveInteger(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1095,10 +1112,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-7'(_Config) ->
    Qry = "floor(xs:nonPositiveInteger(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1109,10 +1126,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-8'(_Config) ->
    Qry = "floor(xs:nonNegativeInteger(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1123,10 +1140,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-9'(_Config) ->
    Qry = "floor(xs:negativeInteger(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1137,10 +1154,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-10'(_Config) ->
    Qry = "floor(xs:long(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1151,10 +1168,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-11'(_Config) ->
    Qry = "floor(xs:int(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1165,10 +1182,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-12'(_Config) ->
    Qry = "floor(xs:short(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1179,10 +1196,10 @@ environment('e-1') ->
    end.
 'K2-FloorFunc-13'(_Config) ->
    Qry = "floor(xs:byte(.)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

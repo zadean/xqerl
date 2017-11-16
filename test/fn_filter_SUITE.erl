@@ -80,86 +80,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -171,11 +179,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -185,8 +194,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -196,8 +206,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -207,8 +218,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -218,8 +230,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -254,11 +267,12 @@ environment('array-and-map') ->
 'filter-003'(_Config) ->
    Qry = "let $data := (/employees)
               return filter($data/emp, function($x as element(emp)){xs:int($x/@salary) lt 300})",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter/filter003.xml",".",""}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter/filter003.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -266,7 +280,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "3") of 
       true -> {comment, "Count correct"};
@@ -315,11 +329,12 @@ environment('array-and-map') ->
             $nodes := /*/*,
             $perm := ($nodes[1], $nodes[2], $nodes[3], $nodes[1], $nodes[2], $nodes[4], $nodes[2], $nodes[1]) 
             return $index-of-node($perm, $nodes[2]) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter/filter005.xml",".",""}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter/filter005.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -327,7 +342,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2, 5, 7") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -602,11 +617,12 @@ environment('array-and-map') ->
    end.
 'fn-filter-013'(_Config) ->
    Qry = "fn:filter( (//node(), 1, \"string\", 3.14, 2.7e0, fn:exists#1), function($arg) { $arg instance of function(*) } )",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter/fn-filter-012.xml",".",""}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter/fn-filter-012.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/filter.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -614,7 +630,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 

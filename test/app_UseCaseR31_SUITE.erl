@@ -64,86 +64,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -155,11 +163,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -169,8 +178,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -180,8 +190,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -191,8 +202,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -202,8 +214,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -211,22 +224,24 @@ environment('array-and-map') ->
 ];
 environment('employees') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/employees.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/employees.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('gnt') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/gnt.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/gnt.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -236,17 +251,18 @@ environment('json-docs') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/mildred.json","http://www.w3.org/qt3/app/UseCaseR31/mildred-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/employees.json","http://www.w3.org/qt3/app/UseCaseR31/employees-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/bookinfo.json","http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/satellites.json","http://www.w3.org/qt3/app/UseCaseR31/satellites-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/table.json","http://www.w3.org/qt3/app/UseCaseR31/table-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/colors.json","http://www.w3.org/qt3/app/UseCaseR31/colors-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/users2.json","http://www.w3.org/qt3/app/UseCaseR31/users2-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/incoming.json","http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/mildred.json","http://www.w3.org/qt3/app/UseCaseR31/mildred-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/employees.json","http://www.w3.org/qt3/app/UseCaseR31/employees-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/bookinfo.json","http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/satellites.json","http://www.w3.org/qt3/app/UseCaseR31/satellites-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/table.json","http://www.w3.org/qt3/app/UseCaseR31/table-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/colors.json","http://www.w3.org/qt3/app/UseCaseR31/colors-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/users2.json","http://www.w3.org/qt3/app/UseCaseR31/users2-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31/incoming.json","http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}]},
 {modules, []}
 ];
 environment('users-json') ->
@@ -254,8 +270,9 @@ environment('users-json') ->
 {sources, []},
 {schemas, []},
 {collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/users-json",[]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
-{params, [{"users-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/users-json'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
+{params, []},
+{vars, [{"users-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/users-json'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -265,8 +282,9 @@ environment('sales-json') ->
 {sources, []},
 {schemas, []},
 {collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/sales-json",[]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
-{params, [{"sales-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
+{params, []},
+{vars, [{"sales-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -284,10 +302,10 @@ return
      }
    </department>
       ",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/@name='Management'") of 
       true -> {comment, "Correct results"};
@@ -319,10 +337,10 @@ return
      \"highest paid employee\" :
        let $max := max($e/salary)
        return $e[salary=$max]/name/text()}",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result?(\"highest paid employee\") = \"Charles Madigen\"") of 
       true -> {comment, "Correct results"};
@@ -357,10 +375,10 @@ return
     <total-by-job-type type=\"{$job-type}\">{ $totals }</total-by-job-type>
     }</out>
       ",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/department/@name='Management'") of 
       true -> {comment, "Correct results"};
@@ -417,10 +435,10 @@ return map {
    }
    )}
       ",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result?first?(\"highest earners\") = \"Charles Madigen\"") of 
       true -> {comment, "Correct results"};
@@ -474,10 +492,10 @@ declare variable $author := (<author>
   </tr>
 }</table>
       ",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result//td[1]='Michael H. Kay'") of 
       true -> {comment, "Correct results"};
@@ -517,10 +535,10 @@ local:play(76, 86, map {
   \"The secret number is lower.\" :  \"Die geheime Zahl ist kleiner.\" }
 )
        ",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "The secret number is lower. Die geheime Zahl ist kleiner.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -545,10 +563,10 @@ local:play(76, 86, map {
 </s>
 
       ",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<s><w pos=\"DT\">A</w><w pos=\"NN\">bride</w><w pos=\",\">,</w><w pos=\"PRP\">you</w><w pos=\"VBP\">know</w><w pos=\",\">,</w><w pos=\"MD\">must</w><w pos=\"VB\">appear</w><w pos=\"IN\">like</w><w pos=\"DT\">a</w><w pos=\"NN\">bride</w><w pos=\",\">,</w><w pos=\"CC\">but</w><w pos=\"PRP$\">my</w><w pos=\"JJ\">natural</w><w pos=\"NN\">taste</w><w pos=\"VBZ\">is</w><w pos=\"DT\">all</w><w pos=\"IN\">for</w><w pos=\"NN\">simplicity</w><w pos=\":\">;</w><w pos=\"DT\">a</w><w pos=\"JJ\">simple</w><w pos=\"NN\">style</w><w pos=\"IN\">of</w><w pos=\"NN\">dress</w><w pos=\"VBZ\">is</w><w pos=\"RB\">so</w><w pos=\"RB\">infinitely</w><w pos=\"JJ\">preferable</w><w pos=\"TO\">to</w><w pos=\"VB\">finery</w><w pos=\".\">.</w></s>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -573,10 +591,10 @@ declare variable $index := map { \"pos\" : 2, \"lemma\" : 1 };
   return <w pos=\"{ $w($index(\"pos\")) }\">{ $w($index(\"lemma\")) }</w>
  }
 </s>",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<s><w pos=\"DT\">A</w><w pos=\"NN\">bride</w><w pos=\",\">,</w><w pos=\"PRP\">you</w><w pos=\"VBP\">know</w><w pos=\",\">,</w><w pos=\"MD\">must</w><w pos=\"VB\">appear</w><w pos=\"IN\">like</w><w pos=\"DT\">a</w><w pos=\"NN\">bride</w><w pos=\",\">,</w><w pos=\"CC\">but</w><w pos=\"PRP$\">my</w><w pos=\"JJ\">natural</w><w pos=\"NN\">taste</w><w pos=\"VBZ\">is</w><w pos=\"DT\">all</w><w pos=\"IN\">for</w><w pos=\"NN\">simplicity</w><w pos=\":\">;</w><w pos=\"DT\">a</w><w pos=\"JJ\">simple</w><w pos=\"NN\">style</w><w pos=\"IN\">of</w><w pos=\"NN\">dress</w><w pos=\"VBZ\">is</w><w pos=\"RB\">so</w><w pos=\"RB\">infinitely</w><w pos=\"JJ\">preferable</w><w pos=\"TO\">to</w><w pos=\"VB\">finery</w><w pos=\".\">.</w></s>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -608,10 +626,10 @@ return
       return <lexeme>{ $l }</lexeme>
     }
   </pos>",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<pos name=\"JJ\"><lexeme>natural</lexeme><lexeme>simple</lexeme><lexeme>preferable</lexeme></pos><pos name=\"NN\"><lexeme>bride</lexeme><lexeme>taste</lexeme><lexeme>simplicity</lexeme><lexeme>style</lexeme><lexeme>dress</lexeme></pos><pos name=\"RB\"><lexeme>so</lexeme><lexeme>infinitely</lexeme></pos><pos name=\"VB\"><lexeme>appear</lexeme><lexeme>finery</lexeme></pos>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -640,10 +658,10 @@ for sliding window $w in local:words-only($s?*)
     only end at $j when $j - $i eq 2
 return
     array { $w }",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ \"A\", \"bride\", \"you\" ],
 [ \"bride\", \"you\", \"know\" ],
 [ \"you\", \"know\", \"must\" ],
@@ -693,10 +711,10 @@ declare function local:filter($s as item()*, $p as function(item()) as xs:boolea
 let $f := function($a) { starts-with($a(2), \"VB\") }
 return
   local:filter($s?*, $f)",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ [ \"know\", \"VBP\" ], [ \"appear\", \"VB\" ], [ \"is\", \"VBZ\" ], [ \"is\", \"VBZ\" ],
 [ \"finery\", \"VB\" ] ],
 
@@ -735,10 +753,10 @@ declare function local:filter($s as item()*, $p as function(item()) as xs:boolea
 let $f := function($a) { starts-with($a(2), \"VB\") }
 return
   local:filter($s?*, $f)",
-   Env = xqerl_test:handle_environment(environment('employees')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {
 
   true() :
@@ -796,10 +814,10 @@ declare function local:extract-text($spans)
    end.
 'UseCaseR31-022'(_Config) ->
    Qry = "json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/mildred-json\")?phone?*[?type = 'mobile']?number",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "07356 740756") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -829,10 +847,10 @@ return
       </employee>
     }
   </department>",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -861,10 +879,10 @@ declare function local:deep-put($input as item()*, $key as xs:string, $value as 
 };
 
 local:deep-put(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"), \"first\", \"John\")",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {
     \"book\": map {
         \"title\": \"Data on the Web\",
@@ -902,10 +920,10 @@ local:deep-put(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"),
        and $friend('name') = $sarah('friends')?*
       return $friend('name')
       ",
-   Env = xqerl_test:handle_environment(environment('users-json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-json')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Jim") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -921,10 +939,10 @@ Q{http://www.w3.org/2005/xpath-functions/map}merge(
   let $pname := $sales('product')
   group by $pname
   return map { $pname : sum(for $s in $sales return $s('quantity')) })",
-   Env = xqerl_test:handle_environment(environment('sales-json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('sales-json')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {
   \"blender\" : 250,
   \"broiler\" : 20,
@@ -970,9 +988,20 @@ Q{http://www.w3.org/2005/xpath-functions/map}merge(
       }
     }
 }",
-   Qry1 = Qry,
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseR31.xml"}]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map{\"CA\":[map{\"clothes\":map{\"socks\":510}},map{\"kitchen\":map{\"broiler\":20,\"toaster\":150}}]},map{\"MA\":[map{\"clothes\":map{\"shirt\":10}},map{\"kitchen\":map{\"toaster\":50,\"blender\":250}}]}]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -992,10 +1021,10 @@ return map {
      map:keys($sats)[not($sats(.)(\"visible\"))]
   }
 }",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"map { \"visible\" : [\"AKARI (ASTRO-F)\",\"AJISAI (EGS)\"], \"invisible\" : [\"AAU CUBESAT\"]}") of 
       true -> {comment, "Deep equal"};
@@ -1025,10 +1054,10 @@ return map {
   }
  }
 }",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"array:get($result,1)?authors = \"Myasuda\"") of 
       true -> {comment, "Correct results"};
@@ -1075,10 +1104,10 @@ return map {
   </body>
 </html>
    ",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result//td[text()='spinnen'])=2") of 
       true -> {comment, "Correct results"};
@@ -1121,10 +1150,10 @@ return map {
     }</tr>
 }</table>
    ",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<table><tr><td>Green</td><td>Pink</td><td>Lilac</td></tr><tr><td>Turquoise</td><td>Peach</td><td>Opal</td></tr><tr><td>Champagne</td></tr></table>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1139,10 +1168,10 @@ return map {
   let $dbj := json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/users2-json\")[ .(\"name\") = \"Deadbeat Jim\" ]
 return map:put($dbj, \"status\", \"credit card declined\")
    ",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {
   \"name\" : \"Deadbeat Jim\",
   \"address\" : \"1 E 161st St, Bronx, NY 10451\",
@@ -1164,10 +1193,10 @@ return map:put($dbj, \"status\", \"credit card declined\")
              }
 
   return $mf(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"), \"first\")",
-   Env = xqerl_test:handle_environment(environment('json-docs')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

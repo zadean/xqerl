@@ -224,86 +224,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -315,11 +323,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -329,8 +338,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -340,8 +350,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -351,8 +362,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -362,8 +374,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -373,19 +386,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -398,19 +412,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"  Wed, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -423,19 +438,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 GMT    \") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -448,19 +464,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -473,19 +490,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wednesday 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -498,19 +516,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01.25 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01.25Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01.25Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -523,19 +542,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01.299 GMT\") = xs:dateTime($d))
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:string","'2014-08-20T19:36:01.299Z'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:string","'2014-08-20T19:36:01.299Z'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -548,19 +568,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"wed, 20 aug 2014 19:36:01 gmt\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -573,19 +594,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"WED, 20 AUG 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -598,19 +620,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -623,19 +646,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"WED, 20 AUG 2014 19:36:01\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -648,19 +672,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -673,19 +698,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -698,19 +724,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -723,19 +750,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\" 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -748,19 +776,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Tue, 9 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -773,19 +802,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Tue,  9 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -798,19 +828,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Tue, 09 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -823,19 +854,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Mon 8 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-09-08T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-09-08T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -848,19 +880,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Aug-20 19:36 2014\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -873,19 +906,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Aug 20 19:36 2014\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -898,19 +932,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 - Aug - 2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -923,19 +958,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20- Aug- 2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -948,19 +984,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 -Aug -2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -973,19 +1010,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Sun, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -998,19 +1036,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Mon, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1023,19 +1062,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Tuesday, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1048,19 +1088,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Thursday, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1073,19 +1114,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"FRI, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1098,19 +1140,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"SAT, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1123,19 +1166,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 UT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1148,19 +1192,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 UTC\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1173,19 +1218,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 EST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1198,19 +1244,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 15:36:01 EDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1223,19 +1270,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 13:36:01 CST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1248,19 +1296,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 CDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1273,19 +1322,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 12:36:01 MST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1298,19 +1348,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 13:36:01 MDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1323,19 +1374,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 11:36:01 PST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1348,19 +1400,20 @@ environment('array-and-map') ->
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 12:36:01 PDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/parse-ietf-date.xml"}]},
+{vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

@@ -110,6 +110,10 @@
 
 -include("xqerl.hrl").
 
+lookup(Ctx,[Sing],Value) ->
+   lookup(Ctx,Sing,Value);
+lookup(Ctx,Fun,Value) when is_function(Fun) ->
+   Fun(Ctx, Value);
 lookup(_Ctx,Map,all) when is_map(Map) ->
    xqerl_map:values(Map);
 lookup(_Ctx,Map,Values) when is_map(Map), is_list(Values) ->
@@ -831,16 +835,16 @@ general_compare(_Op,_,[]) -> ?sing(#xqAtomicValue{type = 'xs:boolean', value = f
 general_compare(Op,#xqAtomicValue{} = List1,#xqAtomicValue{} = List2) ->
    ?sing(#xqAtomicValue{type = 'xs:boolean', 
                         value = xqerl_types:value(value_compare(Op,List1,List2))});
-general_compare(Op,#xqAtomicValue{} = List1,List2) ->
+general_compare(Op,#xqAtomicValue{} = V1,List2) ->
    AList2 = atomize_list(List2),
-   Bool = lists:any(fun(V1) ->
-                          xqerl_types:value(value_compare(Op,List1,V1))
+   Bool = lists:any(fun(V2) ->
+                          xqerl_types:value(value_compare(Op,V1,V2))
                     end, AList2),
    ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool});
-general_compare(Op,List1,#xqAtomicValue{} = List2) ->
+general_compare(Op,List1,#xqAtomicValue{} = V2) ->
    AList1 = atomize_list(List1),
    Bool = lists:any(fun(V1) ->
-                          xqerl_types:value(value_compare(Op,List2,V1))
+                          xqerl_types:value(value_compare(Op,V1,V2))
                     end, AList1),
    ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool});
 
@@ -850,8 +854,8 @@ general_compare(Op,List1,List2) ->
    Bool = lists:any(fun(V1) ->
                           lists:any(fun(V2) ->
                                           xqerl_types:value(value_compare(Op,V1,V2))
-                                    end, AList1)
-                    end, AList2),
+                                    end, AList2)
+                    end, AList1),
    ?sing(#xqAtomicValue{type = 'xs:boolean', value = Bool}).
 
 %2a both are untyped

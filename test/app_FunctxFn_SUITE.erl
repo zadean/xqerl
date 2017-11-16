@@ -1018,86 +1018,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -1109,11 +1117,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -1123,8 +1132,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -1134,8 +1144,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -1145,8 +1156,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -1156,8 +1168,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -1165,44 +1178,48 @@ environment('array-and-map') ->
 ];
 environment('functx_order') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_order.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_order.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('functx_catalog') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_catalog.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_catalog.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('functx_cats') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_cats.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_cats.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('functx_prices') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_prices.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_prices.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -1508,10 +1525,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-avg-4'(_Config) ->
    Qry = "let $ordDoc := (/) return (avg($ordDoc//item/@quantity))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1.1666666666666667") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1522,10 +1539,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-avg-5'(_Config) ->
    Qry = "let $ordDoc := (/) return (avg( () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1536,10 +1553,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-avg-all'(_Config) ->
    Qry = "let $ordDoc := (/) return (avg( (1, 2, 3, 4, 5) ), avg( (1, 2, 3, (), 4, 5) ), avg( (xs:yearMonthDuration('P4M'), xs:yearMonthDuration('P6M') ) ), avg($ordDoc//item/@quantity), avg( () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3, 3, xs:yearMonthDuration('P5M'), 1.1666666666666667") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1550,10 +1567,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-base-uri-1'(_Config) ->
    Qry = "let $cats := (/) return (base-uri($cats//catalog[1]))",
-   Env = xqerl_test:handle_environment(environment('functx_cats')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org/ACC/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1564,10 +1581,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-base-uri-2'(_Config) ->
    Qry = "let $cats := (/) return (base-uri($cats//catalog[2]/product))",
-   Env = xqerl_test:handle_environment(environment('functx_cats')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org/WMN/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1578,10 +1595,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-base-uri-3'(_Config) ->
    Qry = "let $cats := (/) return (base-uri($cats//catalog[2]/product/@href))",
-   Env = xqerl_test:handle_environment(environment('functx_cats')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org/WMN/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1592,10 +1609,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-base-uri-all'(_Config) ->
    Qry = "let $cats := (/) return (base-uri($cats//catalog[1]), base-uri($cats//catalog[2]/product), base-uri($cats//catalog[2]/product/@href))",
-   Env = xqerl_test:handle_environment(environment('functx_cats')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org/ACC/ http://example.org/WMN/ http://example.org/WMN/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1606,10 +1623,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-1'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean( () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1620,10 +1637,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-2'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean(''))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1634,10 +1651,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-3'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean(0))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1648,10 +1665,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-4'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean('0'))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1662,10 +1679,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-5'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean('false'))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1676,10 +1693,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-6'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean(xs:float('NaN')))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1690,10 +1707,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-7'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean($ordDoc/order[1]))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1704,10 +1721,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-8'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean($ordDoc/noSuchChild))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1718,10 +1735,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-9'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean(<a>false</a>))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1732,10 +1749,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-boolean-all'(_Config) ->
    Qry = "let $ordDoc := (/) return (boolean( () ), boolean(''), boolean(0), boolean('0'), boolean('false'), boolean(xs:float('NaN')), boolean($ordDoc/order[1]), boolean($ordDoc/noSuchChild), boolean(<a>false</a>))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false true true false true false true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2214,10 +2231,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-count-1'(_Config) ->
    Qry = "let $ordDoc := (/) return (count( (1, 2, 3) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2228,10 +2245,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-count-2'(_Config) ->
    Qry = "let $ordDoc := (/) return (count($ordDoc//item))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2242,10 +2259,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-count-3'(_Config) ->
    Qry = "let $ordDoc := (/) return (count( distinct-values($ordDoc//item/@num)))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2256,10 +2273,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-count-4'(_Config) ->
    Qry = "let $ordDoc := (/) return (count( (1, 2, 3, () ) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2270,10 +2287,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-count-5'(_Config) ->
    Qry = "let $ordDoc := (/) return (count( () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2284,10 +2301,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-count-all'(_Config) ->
    Qry = "let $ordDoc := (/) return (count( (1, 2, 3) ), count($ordDoc//item), count( distinct-values($ordDoc//item/@num)), count( (1, 2, 3, () ) ), count( () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 6 4 3 0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2298,10 +2315,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-data-1'(_Config) ->
    Qry = "let $cat := (/) return (data($cat//product[1]/number))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "557") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2312,10 +2329,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-data-2'(_Config) ->
    Qry = "let $cat := (/) return (data($cat//number))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "557 563 443 784") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2326,10 +2343,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-data-3'(_Config) ->
    Qry = "let $cat := (/) return (data($cat//product[1]/@dept))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "WMN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2340,10 +2357,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-data-4'(_Config) ->
    Qry = "let $cat := (/) return (data($cat//product[1]/colorChoices))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "navy black") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2354,10 +2371,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-data-5'(_Config) ->
    Qry = "let $cat := (/) return (data($cat//product[1]))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "557 Fleece Pullover navy black") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2368,10 +2385,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-data-6'(_Config) ->
    Qry = "let $cat := (/) return (data($cat//product[4]/desc))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Our favorite shirt!") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2382,10 +2399,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-data-all'(_Config) ->
    Qry = "let $cat := (/) return (data($cat//product[1]/number), data($cat//number), data($cat//product[1]/@dept), data($cat//product[1]/colorChoices), data($cat//product[1]), data($cat//product[4]/desc))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "557 557 563 443 784 WMN navy black 557 Fleece Pullover navy black Our favorite shirt!") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2708,10 +2725,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-doc-available-1'(_Config) ->
    Qry = "(doc-available( document-uri(/) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3619,10 +3636,10 @@ environment('functx_prices') ->
    end.
 'functx-fn-last-1'(_Config) ->
    Qry = "(/ catalog/product[last()])",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product dept=\"MEN\">
   <number>784</number>
   <name language=\"en\">Cotton Dress Shirt</name>
@@ -4098,10 +4115,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-max-1'(_Config) ->
    Qry = "let $ordDoc := (/) return (max( (2, 1, 5, 4, 3) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -4112,10 +4129,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-max-2'(_Config) ->
    Qry = "let $ordDoc := (/) return (max( ('a', 'b', 'c') ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "c") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4126,10 +4143,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-max-3'(_Config) ->
    Qry = "let $ordDoc := (/) return (max( 2 ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -4140,10 +4157,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-max-4'(_Config) ->
    Qry = "let $ordDoc := (/) return (max($ordDoc//item/string(@dept)))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "WMN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4154,10 +4171,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-max-all'(_Config) ->
    Qry = "let $ordDoc := (/) return (max( (2, 1, 5, 4, 3) ), max( ('a', 'b', 'c') ), max( 2 ), max($ordDoc//item/string(@dept)))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5 c 2 WMN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4168,10 +4185,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-min-1'(_Config) ->
    Qry = "let $ordDoc := (/) return (min( (2.0, 1, 3.5, 4) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -4182,10 +4199,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-min-2'(_Config) ->
    Qry = "let $ordDoc := (/) return (min( ('a', 'b', 'c') ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4196,10 +4213,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-min-3'(_Config) ->
    Qry = "let $ordDoc := (/) return (min($ordDoc//item//string(@color)))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4210,10 +4227,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-min-4'(_Config) ->
    Qry = "let $ordDoc := (/) return (min($ordDoc//item/@color/string(.)))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "beige") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4224,10 +4241,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-min-all'(_Config) ->
    Qry = "let $ordDoc := (/) return (min( (2.0, 1, 3.5, 4) ), min( ('a', 'b', 'c') ), min($ordDoc//item//string(@color)), min($ordDoc//item/@color/string(.)))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 a  beige") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5088,10 +5105,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-not-2'(_Config) ->
    Qry = "(not((/) //product))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5167,10 +5184,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-not-all'(_Config) ->
    Qry = "(not(32 > 20), not((/) //product), not(true()), not(()), not(''), not(0), not(<e>false</e>))",
-   Env = xqerl_test:handle_environment(environment('functx_catalog')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false true true true false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5181,10 +5198,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-number-1'(_Config) ->
    Qry = "let $priceDoc := (/) return (number( $priceDoc//prod[1]/price))",
-   Env = xqerl_test:handle_environment(environment('functx_prices')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "29.99") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5195,10 +5212,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-number-2'(_Config) ->
    Qry = "let $priceDoc := (/) return (number( $priceDoc//prod[1]/@currency))",
-   Env = xqerl_test:handle_environment(environment('functx_prices')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5209,10 +5226,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-number-3'(_Config) ->
    Qry = "let $priceDoc := (/) return (number('29.99'))",
-   Env = xqerl_test:handle_environment(environment('functx_prices')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "29.99") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5223,10 +5240,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-number-4'(_Config) ->
    Qry = "let $priceDoc := (/) return (number('ABC'))",
-   Env = xqerl_test:handle_environment(environment('functx_prices')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5237,10 +5254,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-number-5'(_Config) ->
    Qry = "let $priceDoc := (/) return (number( () ))",
-   Env = xqerl_test:handle_environment(environment('functx_prices')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5252,10 +5269,10 @@ Traverse City, MI 49684'
 'functx-fn-number-6'(_Config) ->
    Qry = "let $priceDoc := (/) return ($priceDoc// prod/price[number() >
          35])",
-   Env = xqerl_test:handle_environment(environment('functx_prices')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<price currency=\"USD\">69.99</price><price currency=\"USD\">39.99</price>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5270,10 +5287,10 @@ Traverse City, MI 49684'
          return (number( $priceDoc//prod[1]/price), number( $priceDoc//prod[1]/@currency), 
                           number('29.99'), number('ABC'), number( () ), 
                           $priceDoc// prod/price[number() > 35])",
-   Env = xqerl_test:handle_environment(environment('functx_prices')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result[1] eq 29.99") of 
       true -> {comment, "Correct results"};
@@ -6102,10 +6119,10 @@ Traverse City, MI 49684'
    end.
 'functx-fn-root-1'(_Config) ->
    Qry = "let $in-xml := <a><x>123</x></a> return (root( (/) //item[1]))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<order num=\"00299432\" date=\"2006-09-15\" cust=\"0221A\">
   <item dept=\"WMN\" num=\"557\" quantity=\"1\" color=\"beige\"/>
   <item dept=\"ACC\" num=\"563\" quantity=\"1\"/>
@@ -6139,10 +6156,10 @@ Traverse City, MI 49684'
          let $in-xml := <a><x>123</x></a> 
          return document{(root( (/) //item[1]), root($in-xml/x))}
       ",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<order num=\"00299432\" date=\"2006-09-15\" cust=\"0221A\">
   <item dept=\"WMN\" num=\"557\" quantity=\"1\" color=\"beige\"/>
   <item dept=\"ACC\" num=\"563\" quantity=\"1\"/>
@@ -7245,10 +7262,10 @@ query
    end.
 'functx-fn-sum-1'(_Config) ->
    Qry = "let $ordDoc := (/) return (sum( (1, 2, 3) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -7259,10 +7276,10 @@ query
    end.
 'functx-fn-sum-2'(_Config) ->
    Qry = "let $ordDoc := (/) return (sum($ordDoc//item/@quantity))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -7273,10 +7290,10 @@ query
    end.
 'functx-fn-sum-3'(_Config) ->
    Qry = "let $ordDoc := (/) return (sum( (xs:yearMonthDuration('P1Y2M'), xs:yearMonthDuration('P2Y3M')) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P3Y5M") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7287,10 +7304,10 @@ query
    end.
 'functx-fn-sum-4'(_Config) ->
    Qry = "let $ordDoc := (/) return (sum( (1, 2, 3, () ) ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -7301,10 +7318,10 @@ query
    end.
 'functx-fn-sum-5'(_Config) ->
    Qry = "let $ordDoc := (/) return (sum( () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -7315,10 +7332,10 @@ query
    end.
 'functx-fn-sum-6'(_Config) ->
    Qry = "let $ordDoc := (/) return (sum( (), () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7329,10 +7346,10 @@ query
    end.
 'functx-fn-sum-all'(_Config) ->
    Qry = "let $ordDoc := (/) return (sum( (1, 2, 3) ), sum($ordDoc//item/@quantity), sum( (xs:yearMonthDuration('P1Y2M'), xs:yearMonthDuration('P2Y3M')) ), sum( (1, 2, 3, () ) ), sum( () ), sum( (), () ))",
-   Env = xqerl_test:handle_environment(environment('functx_order')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_order')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "6 7 P3Y5M 6 0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

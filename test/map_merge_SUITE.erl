@@ -72,86 +72,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -163,11 +171,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -177,8 +186,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -188,8 +198,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -199,8 +210,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -210,8 +222,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -219,10 +232,10 @@ environment('array-and-map') ->
 ].
 'map-merge-001'(_Config) ->
    Qry = "map:merge()",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -233,10 +246,10 @@ environment('array-and-map') ->
    end.
 'map-merge-002'(_Config) ->
    Qry = "map:merge(())",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -259,10 +272,10 @@ environment('array-and-map') ->
    end.
 'map-merge-003-hof'(_Config) ->
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -289,10 +302,10 @@ environment('array-and-map') ->
    end.
 'map-merge-003'(_Config) ->
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -315,10 +328,10 @@ environment('array-and-map') ->
    end.
 'map-merge-004'(_Config) ->
    Qry = "map:merge((map:entry(\"foo\", 1 to 5), map:entry(\"bar\", 6 to 10)))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -345,10 +358,10 @@ environment('array-and-map') ->
    end.
 'map-merge-005'(_Config) ->
    Qry = "map:merge(for $i in 1 to 20 return map:entry($i, $i*$i))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -379,10 +392,10 @@ environment('array-and-map') ->
    end.
 'map-merge-006'(_Config) ->
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-last\"})",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -413,10 +426,10 @@ environment('array-and-map') ->
    end.
 'map-merge-006b'(_Config) ->
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-first\"})",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -447,10 +460,10 @@ environment('array-and-map') ->
    end.
 'map-merge-006c'(_Config) ->
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"combine\"})",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -481,10 +494,10 @@ environment('array-and-map') ->
    end.
 'map-merge-006d'(_Config) ->
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-any\"})",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"deep-equal(map:get($result, \"foo\"), 3)") of 
       true -> {comment, "Correct results"};
@@ -503,10 +516,10 @@ environment('array-and-map') ->
    end.
 'map-merge-006e'(_Config) ->
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"deep-equal(map:get($result, \"foo\"), 3)") of 
       true -> {comment, "Correct results"};
@@ -525,10 +538,10 @@ environment('array-and-map') ->
    end.
 'map-merge-006f'(_Config) ->
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"reject\"})",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -540,10 +553,10 @@ environment('array-and-map') ->
 'map-merge-007'(_Config) ->
    Qry = "let $foo := map:entry(\"foo\", 3), $bar := map:entry(\"foo\", 4), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[3]",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -575,10 +588,10 @@ environment('array-and-map') ->
 'map-merge-008'(_Config) ->
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[3]",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -610,10 +623,10 @@ environment('array-and-map') ->
 'map-merge-009'(_Config) ->
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[2]",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -645,10 +658,10 @@ environment('array-and-map') ->
 'map-merge-010'(_Config) ->
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:merge(()), $foobar := map:merge(($foo, $bar))
               return $foobar",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -680,10 +693,10 @@ environment('array-and-map') ->
 'map-merge-011'(_Config) ->
    Qry = "map:merge((map:entry(3, \"three\"), map:entry(3.0e0, \"threeD\"), map:entry(xs:float('3.0'), \"threeF\")),
             map{\"duplicates\" : \"use-last\"})",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -715,10 +728,10 @@ environment('array-and-map') ->
 'map-merge-012'(_Config) ->
    Qry = "map:merge(for $n in distinct-values(//*/node-name()) 
                       return map:entry($n, //*[node-name() eq $n]))",
-   Env = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -741,10 +754,10 @@ environment('array-and-map') ->
    end.
 'map-merge-013'(_Config) ->
    Qry = "map:merge(for $n in 1 to 20 return map:entry($n, map{$n :string($n), $n+1:string($n+1), $n+2:string($n+2)}))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"map(xs:integer, map(xs:integer, xs:string))") of 
       true -> {comment, "Correct type"};
@@ -763,10 +776,10 @@ environment('array-and-map') ->
    end.
 'map-merge-016'(_Config) ->
    Qry = "deep-equal(map{}, map:merge(()))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -777,10 +790,10 @@ environment('array-and-map') ->
    end.
 'map-merge-017'(_Config) ->
    Qry = "deep-equal(map{\"a\":1}, map:entry(\"a\", 1))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -791,10 +804,10 @@ environment('array-and-map') ->
    end.
 'map-merge-018'(_Config) ->
    Qry = "deep-equal(map{\"a\":1,\"b\":2,\"c\":(3,4,5)}, map{\"c\":(3,4,5),\"a\":1,\"b\":2})",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -805,10 +818,10 @@ environment('array-and-map') ->
    end.
 'map-merge-019'(_Config) ->
    Qry = "deep-equal(map{\"a\":1}, map:merge(()))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -820,10 +833,10 @@ environment('array-and-map') ->
 'map-merge-020'(_Config) ->
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 2 to 1001 return map:entry($i, $i+1)))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -836,10 +849,10 @@ environment('array-and-map') ->
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(((for $i in 1 to 1000 return map:entry($i, $i+1)), map:entry(400, 402)),
                          map{\"duplicates\":\"use-last\"}))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -851,10 +864,10 @@ environment('array-and-map') ->
 'map-merge-022'(_Config) ->
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 0 to 1000 return map:entry($i, $i+1)))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -866,10 +879,10 @@ environment('array-and-map') ->
 'map-merge-023'(_Config) ->
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 2 to 1000 return map:entry($i, $i+1)))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -880,10 +893,10 @@ environment('array-and-map') ->
    end.
 'map-merge-024-hof'(_Config) ->
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -910,10 +923,10 @@ environment('array-and-map') ->
    end.
 'map-merge-024'(_Config) ->
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};

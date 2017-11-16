@@ -104,86 +104,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -195,11 +203,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -209,8 +218,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -220,8 +230,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -231,8 +242,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -242,8 +254,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -251,23 +264,25 @@ environment('array-and-map') ->
 ];
 environment('works-mod-uri') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".","http://www.w3.org/fots/docs/works-mod.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".","http://www.w3.org/fots/docs/works-mod.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
-{params, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{params, []},
+{vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff-uri') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","","http://www.w3.org/fots/docs/works.xml"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","","http://www.w3.org/fots/docs/staff.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","","http://www.w3.org/fots/docs/works.xml"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","","http://www.w3.org/fots/docs/staff.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
-{params, [{"works","xs:string","'http://www.w3.org/fots/docs/works.xml'"},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{params, []},
+{vars, [{"works","xs:string","'http://www.w3.org/fots/docs/works.xml'"},
 {"staff","xs:string","'http://www.w3.org/fots/docs/staff.xml'"}]},
 {namespaces, []},
 {resources, []},
@@ -335,10 +350,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-5'(_Config) ->
    Qry = "fn:doc($uri) is fn:doc($uri)",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -349,10 +364,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-6'(_Config) ->
    Qry = "fn:doc($works) is fn:doc($staff)",
-   Env = xqerl_test:handle_environment(environment('works-and-staff-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -363,10 +378,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-7'(_Config) ->
    Qry = "fn:doc($uri)//day/string()",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Monday\", \"Tuesday\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -377,10 +392,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-15'(_Config) ->
    Qry = "fn:count(fn:nilled(fn:doc($uri)))",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -391,10 +406,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-16'(_Config) ->
    Qry = "fn:count(fn:node-name(fn:doc($uri)))",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -426,10 +441,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-18'(_Config) ->
    Qry = "fn:not(fn:doc($uri) is fn:doc($uri))",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -440,10 +455,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-19'(_Config) ->
    Qry = "(fn:doc($uri) is fn:doc($uri)) and fn:true()",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -454,10 +469,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-20'(_Config) ->
    Qry = "(fn:doc($uri) is fn:doc($uri)) and fn:false()",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -468,10 +483,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-21'(_Config) ->
    Qry = "(fn:doc($uri) is fn:doc($uri)) or fn:true()",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -482,10 +497,10 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-22'(_Config) ->
    Qry = "(fn:doc($uri) is fn:doc($uri)) or fn:false()",
-   Env = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -496,19 +511,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-24'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/SpaceBracket.xml","","id/SpaceBracket.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/SpaceBracket.xml","","id/SpaceBracket.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/SpaceBracket.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/SpaceBracket.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<p> ]</p>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -519,19 +535,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-25'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode.xml","","id/HighUnicode.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode.xml","","id/HighUnicode.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/HighUnicode.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/HighUnicode.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<เจมส์></เจมส์>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -542,19 +559,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-26'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode2.xml","","id/HighUnicode2.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/HighUnicode2.xml","","id/HighUnicode2.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/HighUnicode2.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/HighUnicode2.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<เจมส์/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -565,19 +583,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-27'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/BCisInvalid.xml","","id/BCisInvalid.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/BCisInvalid.xml","","id/BCisInvalid.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/BCisInvalid.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/BCisInvalid.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -588,19 +607,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-28'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidUmlaut.xml","","id/InvalidUmlaut.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidUmlaut.xml","","id/InvalidUmlaut.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/InvalidUmlaut.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/InvalidUmlaut.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -611,19 +631,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-29'(_Config) ->
    Qry = "fn:doc($uri)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/NamespaceSuppliedInternally.xml","","id/NamespaceSuppliedInternally.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/NamespaceSuppliedInternally.xml","","id/NamespaceSuppliedInternally.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/NamespaceSuppliedInternally.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/NamespaceSuppliedInternally.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -634,19 +655,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-30'(_Config) ->
    Qry = "local-name(fn:doc($uri)/*)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdDuplicated.xml","","id/XMLIdDuplicated.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdDuplicated.xml","","id/XMLIdDuplicated.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/XMLIdDuplicated.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/XMLIdDuplicated.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "schema") of 
       true -> {comment, "String correct"};
@@ -665,19 +687,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-31'(_Config) ->
    Qry = "local-name(fn:doc($uri)/*)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidXMLId.xml","","id/InvalidXMLId.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/InvalidXMLId.xml","","id/InvalidXMLId.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/InvalidXMLId.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/InvalidXMLId.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "schema") of 
       true -> {comment, "String correct"};
@@ -709,19 +732,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-32'(_Config) ->
    Qry = "normalize-space(string(fn:doc($uri))), normalize-space(string(exactly-one(fn:doc($uri)/*)))",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/Books2.xml","","id/Books2.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/Books2.xml","","id/Books2.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/Books2.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/Books2.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Everyday Italian Giada De Laurentiis\", \"Everyday Italian Giada De Laurentiis\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -752,11 +776,12 @@ environment('works-and-staff-uri') ->
             for $object in $root//QObject for $i in local:drawDiagram($object) stable order by string($i) return $i 
         } </s:svg>
      ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/QObject.xml","","id/QObject.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/QObject.xml","","id/QObject.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, []},
 {params, [{"uri","xs:string","'id/QObject.xml'"}]},
 {namespaces, []},
 {resources, []},
@@ -764,7 +789,7 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<s:svg xmlns:s=\"http://www.w3.org/2000/svg\"><s:rect stroke-width=\"2\" width=\"500\" fill=\"none\" height=\"300\" stroke=\"blue\" y=\"1\" x=\"1\"/><s:rect stroke-width=\"10\" width=\"400\" fill=\"yellow\" height=\"200\" stroke=\"navy\" y=\"100\" x=\"400\"/><s:g xml:id=\"_layout\"/><s:g/><s:g xml:id=\"qt_tabwidget_stackedwidget\"/><s:g xml:id=\"verticalLayout_2\"/><s:g xml:id=\"htmlQueryEdit\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"htmlOutput\"/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"verticalLayout\"/><s:g xml:id=\"wholeTree\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"wholeTreeOutput\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"verticalLayout_3\"/><s:g xml:id=\"diagramQuery\"/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g/><s:g xml:id=\"qt_tabwidget_tabbar\"/><s:g xml:id=\"menubar\"/><s:g xml:id=\"statusbar\"/><s:g/><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QBoxLayout</s:text></s:g><s:g xml:id=\"horizontalLayout\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QHBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QHBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QHBoxLayout</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QSizeGrip</s:text></s:g><s:g xml:id=\"inheritanceTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QTabWidget</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QTimer</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QTimer</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QToolButton</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QToolButton</s:text></s:g><s:g xml:id=\"qt_menubar_ext_button\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QToolButton</s:text></s:g><s:g xml:id=\"centralwidget\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"htmlTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"wholeTreeTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"svgTab\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_hcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_vcontainer\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g xml:id=\"qt_scrollarea_viewport\"><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidget</s:text></s:g><s:g><s:text font-family=\"Verdana\" fill=\"blue\" font-size=\"55\" y=\"10\" x=\"10\">QWidgetAnimator</s:text></s:g></s:svg>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -775,19 +800,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-34'(_Config) ->
    Qry = "doc($uri)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/0x010D.xml","","id/0x010D.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/0x010D.xml","","id/0x010D.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/0x010D.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/0x010D.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<project čreated-by=\"{{build_number}}\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -811,19 +837,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-36'(_Config) ->
    Qry = "count(doc($uri)//text())",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/builtinEntities.xml","","id/builtinEntities.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/builtinEntities.xml","","id/builtinEntities.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/builtinEntities.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/builtinEntities.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"9") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -834,19 +861,20 @@ environment('works-and-staff-uri') ->
    end.
 'fn-doc-37'(_Config) ->
    Qry = "let $result := id(\"idABC\", doc($uri)) return $result",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdWhitespace.xml","","id/XMLIdWhitespace.xml"}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/XMLIdWhitespace.xml","","id/XMLIdWhitespace.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"uri","xs:string","'id/XMLIdWhitespace.xml'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/doc.xml"}]},
+{vars, [{"uri","xs:string","'id/XMLIdWhitespace.xml'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -959,11 +987,12 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-4'(_Config) ->
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -971,7 +1000,7 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -982,11 +1011,12 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-5'(_Config) ->
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.example.invalid"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -994,7 +1024,7 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1005,11 +1035,12 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-6'(_Config) ->
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1017,7 +1048,7 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1091,11 +1122,12 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-10'(_Config) ->
    Qry = "doc(\"\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///directory/directory/example.com/www.example.com/thisFileDoesNotExist.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1103,7 +1135,7 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1114,11 +1146,12 @@ environment('works-and-staff-uri') ->
    end.
 'K2-SeqDocFunc-11'(_Config) ->
    Qry = "doc(\"\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"file:///directory/directory/example.com/"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1126,7 +1159,7 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

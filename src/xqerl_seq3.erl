@@ -300,8 +300,9 @@ for_each1(Ctx, Fun, [H|T], Pos) ->
    end.
 
 val_map(_Fun,[]) -> [];
+val_map(Fun,H) when not is_list(H) ->
+   val_map(Fun,[H]);
 val_map(Fun,[H|T]) ->
-   %?dbg("H",H),
    Val = Fun(H),
    %?dbg("Val",Val),
    if is_list(Val) ->

@@ -88,86 +88,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -179,11 +187,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -193,8 +202,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -204,8 +214,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -215,8 +226,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -226,8 +238,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -235,11 +248,12 @@ environment('array-and-map') ->
 ];
 environment('has-children') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/has-children/has-children.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/has-children/has-children.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/has-children.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/has-children.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -400,10 +414,10 @@ environment('has-children') ->
    end.
 'fn-has-children-011'(_Config) ->
    Qry = "fn:has-children( (.,.) )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -417,10 +431,10 @@ environment('has-children') ->
                    fn:dateTime( fn:current-date(), fn:current-time() ))
               then .
               else 1 ) ! fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -435,10 +449,10 @@ environment('has-children') ->
                                                fn:current-time() ))
                              then .
                              else 1 )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -449,10 +463,10 @@ environment('has-children') ->
    end.
 'fn-has-children-014'(_Config) ->
    Qry = "(., 1) ! fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -463,10 +477,10 @@ environment('has-children') ->
    end.
 'fn-has-children-015'(_Config) ->
    Qry = "(., 1) ! fn:has-children(.)",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -477,10 +491,10 @@ environment('has-children') ->
    end.
 'fn-has-children-016'(_Config) ->
    Qry = "fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:boolean") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -491,10 +505,10 @@ environment('has-children') ->
    end.
 'fn-has-children-017'(_Config) ->
    Qry = "fn:has-children(.)",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:boolean") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -505,10 +519,10 @@ environment('has-children') ->
    end.
 'fn-has-children-018'(_Config) ->
    Qry = "/root/@attribute/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -519,10 +533,10 @@ environment('has-children') ->
    end.
 'fn-has-children-019'(_Config) ->
    Qry = "fn:has-children( /root/@attribute )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -537,10 +551,10 @@ environment('has-children') ->
    {skip,"XP30+"}.
 'fn-has-children-022'(_Config) ->
    Qry = "/root/comment()/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -551,10 +565,10 @@ environment('has-children') ->
    end.
 'fn-has-children-023'(_Config) ->
    Qry = "fn:has-children( /root/comment() )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -565,10 +579,10 @@ environment('has-children') ->
    end.
 'fn-has-children-024'(_Config) ->
    Qry = "/root/processing-instruction()/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -579,10 +593,10 @@ environment('has-children') ->
    end.
 'fn-has-children-025'(_Config) ->
    Qry = "fn:has-children( /root/processing-instruction() )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -593,10 +607,10 @@ environment('has-children') ->
    end.
 'fn-has-children-026'(_Config) ->
    Qry = "/root/text()/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -607,10 +621,10 @@ environment('has-children') ->
    end.
 'fn-has-children-027'(_Config) ->
    Qry = "fn:has-children( /root/text() )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -621,10 +635,10 @@ environment('has-children') ->
    end.
 'fn-has-children-028'(_Config) ->
    Qry = "/root/empty/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -635,10 +649,10 @@ environment('has-children') ->
    end.
 'fn-has-children-029'(_Config) ->
    Qry = "fn:has-children( /root/empty )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -649,10 +663,10 @@ environment('has-children') ->
    end.
 'fn-has-children-030'(_Config) ->
    Qry = "/root/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -663,10 +677,10 @@ environment('has-children') ->
    end.
 'fn-has-children-031'(_Config) ->
    Qry = "fn:has-children( /root )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -677,10 +691,10 @@ environment('has-children') ->
    end.
 'fn-has-children-032'(_Config) ->
    Qry = "/root/non-empty/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -691,10 +705,10 @@ environment('has-children') ->
    end.
 'fn-has-children-033'(_Config) ->
    Qry = "fn:has-children( /root/non-empty )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -705,10 +719,10 @@ environment('has-children') ->
    end.
 'fn-has-children-034'(_Config) ->
    Qry = "/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -719,10 +733,10 @@ environment('has-children') ->
    end.
 'fn-has-children-035'(_Config) ->
    Qry = "fn:has-children( / )",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -733,10 +747,10 @@ environment('has-children') ->
    end.
 'fn-has-children-036'(_Config) ->
    Qry = "/root/node()/fn:has-children()",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false false true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -747,10 +761,10 @@ environment('has-children') ->
    end.
 'fn-has-children-037'(_Config) ->
    Qry = "/root/node()/fn:has-children(.)",
-   Env = xqerl_test:handle_environment(environment('has-children')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false false true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

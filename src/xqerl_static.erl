@@ -488,8 +488,9 @@ handle_node(State, {'partial-function', Name, Arity, Args}) ->
 %% 3.1.5.3 Function Coercion
 %% 3.1.6 Named Function References
 handle_node(State, {'function-ref', #qname{} = Name, Arity}) -> 
-   F = get_static_function(State, {Name, Arity}),
-   set_statement_and_type(State, F, #xqSeqType{type = 'function', occur = one});
+   #xqFunction{params = P, type = T} = F = get_static_function(State, {Name, Arity}),
+   Type = #xqFunTest{kind = function, params = P, type = T} ,
+   set_statement_and_type(State, F, #xqSeqType{type = Type, occur = one});
 %% 3.1.7 Inline Function Expressions
 % this is a global variable
 handle_node(State,#xqVar{id = Id,
@@ -507,7 +508,7 @@ handle_node(State,#xqVar{id = Id,
 handle_node(State,#xqVar{id = Id,
                          name = Name, 
                          type = Type, 
-                         expr = Expr}) ->
+                         expr = Expr} = Node) ->
    %ErlVarName = local_variable_name(Id),
    GlobVarName = global_variable_name(Id),
    VarState = handle_node(State, Expr),
@@ -539,10 +540,10 @@ handle_node(State,#xqVar{id = Id,
    
    %?dbg("Expr",Expr),
    %?dbg("VarStmt",VarStmt),
-   NewStatement = #xqVar{id = Id,
-                         name = Name, 
-                         type = SVarType, 
-                         expr = VarStmt},
+   NewStatement = Node#xqVar{id = Id,
+                             name = Name, 
+                             type = SVarType, 
+                             expr = VarStmt},
    set_statement_and_type(State1, NewStatement, VarType);
 
 
@@ -695,7 +696,7 @@ handle_node(State, {postfix, {'function-ref',#qname{} = Name, Arity}, [{argument
 
 % this could be a function/map/array variable
 handle_node(State, {postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}]}) ->
-   {_Name,FType,_Annos,_VarName} = V = get_variable(State, Name),
+   {_Name,FType,_Annos,_VarName} = get_variable(State, Name),
    %?dbg("V",V),
    %?dbg("Args",Args),
    {Params,Type} = case FType of
@@ -2363,6 +2364,8 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    Type = #xqSeqType{type = 'xs:integer', occur = one},
    ArgSt = get_statement(SimpArg),
    ArgCt = get_static_count(SimpArg),
+   ?dbg("ArgCt",ArgCt),
+   ?dbg("ArgSt",ArgSt),
    if ArgCt == undefined ->
          set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
       true ->

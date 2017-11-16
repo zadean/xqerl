@@ -72,7 +72,7 @@ string(String, Options) ->
              {ok,Obj} ->
                 Obj;
              _ ->
-                ?dbg("Tks",Tks),
+                %?dbg("Tks",Tks),
                 ?err('FOJS0001')
           end,  
    json_to_map(State, Term).
@@ -145,14 +145,14 @@ xml_to_json(State = #state{indent = Indent}, #xqElementNode{name = #qname{namesp
                                       case xml_to_json(State, V) of
                                          {K,V1,EscKey0} ->
                                             EscKey1 = if_empty(EscKey0,false),
-                                            ?dbg("EscKey",EscKey1),
-                                            ?dbg("K",K),
+                                            %?dbg("EscKey",EscKey1),
+                                            %?dbg("K",K),
                                             K1 = if EscKey1 ->
                                                        to_codepoints(K,true);
                                                     true ->
                                                        to_codepoints(K,false)
                                                  end,
-                                            ?dbg("K1",K1),
+                                            %?dbg("K1",K1),
                                             case maps:is_key(K1, Check) of
                                                true ->
                                                   ?err('FOJS0006');
@@ -173,7 +173,7 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "b
                                   expr = Expr}) -> 
    try
       {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
-      ?dbg("Expr",{Key, EscKey, Esc, Rest}),
+      %?dbg("Expr",{Key, EscKey, Esc, Rest}),
       Txt = xqerl_node:atomize_nodes(Rest),
       Bool = xqerl_types:string_value(xqerl_types:cast_as(Txt,'xs:boolean')),
       if Key == [] ->
@@ -189,7 +189,7 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "b
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "null"},
                                   expr = Expr}) -> 
    {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
-   ?dbg("Expr",{Key, EscKey, Esc, Rest}),
+   %?dbg("Expr",{Key, EscKey, Esc, Rest}),
    if Rest =/= [] ->
          ?err('FOJS0006');
       Key == [] ->
@@ -202,11 +202,11 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "n
                                   expr = Expr})->
    try
       {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
-      ?dbg("Expr",{Key, EscKey, Esc, Rest}),
+      %?dbg("Expr",{Key, EscKey, Esc, Rest}),
       Txt = xqerl_node:atomize_nodes(Rest),
-      ?dbg("Txt",Txt),
+      %?dbg("Txt",Txt),
       NumTxt = xqerl_types:string_value(xqerl_types:cast_as(Txt,'xs:double')),
-      ?dbg("Num",NumTxt),
+      %?dbg("Num",NumTxt),
       if NumTxt == "INF";
          NumTxt == "-INF";
          NumTxt == "NaN" -> % not allowed in JSON
@@ -224,7 +224,7 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "n
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "string"},
                                   expr = Expr}) ->
    {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
-   ?dbg("Expr",{Key, EscKey, Esc, Rest}),
+   %?dbg("Expr",{Key, EscKey, Esc, Rest}),
    case Rest of
       [#xqTextNode{}] ->
          KeyVal = if Key == [] ->
@@ -409,13 +409,13 @@ json_to_map(State, Val) ->
 
 normalize_string(#state{escape = Escape, fallback = Fallback}, String) ->
    if Escape == true ->
-         ?dbg("Escape",Escape),
+         %?dbg("Escape",Escape),
          escape(String, Fallback);
       Escape == [] ->
-         ?dbg("Escape",Escape),
+         %?dbg("Escape",Escape),
          escape(String, Fallback);
       true ->
-         ?dbg("Escape",Escape),
+         %?dbg("Escape",Escape),
          no_escape(String, Fallback)
    end.
 
@@ -440,8 +440,8 @@ escape_non_json([$\\,$u,A,B,C,D, $\\,$u,E,F,G,H | T]) ->
    try
       High = list_to_integer([A,B,C,D],16),
       Low  = list_to_integer([E,F,G,H],16),
-      ?dbg("High",High),
-      ?dbg("Low",Low),
+      %?dbg("High",High),
+      %?dbg("Low",Low),
       if High >= 16#D800, High =< 16#DFFF,
          Low  >= 16#D800, Low  =< 16#DFFF ->
             [$\\,$u,A,B,C,D, $\\,$u,E,F,G,H |escape_non_json(T)];
@@ -454,7 +454,7 @@ escape_non_json([$\\,$u,A,B,C,D, $\\,$u,E,F,G,H | T]) ->
 escape_non_json([$\\, $u, A,B,C,D | T]) ->
    try
       Num = list_to_integer([A,B,C,D],16),
-      ?dbg("Num",Num),
+      %?dbg("Num",Num),
       if Num >= 16#D800, Num =< 16#DFFF ->
             ?err('FOJS0007');
          true ->
@@ -548,7 +548,7 @@ no_escape([H|T], Fallback) ->
          Str = if H =< 65535 ->
                      [$\\, $u |string:uppercase(lists:flatten( string:pad(integer_to_list(H,16), 4, leading, $0)) )];
                   true ->
-                     ?dbg("BIG",H),
+                     %?dbg("BIG",H),
                      [H]
                end,
          try

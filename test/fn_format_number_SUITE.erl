@@ -516,86 +516,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -607,11 +615,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -621,8 +630,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -632,8 +642,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -643,8 +654,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -654,8 +666,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -767,12 +780,13 @@ environment('array-and-map') ->
    end.
 'numberformat09'(_Config) ->
    Qry = "format-number(931.4857,'000.000|###')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"|"},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"|"},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -780,7 +794,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "000.931|486") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -791,12 +805,13 @@ environment('array-and-map') ->
    end.
 'numberformat11'(_Config) ->
    Qry = "format-number(26931.4,'+!!!,!!!.!!!\\-!!,!!!.!!!')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -804,7 +819,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "+26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -815,12 +830,13 @@ environment('array-and-map') ->
    end.
 'numberformat12'(_Config) ->
    Qry = "format-number(-26931.4,'+!!,!!!.!!!\\-!!!,!!!.!!!')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -828,7 +844,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -839,12 +855,13 @@ environment('array-and-map') ->
    end.
 'numberformat13'(_Config) ->
    Qry = "format-number(-26931.4,'!!!,!!!.!!!')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -852,7 +869,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -863,11 +880,12 @@ environment('array-and-map') ->
    end.
 'numberformat14'(_Config) ->
    Qry = "format-number(1 div 0e0,'###############################')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"off-the-scale"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"off-the-scale"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -875,7 +893,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "off-the-scale") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -888,11 +906,12 @@ environment('array-and-map') ->
    {skip,"xpath-1.0-compatibility"}.
 'numberformat16'(_Config) ->
    Qry = "format-number(0.4857,'###.###m')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'per-mille',"m"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'per-mille',"m"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -900,7 +919,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "485.7m") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -911,11 +930,12 @@ environment('array-and-map') ->
    end.
 'numberformat17'(_Config) ->
    Qry = "format-number(-26931.4,'+###,###.###;-###,###.###')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -923,7 +943,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -934,11 +954,12 @@ environment('array-and-map') ->
    end.
 'numberformat18'(_Config) ->
    Qry = "format-number(-26931.4,'###,###.###')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -946,7 +967,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "_26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -958,11 +979,12 @@ environment('array-and-map') ->
 'numberformat19'(_Config) ->
    Qry = "concat(format-number(-26931.4,'###,###.###','myminus'), '/',
             format-number(-42857.1,'###,###.###'))",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -970,7 +992,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "_26,931.4/-42,857.1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -981,14 +1003,15 @@ environment('array-and-map') ->
    end.
 'numberformat20'(_Config) ->
    Qry = "format-number(1234.567,'#*###*###!###','foo:decimal1')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://foo.ns}decimal1",[{'decimal-separator',"!"},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://foo.ns}decimal1",[{'decimal-separator',"!"},
 {'grouping-separator',"*"}]},
 {"decimal1",[{'decimal-separator',"*"},
 {'grouping-separator',"!"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, [{"http://foo.ns","foo"}]},
 {resources, []},
@@ -996,7 +1019,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1*234!567") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1007,12 +1030,13 @@ environment('array-and-map') ->
    end.
 'numberformat26'(_Config) ->
    Qry = "format-number(7654321.4857,'### ### ###,#####')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',","},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',","},
 {'grouping-separator'," "}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1020,7 +1044,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "7 654 321,4857") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1034,11 +1058,12 @@ environment('array-and-map') ->
                         format-number(2392.14*36.58,'000,000.000000;###,###.000###'),
                         format-number(2392.14*36.58,'000,000.000000;###,###.000###','myminus')), ' ')
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1046,7 +1071,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "087,504.481200 087,504.481200 087,504.481200") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1057,11 +1082,12 @@ environment('array-and-map') ->
    end.
 'numberformat28'(_Config) ->
    Qry = "format-number(2392.14*(-36.58),'000,000.000###;-###,###.000###')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1069,7 +1095,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-87,504.4812") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1080,11 +1106,12 @@ environment('array-and-map') ->
    end.
 'numberformat29'(_Config) ->
    Qry = "format-number(-26931.4,'+###,###.###;_###,###.###')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1092,7 +1119,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "_26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1106,11 +1133,12 @@ environment('array-and-map') ->
                 format-number(-26931.4,'-###,###.###'),
                 format-number(-26931.4,'zzz-###,###.###','myminus'),
                 format-number(-26931.4,'_###,###.###','myminus')), ' ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1118,7 +1146,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "--26,931.4 _zzz-26,931.4 __26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1129,11 +1157,12 @@ environment('array-and-map') ->
    end.
 'numberformat31'(_Config) ->
    Qry = "format-number(-26931.4,'###,###.###;###,###.###')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1141,7 +1170,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1152,11 +1181,12 @@ environment('array-and-map') ->
    end.
 'numberformat32'(_Config) ->
    Qry = "format-number(0.4857,'###.###c')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'percent',"c"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'percent',"c"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1164,7 +1194,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "48.57c") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1175,12 +1205,13 @@ environment('array-and-map') ->
    end.
 'numberformat34'(_Config) ->
    Qry = "format-number(4030201.0506,'#!!!,!!!,٠٠٠.٠٠٠٠٠٠0')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'zero-digit',"٠"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1188,7 +1219,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "#٤,٠٣٠,٢٠١.٠٥٠٦٠٠0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1199,11 +1230,12 @@ environment('array-and-map') ->
    end.
 'numberformat35'(_Config) ->
    Qry = "format-number(987654321,'###,##0,00.00')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1211,7 +1243,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "9876,543,21.00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1222,11 +1254,12 @@ environment('array-and-map') ->
    end.
 'numberformat36'(_Config) ->
    Qry = "format-number(239236.588,'00000.00')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1234,7 +1267,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "239236.59") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1245,11 +1278,12 @@ environment('array-and-map') ->
    end.
 'numberformat37'(_Config) ->
    Qry = "format-number(1 div 0e0,'###############################')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1257,7 +1291,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Infinity") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1270,11 +1304,12 @@ environment('array-and-map') ->
    {skip,"xpath-1.0-compatibility"}.
 'numberformat39'(_Config) ->
    Qry = "format-number(-1 div 0e0,'###############################')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1282,7 +1317,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-Infinity") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1293,11 +1328,12 @@ environment('array-and-map') ->
    end.
 'numberformat40'(_Config) ->
    Qry = "format-number(-1 div 0e0,'###############################')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"huge"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"huge"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1305,7 +1341,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-huge") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1541,11 +1577,12 @@ environment('array-and-map') ->
    end.
 'numberformat61'(_Config) ->
    Qry = "format-number((),'###.###')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1553,7 +1590,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1564,11 +1601,12 @@ environment('array-and-map') ->
    end.
 'numberformat63'(_Config) ->
    Qry = "format-number(000123456789012345678901234567890.123456789012345678900000,     '##0.0####################################################')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1576,7 +1614,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "123456789012345678901234567890.1234567890123456789") of 
       true -> {comment, "String correct"};
@@ -1595,11 +1633,12 @@ environment('array-and-map') ->
    end.
 'numberformat64'(_Config) ->
    Qry = "format-number(000123456789012345678901234567890123456789012345678900000,     '# #0.0####################################################')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1607,7 +1646,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 00 00.0") of 
       true -> {comment, "String correct"};
@@ -1627,11 +1666,12 @@ environment('array-and-map') ->
 'numberformat65'(_Config) ->
    Qry = "concat(format-number(1234e0, '0000.####'), '|',
                     format-number(1234.00, '0000.####'))",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1639,7 +1679,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1234|1234") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1650,12 +1690,13 @@ environment('array-and-map') ->
    end.
 'numberformat70'(_Config) ->
    Qry = "format-number(1234567890.123456,'𚶱000𚶰000')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"𚶰"},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"𚶰"},
 {'grouping-separator',"𚶱"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1663,7 +1704,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1𚶱234𚶱567𚶱890𚶰123") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1674,11 +1715,12 @@ environment('array-and-map') ->
    end.
 'numberformat71'(_Config) ->
    Qry = "format-number(1234567890.123456,'##########𐒠.𐒠#####')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1686,7 +1728,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𐒡𐒢𐒣𐒤𐒥𐒦𐒧𐒨𐒩𐒠.𐒡𐒢𐒣𐒤𐒥𐒦") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1697,11 +1739,12 @@ environment('array-and-map') ->
    end.
 'numberformat72'(_Config) ->
    Qry = "format-number(1234567890.123456,'000.000')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1709,7 +1752,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1234567890.123") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1720,11 +1763,12 @@ environment('array-and-map') ->
    end.
 'numberformat80'(_Config) ->
    Qry = "format-number(12.34, '##.##')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1732,7 +1776,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12.34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1743,12 +1787,13 @@ environment('array-and-map') ->
    end.
 'numberformat81'(_Config) ->
    Qry = "format-number(12.34, '0.000,00', ' b:test ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, [{"http://a.ns/","a"},
 {"http://a.ns/","b"}]},
@@ -1757,7 +1802,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1768,14 +1813,15 @@ environment('array-and-map') ->
    end.
 'numberformat82'(_Config) ->
    Qry = "format-number(12.34, '0.000,00', if (current-date() gt xs:date('1900-01-01')) then 'two' else 'one')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"one",[{'decimal-separator',"."},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"one",[{'decimal-separator',"."},
 {'grouping-separator',","}]},
 {"two",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1783,7 +1829,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1794,14 +1840,15 @@ environment('array-and-map') ->
    end.
 'numberformat83'(_Config) ->
    Qry = "format-number(12.34, '0.000,00', concat(if (current-date() lt xs:date('1900-01-01')) then ' a' else ' b', ':one '))",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}one",[{'decimal-separator',"."},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}one",[{'decimal-separator',"."},
 {'grouping-separator',","}]},
 {"Q{http://b.ns/}one",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, [{"http://a.ns/","a"},
 {"http://b.ns/","b"}]},
@@ -1810,7 +1857,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1821,11 +1868,12 @@ environment('array-and-map') ->
    end.
 'numberformat84'(_Config) ->
    Qry = "format-number(123456789.34, '#,###.##')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1833,7 +1881,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123,456,789.34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1850,11 +1898,12 @@ environment('array-and-map') ->
                 format-number(xs:float(0), '#')), '|')
         
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1862,7 +1911,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0|0|0|0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1886,12 +1935,13 @@ environment('array-and-map') ->
    end.
 'numberformat87'(_Config) ->
    Qry = "format-number(12.34, '0.000,00', 'Q{http://a.ns/}test ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1899,7 +1949,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1910,12 +1960,13 @@ environment('array-and-map') ->
    end.
 'numberformat88'(_Config) ->
    Qry = "format-number(12.34, '0.000,00', if (current-date() lt xs:date('1900-01-01')) then () else ' Q{http://a.ns/}test')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1923,7 +1974,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2414,11 +2465,12 @@ environment('array-and-map') ->
    end.
 'numberformat123'(_Config) ->
    Qry = "format-number(1.0,'𐒠.𐒠e𐒠')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -2426,7 +2478,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𐒡.𐒠e𐒠") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3841,11 +3893,12 @@ environment('array-and-map') ->
    end.
 'numberformat902err'(_Config) ->
    Qry = "format-number(931.4857,'000.##0')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -3853,7 +3906,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3864,12 +3917,13 @@ environment('array-and-map') ->
    end.
 'numberformat905err'(_Config) ->
    Qry = "format-number(931.4857,'fred.ginger', 'q')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"q",[{'decimal-separator',"."},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"q",[{'decimal-separator',"."},
 {'grouping-separator',","}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -3877,7 +3931,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3888,11 +3942,12 @@ environment('array-and-map') ->
    end.
 'numberformat906InputErr'(_Config) ->
    Qry = "format-number('abc','000.##0')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -3900,7 +3955,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3911,11 +3966,12 @@ environment('array-and-map') ->
    end.
 'numberformat907InputErr'(_Config) ->
    Qry = "format-number(931.45, 931.45)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -3923,7 +3979,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3934,11 +3990,12 @@ environment('array-and-map') ->
    end.
 'numberformatFODF1280'(_Config) ->
    Qry = "format-number(931.45, '000.##0', 'foo:bar')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -3946,7 +4003,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1280") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3957,11 +4014,12 @@ environment('array-and-map') ->
    end.
 'numberformatNaN'(_Config) ->
    Qry = "format-number(number(\"abc\"),'#############')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -3969,7 +4027,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3980,11 +4038,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-001'(_Config) ->
    Qry = "format-number(number(\"abc\"),'PREFIX#SUFFIX')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -3992,7 +4051,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4003,11 +4062,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-002'(_Config) ->
    Qry = "format-number(0 div xs:double(\"INF\"), '#')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4015,7 +4075,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4026,11 +4086,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-003'(_Config) ->
    Qry = "format-number(0 div xs:double(\"-INF\"), '#')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4038,7 +4099,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4049,11 +4110,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-004'(_Config) ->
    Qry = "format-number(1 div 0e0,'PREFIX#SUFFIX')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4061,7 +4123,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PREFIXINFSUFFIX") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4072,11 +4134,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-005'(_Config) ->
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4084,7 +4147,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-PREFIXINFSUFFIX") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4095,11 +4158,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-006'(_Config) ->
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4107,7 +4171,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "prefixINFsuffix") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4118,11 +4182,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-007'(_Config) ->
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4130,7 +4195,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "prefixINFsuffix") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4141,11 +4206,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-008'(_Config) ->
    Qry = "format-number(1e2,'#,000')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4153,7 +4219,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4164,11 +4230,12 @@ environment('array-and-map') ->
    end.
 'cbcl-fn-format-number-009'(_Config) ->
    Qry = "format-number(100,'#,000')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-number.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -4176,7 +4243,7 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

@@ -122,86 +122,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -213,11 +221,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -227,8 +236,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -238,8 +248,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -249,8 +260,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -260,8 +272,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -269,54 +282,58 @@ environment('array-and-map') ->
 ];
 environment('id-idref-dtd') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/iddtd.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/iddtd.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('id-idref') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id.xsd","http://www.w3.org/XQueryTest/ididrefs"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('id-idref3') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id2.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id2.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/id/id.xsd","http://www.w3.org/XQueryTest/ididrefs"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('functx_book') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_book.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/FunctxFn/functx_book.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/idref.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'fn-idref-1'(_Config) ->
    Qry = "fn:idref(\"argument 1\", / ,\"Argument 3\")",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -356,10 +373,10 @@ environment('functx_book') ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:idref(\"argument1\", $var)
       ",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -416,10 +433,10 @@ environment('functx_book') ->
    {skip,"Validation Environment"}.
 'fn-idref-dtd-5'(_Config) ->
    Qry = "fn:idref(\"id1\",/IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -430,10 +447,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-6'(_Config) ->
    Qry = "fn:idref(\"nomatchingid\", /IDS[1])",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -444,10 +461,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-7'(_Config) ->
    Qry = "fn:idref(\"id4\", /IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -458,10 +475,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-8'(_Config) ->
    Qry = "<results>{fn:idref((\"id1\", \"id2\"), /IDS[1])}</results>",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0025") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -472,10 +489,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-9'(_Config) ->
    Qry = "fn:idref((\"id1\", \"nomatching\"), /IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -486,10 +503,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-10'(_Config) ->
    Qry = "fn:count(fn:idref(\"nomatching1 nomatching2\", /IDS[1]))",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -500,10 +517,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-11'(_Config) ->
    Qry = "fn:count(fn:idref(\"\", /IDS[1]))",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -514,10 +531,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-12'(_Config) ->
    Qry = "fn:node-name(fn:idref(\"id2\", /IDS[1]))",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "anIdRef") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -528,10 +545,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-13'(_Config) ->
    Qry = "(fn:idref(\"id1\", /IDS[1])) is (fn:idref(\"id1\", /IDS[1]))",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -542,10 +559,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-14'(_Config) ->
    Qry = "(fn:idref(\"id1\", /IDS[1])) is (fn:idref(\"id2\", /IDS[1]))",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -556,10 +573,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-15'(_Config) ->
    Qry = "count(fn:idref((\"id1\",\"id1\"), /IDS[1]))",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -570,10 +587,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-16'(_Config) ->
    Qry = "count(fn:idref((\"id1\",\"ID1\"), /IDS[1]))",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -584,10 +601,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-17'(_Config) ->
    Qry = "fn:idref(fn:lower-case(\"ID1\"), /IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -598,10 +615,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-18'(_Config) ->
    Qry = "fn:idref(fn:upper-case(\"id5\"), /IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -612,10 +629,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-19'(_Config) ->
    Qry = "fn:idref(fn:concat(\"i\",\"d1\"), /IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -626,10 +643,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-20'(_Config) ->
    Qry = "fn:idref(xs:string(\"id1\"), /IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -640,10 +657,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-21'(_Config) ->
    Qry = "fn:idref(fn:string-join((\"id\",\"1\"),\"\"), /IDS[1])/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -654,10 +671,10 @@ environment('functx_book') ->
    end.
 'fn-idref-22'(_Config) ->
    Qry = "fn:idref(\"argument1\",.)",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -669,10 +686,10 @@ environment('functx_book') ->
 'fn-idref-dtd-23'(_Config) ->
    Qry = "declare ordering ordered;  
         <results>{fn:idref(\"id4\", /IDS[1])}</results>",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<results anIdRef=\"id4\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -683,10 +700,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-24'(_Config) ->
    Qry = "<results>{fn:idref(\"language\", /)}</results>",
-   Env = xqerl_test:handle_environment(environment('functx_book')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('functx_book')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<results refs='context language'/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -697,10 +714,10 @@ environment('functx_book') ->
    end.
 'fn-idref-dtd-25'(_Config) ->
    Qry = "fn:idref(\"id1\")/name(..)",
-   Env = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithidrefattr-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

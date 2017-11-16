@@ -190,86 +190,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -281,11 +289,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -295,8 +304,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -306,8 +316,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -317,8 +328,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -328,8 +340,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -340,8 +353,9 @@ environment('UCA-collation') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/UCACollation.xml"}]},
-{params, [{"collation","","'http://www.w3.org/2013/collation/UCA?'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/misc/UCACollation.xml"}]},
+{params, []},
+{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -351,8 +365,9 @@ environment('UCA-collation.en') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/UCACollation.xml"}]},
-{params, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/misc/UCACollation.xml"}]},
+{params, []},
+{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -362,18 +377,19 @@ environment('UCA-collation.en.primary') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/misc/UCACollation.xml"}]},
-{params, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/misc/UCACollation.xml"}]},
+{params, []},
+{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'UCA-collation-001'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
@@ -400,10 +416,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-002'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;keyword=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -414,10 +430,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-003'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;strength=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -428,10 +444,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-004'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;alternate=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -442,10 +458,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-005'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;backwards=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -456,10 +472,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-006'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;normalization=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -470,10 +486,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-007'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;caseLevel=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -484,10 +500,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-008'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;caseFirst=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -498,10 +514,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-010'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;numeric=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -512,10 +528,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-011'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'keyword=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -526,10 +542,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-012'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'strength=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -540,10 +556,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-013'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'alternate=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -554,10 +570,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-014'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'backwards=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -568,10 +584,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-015'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'normalization=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -582,10 +598,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-016'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'caseLevel=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -596,10 +612,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-017'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'caseFirst=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -610,10 +626,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-018'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'hiraganaQuaternary=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -624,10 +640,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-019'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'numeric=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -638,10 +654,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-020'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'version=5.0'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -652,10 +668,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-021'(_Config) ->
    Qry = "compare('abc','def',concat($collation,'version=6.0'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -666,10 +682,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-022'(_Config) ->
    Qry = "compare('abc','xyz',concat($collation,'version=7.0'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -680,10 +696,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-022a'(_Config) ->
    Qry = "compare('abc','xyz',concat($collation,'version=1.255'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -694,10 +710,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-023'(_Config) ->
    Qry = "compare('abc','xyz',concat($collation,'version=unknown'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -708,10 +724,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-collation-024'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'version=96.5;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -722,10 +738,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-001'(_Config) ->
    Qry = "compare('.123','123',concat($collation,'fallback=no;reorder=Z,digit'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -736,10 +752,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-002'(_Config) ->
    Qry = "compare('ab123','ab456',concat($collation,'reorder=Z,digit'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -750,10 +766,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-003'(_Config) ->
    Qry = "compare('ab123','ab456',concat($collation,'fallback=yes;reorder=Z,digit'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -764,10 +780,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-004'(_Config) ->
    Qry = "compare('.123','123',concat($collation,'reorder=punct,digit;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -786,10 +802,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-005'(_Config) ->
    Qry = "compare('.123','123',concat($collation,'reorder=digit,punct;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -808,10 +824,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-006'(_Config) ->
    Qry = "compare(' 123','123',concat($collation,'reorder=space,digit;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -830,10 +846,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-007'(_Config) ->
    Qry = "compare(' 123','123',concat($collation,'reorder=digit,space;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -852,10 +868,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-008'(_Config) ->
    Qry = "compare('£123','123',concat($collation,'reorder=currency,digit;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -874,10 +890,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-009'(_Config) ->
    Qry = "compare('£123','123',concat($collation,'reorder=digit,currency;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -896,10 +912,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-010'(_Config) ->
    Qry = "compare('a123','123',concat($collation,'reorder=Latn,digit;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -918,10 +934,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-reorder-codes-011'(_Config) ->
    Qry = "compare('a123','123',concat($collation,'reorder=digit,Latn;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -940,10 +956,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-001'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=primary;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -962,10 +978,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-002'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=secondary;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -984,10 +1000,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-003'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=tertiary;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1006,10 +1022,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-004'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=quaternary;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1028,10 +1044,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-005'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=identical;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1050,10 +1066,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-006'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=1;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1072,10 +1088,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-007'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=2;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1094,10 +1110,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-008'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=3;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1116,10 +1132,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-009'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=4;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1138,10 +1154,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-010'(_Config) ->
    Qry = "compare('abc','aBC',concat($collation,'strength=5;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1160,10 +1176,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-011'(_Config) ->
    Qry = "compare('a-bc','abc',concat($collation,'strength=1;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1182,10 +1198,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-012'(_Config) ->
    Qry = "compare('a-bc','abc',concat($collation,'strength=2;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1204,10 +1220,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-013'(_Config) ->
    Qry = "compare('a-bc','abc',concat($collation,'strength=3;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1226,10 +1242,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-014'(_Config) ->
    Qry = "compare('a-bc','abc',concat($collation,'strength=4;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1248,10 +1264,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-015'(_Config) ->
    Qry = "compare('a-bc','abc',concat($collation,'strength=5;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1270,10 +1286,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-016'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=primary;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1292,10 +1308,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-017'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1314,10 +1330,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-018'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;backwards=yes;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1336,10 +1352,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-019'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;backwards=no;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1358,10 +1374,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-020'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;normalization=no;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1380,10 +1396,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-021'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;normalization=yes;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1402,10 +1418,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-022'(_Config) ->
    Qry = "compare('Epee','épee',concat($collation,'strength=primary;caseLevel=yes;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1424,10 +1440,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-023'(_Config) ->
    Qry = "compare('Epee','épee',concat($collation,'strength=primary;caseLevel=no;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1446,10 +1462,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-024'(_Config) ->
    Qry = "compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=yes;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1468,10 +1484,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-025'(_Config) ->
    Qry = "compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=no;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1490,10 +1506,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-026'(_Config) ->
    Qry = "compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=yes;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1512,10 +1528,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-027'(_Config) ->
    Qry = "compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=no;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1534,10 +1550,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-028'(_Config) ->
    Qry = "compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=yes;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1556,10 +1572,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-029'(_Config) ->
    Qry = "compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=no;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1578,10 +1594,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-030'(_Config) ->
    Qry = "compare('ab','Ab',concat($collation,'caseFirst=upper;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1600,10 +1616,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-031'(_Config) ->
    Qry = "compare('ab','Ab',concat($collation,'caseFirst=lower;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1622,10 +1638,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-032'(_Config) ->
    Qry = "compare('ab1a','ab12a',concat($collation,'numeric=yes;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1644,10 +1660,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-params-033'(_Config) ->
    Qry = "compare('ab1a','ab12a',concat($collation,'numeric=no;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1666,10 +1682,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-001'(_Config) ->
    Qry = "compare('database','data type',concat($collation,'maxVariable=space;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1688,10 +1704,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-002'(_Config) ->
    Qry = "compare('database','data type',concat($collation,'maxVariable=space;alternate=non-ignorable;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1710,10 +1726,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-003'(_Config) ->
    Qry = "compare('database','data base',concat($collation,'maxVariable=space;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1732,10 +1748,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-004'(_Config) ->
    Qry = "compare('database','data base',concat($collation,'maxVariable=space;alternate=shifted;strength=4;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1754,10 +1770,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-005'(_Config) ->
    Qry = "compare('database','data-type',concat($collation,'maxVariable=space;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1776,10 +1792,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-006'(_Config) ->
    Qry = "compare('database','data-type',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1798,10 +1814,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-007'(_Config) ->
    Qry = "compare('database','data-base',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1820,10 +1836,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-008'(_Config) ->
    Qry = "compare('data base','data-base',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1842,10 +1858,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-009'(_Config) ->
    Qry = "compare('data base','data-base',concat($collation,'maxVariable=punct;alternate=shifted;strength=4;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1864,10 +1880,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-010'(_Config) ->
    Qry = "compare('data=base','database',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1886,10 +1902,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-011'(_Config) ->
    Qry = "compare('data=base','database',concat($collation,'maxVariable=symbol;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1908,10 +1924,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-012'(_Config) ->
    Qry = "compare('data=base','data base',concat($collation,'maxVariable=symbol;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1930,10 +1946,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-013'(_Config) ->
    Qry = "compare('data=base','data$base',concat($collation,'maxVariable=symbol;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1952,10 +1968,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-014'(_Config) ->
    Qry = "compare('data=base','data$base',concat($collation,'maxVariable=currency;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1974,10 +1990,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-015'(_Config) ->
    Qry = "compare('$10000','€10000',concat($collation,'maxVariable=currency;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1996,10 +2012,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-maxVariable-016'(_Config) ->
    Qry = "compare('$10000','€9000',concat($collation,'maxVariable=currency;numeric=yes;alternate=shifted;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation.en')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -2018,10 +2034,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-misc-lang-001'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=primary;lang=fr;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2040,10 +2056,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-misc-lang-002'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;lang=fr;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -2062,10 +2078,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-misc-lang-003'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;lang=fr-CA;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -2084,10 +2100,10 @@ environment('UCA-collation.en.primary') ->
    end.
 'UCA-misc-lang-004'(_Config) ->
    Qry = "compare('pêche','péché',concat($collation,'strength=primary;lang=en-US;fallback=no'))",
-   Env = xqerl_test:handle_environment(environment('UCA-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};

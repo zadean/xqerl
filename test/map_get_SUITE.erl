@@ -78,86 +78,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -169,11 +177,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -183,8 +192,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -194,8 +204,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -205,8 +216,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -216,8 +228,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -225,10 +238,10 @@ environment('array-and-map') ->
 ].
 'map-get-001'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -239,10 +252,10 @@ environment('array-and-map') ->
    end.
 'map-get-002'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 23)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -253,10 +266,10 @@ environment('array-and-map') ->
    end.
 'map-get-003'(_Config) ->
    Qry = "map:get(map{}, 23)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -267,10 +280,10 @@ environment('array-and-map') ->
    end.
 'map-get-004'(_Config) ->
    Qry = "map:get(map:entry(\"foo\", \"bar\"), \"baz\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -281,10 +294,10 @@ environment('array-and-map') ->
    end.
 'map-get-005'(_Config) ->
    Qry = "map:get(map:entry(\"foo\", \"bar\"), \"foo\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bar") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -295,10 +308,10 @@ environment('array-and-map') ->
    end.
 'map-get-006'(_Config) ->
    Qry = "map:get(map:entry(\"foo\", \"bar\"), xs:untypedAtomic(\"foo\"))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bar") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -309,10 +322,10 @@ environment('array-and-map') ->
    end.
 'map-get-007'(_Config) ->
    Qry = "map:get(map:entry(xs:untypedAtomic(\"foo\"), \"bar\"), \"foo\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bar") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -323,10 +336,10 @@ environment('array-and-map') ->
    end.
 'map-get-008'(_Config) ->
    Qry = "map:get(map:entry(xs:untypedAtomic(\"12\"), \"bar\"), 12)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -337,10 +350,10 @@ environment('array-and-map') ->
    end.
 'map-get-009'(_Config) ->
    Qry = "map:get(map:entry(12, \"bar\"), xs:untypedAtomic(\"12\"))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -351,10 +364,10 @@ environment('array-and-map') ->
    end.
 'map-get-010'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4.0e0)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -365,10 +378,10 @@ environment('array-and-map') ->
    end.
 'map-get-011'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4.0e0:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -379,10 +392,10 @@ environment('array-and-map') ->
    end.
 'map-get-012'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",\"urn:weds\":\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, xs:anyURI(\"urn:weds\"))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -393,10 +406,10 @@ environment('array-and-map') ->
    end.
 'map-get-013'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",xs:anyURI(\"urn:weds\"):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, \"urn:weds\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -407,10 +420,10 @@ environment('array-and-map') ->
    end.
 'map-get-014'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",xs:anyURI(\"urn:weds\"):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, number('NaN'))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -421,10 +434,10 @@ environment('array-and-map') ->
    end.
 'map-get-015'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",number('NaN'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, number('NaN'))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -439,10 +452,10 @@ environment('array-and-map') ->
                          (for $i in 2000 to 3000 return map:entry($i, $i+30)),
                          (for $i in 2500 to 3500 return map:entry($i, $i+30)))),
                          3260)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3290") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -453,10 +466,10 @@ environment('array-and-map') ->
    end.
 'map-get-017'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",xs:duration('P1Y'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, xs:yearMonthDuration('P12M'))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -467,10 +480,10 @@ environment('array-and-map') ->
    end.
 'map-get-018'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",function-name(abs#1):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, xs:QName('fn:abs'))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Wednesday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -481,10 +494,10 @@ environment('array-and-map') ->
    end.
 'map-get-019'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:(),5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4)",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -495,10 +508,10 @@ environment('array-and-map') ->
    end.
 'map-get-020'(_Config) ->
    Qry = "map:get(map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"}, \"TH\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -509,10 +522,10 @@ environment('array-and-map') ->
    end.
 'map-get-021'(_Config) ->
    Qry = "map:get(map{\"foo\":\"bar\", \"bar\":\"foo\"}, xs:untypedAtomic(\"foo\"))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bar") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -523,10 +536,10 @@ environment('array-and-map') ->
    end.
 'map-get-022'(_Config) ->
    Qry = "map:get(map{xs:untypedAtomic(\"foo\"):\"bar\", xs:untypedAtomic(\"bar\"):\"foo\"}, \"foo\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bar") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -537,10 +550,10 @@ environment('array-and-map') ->
    end.
 'map-get-023'(_Config) ->
    Qry = "map:get(map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101}, current-dateTime())",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -553,10 +566,10 @@ environment('array-and-map') ->
    Qry = "
             map:get(map{current-date():100, current-date()=>adjust-date-to-timezone(()):101}, 
                     current-date()=>adjust-date-to-timezone(()))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "101") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -568,10 +581,10 @@ environment('array-and-map') ->
 'map-get-025'(_Config) ->
    Qry = "
             map:get(map{number('NaN'):100, 12e6:101}, xs:float('NaN'))",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"100") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -584,10 +597,10 @@ environment('array-and-map') ->
    Qry = "fn:for-each((\"we\", \"th\"),
                 map{\"su\":\"Sunday\",\"mo\":\"Monday\",\"tu\":\"Tuesday\",\"we\":\"Wednesday\",\"th\":\"Thursday\",\"fr\":\"Friday\",\"sa\":\"Saturday\"}
             )",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "2") of 
       true -> {comment, "Count correct"};
@@ -610,10 +623,10 @@ environment('array-and-map') ->
    end.
 'map-get-901'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",number('NaN'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, (1 to 5)[10])",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -624,10 +637,10 @@ environment('array-and-map') ->
    end.
 'map-get-902'(_Config) ->
    Qry = "map:get(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",number('NaN'):\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, (1 to 5)[. mod 2 = 0])",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -638,10 +651,10 @@ environment('array-and-map') ->
    end.
 'map-get-903'(_Config) ->
    Qry = "map:get((\"a\", \"b\", \"c\"), \"a\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -652,10 +665,10 @@ environment('array-and-map') ->
    end.
 'map-get-904'(_Config) ->
    Qry = "map:get((), \"a\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -666,10 +679,10 @@ environment('array-and-map') ->
    end.
 'map-get-905'(_Config) ->
    Qry = "map:get(abs#1, \"a\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -680,10 +693,10 @@ environment('array-and-map') ->
    end.
 'map-get-906'(_Config) ->
    Qry = "map:get((map{}, map{\"a\":\"b\"}), \"a\")",
-   Env = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

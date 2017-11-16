@@ -212,86 +212,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -303,11 +311,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -317,8 +326,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -328,8 +338,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -339,8 +350,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -350,8 +362,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -359,33 +372,36 @@ environment('array-and-map') ->
 ];
 environment('TopMany') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('CPPGlobals') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'extvardeclwithouttype-1'(_Config) ->
    Qry = "declare variable $x external; fn:string($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","'abc'"}]},
 {namespaces, []},
 {resources, []},
@@ -393,7 +409,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
@@ -412,11 +428,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-2'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","'2006-02-07+05:00'"}]},
 {namespaces, []},
 {resources, []},
@@ -424,7 +441,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "2006-02-07+05:00") of 
       true -> {comment, "String correct"};
@@ -443,11 +460,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-3'(_Config) ->
    Qry = "declare variable $x external; xs:integer($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","2"}]},
 {namespaces, []},
 {resources, []},
@@ -455,7 +473,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -474,11 +492,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-4'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","1.2E2"}]},
 {namespaces, []},
 {resources, []},
@@ -486,7 +505,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"120") of 
       true -> {comment, "Equal"};
@@ -505,11 +524,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-5'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 1 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -517,7 +537,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -536,11 +556,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-6'(_Config) ->
    Qry = "declare variable $x external; xs:float($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","12.5E10"}]},
 {namespaces, []},
 {resources, []},
@@ -548,7 +569,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1.25E11") of 
       true -> {comment, "String correct"};
@@ -567,11 +588,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-7'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","12678967.543233"}]},
 {namespaces, []},
 {resources, []},
@@ -579,7 +601,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "12678967.543233") of 
       true -> {comment, "String correct"};
@@ -598,11 +620,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-8'(_Config) ->
    Qry = "declare variable $x external; $x + $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","1 + 1"}]},
 {namespaces, []},
 {resources, []},
@@ -610,7 +633,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -629,11 +652,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-9'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","1 + 1"}]},
 {namespaces, []},
 {resources, []},
@@ -641,7 +665,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -660,11 +684,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-10'(_Config) ->
    Qry = "declare variable $x external; $x + $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","1"}]},
 {namespaces, []},
 {resources, []},
@@ -672,7 +697,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -691,11 +716,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-11'(_Config) ->
    Qry = "declare variable $x external; $x * $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","2 * 2"}]},
 {namespaces, []},
 {resources, []},
@@ -703,7 +729,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"16") of 
       true -> {comment, "Equal"};
@@ -722,11 +748,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-12'(_Config) ->
    Qry = "declare variable $x external; $x - 1",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","4 - 1"}]},
 {namespaces, []},
 {resources, []},
@@ -734,7 +761,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -753,11 +780,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-13'(_Config) ->
    Qry = "declare variable $x external; $x idiv 2",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","20 idiv 2"}]},
 {namespaces, []},
 {resources, []},
@@ -765,7 +793,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
@@ -784,11 +812,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-14'(_Config) ->
    Qry = "declare variable $x external; $x div 10",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","40 div 2"}]},
 {namespaces, []},
 {resources, []},
@@ -796,7 +825,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -815,11 +844,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-15'(_Config) ->
    Qry = "declare variable $x external; $x mod 2",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","55 mod 3"}]},
 {namespaces, []},
 {resources, []},
@@ -827,7 +857,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -846,11 +876,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-16'(_Config) ->
    Qry = "declare variable $x external; $x and fn:false()",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","true() and true()"}]},
 {namespaces, []},
 {resources, []},
@@ -858,7 +889,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -877,11 +908,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-17'(_Config) ->
    Qry = "declare variable $x external; $x or fn:false()",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","true() or true()"}]},
 {namespaces, []},
 {resources, []},
@@ -889,7 +921,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -908,11 +940,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-18'(_Config) ->
    Qry = "declare variable $x external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","avg((1,2,4))"}]},
 {namespaces, []},
 {resources, []},
@@ -920,7 +953,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result ge 2.33333333333333") of 
       true -> {comment, "Correct results"};
@@ -939,11 +972,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-19'(_Config) ->
    Qry = "declare variable $x external; xs:dateTime($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","avg((1,2,4))"}]},
 {namespaces, []},
 {resources, []},
@@ -951,7 +985,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -962,11 +996,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-20'(_Config) ->
    Qry = "declare variable $x external; fn:upper-case($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","lower-case('This String should be all in upper case')"}]},
 {namespaces, []},
 {resources, []},
@@ -974,7 +1009,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "THIS STRING SHOULD BE ALL IN UPPER CASE") of 
       true -> {comment, "String correct"};
@@ -993,11 +1028,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-21'(_Config) ->
    Qry = "declare variable $x external; fn:lower-case($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","upper-case('THIS STRING SHOULD ALL BE IN LOWER CASE')"}]},
 {namespaces, []},
 {resources, []},
@@ -1005,7 +1041,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "this string should all be in lower case") of 
       true -> {comment, "String correct"};
@@ -1024,11 +1060,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithouttype-22'(_Config) ->
    Qry = "declare variable $x external; fn:not($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","0 + 1"}]},
 {namespaces, []},
 {resources, []},
@@ -1036,7 +1073,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1069,11 +1106,12 @@ environment('CPPGlobals') ->
 'extvardeclwithouttype-24'(_Config) ->
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
          declare variable $test:x external; $test:x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"test:x","","2"}]},
 {namespaces, []},
 {resources, []},
@@ -1081,7 +1119,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1380,10 +1418,10 @@ environment('CPPGlobals') ->
    end.
 'K2-ExternalVariablesWithout-21'(_Config) ->
    Qry = "declare variable $global := count(*); $global, <wrongFocus> <e1/> <e2/> </wrongFocus>/$global, $global",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1394,10 +1432,10 @@ environment('CPPGlobals') ->
    end.
 'K2-ExternalVariablesWithout-22'(_Config) ->
    Qry = "declare variable $global := count(*); <wrongFocus> <e1/> <e2/> </wrongFocus>/$global",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1408,19 +1446,20 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-1'(_Config) ->
    Qry = "declare variable $x as xs:string external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"x","","(: Name: extvardeclwithtypetobind-1 :) (: Description: Binding a string value for extvardeclwithtype-1.:) "abc""}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
+{params, [{"x","","(: Name: extvardeclwithtypetobind-1 :) (: Description: Binding a string value for extvardeclwithtype-1.:) \"abc\""}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1431,19 +1470,20 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-2'(_Config) ->
    Qry = "declare variable $x as xs:date external; fn:string($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"x","","(: Name: extvardeclwithtypetobind-2 :) (: Description: Binding a date value for extvardeclwithtype-2.:) xs:date("2000-01-01+05:00")"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
+{params, [{"x","","(: Name: extvardeclwithtypetobind-2 :) (: Description: Binding a date value for extvardeclwithtype-2.:) xs:date(\"2000-01-01+05:00\")"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2000-01-01+05:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1454,11 +1494,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-3'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","(: Name: extvardeclwithtypetobind-3 :) (: Description: Binding an integer value for extvardeclwithtype-3.:) xs:integer(2)"}]},
 {namespaces, []},
 {resources, []},
@@ -1466,7 +1507,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1477,11 +1518,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-4'(_Config) ->
    Qry = "declare variable $x as xs:double external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","xs:double(1.2E2)"}]},
 {namespaces, []},
 {resources, []},
@@ -1489,7 +1531,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"120") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1500,11 +1542,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-5'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; fn:string($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","true()"}]},
 {namespaces, []},
 {resources, []},
@@ -1512,7 +1555,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1523,11 +1566,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-6'(_Config) ->
    Qry = "declare variable $x as xs:float external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","xs:float(1267.43233E12)"}]},
 {namespaces, []},
 {resources, []},
@@ -1535,7 +1579,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1.2674323E15") of 
       true -> {comment, "String correct"};
@@ -1554,11 +1598,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-7'(_Config) ->
    Qry = "declare variable $x as xs:decimal external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","xs:decimal(12678967.543233)"}]},
 {namespaces, []},
 {resources, []},
@@ -1566,7 +1611,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12678967.543233") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1577,11 +1622,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-8'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x + $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 1 + 1 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1589,7 +1635,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1600,11 +1646,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-9'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 1 + 1 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1612,7 +1659,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1623,11 +1670,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-10'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x + $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 1 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1635,7 +1683,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1646,11 +1694,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-11'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x * $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 2 * 2 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1658,7 +1707,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"16") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1669,11 +1718,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-12'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x - xs:integer(1)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 5 - 2 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1681,7 +1731,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1692,11 +1742,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-13'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x idiv xs:integer(2)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 20 idiv 2 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1704,7 +1755,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1715,11 +1766,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-14'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x div xs:integer(10)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 40 div 2 return xs:integer($var)"}]},
 {namespaces, []},
 {resources, []},
@@ -1727,7 +1779,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1738,11 +1790,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-15'(_Config) ->
    Qry = "declare variable $x as xs:integer external; $x mod xs:integer(2)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := 55 mod 3 return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1750,7 +1803,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1761,11 +1814,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-16'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; $x and fn:false()",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := true() and true() return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1773,7 +1827,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1784,11 +1838,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-17'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; $x or fn:false()",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := true() or true() return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1796,7 +1851,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1807,11 +1862,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-18'(_Config) ->
    Qry = "declare variable $x as xs:float external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := avg((1,2,4)) return xs:float($var)"}]},
 {namespaces, []},
 {resources, []},
@@ -1819,7 +1875,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "2.3333333") of 
       true -> {comment, "String correct"};
@@ -1838,11 +1894,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-19'(_Config) ->
    Qry = "declare variable $x as xs:dateTime external; $x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := avg((1,2,4)) return $var"}]},
 {namespaces, []},
 {resources, []},
@@ -1850,7 +1907,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1861,19 +1918,20 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-20'(_Config) ->
    Qry = "declare variable $x as xs:string external; fn:upper-case($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"x","","let $var := lower-case("This String should be all in upper case") return $var"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
+{params, [{"x","","let $var := lower-case(\"This String should be all in upper case\") return $var"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "THIS STRING SHOULD BE ALL IN UPPER CASE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1884,19 +1942,20 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-21'(_Config) ->
    Qry = "declare variable $x as xs:string external; fn:lower-case($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"x","","let $var := upper-case("THIS STRING SHOULD ALL BE IN LOWER CASE") return $var"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
+{params, [{"x","","let $var := upper-case(\"THIS STRING SHOULD ALL BE IN LOWER CASE\") return $var"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this string should all be in lower case") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1907,11 +1966,12 @@ environment('CPPGlobals') ->
    end.
 'extvardeclwithtype-22'(_Config) ->
    Qry = "declare variable $x as xs:boolean external; fn:not($x)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"x","","let $var := xs:integer(0) + xs:integer(1) return xs:boolean($var)"}]},
 {namespaces, []},
 {resources, []},
@@ -1919,7 +1979,7 @@ environment('CPPGlobals') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2025,10 +2085,10 @@ declare function local:report() as element()+
 
 </html>
 ",
-   Env = xqerl_test:handle_environment(environment('CPPGlobals')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('CPPGlobals')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<html xmlns=\"http://www.w3.org/1999/xhtml/\" xml:lang=\"en\" lang=\"en\"><head><title>Global variables report for Globals.cpp</title></head><style type=\"text/css\">
         .details
         {
@@ -2051,11 +2111,12 @@ declare function local:report() as element()+
 'extvardeclwithtype-24'(_Config) ->
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
          declare variable $test:x as xs:integer external; $test:x",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/VarDecl.external.xml"}]},
+{vars, []},
 {params, [{"test:x","","2"}]},
 {namespaces, []},
 {resources, []},
@@ -2063,7 +2124,7 @@ declare function local:report() as element()+
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2337,10 +2398,10 @@ declare function local:report() as element()+
    end.
 'K2-ExternalVariablesWith-20'(_Config) ->
    Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2351,10 +2412,10 @@ declare function local:report() as element()+
    end.
 'K2-ExternalVariablesWith-21'(_Config) ->
    Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

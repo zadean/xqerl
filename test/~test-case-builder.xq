@@ -252,10 +252,10 @@ declare function local:print-testcase($test-case)
     ||","||'&#10;'||
     (
       if ($test-case/*:environment[@name or @ref]) then
-        "   Env = xqerl_test:handle_environment(environment('"||$env||"')),"||'&#10;'||
+        "   {Env,Opts} = xqerl_test:handle_environment(environment('"||$env||"')),"||'&#10;'||
         "   Qry1 = lists:flatten(Env ++ Qry),"||'&#10;'
       else if ($test-case/*:environment) then
-        "   Env = xqerl_test:handle_environment("||
+        "   {Env,Opts} = xqerl_test:handle_environment("||
         string-join(local:print-local-environment($test-case))
         ||"),"||'&#10;'||
         "   Qry1 = lists:flatten(Env ++ Qry),"||'&#10;'
@@ -263,7 +263,12 @@ declare function local:print-testcase($test-case)
         "   Qry1 = Qry,"||'&#10;'
     )||
     "   io:format(""Qry1: ~p~n"",[Qry1]),"||'&#10;'||
-    "   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,"||'&#10;'||
+    (
+    if ($test-case/*:environment) then
+      "   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,"||'&#10;'
+    else
+      "   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,"||'&#10;'
+    )||
     "   Out = " || local:print-result($test-case/*:result/*) ||', &#10;'||
     "   case Out of"||'&#10;'||
     "      {comment, C} -> {comment, C};"||'&#10;'||
@@ -279,7 +284,8 @@ declare function local:print-environment($env)
   let $schemas         := $env/*:schema
   let $collections     := $env/*:collection
   let $static-base-uri := $env/*:static-base-uri
-  let $params          := $env/*:param
+  let $params          := $env/*:param[@declared = "true"]
+  let $vars            := $env/*:param[@declared = "false" or not(exists(@declared))]
   let $namespaces      := $env/*:namespace
   let $resources       := $env/*:resource
   let $modules         := $env/*:module | $env/../*:module
@@ -303,7 +309,7 @@ declare function local:print-environment($env)
   (
     for $res in $sources
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@role||""","""||$res/@uri||"""}"
+    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@role||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{schemas, ["||
@@ -332,14 +338,21 @@ declare function local:print-environment($env)
     if (not(empty($res))) then
     "{"""||$res/@uri||"""}"
     else
-    "{"""||base-uri($env)||"""}"
+    "{"""||substring-after(base-uri($env),"file:///")||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{params, ["||
   (
     for $res in $params
     return
-    "{"""||$res/@name||""","""||$res/@as||""","""||$res/@select||"""}"
+    "{"""||$res/@name||""","""||$res/@as||""","||local:mask-string($res/@select)||"}"
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
+  "{vars, ["||
+  (
+    for $res in $vars
+    return
+    "{"""||$res/@name||""","""||$res/@as||""","||local:mask-string($res/@select)||"}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{namespaces, ["||
@@ -353,7 +366,7 @@ declare function local:print-environment($env)
   (
     for $res in $resources
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
+    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}," || '&#10;' ||
   "{modules, ["||
@@ -372,7 +385,8 @@ declare function local:print-local-environment($env as item()*) as item()*
   let $schemas         := $env/*:environment/*:schema
   let $collections     := $env/*:environment/*:collection 
   let $static-base-uri := $env/*:environment/*:static-base-uri 
-  let $params          := $env/*:environment/*:param 
+  let $params          := $env/*:environment/*:param[@declared = "true"]
+  let $vars            := $env/*:environment/*:param[@declared = "false" or not(exists(@declared))]
   let $namespaces      := $env/*:environment/*:namespace 
   let $resources       := $env/*:environment/*:resource 
   let $modules         := $env/*:environment/*:module | $env/*:module
@@ -405,7 +419,7 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $sources
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@role||""","""||$res/@uri||"""}"
+    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@role||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;') 
   ||"]},"|| '&#10;' ||
   "{schemas, ["||
@@ -429,16 +443,26 @@ declare function local:print-local-environment($env as item()*) as item()*
   ||"]},"|| '&#10;' ||
   "{'static-base-uri', ["||
   (
-    for $res in $static-base-uri
+    for $res allowing empty in $static-base-uri
     return
+    if (not(empty($res))) then
     "{"""||$res/@uri||"""}"
+    else
+    "{"""||substring-after(base-uri($env),"file:///")||"""}"
+  ) => string-join(","||'&#10;')
+  ||"]},"|| '&#10;' ||
+  "{vars, ["||
+  (
+    for $res in $vars
+    return
+    "{"""||$res/@name||""","""||$res/@as||""","||local:mask-string($res/@select)||"}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{params, ["||
   (
     for $res in $params
     return
-    "{"""||$res/@name||""","""||$res/@as||""","""||$res/@select||"""}"
+    "{"""||$res/@name||""","""||$res/@as||""","||local:mask-string($res/@select)||"}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{namespaces, ["||
@@ -452,7 +476,7 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $resources
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
+    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}," || '&#10;' ||
   "{modules, ["||

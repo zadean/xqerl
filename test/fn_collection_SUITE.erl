@@ -80,86 +80,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -171,11 +179,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -185,8 +194,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -196,8 +206,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -207,8 +218,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -218,8 +230,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -231,8 +244,9 @@ environment('default-collection-1') ->
 {schemas, []},
 {collections, [{"",["file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/bib.xml",
 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/reviews.xml"]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -244,7 +258,8 @@ environment('simple-collection-1') ->
 {collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",["file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/bib.xml",
 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/reviews.xml"]}]},
 {'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]},
-{params, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
+{params, []},
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -256,8 +271,9 @@ environment('default-collection-2') ->
 {collections, [{"",["file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/bib.xml",
 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/reviews.xml",
 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/books.xml"]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -269,8 +285,9 @@ environment('simple-collection-2') ->
 {collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",["file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/bib.xml",
 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/reviews.xml",
 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/books.xml"]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
-{params, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
+{params, []},
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -280,8 +297,9 @@ environment('integer-collection') ->
 {sources, []},
 {schemas, []},
 {collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/integers",[]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -291,8 +309,9 @@ environment('atomic-collection') ->
 {sources, []},
 {schemas, []},
 {collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/atomics",[]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -302,8 +321,9 @@ environment('default-string-collection') ->
 {sources, []},
 {schemas, []},
 {collections, [{"",[]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/collection.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -357,10 +377,10 @@ environment('default-string-collection') ->
    end.
 'fn-collection-4'(_Config) ->
    Qry = "count(fn:collection($collection-uri))",
-   Env = xqerl_test:handle_environment(environment('simple-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -371,10 +391,10 @@ environment('default-string-collection') ->
    end.
 'fn-collection-4d'(_Config) ->
    Qry = "count(fn:collection())",
-   Env = xqerl_test:handle_environment(environment('default-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -385,10 +405,10 @@ environment('default-string-collection') ->
    end.
 'fn-collection-5'(_Config) ->
    Qry = "count(fn:collection($collection-uri))",
-   Env = xqerl_test:handle_environment(environment('simple-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -399,10 +419,10 @@ environment('default-string-collection') ->
    end.
 'fn-collection-5d'(_Config) ->
    Qry = "count(fn:collection())",
-   Env = xqerl_test:handle_environment(environment('default-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -413,10 +433,10 @@ environment('default-string-collection') ->
    end.
 'fn-collection-6'(_Config) ->
    Qry = "for $x in fn:collection($collection-uri)//title order by string($x) return $x",
-   Env = xqerl_test:handle_environment(environment('simple-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<title>Advanced Programming in the Unix environment</title><title>Advanced Programming in the Unix environment</title><title>Basic Syntax</title><title>Data Model</title><title>Data on the Web</title><title>Data on the Web</title><title>Syntax For Data Model</title><title>TCP/IP Illustrated</title><title>TCP/IP Illustrated</title><title>The Economics of Technology and Content for Digital TV</title><title>XML</title><title>XML and Semistructured Data</title>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -427,10 +447,10 @@ environment('default-string-collection') ->
    end.
 'fn-collection-7'(_Config) ->
    Qry = "distinct-values(fn:collection($collection-uri)//*[text()[contains(.,\"TCP/IP\")]]/normalize-space())",
-   Env = xqerl_test:handle_environment(environment('simple-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_permutation(Res,"\"TCP/IP Illustrated\", \"One of the best books on TCP/IP.\"") of 
       true -> {comment, "Correct permutation"};
@@ -449,10 +469,10 @@ environment('default-string-collection') ->
    end.
 'fn-collection-8'(_Config) ->
    Qry = "for $d in fn:collection($collection-uri) return ($d//title)[1]",
-   Env = xqerl_test:handle_environment(environment('simple-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<title>TCP/IP Illustrated</title><title>Data on the Web</title>") of 
       true -> {comment, "XML Deep equal"};
@@ -472,10 +492,10 @@ environment('default-string-collection') ->
 'fn-collection-9'(_Config) ->
    Qry = "for $d in fn:collection($collection-uri) order by count($d//title) return
          count($d//title)",
-   Env = xqerl_test:handle_environment(environment('simple-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 4 5") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -487,10 +507,10 @@ environment('default-string-collection') ->
 'fn-collection-10'(_Config) ->
    Qry = " let $c1 := fn:collection($collection-uri) let $c2 := fn:collection($collection-uri) for
          $c at $p in $c1 return $c is exactly-one($c2[$p])",
-   Env = xqerl_test:handle_environment(environment('simple-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -502,10 +522,10 @@ environment('default-string-collection') ->
 'fn-collection-10d'(_Config) ->
    Qry = " let $c1 := fn:collection() let $c2 := fn:collection() for $c at $p in $c1 return $c is
          exactly-one($c2[$p])",
-   Env = xqerl_test:handle_environment(environment('default-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -558,10 +578,10 @@ environment('default-string-collection') ->
    end.
 'collection-001'(_Config) ->
    Qry = "collection()",
-   Env = xqerl_test:handle_environment(environment('default-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 2") of 
@@ -588,10 +608,10 @@ environment('default-string-collection') ->
    end.
 'collection-002'(_Config) ->
    Qry = "collection(())",
-   Env = xqerl_test:handle_environment(environment('default-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 2") of 
@@ -618,10 +638,10 @@ environment('default-string-collection') ->
    end.
 'collection-003'(_Config) ->
    Qry = "collection() | collection(())",
-   Env = xqerl_test:handle_environment(environment('default-collection-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 3") of 
@@ -650,10 +670,10 @@ environment('default-string-collection') ->
    {skip,"collection-stability"}.
 'collection-005'(_Config) ->
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\")",
-   Env = xqerl_test:handle_environment(environment('simple-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 2") of 
@@ -680,10 +700,10 @@ environment('default-string-collection') ->
    end.
 'collection-006'(_Config) ->
    Qry = "collection(\"collection1\")",
-   Env = xqerl_test:handle_environment(environment('simple-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 2") of 
@@ -711,10 +731,10 @@ environment('default-string-collection') ->
 'collection-007'(_Config) ->
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
          collection(\"collection1\")",
-   Env = xqerl_test:handle_environment(environment('simple-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 2") of 
@@ -744,10 +764,10 @@ environment('default-string-collection') ->
 'collection-009'(_Config) ->
    Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") return $c
          | (for $doc in $c return doc(document-uri($doc)))",
-   Env = xqerl_test:handle_environment(environment('simple-collection-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 2") of 
@@ -857,10 +877,10 @@ environment('default-string-collection') ->
    end.
 'cbcl-collection-002'(_Config) ->
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/integers')",
-   Env = xqerl_test:handle_environment(environment('integer-collection')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('integer-collection')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"(1 to 10)") of 
       true -> {comment, "Deep equal"};
@@ -879,10 +899,10 @@ environment('default-string-collection') ->
    end.
 'cbcl-collection-003'(_Config) ->
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/atomics')",
-   Env = xqerl_test:handle_environment(environment('atomic-collection')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomic-collection')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:anyAtomicType+") of 
       true -> {comment, "Correct type"};
@@ -901,10 +921,10 @@ environment('default-string-collection') ->
    end.
 'cbcl-collection-004'(_Config) ->
    Qry = "fn:collection()",
-   Env = xqerl_test:handle_environment(environment('default-string-collection')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-string-collection')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string+") of 
       true -> {comment, "Correct type"};

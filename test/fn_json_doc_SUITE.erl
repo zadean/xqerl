@@ -148,86 +148,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -239,11 +247,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -253,8 +262,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -264,8 +274,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -275,8 +286,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -286,8 +298,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -298,12 +311,13 @@ environment('json-files') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/json","j"}]},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/escapeText.json","http://www.w3.org/qt3/json/escapeText-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data005.json","http://www.w3.org/qt3/json/data005-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/escapeText.json","http://www.w3.org/qt3/json/escapeText-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data005.json","http://www.w3.org/qt3/json/data005-json"}]},
 {modules, []}
 ];
 environment('json-doc-array') ->
@@ -311,15 +325,16 @@ environment('json-doc-array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayEmpty.json","http://www.w3.org/qt3/json/arrayEmpty-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayNumber.json","http://www.w3.org/qt3/json/arrayNumber-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayString.json","http://www.w3.org/qt3/json/arrayString-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayTrue.json","http://www.w3.org/qt3/json/arrayTrue-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayFalse.json","http://www.w3.org/qt3/json/arrayFalse-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayNull.json","http://www.w3.org/qt3/json/arrayNull-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayEmpty.json","http://www.w3.org/qt3/json/arrayEmpty-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayNumber.json","http://www.w3.org/qt3/json/arrayNumber-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayString.json","http://www.w3.org/qt3/json/arrayString-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayTrue.json","http://www.w3.org/qt3/json/arrayTrue-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayFalse.json","http://www.w3.org/qt3/json/arrayFalse-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/arrayNull.json","http://www.w3.org/qt3/json/arrayNull-json"}]},
 {modules, []}
 ];
 environment('json-doc-map') ->
@@ -327,16 +342,17 @@ environment('json-doc-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapEmpty.json","http://www.w3.org/qt3/json/mapEmpty-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapDuplicates.json","http://www.w3.org/qt3/json/mapDuplicates-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapUnescape.json","http://www.w3.org/qt3/json/mapUnescape-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapUnescape10.json","http://www.w3.org/qt3/json/mapUnescape10-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapUnescapeUnpaired10.json","http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapZeroLength.json","http://www.w3.org/qt3/json/mapZeroLength-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapDuplicatesEscape.json","http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapEmpty.json","http://www.w3.org/qt3/json/mapEmpty-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapDuplicates.json","http://www.w3.org/qt3/json/mapDuplicates-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapUnescape.json","http://www.w3.org/qt3/json/mapUnescape-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapUnescape10.json","http://www.w3.org/qt3/json/mapUnescape10-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapUnescapeUnpaired10.json","http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapZeroLength.json","http://www.w3.org/qt3/json/mapZeroLength-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/mapDuplicatesEscape.json","http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}]},
 {modules, []}
 ];
 environment('json-doc-number') ->
@@ -344,13 +360,14 @@ environment('json-doc-number') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number001.json","http://www.w3.org/qt3/json/number001-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number002.json","http://www.w3.org/qt3/json/number002-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number003.json","http://www.w3.org/qt3/json/number003-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number004.json","http://www.w3.org/qt3/json/number004-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number001.json","http://www.w3.org/qt3/json/number001-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number002.json","http://www.w3.org/qt3/json/number002-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number003.json","http://www.w3.org/qt3/json/number003-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/number004.json","http://www.w3.org/qt3/json/number004-json"}]},
 {modules, []}
 ];
 environment('json-doc-string') ->
@@ -358,11 +375,12 @@ environment('json-doc-string') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/stringUnpaired.json","http://www.w3.org/qt3/json/stringUnpaired-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/stringHex.json","http://www.w3.org/qt3/json/stringHex-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/stringUnpaired.json","http://www.w3.org/qt3/json/stringUnpaired-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/stringHex.json","http://www.w3.org/qt3/json/stringHex-json"}]},
 {modules, []}
 ];
 environment('json-doc-error') ->
@@ -370,33 +388,34 @@ environment('json-doc-error') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorToken.json","http://www.w3.org/qt3/json/errorToken-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorExtra.json","http://www.w3.org/qt3/json/errorExtra-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArray.json","http://www.w3.org/qt3/json/errorArray-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayNumber.json","http://www.w3.org/qt3/json/errorArrayNumber-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayHex.json","http://www.w3.org/qt3/json/errorArrayHex-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayString.json","http://www.w3.org/qt3/json/errorArrayString-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayUnicode.json","http://www.w3.org/qt3/json/errorArrayUnicode-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorMap.json","http://www.w3.org/qt3/json/errorMap-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayComma.json","http://www.w3.org/qt3/json/errorArrayComma-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber01.json","http://www.w3.org/qt3/json/errorNumber01-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber02.json","http://www.w3.org/qt3/json/errorNumber02-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber03.json","http://www.w3.org/qt3/json/errorNumber03-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber04.json","http://www.w3.org/qt3/json/errorNumber04-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorString01.json","http://www.w3.org/qt3/json/errorString01-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorString02.json","http://www.w3.org/qt3/json/errorString02-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorString03.json","http://www.w3.org/qt3/json/errorString03-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorToken.json","http://www.w3.org/qt3/json/errorToken-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorExtra.json","http://www.w3.org/qt3/json/errorExtra-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArray.json","http://www.w3.org/qt3/json/errorArray-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayNumber.json","http://www.w3.org/qt3/json/errorArrayNumber-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayHex.json","http://www.w3.org/qt3/json/errorArrayHex-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayString.json","http://www.w3.org/qt3/json/errorArrayString-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayUnicode.json","http://www.w3.org/qt3/json/errorArrayUnicode-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorMap.json","http://www.w3.org/qt3/json/errorMap-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorArrayComma.json","http://www.w3.org/qt3/json/errorArrayComma-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber01.json","http://www.w3.org/qt3/json/errorNumber01-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber02.json","http://www.w3.org/qt3/json/errorNumber02-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber03.json","http://www.w3.org/qt3/json/errorNumber03-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorNumber04.json","http://www.w3.org/qt3/json/errorNumber04-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorString01.json","http://www.w3.org/qt3/json/errorString01-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorString02.json","http://www.w3.org/qt3/json/errorString02-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-doc/errorString03.json","http://www.w3.org/qt3/json/errorString03-json"}]},
 {modules, []}
 ].
 'json-doc-001'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/mapEmpty-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -407,10 +426,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-002'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayEmpty-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -421,10 +440,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-003'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -435,10 +454,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-004'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayString-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -449,10 +468,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-005'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayTrue-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[true()]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -463,10 +482,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-006'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayFalse-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[false()]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -477,10 +496,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-007'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNull-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[()]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -491,10 +510,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-008'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/data001-json')",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -525,10 +544,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-009'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/data005-json')",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -567,10 +586,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-010'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json')?key",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -581,10 +600,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-011'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':false()})?key",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -595,10 +614,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-012'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':true()})?key",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -611,10 +630,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":3, \"b\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -627,10 +646,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':true()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\\\\\":3, \"b\\\\\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -643,10 +662,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':false()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\\\":3, \"b\\\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -659,10 +678,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':true()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"\\f\", \"\\u0007\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -675,10 +694,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':false()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"�\", \"�\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -691,10 +710,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':false()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"�\", \"�\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -707,10 +726,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':true()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -724,10 +743,10 @@ environment('json-doc-error') ->
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', 
          map{'escape':false(), 'fallback':function($s){'??'}})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"??\", \"??\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -741,10 +760,10 @@ environment('json-doc-error') ->
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
          map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"??\\uDA00??\", \"??\\uDD00??\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -758,10 +777,10 @@ environment('json-doc-error') ->
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
          map{'escape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -790,10 +809,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -806,10 +825,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number001-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"23E0") of 
       true -> {comment, "Deep equal"};
@@ -830,10 +849,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number002-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"0.23e+02") of 
       true -> {comment, "Deep equal"};
@@ -854,10 +873,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number003-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -878,10 +897,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number004-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"-0") of 
       true -> {comment, "Deep equal"};
@@ -902,10 +921,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapZeroLength-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"\":\"\", \"0\":\"0\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -931,10 +950,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'use-first'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":3, \"b\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -947,10 +966,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/stringUnpaired-json', map{'fallback':function($s){substring($s, 3)}})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-string')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "oh dear DEAD") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -963,10 +982,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'escape':true(), 'duplicates':'reject'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -979,10 +998,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/stringHex-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-string')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\\") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -993,10 +1012,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-044'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'validate':true()})",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1028,10 +1047,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-002'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorToken-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1042,10 +1061,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-003'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorExtra-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1056,10 +1075,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-004'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArray-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1070,10 +1089,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-005'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayNumber-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1084,10 +1103,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-006'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayHex-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1098,10 +1117,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-007'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayString-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1112,10 +1131,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-008'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayUnicode-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1126,10 +1145,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-009'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorMap-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1140,10 +1159,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-010'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorMap-json', map{\"liberal\":false()})",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1154,10 +1173,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-011'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayComma-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1168,10 +1187,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-012'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'liberal':()})",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1182,10 +1201,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-013'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':()})",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1196,10 +1215,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-014'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':(true(),true())})",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1210,10 +1229,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-015'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':'EMCA-262'})",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1224,10 +1243,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-016'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'fallback':'dummy'})",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1238,10 +1257,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-017'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber01-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1252,10 +1271,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-018'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber02-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1266,10 +1285,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-019'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber03-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1280,10 +1299,10 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-020'(_Config) ->
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber04-json')",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1296,10 +1315,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'reject'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1312,10 +1331,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'retain'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1328,10 +1347,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString01-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1344,10 +1363,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString02-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1360,10 +1379,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString03-json')
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1376,10 +1395,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'fallback':concat#2})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1392,10 +1411,10 @@ environment('json-doc-error') ->
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'duplicates':'reject'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1445,11 +1464,12 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-031'(_Config) ->
    Qry = "fn:json-doc(\"unparsed-text/text-plain-utf-8.txt\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1457,7 +1477,7 @@ environment('json-doc-error') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1468,11 +1488,12 @@ environment('json-doc-error') ->
    end.
 'json-doc-error-032'(_Config) ->
    Qry = "fn:json-doc(\"does-not-exist.txt\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1480,7 +1501,7 @@ environment('json-doc-error') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

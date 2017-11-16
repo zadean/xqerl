@@ -459,86 +459,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -550,11 +558,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -564,8 +573,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -575,8 +585,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -586,8 +597,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -597,8 +609,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -606,23 +619,24 @@ environment('array-and-map') ->
 ];
 environment('all') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/Walmsley/catalog.xml",".","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/catalog.xml"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/Walmsley/render.xsl","","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/render.xsl"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/Walmsley/catalog.xml",".","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/catalog.xml"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/Walmsley/render.xsl","","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/render.xsl"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/Walmsley/product.json","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/Walmsley/product.json","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]},
 {modules, []}
 ].
 'd1e11215'(_Config) ->
    Qry = "sort(doc(\"catalog.xml\")//product/number)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<number
          >443</number><number
          >557</number><number
@@ -638,10 +652,10 @@ environment('all') ->
 'd1e13012'(_Config) ->
    Qry = "
  'abc'=>upper-case()",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ABC\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -653,10 +667,10 @@ environment('all') ->
 'd1e13030'(_Config) ->
    Qry = "
  'abc'=>substring(1,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ab\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -668,10 +682,10 @@ environment('all') ->
 'd1e13048'(_Config) ->
    Qry = "let $string := 'aa bb cc' return 
  $string=>replace('a','b')=>normalize-space()=>tokenize(\"\\s\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"bb\",\"bb\",\"cc\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -683,10 +697,10 @@ environment('all') ->
 'd1e20420'(_Config) ->
    Qry = "
  xquery version \"3.1\" encoding \"UTF-8\"; \"inserted for testing prolog only examples\"",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"inserted for testing prolog only examples\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -706,10 +720,10 @@ environment('all') ->
   \"WMN\" : \"Women's\",
   \"MEN\" : \"Men's\"
 })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -741,10 +755,10 @@ deep-equal( map {
               \"name\": \"Men's\",
               \"code\": 320 } 
     })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -762,10 +776,10 @@ map {\"557\":\"Fleece Pullover\",
 \"443\":\"Deluxe Travel Bag\",
 \"784\":\"Cotton Dress Shirt\"})
 ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -792,10 +806,10 @@ declare variable $deptinfo := map {
             \"deptname\": \"Men's\",
             \"deptnum\": 320 } 
 }; \"inserted for testing prolog only examples\"",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"inserted for testing prolog only examples\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -812,10 +826,10 @@ declare variable $deptinfo := map {
   \"MEN\" : \"Men's\"
 };
  map:get($deptnames, \"ACC\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -832,10 +846,10 @@ declare variable $deptinfo := map {
   \"MEN\" : \"Men's\"
 };
  $deptnames?(\"ACC\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -854,10 +868,10 @@ declare variable $deptinfo := map {
 for $prod in doc(\"catalog.xml\")//product
 return <product num=\"{$prod/number}\" 
                 dept-name=\"{$deptnames?($prod/@dept)}\"/>",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product num=\"557\"
          dept-name=\"Women's\"/><product num=\"563\"
          dept-name=\"Accessories\"/><product num=\"443\"
@@ -887,10 +901,10 @@ for $prod in doc(\"catalog.xml\")//product
 return <product num=\"{$prod/number}\"
                 dept-name=\"{$deptinfo?($prod/@dept)?(\"deptname\")}\"
                 dept-code=\"{$deptinfo?($prod/@dept)?(\"deptnum\")}\"/>",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product num=\"557\"
          dept-name=\"Women's\" dept-code=\"310\"/><product num=\"563\"
          dept-name=\"Accessories\" dept-code=\"300\"/><product num=\"443\"
@@ -911,10 +925,10 @@ return <product num=\"{$prod/number}\"
   \"MEN\" : \"Men's\"
 };
  $deptnames?(\"ACC\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -931,10 +945,10 @@ return <product num=\"{$prod/number}\"
   \"MEN\" : \"Men's\"
 };
  $deptnames?(\"ACC\",\"MEN\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"Accessories\",\"Men's\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -951,10 +965,10 @@ return <product num=\"{$prod/number}\"
   \"MEN\" : \"Men's\"
 };
  for $d in (\"ACC\",\"MEN\") return $deptnames?($d)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"Accessories\",\"Men's\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -971,10 +985,10 @@ declare variable $deptnames := map {
   \"MEN\" : \"Men's\"
 };
  $deptnames?(doc(\"catalog.xml\")//@dept)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"Women's\",\"Accessories\",\"Accessories\",\"Men's\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -991,10 +1005,10 @@ declare variable $deptnames := map {
   \"MEN\" : \"Men's\"
 };
  $deptnames?*",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"Accessories\",\"Women's\",\"Men's\")") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -1006,10 +1020,10 @@ declare variable $deptnames := map {
 'd1e41213'(_Config) ->
    Qry = "
  declare variable $map-with-integer-keys := map{ 10:\"a\", 20:\"b\"}; $map-with-integer-keys?20",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"b\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1026,10 +1040,10 @@ declare variable $deptnames := map {
   \"MEN\" : \"Men's\"
 };
  $deptnames?ACC",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1055,10 +1069,10 @@ for $prod in doc(\"catalog.xml\")//product
 return <product num=\"{$prod/number}\"
                 dept-name=\"{$deptinfo?($prod/@dept)?deptname}\"
                 dept-code=\"{$deptinfo?($prod/@dept)?deptnum}\"/>",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product num=\"557\"
          dept-name=\"Women's\" dept-code=\"310\"/><product num=\"563\"
          dept-name=\"Accessories\" dept-code=\"300\"/><product num=\"443\"
@@ -1088,10 +1102,10 @@ deep-equal( $deptinfo?*[?deptname = \"Accessories\"],
 map { \"deptname\": \"Accessories\",
             \"deptnum\": 300 })
 ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1114,10 +1128,10 @@ map { \"deptname\": \"Accessories\",
             \"deptnum\": 320 } 
 };
  $deptinfo?*[?deptname = \"Accessories\"]?deptnum",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"300") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1134,10 +1148,10 @@ map { \"deptname\": \"Accessories\",
   \"MEN\" : \"Men's\"
 };
  map:size($deptnames)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1154,10 +1168,10 @@ map { \"deptname\": \"Accessories\",
   \"MEN\" : \"Men's\"
 };
  map:contains($deptnames,\"ACC\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1174,10 +1188,10 @@ map { \"deptname\": \"Accessories\",
   \"MEN\" : \"Men's\"
 };
  map:keys($deptnames)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"ACC\",\"MEN\",\"WMN\")") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -1201,10 +1215,10 @@ map {
   \"SHO\" : \"Shoes\"
 }
 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1227,10 +1241,10 @@ map {
   \"MEN\" : \"Men's\"
 }
 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1252,10 +1266,10 @@ map {
   \"MEN\" : \"Men's\"
 }
 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1274,10 +1288,10 @@ declare variable $deptnames := map {
  let $f := function($k,$v) 
   {concat('Key: ',$k,', value: ',$v)}
 return map:for-each($deptnames,$f)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"Key: ACC, value: Accessories\",
 \"Key: WMN, value: Women's\",
 \"Key: MEN, value: Men's\")") of 
@@ -1302,10 +1316,10 @@ declare variable $deptinfo := map {
             \"deptnum\": 320 } 
 };
 $deptinfo instance of map(xs:string,map(xs:string,xs:anyAtomicType)) ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1328,10 +1342,10 @@ declare variable $deptinfo := map {
             \"deptnum\": 320 } 
 };
 $deptinfo instance of function(*) ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1354,10 +1368,10 @@ declare variable $deptinfo := map {
             \"deptnum\": 320 } 
 };
 $deptinfo instance of function(xs:anyAtomicType) as item()* ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1380,10 +1394,10 @@ declare variable $deptinfo := map {
             \"deptnum\": 320 } 
 };
 $deptinfo instance of item() ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1399,10 +1413,10 @@ $deptinfo instance of item() ",
    map:keys($maparg)[. > 50]
 }; 
 local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"55,60") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -1414,10 +1428,10 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
 'd1e41624'(_Config) ->
    Qry = "
  [ \"a\", \"b\", \"c\" ]",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ \"a\", \"b\", \"c\" ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1429,10 +1443,10 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
 'd1e41628'(_Config) ->
    Qry = "
  array { \"a\", \"b\", \"c\" }",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ \"a\", \"b\", \"c\" ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1444,10 +1458,10 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
 'd1e41635'(_Config) ->
    Qry = "
  [//product,( \"a\", \"b\", \"c\"),\"d\"]",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"array:size($result) eq 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1459,10 +1473,10 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
 'd1e41648'(_Config) ->
    Qry = "
  array { //product,( \"a\", \"b\", \"c\"),\"d\"}",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"array:size($result) eq 8") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1476,10 +1490,10 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
 declare variable $myitems := 3;
  [$myitems, doc(\"catalog.xml\")//product, 
   12, xs:date('2015-01-15'), <foo>bar</foo>]",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"array:size($result) eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1491,10 +1505,10 @@ declare variable $myitems := 3;
 'd1e41659'(_Config) ->
    Qry = "
  array {[\"a\", \"b\", \"c\"], \"d\" }",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[\"a\", \"b\", \"c\"], \"d\" ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1506,10 +1520,10 @@ declare variable $myitems := 3;
 'd1e41663'(_Config) ->
    Qry = "
  [[\"a\", \"b\", \"c\"], \"d\" ]",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[\"a\", \"b\", \"c\"], \"d\" ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1521,10 +1535,10 @@ declare variable $myitems := 3;
 'd1e41678'(_Config) ->
    Qry = "
  [ (\"a\", \"b\", \"c\"), \"d\" ]",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ (\"a\", \"b\", \"c\"), \"d\" ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1536,10 +1550,10 @@ declare variable $myitems := 3;
 'd1e41686'(_Config) ->
    Qry = "
  ( [\"a\", \"b\", \"c\"], \"d\" )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\"], \"d\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1553,10 +1567,10 @@ declare variable $myitems := 3;
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:get($array-of-ints, 2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1570,10 +1584,10 @@ array:get($array-of-ints, 2)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-ints?2",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1587,10 +1601,10 @@ $array-of-ints?2",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 let $pos := 2 return $array-of-ints?($pos)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1604,10 +1618,10 @@ let $pos := 2 return $array-of-ints?($pos)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays?2?1",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"d\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1620,10 +1634,10 @@ $array-of-arrays?2?1",
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?(2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1636,10 +1650,10 @@ $array-of-arrays?2?1",
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?(2,3)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20,30") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1652,10 +1666,10 @@ $array-of-arrays?2?1",
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  for $i in (2,3) return $array-of-ints?($i)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20,30") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1668,10 +1682,10 @@ $array-of-arrays?2?1",
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?(1 to 2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10,20") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1684,10 +1698,10 @@ $array-of-arrays?2?1",
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?2",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1700,10 +1714,10 @@ $array-of-arrays?2?1",
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?*",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10,20,30") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1717,10 +1731,10 @@ $array-of-arrays?2?1",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays?2?1",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"d\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1734,10 +1748,10 @@ $array-of-arrays?2?1",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays?*",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1751,10 +1765,10 @@ $array-of-arrays?*",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays?*[?2 = \"b\"]",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\",\"b\",\"c\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1768,10 +1782,10 @@ $array-of-arrays?*[?2 = \"b\"]",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:size($array-of-ints)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1785,10 +1799,10 @@ array:size($array-of-ints)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:head($array-of-ints)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1802,10 +1816,10 @@ array:head($array-of-ints)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:tail($array-of-ints)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[20,30]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1819,10 +1833,10 @@ array:tail($array-of-ints)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:append($array-of-ints,40)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,20,30,40]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1836,10 +1850,10 @@ array:append($array-of-ints,40)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
  array:insert-before($array-of-ints,2,40)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,40,20,30]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1853,10 +1867,10 @@ declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] 
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:remove($array-of-ints,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,30]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1870,10 +1884,10 @@ array:remove($array-of-ints,2)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:subarray($array-of-ints,2,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[20,30]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1887,10 +1901,10 @@ array:subarray($array-of-ints,2,2)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:filter($array-of-ints,function($n) {$n > 15})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[20,30]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1904,10 +1918,10 @@ array:filter($array-of-ints,function($n) {$n > 15})",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:flatten($array-of-arrays)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\",\"b\",\"c\",\"d\",\"e\",\"f\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1921,10 +1935,10 @@ array:flatten($array-of-arrays)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:join(($array-of-ints,[\"a\",\"b\",\"c\"]))",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,20,30,\"a\",\"b\",\"c\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1938,10 +1952,10 @@ array:join(($array-of-ints,[\"a\",\"b\",\"c\"]))",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:sort([6,2,-4],(),abs#1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[2,-4,6]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1955,10 +1969,10 @@ array:sort([6,2,-4],(),abs#1)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 array:reverse($array-of-ints)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[30,20,10]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1972,10 +1986,10 @@ array:reverse($array-of-ints)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-ints instance of array(xs:integer)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1989,10 +2003,10 @@ $array-of-ints instance of array(xs:integer)",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays instance of array(array(xs:string))",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2006,10 +2020,10 @@ $array-of-arrays instance of array(array(xs:string))",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays instance of function(*) ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2023,10 +2037,10 @@ $array-of-arrays instance of function(*) ",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays instance of function(xs:integer) as item()* ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2040,10 +2054,10 @@ $array-of-arrays instance of function(xs:integer) as item()* ",
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
 $array-of-arrays instance of item() ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2059,10 +2073,10 @@ $array-of-arrays instance of item() ",
    array:flatten($arrayarg)[. > 15]
 }; 
 local:larger-values([10,20,30])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20,30") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2080,10 +2094,10 @@ deep-equal(json-doc(\"product.json\"), map {
    \"is-current\": true(),
    \"other\": ()
 })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2103,10 +2117,10 @@ map {
                    <height>12</height>
                  </props>
 }",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -2118,10 +2132,10 @@ map {
 'd1e48503'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,\"jkl\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2133,10 +2147,10 @@ map {
 'd1e48514'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,(\"jkl\",\"mno\"))",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",(\"jkl\",\"mno\")]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2148,10 +2162,10 @@ map {
 'd1e48525'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append(array:append($array1,\"jkl\"),\"mno\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",\"jkl\",\"mno\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2163,10 +2177,10 @@ map {
 'd1e48536'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,[\"jkl\",\"mno\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",[\"jkl\",\"mno\"]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2178,10 +2192,10 @@ map {
 'd1e48547'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,())",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",()]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2194,10 +2208,10 @@ map {
    Qry = "
  let $f := upper-case#1
 return apply($f,[\"a\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"A\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2209,10 +2223,10 @@ return apply($f,[\"a\"])",
 'd1e48676'(_Config) ->
    Qry = "
  apply(substring#3,[\"sometext\",2,4])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"omet\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2224,10 +2238,10 @@ return apply($f,[\"a\"])",
 'd1e48687'(_Config) ->
    Qry = "
  apply(max#1,[(1,2,3)])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2239,10 +2253,10 @@ return apply($f,[\"a\"])",
 'd1e48698'(_Config) ->
    Qry = "
  apply(concat#3,[\"a\",\"b\",\"c\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2254,10 +2268,10 @@ return apply($f,[\"a\"])",
 'd1e48709'(_Config) ->
    Qry = "
  apply(upper-case#1,['a','b'])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAP0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2270,10 +2284,10 @@ return apply($f,[\"a\"])",
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, 1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2286,10 +2300,10 @@ declare variable $map2 := map {};
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, 4)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2302,10 +2316,10 @@ declare variable $map2 := map {};
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, 9)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2318,10 +2332,10 @@ declare variable $map2 := map {};
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, \"1\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2334,10 +2348,10 @@ declare variable $map2 := map {};
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map2, 1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2349,10 +2363,10 @@ declare variable $map2 := map {};
 'd1e51729'(_Config) ->
    Qry = "
  contains-token(\"a b c\", \"c\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2364,10 +2378,10 @@ declare variable $map2 := map {};
 'd1e51740'(_Config) ->
    Qry = "
  contains-token(\"a b c\", \" c \")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2379,10 +2393,10 @@ declare variable $map2 := map {};
 'd1e51751'(_Config) ->
    Qry = "
  contains-token( (\"a b c\",\"d e f\"), \"c\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2394,10 +2408,10 @@ declare variable $map2 := map {};
 'd1e51762'(_Config) ->
    Qry = "
  contains-token( \"a, b, c\", \"b\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2409,10 +2423,10 @@ declare variable $map2 := map {};
 'd1e51773'(_Config) ->
    Qry = "
  contains-token( \"a b c\", \"b c\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2426,10 +2440,10 @@ declare variable $map2 := map {};
 deep-equal( map:entry(1,\"first\"),
 map {1:\"first\"}
 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2443,10 +2457,10 @@ map {1:\"first\"}
 deep-equal(  map:merge( ($map1, map:entry(3, \"third\")) ),
   map {1:\"first\", 2:\"second\", 3:\"third\"}
 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2461,10 +2475,10 @@ deep-equal(
  map:merge( (map:entry(1, \"first\"), map:entry(2, \"second\")) ),
  map {1:\"first\", 2:\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2480,10 +2494,10 @@ deep-equal(
 return map:entry(string($p/number), string($p/name))),
   map {\"557\":\"Fleece Pullover\", \"563\":\"Floppy Sun Hat\", \"443\":\"Deluxe Travel Bag\", \"784\":\"Cotton Dress Shirt\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2495,10 +2509,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56387'(_Config) ->
    Qry = "
  array:filter([\"ab\",\"aa\",\"xy\"],starts-with#2(?,\"a\"))",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ab\",\"aa\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2510,10 +2524,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56398'(_Config) ->
    Qry = "
  array:filter([4,5,6],function($n) {$n > 4})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[5,6]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2525,10 +2539,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56409'(_Config) ->
    Qry = "
  array:filter([4,5,6],function($n) {$n > 6})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2540,10 +2554,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56502'(_Config) ->
    Qry = "
  array:flatten([\"a\", \"b\", \"c\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2555,10 +2569,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56513'(_Config) ->
    Qry = "
  array:flatten( ([\"a\", \"b\"],[\"c\", \"d\"]) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\", \"d\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2570,10 +2584,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56524'(_Config) ->
    Qry = "
  array:flatten( ([\"a\", \"b\"],[\"c\", [\"d\"],[\"e\"]]) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\", \"d\", \"e\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2585,10 +2599,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56535'(_Config) ->
    Qry = "
  array:flatten( (\"a\", \"b\", \"c\") )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2600,10 +2614,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e56999'(_Config) ->
    Qry = "
  array:fold-left([1,2,3], 0, function($a, $b) { $a + $b })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"6") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2615,10 +2629,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57060'(_Config) ->
    Qry = "
  array:fold-left([1,2,3,4,5,6], 0, function($a, $b) { $a + $b })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"21") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2630,10 +2644,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57070'(_Config) ->
    Qry = "
  array:fold-left([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($a,$b) })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2645,10 +2659,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57081'(_Config) ->
    Qry = "
  array:fold-left([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($b,$a) })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"cba\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2660,10 +2674,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57092'(_Config) ->
    Qry = "
  array:fold-left([\"a\",\"b\",\"c\"], \"x\", function($a, $b) { concat($a,',',$b) })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"x,a,b,c\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2675,10 +2689,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57103'(_Config) ->
    Qry = "
  array:fold-left( [\"a\",\"b\",\"c\"], \"\", concat(?,?) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2690,10 +2704,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57114'(_Config) ->
    Qry = "
  array:fold-left([], 0, function($a, $b) { $a + $b })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2705,10 +2719,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57411'(_Config) ->
    Qry = "
  array:fold-right([1,2,3], 0, function($a, $b) { $a + $b })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"6") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2720,10 +2734,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57472'(_Config) ->
    Qry = "
  array:fold-right([1,2,3,4,5,6], 0, function($a, $b) { $a + $b })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"21") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2735,10 +2749,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57482'(_Config) ->
    Qry = "
  array:fold-right([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($a,$b) })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2750,10 +2764,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57493'(_Config) ->
    Qry = "
  array:fold-right([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($b,$a) })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"cba\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2765,10 +2779,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57504'(_Config) ->
    Qry = "
  array:fold-right([\"a\",\"b\",\"c\"], \"x\", function($a, $b) { concat($a,',',$b) })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a,b,c,x\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2780,10 +2794,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57515'(_Config) ->
    Qry = "
  array:fold-right( [\"a\",\"b\",\"c\"], \"\", concat(?,?) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2795,10 +2809,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57526'(_Config) ->
    Qry = "
  array:fold-right([], 0, function($a, $b) { $a + $b })",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2810,10 +2824,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57796'(_Config) ->
    Qry = "
  array:for-each( [\"a\",\"b\",\"c\"], function($x) {concat($x,\"x\")} )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ax\",\"bx\",\"cx\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2825,10 +2839,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57807'(_Config) ->
    Qry = "
  array:for-each( [\"a\",\"b\",\"c\"], function($x) {$x,\"x\"} )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"x\"),(\"b\",\"x\"),(\"c\",\"x\")]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2840,10 +2854,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57818'(_Config) ->
    Qry = "
  array:for-each( [\"a\",\"b\",\"c\"], string-to-codepoints(?) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[97, 98, 99]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2855,10 +2869,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e57961'(_Config) ->
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
  map:for-each($map1,function($k,$v) {concat($k,$v)})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"1first\",\"2second\")") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -2873,10 +2887,10 @@ return map:entry(string($p/number), string($p/name))),
  map:merge(map:for-each($map1,function($k,$v) {map:entry($k + 1, $v)})),
  map {2:\"first\", 3:\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2888,10 +2902,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e58316'(_Config) ->
    Qry = "
  array:for-each-pair([\"a\", \"b\", \"c\"], [\"x\", \"y\", \"z\"], concat#2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ax\", \"by\", \"cz\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2903,10 +2917,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e58327'(_Config) ->
    Qry = "
  array:for-each-pair([\"a\", \"b\", \"c\"], [\"x\", \"y\", \"z\"], function($a, $b){$a, $b})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"x\"), (\"b\",\"y\"), (\"c\",\"z\")]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2918,10 +2932,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e58338'(_Config) ->
    Qry = "
  array:for-each-pair([1,2,3,4,5], [1,2,3,4,5], function($a, $b){$a * $b})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,4,9,16,25]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2933,10 +2947,10 @@ return map:entry(string($p/number), string($p/name))),
 'd1e58349'(_Config) ->
    Qry = "
  array:for-each-pair([\"a\", \"b\", \"c\", \"d\", \"e\"], [\"x\", \"y\", \"z\"], concat#2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ax\", \"by\", \"cz\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2949,10 +2963,10 @@ return map:entry(string($p/number), string($p/name))),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [\"abc\", [10,20]];
  array:get($array1,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"def\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2965,10 +2979,10 @@ declare variable $array2 := [\"abc\", [10,20]];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [\"abc\", [10,20]];
  array:get($array2,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,20]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2981,10 +2995,10 @@ declare variable $array2 := [\"abc\", [10,20]];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [\"abc\", [10,20]];
  array:get($array2,3)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2996,10 +3010,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e60955'(_Config) ->
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,3)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"first\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3011,10 +3025,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e60966'(_Config) ->
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,5)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -3026,10 +3040,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e60976'(_Config) ->
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,6)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -3041,10 +3055,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e60986'(_Config) ->
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,\"3\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -3056,10 +3070,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e61366'(_Config) ->
    Qry = "
  array:head([\"abc\",\"def\",\"ghi\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3071,10 +3085,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e61377'(_Config) ->
    Qry = "
  array:head([\"abc\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3086,10 +3100,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e61388'(_Config) ->
    Qry = "
  array:head([])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3101,10 +3115,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e63192'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,2,\"def\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3116,10 +3130,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e63203'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,4,\"mno\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"ghi\",\"jkl\",\"mno\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3131,10 +3145,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e63214'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,6,\"mno\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3146,10 +3160,10 @@ declare variable $array2 := [\"abc\", [10,20]];
 'd1e63227'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,0,\"aaa\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3162,10 +3176,10 @@ declare variable $array2 := [\"abc\", [10,20]];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array1,$array2) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",1,2,3]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3178,10 +3192,10 @@ declare variable $array2 := [1,2,3];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array2,$array1) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,2,3,\"abc\",\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3194,10 +3208,10 @@ declare variable $array2 := [1,2,3];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array2,$array1,[4,5]) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,2,3,\"abc\",\"def\",\"ghi\",4,5]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3210,10 +3224,10 @@ declare variable $array2 := [1,2,3];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array1,[]) )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3226,10 +3240,10 @@ declare variable $array2 := [1,2,3];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( () )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3242,10 +3256,10 @@ declare variable $array2 := [1,2,3];
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( [ ] )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3259,10 +3273,10 @@ declare variable $array2 := [1,2,3];
 declare variable $map2 := map {1:\"first\"};
 declare variable $map3 := map {};
  map:keys($map1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(1, 2)") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -3276,10 +3290,10 @@ declare variable $map3 := map {};
 declare variable $map2 := map {1:\"first\"};
 declare variable $map3 := map {};
  map:keys($map2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3293,10 +3307,10 @@ declare variable $map3 := map {};
 declare variable $map2 := map {1:\"first\"};
 declare variable $map3 := map {};
  map:keys($map3)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -3313,10 +3327,10 @@ deep-equal(
  map:merge( ($map1, $map2) ),
  map {1:\"first\", 2:\"second\", \"abc\":\"def\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3333,10 +3347,10 @@ deep-equal(
  map:merge( ($map2, $map1) ),
  map {1:\"ONE\", 2:\"second\", \"abc\":\"def\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3353,10 +3367,10 @@ deep-equal(
  map:merge( ($map1, $map3) ),
  map {1:\"first\", 2:\"second\", \"1\":\"first\", \"2\":\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3373,10 +3387,10 @@ deep-equal(
  map:merge( ($map1, $map2, $map3) ),
  map {1:\"ONE\", 2:\"second\", \"abc\":\"def\", \"1\":\"first\", \"2\":\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3393,10 +3407,10 @@ deep-equal(
  map:merge( ($map1, map{3:\"third\"}) ),
  map {1:\"first\", 2:\"second\", 3:\"third\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3413,10 +3427,10 @@ deep-equal(
  map:merge( ($map1, map{2:\"second-new\"}) ),
  map {1:\"first\", 2:\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3433,10 +3447,10 @@ deep-equal(
  map:merge( ($map1, map:entry(2,\"second-new\")) ),
  map {1:\"first\", 2:\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3453,10 +3467,10 @@ deep-equal(
  map:merge( ($map1) ),
  map {1:\"first\", 2:\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3473,10 +3487,10 @@ deep-equal(
  map:merge( () ),
  map {}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3488,10 +3502,10 @@ deep-equal(
 'd1e69523'(_Config) ->
    Qry = "
  parse-ietf-date(\"Wed, 05 Jul 2015 13:25:15 GMT\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"2015-07-05T13:25:15Z\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3503,10 +3517,10 @@ deep-equal(
 'd1e69534'(_Config) ->
    Qry = "
  parse-ietf-date(\"Wed, 5 Jul 94 07:29 GMT\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"1994-07-05T07:29:00Z\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3518,10 +3532,10 @@ deep-equal(
 'd1e69545'(_Config) ->
    Qry = "
  parse-ietf-date(\"Wed Jul 05 13:25:15 EST 2015\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"2015-07-05T13:25:15-05:00\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3533,10 +3547,10 @@ deep-equal(
 'd1e69556'(_Config) ->
    Qry = "
  parse-ietf-date(\"Sunday, 05-Nov-94 08:25:15 GMT\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"1994-11-05T08:25:15Z\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3548,10 +3562,10 @@ deep-equal(
 'd1e69567'(_Config) ->
    Qry = "
  parse-ietf-date(\"Wed, 5 Jul 2015 13:25:15 +0500\")",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"2015-07-05T13:25:15+05:00\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3574,10 +3588,10 @@ map {
    \"colorChoices\": [\"navy\", \"black\"]
 })
 ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3592,10 +3606,10 @@ map {
  map:put($map1, 1, \"ONE\"),
  map {1:\"ONE\", 2:\"second\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3610,10 +3624,10 @@ map {
  map:put($map1, 3, \"third\"),
  map {1:\"first\", 2:\"second\", 3:\"third\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3628,10 +3642,10 @@ map {
  map:put($map1, \"abc\", \"def\"),
  map {1:\"first\", 2:\"second\", \"abc\":\"def\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3643,10 +3657,10 @@ map {
 'd1e71246'(_Config) ->
    Qry = "
  random-number-generator()?number",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
@@ -3666,10 +3680,10 @@ map {
 'd1e71254'(_Config) ->
    Qry = "
  random-number-generator()?permute(1 to 100)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:integer+") of 
       true -> {comment, "Correct type"};
@@ -3689,10 +3703,10 @@ map {
 'd1e71262'(_Config) ->
    Qry = "
  for $seq in 1 to 100 return random-number-generator()?number",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double+") of 
       true -> {comment, "Correct type"};
@@ -3716,10 +3730,10 @@ map {
 'd1e71270'(_Config) ->
    Qry = "
  for $seq in 1 to 100 return random-number-generator($seq)?number",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double+") of 
       true -> {comment, "Correct type"};
@@ -3745,10 +3759,10 @@ map {
   else ($rng?number, local:random-sequence($length - 1, $rng?next()))
 };
 local:random-sequence(5, random-number-generator())",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double+") of 
       true -> {comment, "Correct type"};
@@ -3772,10 +3786,10 @@ local:random-sequence(5, random-number-generator())",
 'd1e71531'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:remove($array1,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3787,10 +3801,10 @@ local:random-sequence(5, random-number-generator())",
 'd1e71542'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:remove([\"abc\"],1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3802,10 +3816,10 @@ local:random-sequence(5, random-number-generator())",
 'd1e71553'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:remove($array1,5)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3820,10 +3834,10 @@ deep-equal(
  map:remove($map1,2),
  map {1:\"first\"}
  )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3838,10 +3852,10 @@ deep-equal(
 map:remove($map1,3),
 map {1:\"first\", 2:\"second\"}
 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3855,10 +3869,10 @@ map {1:\"first\", 2:\"second\"}
 deep-equal( map:remove($map1,\"abc\"),
 map {1:\"first\", 2:\"second\"}
 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3870,10 +3884,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e72747'(_Config) ->
    Qry = "
  array:reverse([\"abc\",\"def\",\"ghi\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ghi\",\"def\",\"abc\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3885,10 +3899,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e72758'(_Config) ->
    Qry = "
  array:reverse([\"abc\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3900,10 +3914,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e72769'(_Config) ->
    Qry = "
  array:reverse([(\"a\",\"b\",\"c\")])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"b\",\"c\")]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3915,10 +3929,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e72779'(_Config) ->
    Qry = "
  array:reverse([ ])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3930,10 +3944,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e74262'(_Config) ->
    Qry = "
  array:size([1, 2, 3])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3945,10 +3959,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e74273'(_Config) ->
    Qry = "
  array:size([\"abc\", [\"def\", \"ghi\"]])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3960,10 +3974,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e74283'(_Config) ->
    Qry = "
  array:size([ ])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3975,10 +3989,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e74294'(_Config) ->
    Qry = "
  array:size([[ ]])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -3990,10 +4004,10 @@ map {1:\"first\", 2:\"second\"}
 'd1e74304'(_Config) ->
    Qry = "
  count([1, 2, 3])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4006,10 +4020,10 @@ map {1:\"first\", 2:\"second\"}
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {};
  map:size( $map1 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4022,10 +4036,10 @@ declare variable $map2 := map {};
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {};
  map:size( $map2 )",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4037,10 +4051,10 @@ declare variable $map2 := map {};
 'd1e74563'(_Config) ->
    Qry = "
  sort((6,2,4))",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(2,4,6)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4052,10 +4066,10 @@ declare variable $map2 := map {};
 'd1e74585'(_Config) ->
    Qry = "
  sort(doc(\"catalog.xml\")//product/number/number(.))",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(xs:double(443),xs:double(557),xs:double(563),xs:double(784))") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4067,10 +4081,10 @@ declare variable $map2 := map {};
 'd1e74596'(_Config) ->
    Qry = "
  sort(doc(\"catalog.xml\")//product, (), function($prod) {$prod/number})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product dept=\"ACC\">
   <number>443</number>
   <name language=\"en\">Deluxe Travel Bag</name>
@@ -4097,10 +4111,10 @@ declare variable $map2 := map {};
 'd1e74610'(_Config) ->
    Qry = "
  sort(doc(\"catalog.xml\")//product, (), function($prod) {$prod/name, $prod/number})",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product dept=\"MEN\">
   <number>784</number>
   <name language=\"en\">Cotton Dress Shirt</name>
@@ -4128,10 +4142,10 @@ declare variable $map2 := map {};
 'd1e74627'(_Config) ->
    Qry = "
  sort((-6,-2,4),(),abs#1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(-2,4,-6)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4143,10 +4157,10 @@ declare variable $map2 := map {};
 'd1e74798'(_Config) ->
    Qry = "
  array:sort([6,2,4])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[2,4,6]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4158,10 +4172,10 @@ declare variable $map2 := map {};
 'd1e74809'(_Config) ->
    Qry = "
  array:sort([(\"a\",\"c\",\"b\"), (\"a\",\"b\",\"f\")])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"b\",\"f\"), (\"a\",\"c\",\"b\")]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4173,10 +4187,10 @@ declare variable $map2 := map {};
 'd1e74820'(_Config) ->
    Qry = "
  array:sort([6,2,-4],(),abs#1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[2,-4,6]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4188,10 +4202,10 @@ declare variable $map2 := map {};
 'd1e76034'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4203,10 +4217,10 @@ declare variable $map2 := map {};
 'd1e76045'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,2)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4218,10 +4232,10 @@ declare variable $map2 := map {};
 'd1e76056'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4233,10 +4247,10 @@ declare variable $map2 := map {};
 'd1e76067'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,0)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4248,10 +4262,10 @@ declare variable $map2 := map {};
 'd1e76078'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,6)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4263,10 +4277,10 @@ declare variable $map2 := map {};
 'd1e76091'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,6)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4278,10 +4292,10 @@ declare variable $map2 := map {};
 'd1e76104'(_Config) ->
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,-1)",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4293,10 +4307,10 @@ declare variable $map2 := map {};
 'd1e77397'(_Config) ->
    Qry = "
  array:tail([\"abc\",\"def\",\"ghi\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4308,10 +4322,10 @@ declare variable $map2 := map {};
 'd1e77408'(_Config) ->
    Qry = "
  array:tail([\"abc\"])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4323,10 +4337,10 @@ declare variable $map2 := map {};
 'd1e77419'(_Config) ->
    Qry = "
  array:tail([])",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4517,10 +4531,10 @@ parse-json('{
 }')
 )
 ",
-   Env = xqerl_test:handle_environment(environment('all')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

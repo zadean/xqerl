@@ -959,7 +959,12 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'CastExpr'               -> 'ArrowExpr' 'cast' 'as' 'SingleType' : {'cast_as', '$1', '$4'}.
 'CastExpr'               -> 'ArrowExpr' : '$1'.
 % [96]     ArrowExpr      ::=      UnaryExpr ( "=>" ArrowFunctionSpecifier ArgumentList )*  
-'ArrowExpr'              -> 'ArrowExpr' '=>' 'ArrowFunctionSpecifier' 'ArgumentList' : {'function-call', qname(func, '$3'),length(['$1'|'$4']), ['$1'|'$4']}.
+'ArrowExpr'              -> 'ArrowExpr' '=>' 'ArrowFunctionSpecifier' 'ArgumentList' : case '$3' of
+                                                                                          #qname{} ->
+                                                                                             {'function-call','$3',length(['$1'|'$4']),['$1'|'$4']};
+                                                                                          _ ->
+                                                                                             {'postfix', '$3',[{arguments,['$1'|'$4']}] }
+                                                                                       end.
 'ArrowExpr'              -> 'UnaryExpr' : '$1'.
 
 
@@ -1173,7 +1178,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'KeySpecifier'           -> '*'        : 'wildcard'.
 'KeySpecifier'           -> 'wildcard' : 'wildcard'.
 % [127]    ArrowFunctionSpecifier     ::=      EQName | VarRef | ParenthesizedExpr
-'ArrowFunctionSpecifier' -> 'EQName' : '$1'.
+'ArrowFunctionSpecifier' -> 'EQName' : qname(func, '$1').
 'ArrowFunctionSpecifier' -> 'VarRef' : '$1'.
 'ArrowFunctionSpecifier' -> 'ParenthesizedExpr' : '$1'.
 % [128]    PrimaryExpr    ::=      Literal | VarRef | ParenthesizedExpr | ContextItemExpr | FunctionCall | 

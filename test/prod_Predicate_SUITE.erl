@@ -406,86 +406,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -497,11 +505,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -511,8 +520,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -522,8 +532,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -533,8 +544,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -544,8 +556,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -553,21 +566,22 @@ environment('array-and-map') ->
 ];
 environment('atomicns') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomicns.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomicns.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/Predicate.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/Predicate.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'filterexpressionhc1'(_Config) ->
    Qry = "(/works/employee[xs:integer(hours[1]) gt 20])",
-   Env = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee>
    <empnum>E1</empnum>
    <pnum>P1</pnum>
@@ -628,10 +642,10 @@ environment('atomicns') ->
    end.
 'filterexpressionhc4'(_Config) ->
    Qry = "(//empnum | (/))//employee[xs:integer(hours[1]) gt 20]",
-   Env = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee>
    <empnum>E1</empnum>
    <pnum>P1</pnum>
@@ -666,10 +680,10 @@ environment('atomicns') ->
    end.
 'filterexpressionhc5'(_Config) ->
    Qry = "(//employee[fn:last()])",
-   Env = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee>
    <empnum>E4</empnum>
    <pnum>P5</pnum>
@@ -2257,10 +2271,10 @@ environment('atomicns') ->
    end.
 'K-FilterExpr-95'(_Config) ->
    Qry = "/works/employee[@name=/works/employee[1]/@name]/@name/string()",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"Jane Doe 1\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2273,10 +2287,10 @@ environment('atomicns') ->
    Qry = "
          document{<works>{/tail(works/employee)}</works>}/works/employee[@name=/works/employee[2]/@name]/@name/string()
          ",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"Jane Doe 3\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2410,10 +2424,10 @@ environment('atomicns') ->
    end.
 'predicates-1'(_Config) ->
    Qry = "(//integer[fn:true()])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2424,10 +2438,10 @@ environment('atomicns') ->
    end.
 'predicates-2'(_Config) ->
    Qry = "fn:count((//integer[fn:false()]))",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2446,10 +2460,10 @@ environment('atomicns') ->
    end.
 'predicates-3'(_Config) ->
    Qry = "(//integer[fn:not(fn:false())])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2460,10 +2474,10 @@ environment('atomicns') ->
    end.
 'predicates-4'(_Config) ->
    Qry = "(//integer[fn:true() and fn:true()])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2474,10 +2488,10 @@ environment('atomicns') ->
    end.
 'predicates-5'(_Config) ->
    Qry = "(//integer[fn:true() or fn:true()])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2488,10 +2502,10 @@ environment('atomicns') ->
    end.
 'predicates-6'(_Config) ->
    Qry = "fn:count((//integer[fn:false() and fn:false()]))",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2510,10 +2524,10 @@ environment('atomicns') ->
    end.
 'predicates-7'(_Config) ->
    Qry = "fn:count((//integer[fn:false() or fn:false()]))",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2532,10 +2546,10 @@ environment('atomicns') ->
    end.
 'predicates-8'(_Config) ->
    Qry = "(/root/string[xs:string(.) = \"A String Function\"])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string>A String Function</string>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2546,10 +2560,10 @@ environment('atomicns') ->
    end.
 'predicates-9'(_Config) ->
    Qry = "(/root/integer[xs:integer(.) = 12678967543233])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2560,10 +2574,10 @@ environment('atomicns') ->
    end.
 'predicates-10'(_Config) ->
    Qry = "(/root/decimal[xs:decimal(.) = 12678967.543233])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<decimal attr=\"12678967.543233\">12678967.543233</decimal>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2574,10 +2588,10 @@ environment('atomicns') ->
    end.
 'predicates-11'(_Config) ->
    Qry = "(/root/float[xs:float(.) = xs:float(1267.43233E12)])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<float>1267.43233E12</float>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2588,10 +2602,10 @@ environment('atomicns') ->
    end.
 'predicates-12'(_Config) ->
    Qry = "(/root/double[xs:double(.) = 1267.43233E12])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<double>1267.43233E12</double>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2602,10 +2616,10 @@ environment('atomicns') ->
    end.
 'predicates-13'(_Config) ->
    Qry = "(/root/boolean[xs:boolean(.) = fn:true()])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<boolean>true</boolean>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2616,10 +2630,10 @@ environment('atomicns') ->
    end.
 'predicates-14'(_Config) ->
    Qry = "(/root/date[xs:date(.) = xs:date(\"2000-01-01+05:00\")])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<date>2000-01-01+05:00</date>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2630,10 +2644,10 @@ environment('atomicns') ->
    end.
 'predicates-17'(_Config) ->
    Qry = "(/works/employee[@name=\"Jane Doe 11\"])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 11\" gender=\"female\">
    <empnum>E4</empnum>
    <pnum>P2</pnum>
@@ -2648,10 +2662,10 @@ environment('atomicns') ->
    end.
 'predicates-18'(_Config) ->
    Qry = "(/works//day[xs:string(.) ne \"Monday\"])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<day>Tuesday</day>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2662,10 +2676,10 @@ environment('atomicns') ->
    end.
 'predicates-19'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) lt 13])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>12</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2676,10 +2690,10 @@ environment('atomicns') ->
    end.
 'predicates-20'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) le 12])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>12</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2690,10 +2704,10 @@ environment('atomicns') ->
    end.
 'predicates-21'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) gt 79])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2704,10 +2718,10 @@ environment('atomicns') ->
    end.
 'predicates-22'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) ge 80])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2718,10 +2732,10 @@ environment('atomicns') ->
    end.
 'predicates-23'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) = 12])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>12</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2732,10 +2746,10 @@ environment('atomicns') ->
    end.
 'predicates-24'(_Config) ->
    Qry = "(/works[1]//employee[empnum != \"E1\" and empnum != \"E4\"])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 7\" gender=\"female\">
    <empnum>E2</empnum>
    <pnum>P1</pnum>
@@ -2762,10 +2776,10 @@ environment('atomicns') ->
    end.
 'predicates-25'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) < 13])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>12</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2776,10 +2790,10 @@ environment('atomicns') ->
    end.
 'predicates-26'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) <= 12])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>12</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2790,10 +2804,10 @@ environment('atomicns') ->
    end.
 'predicates-27'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) > 79])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2804,10 +2818,10 @@ environment('atomicns') ->
    end.
 'predicates-28'(_Config) ->
    Qry = "(/works//hours[xs:integer(.) >= 80])",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2831,10 +2845,10 @@ environment('atomicns') ->
    end.
 'predicates-30'(_Config) ->
    Qry = "for $x in /works/employee[fn:position() lt 5][fn:position() mod 2 eq 1] return (fn:data($x/empnum), fn:data($x/pnum))",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "E1 P1 E1 P3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2845,10 +2859,10 @@ environment('atomicns') ->
    end.
 'predicates-31'(_Config) ->
    Qry = "for $x in /works/employee[fn:position() mod 2 eq 1][fn:position() lt 5] return (fn:data($x/empnum), fn:data($x/pnum))",
-   Env = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "E1 P1 E1 P3 E1 P5 E2 P1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2876,10 +2890,10 @@ environment('atomicns') ->
    end.
 'predicatesns-1'(_Config) ->
    Qry = "fn:count((//integer[fn:true()]))",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2890,10 +2904,10 @@ environment('atomicns') ->
    end.
 'predicatesns-2'(_Config) ->
    Qry = "fn:count((//integer[fn:false()]))",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2912,10 +2926,10 @@ environment('atomicns') ->
    end.
 'predicatesns-3'(_Config) ->
    Qry = "(//integer[fn:not(fn:false())])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2926,10 +2940,10 @@ environment('atomicns') ->
    end.
 'predicatesns-4'(_Config) ->
    Qry = "(//integer[fn:true() and fn:true()])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2940,10 +2954,10 @@ environment('atomicns') ->
    end.
 'predicatesns-5'(_Config) ->
    Qry = "(//integer[fn:true() or fn:true()])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2954,10 +2968,10 @@ environment('atomicns') ->
    end.
 'predicatesns-6'(_Config) ->
    Qry = "fn:count((//integer[fn:false() and fn:false()]))",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2976,10 +2990,10 @@ environment('atomicns') ->
    end.
 'predicatesns-7'(_Config) ->
    Qry = "fn:count((//integer[fn:false() or fn:false()]))",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2998,10 +3012,10 @@ environment('atomicns') ->
    end.
 'predicatesns-8'(_Config) ->
    Qry = "(/root/string[xs:string(.) = \"A String Function\"])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string>A String Function</string>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3012,10 +3026,10 @@ environment('atomicns') ->
    end.
 'predicatesns-9'(_Config) ->
    Qry = "(/root/integer[xs:integer(.) = 12678967543233])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<integer>12678967543233</integer>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3026,10 +3040,10 @@ environment('atomicns') ->
    end.
 'predicatesns-10'(_Config) ->
    Qry = "(/root/decimal[(xs:decimal(.) = 12678967.543233)])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<decimal attr=\"12678967.543233\">12678967.543233</decimal>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3040,10 +3054,10 @@ environment('atomicns') ->
    end.
 'predicatesns-11'(_Config) ->
    Qry = "(/root/float[xs:float(.) = xs:float(1267.43233E12)])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<float>1267.43233E12</float>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3054,10 +3068,10 @@ environment('atomicns') ->
    end.
 'predicatesns-12'(_Config) ->
    Qry = "(/root/double[xs:double(.) = 1267.43233E12])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<double>1267.43233E12</double>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3068,10 +3082,10 @@ environment('atomicns') ->
    end.
 'predicatesns-13'(_Config) ->
    Qry = "(/root/boolean[xs:boolean(.) = fn:true()])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<boolean>true</boolean>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3082,10 +3096,10 @@ environment('atomicns') ->
    end.
 'predicatesns-14'(_Config) ->
    Qry = "(/root/date[xs:date(.) = xs:date(\"2000-01-01+05:00\")])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<date>2000-01-01+05:00</date>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

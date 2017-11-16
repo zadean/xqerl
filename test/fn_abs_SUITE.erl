@@ -377,11 +377,12 @@ all() -> [
    'cbcl-abs-001'].
 environment('e0') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e0.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e0.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -391,108 +392,118 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('e1') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e1.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e1.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('e-1') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e-1.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs/e-1.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/abs.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -504,11 +515,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -518,8 +530,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -529,8 +542,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -540,8 +554,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -551,8 +566,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -560,10 +576,10 @@ environment('array-and-map') ->
 ].
 'fn-absint1args-1'(_Config) ->
    Qry = "fn:abs(xs:int(\"-2147483648\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2147483648") of 
       true -> {comment, "Equal"};
@@ -582,10 +598,10 @@ environment('array-and-map') ->
    end.
 'fn-absint1args-2'(_Config) ->
    Qry = "fn:abs(xs:int(\"-1873914410\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1873914410") of 
       true -> {comment, "Equal"};
@@ -604,10 +620,10 @@ environment('array-and-map') ->
    end.
 'fn-absint1args-3'(_Config) ->
    Qry = "fn:abs(xs:int(\"2147483647\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2147483647") of 
       true -> {comment, "Equal"};
@@ -626,10 +642,10 @@ environment('array-and-map') ->
    end.
 'fn-absintg1args-1'(_Config) ->
    Qry = "fn:abs(xs:integer(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -648,10 +664,10 @@ environment('array-and-map') ->
    end.
 'fn-absintg1args-2'(_Config) ->
    Qry = "fn:abs(xs:integer(\"830993497117024304\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"830993497117024304") of 
       true -> {comment, "Equal"};
@@ -670,10 +686,10 @@ environment('array-and-map') ->
    end.
 'fn-absintg1args-3'(_Config) ->
    Qry = "fn:abs(xs:integer(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -692,10 +708,10 @@ environment('array-and-map') ->
    end.
 'fn-absdec1args-1'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -714,10 +730,10 @@ environment('array-and-map') ->
    end.
 'fn-absdec1args-2'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"617375191608514839\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"617375191608514839") of 
       true -> {comment, "Equal"};
@@ -736,10 +752,10 @@ environment('array-and-map') ->
    end.
 'fn-absdec1args-3'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -758,10 +774,10 @@ environment('array-and-map') ->
    end.
 'fn-absdbl1args-1'(_Config) ->
    Qry = "fn:abs(xs:double(\"-1.7976931348623157E308\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -780,10 +796,10 @@ environment('array-and-map') ->
    end.
 'fn-absdbl1args-2'(_Config) ->
    Qry = "fn:abs(xs:double(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
@@ -802,10 +818,10 @@ environment('array-and-map') ->
    end.
 'fn-absdbl1args-3'(_Config) ->
    Qry = "fn:abs(xs:double(\"1.7976931348623157E308\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -824,10 +840,10 @@ environment('array-and-map') ->
    end.
 'fn-absflt1args-1'(_Config) ->
    Qry = "fn:abs(xs:float(\"-3.4028235E38\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(3.4028235E38)") of 
       true -> {comment, "Equal"};
@@ -846,10 +862,10 @@ environment('array-and-map') ->
    end.
 'fn-absflt1args-2'(_Config) ->
    Qry = "fn:abs(xs:float(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
@@ -868,10 +884,10 @@ environment('array-and-map') ->
    end.
 'fn-absflt1args-3'(_Config) ->
    Qry = "fn:abs(xs:float(\"3.4028235E38\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(3.4028235E38)") of 
       true -> {comment, "Equal"};
@@ -890,10 +906,10 @@ environment('array-and-map') ->
    end.
 'fn-abslng1args-1'(_Config) ->
    Qry = "fn:abs(xs:long(\"-92233720368547758\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
@@ -912,10 +928,10 @@ environment('array-and-map') ->
    end.
 'fn-abslng1args-2'(_Config) ->
    Qry = "fn:abs(xs:long(\"-47175562203048468\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"47175562203048468") of 
       true -> {comment, "Equal"};
@@ -934,10 +950,10 @@ environment('array-and-map') ->
    end.
 'fn-abslng1args-3'(_Config) ->
    Qry = "fn:abs(xs:long(\"92233720368547758\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
@@ -956,10 +972,10 @@ environment('array-and-map') ->
    end.
 'fn-absusht1args-1'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -978,10 +994,10 @@ environment('array-and-map') ->
    end.
 'fn-absusht1args-2'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"44633\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"44633") of 
       true -> {comment, "Equal"};
@@ -1000,10 +1016,10 @@ environment('array-and-map') ->
    end.
 'fn-absusht1args-3'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"65535\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"65535") of 
       true -> {comment, "Equal"};
@@ -1022,10 +1038,10 @@ environment('array-and-map') ->
    end.
 'fn-absnint1args-1'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1044,10 +1060,10 @@ environment('array-and-map') ->
    end.
 'fn-absnint1args-2'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"-297014075999096793\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"297014075999096793") of 
       true -> {comment, "Equal"};
@@ -1066,10 +1082,10 @@ environment('array-and-map') ->
    end.
 'fn-absnint1args-3'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"-1\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1088,10 +1104,10 @@ environment('array-and-map') ->
    end.
 'fn-abspint1args-1'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"1\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1110,10 +1126,10 @@ environment('array-and-map') ->
    end.
 'fn-abspint1args-2'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"52704602390610033\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"52704602390610033") of 
       true -> {comment, "Equal"};
@@ -1132,10 +1148,10 @@ environment('array-and-map') ->
    end.
 'fn-abspint1args-3'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1154,10 +1170,10 @@ environment('array-and-map') ->
    end.
 'fn-absulng1args-1'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1176,10 +1192,10 @@ environment('array-and-map') ->
    end.
 'fn-absulng1args-2'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"130747108607674654\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"130747108607674654") of 
       true -> {comment, "Equal"};
@@ -1198,10 +1214,10 @@ environment('array-and-map') ->
    end.
 'fn-absulng1args-3'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"184467440737095516\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"184467440737095516") of 
       true -> {comment, "Equal"};
@@ -1220,10 +1236,10 @@ environment('array-and-map') ->
    end.
 'fn-absnpi1args-1'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"-999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1242,10 +1258,10 @@ environment('array-and-map') ->
    end.
 'fn-absnpi1args-2'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"-475688437271870490\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"475688437271870490") of 
       true -> {comment, "Equal"};
@@ -1264,10 +1280,10 @@ environment('array-and-map') ->
    end.
 'fn-absnpi1args-3'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1286,10 +1302,10 @@ environment('array-and-map') ->
    end.
 'fn-absnni1args-1'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1308,10 +1324,10 @@ environment('array-and-map') ->
    end.
 'fn-absnni1args-2'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"303884545991464527\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"303884545991464527") of 
       true -> {comment, "Equal"};
@@ -1330,10 +1346,10 @@ environment('array-and-map') ->
    end.
 'fn-absnni1args-3'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"999999999999999999\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1352,10 +1368,10 @@ environment('array-and-map') ->
    end.
 'fn-abssht1args-1'(_Config) ->
    Qry = "fn:abs(xs:short(\"-32768\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"32768") of 
       true -> {comment, "Equal"};
@@ -1374,10 +1390,10 @@ environment('array-and-map') ->
    end.
 'fn-abssht1args-2'(_Config) ->
    Qry = "fn:abs(xs:short(\"-5324\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"5324") of 
       true -> {comment, "Equal"};
@@ -1396,10 +1412,10 @@ environment('array-and-map') ->
    end.
 'fn-abssht1args-3'(_Config) ->
    Qry = "fn:abs(xs:short(\"32767\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"32767") of 
       true -> {comment, "Equal"};
@@ -1418,10 +1434,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-001'(_Config) ->
    Qry = "fn:abs(xs:double(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1440,10 +1456,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-002'(_Config) ->
    Qry = "fn:abs(xs:double(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -1462,10 +1478,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-003'(_Config) ->
    Qry = "fn:abs(xs:double(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -1484,10 +1500,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-004'(_Config) ->
    Qry = "fn:abs(xs:double(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -1506,10 +1522,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-005'(_Config) ->
    Qry = "fn:abs(xs:double(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -1528,10 +1544,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-006'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1550,10 +1566,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-007'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1572,10 +1588,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-008'(_Config) ->
    Qry = "fn:abs(xs:float(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1594,10 +1610,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-009'(_Config) ->
    Qry = "fn:abs(xs:float(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -1616,10 +1632,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-010'(_Config) ->
    Qry = "fn:abs(xs:float(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -1638,10 +1654,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-011'(_Config) ->
    Qry = "fn:abs(xs:float(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -1660,10 +1676,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-012'(_Config) ->
    Qry = "fn:abs(xs:float(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -1682,10 +1698,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-013'(_Config) ->
    Qry = "fn:abs(xs:int(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1704,10 +1720,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-014'(_Config) ->
    Qry = "fn:abs(xs:int(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1726,10 +1742,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-015'(_Config) ->
    Qry = "fn:abs(xs:integer(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1748,10 +1764,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-016'(_Config) ->
    Qry = "fn:abs(xs:integer(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1770,10 +1786,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-017'(_Config) ->
    Qry = "fn:abs(xs:long(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1792,10 +1808,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-018'(_Config) ->
    Qry = "fn:abs(xs:long(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1814,10 +1830,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-019'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1836,10 +1852,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-020'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1858,10 +1874,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-021'(_Config) ->
    Qry = "fn:abs(xs:short(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1880,10 +1896,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-022'(_Config) ->
    Qry = "fn:abs(xs:short(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1902,10 +1918,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-023'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1924,10 +1940,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-024'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1946,10 +1962,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-025'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1960,10 +1976,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-026'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1974,10 +1990,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-027'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1988,10 +2004,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-028'(_Config) ->
    Qry = "fn:abs(xs:decimal(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2002,10 +2018,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-029'(_Config) ->
    Qry = "fn:abs(xs:int(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2016,10 +2032,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-030'(_Config) ->
    Qry = "fn:abs(xs:int(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2030,10 +2046,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-031'(_Config) ->
    Qry = "fn:abs(xs:int(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2044,10 +2060,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-032'(_Config) ->
    Qry = "fn:abs(xs:int(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2058,10 +2074,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-033'(_Config) ->
    Qry = "fn:abs(xs:integer(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2072,10 +2088,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-034'(_Config) ->
    Qry = "fn:abs(xs:integer(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2086,10 +2102,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-035'(_Config) ->
    Qry = "fn:abs(xs:integer(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2100,10 +2116,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-036'(_Config) ->
    Qry = "fn:abs(xs:integer(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2114,10 +2130,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-037'(_Config) ->
    Qry = "fn:abs(xs:long(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2128,10 +2144,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-038'(_Config) ->
    Qry = "fn:abs(xs:long(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2142,10 +2158,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-039'(_Config) ->
    Qry = "fn:abs(xs:long(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2156,10 +2172,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-040'(_Config) ->
    Qry = "fn:abs(xs:long(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2170,10 +2186,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-041'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2184,10 +2200,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-042'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2198,10 +2214,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-043'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"2\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2212,10 +2228,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-044'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2226,10 +2242,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-045'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2240,10 +2256,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-046'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2254,10 +2270,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-047'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2268,10 +2284,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-048'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"-2\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2282,10 +2298,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-049'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2296,10 +2312,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-050'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2310,10 +2326,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-051'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2324,10 +2340,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-052'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2338,10 +2354,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-053'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"2\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2352,10 +2368,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-054'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2366,10 +2382,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-055'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2380,10 +2396,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-056'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2394,10 +2410,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-057'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2408,10 +2424,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-058'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2422,10 +2438,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-059'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"-0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2436,10 +2452,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-060'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"-2\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2450,10 +2466,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-061'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2464,10 +2480,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-062'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2478,10 +2494,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-063'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2492,10 +2508,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-064'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2506,10 +2522,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-065'(_Config) ->
    Qry = "fn:abs(xs:short(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2520,10 +2536,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-066'(_Config) ->
    Qry = "fn:abs(xs:short(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2534,10 +2550,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-067'(_Config) ->
    Qry = "fn:abs(xs:short(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2548,10 +2564,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-068'(_Config) ->
    Qry = "fn:abs(xs:short(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2562,10 +2578,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-069'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2576,10 +2592,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-070'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2590,10 +2606,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-071'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2604,10 +2620,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-072'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2618,10 +2634,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-073'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2632,10 +2648,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-074'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2646,10 +2662,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-075'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"-NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2660,10 +2676,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-076'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(\"NaN\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2674,10 +2690,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-077'(_Config) ->
    Qry = "fn:abs(xs:string(\"1\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2688,10 +2704,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-078'(_Config) ->
    Qry = "fn:abs(xs:string(\"hello\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2702,10 +2718,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-079'(_Config) ->
    Qry = "fn:abs(xs:boolean(\"1\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2716,10 +2732,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-080'(_Config) ->
    Qry = "fn:abs(xs:boolean(\"0\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2730,10 +2746,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-081'(_Config) ->
    Qry = "fn:abs(xs:boolean(fn:true()))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2744,10 +2760,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-082'(_Config) ->
    Qry = "fn:abs(xs:boolean(fn:false()))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2758,10 +2774,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-083'(_Config) ->
    Qry = "fn:abs(xs:date(\"2002-10-09\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2772,10 +2788,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-084'(_Config) ->
    Qry = "fn:abs(xs:time(\"13:20:00-05:00\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2786,10 +2802,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-085'(_Config) ->
    Qry = "fn:abs(xs:dateTime(\"2002-10-10T12:00:00-05:00\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2800,10 +2816,10 @@ environment('array-and-map') ->
    end.
 'fn-abs-more-args-086'(_Config) ->
    Qry = "fn:abs(xs:anyURI(\"www.examples.org\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2814,10 +2830,10 @@ environment('array-and-map') ->
    end.
 'K-ABSFunc-1'(_Config) ->
    Qry = "abs()",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2828,10 +2844,10 @@ environment('array-and-map') ->
    end.
 'K-ABSFunc-2'(_Config) ->
    Qry = "abs(1, 2)",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2842,10 +2858,10 @@ environment('array-and-map') ->
    end.
 'K-ABSFunc-3'(_Config) ->
    Qry = "empty(abs(()))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2856,10 +2872,10 @@ environment('array-and-map') ->
    end.
 'K-ABSFunc-4'(_Config) ->
    Qry = "abs(10.5) eq 10.5",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2870,10 +2886,10 @@ environment('array-and-map') ->
    end.
 'K-ABSFunc-5'(_Config) ->
    Qry = "abs(-10.5) eq 10.5",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2884,10 +2900,10 @@ environment('array-and-map') ->
    end.
 'K-ABSFunc-6'(_Config) ->
    Qry = "abs(\"a string\")",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2898,10 +2914,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-1'(_Config) ->
    Qry = "fn:abs(xs:integer(-4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2912,10 +2928,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-2'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(-4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2926,10 +2942,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-3'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(-4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2940,10 +2956,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-4'(_Config) ->
    Qry = "fn:abs(xs:long(-4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2954,10 +2970,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-5'(_Config) ->
    Qry = "fn:abs(xs:int(-4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2968,10 +2984,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-6'(_Config) ->
    Qry = "fn:abs(xs:short(-4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2982,10 +2998,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-7'(_Config) ->
    Qry = "fn:abs(xs:byte(-4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2996,10 +3012,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-8'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3010,10 +3026,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-9'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3024,10 +3040,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-10'(_Config) ->
    Qry = "fn:abs(xs:unsignedInt(4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3038,10 +3054,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-11'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3052,10 +3068,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-12'(_Config) ->
    Qry = "fn:abs(xs:unsignedByte(4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3066,10 +3082,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-13'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(4))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3080,10 +3096,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-14'(_Config) ->
    Qry = "fn:abs(xs:integer(-4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3094,10 +3110,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-15'(_Config) ->
    Qry = "fn:abs(xs:nonPositiveInteger(-4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3108,10 +3124,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-16'(_Config) ->
    Qry = "fn:abs(xs:negativeInteger(-4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3122,10 +3138,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-17'(_Config) ->
    Qry = "fn:abs(xs:long(-4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3136,10 +3152,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-18'(_Config) ->
    Qry = "fn:abs(xs:int(-4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3150,10 +3166,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-19'(_Config) ->
    Qry = "fn:abs(xs:short(-4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3164,10 +3180,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-20'(_Config) ->
    Qry = "fn:abs(xs:byte(-4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3178,10 +3194,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-21'(_Config) ->
    Qry = "fn:abs(xs:nonNegativeInteger(4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3192,10 +3208,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-22'(_Config) ->
    Qry = "fn:abs(xs:unsignedLong(4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3206,10 +3222,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-23'(_Config) ->
    Qry = "fn:abs(xs:unsignedInt(4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3220,10 +3236,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-24'(_Config) ->
    Qry = "fn:abs(xs:unsignedShort(4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3234,10 +3250,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-25'(_Config) ->
    Qry = "fn:abs(xs:unsignedByte(4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3248,10 +3264,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-26'(_Config) ->
    Qry = "fn:abs(xs:positiveInteger(4)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3262,10 +3278,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-27'(_Config) ->
    Qry = "fn:abs(1.1) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3276,10 +3292,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-28'(_Config) ->
    Qry = "fn:abs(1e1) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3290,10 +3306,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-29'(_Config) ->
    Qry = "fn:abs(xs:float(1)) instance of xs:double",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3304,10 +3320,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-30'(_Config) ->
    Qry = "fn:abs(xs:float(1)) instance of xs:double",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3318,10 +3334,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-31'(_Config) ->
    Qry = "fn:abs(1.1) instance of xs:decimal",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3332,10 +3348,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-32'(_Config) ->
    Qry = "fn:abs(1e1) instance of xs:double",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3346,10 +3362,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-33'(_Config) ->
    Qry = "fn:abs(xs:float(1)) instance of xs:float",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3360,10 +3376,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-34'(_Config) ->
    Qry = "fn:abs(xs:integer(1)) instance of xs:integer",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3374,10 +3390,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-35'(_Config) ->
    Qry = "abs(xs:unsignedShort(.)) instance of xs:unsignedShort",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3396,10 +3412,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-36'(_Config) ->
    Qry = "abs(xs:unsignedLong(.)) instance of xs:unsignedLong",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3418,10 +3434,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-37'(_Config) ->
    Qry = "abs(xs:unsignedInt(.)) instance of xs:unsignedInt",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3440,10 +3456,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-38'(_Config) ->
    Qry = "abs(xs:unsignedByte(.)) instance of xs:unsignedByte",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3462,10 +3478,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-39'(_Config) ->
    Qry = "abs(xs:positiveInteger(.)) instance of xs:positiveInteger",
-   Env = xqerl_test:handle_environment(environment('e1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3485,10 +3501,10 @@ environment('array-and-map') ->
 'K2-ABSFunc-40'(_Config) ->
    Qry = "abs(xs:nonPositiveInteger(.)) instance of
          xs:nonPositiveInteger",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3508,10 +3524,10 @@ environment('array-and-map') ->
 'K2-ABSFunc-41'(_Config) ->
    Qry = "abs(xs:nonNegativeInteger(.)) instance of
          xs:nonNegativeInteger",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3530,10 +3546,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-42'(_Config) ->
    Qry = "abs(xs:negativeInteger(.)) instance of xs:negativeInteger",
-   Env = xqerl_test:handle_environment(environment('e-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e-1')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3552,10 +3568,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-43'(_Config) ->
    Qry = "abs(xs:long(.)) instance of xs:long",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3574,10 +3590,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-44'(_Config) ->
    Qry = "abs(xs:int(.)) instance of xs:int",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3596,10 +3612,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-45'(_Config) ->
    Qry = "abs(xs:short(.)) instance of xs:short",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3618,10 +3634,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-46'(_Config) ->
    Qry = "abs(xs:byte(.)) instance of xs:byte",
-   Env = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3640,10 +3656,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-47'(_Config) ->
    Qry = "fn:abs(xs:float(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3654,10 +3670,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-48'(_Config) ->
    Qry = "fn:abs(xs:double(\"-INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3668,10 +3684,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-49'(_Config) ->
    Qry = "fn:abs(xs:float(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3682,10 +3698,10 @@ environment('array-and-map') ->
    end.
 'K2-ABSFunc-50'(_Config) ->
    Qry = "fn:abs(xs:double(\"INF\"))",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3700,10 +3716,10 @@ environment('array-and-map') ->
            else if ((abs($x)) instance of xs:decimal) then \"decimal\" 
            else if ((abs($x)) instance of xs:float) then \"float\"
            else if ((abs($x)) instance of xs:double) then \"double\" else error(), \" \")",
-   Env = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"integer decimal float double\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 

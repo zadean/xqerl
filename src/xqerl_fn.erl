@@ -1384,16 +1384,17 @@ val_reverse([{_,V}|T], Acc) ->
 %% Retrieves a document using a URI supplied as an xs:string, and returns the corresponding document node. 
 % TODO check for valid Uri else FODC0005
 'doc'(_Ctx,[]) -> [];
-'doc'(_Ctx,Arg1) -> 
-   %?dbg("Arg1",Arg1),
+'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
    try
-      Uri = xqerl_types:value(Arg1),
-      case catch xqerl_context:get_available_document(Uri) of
+      Uri = xqerl_types:value(Uri0),
+      BaseUri = xqerl_types:value(BaseUri0),
+      {_, ResVal} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+      case catch xqerl_context:get_available_document(ResVal) of
                {'EXIT',_} ->
-                  Doc = xqerl_doc:read_http(Uri),
+                  Doc = xqerl_doc:read_http(ResVal),
                   ?seq:singleton(xqerl_doc:doc_to_node(Doc));
                _ ->
-                  ?seq:singleton(#xqNode{frag_id = Uri, identity = 1})
+                  ?seq:singleton(#xqNode{frag_id = ResVal, identity = 1})
             end
    catch 
       _:#xqError{} = E ->
@@ -2107,8 +2108,13 @@ unmask_static_mod_ns(T) -> T.
    end.
 
 %% Reads an external resource containing JSON, and returns the result of parsing the resource as JSON. 
-'json-doc'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'json-doc'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+'json-doc'(Ctx,Arg1) -> 
+   'json-doc'(Ctx,Arg1,#{}).
+'json-doc'(Ctx,Arg1,Arg2) -> 
+   'parse-json'(
+     Ctx,
+     'unparsed-text'(Ctx,Arg1),
+     Arg2).
 
 %% Parses a string supplied in the form of a JSON text, returning the results in the form of an XML document node. 
 'json-to-xml'(Ctx,Arg1) -> 

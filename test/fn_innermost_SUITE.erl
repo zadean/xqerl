@@ -130,86 +130,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -221,11 +229,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -235,8 +244,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -246,8 +256,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -257,8 +268,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -268,8 +280,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -277,13 +290,14 @@ environment('array-and-map') ->
 ];
 environment('innermost') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost/innermost.xml",".",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost/doc1.xml","$doc1",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost/doc2.xml","$doc2",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost/innermost.xml",".",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost/doc1.xml","$doc1",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost/doc2.xml","$doc2",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/innermost.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -385,10 +399,10 @@ environment('innermost') ->
                                                  fn:current-time() ))
                                then .
                                else 1 )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -404,10 +418,10 @@ environment('innermost') ->
               fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then 1
                                  else . ) )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -422,10 +436,10 @@ environment('innermost') ->
                                                  fn:current-time() ))
                                then .
                                else fn:dateTime#2 )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -441,10 +455,10 @@ environment('innermost') ->
               fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then fn:dateTime#2
                                  else . ) )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -455,10 +469,10 @@ environment('innermost') ->
    end.
 'fn-innermost-012'(_Config) ->
    Qry = "fn:innermost( / )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -469,10 +483,10 @@ environment('innermost') ->
    end.
 'fn-innermost-013'(_Config) ->
    Qry = "fn:deep-equal(fn:innermost( / ), / )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -483,10 +497,10 @@ environment('innermost') ->
    end.
 'fn-innermost-014'(_Config) ->
    Qry = "fn:innermost( //*/@* )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -497,10 +511,10 @@ environment('innermost') ->
    end.
 'fn-innermost-015'(_Config) ->
    Qry = "fn:innermost( //*/@* ) ! string()",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0a','00a','000a','01a','010a','02a','020a')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -511,10 +525,10 @@ environment('innermost') ->
    end.
 'fn-innermost-016'(_Config) ->
    Qry = "deep-equal(fn:innermost( //*/@* ), //*/@*)",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -537,10 +551,10 @@ environment('innermost') ->
    {skip,"XP30+"}.
 'fn-innermost-023'(_Config) ->
    Qry = "fn:innermost( //processing-instruction() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -551,10 +565,10 @@ environment('innermost') ->
    end.
 'fn-innermost-024'(_Config) ->
    Qry = "fn:innermost( //processing-instruction() ) ! local-name() ",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('level-0','level-00','level-000','level-01','level-010','level-02','level-020')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -566,10 +580,10 @@ environment('innermost') ->
 'fn-innermost-025'(_Config) ->
    Qry = "fn:deep-equal( fn:innermost( //processing-instruction() ), 
                           //processing-instruction() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -580,10 +594,10 @@ environment('innermost') ->
    end.
 'fn-innermost-026'(_Config) ->
    Qry = "fn:innermost( //comment() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -594,10 +608,10 @@ environment('innermost') ->
    end.
 'fn-innermost-027'(_Config) ->
    Qry = "fn:innermost( //comment() ) ! string()",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0c','00c','000c','01c','010c','02c','020c')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -609,10 +623,10 @@ environment('innermost') ->
 'fn-innermost-028'(_Config) ->
    Qry = "fn:deep-equal( fn:innermost( //comment() ),
                            //comment() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -623,10 +637,10 @@ environment('innermost') ->
    end.
 'fn-innermost-029'(_Config) ->
    Qry = "fn:innermost( //text() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "14") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -637,10 +651,10 @@ environment('innermost') ->
    end.
 'fn-innermost-030'(_Config) ->
    Qry = "fn:innermost( //text() ) ! string() ",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0t',' ',
                          '00t',' ','000t',' ',
                          '01t',' ','010t',' ',
@@ -655,10 +669,10 @@ environment('innermost') ->
 'fn-innermost-031'(_Config) ->
    Qry = "fn:deep-equal( fn:innermost( //text() ),
                            //text() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -669,10 +683,10 @@ environment('innermost') ->
    end.
 'fn-innermost-032'(_Config) ->
    Qry = "fn:innermost( //* )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "14") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -683,10 +697,10 @@ environment('innermost') ->
    end.
 'fn-innermost-033'(_Config) ->
    Qry = "fn:innermost( //* ) ! local-name(.)",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('empty-level-0',   'non-empty-level-0',
                          'empty-level-00',  'non-empty-level-00',
                          'empty-level-000', 'non-empty-level-000',
@@ -705,10 +719,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( //* ), 
                            let $nodes := //*
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -719,10 +733,10 @@ environment('innermost') ->
    end.
 'fn-innermost-035'(_Config) ->
    Qry = "fn:innermost( //node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "35") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -735,10 +749,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( //node() ), 
                            let $nodes := //node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -749,10 +763,10 @@ environment('innermost') ->
    end.
 'fn-innermost-037'(_Config) ->
    Qry = "fn:innermost( /root/node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "8") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -765,10 +779,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/node() ), 
                            let $nodes := /root/node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -779,10 +793,10 @@ environment('innermost') ->
    end.
 'fn-innermost-039'(_Config) ->
    Qry = "fn:innermost( /root/descendant::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "35") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -795,10 +809,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/descendant::node() ), 
                            let $nodes := /root/descendant::node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -809,10 +823,10 @@ environment('innermost') ->
    end.
 'fn-innermost-041'(_Config) ->
    Qry = "fn:innermost( /root/level[1]/level[1]/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -825,10 +839,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[1]/ancestor::node() ), 
                            let $nodes := /root/level[1]/level[1]/ancestor::node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -839,10 +853,10 @@ environment('innermost') ->
    end.
 'fn-innermost-043'(_Config) ->
    Qry = "fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "5") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -855,10 +869,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -869,10 +883,10 @@ environment('innermost') ->
    end.
 'fn-innermost-045'(_Config) ->
    Qry = "fn:innermost( /root/level[1]/level[last()]/preceding::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "10") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -885,10 +899,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding::node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -899,10 +913,10 @@ environment('innermost') ->
    end.
 'fn-innermost-047'(_Config) ->
    Qry = "fn:innermost( /root/level[1]/following-sibling::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "2") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -915,10 +929,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/following-sibling::node() ), 
                            let $nodes := /root/level[1]/following-sibling::node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -929,10 +943,10 @@ environment('innermost') ->
    end.
 'fn-innermost-049'(_Config) ->
    Qry = "fn:innermost( /root/level[1]/level[1]/following::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "20") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -945,10 +959,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[1]/following::node() ), 
                            let $nodes := /root/level[1]/level[1]/following::node()
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -959,10 +973,10 @@ environment('innermost') ->
    end.
 'fn-innermost-051'(_Config) ->
    Qry = "fn:innermost( /root/node()/.. )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -975,10 +989,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( /root/node()/.. ), 
                            let $nodes := /root/node()/..
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -989,10 +1003,10 @@ environment('innermost') ->
    end.
 'fn-innermost-053'(_Config) ->
    Qry = "fn:innermost( ($doc1//node(), $doc2//node()) )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "26") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -1005,10 +1019,10 @@ environment('innermost') ->
    Qry = "fn:deep-equal( fn:innermost( ($doc1//node(), $doc2//node()) ),
                            let $nodes := ($doc1//node(), $doc2//node())
                            return $nodes except $nodes/ancestor::node() )",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1020,10 +1034,10 @@ environment('innermost') ->
 'fn-innermost-055'(_Config) ->
    Qry = "let $in := for $x in //* order by local-name($x) return $x
             return deep-equal(fn:innermost($in)/local-name(), fn:innermost(//*)/local-name())",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1035,10 +1049,10 @@ environment('innermost') ->
 'fn-innermost-056'(_Config) ->
    Qry = "let $in := for $x in //* order by local-name($x) return $x
             return deep-equal(fn:innermost(($in, $in))/local-name(), fn:innermost(//*)/local-name())",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1049,10 +1063,10 @@ environment('innermost') ->
    end.
 'fn-innermost-057'(_Config) ->
    Qry = "innermost(//rubbish)",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1063,10 +1077,10 @@ environment('innermost') ->
    end.
 'fn-innermost-058'(_Config) ->
    Qry = "innermost(//*) except //*",
-   Env = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 

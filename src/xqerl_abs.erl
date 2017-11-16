@@ -341,7 +341,7 @@ body_function(ContextMap, Body) ->
    {VarSetAbs,LastCtx} = lists:mapfoldl(VarSetFun, 'Ctx0', lists:reverse(maps:get(variables, ContextMap))),
    [{function,?L,main,1,[{clause,?L,[{var,?L,'Options'}],[],
                           [{match,?L,{var,?L,'Ctx0'},
-                            {call,?L,{remote,?L,{atom,?L,maps},{atom,?L,merge}},
+                            {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,merge}},
                              [{call,?L,{atom,?L,init},[]},
                                {var,?L,'Options'}]}}] ++
                             if LastCtx == 'Ctx0' ->
@@ -1167,96 +1167,96 @@ expr_do(Ctx, {LU, Val}) when LU == array_lookup;
    {call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
     [{var,?L,CtxVar},MapExpr,ValExp]};
 
-expr_do(Ctx, {postfix, InlineFunc, [{arguments,Args}|TArgs]}) ->
-   PlaceHolders = lists:flatmap(fun(Arg) ->
-                                      if Arg == '?' ->
-                                            VarName = next_var_name(),
-                                            [{var,?L,VarName}];
-                                         true ->
-                                             []
-                                      end
-                                end, Args),
-   {NewArgs, _Empty} = lists:mapfoldl(fun(Arg,PHs) ->
-                                            if Arg == '?' ->
-                                                  {hd(PHs),tl(PHs)};
-                                               true ->
-                                                  {Arg,PHs}
-                                            end
-                                      end, PlaceHolders, Args),
-   ArgAbs = lists:map(fun({var,_,_} = Arg) ->
-                            Arg;
-                         (Arg) ->
-                            expr_do(Ctx, Arg)                      
-                      end, NewArgs),
-   CtxVar = get_context_variable_name(Ctx),
-   NextVar = next_var_name(),
-   TempVar = next_var_name(),
-   Fx = expr_do(Ctx, InlineFunc),% this is a fun
-   %?dbg("Fx",Fx),
-   Block = {block,?L, 
-       [{match,?L,{var,?L,NextVar},
-         {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,value}},[
-          Fx% this is a fun, or map or array...
-         ]}},
-         {'case',?L,{var,?L,NextVar},[
-           {clause,?L,
-            [{tuple,?L,[{atom,?L,xqFunction},{var,?L,'_'},{var,?L,'_'},{var,?L,'_'},
-                        {var,?L,'_'},{var,?L,'_'},{var,?L,'_'},{var,?L,TempVar}]}],
-            [],
-            [{call,?L,{var,?L,TempVar},[{var,?L,CtxVar}|ArgAbs]}
-            ]}
-          ,
-           {clause,?L,
-            [{var,?L,'_'}],
-            [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_map}},[{var,?L,NextVar}]}]],
-            [{call,?L,{remote,?L,{atom,?L,xqerl_map},{atom,?L,get}},
-              [{var,?L,CtxVar},{var,?L,NextVar},if ArgAbs == [] ->
-                                                      {nil,?L};
-                                                   true ->
-                                                      hd(ArgAbs)
-                                                end]}
-            ]}
-          ,
-           {clause,?L,
-            [{match,?L,{tuple,?L,[{atom,?L,array},{var,?L,'_'}]},{var,?L,TempVar}}],
-            [],
-            [{call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,get}},
-              [{var,?L,CtxVar},{var,?L,TempVar},if ArgAbs == [] ->
-                                                      {nil,?L};
-                                                   true ->
-                                                      hd(ArgAbs)
-                                                end]}
-            ]}
-          ,
-           {clause,?L,
-            [{var,?L,'_'}],
-            [],
-            [{'case',?L,{op,?L,'==', {var,?L,NextVar}, {'fun',?L,{function,{atom,?L,xqerl_fn},{atom,?L,concat},{integer,?L,2}}}},
-              [{clause,?L,
-                [{atom,?L,true}],
-                [],
-                [{call,?L,{var,?L,NextVar},
-                  [{var,?L,CtxVar},
-                   from_list_to_seq(ArgAbs)
-                  ]}]},
-               {clause,?L,
-                [{var,?L,'_'}],
-                [],
-                [{call,?L,{var,?L,NextVar},[{var,?L,CtxVar}|ArgAbs]}]}]
-               }]}
-          ] % clauses   expr_do(Ctx, RetExpr)
-         }        
-        ]
-       },
-   if TArgs == [] ->
-         Block;
-      true ->
-         TempVar1 = next_var_name(),
-         {block,?L,
-          [{match,?L,{var,?L,TempVar1}, Block},
-           expr_do(Ctx, {postfix, {variable,TempVar1}, TArgs})
-           ]}
-   end;
+%% expr_do(Ctx, {postfix, InlineFunc, [{arguments,Args}|TArgs]}) ->
+%%    PlaceHolders = lists:flatmap(fun(Arg) ->
+%%                                       if Arg == '?' ->
+%%                                             VarName = next_var_name(),
+%%                                             [{var,?L,VarName}];
+%%                                          true ->
+%%                                              []
+%%                                       end
+%%                                 end, Args),
+%%    {NewArgs, _Empty} = lists:mapfoldl(fun(Arg,PHs) ->
+%%                                             if Arg == '?' ->
+%%                                                   {hd(PHs),tl(PHs)};
+%%                                                true ->
+%%                                                   {Arg,PHs}
+%%                                             end
+%%                                       end, PlaceHolders, Args),
+%%    ArgAbs = lists:map(fun({var,_,_} = Arg) ->
+%%                             Arg;
+%%                          (Arg) ->
+%%                             expr_do(Ctx, Arg)                      
+%%                       end, NewArgs),
+%%    CtxVar = get_context_variable_name(Ctx),
+%%    NextVar = next_var_name(),
+%%    TempVar = next_var_name(),
+%%    Fx = expr_do(Ctx, InlineFunc),% this is a fun
+%%    %?dbg("Fx",Fx),
+%%    Block = {block,?L, 
+%%        [{match,?L,{var,?L,NextVar},
+%%          {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,value}},[
+%%           Fx% this is a fun, or map or array...
+%%          ]}},
+%%          {'case',?L,{var,?L,NextVar},[
+%%            {clause,?L,
+%%             [{tuple,?L,[{atom,?L,xqFunction},{var,?L,'_'},{var,?L,'_'},{var,?L,'_'},
+%%                         {var,?L,'_'},{var,?L,'_'},{var,?L,'_'},{var,?L,TempVar}]}],
+%%             [],
+%%             [{call,?L,{var,?L,TempVar},[{var,?L,CtxVar}|ArgAbs]}
+%%             ]}
+%%           ,
+%%            {clause,?L,
+%%             [{var,?L,'_'}],
+%%             [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_map}},[{var,?L,NextVar}]}]],
+%%             [{call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+%%               [{var,?L,CtxVar},{var,?L,NextVar},if ArgAbs == [] ->
+%%                                                       {nil,?L};
+%%                                                    true ->
+%%                                                       hd(ArgAbs)
+%%                                                 end]}
+%%             ]}
+%%           ,
+%%            {clause,?L,
+%%             [{match,?L,{tuple,?L,[{atom,?L,array},{var,?L,'_'}]},{var,?L,TempVar}}],
+%%             [],
+%%             [{call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+%%               [{var,?L,CtxVar},{var,?L,TempVar},if ArgAbs == [] ->
+%%                                                       {nil,?L};
+%%                                                    true ->
+%%                                                       hd(ArgAbs)
+%%                                                 end]}
+%%             ]}
+%%           ,
+%%            {clause,?L,
+%%             [{var,?L,'_'}],
+%%             [],
+%%             [{'case',?L,{op,?L,'==', {var,?L,NextVar}, {'fun',?L,{function,{atom,?L,xqerl_fn},{atom,?L,concat},{integer,?L,2}}}},
+%%               [{clause,?L,
+%%                 [{atom,?L,true}],
+%%                 [],
+%%                 [{call,?L,{var,?L,NextVar},
+%%                   [{var,?L,CtxVar},
+%%                    from_list_to_seq(ArgAbs)
+%%                   ]}]},
+%%                {clause,?L,
+%%                 [{var,?L,'_'}],
+%%                 [],
+%%                 [{call,?L,{var,?L,NextVar},[{var,?L,CtxVar}|ArgAbs]}]}]
+%%                }]}
+%%           ] % clauses   expr_do(Ctx, RetExpr)
+%%          }        
+%%         ]
+%%        },
+%%    if TArgs == [] ->
+%%          Block;
+%%       true ->
+%%          TempVar1 = next_var_name(),
+%%          {block,?L,
+%%           [{match,?L,{var,?L,TempVar1}, Block},
+%%            expr_do(Ctx, {postfix, {variable,TempVar1}, TArgs})
+%%            ]}
+%%    end;
 
 expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
    Source = expr_do(Ctx, Base),
@@ -1363,16 +1363,53 @@ expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
                                  %{call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,map}},
                                  % [{var,?L,CtxVar},                                      
                                   if PlaceHolders == [] ->
-                                    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,map}},
-                                     [{var,?L,CtxVar},
-                                     {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar2}|PlaceHolders],[], 
-                                                          [{match,?L,{var,?L,NextVar2},
-                                                            {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,value}},[
-                                                             Abs % this is a fun
-                                                            ]}},
-                                                           {call,?L,{var,?L,NextVar2},[{var,?L,NextCtxVar2}|ArgAbs]}
-                                                           ]
-                                                          }]}}, Abs
+                                    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,val_map}},
+                                     [%{var,?L,CtxVar},
+                                      {'fun',?L,{clauses,
+                                                [{clause,?L,
+                                                  [{var,?L,NextVar2}],
+                                                  [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_map}},[{var,?L,NextVar2}]}]],
+                                                  [{call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+                                                    [{var,?L,CtxVar},{var,?L,NextVar2},
+                                                     if ArgAbs == [] -> {nil,?L};
+                                                        true -> hd(ArgAbs)
+                                                     end]}]},
+                                                 {clause,?L,
+                                                  [{cons,?L,{var,?L,NextVar2},{nil,?L}}],
+                                                  [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_map}},[{var,?L,NextVar2}]}]],
+                                                  [{call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+                                                    [{var,?L,CtxVar},{var,?L,NextVar2},
+                                                     if ArgAbs == [] -> {nil,?L};
+                                                        true -> hd(ArgAbs)
+                                                     end]}]},
+                                                 {clause,?L,
+                                                  [{match,?L,{tuple,?L,[{atom,?L,array},{var,?L,'_'}]},{var,?L,NextVar2}}],
+                                                  [],
+                                                  [{call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+                                                    [{var,?L,CtxVar},{var,?L,NextVar2},
+                                                     if ArgAbs == [] -> {nil,?L};
+                                                        true -> hd(ArgAbs)
+                                                     end]}]},
+                                                 {clause,?L,
+                                                  [{var,?L,NextCtxVar2}|PlaceHolders],
+                                                  [],
+                                                  [{match,?L,{var,?L,NextVar2},
+                                                    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,value}},[Abs]}},
+                                                   % check if its a function or not
+                                                   {'if',?L,
+                                                    [{clause,?L,[],
+                                                      [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_function}},[{var,?L,NextVar2}]}]],
+                                                      [{call,?L,{var,?L,NextVar2},[{var,?L,CtxVar}|ArgAbs]}]},
+                                                     {clause,?L,[],
+                                                      [[{atom,?L,true}]],
+                                                      [{call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},
+                                                       [{var,?L,CtxVar},{var,?L,NextVar2},
+                                                        if ArgAbs == [] -> {nil,?L};
+                                                           true -> hd(ArgAbs)
+                                                        end]}]
+                                                      }]}
+                                                     ]}
+                                                ]}}, Abs
                                      ]};
                                   true ->
                                      {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar2}|PlaceHolders],[], 

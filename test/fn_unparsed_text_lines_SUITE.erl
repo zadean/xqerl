@@ -124,86 +124,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -215,11 +223,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -229,8 +238,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -240,8 +250,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -251,8 +262,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -262,8 +274,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -274,27 +287,28 @@ environment('unparsed-text-lines') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text-lines.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text-lines.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16le-bom.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16be-bom.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-iso-8859-1.txt","http://www.w3.org/fots/unparsed-text/text-plain-iso-8859-1.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-iso-8859-1.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-invalid.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-xml-utf-8.xml","http://www.w3.org/fots/unparsed-text/text-xml-utf-8.xml"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-xml-utf-16.xml","http://www.w3.org/fots/unparsed-text/text-xml-utf-16.xml"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-xml-iso-8859-1.xml","http://www.w3.org/fots/unparsed-text/text-xml-iso-8859-1.xml"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/non-xml-character.txt","http://www.w3.org/fots/unparsed-text/non-xml-character.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/invalid-xml.xml","http://www.w3.org/fots/unparsed-text/invalid-xml.xml"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/unknown-encoding.txt","http://www.w3.org/fots/unparsed-text/unknown-encoding.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-lines.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom-lines-2.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines-2.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom-lines-3.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines-3.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16le-bom-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom-lines.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16be-bom-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16le-bom.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16be-bom.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-iso-8859-1.txt","http://www.w3.org/fots/unparsed-text/text-plain-iso-8859-1.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-iso-8859-1.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-invalid.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-xml-utf-8.xml","http://www.w3.org/fots/unparsed-text/text-xml-utf-8.xml"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-xml-utf-16.xml","http://www.w3.org/fots/unparsed-text/text-xml-utf-16.xml"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-xml-iso-8859-1.xml","http://www.w3.org/fots/unparsed-text/text-xml-iso-8859-1.xml"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/non-xml-character.txt","http://www.w3.org/fots/unparsed-text/non-xml-character.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/invalid-xml.xml","http://www.w3.org/fots/unparsed-text/invalid-xml.xml"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/unknown-encoding.txt","http://www.w3.org/fots/unparsed-text/unknown-encoding.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-lines.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom-lines-2.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines-2.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom-lines-3.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines-3.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8-bom-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16le-bom-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom-lines.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-16be-bom-lines.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt"}]},
 {modules, []}
 ];
 environment('unparsed-text-lines-with-base-uri') ->
@@ -304,8 +318,9 @@ environment('unparsed-text-lines-with-base-uri') ->
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
 {modules, []}
 ];
 environment('unparsed-text-lines-with-base-uri-2') ->
@@ -315,8 +330,9 @@ environment('unparsed-text-lines-with-base-uri-2') ->
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
 {modules, []}
 ].
 'fn-unparsed-text-lines-001'(_Config) ->
@@ -441,10 +457,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
                                                          fn:current-time() ))
               then \"utf-8\"
               else 1 )",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -647,11 +663,12 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-023'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"unparsed-text/text-plain-utf-8.txt\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -659,7 +676,7 @@ environment('unparsed-text-lines-with-base-uri-2') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -670,11 +687,12 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-024'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"unparsed-text/text-plain-utf-8.txt\", \"utf-8\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -682,7 +700,7 @@ environment('unparsed-text-lines-with-base-uri-2') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -693,11 +711,12 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-025'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"does-not-exist.txt\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -705,7 +724,7 @@ environment('unparsed-text-lines-with-base-uri-2') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -716,11 +735,12 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-026'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"does-not-exist.txt\", \"utf-8\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -728,7 +748,7 @@ environment('unparsed-text-lines-with-base-uri-2') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -739,10 +759,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-027'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"text-plain-utf-8.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -753,10 +773,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-028'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"text-plain-utf-8.txt\", \"utf-8\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -767,10 +787,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-029'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"C:\\file-might-exist.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -781,10 +801,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-030'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"C:\\file-might-exist.txt\", \"utf-8\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -795,10 +815,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-031'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -809,10 +829,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-032'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"\", \"utf-8\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri-2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri-2')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -823,11 +843,12 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-033'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/does-not-exists.txt"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -835,7 +856,7 @@ environment('unparsed-text-lines-with-base-uri-2') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -846,11 +867,12 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-034'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"\", \"utf-8\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/does-not-exists.txt"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -858,7 +880,7 @@ environment('unparsed-text-lines-with-base-uri-2') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -869,10 +891,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-035'(_Config) ->
    Qry = "(1, fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\"))[1]",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
@@ -891,10 +913,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-036'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\", \"123\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -905,10 +927,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-037'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/unknown-encoding.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
@@ -927,10 +949,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-038'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-invalid.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -941,10 +963,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-039'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/non-xml-character.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -955,10 +977,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-040'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/invalid-xml.xml\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"'<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world'") of 
       true -> {comment, "Deep equal"};
@@ -977,10 +999,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-041'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -991,10 +1013,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-042'(_Config) ->
    Qry = "fn:unparsed-text(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1005,10 +1027,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-043'(_Config) ->
    Qry = "fn:unparsed-text(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1019,10 +1041,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-044'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1033,10 +1055,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-045'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-iso-8859-1.txt\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -1055,10 +1077,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-046'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-xml-utf-8.xml\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"utf-8\"?><text>hello world</text>") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1069,10 +1091,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-047'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-xml-utf-16.xml\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world</text>") of 
       true -> {comment, "String correct"};
@@ -1091,10 +1113,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-048'(_Config) ->
    Qry = "fn:unparsed-text(\"http://www.w3.org/fots/unparsed-text/text-xml-iso-8859-1.xml\")",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><text>hello world</text>") of 
       true -> {comment, "String correct"};
@@ -1113,10 +1135,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-049'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-lines.txt\") ! string-length(.)",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1127,10 +1149,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-050'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines.txt\") ! string-length(.)",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1141,10 +1163,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-051'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom-lines.txt\") ! string-length(.)",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
@@ -1163,10 +1185,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-052'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt\") ! string-length(.)",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
@@ -1185,10 +1207,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-053'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines-2.txt\") ! string-length(.)",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(50, 0, 0, 50, 0, 0)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1199,10 +1221,10 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-054'(_Config) ->
    Qry = "fn:unparsed-text-lines(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines-3.txt\") ! string-length(.)",
-   Env = xqerl_test:handle_environment(environment('unparsed-text-lines')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(46, 0, 20)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1213,19 +1235,20 @@ environment('unparsed-text-lines-with-base-uri-2') ->
    end.
 'fn-unparsed-text-lines-055'(_Config) ->
    Qry = "fn:unparsed-text-lines($href)",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
-{params, [{"href","xs:string","'unparsed-text/text-plain-utf-8.txt'"}]},
+{vars, [{"href","xs:string","'unparsed-text/text-plain-utf-8.txt'"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

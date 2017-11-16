@@ -157,6 +157,8 @@ string_value(N) when is_record(N, xqElementNode);
 string_value(#xqNode{} = Nd) ->
    string_value(cast_as(Nd, 'xs:string'));
 
+string_value(Fun) when is_function(Fun) ->
+   ?err('XPTY0004');
 string_value(Seq) ->
    %?dbg("Seq",Seq),
    case Seq of 
@@ -225,8 +227,10 @@ cast_as_seq(#xqFunction{} = Fn, #xqSeqType{type = #xqFunTest{kind = function}}) 
    Fn;
 cast_as_seq(#array{} = Array, #xqSeqType{type = #xqFunTest{kind = array}}) ->
    Array;
-cast_as_seq(Map, #xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
+cast_as_seq(Map, #xqSeqType{type = #xqFunTest{kind = map}}) ->
    Map;
+%% cast_as_seq(Map, #xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
+%%    Map;
 cast_as_seq(Av, #xqSeqType{type = 'xs:boolean'}) ->
    cast_as(Av, 'xs:boolean');
 cast_as_seq(#xqAtomicValue{type = 'xs:anyURI'} = Av, #xqSeqType{type = 'xs:string'}) ->
@@ -861,7 +865,7 @@ check_return_type(Type, ReturnType) -> true.
 %% #xqKindTest{kind = 'document-node',    test = Test} where test is undefined | element-test, schema-element-test
 instance_of1(Node, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind = element, name = #qname{} = Q1}}) ->
    %?dbg("Node",Node),
-   case xqerl_node:get_node_type(Node) of
+   case catch xqerl_node:get_node_type(Node) of
       'document-node' ->
          %?dbg("Node",ok),
          case xqerl_node:get_node_children(Node) of
@@ -876,7 +880,7 @@ instance_of1(Node, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind =
          false
    end;
 instance_of1(Node, #xqKindTest{kind = 'document-node'}) ->
-   case xqerl_node:get_node_type(Node) of
+   case catch xqerl_node:get_node_type(Node) of
       'document-node' ->
          true;
       _ ->
@@ -884,7 +888,7 @@ instance_of1(Node, #xqKindTest{kind = 'document-node'}) ->
    end;
 %% #xqKindTest{kind = 'element',          name = undefined | WQName, type = undefined | #xqSeqType{type = BType, occur = one|zero_or_one}.
 instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1, type = #xqSeqType{type = Type}}) ->
-   case xqerl_node:get_node_type(Node) of
+   case catch xqerl_node:get_node_type(Node) of
       element ->
          Q2 = xqerl_node:get_node_name(Node),
          case has_name(Q2, Q1) of
@@ -899,7 +903,7 @@ instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1, type = #xqS
          false
    end;
 instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1}) ->
-   case xqerl_node:get_node_type(Node) of
+   case catch xqerl_node:get_node_type(Node) of
       element ->
          Q2 = xqerl_node:get_node_name(Node),
          has_name(Q2, Q1);
@@ -908,7 +912,7 @@ instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1}) ->
    end;
 instance_of1(Node, #xqKindTest{kind = element}) ->
    %?dbg("Node",Node),
-   case xqerl_node:get_node_type(Node) of
+   case catch xqerl_node:get_node_type(Node) of
       element ->
          true;
       _ ->
@@ -916,7 +920,7 @@ instance_of1(Node, #xqKindTest{kind = element}) ->
    end;
 %% #xqKindTest{kind = 'attribute',        name = undefined | WQName, type = undefined | #xqSeqType{type = BType, occur = one}}.
 instance_of1(Node, #xqKindTest{kind = attribute, name = #qname{} = Q1}) ->
-   case xqerl_node:get_node_type(Node) of
+   case catch xqerl_node:get_node_type(Node) of
       attribute ->
          Q2 = xqerl_node:get_node_name(Node),
          has_name(Q2, Q1);
@@ -925,7 +929,7 @@ instance_of1(Node, #xqKindTest{kind = attribute, name = #qname{} = Q1}) ->
    end;
 instance_of1(Node, #xqKindTest{kind = attribute}) ->
    %?dbg("Node",Node),
-   case xqerl_node:get_node_type(Node) of
+   case catch xqerl_node:get_node_type(Node) of
       attribute ->
          true;
       _ ->

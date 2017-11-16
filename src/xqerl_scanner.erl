@@ -1411,6 +1411,8 @@ scan_token(Str = "is" ++ T, A) ->
          case lookback(A) of
             '/' ->
                scan_name(Str);
+            '{' ->
+               scan_name(Str);
             'function' ->
                scan_name(Str);
             O when O == '+';

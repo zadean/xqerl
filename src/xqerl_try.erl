@@ -24,7 +24,7 @@
 
 init() ->
     xqerl_context:init(),
-    #{'base-uri' => {xqAtomicValue, 'xs:anyURI', "c:/git/zadean/xqerl/lib"},
+    #{'base-uri' => {xqAtomicValue, 'xs:anyURI', "/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"},
       'construction-mode' => preserve,
       'copy-namespaces' => {'no-preserve', 'no-inherit'},
       'default-collation' =>
@@ -1228,596 +1228,178 @@ init() ->
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 
-'var$^9'(Ctx0) ->
-    xqerl_fn:max(Ctx0,
-       xqerl_types:cast_as_seq(erlang:get('var$^7'),
-                {xqSeqType, 'xs:anyAtomicType', zero_or_many})).
-
-'var$^8'(Ctx0) ->
-    xqerl_fn:min(Ctx0,
-       xqerl_types:cast_as_seq(erlang:get('var$^7'),
-                {xqSeqType, 'xs:anyAtomicType', zero_or_many})).
-
-'var$^7'(Ctx0) ->
-    begin
-      xqerl_seq3:node_map(Ctx0,
-           fun (Ctx__2) ->
-              xqerl_xs:xs_date(Ctx__2,
-                     xqerl_types:cast_as_seq(xqerl_node:atomize_nodes(xqerl_context:get_context_item(Ctx__2)),
-                              {xqSeqType, 'xs:anyAtomicType', zero_or_one}))
-           end,
-           xqerl_step:forward(Ctx0, erlang:get('var$^2'), child,
-                    {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny",
-                     "TIME_PERIOD"},
-                    []))
-    end.
-
-'var$^6'(Ctx0) ->
-    xqerl_fn:avg(Ctx0,
-       xqerl_types:cast_as_seq(erlang:get('var$^3'),
-                {xqSeqType, 'xs:anyAtomicType', zero_or_many})).
-
-'var$^5'(Ctx0) ->
-    xqerl_fn:max(Ctx0,
-       xqerl_types:cast_as_seq(erlang:get('var$^3'),
-                {xqSeqType, 'xs:anyAtomicType', zero_or_many})).
-
-'var$^4'(Ctx0) ->
-    xqerl_fn:min(Ctx0,
-       xqerl_types:cast_as_seq(erlang:get('var$^3'),
-                {xqSeqType, 'xs:anyAtomicType', zero_or_many})).
-
-'var$^3'(Ctx0) ->
-    begin
-      xqerl_seq3:node_map(Ctx0,
-           fun (Ctx__2) ->
-              xqerl_xs:xs_decimal(Ctx__2,
-                        xqerl_types:cast_as_seq(xqerl_node:atomize_nodes(xqerl_context:get_context_item(Ctx__2)),
-                                 {xqSeqType, 'xs:anyAtomicType', zero_or_one}))
-           end,
-           xqerl_step:forward(Ctx0, erlang:get('var$^2'), child,
-                    {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny",
-                     "OBS_VALUE"},
-                    []))
-    end.
-
-'var$^2'(Ctx0) ->
-    xqerl_step:forward(Ctx0,
-             xqerl_step:forward(Ctx0,
-                 xqerl_step:forward(Ctx0,
-                          xqerl_step:forward(Ctx0, erlang:get('var$^1'), child,
-                              {qname,
-                               "http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message",
-                               "msg", "UtilityData"},
-                              []),
-                          child,
-                          {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny",
-                           "DataSet"},
-                          []),
-                 child,
-                 {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny", "Series"},
-                 []),
-             child,
-             {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny", "Obs"},
-             []).
-
-'var$^1'(Ctx0) -> xqerl_context:get_context_item(Ctx0).
-
-'fx$^22'(Ctx0, Param__var_17) ->
-    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
-    xqerl_seq3:flatten(begin VarTup__1 = let__20(Ctx__1, {Param__var_17}) end).
-
-'fx$^27'(Ctx0, Param__var_23, Param__var_24) ->
-    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
-    xqerl_seq3:flatten(begin
-          VarTup__6 = let__25(Ctx__1, {Param__var_23, Param__var_24})
-             end).
-
-'fx$^16'(Ctx0, Param__var_15) ->
-    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
-    xqerl_seq3:flatten([xqerl_xs:xs_decimal(Ctx__1,
-                   xqerl_operators:multiply(xqerl_operators:divide(xqerl_operators:subtract(xqerl_xs:xs_date(Ctx__1,
-                                                      xqerl_types:cast_as_seq(xqerl_node:atomize_nodes(xqerl_step:forward(Ctx__1,
-                                                                             Param__var_15,
-                                                                             child,
-                                                                             {qname,
-                                                                              "http://www.newyorkfed.org/xml/schemas/FX/utility",
-                                                                              "frbny",
-                                                                              "TIME_PERIOD"},
-                                                                             [])),
-                                                               {xqSeqType,
-                                                                'xs:anyAtomicType',
-                                                                zero_or_one})),
-                                               erlang:get('var$^8')),
-                                     xqerl_operators:subtract(erlang:get('var$^9'),
-                                               erlang:get('var$^8'))),
-                             {xqAtomicValue, 'xs:integer', 1000})),
-         xqerl_xs:xs_decimal(Ctx__1,
-                   xqerl_operators:subtract({xqAtomicValue, 'xs:integer', 1000},
-                             xqerl_operators:multiply(xqerl_operators:divide(xqerl_operators:subtract(xqerl_step:forward(Ctx__1,
-                                                             Param__var_15,
-                                                             child,
-                                                             {qname,
-                                                              "http://www.newyorkfed.org/xml/schemas/FX/utility",
-                                                              "frbny",
-                                                              "OBS_VALUE"},
-                                                             []),
-                                                         erlang:get('var$^4')),
-                                               xqerl_operators:subtract(erlang:get('var$^5'),
-                                                         erlang:get('var$^4'))),
-                                       {xqAtomicValue, 'xs:integer', 1000})))]).
-
-'fx$^14'(Ctx0, Param__var_10, Param__var_11) ->
-    Ctx__1 = xqerl_context:set_empty_context_item(Ctx0),
-    xqerl_seq3:flatten(begin
-          VarTup__8 = let__12(Ctx__1, {Param__var_10, Param__var_11})
-             end).
-
 main(Options) ->
     Ctx0 = maps:merge(init(), Options),
     Ctx = begin
-       Local__1 = xqerl_fn:doc(Ctx0,
-                {xqAtomicValue, 'xs:string',
-                 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/Demos/GBP"
-                 "Noon.xml"}),
-       xqerl_context:set_context_item(Ctx0, Local__1, 1,
-                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__1)})
+       Local__3 = maps:get(context_item, Options, []),
+       xqerl_context:set_context_item(Ctx0, Local__3, 1,
+                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__3)})
      end,
-    erlang:put('var$^1', 'var$^1'(Ctx)),
-    erlang:put('var$^2', 'var$^2'(Ctx)),
-    erlang:put('var$^3', 'var$^3'(Ctx)),
-    erlang:put('var$^4', 'var$^4'(Ctx)),
-    erlang:put('var$^5', 'var$^5'(Ctx)),
-    erlang:put('var$^6', 'var$^6'(Ctx)),
-    erlang:put('var$^7', 'var$^7'(Ctx)),
-    erlang:put('var$^8', 'var$^8'(Ctx)),
-    erlang:put('var$^9', 'var$^9'(Ctx)),
     begin
-      Query = xqerl_node:new_fragment(Ctx,
-                  {xqElementNode, undefined, undefined,
-                   {qname, "http://www.w3.org/2000/svg", [], "svg"}, undefined, [],
-                   {xqAttributeNode, undefined, {qname, 'no-namespace', [], "viewBox"}, undefined,
-               undefined, undefined, undefined,
-               [{xqAtomicValue, 'xs:string', "-50,-50,1100,1100"}]},
-                   [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                   undefined,
-                   [{xqCommentNode, undefined, undefined, [], undefined,
-                xqerl_context:get_context_item({xqAtomicValue, 'xs:string', " Border "})},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "path"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "d"}, undefined,
-                  undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "M0,0L1000,0L1000,1000L0,1000L0,0"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "stroke-width"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "1"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "fill"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "none"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "stroke"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "black"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined, []},
-               {xqCommentNode, undefined, undefined, [], undefined,
-                xqerl_context:get_context_item({xqAtomicValue, 'xs:string', " Title "})},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "middle"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "-20"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "500"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined,
-                [xqerl_fn:string(Ctx,
-                       xqerl_step:forward(Ctx,
-                                xqerl_step:forward(Ctx,
-                                    xqerl_step:forward(Ctx,
-                                             erlang:get('var$^1'),
-                                             child,
-                                             {qname,
-                                              "http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message",
-                                              "msg", "UtilityData"},
-                                             []),
-                                    child,
-                                    {qname,
-                                     "http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message",
-                                     "msg", "Header"},
-                                    []),
-                                child,
-                                {qname,
-                                 "http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message",
-                                 "msg", "Name"},
-                                []))]},
-               {xqCommentNode, undefined, undefined, [], undefined,
-                xqerl_context:get_context_item({xqAtomicValue, 'xs:string', " Generator "})},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "middle"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "1040"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "500"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined,
-                {xqTextNode, undefined, undefined, false, undefined,
-                 {xqAtomicValue, 'xs:string', "Generated by XQSharp"}}},
-               {xqCommentNode, undefined, undefined, [], undefined,
-                xqerl_context:get_context_item({xqAtomicValue, 'xs:string', " Ranges "})},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "middle"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "1020"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "0"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined, [erlang:get('var$^8')]},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "middle"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "1020"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "1000"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined, [erlang:get('var$^9')]},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "end"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "0"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "0"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined, [erlang:get('var$^5')]},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "end"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "1000"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "0"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined, [erlang:get('var$^4')]},
-               {xqCommentNode, undefined, undefined, [], undefined,
-                xqerl_context:get_context_item({xqAtomicValue, 'xs:string', " Graph "})},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "path"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "stroke-width"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "1"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "fill"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "none"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "stroke"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "red"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined,
-                [{xqAttributeNode, undefined, {xqAtomicValue, 'xs:string', "d"}, undefined,
-                  undefined, undefined, undefined,
-                  [[[xqerl_seq3:flatten(begin VarTup__10 = for__29(Ctx, new) end)]]]}]},
-               {xqCommentNode, undefined, undefined, [], undefined,
-                xqerl_context:get_context_item({xqAtomicValue, 'xs:string', " Average "})},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "path"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "d"}, undefined,
-                  undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "M0,"},
-                   [xqerl_fn:'round-half-to-even'(Ctx,
-                              xqerl_types:cast_as_seq(xqerl_operators:multiply(xqerl_operators:divide(xqerl_operators:subtract(erlang:get('var$^5'),
-                                                                   erlang:get('var$^6')),
-                                                         xqerl_operators:subtract(erlang:get('var$^5'),
-                                                                   erlang:get('var$^4'))),
-                                                 {xqAtomicValue,
-                                                  'xs:integer',
-                                                  1000}),
-                                       {xqSeqType, 'xs:numeric', zero_or_one}),
-                              {xqAtomicValue, 'xs:integer', 4})],
-                   {xqAtomicValue, 'xs:string', "l1000,0"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "stroke-with"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "2"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "fill"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "none"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "stroke"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "blue"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined, []},
-               {xqElementNode, undefined, undefined,
-                {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-                [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                  undefined, undefined, undefined, undefined,
-                  [{xqAtomicValue, 'xs:string', "end"}]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                  undefined, undefined, undefined,
-                  [[xqerl_fn:'round-half-to-even'(Ctx,
-                              xqerl_types:cast_as_seq(xqerl_operators:multiply(xqerl_operators:divide(xqerl_operators:subtract(erlang:get('var$^5'),
-                                                                   erlang:get('var$^6')),
-                                                         xqerl_operators:subtract(erlang:get('var$^5'),
-                                                                   erlang:get('var$^4'))),
-                                                 {xqAtomicValue,
-                                                  'xs:integer',
-                                                  1000}),
-                                       {xqSeqType, 'xs:numeric', zero_or_one}),
-                              {xqAtomicValue, 'xs:integer', 4})]]},
-                 {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                  undefined, undefined, undefined, [{xqAtomicValue, 'xs:string', "0"}]}],
-                [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-                undefined,
-                {xqTextNode, undefined, undefined, false, undefined,
-                 {xqAtomicValue, 'xs:string', "Average"}}},
-               [xqerl_seq3:flatten(begin VarTup__12 = for__32(Ctx, new) end)]]}),
+      Query = xqerl_seq3:flatten(begin VarTup__1 = let__1(Ctx, new) end),
       xqerl_types:return_value(Query)
     end.
 
--compile({inline, {return__33, 2}}).
+-compile({inline, {return__2, 2}}).
 
-return__33(_, []) -> [];
-return__33(Ctx, List) when erlang:is_list(List) ->
-    [return__33(Ctx, T) || T <- List];
-return__33(Ctx, {XQ__var_32}) ->
-    'fx$^22'(Ctx, xqerl_xs:xs_positiveInteger(Ctx, XQ__var_32)).
+return__2(_, []) -> [];
+return__2(Ctx, List) when erlang:is_list(List) ->
+    [return__2(Ctx, T) || T <- List];
+return__2(Ctx, {XQ__var_1}) ->
+   ?dbg("XQ__var_1",XQ__var_1),
+    xqerl_seq3:val_map(
+     fun (Local__2) when erlang:is_map(Local__2) ->
+            xqerl_operators:lookup(Ctx, Local__2,
+                        xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                ([Local__1]) when erlang:is_map(Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                ({array, _} = Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                (Ctx__1) ->
+                               Local__1 = xqerl_types:value(XQ__var_1),
+                               if erlang:is_function(Local__1) ->
+                                 Local__1(Ctx,
+                                     {xqAtomicValue, 'xs:string',
+                                      "the cat sat on the mat"},
+                                     {xqAtomicValue, 'xs:string', "\\s+"});
+                                  true ->
+                                 xqerl_operators:lookup(Ctx, Local__1,
+                                              {xqAtomicValue, 'xs:string',
+                                          "the cat sat on the mat"})
+                               end
+                            end,
+                            XQ__var_1));
+            ([Local__2]) when erlang:is_map(Local__2) ->
+                xqerl_operators:lookup(Ctx, Local__2,
+                        xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                ([Local__1]) when erlang:is_map(Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                ({array, _} = Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                (Ctx__1) ->
+                               Local__1 = xqerl_types:value(XQ__var_1),
+                               if erlang:is_function(Local__1) ->
+                                 Local__1(Ctx,
+                                     {xqAtomicValue, 'xs:string',
+                                      "the cat sat on the mat"},
+                                     {xqAtomicValue, 'xs:string', "\\s+"});
+                                  true ->
+                                 xqerl_operators:lookup(Ctx, Local__1,
+                                              {xqAtomicValue, 'xs:string',
+                                          "the cat sat on the mat"})
+                               end
+                            end,
+                            XQ__var_1));
+            ({array, _} = Local__2) ->
+                xqerl_operators:lookup(Ctx, Local__2,
+                        xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                ([Local__1]) when erlang:is_map(Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                ({array, _} = Local__1) ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"});
+                                (Ctx__1) ->
+                               Local__1 = xqerl_types:value(XQ__var_1),
+                               if erlang:is_function(Local__1) ->
+                                 Local__1(Ctx,
+                                     {xqAtomicValue, 'xs:string',
+                                      "the cat sat on the mat"},
+                                     {xqAtomicValue, 'xs:string', "\\s+"});
+                                  true ->
+                                 xqerl_operators:lookup(Ctx, Local__1,
+                                              {xqAtomicValue, 'xs:string',
+                                          "the cat sat on the mat"})
+                               end
+                            end,
+                            XQ__var_1));
+            (Ctx__2) ->
+                Local__2 = xqerl_types:value([]),
+                if erlang:is_function(Local__2) ->
+                  Local__2(Ctx,
+                      xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
+                             xqerl_operators:lookup(Ctx, Local__1,
+                                     {xqAtomicValue, 'xs:string',
+                                      "the cat sat on the mat"});
+                              ([Local__1]) when erlang:is_map(Local__1) ->
+                             xqerl_operators:lookup(Ctx, Local__1,
+                                     {xqAtomicValue, 'xs:string',
+                                      "the cat sat on the mat"});
+                              ({array, _} = Local__1) ->
+                             xqerl_operators:lookup(Ctx, Local__1,
+                                     {xqAtomicValue, 'xs:string',
+                                      "the cat sat on the mat"});
+                              (Ctx__1) ->
+                             Local__1 = xqerl_types:value(XQ__var_1),
+                             if erlang:is_function(Local__1) ->
+                               Local__1(Ctx,
+                                   {xqAtomicValue, 'xs:string',
+                                    "the cat sat on the mat"},
+                                   {xqAtomicValue, 'xs:string', "\\s+"});
+                                true ->
+                               xqerl_operators:lookup(Ctx, Local__1,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"})
+                             end
+                          end,
+                          XQ__var_1));
+              true ->
+                  xqerl_operators:lookup(Ctx, Local__2,
+                          xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
+                                 xqerl_operators:lookup(Ctx, Local__1,
+                                              {xqAtomicValue, 'xs:string',
+                                          "the cat sat on the mat"});
+                                  ([Local__1]) when erlang:is_map(Local__1) ->
+                                 xqerl_operators:lookup(Ctx, Local__1,
+                                              {xqAtomicValue, 'xs:string',
+                                          "the cat sat on the mat"});
+                                  ({array, _} = Local__1) ->
+                                 xqerl_operators:lookup(Ctx, Local__1,
+                                              {xqAtomicValue, 'xs:string',
+                                          "the cat sat on the mat"});
+                                  (Ctx__1) ->
+                                 Local__1 = xqerl_types:value(XQ__var_1),
+                                 if erlang:is_function(Local__1) ->
+                                        Local__1(Ctx,
+                                       {xqAtomicValue, 'xs:string',
+                                        "the cat sat on the mat"},
+                                       {xqAtomicValue, 'xs:string',
+                                        "\\s+"});
+                                    true ->
+                                        xqerl_operators:lookup(Ctx, Local__1,
+                                                {xqAtomicValue,
+                                                 'xs:string',
+                                                 "the cat sat on the mat"})
+                                 end
+                              end,
+                              XQ__var_1))
+                end
+             end,
+             []).
 
-for__32(Ctx, new) ->
-    List = xqerl_seq3:flatten([{xqAtomicValue, 'xs:integer', 1},
-                {xqAtomicValue, 'xs:integer', 5}, {xqAtomicValue, 'xs:integer', 90},
-                {xqAtomicValue, 'xs:integer', 365}]),
-    if List == [] -> lists:flatten(for__32(Ctx, empty, []));
-       true -> lists:flatten(for__32(Ctx, List, []))
-    end;
-for__32(_, []) -> [];
-for__32(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([for__32(Ctx, T) || T <- List]);
-for__32(Ctx, _ = Stream) ->
-    List = xqerl_seq3:flatten([{xqAtomicValue, 'xs:integer', 1},
-                {xqAtomicValue, 'xs:integer', 5}, {xqAtomicValue, 'xs:integer', 90},
-                {xqAtomicValue, 'xs:integer', 365}]),
-    if List == [] -> lists:flatten(for__32(Ctx, empty, Stream));
-       true -> lists:flatten(for__32(Ctx, List, Stream))
-    end.
+-compile({inline, {let__1, 2}}).
 
-for__32(_, empty, _) -> [];
-for__32(_, [], _) -> [];
-for__32(Ctx, NoList, Stream) when not erlang:is_list(NoList) ->
-    for__32(Ctx, [NoList], Stream);
-for__32(Ctx, [XQ__var_32 | T], _) ->
-    [return__33(Ctx, {XQ__var_32}) | for__32(Ctx, T, [])].
-
--compile({inline, {return__31, 2}}).
-
-return__31(_, []) -> [];
-return__31(Ctx, List) when erlang:is_list(List) ->
-    [return__31(Ctx, T) || T <- List];
-return__31(Ctx, {XQ__var_29, XQ__var_28, XQ__var_30}) ->
-    xqerl_fn:concat(Ctx,
-          xqerl_seq3:flatten([case xqerl_seq3:singleton_value(xqerl_fn:boolean(Ctx,
-                                  xqerl_operators:general_compare('=', XQ__var_28,
-                                              {xqAtomicValue,
-                                               'xs:integer',
-                                               1})))
-                   of
-                 {xqAtomicValue, 'xs:boolean', true} -> {xqAtomicValue, 'xs:string', "M"};
-                 _ -> {xqAtomicValue, 'xs:string', "L"}
-               end,
-               xqerl_fn:'round-half-to-even'(Ctx,
-                              xqerl_seq3:position_filter(Ctx, {xqAtomicValue, 'xs:integer', 1},
-                                     XQ__var_30),
-                              {xqAtomicValue, 'xs:integer', 4}),
-               {xqAtomicValue, 'xs:string', ","},
-               xqerl_fn:'round-half-to-even'(Ctx,
-                              xqerl_seq3:position_filter(Ctx, {xqAtomicValue, 'xs:integer', 2},
-                                     XQ__var_30),
-                              {xqAtomicValue, 'xs:integer', 4})])).
-
--compile({inline, {let__30, 2}}).
-
-let__30(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([let__30(Ctx, T) || T <- List]);
-let__30(Ctx, {XQ__var_29, XQ__var_28}) ->
-    XQ__var_30 = xqerl_seq3:ensure_zero_or_more('fx$^16'(Ctx, XQ__var_29)),
-    return__31(Ctx, {XQ__var_29, XQ__var_28, XQ__var_30}).
-
-for__29(Ctx, new) ->
-    List = erlang:get('var$^2'),
-    if List == [] -> lists:flatten(for__29(Ctx, 0, empty, []));
-       true -> lists:flatten(for__29(Ctx, 0, List, []))
-    end;
-for__29(_, []) -> [];
-for__29(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([for__29(Ctx, T) || T <- List]);
-for__29(Ctx, _ = Stream) ->
-    List = erlang:get('var$^2'),
-    if List == [] -> lists:flatten(for__29(Ctx, 0, empty, Stream));
-       true -> lists:flatten(for__29(Ctx, 0, List, Stream))
-    end.
-
-for__29(_, _, empty, _) -> [];
-for__29(_, _, [], _) -> [];
-for__29(Ctx, Pos, NoList, Stream) when not erlang:is_list(NoList) ->
-    for__29(Ctx, Pos, [NoList], Stream);
-for__29(Ctx, Pos, [XQ__var_29 | T], _) ->
-    NewPos = Pos + 1,
-    XQ__var_28 = {xqAtomicValue, 'xs:integer', NewPos},
-    [let__30(Ctx, {XQ__var_29, XQ__var_28}) | for__29(Ctx, NewPos, T, [])].
-
--compile({inline, {return__13, 2}}).
-
-return__13(_, []) -> [];
-return__13(Ctx, List) when erlang:is_list(List) ->
-    [return__13(Ctx, T) || T <- List];
-return__13(Ctx, {Param__var_10, Param__var_11, XQ__var_12}) ->
-    xqerl_xs:xs_decimal(Ctx,
-         xqerl_operators:subtract(xqerl_step:forward(Ctx, Param__var_10, child,
-                            {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny",
-                             "OBS_VALUE"},
-                            []),
-                   XQ__var_12)).
-
--compile({inline, {let__12, 2}}).
-
-let__12(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([let__12(Ctx, T) || T <- List]);
-let__12(Ctx, {Param__var_10, Param__var_11}) ->
-    XQ__var_12 = xqerl_seq3:ensure_zero_or_more(xqerl_xs:xs_decimal(Ctx,
-                            xqerl_types:cast_as_seq(xqerl_node:atomize_nodes(xqerl_step:forward(Ctx,
-                                                   xqerl_step:forward(Ctx,
-                                                            Param__var_10,
-                                                            'following-sibling',
-                                                            {qname,
-                                                             "http://www.newyorkfed.org/xml/schemas/FX/utility",
-                                                             "frbny",
-                                                             "Obs"},
-                                                            [fun
-                                                               (Ctx__1) ->
-                                                              Param__var_11
-                                                             end]),
-                                                   child,
-                                                   {qname,
-                                                    "http://www.newyorkfed.org/xml/schemas/FX/utility",
-                                                    "frbny",
-                                                    "OBS_VALUE"},
-                                                   [])),
-                                     {xqSeqType, 'xs:anyAtomicType', zero_or_one}))),
-    return__13(Ctx, {Param__var_10, Param__var_11, XQ__var_12}).
-
--compile({inline, {return__26, 2}}).
-
-return__26(_, []) -> [];
-return__26(Ctx, List) when erlang:is_list(List) ->
-    [return__26(Ctx, T) || T <- List];
-return__26(Ctx, {Param__var_23, Param__var_24, XQ__var_25}) ->
-    xqerl_node:new_fragment(Ctx,
-             {xqElementNode, undefined, undefined,
-              {qname, "http://www.w3.org/2000/svg", [], "text"}, undefined, [],
-              [{xqAttributeNode, undefined, {qname, 'no-namespace', [], "title"}, undefined,
-                undefined, undefined, undefined,
-                [[xqerl_fn:concat(Ctx,
-                   xqerl_seq3:flatten([xqerl_types:cast_as_seq(xqerl_node:atomize_nodes(xqerl_step:forward(Ctx,
-                                                    Param__var_23,
-                                                    child,
-                                                    {qname,
-                                                     "http://www.newyorkfed.org/xml/schemas/FX/utility",
-                                                     "frbny",
-                                                     "TIME_PERIOD"},
-                                                    [])),
-                                      {xqSeqType, 'xs:anyAtomicType', zero_or_one}),
-                             {xqAtomicValue, 'xs:string', " - "},
-                             xqerl_types:cast_as_seq(xqerl_node:atomize_nodes(xqerl_step:forward(Ctx,
-                                                    Param__var_23,
-                                                    child,
-                                                    {qname,
-                                                     "http://www.newyorkfed.org/xml/schemas/FX/utility",
-                                                     "frbny",
-                                                     "OBS_VALUE"},
-                                                    [])),
-                                      {xqSeqType, 'xs:anyAtomicType',
-                                       zero_or_one})]))]]},
-               {xqAttributeNode, undefined, {qname, 'no-namespace', [], "text-anchor"},
-                undefined, undefined, undefined, undefined,
-                [{xqAtomicValue, 'xs:string', "end"}]},
-               {xqAttributeNode, undefined, {qname, 'no-namespace', [], "y"}, undefined,
-                undefined, undefined, undefined,
-                [[xqerl_fn:'round-half-to-even'(Ctx,
-                            xqerl_seq3:position_filter(Ctx, {xqAtomicValue, 'xs:integer', 2},
-                                   XQ__var_25),
-                            {xqAtomicValue, 'xs:integer', 4})]]},
-               {xqAttributeNode, undefined, {qname, 'no-namespace', [], "x"}, undefined,
-                undefined, undefined, undefined,
-                [[xqerl_fn:'round-half-to-even'(Ctx,
-                            xqerl_seq3:position_filter(Ctx, {xqAtomicValue, 'xs:integer', 1},
-                                   XQ__var_25),
-                            {xqAtomicValue, 'xs:integer', 4})]]}],
-              [{xqNamespace, "http://www.w3.org/2000/svg", []}], undefined, 'xs:anyType', [],
-              undefined, [Param__var_24]}).
-
--compile({inline, {let__25, 2}}).
-
-let__25(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([let__25(Ctx, T) || T <- List]);
-let__25(Ctx, {Param__var_23, Param__var_24}) ->
-    XQ__var_25 = xqerl_seq3:ensure_zero_or_more('fx$^16'(Ctx, Param__var_23)),
-    return__26(Ctx, {Param__var_23, Param__var_24, XQ__var_25}).
-
--compile({inline, {return__21, 2}}).
-
-return__21(_, []) -> [];
-return__21(Ctx, List) when erlang:is_list(List) ->
-    [return__21(Ctx, T) || T <- List];
-return__21(Ctx, {Param__var_17, XQ__var_20}) ->
-    xqerl_seq3:flatten(['fx$^27'(Ctx,
-             xqerl_step:forward(Ctx,
-                      xqerl_seq3:position_filter(Ctx, fun (Ctx__2) -> xqerl_fn:last(Ctx__2) end,
-                                  XQ__var_20),
-                      'following-sibling',
-                      {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny", "Obs"},
-                      [fun (Ctx__3) -> Param__var_17 end]),
-             xqerl_fn:concat(Ctx,
-                   xqerl_seq3:flatten([{xqAtomicValue, 'xs:string', "Largest "}, Param__var_17,
-                             {xqAtomicValue, 'xs:string', "-day rise"}]))),
-         'fx$^27'(Ctx,
-             xqerl_step:forward(Ctx,
-                      xqerl_seq3:position_filter(Ctx, {xqAtomicValue, 'xs:integer', 1}, XQ__var_20),
-                      'following-sibling',
-                      {qname, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny", "Obs"},
-                      [fun (Ctx__5) -> Param__var_17 end]),
-             xqerl_fn:concat(Ctx,
-                   xqerl_seq3:flatten([{xqAtomicValue, 'xs:string', "Largest "}, Param__var_17,
-                             {xqAtomicValue, 'xs:string', "-day fall"}])))]).
-
--compile({inline, {let__20, 2}}).
-
-let__20(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([let__20(Ctx, T) || T <- List]);
-let__20(Ctx, {Param__var_17}) ->
-    XQ__var_20 = xqerl_seq3:ensure_zero_or_more(xqerl_seq3:flatten(begin
-                             VarTup__2 = for__18(Ctx, {Param__var_17}),
-                             VarTup__3 = xqerl_flwor:orderbyclause(xqerl_seq3:flatten(VarTup__2),
-                                          [{fun ({Param__var_17,
-                                             XQ__var_18}) ->
-                                               xqerl_seq3:singleton_value(xqerl_node:atomize_nodes('fx$^14'(Ctx,
-                                                                    XQ__var_18,
-                                                                    Param__var_17)))
-                                            end,
-                                            descending, greatest}]),
-                             return__19(Ctx, VarTup__3)
-                           end)),
-    return__21(Ctx, {Param__var_17, XQ__var_20}).
-
--compile({inline, {return__19, 2}}).
-
-return__19(_, []) -> [];
-return__19(Ctx, List) when erlang:is_list(List) ->
-    [return__19(Ctx, T) || T <- List];
-return__19(Ctx, {Param__var_17, XQ__var_18}) -> XQ__var_18.
-
-for__18(_, []) -> [];
-for__18(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([for__18(Ctx, T) || T <- List]);
-for__18(Ctx, {Param__var_17} = Stream) ->
-    List = xqerl_seq3:filter(Ctx,
-              fun (Ctx__1) ->
-                 xqerl_operators:general_compare('<=', xqerl_fn:position(Ctx__1),
-                             xqerl_operators:subtract(xqerl_fn:last(Ctx__1), Param__var_17))
-              end,
-              erlang:get('var$^2')),
-    if List == [] -> lists:flatten(for__18(Ctx, empty, Stream));
-       true -> lists:flatten(for__18(Ctx, List, Stream))
-    end.
-
-for__18(_, empty, _) -> [];
-for__18(_, [], _) -> [];
-for__18(Ctx, NoList, Stream) when not erlang:is_list(NoList) ->
-    for__18(Ctx, [NoList], Stream);
-for__18(Ctx, [XQ__var_18 | T], {Param__var_17}) ->
-    [{Param__var_17, XQ__var_18} | for__18(Ctx, T, {Param__var_17})].
+let__1(Ctx, List) when erlang:is_list(List) ->
+    lists:flatten([let__1(Ctx, T) || T <- List]);
+let__1(Ctx, _) ->
+    XQ__var_1 = xqerl_seq3:ensure_zero_or_more(fun xqerl_fn:tokenize/3),
+    return__2(Ctx, {XQ__var_1}).

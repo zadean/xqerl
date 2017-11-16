@@ -709,6 +709,7 @@ handle_environment(List) ->
    Collections = proplists:get_value(collections, List) ,
    BaseUri = proplists:get_value('static-base-uri', List) ,
    Params = proplists:get_value(params, List) ,
+   Vars = proplists:get_value(vars, List,[]) ,
    Namespaces = proplists:get_value(namespaces, List) ,
    Resources = proplists:get_value(resources, List) ,
    Modules = proplists:get_value(modules, List) ,
@@ -809,17 +810,22 @@ handle_environment(List) ->
    BaseUri1 = lists:map(fun({Value}) ->
                               "declare base-uri '"++Value++"';\n"
                         end, BaseUri),
-   Params1 = lists:map(fun({Name,"",Value}) ->
+   Params1 = lists:foldl(fun({Name,"",Value},Map) ->
+                               Map#{Name => xqerl:run(Value)};
+                          ({Name,As,Value},Map) ->
+                             Map#{Name => xqerl:run(Value++" cast as "++As)}                             
+                       end, #{}, Params),
+   Namespaces1 = lists:foldl(fun({Uri,Prefix}, Map) ->
+                                   Ns = maps:get(namespaces, Map, []),
+                                   NewNs = lists:keystore(Prefix, 1, Ns, {Prefix,Uri}),
+                                   Map#{namespaces => NewNs}
+                           end, Params1, Namespaces),
+   Vars1   = lists:map(fun({Name,"",Value}) ->
                              "declare variable $"++Name++" := "++Value++";\n";
                           ({Name,As,Value}) ->
                              "declare variable $"++Name++" as "++As++" := "++Value++";\n"
-                       end, Params),
-   Namespaces1 = lists:map(fun({Uri,[]}) ->
-                              "declare default element namespace '"++Uri++"';\n";
-                              ({Uri,Prefix}) ->
-                                 "declare namespace "++Prefix++" = '"++Uri++"';\n"
-                           end, Namespaces),
-   BaseUri1++Sources1++Schemas1++DecFormats1++Params1++Namespaces1.
+                       end, Vars),
+   {BaseUri1++Sources1++Schemas1++DecFormats1++Vars1, Namespaces1}.
 
 
 

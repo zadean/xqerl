@@ -1363,86 +1363,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -1454,11 +1462,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -1468,8 +1477,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -1479,8 +1489,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -1490,8 +1501,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -1501,8 +1513,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -1510,15 +1523,16 @@ environment('array-and-map') ->
 ];
 environment('function-lookup') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/function-lookup.xml",".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/function-lookup.xml",".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
 {schemas, []},
 {collections, [{"",["file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/collection-1.xml",
 "file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup/collection-2.xml"]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/function-lookup.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"}]},
 {modules, []}
 ].
 'fn-function-lookup-001'(_Config) ->
@@ -1536,10 +1550,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-002'(_Config) ->
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1563,10 +1577,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-004'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1)(/root)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1590,10 +1604,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-006'(_Config) ->
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1617,10 +1631,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-008'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 1)(/root)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1644,10 +1658,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-010'(_Config) ->
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1697,10 +1711,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-014'(_Config) ->
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1724,10 +1738,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-016'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 1)(/root/child[1])",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1751,10 +1765,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-018'(_Config) ->
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1778,10 +1792,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-020'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 1)(/)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1805,10 +1819,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-022'(_Config) ->
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1832,10 +1846,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-024'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 1)(/)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2171,10 +2185,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-050'(_Config) ->
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'number'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2952,10 +2966,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-110'(_Config) ->
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-length'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3005,10 +3019,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-114'(_Config) ->
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-space'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4774,10 +4788,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-250'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-QName'), 2)('ns:local', /root/*[2])",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ns:local") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4905,10 +4919,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-260'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri-for-prefix'), 2)('ns', /root/*[2])",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4932,10 +4946,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-262'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'in-scope-prefixes'), 1)(/root)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4959,10 +4973,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-264'(_Config) ->
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4986,10 +5000,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-266'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 1)(/root)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5013,10 +5027,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-268'(_Config) ->
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5040,10 +5054,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-270'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 1)(/root)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5067,10 +5081,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-272'(_Config) ->
    Qry = "/root/*[2]/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5094,10 +5108,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-274'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 1)(/root/*[2])",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5121,10 +5135,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-276'(_Config) ->
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 1)('en')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5148,10 +5162,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-278'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 2)('en', /root)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5175,10 +5189,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-280'(_Config) ->
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'root'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"document-node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -5228,10 +5242,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-284'(_Config) ->
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5255,10 +5269,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-286'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 1)(/)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5282,10 +5296,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-288'(_Config) ->
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5309,10 +5323,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-290'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 1)(/)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6090,10 +6104,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-350'(_Config) ->
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 1)(('id1', 'id2'))",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6117,10 +6131,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-352'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 2)(('id1', 'id2'), /)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6144,10 +6158,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-354'(_Config) ->
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 1)(('id1', 'id2'))",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6171,10 +6185,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-356'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 2)(('id1', 'id2'), /)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6198,10 +6212,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-358'(_Config) ->
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 1)(('id1', 'id2'))",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6225,10 +6239,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-360'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 2)(('id1', 'id2'), /)",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6252,10 +6266,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-362'(_Config) ->
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6279,10 +6293,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-364'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 1)(())",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -6314,10 +6328,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-366'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc'), 1)('http://www.w3.org/fots/fn/function-lookup/function-lookup.xml')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"document-node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6341,10 +6355,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-368'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc-available'), 1)('http://www.example.org/unknown-document')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6368,10 +6382,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-370'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"node()+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6395,10 +6409,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-372'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 1)(())",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"node()+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6422,10 +6436,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-374'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 0)()",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:anyURI+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6449,10 +6463,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-376'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 1)(())",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:anyURI+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6476,10 +6490,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-378'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6503,10 +6517,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-380'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6530,10 +6544,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-382'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6557,10 +6571,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-384'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6584,10 +6598,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-386'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6611,10 +6625,10 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-388'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6976,11 +6990,12 @@ environment('function-lookup') ->
    end.
 'fn-function-lookup-416'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'static-base-uri'), 0)()",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.example.com"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -6988,7 +7003,7 @@ environment('function-lookup') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:anyURI?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -9193,11 +9208,12 @@ string')",
    end.
 'fn-function-lookup-737'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 1)( 'does-not-exist.txt' )",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -9205,7 +9221,7 @@ string')",
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -9229,11 +9245,12 @@ string')",
    end.
 'fn-function-lookup-739'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 2)( 'does-not-exist.txt', map {} )",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -9241,7 +9258,7 @@ string')",
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -9303,11 +9320,12 @@ string')",
    end.
 'fn-function-lookup-743'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 2)( '{}', map {} )",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -9315,7 +9333,7 @@ string')",
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -10218,10 +10236,10 @@ string')",
    end.
 'fn-function-lookup-800'(_Config) ->
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 2)([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
-   Env = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 

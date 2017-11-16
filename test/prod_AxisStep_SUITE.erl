@@ -704,86 +704,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -795,11 +803,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -809,8 +818,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -820,8 +830,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -831,8 +842,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -842,8 +854,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -851,153 +864,166 @@ environment('array-and-map') ->
 ];
 environment('TopMany') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('Tree1Child') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Child.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Child.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('Tree1Text') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Text.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/Tree1Text.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TreeCompass') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeCompass.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeCompass.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TreeEmpty') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeEmpty.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeEmpty.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TreeRepeat') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeRepeat.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeRepeat.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TreeStack') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeStack.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeStack.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TreeTrunc') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeTrunc.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeTrunc.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('TreeNS') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeNS.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/TreeNS.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('CPPGlobals') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('nw_Customers') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/nw_Customers.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/nw_Customers.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('XMarkAuction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/app/XMark/XMarkAuction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/XMark/XMarkAuction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('xq311B') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/xq311B.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep/xq311B.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/prod/AxisStep.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'Axes001-1'(_Config) ->
    Qry = "fn:count(//center/child::*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1008,10 +1034,10 @@ environment('xq311B') ->
    end.
 'Axes001-2'(_Config) ->
    Qry = "fn:count(//center/child::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1022,10 +1048,10 @@ environment('xq311B') ->
    end.
 'Axes001-3'(_Config) ->
    Qry = "fn:count(//center/child::*)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1036,10 +1062,10 @@ environment('xq311B') ->
    end.
 'Axes002-1'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1050,10 +1076,10 @@ environment('xq311B') ->
    end.
 'Axes002-2'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1064,10 +1090,10 @@ environment('xq311B') ->
    end.
 'Axes002-3'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1078,10 +1104,10 @@ environment('xq311B') ->
    end.
 'Axes002-4'(_Config) ->
    Qry = "fn:count(//center/child::south-east)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1092,10 +1118,10 @@ environment('xq311B') ->
    end.
 'Axes003-1'(_Config) ->
    Qry = "fn:count(//center/child::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1106,10 +1132,10 @@ environment('xq311B') ->
    end.
 'Axes003-2'(_Config) ->
    Qry = "fn:count(//center/child::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1120,10 +1146,10 @@ environment('xq311B') ->
    end.
 'Axes003-3'(_Config) ->
    Qry = "fn:count(//center/child::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1134,10 +1160,10 @@ environment('xq311B') ->
    end.
 'Axes003-4'(_Config) ->
    Qry = "fn:count(//center/child::node())",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"19") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1148,10 +1174,10 @@ environment('xq311B') ->
    end.
 'Axes004-1'(_Config) ->
    Qry = "fn:count(//center/*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1162,10 +1188,10 @@ environment('xq311B') ->
    end.
 'Axes004-2'(_Config) ->
    Qry = "fn:count(//center/*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1176,10 +1202,10 @@ environment('xq311B') ->
    end.
 'Axes004-3'(_Config) ->
    Qry = "fn:count(//center/*)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1190,10 +1216,10 @@ environment('xq311B') ->
    end.
 'Axes005-1'(_Config) ->
    Qry = "fn:count(//center/south-east)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1204,10 +1230,10 @@ environment('xq311B') ->
    end.
 'Axes005-2'(_Config) ->
    Qry = "fn:count(//center/south-east)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1218,10 +1244,10 @@ environment('xq311B') ->
    end.
 'Axes005-3'(_Config) ->
    Qry = "fn:count(//center/south-east)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1232,10 +1258,10 @@ environment('xq311B') ->
    end.
 'Axes005-4'(_Config) ->
    Qry = "fn:count(//center/south-east)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1246,10 +1272,10 @@ environment('xq311B') ->
    end.
 'Axes006-1'(_Config) ->
    Qry = "fn:count(//center/node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1260,10 +1286,10 @@ environment('xq311B') ->
    end.
 'Axes006-2'(_Config) ->
    Qry = "fn:count(//center/node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1274,10 +1300,10 @@ environment('xq311B') ->
    end.
 'Axes006-3'(_Config) ->
    Qry = "fn:count(//center/node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1288,10 +1314,10 @@ environment('xq311B') ->
    end.
 'Axes006-4'(_Config) ->
    Qry = "fn:count(//center/node())",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"19") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1302,10 +1328,10 @@ environment('xq311B') ->
    end.
 'Axes007-1'(_Config) ->
    Qry = "fn:count(//west/attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1316,10 +1342,10 @@ environment('xq311B') ->
    end.
 'Axes007-2'(_Config) ->
    Qry = "fn:count(//west/attribute::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1330,10 +1356,10 @@ environment('xq311B') ->
    end.
 'Axes007-3'(_Config) ->
    Qry = "fn:count(//west/attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1344,10 +1370,10 @@ environment('xq311B') ->
    end.
 'Axes008-1'(_Config) ->
    Qry = "fn:count(//west/attribute::west-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1358,10 +1384,10 @@ environment('xq311B') ->
    end.
 'Axes008-2'(_Config) ->
    Qry = "fn:count(//west/attribute::west-attr-2)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1372,10 +1398,10 @@ environment('xq311B') ->
    end.
 'Axes008-3'(_Config) ->
    Qry = "fn:count(//west/attribute::west-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1386,10 +1412,10 @@ environment('xq311B') ->
    end.
 'Axes009-1'(_Config) ->
    Qry = "fn:count(//west/attribute::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1400,10 +1426,10 @@ environment('xq311B') ->
    end.
 'Axes009-2'(_Config) ->
    Qry = "fn:count(//west/attribute::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1414,10 +1440,10 @@ environment('xq311B') ->
    end.
 'Axes009-3'(_Config) ->
    Qry = "fn:count(//west/attribute::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1428,10 +1454,10 @@ environment('xq311B') ->
    end.
 'Axes010-1'(_Config) ->
    Qry = "fn:count(//west/@*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1442,10 +1468,10 @@ environment('xq311B') ->
    end.
 'Axes010-2'(_Config) ->
    Qry = "fn:count(//west/@*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1456,10 +1482,10 @@ environment('xq311B') ->
    end.
 'Axes010-3'(_Config) ->
    Qry = "fn:count(//west/@*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1470,10 +1496,10 @@ environment('xq311B') ->
    end.
 'Axes011-1'(_Config) ->
    Qry = "fn:count(//west/@west-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1484,10 +1510,10 @@ environment('xq311B') ->
    end.
 'Axes011-2'(_Config) ->
    Qry = "fn:count(//west/@west-attr-2)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1498,10 +1524,10 @@ environment('xq311B') ->
    end.
 'Axes011-3'(_Config) ->
    Qry = "fn:count(//west/@west-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1512,10 +1538,10 @@ environment('xq311B') ->
    end.
 'Axes012-1'(_Config) ->
    Qry = "fn:count( / )",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1526,10 +1552,10 @@ environment('xq311B') ->
    end.
 'Axes013-1'(_Config) ->
    Qry = "fn:count(//center/parent::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1540,10 +1566,10 @@ environment('xq311B') ->
    end.
 'Axes014-1'(_Config) ->
    Qry = "fn:count(/far-north/parent::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1554,10 +1580,10 @@ environment('xq311B') ->
    end.
 'Axes015-1'(_Config) ->
    Qry = "fn:count(//center/parent::near-north)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1568,10 +1594,10 @@ environment('xq311B') ->
    end.
 'Axes016-1'(_Config) ->
    Qry = "fn:count(//center/parent::nowhere)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1582,10 +1608,10 @@ environment('xq311B') ->
    end.
 'Axes017-1'(_Config) ->
    Qry = "fn:count(//center/parent::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1596,10 +1622,10 @@ environment('xq311B') ->
    end.
 'Axes018-1'(_Config) ->
    Qry = "fn:count(/far-north/parent::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1610,10 +1636,10 @@ environment('xq311B') ->
    end.
 'Axes019-1'(_Config) ->
    Qry = "fn:count(//center/..)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1624,10 +1650,10 @@ environment('xq311B') ->
    end.
 'Axes020-1'(_Config) ->
    Qry = "fn:count(//center/self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1638,10 +1664,10 @@ environment('xq311B') ->
    end.
 'Axes021-1'(_Config) ->
    Qry = "fn:count(//center/self::center)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1652,10 +1678,10 @@ environment('xq311B') ->
    end.
 'Axes023-1'(_Config) ->
    Qry = "fn:count(//center/self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1666,10 +1692,10 @@ environment('xq311B') ->
    end.
 'Axes027-1'(_Config) ->
    Qry = "fn:count(//center/@center-attr-3/self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1680,10 +1706,10 @@ environment('xq311B') ->
    end.
 'Axes030-1'(_Config) ->
    Qry = "fn:count(//center/text()/self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1694,10 +1720,10 @@ environment('xq311B') ->
    end.
 'Axes030-2'(_Config) ->
    Qry = "fn:count(//center/text()/self::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1708,10 +1734,10 @@ environment('xq311B') ->
    end.
 'Axes031-1'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1722,10 +1748,10 @@ environment('xq311B') ->
    end.
 'Axes031-2'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1736,10 +1762,10 @@ environment('xq311B') ->
    end.
 'Axes031-3'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1750,10 +1776,10 @@ environment('xq311B') ->
    end.
 'Axes031-4'(_Config) ->
    Qry = "fn:count(//center/descendant::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1764,10 +1790,10 @@ environment('xq311B') ->
    end.
 'Axes032-1'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1778,10 +1804,10 @@ environment('xq311B') ->
    end.
 'Axes032-2'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1792,10 +1818,10 @@ environment('xq311B') ->
    end.
 'Axes032-3'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1806,10 +1832,10 @@ environment('xq311B') ->
    end.
 'Axes032-4'(_Config) ->
    Qry = "fn:count(//center/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1820,10 +1846,10 @@ environment('xq311B') ->
    end.
 'Axes033-1'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1834,10 +1860,10 @@ environment('xq311B') ->
    end.
 'Axes033-2'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1848,10 +1874,10 @@ environment('xq311B') ->
    end.
 'Axes033-3'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1862,10 +1888,10 @@ environment('xq311B') ->
    end.
 'Axes033-4'(_Config) ->
    Qry = "fn:count(//center/descendant::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"21") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1876,10 +1902,10 @@ environment('xq311B') ->
    end.
 'Axes034-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1890,10 +1916,10 @@ environment('xq311B') ->
    end.
 'Axes034-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1904,10 +1930,10 @@ environment('xq311B') ->
    end.
 'Axes035-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1918,10 +1944,10 @@ environment('xq311B') ->
    end.
 'Axes035-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1932,10 +1958,10 @@ environment('xq311B') ->
    end.
 'Axes035-3'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1946,10 +1972,10 @@ environment('xq311B') ->
    end.
 'Axes035-4'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1960,10 +1986,10 @@ environment('xq311B') ->
    end.
 'Axes036-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::center)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1974,10 +2000,10 @@ environment('xq311B') ->
    end.
 'Axes036-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::center)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"9") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1988,10 +2014,10 @@ environment('xq311B') ->
    end.
 'Axes037-1'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2002,10 +2028,10 @@ environment('xq311B') ->
    end.
 'Axes037-2'(_Config) ->
    Qry = "fn:count(//center/descendant-or-self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"22") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2016,10 +2042,10 @@ environment('xq311B') ->
    end.
 'Axes041-1'(_Config) ->
    Qry = "fn:count(//center/@center-attr-3/descendant-or-self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2030,10 +2056,10 @@ environment('xq311B') ->
    end.
 'Axes043-1'(_Config) ->
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2044,10 +2070,10 @@ environment('xq311B') ->
    end.
 'Axes043-2'(_Config) ->
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2058,10 +2084,10 @@ environment('xq311B') ->
    end.
 'Axes044-1'(_Config) ->
    Qry = "fn:count(/child::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2072,10 +2098,10 @@ environment('xq311B') ->
    end.
 'Axes044-2'(_Config) ->
    Qry = "fn:count(/child::*)",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2086,10 +2112,10 @@ environment('xq311B') ->
    end.
 'Axes045-1'(_Config) ->
    Qry = "fn:count(/child::far-north)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2100,10 +2126,10 @@ environment('xq311B') ->
    end.
 'Axes045-2'(_Config) ->
    Qry = "fn:count(/child::far-north)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2114,10 +2140,10 @@ environment('xq311B') ->
    end.
 'Axes046-1'(_Config) ->
    Qry = "fn:count(/child::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2128,10 +2154,10 @@ environment('xq311B') ->
    end.
 'Axes046-2'(_Config) ->
    Qry = "fn:count(/child::node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2142,10 +2168,10 @@ environment('xq311B') ->
    end.
 'Axes047-1'(_Config) ->
    Qry = "fn:count(/*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2156,10 +2182,10 @@ environment('xq311B') ->
    end.
 'Axes047-2'(_Config) ->
    Qry = "fn:count(/*)",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2170,10 +2196,10 @@ environment('xq311B') ->
    end.
 'Axes048-1'(_Config) ->
    Qry = "fn:count(/far-north)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2184,10 +2210,10 @@ environment('xq311B') ->
    end.
 'Axes048-2'(_Config) ->
    Qry = "fn:count(/far-north)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2198,10 +2224,10 @@ environment('xq311B') ->
    end.
 'Axes049-1'(_Config) ->
    Qry = "fn:count(/node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2212,10 +2238,10 @@ environment('xq311B') ->
    end.
 'Axes049-2'(_Config) ->
    Qry = "fn:count(/node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2226,10 +2252,10 @@ environment('xq311B') ->
    end.
 'Axes055-1'(_Config) ->
    Qry = "fn:count(/self::node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2240,10 +2266,10 @@ environment('xq311B') ->
    end.
 'Axes056-1'(_Config) ->
    Qry = "fn:count(/descendant::*)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2254,10 +2280,10 @@ environment('xq311B') ->
    end.
 'Axes056-2'(_Config) ->
    Qry = "fn:count(/descendant::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2268,10 +2294,10 @@ environment('xq311B') ->
    end.
 'Axes056-3'(_Config) ->
    Qry = "fn:count(/descendant::*)",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"16") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2282,10 +2308,10 @@ environment('xq311B') ->
    end.
 'Axes057-1'(_Config) ->
    Qry = "fn:count(/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2296,10 +2322,10 @@ environment('xq311B') ->
    end.
 'Axes057-2'(_Config) ->
    Qry = "fn:count(/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2310,10 +2336,10 @@ environment('xq311B') ->
    end.
 'Axes057-3'(_Config) ->
    Qry = "fn:count(/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2324,10 +2350,10 @@ environment('xq311B') ->
    end.
 'Axes057-4'(_Config) ->
    Qry = "fn:count(/descendant::south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2338,10 +2364,10 @@ environment('xq311B') ->
    end.
 'Axes058-1'(_Config) ->
    Qry = "fn:count(/descendant::node())",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2352,10 +2378,10 @@ environment('xq311B') ->
    end.
 'Axes058-2'(_Config) ->
    Qry = "fn:count(/descendant::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"56") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2366,10 +2392,10 @@ environment('xq311B') ->
    end.
 'Axes058-3'(_Config) ->
    Qry = "fn:count(/descendant::node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"58") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2380,10 +2406,10 @@ environment('xq311B') ->
    end.
 'Axes059-1'(_Config) ->
    Qry = "fn:count(/descendant-or-self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2394,10 +2420,10 @@ environment('xq311B') ->
    end.
 'Axes059-2'(_Config) ->
    Qry = "fn:count(/descendant-or-self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2408,10 +2434,10 @@ environment('xq311B') ->
    end.
 'Axes060-1'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2422,10 +2448,10 @@ environment('xq311B') ->
    end.
 'Axes060-2'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2436,10 +2462,10 @@ environment('xq311B') ->
    end.
 'Axes060-3'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2450,10 +2476,10 @@ environment('xq311B') ->
    end.
 'Axes060-4'(_Config) ->
    Qry = "fn:count(/descendant-or-self::south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2464,10 +2490,10 @@ environment('xq311B') ->
    end.
 'Axes061-1'(_Config) ->
    Qry = "fn:count(/descendant-or-self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"57") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2478,10 +2504,10 @@ environment('xq311B') ->
    end.
 'Axes061-2'(_Config) ->
    Qry = "fn:count(/descendant-or-self::node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"59") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2492,10 +2518,10 @@ environment('xq311B') ->
    end.
 'Axes062-1'(_Config) ->
    Qry = "fn:count(//child::*)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2506,10 +2532,10 @@ environment('xq311B') ->
    end.
 'Axes062-2'(_Config) ->
    Qry = "fn:count(//child::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2520,10 +2546,10 @@ environment('xq311B') ->
    end.
 'Axes063-1'(_Config) ->
    Qry = "fn:count(//child::south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2534,10 +2560,10 @@ environment('xq311B') ->
    end.
 'Axes063-2'(_Config) ->
    Qry = "fn:count(//child::south)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2548,10 +2574,10 @@ environment('xq311B') ->
    end.
 'Axes063-3'(_Config) ->
    Qry = "fn:count(//child::south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2562,10 +2588,10 @@ environment('xq311B') ->
    end.
 'Axes063-4'(_Config) ->
    Qry = "fn:count(//child::south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2576,10 +2602,10 @@ environment('xq311B') ->
    end.
 'Axes064-1'(_Config) ->
    Qry = "fn:count(//child::node())",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2590,10 +2616,10 @@ environment('xq311B') ->
    end.
 'Axes064-2'(_Config) ->
    Qry = "fn:count(//child::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"56") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2604,10 +2630,10 @@ environment('xq311B') ->
    end.
 'Axes064-3'(_Config) ->
    Qry = "fn:count(//child::node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"58") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2618,10 +2644,10 @@ environment('xq311B') ->
    end.
 'Axes065-1'(_Config) ->
    Qry = "fn:count(//*)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2632,10 +2658,10 @@ environment('xq311B') ->
    end.
 'Axes065-2'(_Config) ->
    Qry = "fn:count(//*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2646,10 +2672,10 @@ environment('xq311B') ->
    end.
 'Axes066-1'(_Config) ->
    Qry = "fn:count(//south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2660,10 +2686,10 @@ environment('xq311B') ->
    end.
 'Axes066-2'(_Config) ->
    Qry = "fn:count(//south)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2674,10 +2700,10 @@ environment('xq311B') ->
    end.
 'Axes066-3'(_Config) ->
    Qry = "fn:count(//south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2688,10 +2714,10 @@ environment('xq311B') ->
    end.
 'Axes066-4'(_Config) ->
    Qry = "fn:count(//south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2702,10 +2728,10 @@ environment('xq311B') ->
    end.
 'Axes067-1'(_Config) ->
    Qry = "fn:count(//node())",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2716,10 +2742,10 @@ environment('xq311B') ->
    end.
 'Axes067-2'(_Config) ->
    Qry = "fn:count(//node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"56") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2730,10 +2756,10 @@ environment('xq311B') ->
    end.
 'Axes067-3'(_Config) ->
    Qry = "fn:count(//node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"58") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2744,10 +2770,10 @@ environment('xq311B') ->
    end.
 'Axes068-1'(_Config) ->
    Qry = "fn:count(//attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2758,10 +2784,10 @@ environment('xq311B') ->
    end.
 'Axes068-2'(_Config) ->
    Qry = "fn:count(//attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2772,10 +2798,10 @@ environment('xq311B') ->
    end.
 'Axes068-3'(_Config) ->
    Qry = "fn:count(//attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"14") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2786,10 +2812,10 @@ environment('xq311B') ->
    end.
 'Axes069-1'(_Config) ->
    Qry = "fn:count(//attribute::mark)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2800,10 +2826,10 @@ environment('xq311B') ->
    end.
 'Axes069-2'(_Config) ->
    Qry = "fn:count(//attribute::mark)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2814,10 +2840,10 @@ environment('xq311B') ->
    end.
 'Axes069-3'(_Config) ->
    Qry = "fn:count(//attribute::mark)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2828,10 +2854,10 @@ environment('xq311B') ->
    end.
 'Axes070-1'(_Config) ->
    Qry = "fn:count(//@*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2842,10 +2868,10 @@ environment('xq311B') ->
    end.
 'Axes070-2'(_Config) ->
    Qry = "fn:count(//@*)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2856,10 +2882,10 @@ environment('xq311B') ->
    end.
 'Axes070-3'(_Config) ->
    Qry = "fn:count(//@*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"14") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2870,10 +2896,10 @@ environment('xq311B') ->
    end.
 'Axes071-1'(_Config) ->
    Qry = "fn:count(//@mark)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2884,10 +2910,10 @@ environment('xq311B') ->
    end.
 'Axes071-2'(_Config) ->
    Qry = "fn:count(//@mark)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2898,10 +2924,10 @@ environment('xq311B') ->
    end.
 'Axes071-3'(_Config) ->
    Qry = "fn:count(//@mark)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2912,10 +2938,10 @@ environment('xq311B') ->
    end.
 'Axes072-1'(_Config) ->
    Qry = "fn:count(//self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2926,10 +2952,10 @@ environment('xq311B') ->
    end.
 'Axes072-2'(_Config) ->
    Qry = "fn:count(//self::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2940,10 +2966,10 @@ environment('xq311B') ->
    end.
 'Axes073-1'(_Config) ->
    Qry = "fn:count(//self::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"57") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2954,10 +2980,10 @@ environment('xq311B') ->
    end.
 'Axes073-2'(_Config) ->
    Qry = "fn:count(//self::node())",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"59") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2968,10 +2994,10 @@ environment('xq311B') ->
    end.
 'Axes074-1'(_Config) ->
    Qry = "fn:count(//center//child::*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2982,10 +3008,10 @@ environment('xq311B') ->
    end.
 'Axes074-2'(_Config) ->
    Qry = "fn:count(//center//child::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2996,10 +3022,10 @@ environment('xq311B') ->
    end.
 'Axes074-3'(_Config) ->
    Qry = "fn:count(//center//child::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3010,10 +3036,10 @@ environment('xq311B') ->
    end.
 'Axes074-4'(_Config) ->
    Qry = "fn:count(//center//child::*)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3024,10 +3050,10 @@ environment('xq311B') ->
    end.
 'Axes075-1'(_Config) ->
    Qry = "fn:count(//center//child::south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3038,10 +3064,10 @@ environment('xq311B') ->
    end.
 'Axes075-2'(_Config) ->
    Qry = "fn:count(//center//child::south)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3052,10 +3078,10 @@ environment('xq311B') ->
    end.
 'Axes075-3'(_Config) ->
    Qry = "fn:count(//center//child::south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3066,10 +3092,10 @@ environment('xq311B') ->
    end.
 'Axes075-4'(_Config) ->
    Qry = "fn:count(//center//child::south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3080,10 +3106,10 @@ environment('xq311B') ->
    end.
 'Axes076-1'(_Config) ->
    Qry = "fn:count(//center//child::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3094,10 +3120,10 @@ environment('xq311B') ->
    end.
 'Axes076-2'(_Config) ->
    Qry = "fn:count(//center//child::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3108,10 +3134,10 @@ environment('xq311B') ->
    end.
 'Axes076-3'(_Config) ->
    Qry = "fn:count(//center//child::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3122,10 +3148,10 @@ environment('xq311B') ->
    end.
 'Axes076-4'(_Config) ->
    Qry = "fn:count(//center//child::node())",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"37") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3136,10 +3162,10 @@ environment('xq311B') ->
    end.
 'Axes077-1'(_Config) ->
    Qry = "fn:count(//center//*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3150,10 +3176,10 @@ environment('xq311B') ->
    end.
 'Axes077-2'(_Config) ->
    Qry = "fn:count(//center//*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3164,10 +3190,10 @@ environment('xq311B') ->
    end.
 'Axes077-3'(_Config) ->
    Qry = "fn:count(//center//*)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3178,10 +3204,10 @@ environment('xq311B') ->
    end.
 'Axes078-1'(_Config) ->
    Qry = "fn:count(//center//south)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3192,10 +3218,10 @@ environment('xq311B') ->
    end.
 'Axes078-2'(_Config) ->
    Qry = "fn:count(//center//south)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3206,10 +3232,10 @@ environment('xq311B') ->
    end.
 'Axes078-3'(_Config) ->
    Qry = "fn:count(//center//south)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3220,10 +3246,10 @@ environment('xq311B') ->
    end.
 'Axes078-4'(_Config) ->
    Qry = "fn:count(//center//south)",
-   Env = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3234,10 +3260,10 @@ environment('xq311B') ->
    end.
 'Axes079-1'(_Config) ->
    Qry = "fn:count(//center//node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3248,10 +3274,10 @@ environment('xq311B') ->
    end.
 'Axes079-2'(_Config) ->
    Qry = "fn:count(//center//node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3262,10 +3288,10 @@ environment('xq311B') ->
    end.
 'Axes079-3'(_Config) ->
    Qry = "fn:count(//center//node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3276,10 +3302,10 @@ environment('xq311B') ->
    end.
 'Axes079-4'(_Config) ->
    Qry = "fn:count(//center//node())",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"37") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3290,10 +3316,10 @@ environment('xq311B') ->
    end.
 'Axes080-1'(_Config) ->
    Qry = "fn:count(//west//attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3304,10 +3330,10 @@ environment('xq311B') ->
    end.
 'Axes080-2'(_Config) ->
    Qry = "fn:count(//west//attribute::*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3318,10 +3344,10 @@ environment('xq311B') ->
    end.
 'Axes080-3'(_Config) ->
    Qry = "fn:count(//west//attribute::*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3332,10 +3358,10 @@ environment('xq311B') ->
    end.
 'Axes081-1'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3346,10 +3372,10 @@ environment('xq311B') ->
    end.
 'Axes081-2'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3360,10 +3386,10 @@ environment('xq311B') ->
    end.
 'Axes081-3'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3374,10 +3400,10 @@ environment('xq311B') ->
    end.
 'Axes081-4'(_Config) ->
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3388,10 +3414,10 @@ environment('xq311B') ->
    end.
 'Axes082-1'(_Config) ->
    Qry = "fn:count(//west//attribute::node())",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3402,10 +3428,10 @@ environment('xq311B') ->
    end.
 'Axes082-2'(_Config) ->
    Qry = "fn:count(//west//attribute::node())",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3416,10 +3442,10 @@ environment('xq311B') ->
    end.
 'Axes082-3'(_Config) ->
    Qry = "fn:count(//west//attribute::node())",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3430,10 +3456,10 @@ environment('xq311B') ->
    end.
 'Axes083-1'(_Config) ->
    Qry = "fn:count(//west//@*)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3444,10 +3470,10 @@ environment('xq311B') ->
    end.
 'Axes083-2'(_Config) ->
    Qry = "fn:count(//west//@*)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3458,10 +3484,10 @@ environment('xq311B') ->
    end.
 'Axes083-3'(_Config) ->
    Qry = "fn:count(//west//@*)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3472,10 +3498,10 @@ environment('xq311B') ->
    end.
 'Axes084-1'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3486,10 +3512,10 @@ environment('xq311B') ->
    end.
 'Axes084-2'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3500,10 +3526,10 @@ environment('xq311B') ->
    end.
 'Axes084-3'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3514,10 +3540,10 @@ environment('xq311B') ->
    end.
 'Axes084-4'(_Config) ->
    Qry = "fn:count(//center//@center-attr-2)",
-   Env = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3528,10 +3554,10 @@ environment('xq311B') ->
    end.
 'Axes085'(_Config) ->
    Qry = "<root> {//Customers} </root>",
-   Env = xqerl_test:handle_environment(environment('nw_Customers')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><Customers CustomerID=\"ALFKI\">
 		<CompanyName>Alfreds Futterkiste</CompanyName>
 		<ContactName>Maria Anders</ContactName>
@@ -4642,10 +4668,10 @@ environment('xq311B') ->
    end.
 'Axes086'(_Config) ->
    Qry = "<root> {//@*/..} </root>",
-   Env = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><west mark=\"w0\" /><center mark=\"c0\">Text in center</center><east mark=\"e0\">Text in east</east></root>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -4656,10 +4682,10 @@ environment('xq311B') ->
    end.
 'Axes087'(_Config) ->
    Qry = "<root> {/doc/part/*/text()/..} </root>",
-   Env = xqerl_test:handle_environment(environment('xq311B')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xq311B')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5503,10 +5529,10 @@ tour:main()
    end.
 'Axes112'(_Config) ->
    Qry = "/*/namespace-node()",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0134") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5521,10 +5547,10 @@ tour:main()
    {skip,"XP30+"}.
 'Axes115'(_Config) ->
    Qry = "/*/attribute::namespace-node()",
-   Env = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -6933,10 +6959,10 @@ tour:main()
              $root//document-node()/self::element(), 
              $root//document-node()/self::text(), 
              $root//document-node()/self::comment() } </empty><ex>{exists($root//*/attribute()/descendant-or-self::node())}</ex></out>",
-   Env = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<out><empty/><ex>true</ex></out>") of 
       true -> {comment, "XML Deep equal"};
@@ -7202,10 +7228,10 @@ tour:main()
             else (), 
         for $b in /site/people/person where $b/@id=\"person0\" return $b/name, 
         /site/people/person[@id eq \"person0\"]/name",
-   Env = xqerl_test:handle_environment(environment('XMarkAuction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -7218,10 +7244,10 @@ tour:main()
    Qry = "
         declare function local:isComplexType($typeID) { string($typeID) }; 
         \"|\", //*/local:isComplexType(@type), \"|\"",
-   Env = xqerl_test:handle_environment(environment('CPPGlobals')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('CPPGlobals')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "|       _17 _17  _11c _11c _11 _11  _17c _17c _17 _17   _11   _23  _17 _11c  |") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

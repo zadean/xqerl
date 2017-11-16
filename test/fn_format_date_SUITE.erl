@@ -254,86 +254,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -345,11 +353,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -359,8 +368,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -370,8 +380,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -381,8 +392,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -392,8 +404,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -401,19 +414,20 @@ environment('array-and-map') ->
 ].
 'format-date-001a'(_Config) ->
    Qry = "format-date($d,\"[Y]-[M01]-[D]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2003-09-7") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -424,19 +438,20 @@ environment('array-and-map') ->
    end.
 'format-date-001b'(_Config) ->
    Qry = "format-date($d,\"[M]-[D]-[Y]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "9-7-2003") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -447,19 +462,20 @@ environment('array-and-map') ->
    end.
 'format-date-001c'(_Config) ->
    Qry = "format-date($d,\"[D]-[M]-[Y]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "7-9-2003") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -470,19 +486,20 @@ environment('array-and-map') ->
    end.
 'format-date-001d'(_Config) ->
    Qry = "format-date($d,\"[D1] [MI] [Y]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "7 IX 2003") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -493,19 +510,20 @@ environment('array-and-map') ->
    end.
 'format-date-001e'(_Config) ->
    Qry = "format-date($d,\"[[[Y]-[M01]-[D01]]]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "[2003-09-07]") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -516,19 +534,20 @@ environment('array-and-map') ->
    end.
 'format-date-001f'(_Config) ->
    Qry = "format-date($d,\"[[[Y0001]-[M01]-[D01]]]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "[2003-09-07]") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -539,19 +558,20 @@ environment('array-and-map') ->
    end.
 'format-date-001g'(_Config) ->
    Qry = "format-date($d,\"([Y01]-[M01]-[D01])\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "(03-09-07)") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -563,19 +583,20 @@ environment('array-and-map') ->
 'format-date-005'(_Config) ->
    Qry = " string-join( for $i in 1 to 100 return format-date($t + xs:yearMonthDuration('P1Y')*$i,
          '[YI]'), ' ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1950-01-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1950-01-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "MCMLI MCMLII MCMLIII MCMLIV MCMLV MCMLVI MCMLVII MCMLVIII MCMLIX MCMLX MCMLXI MCMLXII MCMLXIII MCMLXIV MCMLXV MCMLXVI MCMLXVII MCMLXVIII MCMLXIX MCMLXX MCMLXXI MCMLXXII MCMLXXIII MCMLXXIV MCMLXXV MCMLXXVI MCMLXXVII MCMLXXVIII MCMLXXIX MCMLXXX MCMLXXXI MCMLXXXII MCMLXXXIII MCMLXXXIV MCMLXXXV MCMLXXXVI MCMLXXXVII MCMLXXXVIII MCMLXXXIX MCMXC MCMXCI MCMXCII MCMXCIII MCMXCIV MCMXCV MCMXCVI MCMXCVII MCMXCVIII MCMXCIX MM MMI MMII MMIII MMIV MMV MMVI MMVII MMVIII MMIX MMX MMXI MMXII MMXIII MMXIV MMXV MMXVI MMXVII MMXVIII MMXIX MMXX MMXXI MMXXII MMXXIII MMXXIV MMXXV MMXXVI MMXXVII MMXXVIII MMXXIX MMXXX MMXXXI MMXXXII MMXXXIII MMXXXIV MMXXXV MMXXXVI MMXXXVII MMXXXVIII MMXXXIX MMXL MMXLI MMXLII MMXLIII MMXLIV MMXLV MMXLVI MMXLVII MMXLVIII MMXLIX MML") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -587,19 +608,20 @@ environment('array-and-map') ->
 'format-date-006'(_Config) ->
    Qry = " string-join( for $i in 1 to 100 return format-date($t +
          xs:yearMonthDuration('P17Y')*$i, '[Yi,4-4]'), ' ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0800-01-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0800-01-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "dcccxvii dcccxxxiv dcccli dccclxviii dccclxxxv cmii cmxix cmxxxvi cmliii cmlxx cmlxxxvii miv mxxi mxxxviii mlv mlxxii mlxxxix mcvi mcxxiii mcxl mclvii mclxxiv mcxci mccviii mccxxv mccxlii mcclix mcclxxvi mccxciii mcccx mcccxxvii mcccxliv mccclxi mccclxxviii mcccxcv mcdxii mcdxxix mcdxlvi mcdlxiii mcdlxxx mcdxcvii mdxiv mdxxxi mdxlviii mdlxv mdlxxxii mdxcix mdcxvi mdcxxxiii mdcl mdclxvii mdclxxxiv mdcci mdccxviii mdccxxxv mdcclii mdcclxix mdcclxxxvi mdccciii mdcccxx mdcccxxxvii mdcccliv mdccclxxi mdccclxxxviii mcmv mcmxxii mcmxxxix mcmlvi mcmlxxiii mcmxc mmvii mmxxiv mmxli mmlviii mmlxxv mmxcii mmcix mmcxxvi mmcxliii mmclx mmclxxvii mmcxciv mmccxi mmccxxviii mmccxlv mmcclxii mmcclxxix mmccxcvi mmcccxiii mmcccxxx mmcccxlvii mmccclxiv mmccclxxxi mmcccxcviii mmcdxv mmcdxxxii mmcdxlix mmcdlxvi mmcdlxxxiii mmd") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -610,19 +632,20 @@ environment('array-and-map') ->
    end.
 'format-date-007a'(_Config) ->
    Qry = "format-date($d,\"[Y๐๐๐๑]-[M๐๑]-[D๑]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "๒๐๐๓-๐๙-๗") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -633,19 +656,20 @@ environment('array-and-map') ->
    end.
 'format-date-007b'(_Config) ->
    Qry = "format-date($d,\"[M๑]-[D๑]-[Y๐๐๐๑]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "๙-๗-๒๐๐๓") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -656,19 +680,20 @@ environment('array-and-map') ->
    end.
 'format-date-007c'(_Config) ->
    Qry = "format-date($d,\"([Y๐๑]-[M๐๑]-[D๐๑])\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "(๐๓-๐๙-๐๗)") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -679,19 +704,20 @@ environment('array-and-map') ->
    end.
 'format-date-008a'(_Config) ->
    Qry = "format-date($d,\"[Y𐒠𐒠𐒠𐒡]-[M𐒠𐒡]-[D𐒡]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𐒢𐒠𐒠𐒣-𐒠𐒩-𐒧") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -702,19 +728,20 @@ environment('array-and-map') ->
    end.
 'format-date-008b'(_Config) ->
    Qry = "format-date($d,\"[M𐒡]-[D𐒡]-[Y𐒠𐒠𐒠𐒡]\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𐒩-𐒧-𐒢𐒠𐒠𐒣") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -725,19 +752,20 @@ environment('array-and-map') ->
    end.
 'format-date-008c'(_Config) ->
    Qry = "format-date($d,\"([Y𐒠𐒡]-[M𐒠𐒡]-[D𐒠𐒡])\")",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-09-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "(𐒠𐒣-𐒠𐒩-𐒠𐒧)") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -751,19 +779,20 @@ environment('array-and-map') ->
         for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i 
         return concat(\"[\", $d, \":\", format-date($d, '[W]', (), 'ISO', ()), \"]\")
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('2004-04-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('2004-04-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "[2004-05-01:18] [2004-06-01:23] [2004-07-01:27] [2004-08-01:31] [2004-09-01:36] [2004-10-01:40] [2004-11-01:45] [2004-12-01:49] [2005-01-01:53] [2005-02-01:5] [2005-03-01:9] [2005-04-01:13] [2005-05-01:17] [2005-06-01:22] [2005-07-01:26] [2005-08-01:31] [2005-09-01:35] [2005-10-01:39] [2005-11-01:44] [2005-12-01:48] [2006-01-01:52] [2006-02-01:5] [2006-03-01:9] [2006-04-01:13] [2006-05-01:18] [2006-06-01:22] [2006-07-01:26] [2006-08-01:31] [2006-09-01:35] [2006-10-01:39] [2006-11-01:44] [2006-12-01:48] [2007-01-01:1] [2007-02-01:5] [2007-03-01:9] [2007-04-01:13] [2007-05-01:18] [2007-06-01:22] [2007-07-01:26] [2007-08-01:31] [2007-09-01:35] [2007-10-01:40] [2007-11-01:44] [2007-12-01:48] [2008-01-01:1] [2008-02-01:5] [2008-03-01:9] [2008-04-01:14]") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -776,19 +805,20 @@ environment('array-and-map') ->
    Qry = "for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i 
             return concat(\"[\", $d, \":\", format-date($d, '[F01]', (), 'Q{}ISO', ()), ']')
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('2003-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('2003-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "[2004-01-01:04] [2004-02-01:07] [2004-03-01:01] [2004-04-01:04] [2004-05-01:06] [2004-06-01:02] [2004-07-01:04] [2004-08-01:07] [2004-09-01:03] [2004-10-01:05] [2004-11-01:01] [2004-12-01:03] [2005-01-01:06] [2005-02-01:02] [2005-03-01:02] [2005-04-01:05] [2005-05-01:07] [2005-06-01:03] [2005-07-01:05] [2005-08-01:01] [2005-09-01:04] [2005-10-01:06] [2005-11-01:02] [2005-12-01:04] [2006-01-01:07] [2006-02-01:03] [2006-03-01:03] [2006-04-01:06] [2006-05-01:01] [2006-06-01:04] [2006-07-01:06] [2006-08-01:02] [2006-09-01:05] [2006-10-01:07] [2006-11-01:03] [2006-12-01:05] [2007-01-01:01] [2007-02-01:04] [2007-03-01:04] [2007-04-01:07] [2007-05-01:02] [2007-06-01:05] [2007-07-01:07] [2007-08-01:03] [2007-09-01:06] [2007-10-01:01] [2007-11-01:04] [2007-12-01:06]") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -801,19 +831,20 @@ environment('array-and-map') ->
    Qry = "
         for $i in 1 to 48, $d in $t + xs:dayTimeDuration('P3D')*$i 
         return concat(\"[\", $d, \":\", format-date($d, '[w]', (), 'ISO', ()), ']')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('2005-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('2005-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "[2005-12-04:1] [2005-12-07:2] [2005-12-10:2] [2005-12-13:3] [2005-12-16:3] [2005-12-19:4] [2005-12-22:4] [2005-12-25:4] [2005-12-28:5] [2005-12-31:5] [2006-01-03:1] [2006-01-06:1] [2006-01-09:2] [2006-01-12:2] [2006-01-15:2] [2006-01-18:3] [2006-01-21:3] [2006-01-24:4] [2006-01-27:4] [2006-01-30:5] [2006-02-02:1] [2006-02-05:1] [2006-02-08:2] [2006-02-11:2] [2006-02-14:3] [2006-02-17:3] [2006-02-20:4] [2006-02-23:4] [2006-02-26:4] [2006-03-01:1] [2006-03-04:1] [2006-03-07:2] [2006-03-10:2] [2006-03-13:3] [2006-03-16:3] [2006-03-19:3] [2006-03-22:4] [2006-03-25:4] [2006-03-28:5] [2006-03-31:5] [2006-04-03:1] [2006-04-06:1] [2006-04-09:1] [2006-04-12:2] [2006-04-15:2] [2006-04-18:3] [2006-04-21:3] [2006-04-24:4]") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -824,19 +855,20 @@ environment('array-and-map') ->
    end.
 'format-date-013a'(_Config) ->
    Qry = "format-date($t, '[Y,4-4]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0985") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -847,19 +879,20 @@ environment('array-and-map') ->
    end.
 'format-date-013b'(_Config) ->
    Qry = "format-date($t, '[Y,3-4]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "985") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -870,19 +903,20 @@ environment('array-and-map') ->
    end.
 'format-date-013c'(_Config) ->
    Qry = "format-date($t, '[Y,2-5]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "985") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -893,19 +927,20 @@ environment('array-and-map') ->
    end.
 'format-date-013d'(_Config) ->
    Qry = "format-date($t, '[Y,2-2]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "85") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -916,19 +951,20 @@ environment('array-and-map') ->
    end.
 'format-date-013e'(_Config) ->
    Qry = "format-date($t, '[Y,2-*]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "985") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -939,19 +975,20 @@ environment('array-and-map') ->
    end.
 'format-date-013f'(_Config) ->
    Qry = "format-date($t, '[Y,*-4]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "985") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -962,19 +999,20 @@ environment('array-and-map') ->
    end.
 'format-date-013g'(_Config) ->
    Qry = "format-date($t, '[Y,3]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "985") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -985,19 +1023,20 @@ environment('array-and-map') ->
    end.
 'format-date-013h'(_Config) ->
    Qry = "format-date($t, '[M,4-4]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0003") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1008,19 +1047,20 @@ environment('array-and-map') ->
    end.
 'format-date-013i'(_Config) ->
    Qry = "format-date($t, '[M,1-4]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1031,19 +1071,20 @@ environment('array-and-map') ->
    end.
 'format-date-013j'(_Config) ->
    Qry = "format-date($t, '[M,2-5]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "03") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1054,19 +1095,20 @@ environment('array-and-map') ->
    end.
 'format-date-013k'(_Config) ->
    Qry = "format-date($t, '[M,2-2]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "03") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1077,19 +1119,20 @@ environment('array-and-map') ->
    end.
 'format-date-013L'(_Config) ->
    Qry = "format-date($t, '[M,1-*]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1100,19 +1143,20 @@ environment('array-and-map') ->
    end.
 'format-date-013m'(_Config) ->
    Qry = "format-date($t, '[M,*-2]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1123,19 +1167,20 @@ environment('array-and-map') ->
    end.
 'format-date-013n'(_Config) ->
    Qry = "format-date($t, '[M,3]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('0985-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "003") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1147,19 +1192,20 @@ environment('array-and-map') ->
 'format-date-014'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z]'), ' ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "-14:00 -13:30 -13:00 -12:30 -12:00 -11:30 -11:00 -10:30 -10:00 -09:30 -09:00 -08:30 -08:00 -07:30 -07:00 -06:30 -06:00 -05:30 -05:00 -04:30 -04:00 -03:30 -03:00 -02:30 -02:00 -01:30 -01:00 -00:30 +00:00 +00:30 +01:00 +01:30 +02:00 +02:30 +03:00 +03:30 +04:00 +04:30 +05:00 +05:30 +06:00 +06:30 +07:00 +07:30 +08:00 +08:30 +09:00 +09:30 +10:00 +10:30 +11:00 +11:30 +12:00 +12:30 +13:00 +13:30 +14:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1171,19 +1217,20 @@ environment('array-and-map') ->
 'format-date-015'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[z0]'), '; ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "GMT-14; GMT-13:30; GMT-13; GMT-12:30; GMT-12; GMT-11:30; GMT-11; GMT-10:30; GMT-10; GMT-9:30; GMT-9; GMT-8:30; GMT-8; GMT-7:30; GMT-7; GMT-6:30; GMT-6; GMT-5:30; GMT-5; GMT-4:30; GMT-4; GMT-3:30; GMT-3; GMT-2:30; GMT-2; GMT-1:30; GMT-1; GMT-0:30; GMT+0; GMT+0:30; GMT+1; GMT+1:30; GMT+2; GMT+2:30; GMT+3; GMT+3:30; GMT+4; GMT+4:30; GMT+5; GMT+5:30; GMT+6; GMT+6:30; GMT+7; GMT+7:30; GMT+8; GMT+8:30; GMT+9; GMT+9:30; GMT+10; GMT+10:30; GMT+11; GMT+11:30; GMT+12; GMT+12:30; GMT+13; GMT+13:30; GMT+14") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1195,19 +1242,20 @@ environment('array-and-map') ->
 'format-date-016'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[z]'), '; ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "GMT-14:00; GMT-13:30; GMT-13:00; GMT-12:30; GMT-12:00; GMT-11:30; GMT-11:00; GMT-10:30; GMT-10:00; GMT-09:30; GMT-09:00; GMT-08:30; GMT-08:00; GMT-07:30; GMT-07:00; GMT-06:30; GMT-06:00; GMT-05:30; GMT-05:00; GMT-04:30; GMT-04:00; GMT-03:30; GMT-03:00; GMT-02:30; GMT-02:00; GMT-01:30; GMT-01:00; GMT-00:30; GMT+00:00; GMT+00:30; GMT+01:00; GMT+01:30; GMT+02:00; GMT+02:30; GMT+03:00; GMT+03:30; GMT+04:00; GMT+04:30; GMT+05:00; GMT+05:30; GMT+06:00; GMT+06:30; GMT+07:00; GMT+07:30; GMT+08:00; GMT+08:30; GMT+09:00; GMT+09:30; GMT+10:00; GMT+10:30; GMT+11:00; GMT+11:30; GMT+12:00; GMT+12:30; GMT+13:00; GMT+13:30; GMT+14:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1219,19 +1267,20 @@ environment('array-and-map') ->
 'format-date-017'(_Config) ->
    Qry = "string-join( for $z in -12 to +12 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT1H')), '[ZZ]'), ' ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "Y X W V U T S R Q P O N Z A B C D E F G H I K L M") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1242,19 +1291,20 @@ environment('array-and-map') ->
    end.
 'format-date-018'(_Config) ->
    Qry = "format-date(xs:date('1987-12-13'), '[ZZ]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "J") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1292,19 +1342,20 @@ environment('array-and-map') ->
 'format-date-021'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[z00~00]'), '; ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "GMT-14~00; GMT-13~30; GMT-13~00; GMT-12~30; GMT-12~00; GMT-11~30; GMT-11~00; GMT-10~30; GMT-10~00; GMT-09~30; GMT-09~00; GMT-08~30; GMT-08~00; GMT-07~30; GMT-07~00; GMT-06~30; GMT-06~00; GMT-05~30; GMT-05~00; GMT-04~30; GMT-04~00; GMT-03~30; GMT-03~00; GMT-02~30; GMT-02~00; GMT-01~30; GMT-01~00; GMT-00~30; GMT+00~00; GMT+00~30; GMT+01~00; GMT+01~30; GMT+02~00; GMT+02~30; GMT+03~00; GMT+03~30; GMT+04~00; GMT+04~30; GMT+05~00; GMT+05~30; GMT+06~00; GMT+06~30; GMT+07~00; GMT+07~30; GMT+08~00; GMT+08~30; GMT+09~00; GMT+09~30; GMT+10~00; GMT+10~30; GMT+11~00; GMT+11~30; GMT+12~00; GMT+12~30; GMT+13~00; GMT+13~30; GMT+14~00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1315,19 +1366,20 @@ environment('array-and-map') ->
    end.
 'format-date-022'(_Config) ->
    Qry = "format-date(xs:date('2012-05-18+05:30'), '[Z٠٠:٠٠]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "+٠٥:٣٠") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1339,19 +1391,20 @@ environment('array-and-map') ->
 'format-date-023'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z0:01]'), '; ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "-14:00; -13:30; -13:00; -12:30; -12:00; -11:30; -11:00; -10:30; -10:00; -9:30; -9:00; -8:30; -8:00; -7:30; -7:00; -6:30; -6:00; -5:30; -5:00; -4:30; -4:00; -3:30; -3:00; -2:30; -2:00; -1:30; -1:00; -0:30; +0:00; +0:30; +1:00; +1:30; +2:00; +2:30; +3:00; +3:30; +4:00; +4:30; +5:00; +5:30; +6:00; +6:30; +7:00; +7:30; +8:00; +8:30; +9:00; +9:30; +10:00; +10:30; +11:00; +11:30; +12:00; +12:30; +13:00; +13:30; +14:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1363,19 +1416,20 @@ environment('array-and-map') ->
 'format-date-024'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z999]'), '; ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "-1400; -1330; -1300; -1230; -1200; -1130; -1100; -1030; -1000; -930; -900; -830; -800; -730; -700; -630; -600; -530; -500; -430; -400; -330; -300; -230; -200; -130; -100; -030; +000; +030; +100; +130; +200; +230; +300; +330; +400; +430; +500; +530; +600; +630; +700; +730; +800; +830; +900; +930; +1000; +1030; +1100; +1130; +1200; +1230; +1300; +1330; +1400") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1387,19 +1441,20 @@ environment('array-and-map') ->
 'format-date-025'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z99]'), '; ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -09:30; -09; -08:30; -08; -07:30; -07; -06:30; -06; -05:30; -05; -04:30; -04; -03:30; -03; -02:30; -02; -01:30; -01; -00:30; +00; +00:30; +01; +01:30; +02; +02:30; +03; +03:30; +04; +04:30; +05; +05:30; +06; +06:30; +07; +07:30; +08; +08:30; +09; +09:30; +10; +10:30; +11; +11:30; +12; +12:30; +13; +13:30; +14") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1411,19 +1466,20 @@ environment('array-and-map') ->
 'format-date-026'(_Config) ->
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z0t]'), '; ')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -9:30; -9; -8:30; -8; -7:30; -7; -6:30; -6; -5:30; -5; -4:30; -4; -3:30; -3; -2:30; -2; -1:30; -1; -0:30; Z; +0:30; +1; +1:30; +2; +2:30; +3; +3:30; +4; +4:30; +5; +5:30; +6; +6:30; +7; +7:30; +8; +8:30; +9; +9:30; +10; +10:30; +11; +11:30; +12; +12:30; +13; +13:30; +14") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1434,19 +1490,20 @@ environment('array-and-map') ->
    end.
 'format-date-027'(_Config) ->
    Qry = "format-date(xs:date('2012-05-18+05:30'), '[Z𐒡:𐒠𐒡]')",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"t","xs:date","xs:date('1985-03-01Z')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "+𐒥:𐒣𐒠") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1925,19 +1982,20 @@ environment('array-and-map') ->
 'format-date-en101'(_Config) ->
    Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
          format-date($d2, '[MN]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1949,19 +2007,20 @@ environment('array-and-map') ->
 'format-date-en102'(_Config) ->
    Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
          format-date($d2, '[Mn]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "january february march april may june july august september october november december") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1975,19 +2034,20 @@ environment('array-and-map') ->
         for $i in 1 to 12 
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
         return format-date($d2, '[MNn]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "January February March April May June July August September October November December") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2002,19 +2062,20 @@ environment('array-and-map') ->
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
         return format-date($d2, '[MN,3-3]', 'en', (), ()) 
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2029,19 +2090,20 @@ environment('array-and-map') ->
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
         return format-date($d2, '[Mn,3-3]', 'en', (), ()) 
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "jan feb mar apr may jun jul aug sep oct nov dec") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2056,19 +2118,20 @@ environment('array-and-map') ->
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
         return format-date($d2, '[MNn,3-3]', 'en', (), ()) 
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2080,19 +2143,20 @@ environment('array-and-map') ->
 'format-date-en111'(_Config) ->
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FN]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2104,19 +2168,20 @@ environment('array-and-map') ->
 'format-date-en112'(_Config) ->
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[Fn]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "monday tuesday wednesday thursday friday saturday sunday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2128,19 +2193,20 @@ environment('array-and-map') ->
 'format-date-en113'(_Config) ->
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FNn]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "Monday Tuesday Wednesday Thursday Friday Saturday Sunday") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2152,19 +2218,20 @@ environment('array-and-map') ->
 'format-date-en114'(_Config) ->
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FN,3-3]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MON TUE WED THU FRI SAT SUN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2176,19 +2243,20 @@ environment('array-and-map') ->
 'format-date-en115'(_Config) ->
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[Fn,3-3]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "mon tue wed thu fri sat sun") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2200,19 +2268,20 @@ environment('array-and-map') ->
 'format-date-en116'(_Config) ->
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FNn,3-3]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Mon Tue Wed Thu Fri Sat Sun") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2231,19 +2300,20 @@ environment('array-and-map') ->
          	substring($abb, 1, 3), 
          	starts-with($expected[$i], $abb) and string-length($abb) le 4 and string-length($abb) ge 3) 
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "Mon true Tue true Wed true Thu true Fri true Sat true Sun true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2257,19 +2327,20 @@ environment('array-and-map') ->
          format-date($d2, '[FNn,3-5]', 'en', (), ()) return let $expected := ('Mon', 'Tues', 'Weds',
          'Thurs', 'Fri', 'Sat', 'Sun') return (substring($abb, 1, 3), starts-with($expected[$i],
          $abb) and string-length($abb) le 5 and string-length($abb) ge 3) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-07')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "Mon true Tue true Wed true Thu true Fri true Sat true Sun true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2281,19 +2352,20 @@ environment('array-and-map') ->
 'format-date-en121'(_Config) ->
    Qry = "for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[D1o]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('2003-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('2003-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "1st 2nd 3rd 4th 5th 6th 7th 8th 9th 10th 11th 12th 13th 14th 15th 16th 17th 18th 19th 20th 21st 22nd 23rd 24th 25th 26th 27th 28th 29th 30th 31st") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2305,19 +2377,20 @@ environment('array-and-map') ->
 'format-date-en122'(_Config) ->
    Qry = "for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return
          format-date($d2, '[Y1o]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "1990th 1991st 1992nd 1993rd 1994th 1995th 1996th 1997th 1998th 1999th 2000th 2001st 2002nd 2003rd 2004th 2005th 2006th 2007th 2008th 2009th 2010th 2011th 2012th 2013th 2014th 2015th 2016th 2017th 2018th 2019th 2020th") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2329,19 +2402,20 @@ environment('array-and-map') ->
 'format-date-en122b'(_Config) ->
    Qry = "for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return
          format-date($d2, '[Y0001o]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "1990th 1991st 1992nd 1993rd 1994th 1995th 1996th 1997th 1998th 1999th 2000th 2001st 2002nd 2003rd 2004th 2005th 2006th 2007th 2008th 2009th 2010th 2011th 2012th 2013th 2014th 2015th 2016th 2017th 2018th 2019th 2020th") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2353,19 +2427,20 @@ environment('array-and-map') ->
 'format-date-en123'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return format-date($d2, '[DW]', 'en', (), ()), ' ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_norm_string_value(Res, "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY TWENTY ONE TWENTY TWO TWENTY THREE TWENTY FOUR TWENTY FIVE TWENTY SIX TWENTY SEVEN TWENTY EIGHT TWENTY NINE THIRTY THIRTY ONE") of 
       true -> {comment, "String correct"};
@@ -2385,19 +2460,20 @@ environment('array-and-map') ->
 'format-date-en124'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return format-date($d2, '[Dw]', 'en', (), ()), ' ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_norm_string_value(Res, "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twenty one twenty two twenty three twenty four twenty five twenty six twenty seven twenty eight twenty nine thirty thirty one") of 
       true -> {comment, "String correct"};
@@ -2417,19 +2493,20 @@ environment('array-and-map') ->
 'format-date-en125'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return format-date($d2, '[DWw]', 'en', (), ()), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_norm_string_value(Res, "One; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Eleven; Twelve; Thirteen; Fourteen; Fifteen; Sixteen; Seventeen; Eighteen; Nineteen; Twenty; Twenty One; Twenty Two; Twenty Three; Twenty Four; Twenty Five; Twenty Six; Twenty Seven; Twenty Eight; Twenty Nine; Thirty; Thirty One") of 
       true -> {comment, "String correct"};
@@ -2452,19 +2529,20 @@ environment('array-and-map') ->
             for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
               return replace(format-date($d2, '[YW]', 'en', (), ()), ' AND ', ' '),
             '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_norm_string_value(Res, "ONE THOUSAND NINE HUNDRED NINETY; ONE THOUSAND NINE HUNDRED NINETY ONE; ONE THOUSAND NINE HUNDRED NINETY TWO; ONE THOUSAND NINE HUNDRED NINETY THREE; ONE THOUSAND NINE HUNDRED NINETY FOUR; ONE THOUSAND NINE HUNDRED NINETY FIVE; ONE THOUSAND NINE HUNDRED NINETY SIX; ONE THOUSAND NINE HUNDRED NINETY SEVEN; ONE THOUSAND NINE HUNDRED NINETY EIGHT; ONE THOUSAND NINE HUNDRED NINETY NINE; TWO THOUSAND; TWO THOUSAND ONE; TWO THOUSAND TWO; TWO THOUSAND THREE; TWO THOUSAND FOUR; TWO THOUSAND FIVE; TWO THOUSAND SIX; TWO THOUSAND SEVEN; TWO THOUSAND EIGHT; TWO THOUSAND NINE; TWO THOUSAND TEN; TWO THOUSAND ELEVEN; TWO THOUSAND TWELVE; TWO THOUSAND THIRTEEN; TWO THOUSAND FOURTEEN; TWO THOUSAND FIFTEEN; TWO THOUSAND SIXTEEN; TWO THOUSAND SEVENTEEN; TWO THOUSAND EIGHTEEN; TWO THOUSAND NINETEEN; TWO THOUSAND TWENTY") of 
       true -> {comment, "String correct"};
@@ -2484,19 +2562,20 @@ environment('array-and-map') ->
 'format-date-en127'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return replace(format-date($d2, '[Yw]', 'en', (), ()), ' and ', ' '), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_norm_string_value(Res, "one thousand nine hundred ninety; one thousand nine hundred ninety one; one thousand nine hundred ninety two; one thousand nine hundred ninety three; one thousand nine hundred ninety four; one thousand nine hundred ninety five; one thousand nine hundred ninety six; one thousand nine hundred ninety seven; one thousand nine hundred ninety eight; one thousand nine hundred ninety nine; two thousand; two thousand one; two thousand two; two thousand three; two thousand four; two thousand five; two thousand six; two thousand seven; two thousand eight; two thousand nine; two thousand ten; two thousand eleven; two thousand twelve; two thousand thirteen; two thousand fourteen; two thousand fifteen; two thousand sixteen; two thousand seventeen; two thousand eighteen; two thousand nineteen; two thousand twenty") of 
       true -> {comment, "String correct"};
@@ -2516,19 +2595,20 @@ environment('array-and-map') ->
 'format-date-en128'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return replace(format-date($d2, '[YWw]', 'en', (), ()), ' [Aa]nd ', ' '), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_norm_string_value(Res, "One Thousand Nine Hundred Ninety; One Thousand Nine Hundred Ninety One; One Thousand Nine Hundred Ninety Two; One Thousand Nine Hundred Ninety Three; One Thousand Nine Hundred Ninety Four; One Thousand Nine Hundred Ninety Five; One Thousand Nine Hundred Ninety Six; One Thousand Nine Hundred Ninety Seven; One Thousand Nine Hundred Ninety Eight; One Thousand Nine Hundred Ninety Nine; Two Thousand; Two Thousand One; Two Thousand Two; Two Thousand Three; Two Thousand Four; Two Thousand Five; Two Thousand Six; Two Thousand Seven; Two Thousand Eight; Two Thousand Nine; Two Thousand Ten; Two Thousand Eleven; Two Thousand Twelve; Two Thousand Thirteen; Two Thousand Fourteen; Two Thousand Fifteen; Two Thousand Sixteen; Two Thousand Seventeen; Two Thousand Eighteen; Two Thousand Nineteen; Two Thousand Twenty") of 
       true -> {comment, "String correct"};
@@ -2548,19 +2628,20 @@ environment('array-and-map') ->
 'format-date-en129'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return translate(format-date($d2, '[DWo]', 'en', (), ()), '- ', ''), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "FIRST; SECOND; THIRD; FOURTH; FIFTH; SIXTH; SEVENTH; EIGHTH; NINTH; TENTH; ELEVENTH; TWELFTH; THIRTEENTH; FOURTEENTH; FIFTEENTH; SIXTEENTH; SEVENTEENTH; EIGHTEENTH; NINETEENTH; TWENTIETH; TWENTYFIRST; TWENTYSECOND; TWENTYTHIRD; TWENTYFOURTH; TWENTYFIFTH; TWENTYSIXTH; TWENTYSEVENTH; TWENTYEIGHTH; TWENTYNINTH; THIRTIETH; THIRTYFIRST") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2572,19 +2653,20 @@ environment('array-and-map') ->
 'format-date-en130'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return translate(format-date($d2, '[Dwo]', 'en', (), ()), '- ', ''), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "first; second; third; fourth; fifth; sixth; seventh; eighth; ninth; tenth; eleventh; twelfth; thirteenth; fourteenth; fifteenth; sixteenth; seventeenth; eighteenth; nineteenth; twentieth; twentyfirst; twentysecond; twentythird; twentyfourth; twentyfifth; twentysixth; twentyseventh; twentyeighth; twentyninth; thirtieth; thirtyfirst") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2596,19 +2678,20 @@ environment('array-and-map') ->
 'format-date-en131'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return translate(format-date($d2, '[DWwo]', 'en', (), ()), '- ', ''), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "First; Second; Third; Fourth; Fifth; Sixth; Seventh; Eighth; Ninth; Tenth; Eleventh; Twelfth; Thirteenth; Fourteenth; Fifteenth; Sixteenth; Seventeenth; Eighteenth; Nineteenth; Twentieth; TwentyFirst; TwentySecond; TwentyThird; TwentyFourth; TwentyFifth; TwentySixth; TwentySeventh; TwentyEighth; TwentyNinth; Thirtieth; ThirtyFirst") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2620,19 +2703,20 @@ environment('array-and-map') ->
 'format-date-en132'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return translate(replace(format-date($d2, '[YWo]', 'en', (), ()), ' AND ', ' '), '- ', ''), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "ONETHOUSANDNINEHUNDREDNINETIETH; ONETHOUSANDNINEHUNDREDNINETYFIRST; ONETHOUSANDNINEHUNDREDNINETYSECOND; ONETHOUSANDNINEHUNDREDNINETYTHIRD; ONETHOUSANDNINEHUNDREDNINETYFOURTH; ONETHOUSANDNINEHUNDREDNINETYFIFTH; ONETHOUSANDNINEHUNDREDNINETYSIXTH; ONETHOUSANDNINEHUNDREDNINETYSEVENTH; ONETHOUSANDNINEHUNDREDNINETYEIGHTH; ONETHOUSANDNINEHUNDREDNINETYNINTH; TWOTHOUSANDTH; TWOTHOUSANDFIRST; TWOTHOUSANDSECOND; TWOTHOUSANDTHIRD; TWOTHOUSANDFOURTH; TWOTHOUSANDFIFTH; TWOTHOUSANDSIXTH; TWOTHOUSANDSEVENTH; TWOTHOUSANDEIGHTH; TWOTHOUSANDNINTH; TWOTHOUSANDTENTH; TWOTHOUSANDELEVENTH; TWOTHOUSANDTWELFTH; TWOTHOUSANDTHIRTEENTH; TWOTHOUSANDFOURTEENTH; TWOTHOUSANDFIFTEENTH; TWOTHOUSANDSIXTEENTH; TWOTHOUSANDSEVENTEENTH; TWOTHOUSANDEIGHTEENTH; TWOTHOUSANDNINETEENTH; TWOTHOUSANDTWENTIETH") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2644,19 +2728,20 @@ environment('array-and-map') ->
 'format-date-en133'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return translate(replace(format-date($d2, '[Ywo]', 'en', (), ()), ' and ', ' '), '- ', ''), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "onethousandninehundredninetieth; onethousandninehundredninetyfirst; onethousandninehundredninetysecond; onethousandninehundredninetythird; onethousandninehundredninetyfourth; onethousandninehundredninetyfifth; onethousandninehundredninetysixth; onethousandninehundredninetyseventh; onethousandninehundredninetyeighth; onethousandninehundredninetyninth; twothousandth; twothousandfirst; twothousandsecond; twothousandthird; twothousandfourth; twothousandfifth; twothousandsixth; twothousandseventh; twothousandeighth; twothousandninth; twothousandtenth; twothousandeleventh; twothousandtwelfth; twothousandthirteenth; twothousandfourteenth; twothousandfifteenth; twothousandsixteenth; twothousandseventeenth; twothousandeighteenth; twothousandnineteenth; twothousandtwentieth") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2668,19 +2753,20 @@ environment('array-and-map') ->
 'format-date-en134'(_Config) ->
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return translate(replace(format-date($d2, '[YWwo]', 'en', (), ()), ' [Aa]nd ', ' '), '- ', ''), '; ') ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d","xs:date","xs:date('1990-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "OneThousandNineHundredNinetieth; OneThousandNineHundredNinetyFirst; OneThousandNineHundredNinetySecond; OneThousandNineHundredNinetyThird; OneThousandNineHundredNinetyFourth; OneThousandNineHundredNinetyFifth; OneThousandNineHundredNinetySixth; OneThousandNineHundredNinetySeventh; OneThousandNineHundredNinetyEighth; OneThousandNineHundredNinetyNinth; TwoThousandth; TwoThousandFirst; TwoThousandSecond; TwoThousandThird; TwoThousandFourth; TwoThousandFifth; TwoThousandSixth; TwoThousandSeventh; TwoThousandEighth; TwoThousandNinth; TwoThousandTenth; TwoThousandEleventh; TwoThousandTwelfth; TwoThousandThirteenth; TwoThousandFourteenth; TwoThousandFifteenth; TwoThousandSixteenth; TwoThousandSeventeenth; TwoThousandEighteenth; TwoThousandNineteenth; TwoThousandTwentieth") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2691,20 +2777,21 @@ environment('array-and-map') ->
    end.
 'format-date-en141'(_Config) ->
    Qry = " format-date($d1, '[Y][EN]', 'en', (), ()), format-date($d2, '[Y][EN]', 'en', (), ()) ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"d1","xs:date","xs:date('1990-12-01')"},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"d1","xs:date","xs:date('1990-12-01')"},
 {"d2","xs:date","xs:date('-0055-12-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"\"1990AD\", \"55BC\"") of 
       true -> {comment, "Deep equal"};
@@ -2731,19 +2818,20 @@ environment('array-and-map') ->
    end.
 'format-date-en151'(_Config) ->
    Qry = "format-date($b, '[MNn]', 'xib', (), ())",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"matches($result, \"en\")") of 
       true -> {comment, "Correct results"};
@@ -2762,19 +2850,20 @@ environment('array-and-map') ->
    end.
 'format-date-en152'(_Config) ->
    Qry = "format-date($b, '[M01]', 'en', 'CB', ())",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"matches($result, \"AD\")") of 
       true -> {comment, "Correct results"};
@@ -2795,19 +2884,20 @@ environment('array-and-map') ->
    Qry = "
       	format-date($b, '[M01]', 'en', 'Q{http://calendar.example.com/non-existent-calendar}CB', ())
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -2836,19 +2926,20 @@ environment('array-and-map') ->
    Qry = "
       	format-date($b, '[M01]', 'en', 'Q{}ZODIAC', ())
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2861,19 +2952,20 @@ environment('array-and-map') ->
    Qry = "
       	format-date($b, '[M01]', 'en', 'ZODIAC', ())
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2886,19 +2978,20 @@ environment('array-and-map') ->
    Qry = "
       	format-date($b, '[M01]', 'en', ':w', ())
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2911,19 +3004,20 @@ environment('array-and-map') ->
    Qry = "
       	format-date($b, '[M01]', 'en', 'Q{}1', ())
       ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/format-date.xml"}]},
+{vars, [{"b","xs:date","xs:date('2006-03-01')"}]},
+{params, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

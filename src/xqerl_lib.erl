@@ -277,13 +277,14 @@ resolve_against_base_uri(Base,Path) ->
             _ ->
                case filename:pathtype(Base) of
                   absolute ->
+                     Dir = filename:dirname(Base),
                      case filename:safe_relative_path(Path) of
                         unsafe ->
                            %?dbg("parse",unsafe),
-                           {absolute, Base ++ Path};
+                           {absolute, Dir ++ "/" ++ Path};
                         O ->
                            %?dbg("safe",O),
-                           {absolute,Base ++ O}
+                           {absolute,Dir ++ "/" ++ O}
                      end;
                   _ ->
                      case http_uri:parse(Base) of

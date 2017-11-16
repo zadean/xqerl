@@ -202,86 +202,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -293,11 +301,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -307,8 +316,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -318,8 +328,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -329,8 +340,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -340,8 +352,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -352,12 +365,13 @@ environment('json-files') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
-{resources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/escapeText.json","http://www.w3.org/qt3/json/escapeText-json"},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data005.json","http://www.w3.org/qt3/json/data005-json"}]},
+{resources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/escapeText.json","http://www.w3.org/qt3/json/escapeText-json"},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml/data005.json","http://www.w3.org/qt3/json/data005-json"}]},
 {modules, []}
 ];
 environment('json-ns') ->
@@ -365,18 +379,19 @@ environment('json-ns') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/json-to-xml.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
 {resources, []},
 {modules, []}
 ].
 'json-to-xml-001'(_Config) ->
    Qry = "fn:json-to-xml('{}')",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -399,10 +414,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-002'(_Config) ->
    Qry = "fn:json-to-xml('[]')",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -425,10 +440,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-003'(_Config) ->
    Qry = "fn:json-to-xml('[1]')",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -463,10 +478,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-004'(_Config) ->
    Qry = "fn:json-to-xml('[\"a\"]')",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -501,10 +516,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-005'(_Config) ->
    Qry = "fn:json-to-xml('[true]')",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -539,10 +554,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-006'(_Config) ->
    Qry = "fn:json-to-xml('[false]')",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -577,10 +592,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-007'(_Config) ->
    Qry = "fn:json-to-xml('[null]')",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -615,10 +630,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-008'(_Config) ->
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -649,10 +664,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-009'(_Config) ->
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}string[@key='header'][.='SVG Viewer']") of 
       true -> {comment, "Correct results"};
@@ -671,10 +686,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-010'(_Config) ->
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><string key=\"key\">Data with \" within it</string></map>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -685,10 +700,10 @@ environment('json-ns') ->
    end.
 'json-to-xml-011'(_Config) ->
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string xmlns=\"http://www.w3.org/2005/xpath-functions\" key=\"key\">Data with \" within it</string>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -701,10 +716,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//Q{http://www.w3.org/2005/xpath-functions}string
       ",
-   Env = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
@@ -733,10 +748,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"Data with \\\" within it\"]')//Q{http://www.w3.org/2005/xpath-functions}string
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
@@ -757,10 +772,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"Key \\\" with quote\":\"Data with \\\" within it\"}')//Q{http://www.w3.org/2005/xpath-functions}string
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
@@ -782,10 +797,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml(codepoints-to-string(65279)||'[1]')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<array 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number>1</number></array>
          ") of 
@@ -806,10 +821,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\"
          >3</number><number key=\"b\">4</number><number key=\"a\">5</number></map>
@@ -825,10 +840,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"a\\\\\":3, \"b\\\\\":4}', map{'escape':true()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\\\\\" escaped-key=\"true\"
          >3</number><number key=\"b\\\\\" escaped-key=\"true\">4</number></map>
@@ -844,10 +859,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"a\\\\\":3, \"b\\\\\":4}', map{'escape':false()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
       xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\\\"
       >3</number><number key=\"b\\\">4</number></map>") of 
@@ -862,10 +877,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', map{'escape':true()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
          ><string key=\"a\" escaped=\"true\">\\f</string
@@ -882,10 +897,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', map{'escape':false()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
          ><string key=\"a\">&#xFFFD;</string><string key=\"&#xFFFD;\">bell</string></map>
@@ -936,10 +951,10 @@ environment('json-ns') ->
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', 
               map{'escape':false(), 'fallback':function($s){'??'}})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
          ><string key=\"a\">??</string><string key=\"??\">bell</string></map>
@@ -1116,10 +1131,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}', map{\"duplicates\":\"use-first\"})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\"
          >3</number><number key=\"b\">4</number></map>
@@ -1160,10 +1175,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5, \"c\":5}', map{'duplicates':'use-first'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\"
          >3</number><number key=\"b\">4</number><number key=\"c\">5</number></map>
@@ -1194,10 +1209,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"\\n\":1, \"\\u000A\":2}', map{'escape':true(), 'duplicates':'reject'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1276,10 +1291,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{error}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1292,10 +1307,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{terriblyWrong}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1308,10 +1323,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml(\"{}extra token\")
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1324,10 +1339,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{1:1}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1340,10 +1355,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{true:1}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1356,10 +1371,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"key\" 1}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1372,10 +1387,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"key\" :1 2}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1388,10 +1403,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[+1]')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1404,10 +1419,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[01]')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1420,10 +1435,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[1234A]')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1436,10 +1451,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"123\\\"]')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1452,10 +1467,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"123\\u234\"]')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1468,10 +1483,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"key\":123,}')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1484,10 +1499,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('{\"key\":123 ,}', map{\"liberal\":false()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1500,10 +1515,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"key\":123,]')
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1516,10 +1531,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"key\":123 ,]', map{'liberal':true()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1532,10 +1547,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\",]', map{'liberal':()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
@@ -1556,10 +1571,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'liberal':'something'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1572,10 +1587,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1588,10 +1603,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':(true(),true())})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1604,10 +1619,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':'EMCA-262'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1620,10 +1635,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':()})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1636,10 +1651,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':(true(),true())})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1652,10 +1667,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':'EMCA-262'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1668,10 +1683,10 @@ environment('json-ns') ->
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'fallback':'dummy'})
       ",
-   Env = xqerl_test:handle_environment(environment('json-ns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

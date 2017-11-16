@@ -26,6 +26,8 @@
 
 -module(xqerl_context).
 
+-export([merge/2]).
+
 -export([init/1]).
 -export([init/0]).
 -export([static_namespaces/0]).
@@ -187,6 +189,16 @@
 
 
 -include("xqerl.hrl").
+
+merge(#{namespaces := INs} = InitialContext, OuterContext) ->
+   % ns is {xqNamespace, Uri, Prefix}
+   Merged = maps:merge(InitialContext, OuterContext),
+   NsToMerge = maps:get(namespaces, OuterContext, []),
+   NewNs = lists:foldl(fun({Prefix,Namespace},Acc) ->
+                             lists:keystore(Prefix, 3, Acc, #xqNamespace{namespace = Namespace, prefix = Prefix})
+                       end, INs, NsToMerge),
+   Merged#{namespaces => NewNs}.
+
 
 init() -> init(self()).
 

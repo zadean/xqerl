@@ -106,86 +106,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -197,11 +205,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -211,8 +220,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -222,8 +232,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -233,8 +244,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -244,8 +256,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -256,40 +269,43 @@ environment('emptydoc') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomicns') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomicns.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomicns.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('lang') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang/lang.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang/lang.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/lang.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
 'fn-lang1args-1'(_Config) ->
    Qry = "fn:lang(xs:string(\"en\"),/root[1]/time[1])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -300,10 +316,10 @@ environment('lang') ->
    end.
 'fn-lang1args-2'(_Config) ->
    Qry = "fn:lang(xs:string(\"EN\"),./root[1]/time[1])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -314,10 +330,10 @@ environment('lang') ->
    end.
 'fn-lang1args-3'(_Config) ->
    Qry = "fn:lang(xs:string(\"eN\"),./root[1]/time[1])",
-   Env = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -332,10 +348,10 @@ environment('lang') ->
         declare function eg:noContextFunction() { fn:lang(\"en\") }; 
         eg:noContextFunction()
       ",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -346,10 +362,10 @@ environment('lang') ->
    end.
 'fn-lang-2'(_Config) ->
    Qry = "fn:count(fn:lang((), ./langs[1]/para[1]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -360,10 +376,10 @@ environment('lang') ->
    end.
 'fn-lang-3'(_Config) ->
    Qry = " for $x in /langs/para[1] return $x/fn:lang(\"en\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -374,10 +390,10 @@ environment('lang') ->
    end.
 'fn-lang-4'(_Config) ->
    Qry = "for $x in /langs/div[1]/para return $x/fn:lang(\"en\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -388,10 +404,10 @@ environment('lang') ->
    end.
 'fn-lang-5'(_Config) ->
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"EN\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -402,10 +418,10 @@ environment('lang') ->
    end.
 'fn-lang-6'(_Config) ->
    Qry = " for $x in /langs/para[2] return $x/fn:lang(\"En\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -416,10 +432,10 @@ environment('lang') ->
    end.
 'fn-lang-7'(_Config) ->
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"eN\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -430,10 +446,10 @@ environment('lang') ->
    end.
 'fn-lang-8'(_Config) ->
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"en\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -444,10 +460,10 @@ environment('lang') ->
    end.
 'fn-lang-9'(_Config) ->
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en-us\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -458,10 +474,10 @@ environment('lang') ->
    end.
 'fn-lang-10'(_Config) ->
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"EN\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -472,10 +488,10 @@ environment('lang') ->
    end.
 'fn-lang-11'(_Config) ->
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"En\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -486,10 +502,10 @@ environment('lang') ->
    end.
 'fn-lang-12'(_Config) ->
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"eN\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -500,10 +516,10 @@ environment('lang') ->
    end.
 'fn-lang-13'(_Config) ->
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -514,10 +530,10 @@ environment('lang') ->
    end.
 'fn-lang-14'(_Config) ->
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en-us\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -528,10 +544,10 @@ environment('lang') ->
    end.
 'fn-lang-15'(_Config) ->
    Qry = "1[fn:lang(\"en-us\")]",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -542,10 +558,10 @@ environment('lang') ->
    end.
 'fn-lang-16'(_Config) ->
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"us-us\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -556,10 +572,10 @@ environment('lang') ->
    end.
 'fn-lang-17'(_Config) ->
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"fr\")",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -570,10 +586,10 @@ environment('lang') ->
    end.
 'fn-lang-18'(_Config) ->
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[1]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -584,10 +600,10 @@ environment('lang') ->
    end.
 'fn-lang-19'(_Config) ->
    Qry = "fn:lang(\"fr\",fn:exactly-one(/langs/para[1]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -598,10 +614,10 @@ environment('lang') ->
    end.
 'fn-lang-20'(_Config) ->
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[3]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -612,10 +628,10 @@ environment('lang') ->
    end.
 'fn-lang-21'(_Config) ->
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[2]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -626,10 +642,10 @@ environment('lang') ->
    end.
 'fn-lang-22'(_Config) ->
    Qry = "fn:lang(\"en\",.)",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -640,10 +656,10 @@ environment('lang') ->
    end.
 'fn-lang-23'(_Config) ->
    Qry = "fn:lang(\"de\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -654,10 +670,10 @@ environment('lang') ->
    end.
 'fn-lang-24'(_Config) ->
    Qry = "fn:lang(\"de-DE\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -668,10 +684,10 @@ environment('lang') ->
    end.
 'fn-lang-25'(_Config) ->
    Qry = "fn:lang(\"DE-de\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -682,10 +698,10 @@ environment('lang') ->
    end.
 'fn-lang-26'(_Config) ->
    Qry = "fn:lang(\"de-DE-1996\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -696,10 +712,10 @@ environment('lang') ->
    end.
 'fn-lang-27'(_Config) ->
    Qry = "fn:lang(\"de-DE-1998\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -710,10 +726,10 @@ environment('lang') ->
    end.
 'fn-lang-28'(_Config) ->
    Qry = "fn:lang(\"de-D\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -724,10 +740,10 @@ environment('lang') ->
    end.
 'fn-lang-29'(_Config) ->
    Qry = "fn:lang(\"de-DE-\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -738,10 +754,10 @@ environment('lang') ->
    end.
 'fn-lang-30'(_Config) ->
    Qry = "fn:lang(\"de-DE-1996-x\",fn:exactly-one(/langs/para[4]))",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -752,10 +768,10 @@ environment('lang') ->
    end.
 'fn-lang-31'(_Config) ->
    Qry = "let $l := /langs/para[4]!fn:lang#1 return /langs/para[1]!$l('en')",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -766,10 +782,10 @@ environment('lang') ->
    end.
 'fn-lang-32'(_Config) ->
    Qry = "let $l := /langs/para[4]!fn:lang#1 return /langs/para[1]!$l('de')",
-   Env = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -780,10 +796,10 @@ environment('lang') ->
    end.
 'K-NodeLangFunc-1'(_Config) ->
    Qry = "lang()",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -794,10 +810,10 @@ environment('lang') ->
    end.
 'K-NodeLangFunc-2'(_Config) ->
    Qry = "if(false()) then lang(\"en\", .) else true()",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -816,10 +832,10 @@ environment('lang') ->
    end.
 'K-NodeLangFunc-3'(_Config) ->
    Qry = "if(false()) then lang(\"en\") else true()",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -838,10 +854,10 @@ environment('lang') ->
    end.
 'K-NodeLangFunc-4'(_Config) ->
    Qry = "lang(\"en\", 2)",
-   Env = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

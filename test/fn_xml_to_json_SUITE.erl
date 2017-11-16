@@ -276,86 +276,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -367,11 +375,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -381,8 +390,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -392,8 +402,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -403,8 +414,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -414,8 +426,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -423,22 +436,24 @@ environment('array-and-map') ->
 ];
 environment('xml-to-json-C') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json/xml-to-json-C.xsl",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json/xml-to-json-C.xsl",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('xml-to-json-D') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json/xml-to-json-D.xsl",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json/xml-to-json-D.xsl",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/fn/xml-to-json.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
@@ -1390,10 +1405,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-001'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t001\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1404,10 +1419,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-002'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t002\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1418,10 +1433,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-003'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t003\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1432,10 +1447,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-004'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t004\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1446,10 +1461,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-005'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t005\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1460,10 +1475,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-006'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t006\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1474,10 +1489,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-007'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t007\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1488,10 +1503,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-008'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t008\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1502,10 +1517,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-009'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t009\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1516,10 +1531,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-010'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t010\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1530,10 +1545,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-011'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t011\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1544,10 +1559,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-012'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t012\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1558,10 +1573,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-013'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t013\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1572,10 +1587,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-014'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t014\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1586,10 +1601,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-015'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t015\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1600,10 +1615,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-016'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t016\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"xxxx\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1614,10 +1629,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-017'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t017\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1628,10 +1643,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-C-018'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t018\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-C')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1642,10 +1657,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-001'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t001\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"a\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1656,10 +1671,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-002'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t002\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"a\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1670,10 +1685,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-003'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t003\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\"\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1684,10 +1699,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-004'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t004\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1698,10 +1713,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-005'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t005\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\uD834\\uDD1E\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1712,10 +1727,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-006'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t006\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\\"\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1726,10 +1741,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-007'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t007\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\\\\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1740,10 +1755,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-008'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t008\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\uD834\\\\uDD1E\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1754,10 +1769,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-009'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t009\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"  \"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1768,10 +1783,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-010'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t010\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\\"-\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1782,10 +1797,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-011'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t011\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\n-\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1796,10 +1811,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-012'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t012\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\r-\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1810,10 +1825,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-013'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t013\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\t-\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1824,10 +1839,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-014'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t014\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\u007F-\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1838,10 +1853,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-016'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t014\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\u007F-\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1852,10 +1867,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-101'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t101\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'false'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1866,10 +1881,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-102'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t102\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'true'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1880,10 +1895,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-103'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t103\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'false'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1894,10 +1909,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-104'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t104\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'true'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1908,10 +1923,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-201'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t201\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'7'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1922,10 +1937,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-202'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t202\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'-0'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1936,10 +1951,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-203'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t203\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'1.0E6'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1950,10 +1965,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-204'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t204\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'-0.000001'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1964,10 +1979,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-205'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t205\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'0.001'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1978,10 +1993,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-206'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t206\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'23'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1992,10 +2007,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-301'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t301\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'null'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2006,10 +2021,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-302'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t302\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'null'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2020,10 +2035,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-303'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t303\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'null'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2034,10 +2049,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-401'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t401\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[]'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2048,10 +2063,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-402'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t402\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[]'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2062,10 +2077,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-403'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t403\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[]'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2076,10 +2091,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-404'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t404\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[null]'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2090,10 +2105,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-405'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t405\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[\"(\",null,null,\")\"]'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2104,10 +2119,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-406'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t406\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[\"(\",null,null,\")\"]'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2118,10 +2133,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-407'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t407\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[null]'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2132,10 +2147,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-501'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t501\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2146,10 +2161,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-502'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t502\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2160,10 +2175,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-503'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t503\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2174,10 +2189,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-504'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t504\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\"\":\"1\"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2188,10 +2203,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-505'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t505\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\\\":\"1\"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2202,10 +2217,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-506'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t506\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\uD834\\uDD1E\":\"1\"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2216,10 +2231,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-507'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t507\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\"\":\"1\",\"\\\\\\\"\":\"0\"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2230,10 +2245,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-508'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t508\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"A\":\"1\",\"B\":\"  \"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2244,10 +2259,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-509'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t509\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"-\\n-\":\"1\"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2258,10 +2273,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-510'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t510\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"-\\r-\":\"1\"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2272,10 +2287,10 @@ environment('xml-to-json-D') ->
    end.
 'xml-to-json-D-511'(_Config) ->
    Qry = "xml-to-json(//*:template[@name=\"t511\"]/*:variable/*)",
-   Env = xqerl_test:handle_environment(environment('xml-to-json-D')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"-\\t-\":\"1\"}'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 

@@ -82,86 +82,94 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/works.xml","$works",""},
+{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
 {"http://www.w3.org/1999/xlink","xlink"},
 {"http://www.example.com/auctioneers#anyzone","anyzone"},
@@ -173,11 +181,12 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{sources, [{"C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-source.xml",".",""}]},
 {schemas, [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
@@ -187,8 +196,9 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
@@ -198,8 +208,9 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
@@ -209,8 +220,9 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
@@ -220,8 +232,9 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/catalog.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
@@ -232,18 +245,19 @@ environment('array-with-collation') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xquery-3.1/QT3-test-suite/array/sort.xml"}]},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/array/sort.xml"}]},
 {params, []},
+{vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ].
 'array-sort-001'(_Config) ->
    Qry = "array:sort([1, 4, 6, 5, 3])",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -266,10 +280,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-002'(_Config) ->
    Qry = "array:sort([1, -2, 5, 10, -10, 10, 8], (), fn:abs#1)",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -292,10 +306,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-003'(_Config) ->
    Qry = "array:sort([(1,0), (1,1), (0,1), (0,0)])",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -318,10 +332,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-004'(_Config) ->
    Qry = "array:sort([(1,0), (1,1), (0,1), (0,0), (), (1), (0,0,1)])",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -344,10 +358,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-005'(_Config) ->
    Qry = "array:sort([(1,0), (1,1), (0,1), (0,0), (), (1), (0,0,1)], default-collation(), count#1)",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -370,10 +384,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-006'(_Config) ->
    Qry = "array:sort([\"one\", \"two\", \"three\", \"four\", \"five\", \"fourteen\"])",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -396,10 +410,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-007'(_Config) ->
    Qry = "array:sort([\"one\", \"two\", \"three\", (0), (2,3)])",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -410,10 +424,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-008'(_Config) ->
    Qry = "array:sort([\"one\", \"two\", \"three\", \"four\", \"five\", \"fourteen\"], (), function($x) {string-length($x), data($x)})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -436,10 +450,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-009'(_Config) ->
    Qry = "array:sort([[2,3],[],[4,5,6,7],[6,7],[3]], default-collation(), array:size#1)",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -462,10 +476,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-010'(_Config) ->
    Qry = "array:sort([[2,3],[],[4,5,6,7],[6,7],[3]], default-collation(), fn:data#1)",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -488,10 +502,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-011'(_Config) ->
    Qry = "array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], (), fn:data#1)",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -514,10 +528,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-012'(_Config) ->
    Qry = "array:sort([\"the cat\", \"sat\", \"on the mat\"], \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", function($x) {count(tokenize($x, \" \"))})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -540,10 +554,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-012a'(_Config) ->
    Qry = "array:sort([\"the cat\", \"sat\", \"on the mat\"], (), function($x) {count(tokenize($x))})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -566,10 +580,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-013'(_Config) ->
    Qry = "array:sort([[\"John\",\"Smith\"], [\"John\",\"Brown\"], [\"Fred\",\"Brown\"], [\"Fred\",\"Smith\"]], (), function($emp) {fn:data(array:get($emp, 1))})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -592,10 +606,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-014'(_Config) ->
    Qry = "array:sort([[\"John\",\"Smith\"], [\"John\",\"Brown\"], [\"Fred\",\"Brown\"], [\"Fred\",\"Smith\"]], (), function($emp) {fn:data(array:get($emp, 2)), fn:data(array:get($emp, 1))})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -618,10 +632,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-015'(_Config) ->
    Qry = "array:sort([[\"John\",\"Smith\"], [\"John\",\"Brown\"], [\"Fred\",\"Brown\"], [\"Fred\",\"Smith\"]], (), function($emp) {array:get($emp, 2), array:get($emp, 1)})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -644,10 +658,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-016'(_Config) ->
    Qry = "array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], (), function($x) {array:size(array:filter($x, function($y) {$y eq 1}))})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -670,10 +684,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-017'(_Config) ->
    Qry = "array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], (), function($x) {array:size($x), array:size(array:filter($x, function($y) {$y eq 1}))})",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -714,10 +728,10 @@ environment('array-with-collation') ->
                     [<g>a</g>, <g>b</g>]   
                   ]  )
         ",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -728,10 +742,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-019'(_Config) ->
    Qry = "array:sort([map{},1])",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -749,10 +763,10 @@ environment('array-with-collation') ->
           return     
              array:sort([$a,$b,$a,$b])
         ",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"every $x in 1 to 4 satisfies deep-equal($result?($x)?(1), xs:float(\"NaN\"))") of 
       true -> {comment, "Correct results"};
@@ -786,10 +800,10 @@ environment('array-with-collation') ->
 	    ]
 	    return array:sort($employees, default-collation(), function($emp) {$emp/name/last, $emp/name/first})?* ! number(@id)
      ",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 6, 7, 5, 3, 2, 4") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -800,10 +814,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-023'(_Config) ->
    Qry = "array:sort( parse-json('[{\"key\":1, \"value\":89}, {\"key\":6, \"value\":21}, {\"key\":2, \"value\":33}]'), (), map:get(?, \"key\"))?*?value",
-   Env = xqerl_test:handle_environment(environment('array-and-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array-and-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"89, 33, 21") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -814,10 +828,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-024'(_Config) ->
    Qry = "array:sort( parse-json('[{\"key\":1, \"value\":89}, {\"key\":6, \"value\":21}, {\"key\":\"two\", \"value\":33}]'), (), map:get(?, \"key\"))?*?value",
-   Env = xqerl_test:handle_environment(environment('array-and-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array-and-map')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -828,10 +842,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-025'(_Config) ->
    Qry = "array:sort([xs:untypedAtomic('2015-06-12+01:00'), current-date()])",
-   Env = xqerl_test:handle_environment(environment('array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -847,11 +861,12 @@ environment('array-with-collation') ->
          declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
          array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"])
      ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/array/sort.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -859,7 +874,7 @@ environment('array-with-collation') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -875,11 +890,12 @@ environment('array-with-collation') ->
          declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
          array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], ())
      ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/array/sort.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -887,7 +903,7 @@ environment('array-with-collation') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -903,11 +919,12 @@ environment('array-with-collation') ->
          declare default collation \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\";
          array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], (), string#1)
      ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/array/sort.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -915,7 +932,7 @@ environment('array-with-collation') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -926,10 +943,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-collation-4'(_Config) ->
    Qry = "array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
-   Env = xqerl_test:handle_environment(environment('array-with-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array-with-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -940,10 +957,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-collation-5'(_Config) ->
    Qry = "array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\", fn:string#1)",
-   Env = xqerl_test:handle_environment(environment('array-with-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array-with-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -954,10 +971,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-collation-6'(_Config) ->
    Qry = "array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
-   Env = xqerl_test:handle_environment(environment('array-with-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array-with-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -968,10 +985,10 @@ environment('array-with-collation') ->
    end.
 'array-sort-collation-7'(_Config) ->
    Qry = "array:sort([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", fn:string#1)",
-   Env = xqerl_test:handle_environment(environment('array-with-collation')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('array-with-collation')),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -989,11 +1006,12 @@ environment('array-with-collation') ->
          };
          array:sort([1,2,3,4,5], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\", local:key#1)
          ",
-   Env = xqerl_test:handle_environment([{'decimal-formats', []},
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
+{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/array/sort.xml"}]},
+{vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
@@ -1001,7 +1019,7 @@ environment('array-with-collation') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[3, 2, 5, 4, 1]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 

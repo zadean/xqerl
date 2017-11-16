@@ -867,6 +867,8 @@ expand_nodes([#xqNode{frag_id = F, identity = I}|T],Preserve,Namespaces) ->
                     Content
               end,
    Content1 ++ expand_nodes(T,Preserve,Namespaces);
+expand_nodes([List],Preserve,Namespaces) when is_list(List) ->
+   expand_nodes(List,Preserve,Namespaces);
 expand_nodes([#array{data = H}|T],Preserve,Namespaces) ->
    expand_nodes(H++T,Preserve,Namespaces);
 expand_nodes([H|T],Preserve,Namespaces) ->
